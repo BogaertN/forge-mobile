@@ -57,9 +57,15 @@ def _hold(reason: str, missing: str, question: str, **extra: Any) -> dict[str, A
 
 
 def _props_body(noun: str, props: dict[str, Any], D: dict[str, Any]) -> tuple[dict[str, Any] | None, str | None]:
-    """Reference row or Athena/remembered properties. Neither invents a number."""
-    if noun in D["bodies"]:
+    """Stated or remembered quantities, then Athena's agreed averages, then the small reference set.
+    A number that was not stated and not agreed is not filled in."""
+    given = {k: props.get(k) for k in ("shape", "height", "width", "depth", "radius", "mass") if props.get(k) not in (None, "")}
+    if noun in D["bodies"] and not given:
         return dict(D["bodies"][noun]), "physical_defaults"
+    if noun in D["bodies"] and given:
+        base = dict(D["bodies"][noun])
+        base.update(given)
+        return base, "stated" if not props.get("average") else "average"
     shape = props.get("shape")
     if shape not in ("box", "cylinder", "sphere"):
         if props.get("radius") and not props.get("height"):
@@ -109,7 +115,8 @@ def scene_from_reading(reading: dict[str, Any]) -> dict[str, Any]:
         if body_noun in ("it", "them", "that", "this"):
             return _hold("unresolved_pronoun", "karma", q)
         return _hold("unknown_body" if missing in (None, "shape") and body_noun not in D["bodies"] and not props else "property_missing",
-                     missing or "karma", q, body=body_noun, looked_up=sorted(props))
+                     missing or "karma", q, body=body_noun, phrase=reading.get("phrase"),
+                     patient_text=reading.get("patient_text"), looked_up=sorted(k for k in props if k not in ("average", "phrase")))
     defaulted = [] if props else ["shape", "dimensions", "mass"]
     if props:
         defaulted = [k for k in ("shape", "dimensions", "mass") if k == "mass" and "mass" not in props or k == "shape" and "shape" not in props]
@@ -150,6 +157,9 @@ def scene_from_reading(reading: dict[str, Any]) -> dict[str, Any]:
     if props.get("mu") is not None:
         mu, mu_src = float(props["mu"]), "athena_or_memory"
     body = {"noun": body_noun, "adjectives": adjs, **base}
+    if props.get("average"):
+        body["average"] = True
+        body["phrase"] = str(props.get("phrase") or reading.get("phrase") or body_noun)
     from rmc_engine_v1.sim_karaka import karaka_key
     raw = str((part.get("text") or q))
     scene: dict[str, Any] = {

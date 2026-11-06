@@ -115,6 +115,74 @@ def measures(part: dict[str, Any]) -> list[dict[str, Any]]:
     return found
 
 
+_MASS_SI = {"kg": 1.0, "kilogram": 1.0, "kilograms": 1.0, "g": 0.001, "gram": 0.001, "grams": 0.001,
+            "pound": 0.45359237, "pounds": 0.45359237, "lb": 0.45359237, "lbs": 0.45359237}
+_LEN_SI = {"m": 1.0, "meter": 1.0, "meters": 1.0, "metre": 1.0, "metres": 1.0, "cm": 0.01, "centimeter": 0.01,
+           "centimeters": 0.01, "mm": 0.001, "millimeter": 0.001, "millimeters": 0.001, "foot": 0.3048, "feet": 0.3048,
+           "inch": 0.0254, "inches": 0.0254}
+_DIM_ROLE = {"tall": "height", "high": "height", "wide": "width", "deep": "depth", "long": "depth", "thick": "depth",
+             "mass": "mass"}
+
+
+def _phrase_of(np: dict[str, Any] | None) -> str:
+    text = str((np or {}).get("text") or _head(np))
+    return re.sub(r"^(?:a|an|the)\s+", "", text, count=1, flags=re.I).strip()
+
+
+def stated_props(part: dict[str, Any]) -> dict[str, Any]:
+    """Exact quantities the question itself stated. Units convert to metres and kilograms. No fill-in."""
+    out: dict[str, Any] = {}
+    for row in part.get("stated") or []:
+        if not isinstance(row, dict):
+            continue
+        unit = str(row.get("unit") or "").lower()
+        dim = str(row.get("dim") or "").lower()
+        try:
+            num = float(row.get("num"))
+        except (TypeError, ValueError):
+            continue
+        if unit in _MASS_SI:
+            out["mass"] = num * _MASS_SI[unit]
+        elif dim in _DIM_ROLE and unit in _LEN_SI:
+            out[_DIM_ROLE[dim]] = num * _LEN_SI[unit]
+    for m in measures(part):
+        unit = str(m.get("unit") or "").lower()
+        if unit in _MASS_SI and "mass" not in out and m.get("num") is not None:
+            out["mass"] = float(m["num"]) * _MASS_SI[unit]
+    return out
+
+
+def memory_facts(rows: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
+    """Remembered copulas ("a crate is 35 kilograms", "a crate is 1.6 meters tall") as property rows.
+    The user's own statement, not a publisher. """
+    found: list[dict[str, Any]] = []
+    for row in rows or []:
+        if not isinstance(row, dict):
+            continue
+        cl = row.get("clause") if isinstance(row.get("clause"), dict) else row
+        if str(cl.get("kriya") or "") != "be":
+            continue
+        head = _head(cl.get("kartr"))
+        if not head:
+            continue
+        pred = cl.get("pred") if isinstance(cl.get("pred"), dict) else {}
+        stated = None
+        if pred.get("type") == "np" and pred.get("num") is not None:
+            stated = [{"num": pred.get("num"), "unit": _head(pred), "dim": "mass"}]
+        elif pred.get("text"):
+            m = re.search(r"(\d+(?:\.\d+)?)\s+([a-z]+)\s+(tall|high|wide|deep|long|thick)", str(pred.get("text")), re.I)
+            if m:
+                stated = [{"num": m.group(1), "unit": m.group(2).lower(), "dim": m.group(3).lower()}]
+        if not stated:
+            continue
+        props = stated_props({"stated": stated})
+        for prop, val in props.items():
+            found.append({"schema": "forge.sim_property/v1", "head": head, "property": prop, "value": val,
+                          "unit": "kg" if prop == "mass" else "m", "source": "remembered", "calls_llm": False,
+                          "supabase_write": False})
+    return found
+
+
 def _qty(part: dict[str, Any], units: dict[str, float]) -> float | None:
     for m in measures(part):
         unit = m["unit"].split()[0] if m["unit"] else ""
@@ -216,12 +284,18 @@ let raw = ''; process.stdin.on('data', c => raw += c); process.stdin.on('end', (
 def _facts_for(head: str, facts: list[dict[str, Any]] | None) -> dict[str, Any]:
     out: dict[str, Any] = {}
     h = head.lower()
+    phrase = ""
     for f in facts or []:
         if not isinstance(f, dict):
             continue
-        if str(f.get("head") or "").lower() != h:
+        if str(f.get("head") or "").lower() != h and str(f.get("phrase") or "").lower() != h:
             continue
         out[str(f.get("property"))] = f.get("value")
+        if f.get("average"):
+            out["average"] = True
+            phrase = str(f.get("phrase") or phrase)
+    if phrase:
+        out["phrase"] = phrase
     return out
 
 
@@ -356,8 +430,12 @@ def read(question: str, frame: dict[str, Any] | None = None, facts: list[dict[st
         karma_h = _head(part.get("karma"))
         if not ph or ph in ("it", "them", "that", "this", "something") or karma_h in ("it", "them", "that", "this"):
             return {"hold": True, "reason": "unresolved_pronoun", "missing": "karma", "question": q, "frame": fr}
+        stated = stated_props(part)
+        props = dict(prop_facts)
+        props.update(stated)
         return {"question": q, "frame": fr, "kind": kind, "verb": k, "patient": ph,
+                "phrase": _phrase_of(pat), "patient_text": str((pat or {}).get("text") or ph),
                 "adjectives": list((pat or {}).get("adjs") or []), "point": _point(part), "surface": _surface(part),
-                "part": part, "props": prop_facts}
+                "part": part, "props": props, "stated": bool(stated)}
 
     return {"hold": True, "reason": "not_a_simulation_question", "missing": "intervention", "question": q, "frame": fr}

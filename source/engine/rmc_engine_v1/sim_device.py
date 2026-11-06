@@ -86,11 +86,14 @@ def _key(raw: str | None) -> str | None:
 # 4.9.246: dispatch is the kāraka reading (sim_karaka.read). The regex question templates are gone.
 
 
-def plan(question: str, frame: dict[str, Any] | None = None, facts: list[dict[str, Any]] | None = None) -> dict[str, Any]:
-    from rmc_engine_v1.sim_karaka import read
+def plan(question: str, frame: dict[str, Any] | None = None, facts: list[dict[str, Any]] | None = None,
+         memory: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+    from rmc_engine_v1.sim_karaka import memory_facts, read
     from rmc_engine_v1.sim_scene import scene_from_reading
     q = re.sub(r"\s+", " ", str(question or "").strip())
-    reading = read(q, frame, facts)
+    remembered = memory_facts(memory)
+    # A quantity the question states is already on the frame. Remembered rows fill only what it did not state.
+    reading = read(q, frame, (remembered or []) + list(facts or []))
     if reading.get("hold"):
         return _hold(q, reading.get("reason") or "hold", reading.get("missing") or "frame", frame_rule=reading.get("reason"))
     from rmc_engine_v1.sim_karaka import karaka_key
@@ -958,6 +961,14 @@ GERUND = {"push": "pushing", "drop": "dropping", "throw": "throwing", "release":
 
 
 def _rigid_clause(scene: dict[str, Any], outcome: str, ms: dict[str, Any]) -> tuple[str, str]:
+    body = scene.get("body") or {}
+    if body.get("average"):
+        # The grammar round-trips "The average <kind> of <mass> kilograms <verb>." so the outward compile can speak it.
+        phrase = str(body.get("phrase") or body.get("noun") or "object")
+        mass = float(body.get("mass") or 0)
+        verb = VERB_3SG.get(outcome, outcome + "s")
+        sent = f"The average {phrase} of {mass:g} kilograms {verb}."
+        return sent, sent
     # A passive or reordered intervention is spoken from the kāraka slots (patient, point, surface), not by
     # gluing the raw clause onto a gerund. The active "you …" form keeps the historical sentence so recorded
     # receipts re-seal.

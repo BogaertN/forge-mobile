@@ -57,7 +57,7 @@
   }
   async function athenaFacts(problem) {
     let timer;
-    const cap = new Promise(res => { timer = setTimeout(() => res(null), 4000); });
+    const cap = new Promise(res => { timer = setTimeout(() => res(null), 9000); });
     try { return await Promise.race([athenaLookup(problem), cap]); }
     finally { if (timer) clearTimeout(timer); }
   }
@@ -79,40 +79,83 @@
         return agreed && agreed.ok && agreed.ok.length ? agreed.ok : null;
       }
       if (kind === 'object') {
-        const qn = encodeURIComponent(name);
+        const phrase = String((problem.scene && problem.scene.phrase) || name);
+        const qn = encodeURIComponent(phrase);
         const vamUrl = 'https://api.vam.ac.uk/v2/objects/search?q=' + qn + '&page_size=6';
-        const articUrl = 'https://api.artic.edu/api/v1/artworks/search?q=' + qn + '&limit=15&fields=id,title,dimensions,classification_title';
-        const pair = await Promise.all([
+        const articUrl = 'https://api.artic.edu/api/v1/artworks/search?q=' + qn + '&limit=12&fields=id,title,dimensions,classification_title,medium_display';
+        const cmaUrl = 'https://openaccess-api.clevelandart.org/api/artworks/?q=' + qn + '&limit=8&has_image=0';
+        const gentUrl = 'https://data.designmuseumgent.be/v2/id/objects?q=' + qn + '&itemsPerPage=4';
+        const pack = await Promise.all([
           fetchT(vamUrl, 4000).then(r => r.json()).catch(() => null),
-          fetchT(articUrl, 4000).then(r => r.json()).catch(() => null)
+          fetchT(articUrl, 4000).then(r => r.json()).catch(() => null),
+          fetchT(cmaUrl, 4000).then(r => r.json()).catch(() => null),
+          fetchT(gentUrl, 4000).then(r => r.json()).catch(() => null)
         ]);
-        const vam = pair[0];
-        const hits = ((vam && vam.records) || []).filter(h => h && h.systemNumber).slice(0, 4);
+        const hits = (((pack[0] && pack[0].records) || []).filter(h => h && h.systemNumber)).slice(0, 4);
         const objs = await Promise.all(hits.map(hit => fetchT('https://api.vam.ac.uk/v2/object/' + encodeURIComponent(hit.systemNumber), 4000).then(r => r.json()).catch(() => null)));
         const records = [];
         objs.forEach((obj, i) => {
           if (!obj) return;
-          const hit = hits[i];
           const rec = obj.record || {};
-          records.push({ title: rec._primaryTitle || hit._primaryTitle || '', objectType: rec.objectType || hit.objectType || '',
+          const desc = [rec.briefDescription, rec.physicalDescription].filter(Boolean).join(' ').slice(0, 400);
+          records.push({ title: rec._primaryTitle || hits[i]._primaryTitle || '', objectType: rec.objectType || hits[i].objectType || '', description: desc,
             dimensions: (rec.dimensions || []).filter(d => !/crate/i.test(d.part || '')).map(d => ({ dimension: d.dimension, value: d.value, unit: d.unit, part: d.part || '' })) });
         });
-        const artic = pair[1];
         const arecs = [];
-        for (const a of (artic && artic.data) || []) {
+        for (const a of ((pack[1] && pack[1].data) || [])) {
           const m = String(a.dimensions || '').match(/(\d+(?:\.\d+)?)\s*[×x]\s*(\d+(?:\.\d+)?)(?:\s*[×x]\s*(\d+(?:\.\d+)?))?\s*cm/i);
           if (!m) continue;
           const dims = [{ dimension: 'Height', value: m[1], unit: 'cm', part: '' }, { dimension: 'Width', value: m[2], unit: 'cm', part: '' }];
           if (m[3]) dims.push({ dimension: 'Depth', value: m[3], unit: 'cm', part: '' });
-          arecs.push({ title: a.title || '', objectType: a.classification_title || '', dimensions: dims });
+          arecs.push({ title: a.title || '', objectType: a.classification_title || '', description: a.medium_display || '', dimensions: dims });
         }
-        const agreed = await pyCall({ op: 'objects', name: name, sides: [{ id: 'vam', url: vamUrl, records: records }, { id: 'artic', url: articUrl, records: arecs }] });
+        const crecs = [];
+        for (const a of ((pack[2] && pack[2].data) || [])) {
+          const o = (a.dimensions || {}).overall || {};
+          const dims = [];
+          if (o.height) dims.push({ dimension: 'Height', value: o.height, unit: 'm', part: '' });
+          if (o.width) dims.push({ dimension: 'Width', value: o.width, unit: 'm', part: '' });
+          if (o.depth) dims.push({ dimension: 'Depth', value: o.depth, unit: 'm', part: '' });
+          if (!dims.length) continue;
+          crecs.push({ title: a.title || '', objectType: a.type || '', description: a.technique || '', dimensions: dims });
+        }
+        const members = (pack[3] && (pack[3]['hydra:member'] || pack[3].member)) || [];
+        const gids = members.map(m => m && (m['@id'] || m.id)).filter(Boolean).slice(0, 4);
+        const gobjs = await Promise.all(gids.map(id => fetchT(id, 4000).then(r => r.json()).catch(() => null)));
+        const grecs = [];
+        gobjs.forEach(g => {
+          if (!g) return;
+          const dims = [];
+          for (const d of g['crm:P43_has_dimension'] || []) {
+            const lab = ((d['crm:P2_has_type'] || {})['rdfs:label'] || '').toString();
+            const unit = ((d['crm:P91_has_unit'] || {})['rdfs:label'] || '').toString();
+            if (d['crm:P90_has_value'] == null || !lab) continue;
+            dims.push({ dimension: lab, value: d['crm:P90_has_value'], unit: unit || 'cm', part: '' });
+          }
+          if (!dims.length) return;
+          const label = g['rdfs:label'];
+          const title = Array.isArray(label) ? String((label[0] && (label[0]['@value'] || label[0])) || '') : String((label && (label['@value'] || label)) || '');
+          grecs.push({ title: title, objectType: '', description: '', dimensions: dims });
+        });
+        const agreed = await pyCall({ op: 'objects', name: name, phrase: phrase, sides: [
+          { id: 'vam', url: vamUrl, records: records }, { id: 'artic', url: articUrl, records: arecs },
+          { id: 'cleveland', url: cmaUrl, records: crecs }, { id: 'gent', url: gentUrl, records: grecs }
+        ] });
+        if (agreed && agreed.ask) return { ask: true, word: agreed.word || phrase };
         return agreed && agreed.ok && agreed.ok.length ? agreed.ok : null;
       }
     } catch (e) { return null; }
     return null;
   }
-  async function simulate(question) {
+  function memoryRows(memory) {
+    const phone = memory && Array.isArray(memory.phone) ? memory.phone : [];
+    return phone.filter(r => r && (r.clause || r.text)).slice(-32).map(r => ({ text: r.text, clause: r.clause || null }));
+  }
+  function simAsk(question, problem, word) {
+    const scene = (problem && problem.scene) || {};
+    return { kind: 'sim', question: String(question || ''), word: String(word || scene.phrase || ''), patientText: String(scene.patient_text || ''), options: [], tries: 0 };
+  }
+  async function simulate(question, memory) {
     const q = String(question || '');
     const frame0 = frameOf(q);
     const property = frame0 && frame0.kriya === 'be' && frame0.kartr && /^(weight|mass|formula|structure)$/.test(String(frame0.kartr.head || ''));
@@ -122,13 +165,15 @@
     let out;
     try {
       const frame = frameOf(q.slice(0, 400));
-      let pl = await pyCall({ op: 'plan', question: q.slice(0, 400), frame: frame });
+      let pl = await pyCall({ op: 'plan', question: q.slice(0, 400), frame: frame, memory: memoryRows(memory) });
       if (pl && pl.problem && !pl.problem.ok) {
         const facts = await athenaFacts(pl.problem);
-        if (facts) pl = await pyCall({ op: 'plan', question: q.slice(0, 400), frame: frame, facts: facts });
+        if (facts && facts.ask) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'ask', ask: simAsk(q, pl.problem, facts.word), calls_llm: false };
+        else if (facts) pl = await pyCall({ op: 'plan', question: q.slice(0, 400), frame: frame, facts: facts, memory: memoryRows(memory) });
       }
       const p = pl && pl.problem;
-      if (!p || !p.ok) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'no_problem', problem: p || null, reason: (p && p.reason) || null, missing: (p && p.missing) || null, calls_llm: false };
+      if (out && out.status === 'ask') { /* the follow-up turn owns this question */ }
+      else if (!p || !p.ok) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'no_problem', problem: p || null, reason: (p && p.reason) || null, missing: (p && p.missing) || null, calls_llm: false };
       else if (p.runtime === 'home_pc') out = await homePc(p, frame);
       else if (p.runtime === 'pyodide') out = await pyCall({ op: 'solve', problem: p });
       else {

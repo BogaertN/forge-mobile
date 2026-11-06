@@ -28,6 +28,10 @@ PUBLISHERS = {
             "license_url": "https://www.vam.ac.uk/info/va-api"},
     "artic": {"publisher": "Art Institute of Chicago", "host": "api.artic.edu", "license": "CC0 1.0",
               "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"},
+    "cleveland": {"publisher": "Cleveland Museum of Art", "host": "openaccess-api.clevelandart.org", "license": "CC0 1.0",
+                  "license_url": "https://www.clevelandart.org/open-access"},
+    "gent": {"publisher": "Design Museum Gent", "host": "data.designmuseumgent.be", "license": "open-data",
+             "license_url": "https://data.designmuseumgent.be/v2/"},
     "imcce": {"publisher": "IMCCE", "host": "ssp.imcce.fr", "license": "public-research",
               "license_url": "https://ssp.imcce.fr/webservices/ssodnet/"},
     "jpl": {"publisher": "NASA/JPL", "host": "ssd-api.jpl.nasa.gov", "license": "public-domain",
@@ -288,6 +292,113 @@ def agree_objects(head: str, sides: list[tuple[str, str, dict[str, float]]]) -> 
         shape = "box" if depth else "box"
         rows.append(_fact(head, "shape", shape, None, pubs))
     return rows
+
+
+def _content_words(phrase: str) -> list[str]:
+    stop = {"a", "an", "the", "of", "and", "or"}
+    return [w for w in re.findall(r"[a-z0-9]+", phrase.lower()) if w not in stop and len(w) > 1]
+
+
+def _blob(rec: dict[str, Any]) -> str:
+    return " ".join(str(rec.get(k) or "") for k in ("title", "objectType", "classification", "description")).lower()
+
+
+def _one_record(rec: dict[str, Any]) -> dict[str, float]:
+    """One catalog record's overall height, width, depth (m) and mass (kg). A part that is not the whole object is skipped."""
+    out: dict[str, float] = {}
+    dims = rec.get("dimensions") or []
+    if isinstance(dims, str):
+        return out
+    for d in dims:
+        if not isinstance(d, dict):
+            continue
+        part = str(d.get("part") or "").lower()
+        if part and part not in ("", "overall", "object"):
+            continue
+        name = str(d.get("dimension") or d.get("type") or "").lower()
+        try:
+            val = float(d.get("value"))
+        except (TypeError, ValueError):
+            continue
+        unit = str(d.get("unit") or "")
+        metres = _cm(val, unit)
+        if metres is None:
+            continue
+        if name in ("height", "h", "hoogte") and unit.lower() not in ("kg", "kilogram", "kilograms"):
+            out.setdefault("height", metres)
+        elif name in ("width", "w", "breedte") and unit.lower() not in ("kg", "kilogram", "kilograms"):
+            out.setdefault("width", metres)
+        elif name in ("depth", "d", "diepte") and unit.lower() not in ("kg", "kilogram", "kilograms"):
+            out.setdefault("depth", metres)
+        elif name in ("weight", "mass", "gewicht") or unit.lower() in ("kg", "kilogram", "kilograms"):
+            out.setdefault("mass", val if unit.lower() in ("kg", "kilogram", "kilograms") else metres)
+    return out
+
+
+def _spread(xs: list[float]) -> float | None:
+    if len(xs) < 2:
+        return None
+    med = _median(xs)
+    if not med:
+        return None
+    return (max(xs) - min(xs)) / med
+
+
+def resolve_objects(phrase: str, sides: list[dict[str, Any]], head: str | None = None) -> dict[str, Any]:
+    """Full noun phrase, not a stripped head. A bare noun whose catalog heights differ by more than 15 percent
+    is underspecified (the caller asks which kind). A specific phrase is an average only where two publishers agree.
+    """
+    words = _content_words(phrase)
+    label = (head or " ".join(words) or phrase).strip().lower()
+    empty = {"ok": [], "ask": False, "held": [{"head": label, "property": "dimensions", "reason": "two_publishers_required"}],
+             "calls_llm": False, "supabase_write": False}
+    if not words:
+        return empty
+    per: list[tuple[str, str, list[dict[str, float]]]] = []
+    heights: list[float] = []
+    for side in sides:
+        if not isinstance(side, dict):
+            continue
+        matched = []
+        for rec in side.get("records") or []:
+            if not isinstance(rec, dict) or _SKIP.search(_blob(rec)):
+                continue
+            if any(w not in _blob(rec) for w in words):
+                continue
+            one = _one_record(rec)
+            if one:
+                matched.append(one)
+                if "height" in one:
+                    heights.append(one["height"])
+        if matched:
+            per.append((str(side.get("id") or ""), str(side.get("url") or ""), matched))
+    spread = _spread(heights)
+    if len(words) == 1 and spread is not None and spread > REL:
+        return {"ok": [], "ask": True, "word": words[0], "spread": round(spread, 4),
+                "held": [{"head": label, "property": "kind", "reason": "underspecified", "spread": round(spread, 4)}],
+                "calls_llm": False, "supabase_write": False}
+    medians: list[tuple[str, str, dict[str, float]]] = []
+    for sid, url, matched in per:
+        med = {}
+        for prop in ("height", "width", "depth", "mass"):
+            xs = [m[prop] for m in matched if prop in m]
+            got = _median(xs)
+            if got is not None:
+                med[prop] = got
+        if med:
+            medians.append((sid, url, med))
+    rows = agree_objects(label, medians) if len(medians) >= 2 else []
+    spoken = " ".join(words)
+    for row in rows:
+        row["average"] = True
+        row["phrase"] = spoken
+        row["head"] = label
+    if not rows:
+        return empty
+    packed = gilligan(rows)
+    packed["ask"] = False
+    packed["word"] = spoken
+    return packed
 
 
 def fetch_objects(head: str, http: Http = _http) -> dict[str, Any]:

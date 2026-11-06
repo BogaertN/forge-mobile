@@ -9,7 +9,7 @@
 - `server/sim_router/serve.py` treats an empty `PORT` as unset.
 - A checker-replayed solver receipt is the measured premise (retrieval weight from the frame gate). Thresholds are unchanged.
 
-**Resolution:** Paraphrases of one push share one scene key. Theobromine's formula is C7H8N4O2 from NLM and EMBL-EBI, and heptane burns as C7H16 + O2. A noun neither memory nor two publishers can measure is held by name. C_min 0.87, Echo 0.85, drift 0.35 / 0.80. R4117 still has no model.
+**Resolution:** Paraphrases of one push share one scene key. Theobromine's formula is C7H8N4O2 from NLM and EMBL-EBI, and heptane burns as C7H16 + O2. A noun neither memory nor two publishers can measure is held by name. A measure the question states, or a remembered copula states, is the body's size and mass. A bare noun whose catalog heights differ by more than 15 percent asks which kind, on the same follow-up turn as a meaning ask, and the reply resumes that frame. An average is spoken only when two non-Wikipedia publishers agree, and the sentence names the average and the mass. C_min 0.87, Echo 0.85, drift 0.35 / 0.80. R4117 still has no model. The small reference set in physical_defaults.json is not extended.
 
 Proof: `verify/r4246_suite.js`.
 

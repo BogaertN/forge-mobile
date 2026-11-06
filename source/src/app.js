@@ -249,10 +249,18 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     const f = KSenses.follow(pendingAsk, text);
     if (f.state === 'resolved') {
       const picked = f.option;
-      askCard('picked', 'Taking ' + esc(pendingAsk.word) + ' as: ' + esc(picked.label) + '. Asking again: ' + esc(f.run.question), 'meaning-picked');
-      qtext = f.run.question; askCtx = { sense: f.run.sense || null, sensed: f.run.sensed || null, chain: f.run.chain || 0, picked: picked }; pendingAsk = null;
-    } else if (f.state === 'again') { pendingAsk = f.pending; askCard('again', esc(f.text), 'meaning-ask'); return null; }
-    else if (f.state === 'giveup') { const w = pendingAsk.word; pendingAsk = null; askCard('giveup', 'I could not tell which ' + esc(w) + ' you mean, so I am leaving that question. Ask it again and name the meaning (for example "the planet").', 'meaning-dropped'); return null; }
+      if (pendingAsk.kind === 'sim') {
+        qtext = f.run.question; pendingAsk = null;
+      } else {
+        askCard('picked', 'Taking ' + esc(pendingAsk.word) + ' as: ' + esc(picked.label) + '. Asking again: ' + esc(f.run.question), 'meaning-picked');
+        qtext = f.run.question; askCtx = { sense: f.run.sense || null, sensed: f.run.sensed || null, chain: f.run.chain || 0, picked: picked }; pendingAsk = null;
+      }
+    } else if (f.state === 'again') { pendingAsk = f.pending; askCard('again', esc(f.text), pendingAsk.kind === 'sim' ? 'sim-ask' : 'meaning-ask'); return null; }
+    else if (f.state === 'giveup') {
+      const w = pendingAsk.word; const sim = pendingAsk.kind === 'sim'; pendingAsk = null;
+      askCard('giveup', sim ? ('I could not tell which kind of ' + esc(w) + ' you mean, so I am leaving that question.') : ('I could not tell which ' + esc(w) + ' you mean, so I am leaving that question. Ask it again and name the meaning (for example "the planet").'), sim ? 'sim-ask' : 'meaning-dropped');
+      return null;
+    }
     else { pendingAsk = null; }
   }
   if (REMEMBER_LAST.test(text)) {
@@ -296,7 +304,15 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
      * receipt → the engine holds or uses stored causal facts as before. */
     /* 4.9.245: the simulators run on this phone first (KSimDevice: Pyodide SymPy/SciPy/Biopython/astropy and WASM
      * MuJoCo/RDKit/ngspice). Heavy CFD / Hartree-Fock asks go to the Home PC Simulator if one is set, else they hold. */
-    const simReceipt = window.KSimDevice ? await KSimDevice.simulate(qtext) : await simulateViaRouter(qtext);
+    const simReceipt = window.KSimDevice ? await KSimDevice.simulate(qtext, memory) : await simulateViaRouter(qtext);
+    if (simReceipt && simReceipt.status === 'ask' && simReceipt.ask && window.KSenses) {
+      pendingAsk = simReceipt.ask;
+      const asked = KSenses.askText(pendingAsk, false);
+      stats.held++;
+      askCard('sim', esc(asked), 'sim-ask');
+      refreshChrome();
+      return { ok: true, held: true, reply: asked, product_reply: false, sim_ask: true, calls_llm: false };
+    }
     if (simReceipt && simReceipt.ok && Array.isArray(simReceipt.rows)) memory.simulation = simReceipt.rows.slice(0, 6);
     askCtx.sim = simReceipt || null;
     if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };

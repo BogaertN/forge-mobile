@@ -43,6 +43,21 @@
     try { d = (forge.deriveSource || forge.derive)(String(s || '').replace(/[.]?$/, '.')); } catch (e) { return []; }
     return ((d && d.T) || []).map(t => ({ w: t.w, lemmas: (t.an || []).map(a => a.lemma).filter(Boolean) }));
   }
+  /* A failed intervention may still carry measures the grammar did not attach ("a 35 kilogram crate 1.6 meters
+   * tall and 0.4 meters wide"). Lift every number+unit off the clause, parse what remains, and keep the measures
+   * on the frame. Any noun, any of these units. Nothing is filled in. */
+  function liftMeasures(s) {
+    const stated = [];
+    let t = String(s || '');
+    const lenU = '(meters?|metres?|centimeters?|millimeters?|cm|mm|feet|foot|inches?|inch|m)';
+    const massU = '(kilograms?|kg|pounds?|lbs?|grams?|g)';
+    const dimW = '(tall|high|wide|deep|long|thick)';
+    t = t.replace(new RegExp('\\b(\\d+(?:\\.\\d+)?)\\s+' + lenU + '\\s+' + dimW + '\\b', 'gi'), (m, n, u, d) => { stated.push({ num: String(n), unit: String(u).toLowerCase(), dim: String(d).toLowerCase() }); return ' '; });
+    t = t.replace(new RegExp('\\b(\\d+(?:\\.\\d+)?)\\s+' + massU + '\\b', 'gi'), (m, n, u) => { stated.push({ num: String(n), unit: String(u).toLowerCase(), dim: 'mass' }); return ' '; });
+    t = t.replace(/\s+and\s+(?=near\b|on\b|at\b|across\b|along\b|onto\b)/gi, ' ');
+    t = t.replace(/\s+/g, ' ').trim();
+    return { text: t, stated };
+  }
   function expandMeasures(s) {
     const raw = String(s || '');
     if (!/\b(volt|divider|resistor|ohm|circuit)\b/i.test(raw)) return raw;
@@ -275,6 +290,13 @@
           const exp = expandMeasures(condTxt);
           if (exp !== condTxt) { const c2 = parseOpen(forge, exp); if (c2 && c2.clause) { cond = c2; condCanon = { rule: 'QF-CANON-SI-PREFIX', surface: condTxt, reading: exp }; } }
         }
+        if (!cond || !cond.clause) {
+          const lifted = liftMeasures(condTxt);
+          if (lifted.stated.length) {
+            const c4 = parseOpen(forge, lifted.text);
+            if (c4 && c4.clause) { cond = c4; condCanon = { rule: 'QF-CANON-MEASURE', surface: condTxt, reading: lifted.text, stated: lifted.stated }; }
+          }
+        }
         let stateNum = null;
         if (!cond || !cond.clause) {
           const st = condTxt.match(/^(.*)\s+in\s+(?:the\s+)?state\s+(\d+)\s*$/i);
@@ -282,6 +304,7 @@
         }
         const condRoles = cond && cond.clause ? roles(cond.clause) : null;
         if (condRoles && stateNum != null) condRoles.adj = (condRoles.adj || []).concat([{ prep: 'in', role: 'adhikarana', np: { text: 'state ' + stateNum, head: 'state', num: stateNum } }]);
+        if (condRoles && condCanon && Array.isArray(condCanon.stated)) condRoles.stated = condCanon.stated;
         Object.assign(f, {
           speech_act: 'what', mood: 'interrogative', wh: 'what', wh_role: 'pred',
           kriya: 'happen', polarity: 'pos', tense: 'present',
