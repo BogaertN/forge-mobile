@@ -13,7 +13,7 @@ const K = require(ROOT + '/src/kernel.js'), FK = require(ROOT + '/src/forge.js')
 const Q = require(ROOT + '/src/qframe.js');
 const CORE = require(ROOT + '/src/rmc_core.js');
 const PY = process.env.PYTHON || 'python3';
-const env = Object.assign({}, process.env, { PYTHONPATH: path.join(ROOT, 'engine') + path.delimiter + ROOT });
+const env = Object.assign({}, process.env, { PYTHONPATH: path.join(ROOT, 'engine') + path.delimiter + ROOT + path.delimiter + path.join(ROOT, '_mathlibs') + (process.env.PYTHONPATH ? path.delimiter + process.env.PYTHONPATH : '') });
 const f = FK.ForgeKernel({ store: K.MemoryStore(), lexicon: LEX, lexiconExt: EXT, clock: () => '2026-11-06T18:00:00Z' });
 const py = (code, input) => {
   const r = cp.spawnSync(PY, ['-c', code], { cwd: ROOT, env, encoding: 'utf8', input: input || '', maxBuffer: 1 << 26 });
