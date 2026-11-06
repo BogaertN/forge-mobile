@@ -1,3 +1,11 @@
+# Home PC Simulator (optional). The phone runs the seven on-device families itself; this machine adds the heavy ones.
 mujoco==3.17.0
-sympy==1.14.*
 numpy
+sympy==1.13.3
+mpmath==1.3.0
+scipy==1.14.1
+biopython==1.84
+astropy==7.0.0
+# heavy solvers (install the ones you want):
+#   pyscf==2.8.0            -> python3 -m pip install pyscf==2.8.0
+#   OpenFOAM (simpleFoam)   -> see README "OpenFOAM"

@@ -201,7 +201,7 @@ _GERUND_MAKES = re.compile(
 _CAUSES = re.compile(r"^(.+?)\s+causes?\s+(.+)$", re.I)
 _IF_THEN = re.compile(r"^if\s+(.+?)(?:,\s*|\s+then\s+)(.+)$", re.I)
 _HAPPENS_IF = re.compile(
-    r"^what\s+(?:will\s+)?happen(?:s)?\s+if\s+(.+?)\??$",
+    r"^what\s+(?:will\s+)?happen(?:s)?\s+(?:if|when)\s+(.+?)\??$",
     re.I,
 )
 _IF_WHAT_HAPPENS = re.compile(

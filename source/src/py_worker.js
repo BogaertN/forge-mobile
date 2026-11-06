@@ -99,6 +99,41 @@ async function rmcAsk(arg) {
   }
   out.path = 'pyodide'; out.calls_llm = false; return out;
 }
+/* 4.9.245: on-device simulators. plan compiles the question (engine sim_device, the same code a Home PC runs); solve
+ * loads the family's packages from the pinned Pyodide 0.27.7 lock (loadPackage checks each file's sha256 from the lock
+ * and the browser caches it) and runs SymPy / SciPy / Biopython / astropy; finish reads a WASM engine's measurements;
+ * each returns a sealed FORGE-SIM-RECEIPT/v1. */
+const SIM_PY = `
+import json
+from rmc_engine_v1 import sim_device as S
+a = json.loads(sim_json); op = a.get('op')
+if op == 'plan':
+    p = S.plan(a.get('question') or '')
+    out = {'problem': p, 'job': S.mujoco_job(p['scene']) if p.get('solver') == 'mujoco_wasm' else None}
+elif op == 'solve':
+    out = S.seal(a['problem'], S.solve(a['problem']))
+elif op == 'finish':
+    out = S.seal(a['problem'], S.finish(a['problem'], a['raw']))
+else:
+    out = S.hold_receipt(a.get('problem') or {}, a.get('reason') or 'hold')
+json.dumps(out, default=str)
+`;
+const pkgsDone = new Set();
+async function sim(arg) {
+  if (!py) await init({ base: arg.base, sri: arg.sri, pint: false, sympy: false, rmc: null, libs: arg.libs });
+  await mountEngine(arg);
+  let packages = null;
+  if (arg.op === 'solve') {
+    const want = ((arg.problem && arg.problem.packages) || []).filter(n => /^[a-z0-9_-]+$/.test(n));
+    const todo = want.filter(n => !pkgsDone.has(n));
+    if (todo.length) { await py.loadPackage(todo, { checkIntegrity: true }); todo.forEach(n => pkgsDone.add(n)); }
+    packages = { rule: 'PYODIDE-LOCK-SHA256', lock: 'pyodide 0.27.7', requested: want, loaded_now: todo };
+  }
+  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason }));
+  const out = JSON.parse(py.runPython(SIM_PY));
+  if (packages) out.packages = packages;
+  return out;
+}
 self.onmessage = async e => { const { id, cmd, arg } = e.data || {}; try {
-    let out; if (cmd === 'init') out = await init(arg); else if (cmd === 'check') out = { agree: await check(arg) }; else if (cmd === 'rmc') out = await rmcThresholds(arg); else if (cmd === 'rmcAsk') out = await rmcAsk(arg); else throw new Error('unknown_cmd');
+    let out; if (cmd === 'init') out = await init(arg); else if (cmd === 'check') out = { agree: await check(arg) }; else if (cmd === 'rmc') out = await rmcThresholds(arg); else if (cmd === 'rmcAsk') out = await rmcAsk(arg); else if (cmd === 'sim') out = await sim(arg); else throw new Error('unknown_cmd');
     self.postMessage({ id, ok: true, out }); } catch (err) { self.postMessage({ id, ok: false, error: String(err && err.message || err).slice(0, 200) }); } };

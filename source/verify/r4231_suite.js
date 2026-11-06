@@ -74,9 +74,9 @@ print(json.dumps(r["memory_clauses"]))`;
 });
 
 T('version registry names 4.9.231', () => {
-  expect(read('VERSION').trim() === '4.9.244', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.245', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.244' && reg.features.some(f => f.id === 'R4231-MEMORY-CLAUSES') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.245' && reg.features.some(f => f.id === 'R4231-MEMORY-CLAUSES') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

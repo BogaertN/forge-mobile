@@ -116,9 +116,9 @@ T('wiring: the Ask path compiles after the engine, the card shows R_t with the s
 });
 
 T('version registry names 4.9.237', () => {
-  expect(read('VERSION').trim() === '4.9.244', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.245', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.244' && reg.features.some(f => f.id === 'R4237-OUTWARD-COMPILE') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.245' && reg.features.some(f => f.id === 'R4237-OUTWARD-COMPILE') && reg.count === reg.features.length, 'registry');
   const conf = read('CONFLICTS.md');
   expect(conf.includes('## v4.9.237') >= 0 && (conf.slice(0, conf.includes('## v4.9.237')).match(/^## v/gm) || []).length <= 5, 'CONFLICTS entry near the top (4.9.238–4.9.242 sit above)');
 });
