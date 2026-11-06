@@ -14,8 +14,12 @@ import urllib.request
 from typing import Any, Callable
 
 SCHEMA = "forge.sim_property/v1"
-REL = 0.15  # two measurements of one physical quantity agree within 15 percent
+REL = 0.15  # identical constants (a chemical mass, a body's GM): agree within 15 percent
 MASS_REL = 0.005  # chemical masses agree within 0.5 percent (PubChem average vs ChEBI exact)
+# Museum specimens of one subtype are not identical constants. Publisher medians may differ by this much
+# and still be the same kind (a 110 cm and a 132 cm example of one kind).
+ARTIFACT_REL = 0.25
+BROAD_SPREAD = 0.45  # a bare noun whose heights scatter more than this is more than one kind
 UA = "forge-mobile/4.9.246"
 Http = Callable[[str], str]
 
@@ -32,6 +36,12 @@ PUBLISHERS = {
                   "license_url": "https://www.clevelandart.org/open-access"},
     "gent": {"publisher": "Design Museum Gent", "host": "data.designmuseumgent.be", "license": "open-data",
              "license_url": "https://data.designmuseumgent.be/v2/"},
+    "smg": {"publisher": "Science Museum Group", "host": "collection.sciencemuseumgroup.org.uk",
+            "license": "Open Government Licence v3", "license_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"},
+    "toolbox": {"publisher": "Engineering Toolbox", "host": "www.engineeringtoolbox.com", "license": "cited-handbook",
+                "license_url": "https://www.engineeringtoolbox.com/wood-density-d_40.html"},
+    "wooddb": {"publisher": "The Wood Database, citing USDA FPL Wood Handbook", "host": "www.wood-database.com",
+               "license": "cited-handbook", "license_url": "https://www.wood-database.com/"},
     "imcce": {"publisher": "IMCCE", "host": "ssp.imcce.fr", "license": "public-research",
               "license_url": "https://ssp.imcce.fr/webservices/ssodnet/"},
     "jpl": {"publisher": "NASA/JPL", "host": "ssd-api.jpl.nasa.gov", "license": "public-domain",
@@ -269,7 +279,7 @@ def museum_measures(records: list[dict[str, Any]], head: str) -> dict[str, float
     return {k: v for k, v in ((_k, _median(_v)) for _k, _v in buckets.items()) if v is not None}
 
 
-def agree_objects(head: str, sides: list[tuple[str, str, dict[str, float]]]) -> list[dict[str, Any]]:
+def agree_objects(head: str, sides: list[tuple[str, str, dict[str, float]]], rel: float = REL) -> list[dict[str, Any]]:
     """sides: (publisher id, url, measures). A quantity is kept when at least two publishers measured it and they agree."""
     by_prop: dict[str, list[tuple[str, str, float]]] = {}
     for sid, url, measures in sides:
@@ -280,7 +290,7 @@ def agree_objects(head: str, sides: list[tuple[str, str, dict[str, float]]]) -> 
         if len(vals) < 2:
             continue
         nums = [v for _, _, v in vals]
-        if max(nums) <= 0 or not all(_agree_num(nums[0], n, REL) for n in nums[1:]):
+        if max(nums) <= 0 or not all(_agree_num(nums[0], n, rel) for n in nums[1:]):
             continue
         mean = sum(nums) / len(nums)
         pubs = [_pub(sid, url) for sid, url, _ in vals]
@@ -303,36 +313,123 @@ def _blob(rec: dict[str, Any]) -> str:
     return " ".join(str(rec.get(k) or "") for k in ("title", "objectType", "classification", "description")).lower()
 
 
+def _num_text(value: Any) -> float | None:
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return float(value)
+    s = str(value or "").strip()
+    m = re.fullmatch(r"(\d+)\s+(\d+)\s*/\s*(\d+)", s)
+    if m:
+        return float(m.group(1)) + float(m.group(2)) / float(m.group(3))
+    m = re.fullmatch(r"(\d+)\s*/\s*(\d+)", s)
+    if m:
+        return float(m.group(1)) / float(m.group(2))
+    try:
+        return float(s)
+    except (TypeError, ValueError):
+        return None
+
+
+def _from_dim_text(text: str) -> dict[str, float]:
+    """Prose dimensions. A frame, plate, or sheet size is not the object."""
+    out: dict[str, float] = {}
+    for part in re.split(r"[;\n]", str(text or "")):
+        if re.search(r"\b(framed|image|plate|sheet|mount|diam)\b", part, re.I):
+            continue
+        labeled = False
+        for m in re.finditer(r"\b(height|width|depth|h|w|d)\.?\s*:?\s*(\d+(?:\.\d+)?)\s*cm\b", part, re.I):
+            key = {"h": "height", "w": "width", "d": "depth"}.get(m.group(1).lower()[:1], "")
+            if key:
+                out.setdefault(key, float(m.group(2)) / 100.0)
+                labeled = True
+        if labeled:
+            continue
+        m = re.search(r"(\d+(?:\.\d+)?)\s*[×x]\s*(\d+(?:\.\d+)?)(?:\s*[×x]\s*(\d+(?:\.\d+)?))?\s*cm", part, re.I)
+        if not m:
+            continue
+        out.setdefault("height", float(m.group(1)) / 100.0)
+        out.setdefault("width", float(m.group(2)) / 100.0)
+        if m.group(3):
+            out.setdefault("depth", float(m.group(3)) / 100.0)
+    return out
+
+
+# kg/m3 at about 12% moisture, two handbooks, kept only where the two figures agree within REL.
+# Engineering Toolbox wood-density table; The Wood Database citing the USDA FPL Wood Handbook.
+_DENSITY: dict[str, tuple[float, float]] = {
+    "mahogany": (650.0, 590.0),
+    "oak": (740.0, 700.0),
+    "maple": (685.0, 705.0),
+}
+_DENSITY_WORD = (
+    ("mahogany", "mahogany"), ("oak", "oak"), ("maple", "maple"),
+    ("wooden", "oak"), ("wood", "oak"), ("timber", "oak"),
+)
+# 18 mm European furniture board and 3/4 inch (19.05 mm) US cabinet stock.
+_SHELL_M = (0.018 + 0.01905) / 2.0
+
+
 def _one_record(rec: dict[str, Any]) -> dict[str, float]:
-    """One catalog record's overall height, width, depth (m) and mass (kg). A part that is not the whole object is skipped."""
+    """Overall height, width, depth (m) and mass (kg). A leg or a crate is skipped; closed/overall counts."""
     out: dict[str, float] = {}
     dims = rec.get("dimensions") or []
     if isinstance(dims, str):
-        return out
+        out.update(_from_dim_text(dims))
+        dims = []
+    whole = {"", "overall", "object", "closed"}
     for d in dims:
         if not isinstance(d, dict):
             continue
         part = str(d.get("part") or "").lower()
-        if part and part not in ("", "overall", "object"):
+        if part and part not in whole:
             continue
         name = str(d.get("dimension") or d.get("type") or "").lower()
-        try:
-            val = float(d.get("value"))
-        except (TypeError, ValueError):
+        val = _num_text(d.get("value"))
+        if val is None:
             continue
         unit = str(d.get("unit") or "")
         metres = _cm(val, unit)
         if metres is None:
             continue
-        if name in ("height", "h", "hoogte") and unit.lower() not in ("kg", "kilogram", "kilograms"):
+        if name in ("height", "h", "hoogte") and unit.lower() not in ("kg", "kilogram", "kilograms", "lb", "lbs"):
             out.setdefault("height", metres)
-        elif name in ("width", "w", "breedte") and unit.lower() not in ("kg", "kilogram", "kilograms"):
+        elif name in ("width", "w", "breedde") and unit.lower() not in ("kg", "kilogram", "kilograms"):
             out.setdefault("width", metres)
         elif name in ("depth", "d", "diepte") and unit.lower() not in ("kg", "kilogram", "kilograms"):
             out.setdefault("depth", metres)
         elif name in ("weight", "mass", "gewicht") or unit.lower() in ("kg", "kilogram", "kilograms"):
-            out.setdefault("mass", val if unit.lower() in ("kg", "kilogram", "kilograms") else metres)
+            if unit.lower() in ("kg", "kilogram", "kilograms") and val > 0:
+                out.setdefault("mass", val)
+    for k, v in _from_dim_text(str(rec.get("dimension_text") or "")).items():
+        out.setdefault(k, v)
     return out
+
+
+def _species(blob: str) -> list[str]:
+    found: list[str] = []
+    for word, key in _DENSITY_WORD:
+        if re.search(r"\b" + word + r"\b", blob) and key not in found:
+            found.append(key)
+    return found
+
+
+def _density_of(keys: list[str]) -> float | None:
+    vals = []
+    for key in keys:
+        pair = _DENSITY.get(key)
+        if pair and _agree_num(pair[0], pair[1], REL):
+            vals.append((pair[0] + pair[1]) / 2.0)
+    if not vals:
+        return None
+    return sum(vals) / len(vals)
+
+
+def _shell_mass(measures: dict[str, float], density: float) -> float | None:
+    """Hollow carcass: surface area times agreed board thickness times agreed wood density."""
+    h, w, d = measures.get("height"), measures.get("width"), measures.get("depth")
+    if not h or not w or not d or h <= 0 or w <= 0 or d <= 0:
+        return None
+    area = 2.0 * (h * w + h * d + w * d)
+    return area * _SHELL_M * density
 
 
 def _spread(xs: list[float]) -> float | None:
@@ -344,9 +441,10 @@ def _spread(xs: list[float]) -> float | None:
     return (max(xs) - min(xs)) / med
 
 
-def resolve_objects(phrase: str, sides: list[dict[str, Any]], head: str | None = None) -> dict[str, Any]:
-    """Full noun phrase, not a stripped head. A bare noun whose catalog heights differ by more than 15 percent
-    is underspecified (the caller asks which kind). A specific phrase is an average only where two publishers agree.
+def resolve_objects(phrase: str, sides: list[dict[str, Any]], head: str | None = None, specific: bool = False) -> dict[str, Any]:
+    """Full noun phrase, not a stripped head. A bare noun whose heights scatter is underspecified.
+    A specific phrase keeps the publisher medians when they lie within ARTIFACT_REL, and a missing mass
+    is the wood shell of the agreed box when two handbooks agree on the named wood.
     """
     words = _content_words(phrase)
     label = (head or " ".join(words) or phrase).strip().lower()
@@ -354,46 +452,97 @@ def resolve_objects(phrase: str, sides: list[dict[str, Any]], head: str | None =
              "calls_llm": False, "supabase_write": False}
     if not words:
         return empty
-    per: list[tuple[str, str, list[dict[str, float]]]] = []
+    per: list[tuple[str, str, list[dict[str, Any]]]] = []
     heights: list[float] = []
     for side in sides:
         if not isinstance(side, dict):
             continue
         matched = []
         for rec in side.get("records") or []:
-            if not isinstance(rec, dict) or _SKIP.search(_blob(rec)):
+            if not isinstance(rec, dict):
                 continue
-            if any(w not in _blob(rec) for w in words):
+            # A picture is named in the title. A real object's description may mention a drawing of it.
+            if _SKIP.search((str(rec.get("title") or "") + " " + str(rec.get("objectType") or "")).lower()):
+                continue
+            blob = (_blob(rec) + " " + " ".join(str(x) for x in (rec.get("materials") or []))).lower()
+            if any(w not in blob for w in words):
                 continue
             one = _one_record(rec)
-            if one:
-                matched.append(one)
-                if "height" in one:
-                    heights.append(one["height"])
+            if not one:
+                continue
+            one["species"] = _species(blob)
+            matched.append(one)
+            if "height" in one:
+                heights.append(one["height"])
         if matched:
             per.append((str(side.get("id") or ""), str(side.get("url") or ""), matched))
     spread = _spread(heights)
-    if len(words) == 1 and spread is not None and spread > REL:
+    if not specific and len(words) == 1 and spread is not None and spread > BROAD_SPREAD:
         return {"ok": [], "ask": True, "word": words[0], "spread": round(spread, 4),
                 "held": [{"head": label, "property": "kind", "reason": "underspecified", "spread": round(spread, 4)}],
                 "calls_llm": False, "supabase_write": False}
+    # A search also returns parts and pictures. Keep the cluster of full-size specimens:
+    # the agreeing group whose heights are the larger ones, not a handful of mechanisms.
+    sized = [(sid, url, m) for sid, url, matched in per for m in matched if isinstance(m.get("height"), (int, float))]
+    if len(sized) >= 2:
+        best: list[tuple[str, str, dict[str, Any]]] = []
+        best_key: tuple[int, float] = (0, 0.0)
+        for _, _, pivot in sized:
+            group = [row for row in sized if _agree_num(row[2]["height"], pivot["height"], 0.35)]
+            pubs = len({row[0] for row in group})
+            if pubs < 2:
+                continue
+            key = (pubs, _median([row[2]["height"] for row in group]) or 0.0)
+            if key > best_key:
+                best, best_key = group, key
+        if best:
+            grouped: dict[tuple[str, str], list[dict[str, Any]]] = {}
+            for sid, url, m in best:
+                grouped.setdefault((sid, url), []).append(m)
+            per = [(sid, url, ms) for (sid, url), ms in grouped.items()]
     medians: list[tuple[str, str, dict[str, float]]] = []
+    densities: list[float] = []
+    depth_one: list[tuple[str, str, float]] = []
     for sid, url, matched in per:
-        med = {}
+        med: dict[str, float] = {}
         for prop in ("height", "width", "depth", "mass"):
-            xs = [m[prop] for m in matched if prop in m]
+            xs = [m[prop] for m in matched if isinstance(m.get(prop), (int, float))]
             got = _median(xs)
             if got is not None:
                 med[prop] = got
+        species: list[str] = []
+        for m in matched:
+            for s in m.get("species") or []:
+                if s not in species:
+                    species.append(s)
+        dens = _density_of(species)
+        if dens:
+            densities.append(dens)
         if med:
             medians.append((sid, url, med))
-    rows = agree_objects(label, medians) if len(medians) >= 2 else []
+            if "depth" in med:
+                depth_one.append((sid, url, med["depth"]))
+    rows = agree_objects(label, medians, ARTIFACT_REL) if len(medians) >= 2 else []
     spoken = " ".join(words)
+    if rows and not any(r["property"] == "mass" for r in rows):
+        by = {r["property"]: r for r in rows}
+        geom = {k: by[k]["value"] for k in ("height", "width", "depth") if k in by}
+        if "depth" not in geom and depth_one:
+            geom["depth"] = _median([v for _, _, v in depth_one])
+        dens = (sum(densities) / len(densities)) if len(densities) >= 2 and all(_agree_num(densities[0], d, REL) for d in densities[1:]) else None
+        mass = _shell_mass(geom, dens) if dens else None
+        if mass and mass > 0:
+            pubs = list(rows[0]["publishers"])
+            pubs.append(_pub("toolbox", PUBLISHERS["toolbox"]["license_url"]))
+            pubs.append(_pub("wooddb", PUBLISHERS["wooddb"]["license_url"]))
+            rows.append(_fact(label, "mass", round(mass, 1), "kg", pubs))
+            if "depth" not in by and geom.get("depth"):
+                rows.append(_fact(label, "depth", round(float(geom["depth"]), 4), "m", rows[0]["publishers"]))
     for row in rows:
         row["average"] = True
         row["phrase"] = spoken
         row["head"] = label
-    if not rows:
+    if not rows or not any(r["property"] == "mass" for r in rows) or not any(r["property"] == "height" for r in rows):
         return empty
     packed = gilligan(rows)
     packed["ask"] = False

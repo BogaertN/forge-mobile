@@ -57,7 +57,7 @@
   }
   async function athenaFacts(problem) {
     let timer;
-    const cap = new Promise(res => { timer = setTimeout(() => res(null), 9000); });
+    const cap = new Promise(res => { timer = setTimeout(() => res(null), 20000); });
     try { return await Promise.race([athenaLookup(problem), cap]); }
     finally { if (timer) clearTimeout(timer); }
   }
@@ -81,24 +81,27 @@
       if (kind === 'object') {
         const phrase = String((problem.scene && problem.scene.phrase) || name);
         const qn = encodeURIComponent(phrase);
-        const vamUrl = 'https://api.vam.ac.uk/v2/objects/search?q=' + qn + '&page_size=6';
-        const articUrl = 'https://api.artic.edu/api/v1/artworks/search?q=' + qn + '&limit=12&fields=id,title,dimensions,classification_title,medium_display';
+        const vamUrl = 'https://api.vam.ac.uk/v2/objects/search?q=' + qn + '&page_size=10';
+        const articUrl = 'https://api.artic.edu/api/v1/artworks/search?q=' + qn + '&limit=20&fields=id,title,dimensions,classification_title,medium_display,description';
         const cmaUrl = 'https://openaccess-api.clevelandart.org/api/artworks/?q=' + qn + '&limit=8&has_image=0';
         const gentUrl = 'https://data.designmuseumgent.be/v2/id/objects?q=' + qn + '&itemsPerPage=4';
+        const smgUrl = 'https://collection.sciencemuseumgroup.org.uk/search/objects?q=' + qn + '&page[size]=20';
         const pack = await Promise.all([
-          fetchT(vamUrl, 4000).then(r => r.json()).catch(() => null),
-          fetchT(articUrl, 4000).then(r => r.json()).catch(() => null),
-          fetchT(cmaUrl, 4000).then(r => r.json()).catch(() => null),
-          fetchT(gentUrl, 4000).then(r => r.json()).catch(() => null)
+          fetchT(vamUrl, 12000).then(r => r.json()).catch(() => null),
+          fetchT(articUrl, 12000).then(r => r.json()).catch(() => null),
+          fetchT(cmaUrl, 12000).then(r => r.json()).catch(() => null),
+          fetchT(gentUrl, 12000).then(r => r.json()).catch(() => null),
+          fetchT(smgUrl, 12000).then(r => r.json()).catch(() => null)
         ]);
-        const hits = (((pack[0] && pack[0].records) || []).filter(h => h && h.systemNumber)).slice(0, 4);
+        const hits = (((pack[0] && pack[0].records) || []).filter(h => h && h.systemNumber)).slice(0, 8);
         const objs = await Promise.all(hits.map(hit => fetchT('https://api.vam.ac.uk/v2/object/' + encodeURIComponent(hit.systemNumber), 4000).then(r => r.json()).catch(() => null)));
         const records = [];
         objs.forEach((obj, i) => {
           if (!obj) return;
           const rec = obj.record || {};
           const desc = [rec.briefDescription, rec.physicalDescription].filter(Boolean).join(' ').slice(0, 400);
-          records.push({ title: rec._primaryTitle || hits[i]._primaryTitle || '', objectType: rec.objectType || hits[i].objectType || '', description: desc,
+          const mats = (rec.materials || []).map(m => (m && m.text) || m).filter(Boolean);
+          records.push({ title: rec._primaryTitle || hits[i]._primaryTitle || '', objectType: rec.objectType || hits[i].objectType || '', description: desc, materials: mats,
             dimensions: (rec.dimensions || []).filter(d => !/crate/i.test(d.part || '')).map(d => ({ dimension: d.dimension, value: d.value, unit: d.unit, part: d.part || '' })) });
         });
         const arecs = [];
@@ -107,7 +110,8 @@
           if (!m) continue;
           const dims = [{ dimension: 'Height', value: m[1], unit: 'cm', part: '' }, { dimension: 'Width', value: m[2], unit: 'cm', part: '' }];
           if (m[3]) dims.push({ dimension: 'Depth', value: m[3], unit: 'cm', part: '' });
-          arecs.push({ title: a.title || '', objectType: a.classification_title || '', description: a.medium_display || '', dimensions: dims });
+          const desc = String(a.description || '').replace(/<[^>]+>/g, ' ');
+          arecs.push({ title: a.title || '', objectType: a.classification_title || '', description: (desc + ' ' + (a.medium_display || '')).slice(0, 600), dimension_text: a.dimensions || '', materials: [a.medium_display || ''], dimensions: dims });
         }
         const crecs = [];
         for (const a of ((pack[2] && pack[2].data) || [])) {
@@ -117,7 +121,7 @@
           if (o.width) dims.push({ dimension: 'Width', value: o.width, unit: 'm', part: '' });
           if (o.depth) dims.push({ dimension: 'Depth', value: o.depth, unit: 'm', part: '' });
           if (!dims.length) continue;
-          crecs.push({ title: a.title || '', objectType: a.type || '', description: a.technique || '', dimensions: dims });
+          crecs.push({ title: a.title || '', objectType: a.type || '', description: a.technique || '', materials: [a.technique || ''], dimensions: dims });
         }
         const members = (pack[3] && (pack[3]['hydra:member'] || pack[3].member)) || [];
         const gids = members.map(m => m && (m['@id'] || m.id)).filter(Boolean).slice(0, 4);
@@ -137,9 +141,31 @@
           const title = Array.isArray(label) ? String((label[0] && (label[0]['@value'] || label[0])) || '') : String((label && (label['@value'] || label)) || '');
           grecs.push({ title: title, objectType: '', description: '', dimensions: dims });
         });
-        const agreed = await pyCall({ op: 'objects', name: name, phrase: phrase, sides: [
+        const srecs = [];
+        const numish = v => { const s = String(v == null ? '' : v).trim(); const m = s.match(/^(\d+)(?:\s+(\d+)\s*\/\s*(\d+))?$/); if (!m) { const n = parseFloat(s); return isNaN(n) ? null : n; } return parseFloat(m[1]) + (m[2] ? parseFloat(m[2]) / parseFloat(m[3]) : 0); };
+        const walk = (o, dims) => {
+          if (!o) return;
+          if (Array.isArray(o)) { o.forEach(x => walk(x, dims)); return; }
+          if (typeof o !== 'object') return;
+          if (o.dimension && o.units && o.value != null) {
+            const n = numish(o.value);
+            if (n != null) dims.push({ dimension: o.dimension, value: n, unit: o.units, part: '' });
+          }
+          Object.keys(o).forEach(k => { if (k !== 'dimension' && k !== 'units' && k !== 'value') walk(o[k], dims); });
+        };
+        for (const item of ((pack[4] && pack[4].data) || [])) {
+          const a = item.attributes || {};
+          const dims = [];
+          walk(a.measurements, dims);
+          const metric = dims.filter(d => /^(mm|cm|m|kg)$/i.test(d.unit));
+          const raw = a.description;
+          const desc = Array.isArray(raw) ? raw.map(x => (x && (x.value || x)) || '').join(' ') : ((raw && (raw.value || raw)) || '');
+          srecs.push({ title: (a.summary && a.summary.title) || '', objectType: '', description: String(desc).slice(0, 400), dimensions: metric.length ? metric : dims });
+        }
+        const agreed = await pyCall({ op: 'objects', name: name, phrase: phrase, specific: !!problem.specific, sides: [
           { id: 'vam', url: vamUrl, records: records }, { id: 'artic', url: articUrl, records: arecs },
-          { id: 'cleveland', url: cmaUrl, records: crecs }, { id: 'gent', url: gentUrl, records: grecs }
+          { id: 'cleveland', url: cmaUrl, records: crecs }, { id: 'gent', url: gentUrl, records: grecs },
+          { id: 'smg', url: smgUrl, records: srecs }
         ] });
         if (agreed && agreed.ask) return { ask: true, word: agreed.word || phrase };
         return agreed && agreed.ok && agreed.ok.length ? agreed.ok : null;
@@ -155,7 +181,7 @@
     const scene = (problem && problem.scene) || {};
     return { kind: 'sim', question: String(question || ''), word: String(word || scene.phrase || ''), patientText: String(scene.patient_text || ''), options: [], tries: 0 };
   }
-  async function simulate(question, memory) {
+  async function simulate(question, memory, specific) {
     const q = String(question || '');
     const frame0 = frameOf(q);
     const property = frame0 && frame0.kriya === 'be' && frame0.kartr && /^(weight|mass|formula|structure)$/.test(String(frame0.kartr.head || ''));
@@ -167,6 +193,7 @@
       const frame = frameOf(q.slice(0, 400));
       let pl = await pyCall({ op: 'plan', question: q.slice(0, 400), frame: frame, memory: memoryRows(memory) });
       if (pl && pl.problem && !pl.problem.ok) {
+        if (specific) pl.problem.specific = true;
         const facts = await athenaFacts(pl.problem);
         if (facts && facts.ask) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'ask', ask: simAsk(q, pl.problem, facts.word), calls_llm: false };
         else if (facts) pl = await pyCall({ op: 'plan', question: q.slice(0, 400), frame: frame, facts: facts, memory: memoryRows(memory) });

@@ -244,13 +244,13 @@ function askCard(kind, bodyHtml, state) {
 }
 async function say(text) { if (lexState.core === 'loading') { queue.push(text); return; }
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
-  let qtext = text; let askCtx = {};
+  let qtext = text; let askCtx = {}; let simSpecific = false;
   if (pendingAsk && window.KSenses && KSenses.follow) {
     const f = KSenses.follow(pendingAsk, text);
     if (f.state === 'resolved') {
       const picked = f.option;
       if (pendingAsk.kind === 'sim') {
-        qtext = f.run.question; pendingAsk = null;
+        qtext = f.run.question; simSpecific = true; pendingAsk = null;
       } else {
         askCard('picked', 'Taking ' + esc(pendingAsk.word) + ' as: ' + esc(picked.label) + '. Asking again: ' + esc(f.run.question), 'meaning-picked');
         qtext = f.run.question; askCtx = { sense: f.run.sense || null, sensed: f.run.sensed || null, chain: f.run.chain || 0, picked: picked }; pendingAsk = null;
@@ -304,7 +304,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
      * receipt → the engine holds or uses stored causal facts as before. */
     /* 4.9.245: the simulators run on this phone first (KSimDevice: Pyodide SymPy/SciPy/Biopython/astropy and WASM
      * MuJoCo/RDKit/ngspice). Heavy CFD / Hartree-Fock asks go to the Home PC Simulator if one is set, else they hold. */
-    const simReceipt = window.KSimDevice ? await KSimDevice.simulate(qtext, memory) : await simulateViaRouter(qtext);
+    const simReceipt = window.KSimDevice ? await KSimDevice.simulate(qtext, memory, simSpecific) : await simulateViaRouter(qtext);
     if (simReceipt && simReceipt.status === 'ask' && simReceipt.ask && window.KSenses) {
       pendingAsk = simReceipt.ask;
       const asked = KSenses.askText(pendingAsk, false);

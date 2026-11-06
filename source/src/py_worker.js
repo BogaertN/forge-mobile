@@ -120,7 +120,7 @@ elif op == 'chem':
     out = A.gilligan(A.agree_chemical(a.get('name') or '', pub, che)) if pub and che else {'ok': [], 'held': [{'reason': 'publisher_missing'}], 'calls_llm': False, 'supabase_write': False}
 elif op == 'objects':
     from rmc_engine_v1 import athena_props as A
-    out = A.resolve_objects(a.get('phrase') or a.get('name') or '', a.get('sides') or [], a.get('name'))
+    out = A.resolve_objects(a.get('phrase') or a.get('name') or '', a.get('sides') or [], a.get('name'), bool(a.get('specific')))
 elif op == 'gaps':
     from rmc_engine_v1.sim_karaka import read
     out = read(a.get('question') or '', a.get('frame'), a.get('facts'))
@@ -143,7 +143,7 @@ async function sim(arg) {
     if (todo.length) { await py.loadPackage(todo, { checkIntegrity: true }); todo.forEach(n => pkgsDone.add(n)); }
     packages = { rule: 'PYODIDE-LOCK-SHA256', lock: 'pyodide 0.27.7', requested: want, loaded_now: todo };
   }
-  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason, frame: arg.frame, facts: arg.facts, rows: arg.rows, name: arg.name, phrase: arg.phrase, pub: arg.pub, term: arg.term, sides: arg.sides, memory: arg.memory }));
+  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason, frame: arg.frame, facts: arg.facts, rows: arg.rows, name: arg.name, phrase: arg.phrase, specific: arg.specific, pub: arg.pub, term: arg.term, sides: arg.sides, memory: arg.memory }));
   const out = JSON.parse(py.runPython(SIM_PY));
   if (packages) out.packages = packages;
   return out;
