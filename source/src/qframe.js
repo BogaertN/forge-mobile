@@ -54,7 +54,12 @@
     const dimW = '(tall|high|wide|deep|long|thick)';
     t = t.replace(new RegExp('\\b(\\d+(?:\\.\\d+)?)\\s+' + lenU + '\\s+' + dimW + '\\b', 'gi'), (m, n, u, d) => { stated.push({ num: String(n), unit: String(u).toLowerCase(), dim: String(d).toLowerCase() }); return ' '; });
     t = t.replace(new RegExp('\\b(\\d+(?:\\.\\d+)?)\\s+' + massU + '\\b', 'gi'), (m, n, u) => { stated.push({ num: String(n), unit: String(u).toLowerCase(), dim: 'mass' }); return ' '; });
-    t = t.replace(/\s+and\s+(?=near\b|on\b|at\b|across\b|along\b|onto\b)/gi, ' ');
+    /* "on a 30 degree ramp": the number is the slope. Lift it so the noun phrase can parse. */
+    t = t.replace(/\b(\d+(?:\.\d+)?)\s+degrees?\s+(?=(?:ramp|slope|incline|plane|hill)\b)/gi, (m, n) => { stated.push({ num: String(n), unit: 'degree', dim: 'slope' }); return ' '; });
+    t = t.replace(/\s+/g, ' ').trim();
+    t = t.replace(/ and (?=near |on |at |across |along |onto |in )/gi, ' ');
+    t = t.replace(/ and (?=near |on |at |across |along |onto |in )/gi, ' ');
+    t = t.replace(' and in ', ' in ');
     t = t.replace(/\s+/g, ' ').trim();
     return { text: t, stated };
   }
@@ -92,7 +97,7 @@
       kriya: v.lemma || null, tense: v.tense || null, polarity: v.pol || null, modality: v.mod || null,
       voice: v.voice || 'active',
       kartr: np(cl.subj), karma: karakas.karma || null, karakas,
-      pred: pr ? (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np)) : { type: pr.type || null, text: str(pr.words || pr.text || null) }) : null,
+      pred: pr ? (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np)) : pr.type === 'pp' ? { type: 'pp', prep: pr.prep || null, text: str((pr.np && (pr.np.head || pr.np.text)) || pr.words || null), np: pr.np ? np(pr.np) : null } : { type: pr.type || null, text: str(pr.words || pr.text || null) }) : null,
       adj: (cl.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np) : null })),
       adjuncts: (cl.adj || []).length, material,
     };
@@ -281,7 +286,8 @@
      * kriyā happen, the gap is the effect (pred), the if-clause is cond. Simulate fills the gap from causal frames. */
     {
       /* only the what-first form; "If C, what happens?" keeps QF-IF- so cond parses as a clause (R4230) */
-      const mHappen = String(text || '').trim().match(/^what\s+(?:will\s+)?happen(?:s)?\s+(?:if|when)\s+(.+?)\??$/i);
+      const mHappen = String(text || '').trim().match(/^what\s+(?:will\s+)?happen(?:s)?\s+(?:if|when)\s+(.+?)\??$/i)
+        || String(text || '').trim().match(/^what\s+if\s+(.+?)\??$/i);
       if (mHappen) {
         const condTxt = mHappen[1].trim().replace(/[.?]+$/, '');
         let cond = parseOpen(forge, condTxt);

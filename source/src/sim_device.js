@@ -10,6 +10,7 @@
   const LS_ROUTER = 'forge.sim_router', LS_ASSETS = 'forge.sim_assets';
   const GATE = /^\s*what\s+(?:will\s+)?happens?\s+(?:if|when)\s+|\b(?:molecular|molar)\s+(?:weight|mass|formula|structure)\s+of\b|\b(?:cfd|navier[- ]stokes|air ?flow|wind tunnel|hartree[- ]fock|density functional|ab initio)\b/i;
   let pyc = null, ww = null, wn = 0; const wpend = new Map();
+  let lastScene = null;
   const okUrl = u => /^https:\/\/[^\s]+$/.test(u) || /^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?(\/|$)/.test(u);
   function get(k) { try { return String(root.localStorage.getItem(k) || '').trim(); } catch (e) { return ''; } }
   function routerBase() { const u = get(LS_ROUTER); return okUrl(u) ? u.replace(/\/+$/, '') : null; }
@@ -77,6 +78,24 @@
         const term = await (await fetchT('https://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms?obo_id=' + encodeURIComponent(obo), 4000)).text();
         const agreed = await pyCall({ op: 'chem', name: name, pub: pub, term: term });
         return agreed && agreed.ok && agreed.ok.length ? agreed.ok : null;
+      }
+      if (kind === 'body' || problem.missing === 'radius') {
+        const cardUrl = 'https://ssp.imcce.fr/webservices/ssodnet/api/ssocard/' + encodeURIComponent(name);
+        const quaeroUrl = 'https://api.ssodnet.imcce.fr/quaero/1/sso?q=' + encodeURIComponent(name) + '&type=Satellite&limit=1';
+        const card = await fetchT(cardUrl, 8000).then(r => r.text()).catch(() => '');
+        const quaero = await fetchT(quaeroUrl, 8000).then(r => r.text()).catch(() => '');
+        const agreed = await pyCall({ op: 'body', name: name, card: card, card_url: cardUrl, quaero: quaero });
+        return agreed && agreed.ok && agreed.ok.length ? agreed.ok : null;
+      }
+      if (problem.vehicle) {
+        const phrase = String((problem.scene && problem.scene.phrase) || name);
+        const qn = encodeURIComponent(phrase);
+        const nhtsaUrl = 'https://vpic.nhtsa.dot.gov/api/vehicles/GetCanadianVehicleSpecifications/?year=2020&make=' + qn + '&model=' + qn + '&format=json';
+        const epaUrl = 'https://www.fueleconomy.gov/ws/rest/vehicle/menu/model?year=2020&make=' + qn;
+        const nhtsaRaw = await fetchT(nhtsaUrl, 8000).then(r => r.text()).catch(() => '');
+        const epaRaw = await fetchT(epaUrl, 8000).then(r => r.text()).catch(() => '');
+        const parsed = await pyCall({ op: 'vehicle', name: phrase, nhtsa_url: nhtsaUrl, epa_url: epaUrl, nhtsa_raw: nhtsaRaw, epa_raw: epaRaw });
+        return parsed && parsed.ok && parsed.ok.length ? parsed.ok : null;
       }
       if (kind === 'object') {
         const phrase = String((problem.scene && problem.scene.phrase) || name);
@@ -190,15 +209,21 @@
     const t0 = Date.now();
     let out;
     try {
-      const frame = frameOf(q.slice(0, 400));
-      let pl = await pyCall({ op: 'plan', question: q.slice(0, 400), frame: frame, memory: memoryRows(memory) });
+      let frame = frameOf(q.slice(0, 400));
+      let question = q.slice(0, 400);
+      if (lastScene && frame && (/^what\s+if\b/i.test(question) || (frame.cond && frame.cond.karma && frame.cond.karma.head === 'it'))) {
+        const cont = await pyCall({ op: 'continue', frame: frame, prior: lastScene });
+        if (cont && cont.question) { question = cont.question; frame = frameOf(question); }
+      }
+      let pl = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory) });
       if (pl && pl.problem && !pl.problem.ok) {
         if (specific) pl.problem.specific = true;
         const facts = await athenaFacts(pl.problem);
         if (facts && facts.ask) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'ask', ask: simAsk(q, pl.problem, facts.word), calls_llm: false };
-        else if (facts) pl = await pyCall({ op: 'plan', question: q.slice(0, 400), frame: frame, facts: facts, memory: memoryRows(memory) });
+        else if (facts) pl = await pyCall({ op: 'plan', question: question, frame: frame, facts: facts, memory: memoryRows(memory) });
       }
       const p = pl && pl.problem;
+      if (p && p.ok && p.scene) lastScene = { question: question, scene: p.scene };
       if (out && out.status === 'ask') { /* the follow-up turn owns this question */ }
       else if (!p || !p.ok) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'no_problem', problem: p || null, reason: (p && p.reason) || null, missing: (p && p.missing) || null, calls_llm: false };
       else if (p.runtime === 'home_pc') out = await homePc(p, frame);
@@ -209,7 +234,8 @@
         catch (e) { raw = null; out = await pyCall({ op: 'hold', problem: p, reason: 'wasm_failed: ' + String(e && e.message || e).slice(0, 160) }); }
         if (raw) { out = await pyCall({ op: 'finish', problem: p, raw }); out.assets_loaded = raw.assets_loaded; out.wasm_ms = raw.ms; out.raw = Object.assign({}, raw, { assets_loaded: undefined }); }
       }
-    } catch (e) { out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'sim_error', error: String(e && e.message || e).slice(0, 240), calls_llm: false }; }
+      if (out) out.asked = question;
+    } catch (e) { out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'sim_error', error: String(e && e.message || e).slice(0, 240), calls_llm: false, asked: q }; }
     out.elapsed_ms = Date.now() - t0;
     root.__lastSim = out;
     return out;

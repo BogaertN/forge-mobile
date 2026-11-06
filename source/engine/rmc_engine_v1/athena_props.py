@@ -11,6 +11,7 @@ import json
 import re
 import urllib.parse
 import urllib.request
+from pathlib import Path
 from typing import Any, Callable
 
 SCHEMA = "forge.sim_property/v1"
@@ -20,7 +21,7 @@ MASS_REL = 0.005  # chemical masses agree within 0.5 percent (PubChem average vs
 # and still be the same kind (a 110 cm and a 132 cm example of one kind).
 ARTIFACT_REL = 0.25
 BROAD_SPREAD = 0.45  # a bare noun whose heights scatter more than this is more than one kind
-UA = "forge-mobile/4.9.246"
+UA = "forge-mobile/4.9.247"
 Http = Callable[[str], str]
 
 PUBLISHERS = {
@@ -45,7 +46,11 @@ PUBLISHERS = {
     "imcce": {"publisher": "IMCCE", "host": "ssp.imcce.fr", "license": "public-research",
               "license_url": "https://ssp.imcce.fr/webservices/ssodnet/"},
     "jpl": {"publisher": "NASA/JPL", "host": "ssd-api.jpl.nasa.gov", "license": "public-domain",
-            "license_url": "https://www.jpl.nasa.gov/jpl-image-use-policy"},
+            "license_url": "https://www.jpl.nasa.gov/jpl-image-use-policy", "cors": False},
+    "nhtsa": {"publisher": "NHTSA", "host": "vpic.nhtsa.dot.gov", "license": "public-domain",
+              "license_url": "https://vpic.nhtsa.dot.gov/api/", "cors": True},
+    "epa": {"publisher": "US EPA", "host": "www.fueleconomy.gov", "license": "public-domain",
+            "license_url": "https://www.fueleconomy.gov/feg/ws/", "cors": True},
 }
 
 BLOCKED_HOSTS = ("wikipedia.org", "wikidata.org", "wikimedia.org")
@@ -353,19 +358,24 @@ def _from_dim_text(text: str) -> dict[str, float]:
     return out
 
 
-# kg/m3 at about 12% moisture, two handbooks, kept only where the two figures agree within REL.
-# Engineering Toolbox wood-density table; The Wood Database citing the USDA FPL Wood Handbook.
-_DENSITY: dict[str, tuple[float, float]] = {
-    "mahogany": (650.0, 590.0),
-    "oak": (740.0, 700.0),
-    "maple": (685.0, 705.0),
+# Densities live in physical_defaults.json with two handbook figures and a class
+# (wood, metal, bulk, soft). A pair is used only when the two figures agree within REL.
+_WORD_ALIAS = {
+    "wooden": "oak", "wood": "oak", "timber": "oak",
+    "aluminium": "aluminum", "aluminum": "aluminum",
+    "plastic": "polyethylene", "polymer": "polyethylene", "polyethylene": "polyethylene",
+    "saltwater": "seawater", "brine": "seawater",
 }
-_DENSITY_WORD = (
-    ("mahogany", "mahogany"), ("oak", "oak"), ("maple", "maple"),
-    ("wooden", "oak"), ("wood", "oak"), ("timber", "oak"),
-)
-# 18 mm European furniture board and 3/4 inch (19.05 mm) US cabinet stock.
-_SHELL_M = (0.018 + 0.01905) / 2.0
+
+
+def _material_table() -> dict[str, Any]:
+    from rmc_engine_v1.sim_scene import defaults
+    return (defaults().get("materials") or {})
+
+
+def _material_rows() -> dict[str, dict[str, Any]]:
+    return dict((_material_table().get("rows") or {}))
+# Board thickness is physical_defaults.materials.board_m (18 mm and 19.05 mm).
 
 
 def _one_record(rec: dict[str, Any]) -> dict[str, float]:
@@ -405,31 +415,69 @@ def _one_record(rec: dict[str, Any]) -> dict[str, float]:
 
 
 def _species(blob: str) -> list[str]:
+    """Material keys named in a record. Longer names win ('cast iron' before 'iron')."""
+    rows = _material_rows()
     found: list[str] = []
-    for word, key in _DENSITY_WORD:
-        if re.search(r"\b" + word + r"\b", blob) and key not in found:
-            found.append(key)
+    text = blob.lower()
+    names = sorted(set(list(rows) + list(_WORD_ALIAS)), key=len, reverse=True)
+    for word in names:
+        if re.search(r"\b" + re.escape(word) + r"\b", text):
+            key = _WORD_ALIAS.get(word, word)
+            if key in rows and key not in found:
+                found.append(key)
     return found
 
 
-def _density_of(keys: list[str]) -> float | None:
-    vals = []
-    for key in keys:
-        pair = _DENSITY.get(key)
-        if pair and _agree_num(pair[0], pair[1], REL):
-            vals.append((pair[0] + pair[1]) / 2.0)
-    if not vals:
+def _density_of(key: str) -> float | None:
+    row = _material_rows().get(key) or {}
+    pair = row.get("rho") or []
+    if len(pair) != 2 or not _agree_num(float(pair[0]), float(pair[1]), REL):
         return None
-    return sum(vals) / len(vals)
+    return (float(pair[0]) + float(pair[1])) / 2.0
 
 
-def _shell_mass(measures: dict[str, float], density: float) -> float | None:
-    """Hollow carcass: surface area times agreed board thickness times agreed wood density."""
+def _board_m() -> float:
+    pair = (_material_table().get("board_m") or [0.018, 0.01905])
+    return (float(pair[0]) + float(pair[1])) / 2.0
+
+
+def _class_of(key: str) -> str:
+    return str((_material_rows().get(key) or {}).get("class") or "")
+
+
+def _shell_mass(measures: dict[str, float], density: float, board: float | None = None) -> float | None:
+    """Hollow carcass: surface area times agreed board thickness times density."""
     h, w, d = measures.get("height"), measures.get("width"), measures.get("depth")
-    if not h or not w or not d or h <= 0 or w <= 0 or d <= 0:
+    if not h or not w or not d or h <= 0 or w <= 0 or d <= 0 or density <= 0:
         return None
     area = 2.0 * (h * w + h * d + w * d)
-    return area * _SHELL_M * density
+    return area * (board if board is not None else _board_m()) * density
+
+
+def _mass_from_materials(measures: dict[str, float], keys: list[str]) -> float | None:
+    """Wood shell, plus a metal frame when the record names a metal, else a bulk volume.
+    Fabric and any pair whose handbooks disagree are left out."""
+    woods = [k for k in keys if _class_of(k) == "wood" and _density_of(k)]
+    metals = [k for k in keys if _class_of(k) == "metal" and _density_of(k)]
+    bulks = [k for k in keys if _class_of(k) in ("bulk", "soft") and _density_of(k)]
+    h, w, d = measures.get("height"), measures.get("width"), measures.get("depth")
+    board = _board_m()
+    wood_rho = (sum(_density_of(k) or 0 for k in woods) / len(woods)) if woods else None
+    metal_rho = (sum(_density_of(k) or 0 for k in metals) / len(metals)) if metals else None
+    if wood_rho and h and w and d:
+        shell = _shell_mass(measures, wood_rho, board) or 0.0
+        if metal_rho:
+            # Four corner posts of square board section, plus one face plate of board thickness.
+            posts = 4.0 * float(h) * board * board * metal_rho
+            plate = float(h) * float(w) * board * metal_rho
+            return shell + posts + plate
+        return shell
+    if metal_rho and not wood_rho:
+        return _shell_mass(measures, metal_rho, board)
+    if bulks and h and w and d and not woods and not metals:
+        rho = sum(_density_of(k) or 0 for k in bulks) / len(bulks)
+        return float(h) * float(w) * float(d) * rho
+    return None
 
 
 def _spread(xs: list[float]) -> float | None:
@@ -501,7 +549,7 @@ def resolve_objects(phrase: str, sides: list[dict[str, Any]], head: str | None =
                 grouped.setdefault((sid, url), []).append(m)
             per = [(sid, url, ms) for (sid, url), ms in grouped.items()]
     medians: list[tuple[str, str, dict[str, float]]] = []
-    densities: list[float] = []
+    species_all: list[str] = []
     depth_one: list[tuple[str, str, float]] = []
     for sid, url, matched in per:
         med: dict[str, float] = {}
@@ -510,14 +558,10 @@ def resolve_objects(phrase: str, sides: list[dict[str, Any]], head: str | None =
             got = _median(xs)
             if got is not None:
                 med[prop] = got
-        species: list[str] = []
         for m in matched:
             for s in m.get("species") or []:
-                if s not in species:
-                    species.append(s)
-        dens = _density_of(species)
-        if dens:
-            densities.append(dens)
+                if s not in species_all:
+                    species_all.append(s)
         if med:
             medians.append((sid, url, med))
             if "depth" in med:
@@ -529,8 +573,7 @@ def resolve_objects(phrase: str, sides: list[dict[str, Any]], head: str | None =
         geom = {k: by[k]["value"] for k in ("height", "width", "depth") if k in by}
         if "depth" not in geom and depth_one:
             geom["depth"] = _median([v for _, _, v in depth_one])
-        dens = (sum(densities) / len(densities)) if len(densities) >= 2 and all(_agree_num(densities[0], d, REL) for d in densities[1:]) else None
-        mass = _shell_mass(geom, dens) if dens else None
+        mass = _mass_from_materials(geom, species_all)
         if mass and mass > 0:
             pubs = list(rows[0]["publishers"])
             pubs.append(_pub("toolbox", PUBLISHERS["toolbox"]["license_url"]))
@@ -611,52 +654,64 @@ def fetch_objects(head: str, http: Http = _http) -> dict[str, Any]:
 
 # ---------------------------------------------------------------- celestial body: IMCCE ssoCard and NASA/JPL SBDB (asteroids / dwarf planets)
 
-def fetch_body(name: str, http: Http = _http) -> dict[str, Any]:
-    """Radius and mass when IMCCE and JPL both publish them and agree. Moons absent from both catalogs hold."""
-    card_url = "https://ssp.imcce.fr/webservices/ssodnet/api/ssocard/" + urllib.parse.quote(name)
-    jpl_url = "https://ssd-api.jpl.nasa.gov/sbdb.api?phys-par=1&sstr=" + urllib.parse.quote(name)
-    imcce = None
+def parse_ssocard(raw: str, url: str) -> dict[str, Any] | None:
+    """Radius and mass from an IMCCE ssoCard, when that card publishes both."""
     try:
-        card = json.loads(http(card_url, 8.0))
-        phys = ((card.get("parameters") or {}).get("physical") or {})
-        diam = (phys.get("diameter") or {}).get("value")
-        mass = (phys.get("mass") or {}).get("value")
-        if diam and mass:
-            imcce = {"radius_m": float(diam) * 500.0, "mass_kg": float(mass), "url": card_url}  # diameter km → radius m
+        card = json.loads(raw)
     except Exception:
-        imcce = None
-    jpl = None
+        return None
+    phys = ((card.get("parameters") or {}).get("physical") or {})
+    diam = (phys.get("diameter") or {}).get("value")
+    mass = (phys.get("mass") or {}).get("value")
+    if not diam or not mass:
+        return None
+    return {"radius_m": float(diam) * 500.0, "mass_kg": float(mass), "url": url,
+            "type": str(card.get("type") or ""), "name": str(card.get("name") or "")}
+
+
+def parse_quaero_sso(raw: str) -> dict[str, Any] | None:
+    """Identity only. Quaero names a satellite; it does not publish mass or radius."""
     try:
-        raw = json.loads(http(jpl_url, 8.0))
-        pars = {str(p.get("name") or p.get("desc") or ""): p for p in (raw.get("phys_par") or []) if isinstance(p, dict)}
-        # SBDB names vary; accept diameter and mass titles when present.
-        diam_km = gm_km = None
-        for p in raw.get("phys_par") or []:
-            label = str(p.get("name") or "").lower()
-            m = re.search(r"[-+]?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?", str(p.get("value") or ""))
-            if not m:
-                continue
-            val = float(m.group(0))
-            if label == "diameter":
-                diam_km = val
-            elif label == "gm":
-                gm_km = val
-        if diam_km and gm_km:
-            # GM is published in km^3/s^2. Mass = GM / G, with G the CODATA constant (not a guessed density).
-            gm_si = gm_km * 1e9
-            mass = gm_si / 6.67430e-11
-            jpl = {"radius_m": diam_km * 500.0, "mass_kg": mass, "gm": gm_si, "url": jpl_url}
+        data = json.loads(raw)
     except Exception:
-        jpl = None
-    if not imcce or not jpl:
+        return None
+    rows = data.get("data") if isinstance(data, dict) else None
+    if isinstance(data, dict) and data.get("type"):
+        rows = [data]
+    if not rows:
+        return None
+    row = rows[0]
+    return {"id": row.get("id"), "name": row.get("name"), "type": row.get("type"),
+            "has_mass": False, "has_radius": False}
+
+
+def agree_body(name: str, sides: list[dict[str, Any]]) -> dict[str, Any]:
+    """sides: publisher rows with radius_m and mass_kg. Two different non-blocked hosts, or hold."""
+    usable = []
+    for side in sides:
+        if not isinstance(side, dict) or side.get("radius_m") is None or side.get("mass_kg") is None:
+            continue
+        url = str(side.get("url") or "")
+        if _blocked(url):
+            continue
+        usable.append(side)
+    hosts = []
+    for side in usable:
+        h = _host(str(side.get("url") or "")) or str(side.get("host") or "")
+        if h and h not in hosts:
+            hosts.append(h)
+    if len(hosts) < 2:
         return {"ok": [], "held": [{"head": name.lower(), "property": "radius", "reason": "two_publishers_required",
-                                    "imcce": bool(imcce), "jpl": bool(jpl)}], "calls_llm": False, "supabase_write": False}
-    if not _agree_num(imcce["radius_m"], jpl["radius_m"], REL) or not _agree_num(imcce["mass_kg"], jpl["mass_kg"], REL):
+                                    "hosts": hosts, "cors_note": "a catalog counts only when the phone can read it"}],
+                "calls_llm": False, "supabase_write": False}
+    radii = [float(s["radius_m"]) for s in usable]
+    masses = [float(s["mass_kg"]) for s in usable]
+    if not all(_agree_num(radii[0], r, REL) for r in radii[1:]) or not all(_agree_num(masses[0], m, REL) for m in masses[1:]):
         return {"ok": [], "held": [{"head": name.lower(), "property": "radius", "reason": "publishers_disagree"}],
                 "calls_llm": False, "supabase_write": False}
-    pubs = [_pub("imcce", imcce["url"]), _pub("jpl", jpl["url"])]
-    radius = (imcce["radius_m"] + jpl["radius_m"]) / 2.0
-    mass = (imcce["mass_kg"] + jpl["mass_kg"]) / 2.0
+    pubs = [_pub(str(s.get("id") or "imcce"), str(s["url"])) for s in usable[:2]]
+    radius = sum(radii) / len(radii)
+    mass = sum(masses) / len(masses)
     gm = 6.67430e-11 * mass
     head = name.lower()
     return gilligan([
@@ -664,6 +719,135 @@ def fetch_body(name: str, http: Http = _http) -> dict[str, Any]:
         _fact(head, "mass", mass, "kg", pubs),
         _fact(head, "gm", gm, "m3/s2", pubs),
     ])
+
+
+def fetch_body(name: str, http: Http = _http) -> dict[str, Any]:
+    """Radius and GM only from two CORS-readable catalogs that both publish them.
+
+    IMCCE ssoCard sends Access-Control-Allow-Origin: * and publishes diameter and mass for
+    many small bodies. A planetary-satellite name often 404s there, and a shared name can
+    resolve to an asteroid instead of the moon. SsODNet Quaero (also CORS *) can identify
+    a satellite and does not publish mass or radius. NASA/JPL SBDB JSON sends no
+    Access-Control-Allow-Origin, so the phone cannot use it. One catalog is not agreement.
+    """
+    card_url = "https://ssp.imcce.fr/webservices/ssodnet/api/ssocard/" + urllib.parse.quote(name)
+    quaero_url = "https://api.ssodnet.imcce.fr/quaero/1/sso?q=" + urllib.parse.quote(name) + "&type=Satellite&limit=1"
+    imcce = None
+    try:
+        imcce = parse_ssocard(http(card_url), card_url)
+    except Exception:
+        imcce = None
+    quaero = None
+    try:
+        quaero = parse_quaero_sso(http(quaero_url))
+    except Exception:
+        quaero = None
+    if imcce and quaero and str(quaero.get("type") or "").lower() == "satellite" and str(imcce.get("type") or "").lower() != "satellite":
+        # The card is a different body that shares the name (an asteroid, not the moon).
+        imcce = None
+    sides = []
+    if imcce:
+        sides.append({"id": "imcce", "url": imcce["url"], "radius_m": imcce["radius_m"], "mass_kg": imcce["mass_kg"]})
+    # Quaero identifies; it does not add a radius. JPL is not readable on the phone.
+    agreed = agree_body(name, sides)
+    if not agreed.get("ok"):
+        agreed["held"] = agreed.get("held") or []
+        if agreed["held"]:
+            agreed["held"][0]["imcce_numbers"] = bool(imcce)
+            agreed["held"][0]["quaero_type"] = (quaero or {}).get("type")
+            agreed["held"][0]["jpl_cors"] = False
+    return agreed
+
+
+def parse_nhtsa_specs(raw: str) -> dict[str, float]:
+    """Canadian vehicle specifications as NHTSA vPIC publishes them (cm and kg)."""
+    try:
+        data = json.loads(raw)
+    except Exception:
+        return {}
+    rows = data.get("Results") or data.get("results") or []
+    buckets: dict[str, list[float]] = {"height": [], "width": [], "depth": [], "mass": []}
+    for rec in rows:
+        specs = rec.get("Specs") if isinstance(rec, dict) else None
+        if not isinstance(specs, list):
+            continue
+        got = {}
+        for item in specs:
+            if not isinstance(item, dict):
+                continue
+            name = str(item.get("Name") or "")
+            try:
+                val = float(item.get("Value"))
+            except (TypeError, ValueError):
+                continue
+            got[name] = val
+        # OL overall length, OW width, OH height, in centimetres; CW curb weight in kilograms.
+        if "OH" in got:
+            buckets["height"].append(got["OH"] / 100.0)
+        if "OW" in got:
+            buckets["width"].append(got["OW"] / 100.0)
+        if "OL" in got:
+            buckets["depth"].append(got["OL"] / 100.0)
+        if "CW" in got and got["CW"] > 0:
+            buckets["mass"].append(got["CW"])
+    return {k: v for k, v in ((key, _median(xs)) for key, xs in buckets.items()) if v}
+
+
+def parse_epa_vehicle(raw: str) -> dict[str, Any]:
+    """FuelEconomy.gov vehicle record. It publishes a size class. Dimensions are kept only if present."""
+    try:
+        data = json.loads(raw)
+    except Exception:
+        return {}
+    if not isinstance(data, dict):
+        return {}
+    out: dict[str, Any] = {}
+    if data.get("VClass"):
+        out["vclass"] = str(data["VClass"])
+    for src, dest, scale in (("height", "height", 1.0), ("width", "width", 1.0), ("length", "depth", 1.0), ("curbWeight", "mass", 1.0)):
+        if data.get(src) not in (None, ""):
+            try:
+                out[dest] = float(data[src]) * scale
+            except (TypeError, ValueError):
+                pass
+    return out
+
+
+def agree_vehicle(head: str, nhtsa: dict[str, float], epa: dict[str, Any], nhtsa_url: str, epa_url: str) -> dict[str, Any]:
+    """A number is admitted only when both government hosts publish it and they agree.
+    FuelEconomy.gov currently publishes the size class and not the curb weight, so a class
+    word with no shared number holds."""
+    pubs = [_pub("nhtsa", nhtsa_url), _pub("epa", epa_url)]
+    rows = []
+    for prop in ("height", "width", "depth", "mass"):
+        if prop not in nhtsa or prop not in epa:
+            continue
+        if not _agree_num(float(nhtsa[prop]), float(epa[prop]), ARTIFACT_REL):
+            continue
+        mean = (float(nhtsa[prop]) + float(epa[prop])) / 2.0
+        rows.append(_fact(head, prop, round(mean, 4), "kg" if prop == "mass" else "m", pubs))
+    if rows and any(r["property"] == "height" for r in rows) and any(r["property"] == "width" for r in rows):
+        rows.append(_fact(head, "shape", "box", None, pubs))
+    if not rows or not any(r["property"] == "mass" for r in rows):
+        return {"ok": [], "ask": False, "held": [{"head": head.lower(), "property": "mass", "reason": "two_publishers_required",
+                                                  "nhtsa": sorted(nhtsa), "epa": sorted(k for k in epa if k != "vclass"),
+                                                  "vclass": epa.get("vclass")}],
+                "calls_llm": False, "supabase_write": False}
+    for row in rows:
+        row["average"] = True
+        row["phrase"] = head
+    packed = gilligan(rows)
+    packed["ask"] = False
+    return packed
+
+
+def vehicle_concept(head: str) -> bool:
+    """True when the lexicon already maps this head to the vehicle concept. No noun list is added here."""
+    try:
+        table = json.loads((Path(__file__).with_name("concept_lexicon.json")).read_text(encoding="utf-8"))
+    except Exception:
+        return False
+    return str(table.get(str(head or "").lower()) or "") == "N.CAR"
 
 
 def facts_for(kind: str, name: str, http: Http = _http) -> dict[str, Any]:

@@ -20,6 +20,9 @@ ROOT = Path(__file__).resolve().parents[2]  # source/
 _PUSH = {"push", "shove", "nudge", "tap", "poke", "flick", "hit", "bump"}
 _DROP = {"drop", "release"}
 _THROW = {"throw", "launch", "toss", "fire"}
+_IMMERSE = {"put", "place", "immerse", "submerge", "drop"}
+_HEAT = {"heat", "warm", "cool", "chill"}
+_SLOPE = {"ramp", "slope", "incline", "hill", "plane"}
 _REACT = {"burn", "combust", "react", "ignite", "mix"}
 _PROP = {"weight", "mass", "formula", "structure"}
 _SURF_PREP = {"on", "across", "along", "onto"}
@@ -197,8 +200,27 @@ def _surface(part: dict[str, Any]) -> str | None:
     for a in _adjs(part):
         if a.get("prep") in _SURF_PREP:
             h = _head(a.get("np"))
-            if h and h not in _POINT and h not in ("top", "it"):
+            if h and h not in _POINT and h not in ("top", "it") and h not in _SLOPE:
                 return h
+    return None
+
+
+def _fluid(part: dict[str, Any]) -> str | None:
+    for a in _adjs(part):
+        if a.get("prep") == "in":
+            h = _head(a.get("np"))
+            if h and h not in _POINT:
+                return h
+    return None
+
+
+def _slope_deg(part: dict[str, Any]) -> float | None:
+    for row in part.get("stated") or []:
+        if str(row.get("dim") or "").lower() == "slope":
+            try:
+                return float(row.get("num"))
+            except (TypeError, ValueError):
+                continue
     return None
 
 
@@ -424,6 +446,53 @@ def read(question: str, frame: dict[str, Any] | None = None, facts: list[dict[st
         return {"question": q, "frame": fr, "kind": "reaction", "substances": subs, "burn": k in ("burn", "combust", "ignite"),
                 "chem": {s: _facts_for(s, facts) for s in subs}}
 
+    fluid = _fluid(part)
+    if k in _IMMERSE and fluid and k not in _THROW:
+        # "put/drop <patient> in <fluid>" is buoyancy. A drop with no fluid stays a fall.
+        if not ph or ph in ("it", "them", "that", "this"):
+            return {"hold": True, "reason": "unresolved_pronoun", "missing": "karma", "question": q, "frame": fr}
+        stated = stated_props(part)
+        props = dict(prop_facts)
+        props.update(stated)
+        return {"question": q, "frame": fr, "kind": "buoyancy", "verb": k, "patient": ph,
+                "phrase": _phrase_of(pat), "patient_text": str((pat or {}).get("text") or ph),
+                "fluid": fluid, "part": part, "props": props, "stated": bool(stated)}
+
+    if k in _HEAT or k == "state":
+        substance = ph
+        mass = None
+        if isinstance(pat, dict) and isinstance(pat.get("of"), dict) and _head(pat.get("of")):
+            substance = _head(pat.get("of"))
+        stated = stated_props(part)
+        if "mass" in stated:
+            mass = stated["mass"]
+        power = time_s = target_c = None
+        for a in _adjs(part):
+            np = a.get("np") if isinstance(a.get("np"), dict) else {}
+            unit = _head(np)
+            num = _num(np)
+            if num is None:
+                continue
+            if unit in ("watt", "w"):
+                power = num
+            elif unit in ("second", "s"):
+                time_s = num
+            elif unit in ("minute",):
+                time_s = num * 60.0
+            elif unit in ("degree",) and a.get("prep") in ("to", "at"):
+                target_c = num
+        for row in part.get("stated") or []:
+            if str(row.get("unit") or "") == "degree" and str(row.get("dim") or "") in ("temperature", "temp"):
+                try:
+                    target_c = float(row.get("num"))
+                except (TypeError, ValueError):
+                    pass
+        if not substance:
+            return {"hold": True, "reason": "unknown_substance", "missing": "karma", "question": q, "frame": fr}
+        return {"question": q, "frame": fr, "kind": "thermal", "verb": k or "heat", "patient": substance,
+                "phrase": substance, "mass_kg": mass, "power_w": power, "time_s": time_s, "target_c": target_c,
+                "part": part, "props": dict(prop_facts), "chem": _facts_for(substance, facts)}
+
     if k in _PUSH | _DROP | _THROW or k == "kick":
         kind = "throw" if k in _THROW or (k == "kick" and any(m["unit"] in ("degree",) for m in measures(part))) else (
             "drop" if k in _DROP else "push")
@@ -436,6 +505,67 @@ def read(question: str, frame: dict[str, Any] | None = None, facts: list[dict[st
         return {"question": q, "frame": fr, "kind": kind, "verb": k, "patient": ph,
                 "phrase": _phrase_of(pat), "patient_text": str((pat or {}).get("text") or ph),
                 "adjectives": list((pat or {}).get("adjs") or []), "point": _point(part), "surface": _surface(part),
-                "part": part, "props": props, "stated": bool(stated)}
+                "slope_deg": _slope_deg(part), "part": part, "props": props, "stated": bool(stated)}
 
     return {"hold": True, "reason": "not_a_simulation_question", "missing": "intervention", "question": q, "frame": fr}
+
+
+def continue_scene(prior: dict[str, Any] | None, follow_frame: dict[str, Any] | None) -> str | None:
+    """A short follow-up keeps the prior patient and action and replaces the slot it names.
+
+    "What if it is on ice?" and "What if you push it near the bottom?" are the same kāraka scene
+    with one adjunct changed. The rebuilt question is parsed again by the phone grammar.
+    """
+    if not isinstance(prior, dict) or not isinstance(follow_frame, dict):
+        return None
+    scene = prior.get("scene") if isinstance(prior.get("scene"), dict) else prior
+    body = scene.get("body") if isinstance(scene.get("body"), dict) else {}
+    noun = str(body.get("phrase") or body.get("noun") or "").strip()
+    if not noun:
+        return None
+    if not re.match(r"^(a|an|the)\b", noun, re.I):
+        noun = ("an " if noun[:1].lower() in "aeiou" else "a ") + noun
+    # Keep the body that was already compiled (stated size, or a size two publishers agreed).
+    # A follow-up that only names a new point or surface must not fall back to a square default.
+    defaulted = set(scene.get("defaulted") or [])
+    art_m = re.match(r"^(a|an|the)\s+(.*)$", noun, re.I)
+    art, name = (art_m.group(1), art_m.group(2)) if art_m else ("a", noun)
+    mass_bit = ""
+    if "mass" not in defaulted and isinstance(body.get("mass"), (int, float)) and float(body["mass"]) > 0:
+        mass_bit = f"{float(body['mass']):g} kilogram "
+    dims = []
+    if "dimensions" not in defaulted:
+        for key, word in (("height", "tall"), ("width", "wide"), ("depth", "deep")):
+            val = body.get(key)
+            if isinstance(val, (int, float)) and float(val) > 0:
+                dims.append(f"{float(val):g} meters {word}")
+    noun = f"{art} {mass_bit}{name}" + ((" " + " and ".join(dims)) if dims else "")
+    part = cond_of(follow_frame) or follow_frame
+    if not isinstance(part, dict):
+        return None
+    verb = str(scene.get("verb") or scene.get("action") or "push")
+    point = _point(part) or ((scene.get("point") or {}).get("name") if isinstance(scene.get("point"), dict) else None)
+    surface = _surface(part)
+    if surface is None and str(part.get("kriya") or "") == "be":
+        pred = part.get("pred") if isinstance(part.get("pred"), dict) else {}
+        if pred.get("type") == "pp" and str(pred.get("prep") or "") in _SURF_PREP:
+            surface = _head(pred.get("np")) or str(pred.get("text") or "").split()[-1]
+        if surface in (None, "", "it", "something"):
+            for a in _adjs(part):
+                if a.get("prep") == "on":
+                    surface = _head(a.get("np"))
+    if surface is None:
+        surface = (scene.get("surface") or {}).get("name") if isinstance(scene.get("surface"), dict) else None
+    slope = _slope_deg(part)
+    if slope is None:
+        slope = scene.get("slope_deg")
+    bits = [f"you {verb} {noun}"]
+    if point and point not in ("center", "centre"):
+        bits.append("near the " + point)
+    if slope is not None and not (surface and surface not in _SLOPE):
+        bits.append(f"on a {float(slope):g} degree ramp")
+    elif surface and surface not in ("table",) and surface not in _SLOPE:
+        bits.append("on " + surface)
+        if slope is not None:
+            bits.append(f"on a {float(slope):g} degree ramp")
+    return "What happens if " + " ".join(bits) + "?"

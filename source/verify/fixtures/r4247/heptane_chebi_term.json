@@ -1,0 +1,181 @@
+{
+  "_embedded" : {
+    "terms" : [ {
+      "iri" : "http://purl.obolibrary.org/obo/CHEBI_43098",
+      "lang" : "en",
+      "description" : [ "A straight-chain alkane with seven carbon atoms. It has been found in Jeffrey pine (<em>Pinus jeffreyi</em>)." ],
+      "synonyms" : [ "CH3-[CH2]5-CH3", "Heptan", "heptane", "heptane", "n-heptane" ],
+      "annotation" : {
+        "charge" : [ 0.0 ],
+        "database_cross_reference" : [ "beilstein:1730763", "cas:142-82-5", "gmelin:49760", "hmdb:HMDB0031447", "metacyc.compound:CPD-9286", "pdb-ccd:HP6", "pubmed:12226360", "pubmed:23544797", "wikipedia.en:Heptane" ],
+        "generalized_empirical_formula" : [ "C7H16" ],
+        "has_alternative_id" : [ "CHEBI:32891", "CHEBI:43095" ],
+        "has_obo_namespace" : [ "chebi_ontology" ],
+        "id" : [ "CHEBI:43098" ],
+        "inchi_key_string" : [ "IMNFDUFMRHMDMM-UHFFFAOYSA-N" ],
+        "inchi_string" : [ "InChI=1S/C7H16/c1-3-5-7-6-4-2/h3-7H2,1-2H3" ],
+        "mass" : [ "100.205" ],
+        "monoisotopic_mass" : [ "100.1252" ],
+        "smiles_string" : [ "CCCCCCC" ]
+      },
+      "label" : "heptane",
+      "ontology_name" : "chebi",
+      "ontology_prefix" : "CHEBI",
+      "ontology_iri" : "http://purl.obolibrary.org/obo/chebi.owl",
+      "is_obsolete" : false,
+      "term_replaced_by" : null,
+      "is_defining_ontology" : true,
+      "has_children" : false,
+      "is_root" : false,
+      "short_form" : "CHEBI_43098",
+      "obo_id" : "CHEBI:43098",
+      "in_subset" : [ "3_STAR" ],
+      "obo_definition_citation" : null,
+      "obo_xref" : [ {
+        "database" : "beilstein",
+        "id" : "1730763",
+        "description" : "beilstein",
+        "url" : null
+      }, {
+        "database" : "cas",
+        "id" : "142-82-5",
+        "description" : "cas",
+        "url" : "https://commonchemistry.cas.org/detail?cas_rn=142-82-5"
+      }, {
+        "database" : "gmelin",
+        "id" : "49760",
+        "description" : "gmelin",
+        "url" : null
+      }, {
+        "database" : "hmdb",
+        "id" : "HMDB0031447",
+        "description" : "hmdb",
+        "url" : "http://www.hmdb.ca/metabolites/HMDB0031447"
+      }, {
+        "database" : "metacyc.compound",
+        "id" : "CPD-9286",
+        "description" : "metacyc.compound",
+        "url" : null
+      }, {
+        "database" : "pdb-ccd",
+        "id" : "HP6",
+        "description" : "pdb-ccd",
+        "url" : null
+      }, {
+        "database" : "pubmed",
+        "id" : "12226360",
+        "description" : "pubmed",
+        "url" : "https://pubmed.ncbi.nlm.nih.gov/12226360/"
+      }, {
+        "database" : "pubmed",
+        "id" : "23544797",
+        "description" : "pubmed",
+        "url" : "https://pubmed.ncbi.nlm.nih.gov/23544797/"
+      }, {
+        "database" : "wikipedia.en",
+        "id" : "Heptane",
+        "description" : "wikipedia.en",
+        "url" : null
+      } ],
+      "obo_synonym" : [ {
+        "name" : "heptane",
+        "scope" : "hasExactSynonym",
+        "type" : "IUPAC NAME",
+        "xrefs" : [ {
+          "database" : null,
+          "id" : "IUPAC",
+          "description" : null,
+          "url" : null
+        } ]
+      }, {
+        "name" : "CH3-[CH2]5-CH3",
+        "scope" : "hasRelatedSynonym",
+        "type" : null,
+        "xrefs" : [ {
+          "database" : null,
+          "id" : "iupac",
+          "description" : null,
+          "url" : null
+        } ]
+      }, {
+        "name" : "Heptan",
+        "scope" : "hasRelatedSynonym",
+        "type" : null,
+        "xrefs" : [ {
+          "database" : null,
+          "id" : "nist",
+          "description" : null,
+          "url" : null
+        } ]
+      }, {
+        "name" : "heptane",
+        "scope" : "hasRelatedSynonym",
+        "type" : "IUPAC NAME",
+        "xrefs" : [ {
+          "database" : null,
+          "id" : "iupac",
+          "description" : null,
+          "url" : null
+        } ]
+      }, {
+        "name" : "heptane",
+        "scope" : "hasRelatedSynonym",
+        "type" : null,
+        "xrefs" : [ {
+          "database" : null,
+          "id" : "uniprot_ft",
+          "description" : null,
+          "url" : null
+        } ]
+      }, {
+        "name" : "n-heptane",
+        "scope" : "hasRelatedSynonym",
+        "type" : null,
+        "xrefs" : [ {
+          "database" : null,
+          "id" : "nist",
+          "description" : null,
+          "url" : null
+        } ]
+      } ],
+      "is_preferred_root" : false,
+      "_links" : {
+        "self" : {
+          "href" : "http://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FCHEBI_43098?lang=en"
+        },
+        "parents" : {
+          "href" : "http://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FCHEBI_43098/parents"
+        },
+        "ancestors" : {
+          "href" : "http://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FCHEBI_43098/ancestors"
+        },
+        "hierarchicalParents" : {
+          "href" : "http://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FCHEBI_43098/hierarchicalParents"
+        },
+        "hierarchicalAncestors" : {
+          "href" : "http://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FCHEBI_43098/hierarchicalAncestors"
+        },
+        "jstree" : {
+          "href" : "http://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FCHEBI_43098/jstree"
+        },
+        "graph" : {
+          "href" : "http://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FCHEBI_43098/graph"
+        },
+        "has_role" : {
+          "href" : "http://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FCHEBI_43098/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FRO_0000087"
+        }
+      }
+    } ]
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms?obo_id=CHEBI%3A43098"
+    }
+  },
+  "page" : {
+    "size" : 1,
+    "totalElements" : 1,
+    "totalPages" : 1,
+    "number" : 0
+  }
+}

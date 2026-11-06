@@ -105,10 +105,10 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 });
 
 T('version registry names 4.9.240', () => {
-  expect(read('VERSION').trim() === '4.9.246', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.247', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.246' && reg.features.some(x => x.id === 'R4240-CANONICAL-FRAMES') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').includes('## v4.9.240') >= 0 && (read('CONFLICTS.md').slice(0, read('CONFLICTS.md').includes('## v4.9.240')).match(/^## v/gm) || []).length <= 3, 'CONFLICTS entry near the top (4.9.241–4.9.242 sit above)');
+  expect(reg.version === '4.9.247' && reg.features.some(x => x.id === 'R4240-CANONICAL-FRAMES') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').includes('## v4.9.240') >= 0 && (read('CONFLICTS.md').slice(0, read('CONFLICTS.md').includes('## v4.9.240')).match(/^## v/gm) || []).length <= 4, 'CONFLICTS entry near the top (4.9.241–4.9.247 sit above)');
 });
 
 (async () => {

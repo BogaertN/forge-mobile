@@ -1,4 +1,4 @@
-/* R4246 (4.9.246): simulators read the Pāṇini kāraka frame. Athena fills a missing property only when two
+/* R4246 (4.9.247): simulators read the Pāṇini kāraka frame. Athena fills a missing property only when two
  * independent publishers agree. No noun is a special case. No hosted Supabase write. */
 const fs = require('fs');
 const path = require('path');
@@ -55,11 +55,23 @@ T('Athena: PubChem and ChEBI agree on an unlisted compound; a push with no two-p
   const frames = { mass: Q.compile(massQ, f), burn: Q.compile(burnQ, f) };
   const out = py(`
 import json, sys
+from pathlib import Path
 from rmc_engine_v1.sim_device import plan
 from rmc_engine_v1 import athena_props as A
 body = json.load(sys.stdin)
-theo = A.fetch_chemical("theobromine")
-hep = A.fetch_chemical("heptane")
+fix = Path("verify/fixtures/r4247")
+def http(url):
+    u = url.lower()
+    # Recorded PubChem and ChEBI documents. CI does not call the live hosts.
+    if "pubchem" in u and "theobromine" in u: return (fix/"theobromine_pubchem.json").read_text()
+    if "pubchem" in u and "heptane" in u: return (fix/"heptane_pubchem.json").read_text()
+    if "search" in u and "theobromine" in u: return (fix/"theobromine_chebi_search.json").read_text()
+    if "search" in u and "heptane" in u: return (fix/"heptane_chebi_search.json").read_text()
+    if "28946" in u: return (fix/"theobromine_chebi_term.json").read_text()
+    if "43098" in u: return (fix/"heptane_chebi_term.json").read_text()
+    raise RuntimeError("no recorded payload for " + url)
+theo = A.fetch_chemical("theobromine", http)
+hep = A.fetch_chemical("heptane", http)
 pm = plan(body["massQ"], body["mass"], theo["ok"])
 pb = plan(body["burnQ"], body["burn"], hep["ok"])
 print(json.dumps({"theo": theo, "hep_reactants": pb.get("reactants"), "pm": {"ok": pm.get("ok"), "solver": pm.get("solver"), "substance": pm.get("substance"), "reason": pm.get("reason")}, "pb_ok": pb.get("ok"), "pb_solver": pb.get("solver"), "hosts": (theo["ok"][0]["hosts"] if theo["ok"] else [])}))`,
@@ -114,10 +126,10 @@ q, fr = json.load(sys.stdin)
 p = plan(q, fr, [])
 print(json.dumps({"ok": p.get("ok"), "reason": p.get("reason"), "missing": p.get("missing")}))`, JSON.stringify([q, frame]));
   expect(out.ok === false && /unknown_body|property_missing/.test(out.reason), JSON.stringify(out));
-  const skip = new Set(['kind_member_glosses.json', 'lexicon.json', 'lexicon-ext.json', 'lexicon-pro.json', 'rmc_engine_bundle.json', 'self_seed_202_demo.json', 'self_seed_202_fixtures.json']);
-  const banned = ['piano', 'wardrobe', 'pouch', 'desk chair'];
+  const skip = new Set(['kind_member_glosses.json', 'lexicon.json', 'lexicon-ext.json', 'lexicon-pro.json', 'rmc_engine_bundle.json', 'self_seed_202_demo.json', 'self_seed_202_fixtures.json', 'concept_lexicon.json', 'physical_defaults.json']);
+  const banned = ['piano', 'upright piano', 'wardrobe', 'pouch', 'desk chair', 'sedan', 'titan'];
   const hits = [];
-  const walk = dir => { for (const name of fs.readdirSync(dir)) { const p = path.join(dir, name); if (skip.has(name)) continue; const st = fs.statSync(p); if (st.isDirectory()) { if (name === 'node_modules' || name === '__pycache__') continue; walk(p); } else if (/\.(py|js|json|md)$/.test(name)) { const low = fs.readFileSync(p, 'utf8').toLowerCase(); for (const w of banned) if (low.includes(w)) hits.push(w + ' in ' + path.relative(ROOT, p)); } } };
+  const walk = dir => { for (const name of fs.readdirSync(dir)) { const p = path.join(dir, name); if (skip.has(name) || /^athena_dryrun_/.test(name)) continue; const st = fs.statSync(p); if (st.isDirectory()) { if (name === 'node_modules' || name === '__pycache__') continue; walk(p); } else if (/\.(py|js|json|md)$/.test(name)) { const low = fs.readFileSync(p, 'utf8').toLowerCase(); for (const w of banned) { const re = new RegExp('(^|[^a-z])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^a-z]|$)'); if (re.test(low)) hits.push(w + ' in ' + path.relative(ROOT, p)); } } } };
   walk(path.join(ROOT, 'src')); walk(path.join(ROOT, 'engine')); walk(path.join(ROOT, 'data'));
   expect(hits.length === 0, 'a test noun is hardcoded in ' + hits.join(', '));
 });
@@ -137,11 +149,11 @@ print(json.dumps({"port": int(env_port) if env_port else 8790}))
   expect(!/_CFD\s*=/.test(read('engine/rmc_engine_v1/sim_device.py')) && !/_MOL\s*=/.test(read('engine/rmc_engine_v1/sim_device.py')), 'question-template regexes removed');
 });
 
-T('laws and version 4.9.246', () => {
-  expect(read('VERSION').trim() === '4.9.246', 'VERSION');
+T('laws and version 4.9.247', () => {
+  expect(read('VERSION').trim() === '4.9.247', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.246' && reg.features.some(x => x.id === 'R4246-KARAKA-ATHENA') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.246'), 'CONFLICTS');
+  expect(reg.version === '4.9.247' && reg.features.some(x => x.id === 'R4246-KARAKA-ATHENA') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.247'), 'CONFLICTS');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T

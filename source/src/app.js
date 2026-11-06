@@ -305,6 +305,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     /* 4.9.245: the simulators run on this phone first (KSimDevice: Pyodide SymPy/SciPy/Biopython/astropy and WASM
      * MuJoCo/RDKit/ngspice). Heavy CFD / Hartree-Fock asks go to the Home PC Simulator if one is set, else they hold. */
     const simReceipt = window.KSimDevice ? await KSimDevice.simulate(qtext, memory, simSpecific) : await simulateViaRouter(qtext);
+    if (simReceipt && simReceipt.asked) qtext = simReceipt.asked;
     if (simReceipt && simReceipt.status === 'ask' && simReceipt.ask && window.KSenses) {
       pendingAsk = simReceipt.ask;
       const asked = KSenses.askText(pendingAsk, false);

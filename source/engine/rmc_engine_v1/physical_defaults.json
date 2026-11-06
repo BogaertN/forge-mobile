@@ -35,5 +35,62 @@
  "points": {
   "top": 0.92, "upper": 0.8, "middle": 0.5, "center": 0.5, "centre": 0.5, "bottom": 0.08, "base": 0.08, "lower": 0.2
  },
- "push": {"margin": 1.25, "duration_s": 0.5, "note": "FORGE push convention: a steady horizontal force at the stated point, 1.25 x the smallest force that would start the body moving on the reference table either way (static friction mu_table m g, or tipping about the front edge m g w/2 / h), so the same push is applied on every surface, for 0.5 s; stated in every receipt. The solver decides which way it moves."}
+ "push": {"margin": 1.25, "duration_s": 0.5, "note": "FORGE push convention: a steady horizontal force at the stated point, 1.25 x the smallest force that would start the body moving on the reference table either way (static friction mu_table m g, or tipping about the front edge m g w/2 / h), so the same push is applied on every surface, for 0.5 s; stated in every receipt. The solver decides which way it moves."},
+ "materials": {
+  "note": "Bulk densities in kg/m3. A row is used only when its two handbook figures agree within 15 percent. A record that names a wood and a metal is a wood shell plus a metal frame (four corner posts of the board section, plus one face plate of the board thickness), not the wood alone. A bulk solid (stone, glass, ceramic) uses the bounding-box volume. Fabric's two figures do not agree, so fabric is not used.",
+  "board_m": [0.018, 0.01905],
+  "sources": {
+   "toolbox": "Engineering ToolBox density tables, https://www.engineeringtoolbox.com/density-solids-d_1265.html and https://www.engineeringtoolbox.com/wood-density-d_40.html",
+   "usda": "USDA Forest Products Laboratory Wood Handbook, wood densities at about 12 percent moisture",
+   "asm": "ASM Handbook, typical densities of commercial metals",
+   "crc": "CRC Handbook of Chemistry and Physics, densities of solids"
+  },
+  "rows": {
+   "mahogany": {"class": "wood", "rho": [650, 590], "sources": ["toolbox", "usda"]},
+   "oak": {"class": "wood", "rho": [740, 700], "sources": ["toolbox", "usda"]},
+   "maple": {"class": "wood", "rho": [685, 705], "sources": ["toolbox", "usda"]},
+   "cast iron": {"class": "metal", "rho": [7200, 7100], "sources": ["toolbox", "asm"]},
+   "steel": {"class": "metal", "rho": [7850, 7870], "sources": ["toolbox", "asm"]},
+   "iron": {"class": "metal", "rho": [7870, 7874], "sources": ["toolbox", "crc"]},
+   "aluminum": {"class": "metal", "rho": [2700, 2710], "sources": ["toolbox", "asm"]},
+   "brass": {"class": "metal", "rho": [8500, 8530], "sources": ["toolbox", "asm"]},
+   "bronze": {"class": "metal", "rho": [8800, 8700], "sources": ["toolbox", "crc"]},
+   "copper": {"class": "metal", "rho": [8960, 8940], "sources": ["toolbox", "crc"]},
+   "glass": {"class": "bulk", "rho": [2500, 2530], "sources": ["toolbox", "crc"]},
+   "marble": {"class": "bulk", "rho": [2560, 2700], "sources": ["toolbox", "crc"]},
+   "granite": {"class": "bulk", "rho": [2690, 2750], "sources": ["toolbox", "crc"]},
+   "stone": {"class": "bulk", "rho": [2600, 2700], "sources": ["toolbox", "crc"]},
+   "porcelain": {"class": "bulk", "rho": [2400, 2500], "sources": ["toolbox", "crc"]},
+   "ceramic": {"class": "bulk", "rho": [2400, 2600], "sources": ["toolbox", "crc"]},
+   "polyethylene": {"class": "bulk", "rho": [950, 970], "sources": ["toolbox", "crc"]},
+   "leather": {"class": "soft", "rho": [860, 900], "sources": ["toolbox", "crc"]},
+   "fabric": {"class": "soft", "rho": [300, 1540], "sources": ["toolbox", "crc"]}
+  }
+ },
+ "fluids": {
+  "note": "Fluid densities in kg/m3 near room temperature. Used only when the two figures agree within 15 percent.",
+  "sources": {
+   "toolbox": "Engineering ToolBox, densities of liquids, https://www.engineeringtoolbox.com/liquids-densities-d_743.html",
+   "nist": "NIST Chemistry WebBook, fluid densities at 1 atm near 20-25 C"
+  },
+  "rows": {
+   "water": {"rho": [997, 998], "sources": ["toolbox", "nist"]},
+   "seawater": {"rho": [1025, 1024], "sources": ["toolbox", "nist"]},
+   "oil": {"rho": [910, 920], "sources": ["toolbox", "nist"]},
+   "ethanol": {"rho": [789, 789], "sources": ["toolbox", "nist"]}
+  }
+ },
+ "thermal": {
+  "note": "Specific heat in J/kg/K and phase-change temperatures in C. A row is used only when each pair agrees within 15 percent (temperatures within 1 degree when the point is 0).",
+  "room_c": 20,
+  "sources": {
+   "toolbox": "Engineering ToolBox, specific heat and boiling/melting points",
+   "nist": "NIST Chemistry WebBook"
+  },
+  "rows": {
+   "water": {"c": [4184, 4186], "melt_c": [0, 0], "boil_c": [100, 100], "sources": ["toolbox", "nist"]},
+   "ethanol": {"c": [2440, 2460], "melt_c": [-114.1, -114.1], "boil_c": [78.37, 78.4], "sources": ["toolbox", "nist"]},
+   "seawater": {"c": [4000, 3930], "melt_c": [-2, -1.9], "boil_c": [100.5, 100.7], "sources": ["toolbox", "nist"]}
+  }
+ }
 }
