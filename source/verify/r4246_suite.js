@@ -1,4 +1,4 @@
-/* R4246 (4.9.247): simulators read the Pāṇini kāraka frame. Athena fills a missing property only when two
+/* R4246 (4.9.248): simulators read the Pāṇini kāraka frame. Athena fills a missing property only when two
  * independent publishers agree. No noun is a special case. No hosted Supabase write. */
 const fs = require('fs');
 const path = require('path');
@@ -149,11 +149,11 @@ print(json.dumps({"port": int(env_port) if env_port else 8790}))
   expect(!/_CFD\s*=/.test(read('engine/rmc_engine_v1/sim_device.py')) && !/_MOL\s*=/.test(read('engine/rmc_engine_v1/sim_device.py')), 'question-template regexes removed');
 });
 
-T('laws and version 4.9.247', () => {
-  expect(read('VERSION').trim() === '4.9.247', 'VERSION');
+T('laws and version 4.9.248', () => {
+  expect(read('VERSION').trim() === '4.9.248', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.247' && reg.features.some(x => x.id === 'R4246-KARAKA-ATHENA') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.247'), 'CONFLICTS');
+  expect(reg.version === '4.9.248' && reg.features.some(x => x.id === 'R4246-KARAKA-ATHENA') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.248'), 'CONFLICTS');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T

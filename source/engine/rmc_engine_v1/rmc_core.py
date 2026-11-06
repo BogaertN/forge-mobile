@@ -456,6 +456,15 @@ def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict
             forms = {_norm_sentence(raw)} | ({_norm_sentence(to_listener(raw))} if row.get("source") == "phone_kb" else set())
             if row.get("source") == "self_model":
                 forms.add(_norm_sentence(to_speaker(raw)))
+            # 4.9.248: a solver receipt's spoken clauses are that receipt. The stored row text is the
+            # premise clause; the effect, the law and a chained consequence are the same measurement.
+            sim = row.get("sim") if isinstance(row.get("sim"), dict) else None
+            if sim:
+                if sim.get("effect_text"):
+                    forms.add(_norm_sentence(sim.get("effect_text")))
+                for spoken in sim.get("spoken_atoms") or []:
+                    if isinstance(spoken, dict) and spoken.get("text"):
+                        forms.add(_norm_sentence(spoken.get("text")))
             # 4.9.238: a reply that is one clause of a concessive or causal row (clause_split, the parts the world
             # model observed) rests on that row; before this only the whole sentence or a substring with its period did.
             from rmc_engine_v1.clause_split import split_clauses

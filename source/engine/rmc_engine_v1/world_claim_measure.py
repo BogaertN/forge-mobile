@@ -310,6 +310,13 @@ def measure_spoken(
         # An unreplayed conclusion is not admitted by its hops.
         reading["C"] = 0.0
         reading["C_rule"] = "checker did not replay the conclusion"
+    how = str(survivor.get("how") or "")
+    gate = survivor.get("gate") if isinstance(survivor.get("gate"), dict) else {}
+    if how == "WM-SOLVER-RECEIPT" and reading["checker_ok"] and gate.get("passes"):
+        # A replayed solver receipt is the measured premise. Its C is the frame gate (the sha256 matched this
+        # intervention). The spoken clauses are the effect and the law, compiled from the solver's atoms.
+        reading["C"] = round(float(gate.get("C") or 1.0), 6)
+        reading["C_rule"] = "replayed solver receipt; C is the frame gate"
     if trace_spine is not None:
         route = _route(reading, trace_spine, structural_drift or {}, pf2_preview or {}, coherence_report or {})
         reading["route"] = route.get("route")

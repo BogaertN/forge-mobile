@@ -1,3 +1,18 @@
+## v4.9.248 — Solver atoms compile outward; the English is not read back (Nic)
+
+**Conflict:** 4.9.247 spoke a simulation by writing an English sentence and then splitting that sentence, with a regular expression, back into an atom. Sentences the pattern did not know were quoted. A quoted sentence does not round-trip through the Pāṇini grammar.
+
+**Where:**
+- `sim_device.seal` builds each spoken clause's kāraka atom from the scene, the measurements and the law, beside the sentence. The atom carries predicate, arguments, polarity, tense and modifiers, plus `state_before` and `state_after`. It is not part of the hashed receipt body, so a 4.9.245 receipt re-seals to the same sha256.
+- `cause_effect` passes those atoms through. A topple spills a remembered hold by reading the hold atom, not by parsing the spill sentence. `_effect_atom_and_frame` is not applied to a solver effect string.
+- `world_model_v1` no longer has `_compilable_atom` or `_sim_spoken_atoms`. The solver's atoms are the outward plan.
+- The phone grammar realizes the clause shapes those atoms state (intransitive, prepositional copula, vidheya, coordination, formula, duration) and the surface matches the measured sentence, so `outwardCompile` reports `mode: compiled`.
+- A replayed solver receipt keeps C from the frame gate. The spoken clauses are the effect and the law. They are not stored.
+
+**Resolution:** Effect, why and spill sentences compile from the solver's atoms. C_min 0.87, Echo 0.85, drift 0.35 / 0.80. R4117 still has no model. Spoken simulation answers are not written to memory.
+
+Proof: `verify/r4248_suite.js`.
+
 ## v4.9.247 — The world model maps the situation and says why (Nic)
 
 **Conflict:** 4.9.246 compiled the kāraka frame and filled missing properties, but a box still lost its depth along the push, a wood-and-metal record was weighed as wood alone, a simulation receipt was a flat sentence, and a valid PySCF sentence did not round-trip through the outward compile. A follow-up could not change the scene just simulated.

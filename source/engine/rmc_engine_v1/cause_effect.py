@@ -606,16 +606,27 @@ def _solver_step(world: dict[str, Any] | None, intervention: dict[str, Any]) -> 
             continue
         if not ik or (ik != key and ik != struct and sim.get("legacy_key") not in (key, struct)):
             continue
-        spoken = str(sim["effect_text"]).strip()
-        spoken = spoken if spoken.endswith(".") else spoken + "."
-        why = str(sim.get("causal_reason") or "").strip()
-        if why:
-            why = why if why.endswith(".") else why + "."
-            if why.lower() not in spoken.lower():
-                spoken = spoken.rstrip() + " " + why
-        atom, eframe = _effect_atom_and_frame(str(sim["effect_text"]).strip().rstrip("."), None)
+        atoms = [a for a in (sim.get("spoken_atoms") or []) if isinstance(a, dict) and a.get("atom") and a.get("text")]
+        if atoms:
+            spoken = " ".join(str(a.get("text") or "").strip() for a in atoms).strip()
+        else:
+            # No structured atoms on this receipt. Keep its effect sentence; do not split it back into an atom.
+            spoken = str(sim.get("effect_text") or "").strip()
+            spoken = spoken if not spoken or spoken.endswith(".") else spoken + "."
+            why = str(sim.get("causal_reason") or "").strip()
+            if why:
+                why = why if why.endswith(".") else why + "."
+                if why.lower() not in spoken.lower():
+                    spoken = (spoken + " " + why).strip()
+        head = next((a for a in atoms if a.get("role") == "effect"), atoms[0] if atoms else None)
+        atom = (head or {}).get("atom") or {"predicate": "holds", "args": [spoken], "polarity": "pos"}
+        args = [str(x) for x in (atom.get("args") or [])]
+        eframe = {"kriya": str(atom.get("predicate") or "happen"), "polarity": atom.get("polarity") or "pos",
+                  "kartr": {"text": args[0] if args else "it", "head": _norm(args[0] if args else "it").split()[-1] if args else "it"},
+                  "complete": True, "causal": True}
         step = {"n": 1, "rule_id": "WM-SOLVER-RECEIPT", "why": "solver receipt for this scene",
                 "cause": intervention.get("raw"), "effect": spoken, "spoken": spoken, "frame": fact.get("causal_frame"),
+                "atom": atom, "spoken_atoms": atoms,
                 "premises": [fact.get("id")], "solver": sim.get("solver"), "engine": sim.get("engine"),
                 "receipt_id": sim.get("receipt_id"), "sha256": sim.get("sha256"), "measurements": sim.get("measurements"),
                 "state_before": sim.get("state_before"), "state_after": sim.get("state_after")}
@@ -623,6 +634,7 @@ def _solver_step(world: dict[str, Any] | None, intervention: dict[str, Any]) -> 
             "status": "supported_only", "reason": "solver_receipt", "chain": [step],
             "prediction": {"text": spoken, "atom": atom, "fact_frame": eframe, "premises": [fact],
                            "how": "WM-SOLVER-RECEIPT", "kind": "causal_prediction", "schema": HOOK_SCHEMA,
+                           "spoken_atoms": atoms,
                            "receipt": {k: sim.get(k) for k in ("receipt_id", "sha256", "solver", "engine", "measurements", "outcome")},
                            "state_before": sim.get("state_before"), "state_after": sim.get("state_after"),
                            "may_store_as_fact": False},
@@ -652,17 +664,28 @@ def _spill_from_hold(world: dict[str, Any] | None, solved: dict[str, Any], sim: 
         content = args[1].strip()
         content_np = content if content.lower().startswith(("the ", "a ", "an ")) else "the " + content
         holder_np = args[0].strip()
-        if holder_np.lower().startswith(("a ", "an ")):
-            holder_np = "the " + holder_np.split(" ", 1)[1]
-        elif not holder_np.lower().startswith("the "):
+        low = holder_np.lower()
+        if low.startswith("an "):
+            holder_np = "the " + holder_np[3:]
+        elif low.startswith("a "):
+            holder_np = "the " + holder_np[2:]
+        elif not low.startswith("the "):
             holder_np = "the " + holder_np
         spill = f"{holder_np[:1].upper()}{holder_np[1:]} spills {content_np}."
+        spill_atom = {"predicate": "spill", "args": [holder_np, content_np], "polarity": "pos", "tense": "present"}
         pred = solved["prediction"]
-        if spill.lower() not in str(pred.get("text") or "").lower():
-            pred["text"] = str(pred.get("text") or "").rstrip() + " " + spill
+        carried = [a for a in (pred.get("spoken_atoms") or []) if isinstance(a, dict)]
+        if not carried and pred.get("text"):
+            carried = [{"text": str(pred.get("text")), "atom": None, "verbatim": True, "role": "effect"}]
+        if not any(str(a.get("text") or "").lower() == spill.lower() for a in carried):
+            carried.append({"text": spill, "atom": spill_atom, "role": "consequence", "verbatim": False,
+                            "state_before": sim.get("state_before"),
+                            "state_after": dict(sim.get("state_after") or {}, spilled=content_np)})
+        pred["spoken_atoms"] = carried
+        pred["text"] = " ".join(str(a.get("text") or "").strip() for a in carried).strip()
         step = {"n": len(solved["chain"]) + 1, "rule_id": "WM-CONTAIN-SPILL",
                 "why": "a container that topples spills what it holds",
-                "cause": sim.get("outcome"), "effect": spill, "spoken": spill,
+                "cause": sim.get("outcome"), "effect": spill, "spoken": spill, "atom": spill_atom,
                 "premises": [fact.get("id")], "patient": patient}
         solved["chain"].append(step)
         solved["rules_fired"] = list(solved.get("rules_fired") or []) + ["WM-CONTAIN-SPILL"]

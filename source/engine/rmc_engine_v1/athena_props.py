@@ -21,7 +21,7 @@ MASS_REL = 0.005  # chemical masses agree within 0.5 percent (PubChem average vs
 # and still be the same kind (a 110 cm and a 132 cm example of one kind).
 ARTIFACT_REL = 0.25
 BROAD_SPREAD = 0.45  # a bare noun whose heights scatter more than this is more than one kind
-UA = "forge-mobile/4.9.247"
+UA = "forge-mobile/4.9.248"
 Http = Callable[[str], str]
 
 PUBLISHERS = {

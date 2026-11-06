@@ -1,5 +1,5 @@
 {
-  "version": "4.9.247",
+  "version": "4.9.248",
   "features": [
     {
       "id": "A-01",
@@ -4403,13 +4403,23 @@
         "verify/r4247_suite.js",
         "CONFLICTS.md v4.9.247"
       ]
+    },
+    {
+      "id": "R4248-SOLVER-ATOMS",
+      "name": "Solver kāraka atoms compile outward without reparsing the English",
+      "claim": "Partial",
+      "note": "4.9.248: each simulator family builds predicate, arguments, polarity, tense and modifiers from the scene, the measurements and the law. cause_effect and the world model pass those atoms through. outwardCompile speaks them in mode compiled. A spill reads the hold atom. Receipt sha256 is unchanged. Spoken simulations are not stored.",
+      "proof": [
+        "verify/r4248_suite.js",
+        "CONFLICTS.md v4.9.248"
+      ]
     }
   ],
-  "count": 400,
+  "count": 401,
   "claims": {
     "Implemented": 112,
     "Not feasible on phone": 28,
-    "Partial": 204,
+    "Partial": 205,
     "Missing": 9,
     "Out of scope / parked": 47
   }

@@ -21,7 +21,7 @@ from typing import Any
 
 PROBLEM = "FORGE-SIM-PROBLEM/v1"
 SCHEMA = "FORGE-SIM-RECEIPT/v1"
-VERSION = "forge-sim-device/4.9.247"
+VERSION = "forge-sim-device/4.9.248"
 _DATA: dict[str, Any] | None = None
 
 # solver → (family, runtime, Pyodide packages from the pinned 0.27.7 lock; WASM engines load in the page)
@@ -1125,8 +1125,9 @@ def _subject_clause(p: dict[str, Any], run: dict[str, Any]) -> tuple[str, str, l
         return main, main, [f for f in facts if f != main]
     if s == "biology_ondevice":
         if p["op"] == "transcribe":
+            # One kāraka clause the grammar realizes. "RNA polymerase" plus "messenger RNA" is two readings.
             return (f"Transcribing the DNA {p['sequence']} gives the messenger RNA {ms['mrna']}.",
-                    f"The RNA polymerase makes the messenger RNA {ms['mrna']}.", [])
+                    f"The polymerase makes the RNA {ms['mrna']}.", [])
         stop = " and then stops" if ms.get("stopped") else ""
         return (f"Translating the {p['kind']} {p['sequence']} gives the protein {ms['protein']}.",
                 f"The ribosome makes the protein {ms['protein']}{stop}.", [])
@@ -1326,6 +1327,210 @@ def _state_pair(problem: dict[str, Any], run: dict[str, Any]) -> tuple[dict[str,
     return before, after
 
 
+def _karaka(predicate: str, args: list[Any], polarity: str = "pos", tense: str = "present",
+            modifiers: list[dict[str, Any]] | None = None, particle: str | None = None,
+            parts: list[dict[str, Any]] | None = None, op: str | None = None) -> dict[str, Any]:
+    """A kāraka atom for the outward compile. Built from scene slots and measurements, never from a parsed sentence."""
+    atom: dict[str, Any] = {"predicate": predicate, "args": [str(a) for a in args], "polarity": polarity, "tense": tense}
+    if modifiers:
+        atom["modifiers"] = modifiers
+    if particle:
+        atom["particle"] = particle
+    if parts is not None:
+        atom["parts"] = parts
+        atom["op"] = op or "and"
+        atom["predicate"] = "coord"
+        atom["args"] = []
+    return atom
+
+
+def _mod(prep: str | None = None, text: str | None = None, role: str | None = None, time: str | None = None) -> dict[str, Any]:
+    if time:
+        return {"role": role or "kala", "time": time}
+    out: dict[str, Any] = {}
+    if role:
+        out["role"] = role
+    if prep:
+        out["prep"] = prep
+    if text is not None:
+        out["text"] = text
+    return out
+
+
+def _dot(text: str) -> str:
+    t = str(text or "").strip()
+    if not t:
+        return ""
+    return t if t.endswith((".", "!", "?")) else t + "."
+
+
+def _rigid_subject(scene: dict[str, Any]) -> str:
+    body = scene.get("body") or {}
+    if body.get("average"):
+        phrase = str(body.get("phrase") or body.get("noun") or "object")
+        return f"the average {phrase} of {float(body.get('mass') or 0):g} kilograms"
+    adj = " ".join(body.get("adjectives") or [])
+    noun = str(body.get("noun") or "body")
+    return "the " + ((adj + " ") if adj else "") + noun
+
+
+def _effect_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, Any] | None:
+    """The effect atom, from the scene, the measurements and the outcome. The English is built beside it, not read back."""
+    s, ms = problem.get("solver"), run.get("measurements") or {}
+    outcome = str(run.get("outcome") or "")
+    if s in ("mujoco_wasm", "sympy_pyodide"):
+        scene = problem.get("scene") or {}
+        subj = _rigid_subject(scene)
+        if outcome == "land":
+            return _karaka("land", [subj, f"{ms['range_m']:g} meters"], particle="away",
+                           modifiers=[_mod("after", f"{ms['flight_time_s']:g} seconds", "kala")])
+        return _karaka(outcome or "move", [subj])
+    if s == "chemistry_ondevice":
+        return _karaka("balance", ["the reaction"], modifiers=[_mod("as", str(ms.get("equation") or ""), "upadhi")])
+    if s == "chemistry_kinetics":
+        return _karaka("fall", ["the concentration"], modifiers=[
+            _mod("to", f"{_g(ms['concentration_left'])} moles", "sampradana"),
+            _mod("per", "liter", "sambandha"),
+            _mod("after", f"{_g(problem['t'])} seconds", "kala")])
+    if s == "rdkit_wasm":
+        n = str(problem.get("substance") or "")
+        prop = problem.get("property")
+        asked = str(problem.get("property_text") or "").strip()
+        if asked.lower().startswith("the "):
+            left = asked
+        elif prop == "weight":
+            left = f"the molecular weight of {n}"
+        elif prop == "mass":
+            left = f"the molecular mass of {n}"
+        elif prop == "formula":
+            left = f"the molecular formula of {n}"
+        elif prop == "structure":
+            left = f"the molecular structure of {n}"
+        else:
+            left = f"the {prop} of {n}"
+        if prop == "structure":
+            return _karaka("have", [left, f"{ms['heavy_atoms']} heavy atoms and {ms['aromatic_rings']} aromatic rings"])
+        if prop in ("weight", "mass"):
+            right = f"{ms['average_mw']:g} daltons"
+        else:
+            right = str(ms.get("formula") or "")
+        return _karaka("is", [left, right])
+    if s == "biology_ondevice":
+        if problem.get("op") == "transcribe":
+            return _karaka("make", ["the polymerase", f"the RNA {ms.get('mrna')}"])
+        protein = str(ms.get("protein") or "")
+        if ms.get("stopped"):
+            return _karaka("coord", [], op="and then", parts=[
+                _karaka("make", ["the ribosome", f"the protein {protein}"]),
+                _karaka("stop", ["the ribosome"]),
+            ])
+        return _karaka("make", ["the ribosome", f"the protein {protein}"])
+    if s == "biology_kinetics":
+        return _karaka("leave", ["the enzyme", f"{_g(ms['substrate_left_mM'])} millimolar of substrate"],
+                       modifiers=[_mod("after", f"{_g(problem['t'])} seconds", "kala")])
+    if s == "astronomy_ondevice":
+        return _karaka("circle", ["the satellite", str(ms.get("body") or "")], modifiers=[
+            _mod(time=f"every {ms['period_min']:g} minutes", role="kala"),
+            _mod("at", f"{ms['speed_km_s']:g} kilometers", "adhikarana"),
+            _mod("per", "second", "sambandha")])
+    if s == "quantum_ondevice":
+        p0, p1 = float(ms.get("p0") or 0), float(ms.get("p1") or 0)
+        if abs(p0 - p1) < 1e-6:
+            return _karaka("end", ["the qubit"], modifiers=[
+                _mod("in", "an equal superposition", "adhikarana"),
+                _mod("with", "probability 0.5", "karana"),
+                _mod("for", "0 and 0.5", "sampradana"),
+                _mod("for", "1", "sampradana")])
+        a, b = f"{p0:g}", f"{p1:g}"
+        return _karaka("end", ["the qubit"], modifiers=[
+            _mod("with", f"probability {a}", "karana"),
+            _mod("for", f"{a} and {b}", "sampradana"),
+            _mod("for", b, "sampradana")])
+    if s == "circuits_wasm":
+        if problem.get("topology") == "rc":
+            return _karaka("charge", ["the capacitor"], modifiers=[_mod("to", f"{_g(ms['v_out_end'])} volts", "sampradana")])
+        if "v_out" in ms and problem.get("topology") == "divider":
+            return _karaka("coord", [], op="and", parts=[
+                _karaka("is", ["the output", f"{_g(ms['v_out'])} volts"]),
+                _karaka("is", ["the current", f"{_g(ms['source_current_a'] * 1000)} milliamps"]),
+            ])
+        return _karaka("is", ["the current", f"{_g(ms['source_current_a'] * 1000)} milliamps"])
+    if s == "pyscf_abinitio":
+        e = float(ms["total_energy_hartree"])
+        method = str(ms.get("method") or "HF")
+        label = "Hartree-Fock" if "HF" in method and "B3LYP" not in method and "DFT" not in method.upper() else "density-functional"
+        mag = f"{abs(e):g}"
+        mods = [_mod("below", "zero", "adhikarana")] if e < 0 else None
+        return _karaka("is", [f"the {label} energy of {ms['molecule']}", f"{mag} hartree"], modifiers=mods)
+    if s == "buoyancy_ondevice":
+        who = str(problem.get("patient") or "body")
+        fluid = str(ms.get("fluid") or problem.get("fluid") or "the fluid")
+        lemma = {"float": "float", "sink": "sink", "suspend": "hang"}.get(outcome, "move")
+        return _karaka(lemma, [f"the {who}"], modifiers=[_mod("in", fluid, "adhikarana")])
+    if s == "thermal_ondevice":
+        sub = str(ms.get("substance") or problem.get("substance") or "it")
+        phase = str(ms.get("phase") or "")
+        if phase == "liquid":
+            return _karaka("stay", [f"the {sub}", "liquid"])
+        lemma = {"solid": "freeze", "melting": "melt", "boiling": "boil", "gas": "boil"}.get(phase, "change")
+        return _karaka(lemma, [f"the {sub}"])
+    if s == "openfoam_cfd":
+        return _karaka("settle", ["the flow solution"], modifiers=[_mod("after", f"{ms.get('iterations')} iterations", "kala")])
+    return None
+
+
+def _reason_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, Any] | None:
+    """The law atom, from the same comparison that writes the causal sentence."""
+    s = problem.get("solver")
+    ms = run.get("measurements") or {}
+    if s == "mujoco_wasm" and problem.get("scene"):
+        chk = tip_check(problem["scene"])
+        if chk and run.get("outcome") == "topple":
+            return _karaka("exceed", ["the push height", "the critical height"])
+        if chk and run.get("outcome") == "slide":
+            return _karaka("exceed", ["the critical height", "the push height"])
+        slope = (chk or {}).get("slope") if chk else None
+        if slope and slope.get("outcome") == "slide":
+            return _karaka("exceed", ["the slope", "the friction"])
+        if slope and slope.get("outcome") == "topple":
+            return _karaka("exceed", ["the slope", "the tip angle"])
+    if s == "buoyancy_ondevice":
+        who = str(problem.get("patient") or "body")
+        fluid = str(ms.get("fluid") or "the fluid")
+        if run.get("outcome") == "float":
+            return _karaka("is", [f"the density of the {who}", f"below the density of {fluid}"])
+        if run.get("outcome") == "sink":
+            return _karaka("is", [f"the density of the {who}", f"above the density of {fluid}"])
+    if s == "thermal_ondevice":
+        sub = str(ms.get("substance") or "it")
+        phase = str(ms.get("phase") or "")
+        if phase in ("boiling", "gas"):
+            return _karaka("is", [f"the final temperature of the {sub}", "above the boiling point"])
+        if phase == "solid":
+            return _karaka("is", [f"the final temperature of the {sub}", "below the melting point"])
+        if phase == "liquid":
+            return _karaka("is", [f"the final temperature of the {sub}", "between the melting point and the boiling point"])
+    if s == "pyscf_abinitio":
+        return _karaka("converge", ["the self-consistent field"], tense="past")
+    if s == "astronomy_ondevice":
+        return _karaka("balance", ["gravity", "the centripetal acceleration"])
+    return None
+
+
+def _spoken_from_run(problem: dict[str, Any], run: dict[str, Any], effect: str, why: str,
+                     before: dict[str, Any], after: dict[str, Any]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    effect_atom = _effect_struct(problem, run)
+    if effect and effect_atom:
+        rows.append({"text": _dot(effect), "atom": effect_atom, "role": "effect", "verbatim": False,
+                     "state_before": before, "state_after": after})
+    reason = _reason_struct(problem, run)
+    if why and reason:
+        rows.append({"text": _dot(why), "atom": reason, "role": "reason", "verbatim": False,
+                     "state_before": before, "state_after": after})
+    return rows
+
+
 def seal(problem: dict[str, Any], run: dict[str, Any], where: str = "on_device") -> dict[str, Any]:
     base = {"schema": SCHEMA, "question": problem.get("question"), "calls_llm": False, "router": VERSION, "where": where}
     if not run or run.get("error") or not run.get("outcome"):
@@ -1339,18 +1544,20 @@ def seal(problem: dict[str, Any], run: dict[str, Any], where: str = "on_device")
     why = _causal_reason(problem, run)
     before, after = _state_pair(problem, run)
     patient = ((problem.get("scene") or {}).get("body") or {}).get("noun") or problem.get("patient") or problem.get("substance")
+    spoken = _spoken_from_run(problem, run, effect, why, before, after)
     sim = {"receipt_id": rid, "sha256": sha, "intervention_key": problem.get("intervention_key"), "effect_text": effect,
            "outcome": run["outcome"], "solver": problem["solver"], "engine": run.get("engine"), "family": problem["family"],
            "where": where, "measurements": run.get("measurements"), "cross_check": run.get("cross_check") or [],
            "causal_reason": why, "state_before": before, "state_after": after, "patient": patient,
-           "may_store_as_fact": False}
+           "spoken_atoms": spoken, "may_store_as_fact": False}
     rows = [{"id": rid, "text": clause, "source": "sim_receipt", "trust": "solver_receipt", "sim": sim,
              "may_store_as_fact": False}]
     for i, t in enumerate(extra):
         rows.append({"id": f"{rid}-{i + 1}", "text": t, "source": "sim_receipt", "trust": "solver_receipt",
                      "may_store_as_fact": False, "sim": {**sim, "intervention_key": None, "fact_of": rid}})
     return {**base, "ok": True, "status": "simulated", **body, "receipt_id": rid, "sha256": sha, "rows": rows,
-            "causal_reason": why, "state_before": before, "state_after": after, "may_store_as_fact": False}
+            "causal_reason": why, "state_before": before, "state_after": after, "spoken_atoms": spoken,
+            "may_store_as_fact": False}
 
 
 def hold_receipt(problem: dict[str, Any], reason: str, where: str = "on_device") -> dict[str, Any]:
