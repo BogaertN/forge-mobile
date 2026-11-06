@@ -121,6 +121,22 @@ elif op == 'chem':
 elif op == 'objects':
     from rmc_engine_v1 import athena_props as A
     out = A.resolve_objects(a.get('phrase') or a.get('name') or '', a.get('sides') or [], a.get('name'), bool(a.get('specific')))
+elif op == 'vehicle':
+    from rmc_engine_v1 import athena_props as A
+    nhtsa = a.get('nhtsa') if isinstance(a.get('nhtsa'), dict) and a.get('nhtsa') else A.parse_nhtsa_specs(a.get('nhtsa_raw') or '')
+    epa = a.get('epa') if isinstance(a.get('epa'), dict) and a.get('epa') else A.parse_epa_vehicle(a.get('epa_raw') or '')
+    out = A.agree_vehicle(a.get('name') or '', nhtsa, epa, a.get('nhtsa_url') or 'https://vpic.nhtsa.dot.gov/api/', a.get('epa_url') or 'https://www.fueleconomy.gov/ws/rest/')
+elif op == 'body':
+    from rmc_engine_v1 import athena_props as A
+    card = A.parse_ssocard(a.get('card') or '', a.get('card_url') or '')
+    quaero = A.parse_quaero_sso(a.get('quaero') or '')
+    sides = []
+    if card and not (quaero and str(quaero.get('type') or '').lower() == 'satellite' and str(card.get('type') or '').lower() != 'satellite'):
+        sides.append({'id': 'imcce', 'url': card['url'], 'radius_m': card['radius_m'], 'mass_kg': card['mass_kg']})
+    out = A.agree_body(a.get('name') or '', sides)
+elif op == 'continue':
+    from rmc_engine_v1.sim_karaka import continue_scene
+    out = {'question': continue_scene(a.get('prior'), a.get('frame'))}
 elif op == 'gaps':
     from rmc_engine_v1.sim_karaka import read
     out = read(a.get('question') or '', a.get('frame'), a.get('facts'))
@@ -143,7 +159,7 @@ async function sim(arg) {
     if (todo.length) { await py.loadPackage(todo, { checkIntegrity: true }); todo.forEach(n => pkgsDone.add(n)); }
     packages = { rule: 'PYODIDE-LOCK-SHA256', lock: 'pyodide 0.27.7', requested: want, loaded_now: todo };
   }
-  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason, frame: arg.frame, facts: arg.facts, rows: arg.rows, name: arg.name, phrase: arg.phrase, specific: arg.specific, pub: arg.pub, term: arg.term, sides: arg.sides, memory: arg.memory }));
+  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason, frame: arg.frame, facts: arg.facts, rows: arg.rows, name: arg.name, phrase: arg.phrase, specific: arg.specific, pub: arg.pub, term: arg.term, sides: arg.sides, memory: arg.memory, nhtsa: arg.nhtsa, epa: arg.epa, nhtsa_raw: arg.nhtsa_raw, epa_raw: arg.epa_raw, nhtsa_url: arg.nhtsa_url, epa_url: arg.epa_url, card: arg.card, card_url: arg.card_url, quaero: arg.quaero, prior: arg.prior }));
   const out = JSON.parse(py.runPython(SIM_PY));
   if (packages) out.packages = packages;
   return out;

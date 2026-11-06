@@ -1,5 +1,5 @@
 {
-  "version": "4.9.246",
+  "version": "4.9.247",
   "features": [
     {
       "id": "A-01",
@@ -4393,13 +4393,23 @@
         "verify/r4246_suite.js",
         "CONFLICTS.md v4.9.246"
       ]
+    },
+    {
+      "id": "R4247-WORLD-SIM",
+      "name": "Simulations map world state and render the physical reason",
+      "claim": "Partial",
+      "note": "4.9.247: a box keeps its depth along the push; handbook densities cover metals and composites; a remembered hold chains to a spill; buoyancy, heat and slope compile from the kāraka frame; a follow-up edits the prior scene; a PySCF receipt clears C. Spoken receipts are not stored. Moons without two CORS publishers hold.",
+      "proof": [
+        "verify/r4247_suite.js",
+        "CONFLICTS.md v4.9.247"
+      ]
     }
   ],
-  "count": 399,
+  "count": 400,
   "claims": {
     "Implemented": 112,
     "Not feasible on phone": 28,
-    "Partial": 203,
+    "Partial": 204,
     "Missing": 9,
     "Out of scope / parked": 47
   }

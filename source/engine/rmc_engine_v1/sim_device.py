@@ -21,7 +21,7 @@ from typing import Any
 
 PROBLEM = "FORGE-SIM-PROBLEM/v1"
 SCHEMA = "FORGE-SIM-RECEIPT/v1"
-VERSION = "forge-sim-device/4.9.245"
+VERSION = "forge-sim-device/4.9.247"
 _DATA: dict[str, Any] | None = None
 
 # solver → (family, runtime, Pyodide packages from the pinned 0.27.7 lock; WASM engines load in the page)
@@ -38,6 +38,8 @@ SOLVERS: dict[str, dict[str, Any]] = {
     "circuits_wasm": {"family": "circuits", "runtime": "wasm", "engine": "eecircuit-engine@1.9.0 (ngspice)", "packages": []},
     "openfoam_cfd": {"family": "cfd", "runtime": "home_pc", "packages": [], "needs": "OpenFOAM CFD"},
     "pyscf_abinitio": {"family": "abinitio", "runtime": "home_pc", "packages": [], "needs": "PySCF Hartree-Fock / DFT"},
+    "buoyancy_ondevice": {"family": "physics", "runtime": "pyodide", "packages": []},
+    "thermal_ondevice": {"family": "physics", "runtime": "pyodide", "packages": []},
 }
 HOME_PC = {k for k, v in SOLVERS.items() if v["runtime"] == "home_pc"}
 
@@ -148,9 +150,16 @@ def plan(question: str, frame: dict[str, Any] | None = None, facts: list[dict[st
         return _circuit_from_frame(q, reading, key)
     if kind == "reaction":
         return _reaction_from_frame(q, reading, key)
+    if kind == "buoyancy":
+        return _buoyancy_problem(q, reading, key)
+    if kind == "thermal":
+        return _thermal_problem(q, reading, key)
     scene = scene_from_reading(reading)
     if not scene.get("ok"):
-        return _hold(q, scene.get("reason", "scene_hold"), scene.get("missing", "scene"), scene=scene)
+        from rmc_engine_v1.athena_props import vehicle_concept
+        patient = reading.get("patient") or (scene.get("body") if isinstance(scene.get("body"), str) else None)
+        return _hold(q, scene.get("reason", "scene_hold"), scene.get("missing", "scene"), scene=scene,
+                     vehicle=bool(patient and vehicle_concept(str(patient))))
     solver = "sympy_pyodide" if scene["action"] == "throw" else "mujoco_wasm"
     return _problem(q, solver, scene["intervention_key"], scene=scene)
 
@@ -604,12 +613,25 @@ DT = 0.0005
 SIM_SECONDS = 2.0
 
 
+def push_half(body: dict[str, Any]) -> float:
+    """Half-extent along the push (the x axis). A box uses depth when it was measured.
+    Depth is omitted only for a square footprint, and then width is that extent."""
+    if body.get("shape") == "box":
+        depth = body.get("depth")
+        if isinstance(depth, (int, float)) and float(depth) > 0:
+            return float(depth) / 2.0
+        return float(body["width"]) / 2.0
+    return float(body["radius"])
+
+
 def _geom(body: dict[str, Any]) -> tuple[str, str, float]:
     s = body["shape"]
     if s == "cylinder":
         return "cylinder", f'{body["radius"]:.6f} {body["height"] / 2:.6f}', body["height"] / 2
     if s == "box":
-        return "box", f'{body["width"] / 2:.6f} {body["width"] / 2:.6f} {body["height"] / 2:.6f}', body["height"] / 2
+        # MuJoCo box size is half-extents x y z. x is the push axis (depth), y is lateral (width).
+        hx, hy, hz = push_half(body), float(body["width"]) / 2.0, float(body["height"]) / 2.0
+        return "box", f"{hx:.6f} {hy:.6f} {hz:.6f}", hz
     return "sphere", f'{body["radius"]:.6f}', body["radius"]
 
 
@@ -618,8 +640,15 @@ def mjcf(scene: dict[str, Any]) -> str:
     gtype, gsize, half = _geom(body)
     mu = float(scene["surface"]["mu"])
     z0 = half + (scene.get("drop_height", 0.0) if scene["action"] == "drop" else 0.0)
+    g = float(scene["gravity"])
+    slope = float(scene.get("slope_deg") or 0.0)
+    if slope:
+        th = math.radians(slope)
+        grav = f"{g * math.sin(th):.6f} 0 -{g * math.cos(th):.6f}"
+    else:
+        grav = f"0 0 -{g}"
     return f"""<mujoco model="forge_scene">
-  <option timestep="{DT}" gravity="0 0 -{scene['gravity']}" integrator="implicitfast" cone="elliptic"/>
+  <option timestep="{DT}" gravity="{grav}" integrator="implicitfast" cone="elliptic"/>
   <default><geom condim="3" solref="0.002 1" solimp="0.95 0.99 0.001"/></default>
   <worldbody>
     <geom name="surface" type="plane" size="50 50 0.1" friction="{mu} 0.005 0.0001"/>
@@ -644,14 +673,36 @@ def mujoco_job(scene: dict[str, Any]) -> dict[str, Any]:
         _, _, half = _geom(body)
         full = 2 * half if body["shape"] != "sphere" else 2 * body["radius"]
         h = float(scene["point"]["fraction"]) * full
-        face = -(body["radius"] if body["shape"] != "box" else body["width"] / 2)
+        half_w = push_half(body)
+        face = -half_w
         mass = float(body["mass"])
         mu = float(scene.get("push_reference_mu") or scene["surface"]["mu"])
-        half_w = body["radius"] if body["shape"] != "box" else body["width"] / 2
         f_slip = mu * mass * g
         f_tip = mass * g * half_w / max(h, 1e-6) if body["shape"] != "sphere" else float("inf")
         push = scene.get("push") or {}
-        job.update(force=float(push.get("margin", 1.25)) * min(f_slip, f_tip), duration=float(push.get("duration_s", 0.5)),
+        margin = float(push.get("margin", 1.25))
+        duration = float(push.get("duration_s", 0.5))
+        # A box whose depth differs from its width tips about the shallow edge. The reference push is
+        # held a little longer so the body can pass the balance point. Square boxes and cylinders keep
+        # the reference push, so recorded receipts re-seal.
+        depth = body.get("depth")
+        width = body.get("width")
+        distinct = body.get("shape") == "box" and isinstance(depth, (int, float)) and width and abs(float(depth) - float(width)) > 1e-4
+        mu_s = max(float(scene["surface"]["mu"]), 1e-6)
+        from rmc_engine_v1.sim_scene import defaults as _defaults
+        top_h = float((_defaults().get("points") or {}).get("top") or 0.92) * full
+        # One push for a shallow box: sized as the push at the top. Applied lower, that same force
+        # slides once it exceeds surface friction. Square boxes and cylinders keep the reference push.
+        if distinct and top_h > half_w / mu_s:
+            margin = max(margin, 2.0)
+            f_tip = mass * g * half_w / max(top_h, 1e-6)
+            job["push_rule"] = "2 x min(mu_table m g, m g * half_depth / h_top); the same push at every height"
+            if h > half_w / mu_s:
+                duration = max(duration, 1.2)
+                seconds = max(seconds, duration + 1.0)
+                job["steps"] = int(seconds / DT)
+                job["seconds"] = round(seconds, 3)
+        job.update(force=margin * min(f_slip, f_tip), duration=duration,
                    r_local=[face, 0.0, h - half], push_height_m=round(h, 4))
     return job
 
@@ -672,26 +723,186 @@ CLASSIFIER = ("topple if final tilt > 60 deg; else slide if horizontal displacem
 
 # ---------------------------------------------------------------- solve (Python families)
 
+def _pair(table: dict[str, Any], key: str, field: str, rel: float = 0.15) -> float | None:
+    row = (table.get("rows") or {}).get(key) or {}
+    pair = row.get(field) or []
+    if len(pair) != 2:
+        return None
+    a, b = float(pair[0]), float(pair[1])
+    scale = max(abs(a), abs(b), 1e-9)
+    if abs(a - b) / scale > rel and abs(a - b) > 1.0:
+        return None
+    return (a + b) / 2.0
+
+
+def _fluid_density(name: str) -> float | None:
+    from rmc_engine_v1.sim_scene import defaults
+    fluids = defaults().get("fluids") or {}
+    key = {"saltwater": "seawater", "brine": "seawater"}.get(name, name)
+    return _pair(fluids, key, "rho")
+
+
+def _thermal_row(name: str) -> dict[str, float] | None:
+    from rmc_engine_v1.sim_scene import defaults
+    thermal = defaults().get("thermal") or {}
+    key = {"saltwater": "seawater", "brine": "seawater"}.get(name, name)
+    if key not in (thermal.get("rows") or {}):
+        return None
+    c = _pair(thermal, key, "c")
+    melt = _pair(thermal, key, "melt_c", 0.02)
+    boil = _pair(thermal, key, "boil_c", 0.02)
+    if c is None or melt is None or boil is None:
+        return None
+    return {"c": c, "melt_c": melt, "boil_c": boil, "room_c": float(thermal.get("room_c") or 20)}
+
+
+def _body_density(reading: dict[str, Any]) -> tuple[float | None, str]:
+    """Bulk density from a stated mass and box, a remembered mass, or a handbook material. No invented noun."""
+    props = reading.get("props") if isinstance(reading.get("props"), dict) else {}
+    h, w, d, mass = props.get("height"), props.get("width"), props.get("depth"), props.get("mass")
+    if mass and h and w and (d or w):
+        depth = float(d or w)
+        vol = float(h) * float(w) * depth
+        if vol > 0:
+            return float(mass) / vol, "stated_mass_and_volume"
+    from rmc_engine_v1.sim_scene import defaults
+    known = (defaults().get("bodies") or {}).get(str(reading.get("patient") or ""))
+    if isinstance(known, dict) and known.get("mass"):
+        if known.get("shape") == "sphere" and known.get("radius"):
+            vol = 4.0 / 3.0 * math.pi * float(known["radius"]) ** 3
+        elif known.get("height") and (known.get("width") or known.get("radius")):
+            if known.get("radius"):
+                vol = math.pi * float(known["radius"]) ** 2 * float(known["height"])
+            else:
+                vol = float(known["height"]) * float(known["width"]) * float(known.get("depth") or known["width"])
+        else:
+            vol = 0
+        if vol > 0:
+            return float(known["mass"]) / vol, "physical_defaults"
+    from rmc_engine_v1.athena_props import _density_of, _WORD_ALIAS
+    key = _WORD_ALIAS.get(str(reading.get("patient") or ""), str(reading.get("patient") or ""))
+    rho = _density_of(key)
+    if rho:
+        return rho, "handbook"
+    return None, "missing"
+
+
+def _buoyancy_problem(q: str, reading: dict[str, Any], key: str | None) -> dict[str, Any]:
+    fluid = str(reading.get("fluid") or "")
+    rho_f = _fluid_density(fluid)
+    if rho_f is None:
+        return _hold(q, "unknown_fluid", "fluid", fluid=fluid, body=reading.get("patient"))
+    rho_b, src = _body_density(reading)
+    if rho_b is None:
+        return _hold(q, "property_missing", "density", body=reading.get("patient"), fluid=fluid)
+    return _problem(q, "buoyancy_ondevice", key, patient=reading.get("patient"), phrase=reading.get("phrase"),
+                    fluid=fluid, rho_body=rho_b, rho_fluid=rho_f, density_source=src)
+
+
+def _thermal_problem(q: str, reading: dict[str, Any], key: str | None) -> dict[str, Any]:
+    name = str(reading.get("patient") or "")
+    row = _thermal_row(name)
+    if row is None:
+        return _hold(q, "property_missing", "phase", substance=name)
+    target = reading.get("target_c")
+    mass = reading.get("mass_kg")
+    power = reading.get("power_w")
+    time_s = reading.get("time_s")
+    if target is None and not (mass and power and time_s):
+        return _hold(q, "property_missing", "temperature", substance=name)
+    return _problem(q, "thermal_ondevice", key, substance=name, target_c=target, mass_kg=mass,
+                    power_w=power, time_s=time_s, **row)
+
+
+def _solve_buoyancy(p: dict[str, Any]) -> dict[str, Any]:
+    rho_b, rho_f = float(p["rho_body"]), float(p["rho_fluid"])
+    if rho_b < rho_f:
+        outcome, frac = "float", rho_b / rho_f
+    elif rho_b > rho_f:
+        outcome, frac = "sink", 1.0
+    else:
+        outcome, frac = "suspend", 1.0
+    return {"solver": "buoyancy_ondevice", "engine": "archimedes (on device)", "outcome": outcome,
+            "measurements": {"rho_body": round(rho_b, 2), "rho_fluid": round(rho_f, 2),
+                             "submerged_fraction": round(frac, 4), "fluid": p["fluid"], "patient": p["patient"]},
+            "equations": ["Archimedes: floats iff ρ_body < ρ_fluid", "submerged fraction = ρ_body / ρ_fluid"]}
+
+
+def _phase_at(t: float, melt: float, boil: float) -> str:
+    if t < melt - 1e-6:
+        return "solid"
+    if abs(t - melt) <= 1e-6:
+        return "melting"
+    if t < boil - 1e-6:
+        return "liquid"
+    if abs(t - boil) <= 1e-6:
+        return "boiling"
+    return "gas"
+
+
+def _solve_thermal(p: dict[str, Any]) -> dict[str, Any]:
+    melt, boil, c = float(p["melt_c"]), float(p["boil_c"]), float(p["c"])
+    if p.get("target_c") is not None:
+        final = float(p["target_c"])
+        how = "stated_temperature"
+    else:
+        q_j = float(p["power_w"]) * float(p["time_s"])
+        final = float(p["room_c"]) + q_j / (float(p["mass_kg"]) * c)
+        how = "Q = m c ΔT from the labeled room temperature"
+    phase = _phase_at(final, melt, boil)
+    outcome = {"solid": "freeze", "melting": "melt", "liquid": "stay", "boiling": "boil", "gas": "boil"}[phase]
+    if p.get("target_c") is not None and phase == "liquid" and str(p.get("question") or "").lower().find("cool") >= 0:
+        outcome = "stay"
+    return {"solver": "thermal_ondevice", "engine": "Q = m c ΔT (on device)", "outcome": outcome,
+            "measurements": {"temperature_c": round(final, 2), "phase": phase, "melt_c": melt, "boil_c": boil,
+                             "substance": p["substance"], "how": how},
+            "equations": ["Q = m c ΔT", "phase from the melting point and the boiling point"]}
+
+
 def solve(problem: dict[str, Any]) -> dict[str, Any]:
     fn = {"sympy_pyodide": _solve_sympy, "chemistry_ondevice": _solve_reaction, "chemistry_kinetics": _solve_kinetics,
           "biology_ondevice": _solve_sequence, "biology_kinetics": _solve_enzyme, "astronomy_ondevice": _solve_orbit,
-          "quantum_ondevice": _solve_quantum}.get(problem["solver"])
+          "quantum_ondevice": _solve_quantum, "buoyancy_ondevice": _solve_buoyancy,
+          "thermal_ondevice": _solve_thermal}.get(problem["solver"])
     if fn is None:
         return {"solver": problem["solver"], "error": "not a Python family"}
     return fn(problem)
 
 
 def tip_check(scene: dict[str, Any]) -> dict[str, Any] | None:
-    """Quasi-static tip-before-slip cross-check (plain arithmetic, no package): tip first iff h > (w/2)/mu."""
+    """Quasi-static tip-before-slip cross-check (plain arithmetic, no package).
+
+    The lever arm is the half-extent along the push: depth/2 for a box whose depth was measured,
+    otherwise width/2. Tip first iff h > (that half-extent)/μ.
+    On a slope, the body slides when tan θ > μ and tips when tan θ > depth / (2 height).
+    The smaller threshold wins.
+    """
     b = scene["body"]
     if scene["action"] != "push" or b["shape"] == "sphere":
         return None
-    half_w = b["radius"] if b["shape"] == "cylinder" else b["width"] / 2
+    half_w = push_half(b)
     h = scene["point"]["fraction"] * b["height"]
-    h_crit = half_w / scene["surface"]["mu"]
-    return {"solver": "statics_check", "role": "cross_check", "outcome": "topple" if h > h_crit else "slide",
-            "measurements": {"critical_push_height_m": round(h_crit, 4), "push_height_m": round(h, 4)},
-            "equations": ["slip: F > μ m g", "tip: F h > m g w/2", "tip before slip iff h > (w/2)/μ"]}
+    mu = float(scene["surface"]["mu"])
+    h_crit = half_w / mu
+    out = {"solver": "statics_check", "role": "cross_check", "outcome": "topple" if h > h_crit else "slide",
+           "measurements": {"critical_push_height_m": round(h_crit, 4), "push_height_m": round(h, 4)},
+           "equations": ["slip: F > μ m g", "tip: F h > m g w/2", "tip before slip iff h > (w/2)/μ"]}
+    slope = scene.get("slope_deg")
+    if slope is not None:
+        tan = math.tan(math.radians(float(slope)))
+        tip_tan = half_w / max(float(b["height"]), 1e-6)
+        slips = tan > mu
+        tips = tan > tip_tan
+        if tips and (not slips or tip_tan <= mu):
+            slope_outcome = "topple"
+        elif slips:
+            slope_outcome = "slide"
+        else:
+            slope_outcome = "stay"
+        out["slope"] = {"slope_deg": float(slope), "tan": round(tan, 4), "mu": mu, "tip_tan": round(tip_tan, 4),
+                        "outcome": slope_outcome,
+                        "equations": ["slides on a slope iff tan θ > μ", "tips on a slope iff tan θ > depth/(2 height)"]}
+    return out
 
 
 def _solve_sympy(p: dict[str, Any]) -> dict[str, Any]:
@@ -840,7 +1051,8 @@ def finish(problem: dict[str, Any], raw: dict[str, Any]) -> dict[str, Any]:
         ms = dict(raw["measurements"])
         job = mujoco_job(sc)
         if sc["action"] == "push":
-            ms.update(push_force_N=round(job["force"], 3), push_rule="1.25 x min(mu_table m g, m g w/2 / h)",
+            ms.update(push_force_N=round(job["force"], 3),
+                      push_rule=job.get("push_rule") or "1.25 x min(mu_table m g, m g w/2 / h)",
                       push_duration_s=job["duration"], push_height_m=job["push_height_m"])
         run = {"solver": s, "engine": "mujoco " + str(raw.get("version") or "3.17.0") + " (WASM, on device)",
                "outcome": classify_rigid(sc, ms), "measurements": ms, "classifier": CLASSIFIER}
@@ -944,9 +1156,32 @@ def _subject_clause(p: dict[str, Any], run: dict[str, Any]) -> tuple[str, str, l
         return (f"Putting {_g(p['V'])} volts across the resistors draws {_g(ms['source_current_a'] * 1000)} milliamps.",
                 f"The current is {_g(ms['source_current_a'] * 1000)} milliamps through {_g(ms['total_resistance_ohm'])} ohms in total.", [])
     if s == "pyscf_abinitio":
-        e = ms["total_energy_hartree"]
-        return (f"A {ms['method']} calculation on {ms['molecule']} gives a total energy of {e:g} hartree.",
-                f"The total energy of {ms['molecule']} comes out at {e:g} hartree.", [])
+        e = float(ms["total_energy_hartree"])
+        method = str(ms.get("method") or "HF")
+        label = "Hartree-Fock" if "HF" in method and "B3LYP" not in method and "DFT" not in method.upper() else "density-functional"
+        mag = f"{abs(e):g}"
+        if e < 0:
+            sent = f"The {label} energy of {ms['molecule']} is {mag} hartree below zero."
+        else:
+            sent = f"The {label} energy of {ms['molecule']} is {mag} hartree."
+        return sent, sent, []
+    if s == "buoyancy_ondevice":
+        who = str(p.get("patient") or "body")
+        fluid = str(ms.get("fluid") or p.get("fluid") or "the fluid")
+        verb = {"float": "floats", "sink": "sinks", "suspend": "hangs"}.get(run["outcome"], "moves")
+        sent = f"The {who} {verb} in {fluid}."
+        return sent, sent, []
+    if s == "thermal_ondevice":
+        sub = str(ms.get("substance") or p.get("substance") or "it")
+        phase = str(ms.get("phase") or "liquid")
+        temp = ms.get("temperature_c")
+        verb = {"solid": "freezes", "melting": "melts", "liquid": "stays liquid", "boiling": "boils", "gas": "boils"}.get(phase, "changes")
+        if phase == "liquid":
+            sent = f"The {sub} stays liquid."
+        else:
+            sent = f"The {sub} {verb}."
+        extra = f"The final temperature of the {sub} is {temp:g} degrees."
+        return sent, sent, [extra]
     if s == "openfoam_cfd":
         it = ms.get("iterations")
         return (f"The OpenFOAM run at {_g(ms['inlet_speed_m_s'])} meters per second took {it} iterations.",
@@ -1024,6 +1259,73 @@ def receipt_sha256(body: dict[str, Any]) -> str:
     return hashlib.sha256(json.dumps(_canon(body), sort_keys=True, separators=(",", ":"), default=str).encode()).hexdigest()
 
 
+def _causal_reason(problem: dict[str, Any], run: dict[str, Any]) -> str:
+    """One short sentence the grammar can realize, naming the law that decided the outcome."""
+    s = problem.get("solver")
+    ms = run.get("measurements") or {}
+    if s == "mujoco_wasm" and problem.get("scene"):
+        chk = tip_check(problem["scene"])
+        if chk and run.get("outcome") == "topple":
+            return "The push height exceeds the critical height."
+        if chk and run.get("outcome") == "slide":
+            return "The critical height exceeds the push height."
+        slope = (chk or {}).get("slope") if chk else None
+        if slope and slope.get("outcome") == "slide":
+            return "The slope exceeds the friction."
+        if slope and slope.get("outcome") == "topple":
+            return "The slope exceeds the tip angle."
+    if s == "buoyancy_ondevice":
+        who = str(problem.get("patient") or "body")
+        fluid = str(ms.get("fluid") or "the fluid")
+        if run.get("outcome") == "float":
+            return f"The density of the {who} is below the density of {fluid}."
+        if run.get("outcome") == "sink":
+            return f"The density of the {who} is above the density of {fluid}."
+    if s == "thermal_ondevice":
+        sub = str(ms.get("substance") or "it")
+        phase = str(ms.get("phase") or "")
+        if phase in ("boiling", "gas"):
+            return f"The final temperature of the {sub} is above the boiling point."
+        if phase == "solid":
+            return f"The final temperature of the {sub} is below the melting point."
+        if phase == "liquid":
+            return f"The final temperature of the {sub} is between the melting point and the boiling point."
+    if s == "pyscf_abinitio":
+        return "The self-consistent field converged."
+    if s == "astronomy_ondevice":
+        return "Gravity balances the centripetal acceleration."
+    return ""
+
+
+def _state_pair(problem: dict[str, Any], run: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Branch-local before and after. Not a durable fact."""
+    s = problem.get("solver")
+    ms = run.get("measurements") or {}
+    outcome = str(run.get("outcome") or "")
+    before: dict[str, Any] = {"motion": "rest"}
+    after: dict[str, Any] = {"motion": outcome}
+    if s == "mujoco_wasm":
+        scene = problem.get("scene") or {}
+        body = scene.get("body") or {}
+        before = {"motion": "rest", "tilt_deg": 0, "support": "contact",
+                  "patient": body.get("noun"), "surface": (scene.get("surface") or {}).get("name")}
+        tilt = ms.get("final_tilt_deg")
+        after = {"motion": outcome, "tilt_deg": tilt, "support": "side" if outcome == "topple" else "contact",
+                 "patient": body.get("noun"), "surface": (scene.get("surface") or {}).get("name")}
+    elif s == "buoyancy_ondevice":
+        before = {"motion": "rest", "phase": "out", "patient": problem.get("patient"), "fluid": problem.get("fluid")}
+        after = {"motion": outcome, "submerged_fraction": ms.get("submerged_fraction"),
+                 "patient": problem.get("patient"), "fluid": ms.get("fluid")}
+    elif s == "thermal_ondevice":
+        before = {"phase": "initial", "temperature_c": problem.get("room_c"), "substance": problem.get("substance")}
+        after = {"phase": ms.get("phase"), "temperature_c": ms.get("temperature_c"), "substance": ms.get("substance"),
+                 "motion": outcome}
+    elif s == "pyscf_abinitio":
+        before = {"species": problem.get("molecule"), "energy": None}
+        after = {"species": ms.get("molecule"), "energy_hartree": ms.get("total_energy_hartree"), "motion": outcome}
+    return before, after
+
+
 def seal(problem: dict[str, Any], run: dict[str, Any], where: str = "on_device") -> dict[str, Any]:
     base = {"schema": SCHEMA, "question": problem.get("question"), "calls_llm": False, "router": VERSION, "where": where}
     if not run or run.get("error") or not run.get("outcome"):
@@ -1034,14 +1336,21 @@ def seal(problem: dict[str, Any], run: dict[str, Any], where: str = "on_device")
     body = _canon(body)
     sha = receipt_sha256(body)
     rid = "sim-" + sha[:16]
+    why = _causal_reason(problem, run)
+    before, after = _state_pair(problem, run)
+    patient = ((problem.get("scene") or {}).get("body") or {}).get("noun") or problem.get("patient") or problem.get("substance")
     sim = {"receipt_id": rid, "sha256": sha, "intervention_key": problem.get("intervention_key"), "effect_text": effect,
            "outcome": run["outcome"], "solver": problem["solver"], "engine": run.get("engine"), "family": problem["family"],
-           "where": where, "measurements": run.get("measurements"), "cross_check": run.get("cross_check") or []}
-    rows = [{"id": rid, "text": clause, "source": "sim_receipt", "trust": "solver_receipt", "sim": sim}]
+           "where": where, "measurements": run.get("measurements"), "cross_check": run.get("cross_check") or [],
+           "causal_reason": why, "state_before": before, "state_after": after, "patient": patient,
+           "may_store_as_fact": False}
+    rows = [{"id": rid, "text": clause, "source": "sim_receipt", "trust": "solver_receipt", "sim": sim,
+             "may_store_as_fact": False}]
     for i, t in enumerate(extra):
         rows.append({"id": f"{rid}-{i + 1}", "text": t, "source": "sim_receipt", "trust": "solver_receipt",
-                     "sim": {**sim, "intervention_key": None, "fact_of": rid}})
-    return {**base, "ok": True, "status": "simulated", **body, "receipt_id": rid, "sha256": sha, "rows": rows}
+                     "may_store_as_fact": False, "sim": {**sim, "intervention_key": None, "fact_of": rid}})
+    return {**base, "ok": True, "status": "simulated", **body, "receipt_id": rid, "sha256": sha, "rows": rows,
+            "causal_reason": why, "state_before": before, "state_after": after, "may_store_as_fact": False}
 
 
 def hold_receipt(problem: dict[str, Any], reason: str, where: str = "on_device") -> dict[str, Any]:

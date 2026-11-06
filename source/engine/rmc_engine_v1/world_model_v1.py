@@ -509,6 +509,10 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]], *, regex_fallba
             # 4.9.244: a Simulation Router receipt row keeps its receipt (solver, measurements, sha256, intervention key)
             if row["source"] == "sim_receipt" and isinstance(event.get("sim"), dict):
                 row["sim"] = dict(event["sim"])
+                row["may_store_as_fact"] = False
+                if event["sim"].get("state_before"):
+                    row["state_before"] = event["sim"]["state_before"]
+                    row["state_after"] = event["sim"].get("state_after")
             if is_q:
                 facts.append(row)
                 quarantined += 1
@@ -1513,6 +1517,46 @@ def _listener_atom(atom: dict[str, Any] | None, voice: Any) -> dict[str, Any] | 
     return out
 
 
+def _compilable_atom(sentence: str) -> dict[str, Any] | None:
+    """An atom the phone's outward compile accepts for this sentence, or None so the sentence is quoted.
+
+    A wrong atom holds the whole answer, so this only returns shapes the grammar has been checked on:
+    a copula whose predicate is a measure, and a transitive exceed / tip / spill / reach.
+    """
+    body = re.sub(r"\s+", " ", str(sentence or "").strip()).strip(" .")
+    if not body or " because " in body.lower():
+        return None
+    cop = re.match(r"^(.+?) is (.+)$", body, flags=re.I)
+    if cop and re.search(r"\d", cop.group(2)):
+        right = re.sub(r"\s+below zero$", "", cop.group(2), flags=re.I)
+        return {"predicate": "is", "args": [cop.group(1), right], "polarity": "pos"}
+    trans = re.match(r"^(.+?) (exceeds|tips|spills|reaches) (.+)$", body, flags=re.I)
+    if trans:
+        lemma = {"exceeds": "exceed", "tips": "tip", "spills": "spill", "reaches": "reach"}[trans.group(2).lower()]
+        return {"predicate": lemma, "args": [trans.group(1), trans.group(3)], "polarity": "pos"}
+    return None
+
+
+def _sim_spoken_atoms(parts: list[str], premises: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Outward plan for a simulation reply. Sentences the grammar cannot take an atom for are quoted."""
+    sentences = []
+    for part in parts:
+        for raw in re.split(r"(?<=[.!?])\s+", str(part or "").strip()):
+            raw = raw.strip()
+            if raw:
+                sentences.append(raw if raw.endswith((".", "!", "?")) else raw + ".")
+    out = []
+    last = len(sentences) - 1
+    prem_id = premises[0].get("id") if premises else None
+    for i, text in enumerate(sentences):
+        if text[:1].islower():
+            text = text[:1].upper() + text[1:]
+        atom = _compilable_atom(text)
+        out.append({"text": text, "atom": atom, "verbatim": atom is None, "source_id": prem_id if atom is None else None,
+                    "role": "conclusion" if i == last else "premise"})
+    return out
+
+
 def _spoken_atoms(world: dict[str, Any], claim: dict[str, Any], parts: list[str], voice: Any) -> list[dict[str, Any]]:
     """The spoken sentences in order, each with the atom it states: a recalled fact's own atom, or the derived conclusion's.
     A sentence whose atom is a bare 'stated' record (the parser did not read it) carries no atom; it is quoted, not compiled."""
@@ -1770,6 +1814,9 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         }
         claim["simulate_chain"] = simulated.get("chain") or []
         claim["kind"] = "causal_prediction"
+        claim["may_store_as_fact"] = False
+        claim["state_before"] = pred.get("state_before")
+        claim["state_after"] = pred.get("state_after")
         # A checker-replayed solver receipt is the measured premise. Its retrieval weight is the frame gate
         # (S and C hold because the receipt unified with this intervention and the sha256 replayed). ΔΦ is not in C.
         if str(pred.get("how") or "") == "WM-SOLVER-RECEIPT" and checked.get("ok"):
@@ -1778,20 +1825,23 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         # measure_spoken then scores hops against their own rows (high C); Echo still reads the effect filler.
         seen_txt = set()
         spoken_parts = []
+        pred_sents = {_norm(s) for s in re.split(r"(?<=[.!?])\s+", text) if s.strip()}
         for prem in premises:
             pt = str(prem.get("text") or "").strip()
-            if pt and _norm(pt) not in seen_txt:
+            if pt and _norm(pt) not in seen_txt and _norm(pt) not in pred_sents:
                 seen_txt.add(_norm(pt))
                 spoken_parts.append(pt if pt.endswith(".") else pt + ".")
         if text and _norm(text) not in seen_txt:
             spoken_parts.append(text if text.endswith(".") else text + ".")
         spoken = " ".join(spoken_parts) if spoken_parts else text
         claim["text"] = text  # survivor text stays the effect; derived_text is the full chain
+        claim["spoken_atoms"] = _sim_spoken_atoms(spoken_parts, premises)
         derived = dict(derived)
         derived["status"] = "supported_only"
         derived["reason"] = "simulate_forward_chain"
         derived["survivor"] = claim
         derived["derived_text"] = spoken
+        derived["derived_atoms"] = claim["spoken_atoms"]
         derived["claims"] = list(derived.get("claims") or []) + [claim]
         derived["match_mode"] = "simulate"
     count = int(memory.get("active_memory_count") or memory.get("active") or len(source_rows) or 0)

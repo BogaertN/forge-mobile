@@ -893,6 +893,23 @@ def run_deep_dry_run(
     trace_spine: dict[str, Any] = {}
     try:
         from rmc_engine_v1.memory_recaller import build_trace_spine
+        remembered_overlap = []
+        if root:
+            from pathlib import Path as _Path
+            from rmc_engine_v1.world_model_v1 import content_tokens as _ctoks
+            _qtoks = _ctoks(source_text or "")
+            _rdir = _Path(root) / "memory" / "context_library_v1" / "receipts"
+            if _rdir.is_dir() and _qtoks:
+                for _path in sorted(_rdir.glob("m*.json")):
+                    try:
+                        _body = _json.loads(_path.read_text(encoding="utf-8"))
+                    except Exception:
+                        continue
+                    if str(_body.get("filename") or "") != "phone_kb":
+                        continue
+                    _text = str(_body.get("text") or "").strip()
+                    if _text and (_ctoks(_text) & _qtoks):
+                        remembered_overlap.append(_body)
         trace_value = build_trace_spine(source_text, source_metadata, root=root, limit=48)
         trace_spine = _as_dict(trace_value)
         artifacts["trace_spine"] = trace_spine
@@ -1090,6 +1107,21 @@ def run_deep_dry_run(
             "packet": node.get("packet") if isinstance(node.get("packet"), dict) else None,
             "concepts": node.get("concepts") if isinstance(node.get("concepts"), list) else None,
             "sfe": node.get("sfe") if isinstance(node.get("sfe"), dict) else None,
+        })
+    # A remembered sentence that names something in this question stays a premise when resonance
+    # did not rank it. Captured before recall, which keeps the active set small.
+    have = {" ".join(str(n.get("text") or "").lower().split()) for n in nodes}
+    for body in remembered_overlap:
+        text = str(body.get("text") or "").strip()
+        key = " ".join(text.lower().split())
+        if not text or key in have:
+            continue
+        have.add(key)
+        nodes.append({
+            "id": body.get("receipt_id"), "text": text, "source": "phone_kb",
+            "confidence": "medium", "prior_drift_score": 0.0, "quarantined": False,
+            "clause": body.get("clause") if isinstance(body.get("clause"), dict) else None,
+            "meaning_id": body.get("meaning_id"), "sim": None,
         })
     # 4.9.234 (plan 229 step 6): RMC runs into the world model in series. The RMC reading (C, epsilon, route)
     # goes in as the world model's upstream; the sentence the world model speaks is measured and routed by the

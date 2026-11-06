@@ -608,19 +608,70 @@ def _solver_step(world: dict[str, Any] | None, intervention: dict[str, Any]) -> 
             continue
         spoken = str(sim["effect_text"]).strip()
         spoken = spoken if spoken.endswith(".") else spoken + "."
-        atom, eframe = _effect_atom_and_frame(spoken.rstrip("."), None)
+        why = str(sim.get("causal_reason") or "").strip()
+        if why:
+            why = why if why.endswith(".") else why + "."
+            if why.lower() not in spoken.lower():
+                spoken = spoken.rstrip() + " " + why
+        atom, eframe = _effect_atom_and_frame(str(sim["effect_text"]).strip().rstrip("."), None)
         step = {"n": 1, "rule_id": "WM-SOLVER-RECEIPT", "why": "solver receipt for this scene",
                 "cause": intervention.get("raw"), "effect": spoken, "spoken": spoken, "frame": fact.get("causal_frame"),
                 "premises": [fact.get("id")], "solver": sim.get("solver"), "engine": sim.get("engine"),
-                "receipt_id": sim.get("receipt_id"), "sha256": sim.get("sha256"), "measurements": sim.get("measurements")}
-        return {
+                "receipt_id": sim.get("receipt_id"), "sha256": sim.get("sha256"), "measurements": sim.get("measurements"),
+                "state_before": sim.get("state_before"), "state_after": sim.get("state_after")}
+        solved = {
             "status": "supported_only", "reason": "solver_receipt", "chain": [step],
             "prediction": {"text": spoken, "atom": atom, "fact_frame": eframe, "premises": [fact],
                            "how": "WM-SOLVER-RECEIPT", "kind": "causal_prediction", "schema": HOOK_SCHEMA,
-                           "receipt": {k: sim.get(k) for k in ("receipt_id", "sha256", "solver", "engine", "measurements", "outcome")}},
+                           "receipt": {k: sim.get(k) for k in ("receipt_id", "sha256", "solver", "engine", "measurements", "outcome")},
+                           "state_before": sim.get("state_before"), "state_after": sim.get("state_after"),
+                           "may_store_as_fact": False},
             "depth": 1, "rules_fired": ["WM-SOLVER-RECEIPT"], "intervention": intervention, "frames_considered": 1,
         }
+        return _spill_from_hold(world, solved, sim)
     return None
+
+
+def _spill_from_hold(world: dict[str, Any] | None, solved: dict[str, Any], sim: dict[str, Any]) -> dict[str, Any]:
+    """A container that topples no longer holds what it held. General over hold/contain, not one noun."""
+    if str(sim.get("outcome") or "") != "topple":
+        return solved
+    patient = _norm(str(sim.get("patient") or ""))
+    if not patient:
+        return solved
+    for fact in _states_from_world(world):
+        atom = fact.get("atom") or {}
+        if atom.get("predicate") not in ("hold", "contain"):
+            continue
+        args = [str(a) for a in (atom.get("args") or [])]
+        if len(args) < 2:
+            continue
+        holder = _norm(args[0])
+        if patient != holder and patient != holder.split()[-1] and holder.split()[-1] != patient:
+            continue
+        content = args[1].strip()
+        content_np = content if content.lower().startswith(("the ", "a ", "an ")) else "the " + content
+        holder_np = args[0].strip()
+        if holder_np.lower().startswith(("a ", "an ")):
+            holder_np = "the " + holder_np.split(" ", 1)[1]
+        elif not holder_np.lower().startswith("the "):
+            holder_np = "the " + holder_np
+        spill = f"{holder_np[:1].upper()}{holder_np[1:]} spills {content_np}."
+        pred = solved["prediction"]
+        if spill.lower() not in str(pred.get("text") or "").lower():
+            pred["text"] = str(pred.get("text") or "").rstrip() + " " + spill
+        step = {"n": len(solved["chain"]) + 1, "rule_id": "WM-CONTAIN-SPILL",
+                "why": "a container that topples spills what it holds",
+                "cause": sim.get("outcome"), "effect": spill, "spoken": spill,
+                "premises": [fact.get("id")], "patient": patient}
+        solved["chain"].append(step)
+        solved["rules_fired"] = list(solved.get("rules_fired") or []) + ["WM-CONTAIN-SPILL"]
+        solved["depth"] = len(solved["chain"])
+        # The hold fact is the chain's second premise, not a solver-receipt premise: the receipt checker
+        # requires every WM-SOLVER-RECEIPT premise to carry the receipt sha256.
+        pred["may_store_as_fact"] = False
+        break
+    return solved
 
 
 def forward_chain(

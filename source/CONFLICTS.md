@@ -1,3 +1,22 @@
+## v4.9.247 — The world model maps the situation and says why (Nic)
+
+**Conflict:** 4.9.246 compiled the kāraka frame and filled missing properties, but a box still lost its depth along the push, a wood-and-metal record was weighed as wood alone, a simulation receipt was a flat sentence, and a valid PySCF sentence did not round-trip through the outward compile. A follow-up could not change the scene just simulated.
+
+**Where:**
+- `sim_device._geom` / `mujoco_job` / `tip_check` use depth as the half-extent along the push. Width stays the lateral half-extent. A missing depth is a square footprint.
+- `physical_defaults.json` materials, fluids and thermal rows each carry two handbook figures. A pair is used only when the figures agree. Wood plus metal is a wood shell plus a metal frame. Fabric's two figures do not agree, so fabric is not used.
+- `seal` adds branch-local `state_before` / `state_after` and a short causal reason. `may_store_as_fact` stays false. The receipt hash of a 4.9.246 rigid run is unchanged.
+- `cause_effect` chains `hold` / `contain` after a topple: the container spills what it held. The sentence is general. It is not stored.
+- Buoyancy (`ρ_body` against the fluid) and heat (`Q = m c ΔT`, then the phase) compile from the kāraka frame. A stated slope tilts MuJoCo's gravity and is cross-checked with `tan θ` against friction and `depth / (2 height)`.
+- "What if …" is the same conditional frame. The follow-up keeps the prior patient, including a size already measured, and replaces the slot it names.
+- A box whose depth differs from its width is pushed once, sized at the top (twice the reference-table threshold) and held 1.2 s so it can pass the balance point. The same force applied lower slides. Square boxes and cylinders keep the 4.9.245 reference push, so those receipts re-seal.
+- A Hartree-Fock total energy is spoken as hartree below zero, which the outward compile realizes. NHTSA vPIC and FuelEconomy.gov are both CORS-open; a dimension is admitted only when both publish it. Planetary moons stay a hold: IMCCE ssoCard does not publish their mass, Quaero identifies a satellite without numbers, and JPL JSON sends no `Access-Control-Allow-Origin`.
+- R4246's PubChem/ChEBI check replays recorded documents, so CI does not call the live hosts. The phone still fetches them.
+
+**Resolution:** A shallow box pushed near the top topples and near the bottom slides. A remembered "holds" clause adds a spill. Float, sink, boil and a 30 degree ramp come from the solvers. A PySCF receipt clears C and Echo. C_min 0.87, Echo 0.85, drift 0.35 / 0.80. R4117 still has no model. Spoken simulation answers are not written to memory.
+
+Proof: `verify/r4247_suite.js`.
+
 ## v4.9.246 — Simulators run through the Pāṇini frame; Athena fills the gap (Nic)
 
 **Conflict:** 4.9.244 and 4.9.245 compiled simulation asks with regular expressions and spoke canned English, and they only knew the nouns in two side files. Nic: a simulator that is not on the same Pāṇini, lexicon, and world-model path is pointless, and Athena exists to look up what Forge does not know — for any thing, not one hardcoded object.

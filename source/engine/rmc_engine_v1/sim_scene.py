@@ -87,6 +87,10 @@ def _props_body(noun: str, props: dict[str, Any], D: dict[str, Any]) -> tuple[di
             if props.get("width") is None:
                 return None, "width"
             body["width"] = float(props["width"])
+            # Depth is the horizontal extent along a push. It is kept when a publisher or the
+            # question measured it. A missing depth is a square footprint and the solver uses width.
+            if props.get("depth") not in (None, ""):
+                body["depth"] = float(props["depth"])
         else:
             body["radius"] = float(props.get("radius") or (float(props["width"]) / 2.0 if props.get("width") else 0))
             if not body["radius"]:
@@ -170,6 +174,9 @@ def scene_from_reading(reading: dict[str, Any]) -> dict[str, Any]:
         "karaka": {"kriya": verb, "karma": body_noun, "adhikarana": surface, "voice": part.get("voice") or "active"},
         "via": "karaka_frame",
     }
+    if reading.get("slope_deg") is not None:
+        scene["slope_deg"] = float(reading["slope_deg"])
+        scene["slope_source"] = "stated"
     if kind == "push":
         if base["shape"] == "sphere":
             scene["point"] = {"name": "center", "fraction": 0.5, "source": "sphere"}
