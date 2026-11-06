@@ -1,5 +1,5 @@
 {
-  "version": "4.9.244",
+  "version": "4.9.245",
   "features": [
     {
       "id": "A-01",
@@ -4372,13 +4372,24 @@
         "CONFLICTS.md v4.9.244",
         "/workspace/step244/asks.txt"
       ]
+    },
+    {
+      "id": "R4245-SIM-ONDEVICE",
+      "name": "Seven on-device simulator families (MuJoCo / RDKit / ngspice WASM; SymPy / SciPy / Biopython / astropy in Pyodide) + Home PC Simulator slot (plan 229 step 12c)",
+      "claim": "Partial",
+      "note": "4.9.245: engine sim_device plans a question (FORGE-SIM-PROBLEM/v1), the phone measures it with pinned, lazily loaded, SHA-checked, cached engines, and seal() returns a sha256 FORGE-SIM-RECEIPT/v1 used for one turn. CFD (OpenFOAM) and Hartree-Fock/DFT (PySCF) go to the optional Home PC Simulator (forge.sim_router) or hold. Partial: OpenFOAM path untested on this box; dune-copasi named only.",
+      "proof": [
+        "verify/r4245_suite.js",
+        "CONFLICTS.md v4.9.245",
+        "/workspace/step245/asks.txt"
+      ]
     }
   ],
-  "count": 397,
+  "count": 398,
   "claims": {
     "Implemented": 112,
     "Not feasible on phone": 28,
-    "Partial": 201,
+    "Partial": 202,
     "Missing": 9,
     "Out of scope / parked": 47
   }

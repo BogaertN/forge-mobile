@@ -434,9 +434,9 @@ def understand(question: str) -> dict[str, Any] | None:
     cue = toks is not None and any(t[0] == "op" and t[1] in _CUES for t in toks) and any(t[0] == "num" for t in toks)
     if toks is None:
         # a word outside the grammar: math only when an operator cue and a number are present
-        rough = re.sub(r"[a-z]+", " ", body)
+        rough = re.sub(r"[a-z]+\s*/\s*[a-z]+|[a-z]+", " ", body)  # 4.9.245: a unit ratio (m/s, mol/l) is not a division cue
         loose = re.search(r"\d", body) and (re.search(r"[+*/^×÷=%√]|\d\s*-\s*\d", rough) or re.search(r"\b(plus|minus|times|divided|multiplied|squared|cubed|square root|cube root|percent|power|solve)\b", body))
-        if loose:
+        if loose and not re.match(r"^what\s+(?:will\s+)?happens?\s+(?:if|when)\b", q):  # 4.9.245: an intervention (π/2 pulse) is a simulation ask, not arithmetic
             return {"status": "unparsed", "kind": "expression", "rule": "MATH-UNPARSED", "reason": "a word in the question is outside the math grammar"}
         return None
     if not cue:

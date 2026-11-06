@@ -294,13 +294,17 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     /* 4.9.244 (plan 229 step 12b): a what-happens-if question goes to the backend Simulation Router (MuJoCo / SymPy).
      * Its receipt is a measured causal premise for this turn only (memory.simulation; never stored). No router → no
      * receipt → the engine holds or uses stored causal facts as before. */
-    const simReceipt = await simulateViaRouter(qtext);
-    if (simReceipt && simReceipt.ok && Array.isArray(simReceipt.rows)) memory.simulation = simReceipt.rows.slice(0, 4);
+    /* 4.9.245: the simulators run on this phone first (KSimDevice: Pyodide SymPy/SciPy/Biopython/astropy and WASM
+     * MuJoCo/RDKit/ngspice). Heavy CFD / Hartree-Fock asks go to the Home PC Simulator if one is set, else they hold. */
+    const simReceipt = window.KSimDevice ? await KSimDevice.simulate(qtext) : await simulateViaRouter(qtext);
+    if (simReceipt && simReceipt.ok && Array.isArray(simReceipt.rows)) memory.simulation = simReceipt.rows.slice(0, 6);
+    askCtx.sim = simReceipt || null;
     if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
     else row = await KRMCCore.run(Object.assign({ question: qtext, live: true, dry_run: false, memory: memory }, askCtx.sense ? { sense: askCtx.sense } : {}));
     /* 4.9.206: the old replay of recorded self-seed documents (the fixtures global) is removed from Ask. Recorded demo
      * documents are shown only on the Self-seed card (window.SELF_SEED_DEMO); Ask never treats a recording as research. */
   } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
+  if (row && askCtx.sim) { row.sim = { ok: !!askCtx.sim.ok, status: askCtx.sim.status, reason: askCtx.sim.reason || null, receipt_id: askCtx.sim.receipt_id || null, sha256: askCtx.sim.sha256 || null, solver: askCtx.sim.primary_solver || (askCtx.sim.problem && askCtx.sim.problem.solver) || null, where: askCtx.sim.where || null, home_pc_required: !!askCtx.sim.home_pc_required }; }
   lastResult = row;
   /* 4.9.208: a held question becomes a curation gap for Athena (no write happens here) */
   if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try { row.curation = KCurators.noteHeld(qtext, row); } catch (e) { /* the curators are optional */ } }
@@ -328,7 +332,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const relState = rel && rel.realised === true ? 'yes' : rel && rel.realised === false ? 'no' : 'unread';
   const relTag = rel ? '<span class="tag" data-echo-relation="' + esc(rel.asked) + '" data-echo-realised="' + relState + '"' + (panini ? ' data-echo-panini="' + panini + '"' : '') + '>' + esc(rel.asked) + (relState === 'yes' ? ' realised' : relState === 'no' ? ' not realised' : '') + '</span>' : '';
   const admit = row && row.admit && row.admit.disposition;
-  const body = admitted ? esc(row.reply) : 'Held. No answer was admitted. route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(admit) + (row && row.admit && row.admit.drift_region ? ' · drift region ' + esc(row.admit.drift_region) : '') + '.';
+  const body = admitted ? esc(row.reply) : 'Held. No answer was admitted. route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(admit) + (row && row.admit && row.admit.drift_region ? ' · drift region ' + esc(row.admit.drift_region) : '') + '.' + (row && row.sim && row.sim.home_pc_required && window.KSimDevice ? ' <span data-sim-hold="home_pc">' + esc(KSimDevice.holdNote(askCtx.sim)) + '</span>' : '');
   /* 4.9.237 outward compile: the shown reply is R_t (src/rmc_core.js outwardCompile); the source premises are kept as cited quotes */
   const oc = row && row.outward_compile;
   const ocTag = oc ? '<span class="tag" data-outward="' + esc(oc.applied ? oc.mode : (oc.rule || oc.mode || 'none')) + '">' + (oc.applied ? 'outward ' + esc(oc.mode) : esc(oc.rule || ('outward ' + (oc.mode || 'none')))) + '</span>' : '';

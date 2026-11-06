@@ -1,0 +1,55 @@
+{
+ "schema": "FORGE-SIM-DATA/v1",
+ "note": "Reference data the on-device solvers read. Names map to formulas and SMILES; reaction classes name products only. Coefficients, masses, counts, periods and every other number in an answer are computed by the solver at ask time.",
+ "sources": {
+  "substances": "PubChem compound records (formula, canonical SMILES), https://pubchem.ncbi.nlm.nih.gov/",
+  "reactions": "OpenStax Chemistry 2e, ch. 4.2 (classifying chemical reactions: combustion of C/H/O compounds gives CO2 and H2O; synthesis of binary compounds), https://openstax.org/books/chemistry-2e/pages/4-2-classifying-chemical-reactions",
+  "bodies": "NASA Planetary Fact Sheet (GM and volumetric mean radius), https://nssdc.gsfc.nasa.gov/planetary/factsheet/ ; Earth, Sun and Jupiter come from astropy.constants (IAU 2015)"
+ },
+ "substances": {
+  "hydrogen": {"formula": "H2", "smiles": "[H][H]"},
+  "oxygen": {"formula": "O2", "smiles": "O=O"},
+  "nitrogen": {"formula": "N2", "smiles": "N#N"},
+  "chlorine": {"formula": "Cl2", "smiles": "ClCl"},
+  "sodium": {"formula": "Na", "smiles": "[Na]"},
+  "magnesium": {"formula": "Mg", "smiles": "[Mg]"},
+  "iron": {"formula": "Fe", "smiles": "[Fe]"},
+  "carbon": {"formula": "C", "smiles": "[C]"},
+  "water": {"formula": "H2O", "smiles": "O"},
+  "carbon dioxide": {"formula": "CO2", "smiles": "O=C=O"},
+  "ammonia": {"formula": "NH3", "smiles": "N"},
+  "sodium chloride": {"formula": "NaCl", "smiles": "[Na+].[Cl-]"},
+  "salt": {"formula": "NaCl", "smiles": "[Na+].[Cl-]"},
+  "magnesium oxide": {"formula": "MgO", "smiles": "[Mg+2].[O-2]"},
+  "iron oxide": {"formula": "Fe2O3", "smiles": "[Fe+3].[Fe+3].[O-2].[O-2].[O-2]"},
+  "methane": {"formula": "CH4", "smiles": "C"},
+  "ethane": {"formula": "C2H6", "smiles": "CC"},
+  "propane": {"formula": "C3H8", "smiles": "CCC"},
+  "butane": {"formula": "C4H10", "smiles": "CCCC"},
+  "octane": {"formula": "C8H18", "smiles": "CCCCCCCC"},
+  "ethanol": {"formula": "C2H6O", "smiles": "CCO"},
+  "methanol": {"formula": "CH4O", "smiles": "CO"},
+  "glucose": {"formula": "C6H12O6", "smiles": "OC[C@H]1OC(O)[C@H](O)[C@@H](O)[C@@H]1O"},
+  "benzene": {"formula": "C6H6", "smiles": "c1ccccc1"},
+  "aspirin": {"formula": "C9H8O4", "smiles": "CC(=O)Oc1ccccc1C(=O)O"},
+  "caffeine": {"formula": "C8H10N4O2", "smiles": "Cn1cnc2c1c(=O)n(C)c(=O)n2C"},
+  "acetic acid": {"formula": "C2H4O2", "smiles": "CC(=O)O"},
+  "paracetamol": {"formula": "C8H9NO2", "smiles": "CC(=O)Nc1ccc(O)cc1"},
+  "ibuprofen": {"formula": "C13H18O2", "smiles": "CC(C)Cc1ccc(cc1)C(C)C(=O)O"}
+ },
+ "synthesis": [
+  {"reactants": ["H2", "O2"], "products": ["H2O"]},
+  {"reactants": ["Na", "Cl2"], "products": ["NaCl"]},
+  {"reactants": ["N2", "H2"], "products": ["NH3"]},
+  {"reactants": ["Mg", "O2"], "products": ["MgO"]},
+  {"reactants": ["Fe", "O2"], "products": ["Fe2O3"]},
+  {"reactants": ["C", "O2"], "products": ["CO2"]}
+ ],
+ "bodies": {
+  "moon": {"GM": 4.9028e12, "radius": 1737400.0, "name": "the Moon"},
+  "mars": {"GM": 4.282837e13, "radius": 3389500.0, "name": "Mars"},
+  "venus": {"GM": 3.24859e14, "radius": 6051800.0, "name": "Venus"},
+  "mercury": {"GM": 2.2032e13, "radius": 2439700.0, "name": "Mercury"},
+  "saturn": {"GM": 3.7931187e16, "radius": 58232000.0, "name": "Saturn"}
+ }
+}

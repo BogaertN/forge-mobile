@@ -55,9 +55,9 @@ print(json.dumps([c(q) for q in qs]))`);
 
 T('router contract: pluggable solvers (NAME/HANDLES/solve), receipt sha256, no model, no secret', () => {
   const r = read('server/sim_router/router.py'), s = read('server/sim_router/serve.py');
-  expect(/SOLVERS: list/.test(r) && /FORGE-SIM-RECEIPT\/v1/.test(r) && /sha256/.test(r), 'contract');
+  expect(/SOLVERS: (list|dict)/.test(r) && /FORGE-SIM-RECEIPT\/v1/.test(r) && /sha256/.test(r), 'contract');
   for (const p of ['server/sim_router/solvers/mujoco_rigid.py', 'server/sim_router/solvers/sympy_math.py']) {
-    const t = read(p); expect(/^NAME = /m.test(t) && /^HANDLES = /m.test(t) && /def solve\(scene/.test(t), p);
+    const t = read(p); expect(/^NAME = /m.test(t) && /^HANDLES = /m.test(t) && /def solve\((scene|problem)/.test(t), p);
   }
   const all = r + s + read('server/sim_router/solvers/mujoco_rigid.py') + read('server/sim_router/solvers/sympy_math.py');
   expect(!/openai|anthropic|transformers|llama|sb_secret_|service_role/i.test(all), 'no model, no secret');
@@ -71,10 +71,10 @@ T('MuJoCo + SymPy really step the scene (where the wheels are installed)', () =>
 import json
 from server.sim_router import router
 qs = ["${TOP}", "${BOTTOM}", "What happens if you push a bottle near the top on ice?", "What happens if you push a wide flat block near the top?", "What happens if you drop a ball from 20 meters?", "${THROW}"]
-print(json.dumps([{"o": router.route(q).get("outcome"), "r": router.route(q).get("runs")} for q in qs], default=str))`);
+print(json.dumps([{"o": r.get("outcome"), "m": (r.get("run") or {}).get("measurements")} for r in (router.route(q) for q in qs)], default=str))`);
   expect(out[0].o === 'topple' && out[1].o === 'slide' && out[2].o === 'slide' && out[3].o === 'slide' && out[4].o === 'fall' && out[5].o === 'land', JSON.stringify(out.map(x => x.o)));
-  const drop = out[4].r.find(x => x.solver === 'sympy_math'), mj = out[4].r.find(x => x.solver === 'mujoco_rigid');
-  expect(Math.abs(drop.measurements.fall_time_s - mj.measurements.first_contact_s) < 0.02, 'MuJoCo free fall agrees with SymPy sqrt(2h/g)');
+  /* 4.9.245: the router reuses engine sim_device; MuJoCo free fall is checked against sqrt(2h/g) directly */
+  expect(Math.abs(Math.sqrt(2 * 20 / 9.80665) - out[4].m.first_contact_s) < 0.02, 'MuJoCo free fall agrees with sqrt(2h/g)');
 });
 
 T('Ask: a receipt for this intervention is spoken (C ≥ 0.87, Echo ≥ 0.85); top and bottom differ only by the solver', () => {
@@ -105,10 +105,10 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 });
 
 T('version, registry, CONFLICTS name 4.9.244', () => {
-  expect(read('VERSION').trim() === '4.9.244', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.245', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.244' && reg.features.some(x => x.id === 'R4244-SIM-ROUTER') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.244'), 'CONFLICTS');
+  expect(reg.version === '4.9.245' && reg.features.some(x => x.id === 'R4244-SIM-ROUTER') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').includes('## v4.9.244'), 'CONFLICTS');
 });
 
 const results = [];

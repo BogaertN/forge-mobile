@@ -235,7 +235,7 @@
      * kriyā happen, the gap is the effect (pred), the if-clause is cond. Simulate fills the gap from causal frames. */
     {
       /* only the what-first form; "If C, what happens?" keeps QF-IF- so cond parses as a clause (R4230) */
-      const mHappen = String(text || '').trim().match(/^what\s+(?:will\s+)?happen(?:s)?\s+if\s+(.+?)\??$/i);
+      const mHappen = String(text || '').trim().match(/^what\s+(?:will\s+)?happen(?:s)?\s+(?:if|when)\s+(.+?)\??$/i);
       if (mHappen) {
         const condTxt = mHappen[1].trim().replace(/[.?]+$/, '');
         const cond = parse(forge, condTxt);
@@ -244,7 +244,7 @@
           kriya: 'happen', polarity: 'pos', tense: 'present',
           kartr: { text: 'it', head: 'it', kernel: false, user: false },
           pred: { type: 'np', text: 'something', head: 'something', indef: true, kind: 'effect' },
-          karma: null, parsed: true, partial: true, declarative: 'something happens if ' + condTxt,
+          karma: null, parsed: true, partial: true, declarative: 'something happens ' + (/^\s*what\s+(?:will\s+)?happens?\s+when\b/i.test(text) ? 'when ' : 'if ') + condTxt,
           conditional: true,
           cond: cond ? Object.assign({ text: condTxt, parses: cond.parses }, roles(cond.clause)) : { text: condTxt, parsed: false },
           rule: 'QF-WHAT-HAPPENS-IF',

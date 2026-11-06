@@ -207,7 +207,8 @@ for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     h = h.replace('<script src="' + m + '"></script>', '', 1)
 # 4.9.127 gzip hotfix: one script tag → one CSP sha256 (74 high-entropy hashes were ~3 kB gzip). Modules stay IIFE-scoped; Pages multi-file site unchanged.
 # 4.9.169: do not embed coherence_math.py in the portable file (Pages still ships data/py/coherence_math.py; app_lab fetches it). Keeps gzip leave ≥5 kB under 570 kB.
-bundle.insert(0, 'window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';')
+# 4.9.245: the WASM simulators need src/sim_wasm_worker.js (a same-origin module worker); the portable file has none, so they hold there.
+bundle.insert(0, 'window.KSIM_NO_WASM_WORKER=true;window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';')
 joined = '\n'.join(bundle).replace('</script', '<\\/script')
 hi = h.index('</head>')
 h = h[:hi] + '<script>' + joined + '</script>' + h[hi:]
@@ -216,7 +217,7 @@ ico = base64.b64encode(bytes.fromhex('89504e470d0a1a0a0000000d494844520000000100
 h = h.replace('<link rel="manifest" href="manifest.json">', '').replace('href="icons/icon-192.png"', 'href="data:image/png;base64,' + ico + '"')
 def with_csp(doc):
     hs = sorted({"'sha256-" + base64.b64encode(hashlib.sha256(m.encode()).digest()).decode() + "'" for m in re.findall(r'<script>(.*?)</script>', doc, re.S)})
-    pol = "default-src 'self'; script-src " + ' '.join(hs) + " 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net; worker-src 'self' blob:; connect-src 'self' https: data:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; media-src 'self' blob: mediastream:; object-src 'none'; base-uri 'none'; form-action 'none'"
+    pol = "default-src 'self'; script-src " + ' '.join(hs) + " 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net; worker-src 'self' blob:; connect-src 'self' https: data: http://localhost:* http://127.0.0.1:*; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; media-src 'self' blob: mediastream:; object-src 'none'; base-uri 'none'; form-action 'none'"
     return re.sub(r'<meta http-equiv="Content-Security-Policy" content="[^"]*">', '<meta http-equiv="Content-Security-Policy" content="' + pol + '">', doc, count=1)
 h = with_csp(h); open(os.path.join(SINGLE, 'kernel-app.html'), 'w').write(h)
 core = base64.b64encode(open('data/lexicon.json.gz', 'rb').read()).decode(); ext = base64.b64encode(open('data/lexicon-ext.json.gz', 'rb').read()).decode(); pro = base64.b64encode(open('data/lexicon-pro.json.gz', 'rb').read()).decode()

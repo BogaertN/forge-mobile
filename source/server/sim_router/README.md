@@ -1,38 +1,74 @@
-# Forge backend runner map (4.9.244, audited 2026-11-05 CST)
+# FORGE simulators: on the phone, plus an optional Home PC Simulator (4.9.245)
 
-## What runs where today
-| Layer | Where | What it does | Reasoning? |
+## Where each simulation runs
+No Google Cloud, no third-party backend server. Seven families run **on the phone** (browser), computed by the real
+engine at ask time, each sealed as a FORGE-SIM-RECEIPT/v1 with a sha256:
+
+| Family | Solver id | Engine (pinned) | Runs in |
 |---|---|---|---|
-| **Engine (primary)** | Phone/browser, **Pyodide** worker (`src/rmc_client.js` loads `data/py/rmc_engine_bundle.json`, SRI-pinned) | the whole Python engine: kernel → RMC → world_model_v1 → outward compile → Echo → gate | yes, on device |
-| Engine fallback | `POST /api/rmc/deep-dry-run` (`tools/rmc_http.py`, same engine in CPython) | used by `rmc_client.js` only when the Pyodide bundle cannot load; **not hosted anywhere** (local/dev only) | same engine |
-| Supabase `forge-mobile` (ref `hqcvywujrygbnaowgwln`) | Postgres + RLS, Storage (`forge-ref` bucket), 23 migrations; **Edge Functions (Deno): `register-device` v2, `memory-writer` v4** (read-only listing, 2026-11-05) | storage, sync, signed shared-KB writes only — "never reasoning" (supabase/README.md) | no |
-| Athena runner | `tools/athena_runner_229.py` (+ `athena_write_224.py`, `athena_dryrun_*`) | offline/CLI gap-filler, dry-run by default; run by hand on a dev box; no daemon, no cron, no hosted worker | curation only |
-| Home node | `tools/forge_node.py` | optional self-hosted helper (Termux / home PC): ping, tracker-free fetch, encrypted job queue; no model, no shell, no solver | no |
-| GitHub Actions | `pages.yml` (targeted gate → build → Pages), `test.yml`, `fuzz.yml`, `gks-publish.yml` (manual signing) | CI + static deploy of `https://bogaertn.github.io/forge-mobile/` | no |
+| Rigid bodies (push / drop) | `mujoco_wasm` | `@mujoco/mujoco@3.17.0` WASM | `src/sim_wasm_worker.js` |
+| Projectiles / kinematics / calculus | `sympy_pyodide` | SymPy 1.13.3 + mpmath 1.3.0 (Pyodide 0.27.7 lock) | engine worker |
+| Chemistry: balancing | `chemistry_ondevice` | SymPy `Matrix.nullspace` | engine worker |
+| Chemistry: kinetics | `chemistry_kinetics` | SciPy 1.14.1 `solve_ivp` | engine worker |
+| Chemistry: molecules | `rdkit_wasm` | `@rdkit/rdkit@2026.9.2` WASM | `src/sim_wasm_worker.js` |
+| Biology: sequences | `biology_ondevice` | Biopython 1.84 `Bio.Seq` | engine worker |
+| Biology: enzyme kinetics | `biology_kinetics` | SciPy `solve_ivp` (Michaelis-Menten) | engine worker |
+| Astronomy | `astronomy_ondevice` | astropy 7.0.0 constants | engine worker |
+| Quantum (one qubit) | `quantum_ondevice` | SciPy `linalg.expm` | engine worker |
+| Circuits | `circuits_wasm` | ngspice 45.2 via `eecircuit-engine@1.9.0` WASM | `src/sim_wasm_worker.js` |
+| CFD | `openfoam_cfd` | OpenFOAM simpleFoam | **Home PC only** |
+| Ab initio (Hartree-Fock / DFT) | `pyscf_abinitio` | PySCF | **Home PC only** |
 
-There was **no backend simulation runner** before this build.
+Spatial reaction-diffusion (dune-copasi) is a future Home PC slot; the phone integrates the well-mixed ODE.
 
-## New in 4.9.244: Simulation Router
-`source/server/sim_router/` — a Python HTTP service (stdlib `http.server`, no framework).
-- `router.py` — contract `FORGE-SIM-RECEIPT/v1`; `SOLVERS` registry (each solver = module with `NAME`, `HANDLES`, `solve(scene)`); sha256 over the canonical receipt; scene compiled by the **same** `engine/rmc_engine_v1/sim_scene.py` the phone bundles.
-- `solvers/mujoco_rigid.py` — MuJoCo 3.17 rigid body (MJCF from the scene; push / drop).
-- `solvers/sympy_math.py` — SymPy 1.14 exact kinematics/trig (throw, drop) + tip-vs-slip cross-check.
-- `serve.py` — `POST /v1/simulate {"question"}`, `GET /v1/health`; also mounted at `/sim/v1/...`; `--static <dir>` serves the PWA from the same process; CORS: `https://bogaertn.github.io` + localhost only; holds no secret, writes nothing.
-- Next solvers slot in by adding a module to `SOLVERS` (chempy, cantera, tellurium …) and a `PRIMARY` action mapping; the receipt contract does not change.
+Loading: nothing is fetched until an ask needs it. WASM files come from jsDelivr by exact version and are checked
+against the SHA-384 pins in `src/sim_wasm_worker.js` before they run; Pyodide packages come from the pinned Pyodide
+0.27.7 lock (`loadPackage` checks each file's sha256). Everything is cached (Cache API `forge-sim-v1` / browser cache)
+so it works offline after first use. No .wasm file is in git or in the portable single file.
 
-Run locally (what the Chrome proofs used):
+Air-gapped / local copies: set `localStorage['forge.sim_assets']` to a folder (same site path like `/sim-assets`, an
+`https://` URL, or `http://localhost:…`) laid out like the CDN: `<folder>/@mujoco/mujoco@3.17.0/mujoco.js`,
+`<folder>/@rdkit/rdkit@2026.9.2/dist/RDKit_minimal.{js,wasm}`, `<folder>/eecircuit-engine@1.9.0/dist/eecircuit-engine.mjs`,
+`<folder>/pyodide/v0.27.7/full/…`. The same pins are checked; a file that does not match is refused.
+
+The portable single file (`_release/single/kernel-app.html`) runs the Pyodide families; the WASM families need the
+installed site (they run in a same-origin worker) and hold in the single file.
+
+## Home PC Simulator (optional)
+The phone sends only the heavy questions (CFD, Hartree-Fock / DFT) to it, and only when the user put its address in
+**Custody → Home PC Simulator (Optional)** (`localStorage['forge.sim_router']`). Test Connection calls `/v1/health`.
+Without an address those questions hold and say a Home PC is required.
+
 ```
-pip install mujoco==3.17.0 sympy==1.14.0 numpy
-cd source && python3 -m server.sim_router.serve --port 8765 --static .
-# app at http://127.0.0.1:8765/  router at http://127.0.0.1:8765/sim/v1/health
+cd source
+python3 -m pip install -r server/sim_router/requirements.txt
+python3 -m server.sim_router.serve --host 127.0.0.1 --port 8790 --origin https://bogaertn.github.io
+# health: http://127.0.0.1:8790/v1/health
 ```
+A phone page served over https can only reach an https address (or `http://localhost` on the same device). Put the PC
+behind https on your own network, e.g. `tailscale serve --https=443 http://127.0.0.1:8790` or Caddy.
 
-## How the phone reaches it
-`src/app.js simulateViaRouter`: only for "What happens if …?" questions. Endpoint = `localStorage['forge.sim_router']` (must be `https://…`, or `http://127.0.0.1|localhost`), else same-origin `/sim` when the app itself is on localhost. CSP already allows `connect-src https:`, so any https router works from Pages with no CSP change. No endpoint / unreachable / bad receipt → no premise → the engine holds honestly. Receipt rows go into `memory.simulation` for that turn only (never stored).
+`router.py` uses the same `engine/rmc_engine_v1/sim_device.py` plan/seal code as the phone. A solver that is not
+installed returns a structured hold with an install command (`reason`, `install`), never a guess.
 
-## Hosting options for the live Pages app
-- **Supabase Edge Function: not possible** for MuJoCo (Deno runtime, no native Python wheels). SymPy-only would also need Python — no.
-- **Pyodide on the phone: not for MuJoCo** (no Pyodide build of the native `mujoco` wheel; SymPy alone would work in Pyodide, ~10 MB extra).
-- **Recommended: a small container** (Fly.io, Render, Google Cloud Run, Railway) running `python3 -m server.sim_router.serve --host 0.0.0.0` (honours `$PORT`) with `requirements.txt`; https is provided by the host. Stateless, no secrets, ~120 MB image, MuJoCo step < 1 s per ask. Then set `forge.sim_router` to the https URL (a settings field can come next).
-- Home node: run the same command next to `forge_node.py` behind https (Caddy / Tailscale Funnel).
-- **Status: no hosted endpoint exists yet**; nothing was deployed (needs Nic's choice of host/account). Pages holds simulation asks until then. No `sb_secret_` is used or needed anywhere in the router.
+### PySCF (Hartree-Fock / DFT)
+```
+python3 -m pip install pyscf==2.8.0
+```
+`solvers/pyscf_abinitio.py`: RHF/6-31G or RKS/B3LYP/6-31G on a fixed experimental geometry table (NIST CCCBDB:
+hydrogen, water, methane, ammonia, nitrogen, carbon dioxide); reports total energy and HOMO/LUMO.
+
+### OpenFOAM (CFD)
+Ubuntu (openfoam.org packages):
+```
+sudo sh -c "wget -O - https://dl.openfoam.org/gpg.key > /etc/apt/trusted.gpg.d/openfoam.asc"
+sudo add-apt-repository http://dl.openfoam.org/ubuntu && sudo apt-get update && sudo apt-get install -y openfoam12
+source /opt/openfoam12/etc/bashrc   # sets FOAM_TUTORIALS; start the router from this shell
+```
+`solvers/openfoam_cfd.py`: copies the stock `incompressible/simpleFoam/pitzDaily` case, sets the inlet speed from the
+question, runs blockMesh + simpleFoam, reports iterations and final residuals.
+
+## Later: a FORGE server
+When a server exists, run the same `serve.py` there and put its https address in the same setting. Nothing in the
+phone changes.
+
