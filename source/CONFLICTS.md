@@ -1,3 +1,18 @@
+## v4.9.246 — Simulators run through the Pāṇini frame; Athena fills the gap (Nic)
+
+**Conflict:** 4.9.244 and 4.9.245 compiled simulation asks with regular expressions and spoke canned English, and they only knew the nouns in two side files. Nic: a simulator that is not on the same Pāṇini, lexicon, and world-model path is pointless, and Athena exists to look up what Forge does not know — for any thing, not one hardcoded object.
+
+**Where:**
+- `src/qframe.js` keeps the adjuncts, voice, numbers, and a have-property paraphrase ("Aspirin has what molecular weight?" is the copula "the molecular weight of aspirin is something"). An intervention that the strict lexicon does not parse is read again with the open lexicon.
+- `engine/rmc_engine_v1/sim_karaka.py` reads that frame. `sim_device.plan` and `sim_scene` no longer match question templates.
+- `engine/rmc_engine_v1/athena_props.py` and `src/sim_device.js` ask PubChem and ChEBI (formula, mass, SMILES, InChIKey), the V&A and the Art Institute (measured height, width, depth, mass), and IMCCE plus JPL SBDB (radius and GM). Two different non-Wikipedia hosts must agree or the slot stays a hold. Rows stay on this phone. No Supabase write.
+- `server/sim_router/serve.py` treats an empty `PORT` as unset.
+- A checker-replayed solver receipt is the measured premise (retrieval weight from the frame gate). Thresholds are unchanged.
+
+**Resolution:** Paraphrases of one push share one scene key. Theobromine's formula is C7H8N4O2 from NLM and EMBL-EBI, and heptane burns as C7H16 + O2. A noun neither memory nor two publishers can measure is held by name. A measure the question states, or a remembered copula states, is the body's size and mass. A bare noun whose catalog heights differ by more than 15 percent asks which kind, on the same follow-up turn as a meaning ask, and the reply resumes that frame. An average is spoken only when two non-Wikipedia publishers agree, and the sentence names the average and the mass. Specimen medians of one kind may differ by 25 percent. When those catalogs name a wood and do not publish a weight, the mass is the shell of the agreed box: its surface times the agreed 18–19 mm board thickness times the wood density two handbooks agree on. C_min 0.87, Echo 0.85, drift 0.35 / 0.80. R4117 still has no model. The small reference set in physical_defaults.json is not extended.
+
+Proof: `verify/r4246_suite.js`.
+
 ## v4.9.245 — Seven on-device simulator families + Home PC Simulator slot (plan 229 step 12c, Nic t275u)
 
 **Conflict:** 4.9.244 put the simulators behind a backend router that had no host; GitHub Pages held every simulation ask. Nic (t275u) locked the architecture: zero Google Cloud, zero third-party backend servers; run the real engines on the phone, and leave a spot for a PC at home for the heavy ones until there is a FORGE server.

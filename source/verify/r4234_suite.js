@@ -73,9 +73,9 @@ T('thresholds are unchanged and no model is called', () => {
 });
 
 T('version registry names 4.9.234', () => {
-  expect(read('VERSION').trim() === '4.9.245', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.246', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.245' && reg.features.some(f => f.id === 'R4234-WORLD-MODEL-IN-SERIES') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.246' && reg.features.some(f => f.id === 'R4234-WORLD-MODEL-IN-SERIES') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

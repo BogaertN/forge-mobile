@@ -47,9 +47,31 @@ def _hold(problem: dict[str, Any], reason: str, **extra: Any) -> dict[str, Any]:
     return r
 
 
-def route(question: str) -> dict[str, Any]:
+def _athena_facts(p: dict[str, Any]) -> list[dict[str, Any]]:
+    """Home PC / CPython only. The phone fetches the same publishers in the browser (CORS) and passes facts in."""
+    from rmc_engine_v1 import athena_props as A
+    name = p.get("substance") or p.get("body")
+    scene = p.get("scene") if isinstance(p.get("scene"), dict) else {}
+    if not name:
+        name = scene.get("body") if isinstance(scene.get("body"), str) else (scene.get("body") or {}).get("noun")
+    if not name:
+        return []
+    kind = "chemical" if p.get("reason") == "unknown_substance" or p.get("substance") else (
+        "body" if p.get("missing") == "radius" else "object")
+    try:
+        got = A.facts_for(kind, str(name))
+    except Exception:
+        return []
+    return list(got.get("ok") or [])
+
+
+def route(question: str, frame: dict[str, Any] | None = None, facts: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     t0 = time.time()
-    p = S.plan(question)
+    p = S.plan(question, frame, facts)
+    if not p.get("ok") and not facts and p.get("reason") in ("unknown_substance", "unknown_body", "property_missing"):
+        filled = _athena_facts(p)
+        if filled:
+            p = S.plan(question, frame, filled)
     if not p.get("ok"):
         return {"schema": SCHEMA, "ok": False, "status": "hold", "question": question, "router": VERSION, "problem": p,
                 "reason": p.get("reason"), "missing": p.get("missing"), "calls_llm": False}

@@ -244,15 +244,23 @@ function askCard(kind, bodyHtml, state) {
 }
 async function say(text) { if (lexState.core === 'loading') { queue.push(text); return; }
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
-  let qtext = text; let askCtx = {};
+  let qtext = text; let askCtx = {}; let simSpecific = false;
   if (pendingAsk && window.KSenses && KSenses.follow) {
     const f = KSenses.follow(pendingAsk, text);
     if (f.state === 'resolved') {
       const picked = f.option;
-      askCard('picked', 'Taking ' + esc(pendingAsk.word) + ' as: ' + esc(picked.label) + '. Asking again: ' + esc(f.run.question), 'meaning-picked');
-      qtext = f.run.question; askCtx = { sense: f.run.sense || null, sensed: f.run.sensed || null, chain: f.run.chain || 0, picked: picked }; pendingAsk = null;
-    } else if (f.state === 'again') { pendingAsk = f.pending; askCard('again', esc(f.text), 'meaning-ask'); return null; }
-    else if (f.state === 'giveup') { const w = pendingAsk.word; pendingAsk = null; askCard('giveup', 'I could not tell which ' + esc(w) + ' you mean, so I am leaving that question. Ask it again and name the meaning (for example "the planet").', 'meaning-dropped'); return null; }
+      if (pendingAsk.kind === 'sim') {
+        qtext = f.run.question; simSpecific = true; pendingAsk = null;
+      } else {
+        askCard('picked', 'Taking ' + esc(pendingAsk.word) + ' as: ' + esc(picked.label) + '. Asking again: ' + esc(f.run.question), 'meaning-picked');
+        qtext = f.run.question; askCtx = { sense: f.run.sense || null, sensed: f.run.sensed || null, chain: f.run.chain || 0, picked: picked }; pendingAsk = null;
+      }
+    } else if (f.state === 'again') { pendingAsk = f.pending; askCard('again', esc(f.text), pendingAsk.kind === 'sim' ? 'sim-ask' : 'meaning-ask'); return null; }
+    else if (f.state === 'giveup') {
+      const w = pendingAsk.word; const sim = pendingAsk.kind === 'sim'; pendingAsk = null;
+      askCard('giveup', sim ? ('I could not tell which kind of ' + esc(w) + ' you mean, so I am leaving that question.') : ('I could not tell which ' + esc(w) + ' you mean, so I am leaving that question. Ask it again and name the meaning (for example "the planet").'), sim ? 'sim-ask' : 'meaning-dropped');
+      return null;
+    }
     else { pendingAsk = null; }
   }
   if (REMEMBER_LAST.test(text)) {
@@ -296,7 +304,15 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
      * receipt → the engine holds or uses stored causal facts as before. */
     /* 4.9.245: the simulators run on this phone first (KSimDevice: Pyodide SymPy/SciPy/Biopython/astropy and WASM
      * MuJoCo/RDKit/ngspice). Heavy CFD / Hartree-Fock asks go to the Home PC Simulator if one is set, else they hold. */
-    const simReceipt = window.KSimDevice ? await KSimDevice.simulate(qtext) : await simulateViaRouter(qtext);
+    const simReceipt = window.KSimDevice ? await KSimDevice.simulate(qtext, memory, simSpecific) : await simulateViaRouter(qtext);
+    if (simReceipt && simReceipt.status === 'ask' && simReceipt.ask && window.KSenses) {
+      pendingAsk = simReceipt.ask;
+      const asked = KSenses.askText(pendingAsk, false);
+      stats.held++;
+      askCard('sim', esc(asked), 'sim-ask');
+      refreshChrome();
+      return { ok: true, held: true, reply: asked, product_reply: false, sim_ask: true, calls_llm: false };
+    }
     if (simReceipt && simReceipt.ok && Array.isArray(simReceipt.rows)) memory.simulation = simReceipt.rows.slice(0, 6);
     askCtx.sim = simReceipt || null;
     if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
@@ -332,7 +348,8 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const relState = rel && rel.realised === true ? 'yes' : rel && rel.realised === false ? 'no' : 'unread';
   const relTag = rel ? '<span class="tag" data-echo-relation="' + esc(rel.asked) + '" data-echo-realised="' + relState + '"' + (panini ? ' data-echo-panini="' + panini + '"' : '') + '>' + esc(rel.asked) + (relState === 'yes' ? ' realised' : relState === 'no' ? ' not realised' : '') + '</span>' : '';
   const admit = row && row.admit && row.admit.disposition;
-  const body = admitted ? esc(row.reply) : 'Held. No answer was admitted. route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(admit) + (row && row.admit && row.admit.drift_region ? ' · drift region ' + esc(row.admit.drift_region) : '') + '.' + (row && row.sim && row.sim.home_pc_required && window.KSimDevice ? ' <span data-sim-hold="home_pc">' + esc(KSimDevice.holdNote(askCtx.sim)) + '</span>' : '');
+  const gap = !admitted && askCtx.sim && window.KSimDevice && KSimDevice.propertyHold ? KSimDevice.propertyHold(askCtx.sim) : '';
+  const body = admitted ? esc(row.reply) : 'Held. No answer was admitted. route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(admit) + (row && row.admit && row.admit.drift_region ? ' · drift region ' + esc(row.admit.drift_region) : '') + '.' + (gap ? ' <span data-sim-hold="gap">' + esc(gap) + '</span>' : '') + (row && row.sim && row.sim.home_pc_required && window.KSimDevice ? ' <span data-sim-hold="home_pc">' + esc(KSimDevice.holdNote(askCtx.sim)) + '</span>' : '');
   /* 4.9.237 outward compile: the shown reply is R_t (src/rmc_core.js outwardCompile); the source premises are kept as cited quotes */
   const oc = row && row.outward_compile;
   const ocTag = oc ? '<span class="tag" data-outward="' + esc(oc.applied ? oc.mode : (oc.rule || oc.mode || 'none')) + '">' + (oc.applied ? 'outward ' + esc(oc.mode) : esc(oc.rule || ('outward ' + (oc.mode || 'none')))) + '</span>' : '';

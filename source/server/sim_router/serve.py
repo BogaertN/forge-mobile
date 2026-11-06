@@ -65,10 +65,13 @@ class Handler(SimpleHTTPRequestHandler):
         if n <= 0 or n > MAX_BODY:
             return self._json(413, {"ok": False, "reason": "body"})
         try:
-            q = str(json.loads(self.rfile.read(n)).get("question") or "")[:400]
+            body = json.loads(self.rfile.read(n))
+            q = str(body.get("question") or "")[:400]
+            frame = body.get("frame") if isinstance(body.get("frame"), dict) else None
+            facts = body.get("facts") if isinstance(body.get("facts"), list) else None
         except Exception:
             return self._json(400, {"ok": False, "reason": "json"})
-        return self._json(200, router.route(q))
+        return self._json(200, router.route(q, frame, facts))
 
 
 def main():
@@ -78,7 +81,8 @@ def main():
     a = ap.parse_args()
     ORIGINS.update(a.origin)
     handler = partial(Handler, directory=a.static) if a.static else Handler
-    srv = ThreadingHTTPServer((a.host, int(os.environ.get("PORT", a.port))), handler)
+    env_port = os.environ.get("PORT")
+    srv = ThreadingHTTPServer((a.host, int(env_port) if env_port else a.port), handler)
     srv.static = bool(a.static)
     print(json.dumps({"listening": srv.server_address, "static": a.static, **router.health()}), flush=True)
     srv.serve_forever()

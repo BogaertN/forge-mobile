@@ -31,28 +31,177 @@
     const local = assetsBase();
     return new Promise((res, rej) => { const id = ++wn; wpend.set(id, { res, rej }); ww.postMessage({ id, cmd, arg, local: local ? new URL(local, root.location.href).href : null }); });
   }
-  async function homePc(problem) {
+  async function homePc(problem, frame) {
     const base = routerBase();
     if (!base) return pyCall({ op: 'hold', problem, reason: 'home_pc_required' });
     const ac = root.AbortController ? new AbortController() : null; const timer = ac ? setTimeout(() => ac.abort(), 180000) : null;
     try {
-      const r = await root.fetch(base + '/v1/simulate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question: String(problem.question).slice(0, 400) }), signal: ac ? ac.signal : undefined, credentials: 'omit' });
+      const r = await root.fetch(base + '/v1/simulate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question: String(problem.question).slice(0, 400), frame: frame || null }), signal: ac ? ac.signal : undefined, credentials: 'omit' });
       const j = r.ok ? await r.json() : null;
       if (j && j.schema === 'FORGE-SIM-RECEIPT/v1') { j.where = j.where || 'home_pc'; return j; }
       return pyCall({ op: 'hold', problem, reason: 'home_pc_bad_reply' });
     } catch (e) { return pyCall({ op: 'hold', problem, reason: 'home_pc_unreachable' }); }
     finally { if (timer) clearTimeout(timer); }
   }
-  async function simulate(question) {
+  function frameOf(q) {
+    try {
+      const Q = root.KQFrame, forge = root.forge;
+      if (Q && forge && typeof Q.compile === 'function') return Q.compile(q, forge);
+    } catch (e) { /* the engine still receives the question; a missing frame holds */ }
+    return null;
+  }
+  function fetchT(url, ms) {
+    const ac = root.AbortController ? new AbortController() : null;
+    const timer = ac ? setTimeout(() => ac.abort(), ms || 4000) : null;
+    return root.fetch(url, { credentials: 'omit', signal: ac ? ac.signal : undefined }).finally(() => { if (timer) clearTimeout(timer); });
+  }
+  async function athenaFacts(problem) {
+    let timer;
+    const cap = new Promise(res => { timer = setTimeout(() => res(null), 20000); });
+    try { return await Promise.race([athenaLookup(problem), cap]); }
+    finally { if (timer) clearTimeout(timer); }
+  }
+  async function athenaLookup(problem) {
+    const reason = problem && problem.reason;
+    if (!reason || !/unknown_substance|unknown_body|property_missing/.test(reason)) return null;
+    const scene = problem.scene || {};
+    const name = problem.substance || problem.body || (typeof scene.body === 'string' ? scene.body : (scene.body && scene.body.noun));
+    if (!name || !root.fetch) return null;
+    const kind = reason === 'unknown_substance' || problem.substance ? 'chemical' : (problem.missing === 'radius' ? 'body' : 'object');
+    try {
+      if (kind === 'chemical') {
+        const pub = await (await fetchT('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(name) + '/property/MolecularFormula,MolecularWeight,InChIKey,IsomericSMILES/JSON', 4000)).text();
+        const search = await (await fetchT('https://www.ebi.ac.uk/ols4/api/search?ontology=chebi&exact=true&q=' + encodeURIComponent(name), 4000)).json();
+        const obo = (((search.response || {}).docs || []).find(d => d && String(d.obo_id || '').indexOf('CHEBI:') === 0) || {}).obo_id;
+        if (!obo) return null;
+        const term = await (await fetchT('https://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms?obo_id=' + encodeURIComponent(obo), 4000)).text();
+        const agreed = await pyCall({ op: 'chem', name: name, pub: pub, term: term });
+        return agreed && agreed.ok && agreed.ok.length ? agreed.ok : null;
+      }
+      if (kind === 'object') {
+        const phrase = String((problem.scene && problem.scene.phrase) || name);
+        const qn = encodeURIComponent(phrase);
+        const vamUrl = 'https://api.vam.ac.uk/v2/objects/search?q=' + qn + '&page_size=10';
+        const articUrl = 'https://api.artic.edu/api/v1/artworks/search?q=' + qn + '&limit=20&fields=id,title,dimensions,classification_title,medium_display,description';
+        const cmaUrl = 'https://openaccess-api.clevelandart.org/api/artworks/?q=' + qn + '&limit=8&has_image=0';
+        const gentUrl = 'https://data.designmuseumgent.be/v2/id/objects?q=' + qn + '&itemsPerPage=4';
+        const smgUrl = 'https://collection.sciencemuseumgroup.org.uk/search/objects?q=' + qn + '&page[size]=20';
+        const pack = await Promise.all([
+          fetchT(vamUrl, 12000).then(r => r.json()).catch(() => null),
+          fetchT(articUrl, 12000).then(r => r.json()).catch(() => null),
+          fetchT(cmaUrl, 12000).then(r => r.json()).catch(() => null),
+          fetchT(gentUrl, 12000).then(r => r.json()).catch(() => null),
+          fetchT(smgUrl, 12000).then(r => r.json()).catch(() => null)
+        ]);
+        const hits = (((pack[0] && pack[0].records) || []).filter(h => h && h.systemNumber)).slice(0, 8);
+        const objs = await Promise.all(hits.map(hit => fetchT('https://api.vam.ac.uk/v2/object/' + encodeURIComponent(hit.systemNumber), 4000).then(r => r.json()).catch(() => null)));
+        const records = [];
+        objs.forEach((obj, i) => {
+          if (!obj) return;
+          const rec = obj.record || {};
+          const desc = [rec.briefDescription, rec.physicalDescription].filter(Boolean).join(' ').slice(0, 400);
+          const mats = (rec.materials || []).map(m => (m && m.text) || m).filter(Boolean);
+          records.push({ title: rec._primaryTitle || hits[i]._primaryTitle || '', objectType: rec.objectType || hits[i].objectType || '', description: desc, materials: mats,
+            dimensions: (rec.dimensions || []).filter(d => !/crate/i.test(d.part || '')).map(d => ({ dimension: d.dimension, value: d.value, unit: d.unit, part: d.part || '' })) });
+        });
+        const arecs = [];
+        for (const a of ((pack[1] && pack[1].data) || [])) {
+          const m = String(a.dimensions || '').match(/(\d+(?:\.\d+)?)\s*[×x]\s*(\d+(?:\.\d+)?)(?:\s*[×x]\s*(\d+(?:\.\d+)?))?\s*cm/i);
+          if (!m) continue;
+          const dims = [{ dimension: 'Height', value: m[1], unit: 'cm', part: '' }, { dimension: 'Width', value: m[2], unit: 'cm', part: '' }];
+          if (m[3]) dims.push({ dimension: 'Depth', value: m[3], unit: 'cm', part: '' });
+          const desc = String(a.description || '').replace(/<[^>]+>/g, ' ');
+          arecs.push({ title: a.title || '', objectType: a.classification_title || '', description: (desc + ' ' + (a.medium_display || '')).slice(0, 600), dimension_text: a.dimensions || '', materials: [a.medium_display || ''], dimensions: dims });
+        }
+        const crecs = [];
+        for (const a of ((pack[2] && pack[2].data) || [])) {
+          const o = (a.dimensions || {}).overall || {};
+          const dims = [];
+          if (o.height) dims.push({ dimension: 'Height', value: o.height, unit: 'm', part: '' });
+          if (o.width) dims.push({ dimension: 'Width', value: o.width, unit: 'm', part: '' });
+          if (o.depth) dims.push({ dimension: 'Depth', value: o.depth, unit: 'm', part: '' });
+          if (!dims.length) continue;
+          crecs.push({ title: a.title || '', objectType: a.type || '', description: a.technique || '', materials: [a.technique || ''], dimensions: dims });
+        }
+        const members = (pack[3] && (pack[3]['hydra:member'] || pack[3].member)) || [];
+        const gids = members.map(m => m && (m['@id'] || m.id)).filter(Boolean).slice(0, 4);
+        const gobjs = await Promise.all(gids.map(id => fetchT(id, 4000).then(r => r.json()).catch(() => null)));
+        const grecs = [];
+        gobjs.forEach(g => {
+          if (!g) return;
+          const dims = [];
+          for (const d of g['crm:P43_has_dimension'] || []) {
+            const lab = ((d['crm:P2_has_type'] || {})['rdfs:label'] || '').toString();
+            const unit = ((d['crm:P91_has_unit'] || {})['rdfs:label'] || '').toString();
+            if (d['crm:P90_has_value'] == null || !lab) continue;
+            dims.push({ dimension: lab, value: d['crm:P90_has_value'], unit: unit || 'cm', part: '' });
+          }
+          if (!dims.length) return;
+          const label = g['rdfs:label'];
+          const title = Array.isArray(label) ? String((label[0] && (label[0]['@value'] || label[0])) || '') : String((label && (label['@value'] || label)) || '');
+          grecs.push({ title: title, objectType: '', description: '', dimensions: dims });
+        });
+        const srecs = [];
+        const numish = v => { const s = String(v == null ? '' : v).trim(); const m = s.match(/^(\d+)(?:\s+(\d+)\s*\/\s*(\d+))?$/); if (!m) { const n = parseFloat(s); return isNaN(n) ? null : n; } return parseFloat(m[1]) + (m[2] ? parseFloat(m[2]) / parseFloat(m[3]) : 0); };
+        const walk = (o, dims) => {
+          if (!o) return;
+          if (Array.isArray(o)) { o.forEach(x => walk(x, dims)); return; }
+          if (typeof o !== 'object') return;
+          if (o.dimension && o.units && o.value != null) {
+            const n = numish(o.value);
+            if (n != null) dims.push({ dimension: o.dimension, value: n, unit: o.units, part: '' });
+          }
+          Object.keys(o).forEach(k => { if (k !== 'dimension' && k !== 'units' && k !== 'value') walk(o[k], dims); });
+        };
+        for (const item of ((pack[4] && pack[4].data) || [])) {
+          const a = item.attributes || {};
+          const dims = [];
+          walk(a.measurements, dims);
+          const metric = dims.filter(d => /^(mm|cm|m|kg)$/i.test(d.unit));
+          const raw = a.description;
+          const desc = Array.isArray(raw) ? raw.map(x => (x && (x.value || x)) || '').join(' ') : ((raw && (raw.value || raw)) || '');
+          srecs.push({ title: (a.summary && a.summary.title) || '', objectType: '', description: String(desc).slice(0, 400), dimensions: metric.length ? metric : dims });
+        }
+        const agreed = await pyCall({ op: 'objects', name: name, phrase: phrase, specific: !!problem.specific, sides: [
+          { id: 'vam', url: vamUrl, records: records }, { id: 'artic', url: articUrl, records: arecs },
+          { id: 'cleveland', url: cmaUrl, records: crecs }, { id: 'gent', url: gentUrl, records: grecs },
+          { id: 'smg', url: smgUrl, records: srecs }
+        ] });
+        if (agreed && agreed.ask) return { ask: true, word: agreed.word || phrase };
+        return agreed && agreed.ok && agreed.ok.length ? agreed.ok : null;
+      }
+    } catch (e) { return null; }
+    return null;
+  }
+  function memoryRows(memory) {
+    const phone = memory && Array.isArray(memory.phone) ? memory.phone : [];
+    return phone.filter(r => r && (r.clause || r.text)).slice(-32).map(r => ({ text: r.text, clause: r.clause || null }));
+  }
+  function simAsk(question, problem, word) {
+    const scene = (problem && problem.scene) || {};
+    return { kind: 'sim', question: String(question || ''), word: String(word || scene.phrase || ''), patientText: String(scene.patient_text || ''), options: [], tries: 0 };
+  }
+  async function simulate(question, memory, specific) {
     const q = String(question || '');
-    if (!GATE.test(q)) return null;
+    const frame0 = frameOf(q);
+    const property = frame0 && frame0.kriya === 'be' && frame0.kartr && /^(weight|mass|formula|structure)$/.test(String(frame0.kartr.head || ''));
+    const orbit = frame0 && frame0.kartr && frame0.kartr.head === 'period' && frame0.kartr.of && frame0.kartr.of.head === 'satellite';
+    if (!(frame0 && (frame0.rule === 'QF-WHAT-HAPPENS-IF' || frame0.conditional || property || orbit)) && !GATE.test(q)) return null;
     const t0 = Date.now();
     let out;
     try {
-      const pl = await pyCall({ op: 'plan', question: q.slice(0, 400) });
+      const frame = frameOf(q.slice(0, 400));
+      let pl = await pyCall({ op: 'plan', question: q.slice(0, 400), frame: frame, memory: memoryRows(memory) });
+      if (pl && pl.problem && !pl.problem.ok) {
+        if (specific) pl.problem.specific = true;
+        const facts = await athenaFacts(pl.problem);
+        if (facts && facts.ask) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'ask', ask: simAsk(q, pl.problem, facts.word), calls_llm: false };
+        else if (facts) pl = await pyCall({ op: 'plan', question: q.slice(0, 400), frame: frame, facts: facts, memory: memoryRows(memory) });
+      }
       const p = pl && pl.problem;
-      if (!p || !p.ok) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'no_problem', problem: p || null, calls_llm: false };
-      else if (p.runtime === 'home_pc') out = await homePc(p);
+      if (out && out.status === 'ask') { /* the follow-up turn owns this question */ }
+      else if (!p || !p.ok) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'no_problem', problem: p || null, reason: (p && p.reason) || null, missing: (p && p.missing) || null, calls_llm: false };
+      else if (p.runtime === 'home_pc') out = await homePc(p, frame);
       else if (p.runtime === 'pyodide') out = await pyCall({ op: 'solve', problem: p });
       else {
         let raw;
@@ -64,6 +213,22 @@
     out.elapsed_ms = Date.now() - t0;
     root.__lastSim = out;
     return out;
+  }
+  function propertyHold(rec) {
+    const p = rec && rec.problem;
+    if (!p || p.ok) return '';
+    const reason = String(p.reason || '');
+    if (!/unknown_substance|unknown_body|property_missing|altitude_missing|sequence_missing/.test(reason)) return '';
+    const scene = p.scene || {};
+    const name = p.substance || p.body || (typeof scene.body === 'string' ? scene.body : '') || '';
+    let slot = String(p.missing || 'measured property');
+    if (reason === 'unknown_substance') slot = 'formula and structure';
+    if (reason === 'unknown_body' && (slot === 'shape' || slot === 'karma')) slot = 'shape, dimensions, and mass';
+    if (reason === 'unknown_body' && slot === 'radius') slot = 'radius and mass';
+    if (reason === 'property_missing') slot = slot === 'karma' ? 'mass, height, and width' : slot;
+    if (reason === 'altitude_missing') slot = 'altitude';
+    if (reason === 'sequence_missing') slot = 'sequence';
+    return 'Athena held this. Two independent trusted publishers did not agree on the ' + slot + (name ? ' of ' + name : '') + '. Nothing was guessed.';
   }
   function holdNote(rec) {
     if (!rec || rec.ok || !rec.home_pc_required) return '';
@@ -92,6 +257,6 @@
     $('homePcTest').onclick = async () => { status('Testing…'); const r = await testConnection($('homePcUrl').value); status(r.ok ? 'Connected. Solvers: ' + ((r.health.solvers || []).map(s => s.name + (s.installed === false ? ' (not installed)' : '')).join(', ') || 'none') : r.status === 'bad_address' ? 'That address is not allowed.' : 'Could not reach it (' + r.status + ').'); };
     $('homePcClear').onclick = () => { try { root.localStorage.removeItem(LS_ROUTER); } catch (e) {} $('homePcUrl').value = ''; status('Cleared. Heavy simulations are held.'); };
   }
-  root.KSimDevice = { simulate, routerBase, assetsBase, testConnection, holdNote, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
+  root.KSimDevice = { simulate, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
   if (root.document) { if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', renderSettings); else renderSettings(); }
 })(typeof self !== 'undefined' ? self : this);

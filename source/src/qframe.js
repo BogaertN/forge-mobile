@@ -17,15 +17,57 @@
   const AUX_TENSE = { does: 'pres3', do: 'pres', did: 'past' };
   const words = s => String(s || '').trim().replace(/[?!.]+$/, '').trim().split(/\s+/).filter(Boolean);
   const join = ws => ws.join(' ');
-  function parse(forge, s) {
-    if (!forge || typeof forge.derive !== 'function' || !s) return null;
-    let d = null; try { d = forge.derive(s.replace(/[.]?$/, '.')); } catch (e) { return null; }
+  function fromDerive(d, s) {
     const ps = (d && d.parses) || []; const p = ps.find(x => x && x.node && x.node.clause) || ps[0];
     if (!p || !p.node) return null;
     return { node: p.node, clause: p.node.clause || null, parses: ps.length, persp: d.persp || null, text: s };
   }
+  function parse(forge, s) {
+    if (!forge || typeof forge.derive !== 'function' || !s) return null;
+    let d = null; try { d = forge.derive(s.replace(/[.]?$/, '.')); } catch (e) { return null; }
+    return fromDerive(d, s);
+  }
+  /* 4.9.246: the open lexicon (deriveSource) is the same grammar with provisional nouns enabled, used only when the
+   * strict parse of an intervention clause fails. It is still the kernel's parser, not a question template. */
+  function parseOpen(forge, s) {
+    const strict = parse(forge, s); if (strict && strict.clause) return strict;
+    if (!forge || typeof forge.deriveSource !== 'function' || !s) return strict;
+    let d = null; try { d = forge.deriveSource(s.replace(/[.]?$/, '.')); } catch (e) { return strict; }
+    return fromDerive(d, s) || strict;
+  }
+  /* Orthography of measure abbreviations, applied only to an intervention that did not parse: "1k" in an electrical
+   * clause is the SI prefix kiloohm, and "a X and Y voltage divider" is two resistors. Recorded as a canonical rule. */
+  function tokenLine(forge, s) {
+    if (!forge) return [];
+    let d = null;
+    try { d = (forge.deriveSource || forge.derive)(String(s || '').replace(/[.]?$/, '.')); } catch (e) { return []; }
+    return ((d && d.T) || []).map(t => ({ w: t.w, lemmas: (t.an || []).map(a => a.lemma).filter(Boolean) }));
+  }
+  /* A failed intervention may still carry measures the grammar did not attach ("a 35 kilogram crate 1.6 meters
+   * tall and 0.4 meters wide"). Lift every number+unit off the clause, parse what remains, and keep the measures
+   * on the frame. Any noun, any of these units. Nothing is filled in. */
+  function liftMeasures(s) {
+    const stated = [];
+    let t = String(s || '');
+    const lenU = '(meters?|metres?|centimeters?|millimeters?|cm|mm|feet|foot|inches?|inch|m)';
+    const massU = '(kilograms?|kg|pounds?|lbs?|grams?|g)';
+    const dimW = '(tall|high|wide|deep|long|thick)';
+    t = t.replace(new RegExp('\\b(\\d+(?:\\.\\d+)?)\\s+' + lenU + '\\s+' + dimW + '\\b', 'gi'), (m, n, u, d) => { stated.push({ num: String(n), unit: String(u).toLowerCase(), dim: String(d).toLowerCase() }); return ' '; });
+    t = t.replace(new RegExp('\\b(\\d+(?:\\.\\d+)?)\\s+' + massU + '\\b', 'gi'), (m, n, u) => { stated.push({ num: String(n), unit: String(u).toLowerCase(), dim: 'mass' }); return ' '; });
+    t = t.replace(/\s+and\s+(?=near\b|on\b|at\b|across\b|along\b|onto\b)/gi, ' ');
+    t = t.replace(/\s+/g, ' ').trim();
+    return { text: t, stated };
+  }
+  function expandMeasures(s) {
+    const raw = String(s || '');
+    if (!/\b(volt|divider|resistor|ohm|circuit)\b/i.test(raw)) return raw;
+    let t = raw.replace(/\b(\d+(?:\.\d+)?)k and (\d+(?:\.\d+)?)k resistors\b/i, 'a $1 kiloohm resistor and a $2 kiloohm resistor');
+    t = t.replace(/\b(\d+(?:\.\d+)?)k\b/gi, '$1 kiloohm');
+    t = t.replace(/\ba (\d+(?:\.\d+)? kiloohm) and (\d+(?:\.\d+)? kiloohm) voltage divider\b/i, 'a resistor of $1 and a resistor of $2');
+    return t;
+  }
   const str = v => Array.isArray(v) ? v.join(' ') : (v == null ? null : String(v));
-  const head = n => n ? str(n.pron || n.indef || n.head || n.propn || n.name || null) : null;
+  const head = n => n ? str(n.pron || n.indef || n.pron3 || n.head || n.propn || n.name || null) : null;
   function np(n) {
     if (!n) return null;
     let text = null; try { text = G.npText(n, 'user'); } catch (e) {}
@@ -36,6 +78,8 @@
     if (n.quant) out.quant = str(n.quant); /* 4.9.241: "no body" carries the negative quantifier (it negates its clause) */
     if (n.plural) out.plural = true;
     if (n.propn) out.propn = str(n.propn);
+    if (n.num != null && n.num !== '') out.num = str(n.num);
+    if (Array.isArray(n.conj)) out.conj = n.conj.map(x => np(x));
     if (n.of && typeof n.of === 'object') out.of = np(n.of);
     return out;
   }
@@ -46,8 +90,10 @@
     const pr = cl.pred || null;
     return {
       kriya: v.lemma || null, tense: v.tense || null, polarity: v.pol || null, modality: v.mod || null,
+      voice: v.voice || 'active',
       kartr: np(cl.subj), karma: karakas.karma || null, karakas,
       pred: pr ? (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np)) : { type: pr.type || null, text: str(pr.words || pr.text || null) }) : null,
+      adj: (cl.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np) : null })),
       adjuncts: (cl.adj || []).length, material,
     };
   }
@@ -174,7 +220,7 @@
   function reparse(forge, f, s, rule) {
     const p = parse(forge, s); if (!p || !p.clause) return false;
     const was = { rule: f.rule, declarative: f.declarative };
-    for (const k of ['kriya', 'tense', 'polarity', 'modality', 'kartr', 'karma', 'karakas', 'pred', 'adjuncts', 'material']) delete f[k];
+    for (const k of ['kriya', 'tense', 'polarity', 'modality', 'voice', 'kartr', 'karma', 'karakas', 'pred', 'adj', 'adjuncts', 'material']) delete f[k];
     Object.assign(f, roles(p.clause)); f.parsed = true; f.partial = false; f.declarative = s; f.parses = p.parses;
     f.canonical = (f.canonical || []).concat([{ rule, surface_rule: was.rule, surface_declarative: was.declarative || null }]);
     return true;
@@ -238,7 +284,27 @@
       const mHappen = String(text || '').trim().match(/^what\s+(?:will\s+)?happen(?:s)?\s+(?:if|when)\s+(.+?)\??$/i);
       if (mHappen) {
         const condTxt = mHappen[1].trim().replace(/[.?]+$/, '');
-        const cond = parse(forge, condTxt);
+        let cond = parseOpen(forge, condTxt);
+        let condCanon = null;
+        if (!cond || !cond.clause) {
+          const exp = expandMeasures(condTxt);
+          if (exp !== condTxt) { const c2 = parseOpen(forge, exp); if (c2 && c2.clause) { cond = c2; condCanon = { rule: 'QF-CANON-SI-PREFIX', surface: condTxt, reading: exp }; } }
+        }
+        if (!cond || !cond.clause) {
+          const lifted = liftMeasures(condTxt);
+          if (lifted.stated.length) {
+            const c4 = parseOpen(forge, lifted.text);
+            if (c4 && c4.clause) { cond = c4; condCanon = { rule: 'QF-CANON-MEASURE', surface: condTxt, reading: lifted.text, stated: lifted.stated }; }
+          }
+        }
+        let stateNum = null;
+        if (!cond || !cond.clause) {
+          const st = condTxt.match(/^(.*)\s+in\s+(?:the\s+)?state\s+(\d+)\s*$/i);
+          if (st) { const c3 = parseOpen(forge, st[1]); if (c3 && c3.clause) { cond = c3; stateNum = st[2]; } }
+        }
+        const condRoles = cond && cond.clause ? roles(cond.clause) : null;
+        if (condRoles && stateNum != null) condRoles.adj = (condRoles.adj || []).concat([{ prep: 'in', role: 'adhikarana', np: { text: 'state ' + stateNum, head: 'state', num: stateNum } }]);
+        if (condRoles && condCanon && Array.isArray(condCanon.stated)) condRoles.stated = condCanon.stated;
         Object.assign(f, {
           speech_act: 'what', mood: 'interrogative', wh: 'what', wh_role: 'pred',
           kriya: 'happen', polarity: 'pos', tense: 'present',
@@ -246,7 +312,7 @@
           pred: { type: 'np', text: 'something', head: 'something', indef: true, kind: 'effect' },
           karma: null, parsed: true, partial: true, declarative: 'something happens ' + (/^\s*what\s+(?:will\s+)?happens?\s+when\b/i.test(text) ? 'when ' : 'if ') + condTxt,
           conditional: true,
-          cond: cond ? Object.assign({ text: condTxt, parses: cond.parses }, roles(cond.clause)) : { text: condTxt, parsed: false },
+          cond: condRoles ? Object.assign({ text: condTxt, parses: cond.parses, open: !!cond.open }, condCanon ? { canonical: [condCanon] } : {}, condRoles) : { text: condTxt, parsed: false, tokens: tokenLine(forge, condTxt) },
           rule: 'QF-WHAT-HAPPENS-IF',
         });
         return f;
@@ -284,7 +350,7 @@
       if (has(a0, 'COP') || has(a0, 'AUX') || has(a0, 'MOD')) {
         f.aux = a0; const body = rest.slice(1);
         const cands = filler ? declaratives(a0, body, filler) : (has(a0, 'COP') && body.length === 1 ? declaratives(a0, body, 'something') : declaratives(a0, body, null));
-        for (const c of cands) { const p = parse(forge, c.s); if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = c.s; f.parses = p.parses; break; } }
+        for (const c of cands) { const p = parseOpen(forge, c.s); if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = c.s; f.parses = p.parses; break; } }
         /* 4.9.241 QF-CANON-PRO-VERB: "do" is the pro-verb. "What can you do?" / "What do you do?" asks for an action of the
          * subject: kriyā do, the karma is the gap (the verb phrase the answer supplies), the modal kept. */
         if (!f.parsed && filler && body.length >= 2 && String(body[body.length - 1]).toLowerCase() === 'do') {
@@ -296,7 +362,17 @@
             f.canonical = [{ rule: 'QF-CANON-PRO-VERB', surface_rule: 'QF-WH-AUX-SUBJ', surface_declarative: null }];
           }
         }
-        if (!f.parsed) { const so = subjectOnly(forge, body); if (so) { f.kartr = np(so.p.clause.subj); f.partial = true; f.declarative = null; } }
+        if (!f.parsed) {
+          const so = subjectOnly(forge, body);
+          if (so) {
+            f.kartr = np(so.p.clause.subj); f.partial = true; f.declarative = null;
+            /* words after the longest subject noun phrase stay on the frame (a height, a place). They are not dropped. */
+            if (so.k < body.length) {
+              const rest = join(body.slice(so.k));
+              f.locus = { text: rest, parsed: false, tokens: tokenLine(forge, rest) };
+            }
+          }
+        }
         f.wh_role = adjunct || (has(a0, 'COP') ? (body.length ? 'pred' : 'kartr') : 'karma');
         if (!filler && has(a0, 'COP') && body.length === 1) f.wh_role = adjunct || 'pred';
         f.rule = 'QF-WH-AUX-' + (f.parsed ? 'DECL' : f.partial ? 'SUBJ' : 'NOPARSE');
@@ -327,6 +403,26 @@
       if (!gp) for (const c of declaratives(lw[0], ws.slice(1), null)) { const p = parse(forge, c.s); if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = c.s; f.parses = p.parses; break; } }
       f.speech_act = selfAct(f, null, f.aux) || 'stated'; f.polar = true; f.rule = 'QF-YN-' + (f.parsed ? 'DECL' : 'NOPARSE');
       return f;
+    }
+    /* 4.9.246 QF-WH-INSITU: "Aspirin has what molecular weight?" is the same copula as "What is the molecular weight of aspirin?"
+     * The wh-word is the gap inside the clause; a have-property is the genitive copula (the property of X is something). */
+    {
+      const wi = lw.indexOf('what');
+      if (wi > 0) {
+        const gapWords = ws.slice(wi + 1);
+        const s = join(ws.slice(0, wi).concat(['something']));
+        const pIn = gapWords.length ? parseOpen(forge, s) : null;
+        if (pIn && pIn.clause) {
+          Object.assign(f, roles(pIn.clause), { wh: 'what', mood: 'interrogative', wh_role: 'karma', parsed: true, declarative: s, parses: pIn.parses, rule: 'QF-WH-INSITU', speech_act: 'what' });
+          const propHead = gapWords[gapWords.length - 1].toLowerCase();
+          const propAdjs = gapWords.slice(0, -1).map(w => w.toLowerCase());
+          if (f.kriya === 'have' && f.kartr && f.kartr.text && /^(weight|mass|formula|structure|charge)$/.test(propHead)) {
+            const reading = 'the ' + propAdjs.concat([propHead]).join(' ') + ' of ' + f.kartr.text + ' is something';
+            if (reparse(forge, f, reading, 'QF-CANON-HAS-PROPERTY')) { f.wh_role = 'pred'; f.speech_act = 'what'; return f; }
+          }
+          return f;
+        }
+      }
     }
     /* declarative */
     const p = parse(forge, join(ws));

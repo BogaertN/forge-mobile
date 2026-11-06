@@ -56,46 +56,70 @@ def _hold(reason: str, missing: str, question: str, **extra: Any) -> dict[str, A
             "question": question, "calls_llm": False, **extra}
 
 
-def compile_scene(question: str) -> dict[str, Any]:
-    from rmc_engine_v1.cause_effect import intervention_of
+def _props_body(noun: str, props: dict[str, Any], D: dict[str, Any]) -> tuple[dict[str, Any] | None, str | None]:
+    """Stated or remembered quantities, then Athena's agreed averages, then the small reference set.
+    A number that was not stated and not agreed is not filled in."""
+    given = {k: props.get(k) for k in ("shape", "height", "width", "depth", "radius", "mass") if props.get(k) not in (None, "")}
+    if noun in D["bodies"] and not given:
+        return dict(D["bodies"][noun]), "physical_defaults"
+    if noun in D["bodies"] and given:
+        base = dict(D["bodies"][noun])
+        base.update(given)
+        return base, "stated" if not props.get("average") else "average"
+    shape = props.get("shape")
+    if shape not in ("box", "cylinder", "sphere"):
+        if props.get("radius") and not props.get("height"):
+            shape = "sphere"
+        elif props.get("height") and props.get("width"):
+            shape = "box"
+        else:
+            return None, "shape"
+    body: dict[str, Any] = {"shape": shape}
+    if shape == "sphere":
+        if props.get("radius") is None:
+            return None, "radius"
+        body["radius"] = float(props["radius"])
+    else:
+        if props.get("height") is None:
+            return None, "height"
+        body["height"] = float(props["height"])
+        if shape == "box":
+            if props.get("width") is None:
+                return None, "width"
+            body["width"] = float(props["width"])
+        else:
+            body["radius"] = float(props.get("radius") or (float(props["width"]) / 2.0 if props.get("width") else 0))
+            if not body["radius"]:
+                return None, "radius"
+    if props.get("mass") is None:
+        return None, "mass"
+    body["mass"] = float(props["mass"])
+    return body, None
 
-    q = re.sub(r"\s+", " ", str(question or "").strip())
-    inter = intervention_of(q)
-    if not inter:
+
+def scene_from_reading(reading: dict[str, Any]) -> dict[str, Any]:
+    """Build a physical scene from a kāraka reading (sim_karaka.read), not from a question regex."""
+    q = reading.get("question") or ""
+    kind = reading.get("kind")
+    if reading.get("hold"):
+        return _hold(reading.get("reason") or "scene_hold", reading.get("missing") or "scene", q)
+    if kind not in ("push", "drop", "throw"):
         return _hold("not_what_happens_if", "intervention", q)
-    raw = str(inter.get("raw") or "").strip().rstrip("?. ")
-    low = raw.lower()
-    words = re.findall(r"[a-z]+", low)
-    if words and words[0] in ("you", "i", "we", "they", "someone", "one"):
-        words = words[1:]
-    if not words:
-        return _hold("no_action", "kriya", q)
-    verb = _stem(words[0])
-    if verb == "let" and "go" in words[:3]:
-        verb = "release"
-    kind = "push" if verb in _PUSH else "drop" if verb in _DROP else "throw" if verb in _THROW else None
-    if verb == "kick" and re.search(r"\bat\s+\d", low):
-        kind = "throw"
-    if kind is None:
-        return _hold("action_not_simulated", "kriya", q, action=verb)
+    verb = str(reading.get("verb") or kind)
+    body_noun = str(reading.get("patient") or "")
+    adjs = [a for a in (reading.get("adjectives") or []) if a in defaults()["adjectives"]]
     D = defaults()
-    # karma: the body noun (first known body noun) and the adjectives before it
-    body_noun, adjs = None, []
-    for i, w in enumerate(words):
-        n = w[:-1] if w.endswith("s") and w[:-1] in D["bodies"] else w
-        if n in D["bodies"]:
-            body_noun = n
-            j = i - 1
-            while j >= 0 and words[j] in D["adjectives"]:
-                adjs.insert(0, words[j])
-                j -= 1
-            break
-    if body_noun is None:
-        if re.search(r"\b(it|them|that|this)\b", low):
+    props = reading.get("props") if isinstance(reading.get("props"), dict) else {}
+    base, missing = _props_body(body_noun, props, D)
+    if base is None:
+        if body_noun in ("it", "them", "that", "this"):
             return _hold("unresolved_pronoun", "karma", q)
-        return _hold("unknown_body", "karma", q)
-    base = dict(D["bodies"][body_noun])
-    defaulted = ["shape", "dimensions", "mass"]
+        return _hold("unknown_body" if missing in (None, "shape") and body_noun not in D["bodies"] and not props else "property_missing",
+                     missing or "karma", q, body=body_noun, phrase=reading.get("phrase"),
+                     patient_text=reading.get("patient_text"), looked_up=sorted(k for k in props if k not in ("average", "phrase")))
+    defaulted = [] if props else ["shape", "dimensions", "mass"]
+    if props:
+        defaulted = [k for k in ("shape", "dimensions", "mass") if k == "mass" and "mass" not in props or k == "shape" and "shape" not in props]
     for a in adjs:
         for k, f in D["adjectives"][a].items():
             if k == "width" and base["shape"] == "cylinder":
@@ -104,75 +128,85 @@ def compile_scene(question: str) -> dict[str, Any]:
                 base["radius"] = base["radius"] * f
             elif k in base:
                 base[k] = base[k] * f
-    # stated dimensions override defaults
-    m = re.search(_NUM + r"\s*" + _UNIT + r"\s+(?:tall|high)\b", low)
-    if m and base["shape"] != "sphere":
-        base["height"] = _length(m.group(1), m.group(2)); defaulted.remove("dimensions") if "dimensions" in defaulted else None
-    m = re.search(_NUM + r"\s*" + _UNIT + r"\s+(?:wide|across)\b", low)
-    if m:
-        w_ = _length(m.group(1), m.group(2))
-        if base["shape"] == "box":
-            base["width"] = w_
-        else:
-            base["radius"] = w_ / 2.0
-    m = re.search(_NUM + r"\s*(kg|kilograms?|g|grams?)\b", low)
-    if m:
-        base["mass"] = float(m.group(1)) * (0.001 if m.group(2).startswith("g") else 1.0)
-        defaulted.remove("mass")
-    # adhikarana: the surface
-    surface, mu, mu_src = None, None, "default"
-    m = re.search(r"\b(?:on|across|along)\s+((?:an?|the)\s+)?([a-z ]+?)(?=\s+(?:near|at|from|with|in)\b|$)", low)
-    if m:
-        cand = m.group(2).strip()
+    part = reading.get("part") if isinstance(reading.get("part"), dict) else {}
+    # stated measures on the frame override a default, never a silent guess
+    from rmc_engine_v1.sim_karaka import measures as frame_measures
+    for m in frame_measures(part):
+        unit, num = m.get("unit") or "", m.get("num")
+        if num is None:
+            continue
+        if unit in _UNITS and m.get("head") in ("tall", "high") or (isinstance(m.get("np"), dict) and any(x in (m["np"].get("adjs") or []) for x in ("tall", "high"))):
+            if base["shape"] != "sphere":
+                base["height"] = _length(str(num), unit if unit in _UNITS else "m")
+                if "dimensions" in defaulted:
+                    defaulted.remove("dimensions")
+    surface = reading.get("surface")
+    mu, mu_src = None, "default"
+    if surface:
+        hit = None
         for key in sorted(D["surfaces"], key=len, reverse=True):
-            if cand == key or cand.endswith(" " + key) or cand.startswith(key):
-                surface, mu, mu_src = key, D["surfaces"][key], "physical_defaults.surfaces"
+            if surface == key or surface.endswith(" " + key):
+                hit = key
                 break
-        if surface is None and cand not in ("it", "the top", "the bottom"):
-            return _hold("unknown_surface", "adhikarana", q, surface=cand)
-    m = re.search(r"(?:friction|μ|mu)\s*(?:of|=|is)?\s*(\d+(?:\.\d+)?)", low)
-    if m:
-        mu, mu_src = float(m.group(1)), "stated"
-    if surface is None:
+        if hit is None:
+            return _hold("unknown_surface", "adhikarana", q, surface=surface)
+        surface, mu, mu_src = hit, D["surfaces"][hit], "physical_defaults.surfaces"
+    else:
         surface = D["default_surface"]
-        mu = mu if mu is not None else D["surfaces"][surface]
+        mu = D["surfaces"][surface]
+    if props.get("mu") is not None:
+        mu, mu_src = float(props["mu"]), "athena_or_memory"
     body = {"noun": body_noun, "adjectives": adjs, **base}
+    if props.get("average"):
+        body["average"] = True
+        body["phrase"] = str(props.get("phrase") or reading.get("phrase") or body_noun)
+    from rmc_engine_v1.sim_karaka import karaka_key
+    raw = str((part.get("text") or q))
     scene: dict[str, Any] = {
         "schema": SCHEMA, "ok": True, "status": "compiled", "question": q, "intervention_raw": raw,
-        "intervention_key": intervention_key(raw), "action": kind, "verb": verb, "body": body,
+        "intervention_key": karaka_key(reading), "action": kind, "verb": verb, "body": body,
         "surface": {"name": surface, "mu": mu, "mu_source": mu_src}, "gravity": D["gravity"],
         "defaulted": defaulted, "sources": D["sources"], "calls_llm": False,
-        "karaka": {"kriya": verb, "karma": body_noun, "adhikarana": surface},
+        "karaka": {"kriya": verb, "karma": body_noun, "adhikarana": surface, "voice": part.get("voice") or "active"},
+        "via": "karaka_frame",
     }
     if kind == "push":
         if base["shape"] == "sphere":
             scene["point"] = {"name": "center", "fraction": 0.5, "source": "sphere"}
         else:
-            point = None
-            m = re.search(_NUM + r"\s*" + _UNIT + r"\s+(?:from|above)\s+the\s+(?:bottom|base|ground)", low)
-            if m:
-                h = _length(m.group(1), m.group(2))
-                point = {"name": "stated_height", "fraction": max(0.0, min(1.0, h / base["height"])), "source": "stated"}
-            else:
-                m = re.search(r"\b(?:near|at|on|by|towards?|in)\s+(?:the\s+)?(top|upper|middle|center|centre|bottom|base|lower)\b", low)
-                if m:
-                    point = {"name": m.group(1), "fraction": D["points"][m.group(1)], "source": "physical_defaults.points"}
-            if point is None:
+            point_name = reading.get("point")
+            if point_name not in D["points"]:
                 return _hold("application_point_missing", "point", q, body=body)
-            scene["point"] = point
+            scene["point"] = {"name": point_name, "fraction": D["points"][point_name], "source": "physical_defaults.points"}
         scene["push"] = dict(D["push"])
         scene["push_reference_mu"] = D["surfaces"][D["default_surface"]]
     elif kind == "drop":
-        m = re.search(r"\bfrom\s+(?:a\s+height\s+of\s+)?" + _NUM + r"\s*" + _UNIT, low)
-        scene["drop_height"] = _length(m.group(1), m.group(2)) if m else 1.0
-        scene["drop_height_source"] = "stated" if m else "default_1m"
+        from rmc_engine_v1.sim_karaka import _qty, _UNIT_M
+        h = _qty(part, _UNIT_M)
+        scene["drop_height"] = h if h is not None else 1.0
+        scene["drop_height_source"] = "stated" if h is not None else "default_1m"
     elif kind == "throw":
-        ma = re.search(_NUM + r"\s*(?:degrees?|deg|°)", low)
-        mv = re.search(_NUM + r"\s*(?:m/s|meters? per second|metres? per second)", low)
-        if not ma or not mv:
-            return _hold("launch_angle_or_speed_missing", "angle" if not ma else "speed", q, body=body)
-        scene["launch"] = {"angle_deg": float(ma.group(1)), "speed": float(mv.group(1))}
+        ang = spd = None
+        for m in frame_measures(part):
+            if m.get("unit") in ("degree",):
+                ang = m["num"]
+            if m.get("unit") in ("m s",) or (isinstance(m.get("unit"), str) and m["unit"].startswith("m") and "s" in m["unit"]):
+                spd = m["num"]
+        if ang is None or spd is None:
+            return _hold("launch_angle_or_speed_missing", "angle" if ang is None else "speed", q, body=body)
+        scene["launch"] = {"angle_deg": float(ang), "speed": float(spd)}
     return scene
+
+
+def compile_scene(question: str, frame: dict[str, Any] | None = None, facts: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+    from rmc_engine_v1.sim_karaka import read
+    q = re.sub(r"\s+", " ", str(question or "").strip())
+    reading = read(q, frame, facts)
+    if reading.get("hold") and reading.get("kind") not in ("push", "drop", "throw"):
+        if reading.get("reason") == "not_a_simulation_question":
+            return _hold("not_what_happens_if", "intervention", q)
+        return _hold(reading.get("reason") or "scene_hold", reading.get("missing") or "scene", q)
+    return scene_from_reading(reading)
 
 
 def intervention_key(raw: str) -> str:

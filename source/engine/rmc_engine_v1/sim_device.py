@@ -83,52 +83,285 @@ def _key(raw: str | None) -> str | None:
 
 
 # ---------------------------------------------------------------- plan
-
-_CFD = re.compile(r"\b(cfd|computational fluid|navier[- ]stokes|air ?flow|wind tunnel|turbulen\w*|aerodynamic\w*|drag coefficient|fluid flow)\b", re.I)
-_QC = re.compile(r"\b(hartree[- ]fock|dft|density functional|ab initio|electronic structure|homo[- ]lumo|coupled cluster|basis set)\b", re.I)
-_MOL = re.compile(r"\b(?:molecular|molar)\s+(weight|mass|formula|structure)\s+of\s+(?:an?\s+|the\s+)?([a-z][a-z \-]*?)(?:\s+molecule)?\s*\??$", re.I)
+# 4.9.246: dispatch is the kāraka reading (sim_karaka.read). The regex question templates are gone.
 
 
-def plan(question: str) -> dict[str, Any]:
+def plan(question: str, frame: dict[str, Any] | None = None, facts: list[dict[str, Any]] | None = None,
+         memory: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+    from rmc_engine_v1.sim_karaka import memory_facts, read
+    from rmc_engine_v1.sim_scene import scene_from_reading
     q = re.sub(r"\s+", " ", str(question or "").strip())
-    low = q.lower()
-    raw = _raw(q)
-    key = _key(raw)
-    if _CFD.search(low):
-        return _problem(q, "openfoam_cfd", key, case=_cfd_case(low))
-    if _QC.search(low):
-        return _problem(q, "pyscf_abinitio", key, molecule=_substance_in(low), method="HF" if "hartree" in low or "fock" in low else "DFT")
-    m = _MOL.search(q)
-    if m:
-        name = m.group(2).strip().lower()
-        sub = data()["substances"].get(name)
-        if not sub:
+    remembered = memory_facts(memory)
+    # A quantity the question states is already on the frame. Remembered rows fill only what it did not state.
+    reading = read(q, frame, (remembered or []) + list(facts or []))
+    if reading.get("hold"):
+        return _hold(q, reading.get("reason") or "hold", reading.get("missing") or "frame", frame_rule=reading.get("reason"))
+    from rmc_engine_v1.sim_karaka import karaka_key
+    kind = reading["kind"]
+    key = karaka_key(reading)
+    if kind == "cfd":
+        return _problem(q, "openfoam_cfd", key, case={"speed_m_s": reading.get("speed_m_s"), "text": q[:200]})
+    if kind == "qc":
+        mol = reading.get("molecule")
+        chem = reading.get("chem") or {}
+        if mol and not chem.get("formula") and mol not in data()["substances"] and mol not in (data().get("bodies") or {}):
+            return _hold(q, "unknown_substance", "karma", substance=mol)
+        return _problem(q, "pyscf_abinitio", key, molecule=mol, method=reading.get("method") or "HF",
+                        formula=(chem.get("formula") or (data()["substances"].get(mol) or {}).get("formula")))
+    if kind == "mol":
+        name = reading["substance"]
+        chem = reading.get("chem") or {}
+        sub = data()["substances"].get(name) or {}
+        smiles = chem.get("smiles") or sub.get("smiles")
+        formula = chem.get("formula") or sub.get("formula")
+        if not smiles and not formula:
             return _hold(q, "unknown_substance", "karma", substance=name)
-        return _problem(q, "rdkit_wasm", None, substance=name, smiles=sub["smiles"], property=m.group(1).lower())
-    if raw is None:
-        return _hold(q, "not_a_simulation_question", "intervention")
-    r = raw.lower()
-    if re.search(r"\b(qubit|hadamard|pauli|rabi|spin)\b", r):
-        return _plan_quantum(q, r, key)
-    if re.search(r"\b(orbit\w*|satellite|escape velocity|escape speed)\b", r):
-        return _plan_orbit(q, r, key)
-    if re.search(r"\b(dna|rna|mrna|codon\w*|translat\w*|transcrib\w*|ribosome)\b", r):
-        return _plan_sequence(q, r, raw, key)
-    if re.search(r"\b(enzyme|michaelis|vmax|km)\b", r):
-        return _plan_enzyme(q, r, key)
-    if re.search(r"\brate constant\b", r):
-        return _plan_kinetics(q, r, key)
-    if re.search(r"\b(volts?|v)\b", r) and re.search(r"(ohms?|Ω|resistor|capacitor|divider|\d\s*k\b)", r):
-        return _plan_circuit(q, r, key)
-    if re.search(r"\b(burn\w*|combust\w*|react\w*|ignite\w*|mix\w*)\b", r):
-        return _plan_reaction(q, r, key)
-    from rmc_engine_v1.sim_scene import compile_scene
-    scene = compile_scene(q)
+        asked = ""
+        kartr = (reading.get("frame") or {}).get("kartr") if isinstance(reading.get("frame"), dict) else None
+        if isinstance(kartr, dict) and kartr.get("text"):
+            asked = str(kartr["text"])
+        return _problem(q, "rdkit_wasm", key, substance=name, smiles=smiles, formula=formula,
+                        property=reading.get("property") or "weight", property_text=asked)
+    if kind == "quantum":
+        return _problem(q, "quantum_ondevice", key, state=reading.get("state") or 0, gate=reading["gate"],
+                        theta_over_pi=reading.get("theta_over_pi") or 1.0)
+    if kind == "orbit":
+        body = reading.get("body") or "earth"
+        facts_b = reading.get("body_facts") or {}
+        known = {"earth", "sun", "jupiter"} | set(data().get("bodies") or {})
+        if reading.get("altitude_m") is None:
+            return _hold(q, "altitude_missing", "altitude", body=body)
+        if body not in known and not (facts_b.get("gm") and facts_b.get("radius")):
+            return _hold(q, "unknown_body", "radius", body=body)
+        return _problem(q, "astronomy_ondevice", key, body=body, altitude_m=reading.get("altitude_m") or 0.0, body_facts=facts_b)
+    if kind == "sequence":
+        if not reading.get("sequence"):
+            return _hold(q, "sequence_missing", "sequence")
+        seq = reading["sequence"]
+        return _problem(q, "biology_ondevice", key, sequence=seq, op=reading.get("op") or "translate",
+                        kind="RNA" if ("U" in seq and "T" not in seq) else "DNA")
+    if kind == "enzyme":
+        return _enzyme_from_frame(q, reading, key)
+    if kind == "kinetics":
+        return _kinetics_from_frame(q, reading, key)
+    if kind == "circuit":
+        return _circuit_from_frame(q, reading, key)
+    if kind == "reaction":
+        return _reaction_from_frame(q, reading, key)
+    scene = scene_from_reading(reading)
     if not scene.get("ok"):
         return _hold(q, scene.get("reason", "scene_hold"), scene.get("missing", "scene"), scene=scene)
-    if scene["action"] == "throw":
-        return _problem(q, "sympy_pyodide", scene["intervention_key"], scene=scene)
-    return _problem(q, "mujoco_wasm", scene["intervention_key"], scene=scene)
+    solver = "sympy_pyodide" if scene["action"] == "throw" else "mujoco_wasm"
+    return _problem(q, solver, scene["intervention_key"], scene=scene)
+
+
+def _enzyme_from_frame(q: str, reading: dict[str, Any], key: str | None) -> dict[str, Any]:
+    from rmc_engine_v1.sim_karaka import measures, _token_pairs
+    part = reading.get("part") or {}
+    vmax = km = s0 = t = None
+    words = [str(t.get("w") or "") for t in (part.get("tokens") or [])]
+    for i, w in enumerate(words):
+        if w.lower() == "vmax" and i + 1 < len(words):
+            try: vmax = float(words[i + 1])
+            except ValueError: pass
+        if w.lower() == "km" and i + 1 < len(words):
+            try: km = float(words[i + 1])
+            except ValueError: pass
+    for num, unit in _token_pairs(part):
+        if unit in ("second", "seconds", "s"):
+            t = num
+        elif unit in ("mm", "millimolar"):
+            s0 = num
+    for m in measures(part):
+        h = m.get("head") or ""
+        if h in ("vmax",) or "vmax" in h:
+            vmax = m["num"]
+        elif h in ("km",):
+            km = m["num"]
+        elif h in ("second", "minute", "hour", "s"):
+            t = m["num"] * {"minute": 60, "hour": 3600}.get(h, 1)
+        elif "mol" in h or h in ("mm", "millimolar"):
+            s0 = m["num"]
+    if None in (vmax, km, s0, t):
+        return _hold(q, "enzyme_quantity_missing", "Vmax, Km, substrate or time")
+    return _problem(q, "biology_kinetics", key, vmax=vmax, km=km, s0=s0, t=t,
+                    note="well-mixed Michaelis-Menten ODE; spatial reaction-diffusion (dune-copasi) is a Home PC slot")
+
+
+def _kinetics_from_frame(q: str, reading: dict[str, Any], key: str | None) -> dict[str, Any]:
+    from rmc_engine_v1.sim_karaka import measures, _token_pairs
+    part = reading.get("part") or {}
+    k = c0 = t = None
+    order = 1
+    words = [str(t.get("w") or "").lower() for t in (part.get("tokens") or [])]
+    if "second-order" in " ".join(words) or ( "second" in words and "order" in words):
+        order = 2
+    for i, w in enumerate(words):
+        if w == "constant" and i + 1 < len(words):
+            try: k = float(words[i + 1])
+            except ValueError: pass
+    for num, unit in _token_pairs(part):
+        if unit in ("second", "seconds", "s"):
+            t = num
+        elif unit in ("mol/l", "mol", "molar"):
+            c0 = num
+    for m in measures(part):
+        h = (m.get("head") or "")
+        if h in ("second", "minute", "hour", "s", "min"):
+            t = m["num"] * {"minute": 60, "min": 60, "hour": 3600}.get(h, 1)
+        elif "mol" in h:
+            c0 = m["num"]
+        elif m.get("np") and "rate" in h:
+            k = m["num"]
+    # the rate constant's of-complement is the number ("the rate constant of 0.2")
+    kartr = part.get("kartr") if isinstance(part.get("kartr"), dict) else {}
+    of = kartr.get("of") if isinstance(kartr.get("of"), dict) else {}
+    if of.get("num") is not None:
+        try:
+            k = float(of["num"])
+        except (TypeError, ValueError):
+            pass
+    heads = " ".join(str(x.get("head") or "") for x in [kartr])
+    if "second" in json.dumps(part.get("adj") or []) and "order" in json.dumps(part):
+        order = 2
+    if k is None or c0 is None or t is None:
+        return _hold(q, "kinetics_quantity_missing", "rate constant, concentration or time")
+    return _problem(q, "chemistry_kinetics", key, k=k, c0=c0, t=t, order=order)
+
+
+def _circuit_from_frame(q: str, reading: dict[str, Any], key: str | None) -> dict[str, Any]:
+    from rmc_engine_v1.sim_karaka import measures
+    part = reading.get("part") or {}
+    v = None
+    rs: list[float] = []
+    cap = None
+    t = None
+
+    def walk(np: dict[str, Any] | None) -> None:
+        if not isinstance(np, dict):
+            return
+        for child in np.get("conj") or []:
+            walk(child)
+        h = str(np.get("head") or "")
+        of = np.get("of") if isinstance(np.get("of"), dict) else None
+        num = None
+        try:
+            num = float(of.get("num")) if of and of.get("num") not in (None, "") else (float(np["num"]) if np.get("num") not in (None, "") else None)
+        except (TypeError, ValueError):
+            num = None
+        unit = str((of or {}).get("head") or h)
+        if num is None:
+            return
+        if unit in ("ohm", "kiloohm") or h in ("ohm", "kiloohm"):
+            rs.append(num * (1e3 if "kilo" in unit or "kilo" in h else 1.0))
+        elif unit in ("farad",) or h == "farad":
+            nonlocal cap
+            cap = num
+    for a in part.get("adj") or []:
+        if isinstance(a, dict):
+            walk(a.get("np"))
+    from rmc_engine_v1.sim_karaka import _token_pairs
+    for num, unit in _token_pairs(part):
+        if unit in ("volt", "volts", "v"):
+            v = num
+        elif unit in ("kiloohm", "ohm", "ohms"):
+            rs.append(num * (1e3 if unit == "kiloohm" else 1.0))
+        elif re.fullmatch(r"\d+(?:\.\d+)?k", unit) or unit == "k":
+            rs.append(num * 1e3)
+        elif unit in ("uf", "µf", "μf"):
+            cap = num * 1e-6
+        elif unit in ("f", "farad", "farads"):
+            cap = num
+        elif unit in ("ms", "millisecond", "milliseconds"):
+            t = num * 0.001
+        elif unit in ("second", "seconds", "s"):
+            t = num
+    # a fused token "1k" / "2k" is one word in the tagger
+    for tok in part.get("tokens") or []:
+        m = re.fullmatch(r"(\d+(?:\.\d+)?)k", str(tok.get("w") or ""), flags=re.I)
+        if m:
+            rs.append(float(m.group(1)) * 1e3)
+        m = re.fullmatch(r"(\d+(?:\.\d+)?)uf", str(tok.get("w") or ""), flags=re.I)
+        if m:
+            cap = float(m.group(1)) * 1e-6
+    for m in measures(part):
+        h = m.get("head") or ""
+        n = m["num"]
+        if h == "volt":
+            v = n
+        elif h in ("ohm", "kiloohm"):
+            rs.append(n * (1e3 if h == "kiloohm" else 1.0))
+        elif h in ("farad",):
+            cap = n
+        elif h in ("second", "millisecond"):
+            t = n * (0.001 if h == "millisecond" else 1.0)
+        elif h in ("resistor",) and n:
+            rs.append(n)
+    if v is None:
+        return _hold(q, "voltage_missing", "voltage")
+    if cap is not None:
+        if not rs:
+            return _hold(q, "resistor_missing", "resistance")
+        tt = t or 5 * rs[0] * cap
+        net = (f"* FORGE RC charge\nV1 in 0 PWL(0 0 1n {v:g})\nR1 in out {rs[0]:g}\nC1 out 0 {cap:g} IC=0\n"
+               f".tran {tt / 500:g} {tt:g} 0 {tt / 500:g} uic\n.end\n")
+        return _problem(q, "circuits_wasm", key, topology="rc", V=v, R=rs[0], C=cap, t=tt, netlist=net)
+    if len(rs) < 1:
+        return _hold(q, "resistor_missing", "resistance")
+    heads = " ".join(m.get("head") or "" for m in measures(part))
+    divider = "divider" in heads or any("divider" in (m.get("head") or "") for m in measures(part))
+    # the divider noun may be the adjunct head, not a measured NP
+    from rmc_engine_v1.sim_karaka import _heads_of
+    blob = " ".join(_heads_of(part)) + " " + str(part.get("text") or "") + " " + " ".join(str(c.get("reading") or "") for c in (part.get("canonical") or []))
+    if "divider" in blob and len(rs) >= 2:
+        lines = f"R1 in out {rs[0]:g}\nR2 out 0 {rs[1]:g}\n"
+        topo = "divider"
+    elif "parallel" in blob and len(rs) >= 2:
+        lines = "".join(f"R{i + 1} in 0 {x:g}\n" for i, x in enumerate(rs))
+        topo = "parallel"
+    else:
+        nodes = ["in"] + [f"n{i}" for i in range(1, len(rs))] + ["0"]
+        lines = "".join(f"R{i + 1} {nodes[i]} {nodes[i + 1]} {x:g}\n" for i, x in enumerate(rs))
+        topo = "series" if len(rs) > 1 else "single"
+    net = f"* FORGE {topo}\nV1 in 0 DC {v:g}\n{lines}.op\n.end\n"
+    return _problem(q, "circuits_wasm", key, topology=topo, V=v, resistors=rs, netlist=net)
+
+
+def _reaction_from_frame(q: str, reading: dict[str, Any], key: str | None) -> dict[str, Any]:
+    D = data()
+    names = list(reading.get("substances") or [])
+    chem = reading.get("chem") or {}
+    if not names:
+        return _hold(q, "unknown_substance", "karma")
+    formulas = []
+    resolved = []
+    for n in names:
+        sub = D["substances"].get(n) or {}
+        formula = (chem.get(n) or {}).get("formula") or sub.get("formula")
+        if not formula:
+            return _hold(q, "unknown_substance", "karma", substance=n)
+        formulas.append(formula)
+        resolved.append(n)
+    burn = bool(reading.get("burn")) or ("oxygen" in resolved and len(resolved) == 2 and any(
+        "C" in _parse_formula(f) for n, f in zip(resolved, formulas) if n != "oxygen"))
+    reactants = list(formulas)
+    if burn and "O2" not in reactants:
+        reactants.append("O2")
+        resolved.append("oxygen")
+    products, rule = None, None
+    for s in D["synthesis"]:
+        if sorted(s["reactants"]) == sorted(reactants):
+            products, rule = list(s["products"]), "synthesis"
+    if products is None and burn:
+        fuel = [f for f in reactants if f != "O2"]
+        if len(fuel) == 1 and set(_parse_formula(fuel[0])) <= {"C", "H", "O"} and "C" in _parse_formula(fuel[0]):
+            products, rule = ["CO2", "H2O"], "combustion"
+        elif fuel == ["H2"]:
+            products, rule = ["H2O"], "synthesis"
+    if products is None:
+        return _hold(q, "reaction_class_unknown", "products", reactants=reactants)
+    return _problem(q, "chemistry_ondevice", key, reactant_names=resolved, reactants=reactants, products=products,
+                    reaction_class=rule, source=D["sources"]["reactions"])
 
 
 def _cfd_case(low: str) -> dict[str, Any]:
@@ -547,20 +780,28 @@ def _solve_enzyme(p: dict[str, Any]) -> dict[str, Any]:
 
 
 def _solve_orbit(p: dict[str, Any]) -> dict[str, Any]:
-    import astropy
-    from astropy import constants as C
     b = p["body"]
     if b in ("earth", "sun", "jupiter"):
+        import astropy
+        from astropy import constants as C
         gm = {"earth": C.GM_earth, "sun": C.GM_sun, "jupiter": C.GM_jup}[b].si.value
         rad = {"earth": C.R_earth, "sun": C.R_sun, "jupiter": C.R_jup}[b].si.value
         name, src = {"earth": "Earth", "sun": "the Sun", "jupiter": "Jupiter"}[b], "astropy.constants (IAU 2015)"
+        engine = "astropy " + astropy.__version__
     else:
-        rec = data()["bodies"][b]
-        gm, rad, name, src = rec["GM"], rec["radius"], rec["name"], data()["sources"]["bodies"]
+        facts = p.get("body_facts") or {}
+        rec = (data().get("bodies") or {}).get(b) or {}
+        if facts.get("gm") and facts.get("radius"):
+            gm, rad, name, src = float(facts["gm"]), float(facts["radius"]), b, "athena two-publisher agreement"
+        elif rec:
+            gm, rad, name, src = rec["GM"], rec["radius"], rec["name"], data()["sources"]["bodies"]
+        else:
+            raise KeyError("no two-publisher body parameters for " + str(b))
+        engine = "math (GM and radius from " + src + ")"
     a = rad + p["altitude_m"]
     T = 2 * math.pi * math.sqrt(a ** 3 / gm)
     v = math.sqrt(gm / a)
-    return {"solver": "astronomy_ondevice", "engine": "astropy " + astropy.__version__, "outcome": "orbit",
+    return {"solver": "astronomy_ondevice", "engine": engine, "outcome": "orbit",
             "measurements": {"body": name, "orbit_radius_km": round(a / 1000, 3), "period_min": round(T / 60, 2),
                              "speed_km_s": round(v / 1000, 3), "escape_speed_km_s": round(math.sqrt(2 * gm / a) / 1000, 3),
                              "gravity_m_s2": round(gm / a ** 2, 3)},
@@ -613,7 +854,8 @@ def finish(problem: dict[str, Any], raw: dict[str, Any]) -> dict[str, Any]:
         ms = {"formula": hill(counts), "exact_mw": round(float(d["exactmw"]), 4), "average_mw": round(float(d["amw"]), 3),
               "heavy_atoms": int(d["NumHeavyAtoms"]), "bonds": int(raw.get("num_bonds", 0)),
               "aromatic_rings": int(d.get("NumAromaticRings", 0)), "rings": int(d.get("NumRings", 0)),
-              "table_formula_agrees": hill(counts) == hill(_parse_formula(data()["substances"][problem["substance"]]["formula"]))}
+              "table_formula_agrees": hill(counts) == hill(_parse_formula(
+                  (data()["substances"].get(problem.get("substance")) or {}).get("formula") or problem.get("formula") or ""))}
         return {"solver": s, "engine": "rdkit " + str(raw.get("version")) + " (WASM, on device)", "outcome": "describe", "measurements": ms}
     if s == "circuits_wasm":
         res = raw["result"]
@@ -652,10 +894,22 @@ def _subject_clause(p: dict[str, Any], run: dict[str, Any]) -> tuple[str, str, l
     if s == "rdkit_wasm":
         n = p["substance"]
         mw = ms["average_mw"]
+        asked = str(p.get("property_text") or "").strip()
+        if asked.lower().startswith("the "):
+            asked_s = asked[0].upper() + asked[1:]
+        else:
+            asked_s = ""
+        value = f"{mw:g} daltons" if p.get("property") in ("weight", "mass") else ms["formula"]
+        if p.get("property") == "structure":
+            value = f"{ms['heavy_atoms']} heavy atoms and {ms['aromatic_rings']} aromatic rings"
+        main = f"{asked_s} is {value}." if asked_s else {
+            "weight": f"The molecular weight of {n} is {mw:g} daltons.",
+            "mass": f"The molecular mass of {n} is {mw:g} daltons.",
+            "formula": f"The molecular formula of {n} is {ms['formula']}.",
+            "structure": f"The molecular structure of {n} has {ms['heavy_atoms']} heavy atoms and {ms['aromatic_rings']} aromatic rings.",
+        }[p["property"]]
         facts = [f"The molecular formula of {n} is {ms['formula']}.", f"The molecular weight of {n} is {mw:g} daltons.",
-                 f"The molecular mass of {n} is {mw:g} daltons.",
-                 f"The molecular structure of {n} has {ms['heavy_atoms']} heavy atoms and {ms['aromatic_rings']} aromatic rings."]
-        main = {"weight": facts[1], "mass": facts[2], "formula": facts[0], "structure": facts[3]}[p["property"]]
+                 f"The molecular mass of {n} is {mw:g} daltons."]
         return main, main, [f for f in facts if f != main]
     if s == "biology_ondevice":
         if p["op"] == "transcribe":
@@ -707,6 +961,36 @@ GERUND = {"push": "pushing", "drop": "dropping", "throw": "throwing", "release":
 
 
 def _rigid_clause(scene: dict[str, Any], outcome: str, ms: dict[str, Any]) -> tuple[str, str]:
+    body = scene.get("body") or {}
+    if body.get("average"):
+        # The grammar round-trips "The average <kind> of <mass> kilograms <verb>." so the outward compile can speak it.
+        phrase = str(body.get("phrase") or body.get("noun") or "object")
+        mass = float(body.get("mass") or 0)
+        verb = VERB_3SG.get(outcome, outcome + "s")
+        sent = f"The average {phrase} of {mass:g} kilograms {verb}."
+        return sent, sent
+    # A passive or reordered intervention is spoken from the kāraka slots (patient, point, surface), not by
+    # gluing the raw clause onto a gerund. The active "you …" form keeps the historical sentence so recorded
+    # receipts re-seal.
+    raw = str(scene.get("intervention_raw") or "")
+    words = raw.split()
+    verb = str(scene.get("verb") or "")
+    active = bool(words) and (words[0].lower() in ("you", "i", "we", "they", "someone", "one") or words[0].lower().startswith(verb[:4] if len(verb) >= 4 else verb))
+    if not active and scene.get("body"):
+        noun = scene["body"]["noun"]
+        subject = "The " + noun
+        point = (scene.get("point") or {}).get("name")
+        surface = (scene.get("surface") or {}).get("name")
+        ger = GERUND.get(verb, (verb or "moving") + "ing")
+        where = ""
+        if point and point not in ("center", "centre"):
+            where += " near the " + point
+        if surface and surface != "table":
+            where += " on " + surface
+        if outcome == "land":
+            return (f"{ger.capitalize()} the {noun} makes it land.",
+                    f"{subject} lands {ms['range_m']:g} meters away after {ms['flight_time_s']:g} seconds.")
+        return f"{ger.capitalize()} the {noun}{where} makes it {outcome}.", f"{subject} {VERB_3SG.get(outcome, outcome + 's')}."
     words = scene["intervention_raw"].split()
     if words and words[0].lower() in ("you", "i", "we", "they", "someone", "one"):
         words = words[1:]

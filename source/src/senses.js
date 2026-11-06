@@ -202,12 +202,36 @@ function planAsk(question, row, ctx) {
   return { kind: 'sense', question: String(question), word: word, options, tries: 0, chain: 0 };
 }
 function askText(p, again) {
+  if (p && p.kind === 'sim') {
+    const lead = again ? 'I still need the kind. ' : '';
+    return lead + 'What kind of ' + p.word + ' is it? Name the kind, or give the mass and the size.';
+  }
   const list = p.options.map((o, i) => (i + 1) + ') ' + o.label + (o.hint ? ' [' + o.hint + ']' : '')).join('  ');
   const lead = again ? 'I still need one meaning for "' + p.word + '". ' : '';
   return lead + 'Which ' + p.word + ' do you mean? ' + list + ' Reply with the number or a few words.';
 }
+function followSim(pending, reply) {
+  const r = String(reply || '').trim();
+  if (!r) return { state: 'again', why: 'empty' };
+  if (looksLikeNewQuestion(r)) return { state: 'new' };
+  const span = String(pending.patientText || '');
+  const q = String(pending.question || '');
+  const i = span ? q.toLowerCase().indexOf(span.toLowerCase()) : -1;
+  if (i < 0) return { state: 'new' };
+  const bare = r.replace(/[?.!]+$/, '').trim();
+  const measured = /\d/.test(bare);
+  const repl = measured ? (span + ' ' + bare) : (/^(a|an|the)\b/i.test(bare) ? bare : 'a ' + bare);
+  return { state: 'resolved', by: measured ? 'measure' : 'kind', option: { label: repl }, run: { question: q.slice(0, i) + repl + q.slice(i + span.length) } };
+}
 /* the user's reply to a pending ask -> what to do next */
 function follow(pending, reply) {
+  if (pending && pending.kind === 'sim') {
+    const got = followSim(pending, reply);
+    if (got.state !== 'again') return got;
+    const tries = (pending.tries || 0) + 1;
+    if (tries >= FOLLOW_MAX_TRIES) return { state: 'giveup' };
+    return { state: 'again', pending: Object.assign({}, pending, { tries: tries }), text: askText(pending, true) };
+  }
   if (!pending || !Array.isArray(pending.options)) return { state: 'new' };
   const pk = pickOption(pending, reply);
   if (pk.state === 'new') return { state: 'new' };
