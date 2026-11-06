@@ -105,9 +105,9 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 });
 
 T('version, registry, CONFLICTS name 4.9.244', () => {
-  expect(read('VERSION').trim() === '4.9.245', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.246', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.245' && reg.features.some(x => x.id === 'R4244-SIM-ROUTER') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.246' && reg.features.some(x => x.id === 'R4244-SIM-ROUTER') && reg.count === reg.features.length, 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.244'), 'CONFLICTS');
 });
 

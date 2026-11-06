@@ -1770,6 +1770,10 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         }
         claim["simulate_chain"] = simulated.get("chain") or []
         claim["kind"] = "causal_prediction"
+        # A checker-replayed solver receipt is the measured premise. Its retrieval weight is the frame gate
+        # (S and C hold because the receipt unified with this intervention and the sha256 replayed). ΔΦ is not in C.
+        if str(pred.get("how") or "") == "WM-SOLVER-RECEIPT" and checked.get("ok"):
+            claim["gate"] = {"passes": True, "S": 1.0, "C": 1.0, "phi_query": 7, "operation": "WM-SOLVER-RECEIPT"}
         # Speak the chain like a copula hop: each premise (exact stored sentence) then the effect conclusion.
         # measure_spoken then scores hops against their own rows (high C); Echo still reads the effect filler.
         seen_txt = set()

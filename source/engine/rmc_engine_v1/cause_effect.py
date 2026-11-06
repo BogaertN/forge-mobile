@@ -588,11 +588,23 @@ def _solver_step(world: dict[str, Any] | None, intervention: dict[str, Any]) -> 
     from rmc_engine_v1.sim_scene import intervention_key
 
     key = intervention_key(intervention.get("raw") or "")
+    struct = None
+    try:
+        from rmc_engine_v1 import question_frame
+        from rmc_engine_v1.sim_karaka import karaka_key, read as karaka_read
+        fr = question_frame.current()
+        if isinstance(fr, dict):
+            struct = karaka_key(karaka_read(str(fr.get("text") or ""), fr))
+    except Exception:
+        struct = None
     for fact in (world or {}).get("facts") or []:
         if not isinstance(fact, dict) or fact.get("source") != "sim_receipt" or fact.get("quarantined"):
             continue
         sim = fact.get("sim") if isinstance(fact.get("sim"), dict) else {}
-        if not key or sim.get("intervention_key") != key or not sim.get("effect_text"):
+        ik = sim.get("intervention_key")
+        if not sim.get("effect_text"):
+            continue
+        if not ik or (ik != key and ik != struct and sim.get("legacy_key") not in (key, struct)):
             continue
         spoken = str(sim["effect_text"]).strip()
         spoken = spoken if spoken.endswith(".") else spoken + "."
