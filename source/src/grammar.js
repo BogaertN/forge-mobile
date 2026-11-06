@@ -131,7 +131,7 @@ function splitSentences(text) { const out = []; let cur = ''; for (const piece o
 function tokenize(text) {
   const raw = String(text).replace(/[’‘]/g, "'").replace(/[“”]/g, '"');
   /* T-ABBREVIATION (4.9.79; orthography): an initialism with internal periods ("U.S.", "e.g.") and a title abbreviation ("Dr.", "Mr.") are one word, period included */
-  const parts = raw.match(/"[^"]*"|(?:[A-Za-z]\.){2,}|\b(?:Mr|Mrs|Ms|Dr|Prof|St|Mt|Jr|Sr)\.(?=\s+[A-Z])|[A-Za-zÀ-ÿ]+-\d+\b|[A-Za-z]+\d[A-Za-z0-9]*\b|\d+[A-Za-z]+[A-Za-z0-9]*\b|[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\-]*(?:'(?!s\b)[a-z]+)?|'s\b|\d+(?:\.\d+)?|[?,;:.!]/g) || [];
+  const parts = raw.match(/"[^"]*"|(?:[A-Za-z]\.){2,}|\b(?:Mr|Mrs|Ms|Dr|Prof|St|Mt|Jr|Sr)\.(?=\s+[A-Z])|[A-Za-zÀ-ÿ]+-\d+\b|[A-Za-z]+\d[A-Za-z0-9]*\b|\d+[A-Za-z]+[A-Za-z0-9]*\b|[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\-]*(?:'(?!s\b)[a-z]+)?|'s\b|\d+(?:\.\d+)?|->|\+|[?,;:.!]/g) || [];
   const exp = Object.assign(Object.create(null), { "don't": 'do not', "doesn't": 'does not', "didn't": 'did not', "isn't": 'is not', "aren't": 'are not', "wasn't": 'was not', "weren't": 'were not', "won't": 'will not', "can't": 'can not', "cannot": 'can not', "couldn't": 'could not', "wouldn't": 'would not', "shouldn't": 'should not', "i'm": 'i am', "you're": 'you are', "we're": 'we are', "they're": 'they are', "i've": 'i have', "i'll": 'i will', "you'll": 'you will', "he's": 'he is', "she's": 'she is', "it's": 'it is', "what's": 'what is', "who's": 'who is', "where's": 'where is', "that's": 'that is', "let's": 'let us', "haven't": 'have not', "hasn't": 'has not' });
   const toks = [];
   for (const p of parts) { const lw = p.toLowerCase(); if (exp[lw]) { exp[lw].split(' ').forEach((x, i) => toks.push({ w: x, orig: i === 0 && /^[A-Z]/.test(p) ? x[0].toUpperCase() + x.slice(1) : x, contraction: lw })); } else toks.push({ w: lw, orig: p }); }
@@ -210,6 +210,18 @@ function Parser(toks, lex) {
     if (at(i, 'PROPN').length) { let j = i; const ws = []; while (at(j, 'PROPN').length) { ws.push(T[j].orig); j++; } out.push(R({ propn: ws.join(' ') }, j, ['NP-PROPN']));
       /* NP-PROPN-COMPOUND (4.9.85) */
       if (j < T.length && at(j, 'N').length && !at(j, 'PROPN').length && at(j, 'V').every(v => v.f === 'ing') && !(j + 1 < T.length && at(j + 1, 'N').length && !at(j + 1, 'V').length)) out.push(R({ propn: ws.join(' ') + ' ' + T[j].w }, j + 1, ['NP-PROPN-COMPOUND'])); }
+    /* NP-FORMULA (4.9.248): a stoichiometric string is one nominal. A species is a chemical token (letters and a digit) with an optional count; species join with + and ->. A lone chemical token stays an ordinary noun. */
+    const chemTok = j => j < T.length && (
+      /^[a-z]{1,4}\d[a-z0-9]*$/.test(word(j)) ||
+      /^[A-Z][a-z]?(?:\d+[A-Za-z0-9]*)?$/.test(String((T[j] && T[j].orig) || '')) ||
+      /^[A-Z][a-z]?[A-Z][a-z]?\d*[A-Za-z0-9]*$/.test(String((T[j] && T[j].orig) || ''))
+    );
+    const speciesEnd = j => { if (at(j, 'NUM').length && chemTok(j + 1)) return j + 2; if (chemTok(j)) return j + 1; return null; };
+    if (speciesEnd(i) != null && (word(speciesEnd(i)) === '+' || word(speciesEnd(i)) === '->' || (at(i, 'NUM').length && chemTok(i + 1)))) {
+      let j = speciesEnd(i), ok = true;
+      while (ok && (word(j) === '+' || word(j) === '->')) { const n = speciesEnd(j + 1); if (n == null) ok = false; else j = n; }
+      if (ok && j != null) out.push(R({ formula: T.slice(i, j).map(t => t.orig || t.w).join(' ') }, j, ['NP-FORMULA']));
+    }
     if (at(i, 'NUM').length && at(i + 1, 'NUM').length) { let j = i; const ns = []; while (at(j, 'NUM').length) { ns.push(word(j)); j++; } out.push(R({ num: ns.join(' ') }, j, ['NP-NUM-SEQUENCE'])); }
     for (const a of at(i, 'NUM')) { out.push(R({ num: a.lemma }, i + 1, ['NP-NUM'])); for (const n of nominal(i + 1)) out.push(R(Object.assign({ num: a.lemma }, n.node), n.i, ['NP-NUM-N'].concat(n.rules))); }
     for (const q of at(i, 'QUOTE')) out.push(R({ quote: q.lemma }, i + 1, ['NP-QUOTE']));
@@ -237,6 +249,8 @@ function Parser(toks, lex) {
     }
     /* NP-APPOSITION-CLOSE (4.9.79; close apposition — samānādhikaraṇa, two nominals with one referent): a common-noun phrase directly followed by a
        proper name names that person or thing ("my cousin Lorna", "the engineer Sato"): the name is the head, the common phrase its description */
+    /* NP-POSTNUM (4.9.248): a count that follows its unit noun ("probability 0.5") is that noun's measure, when it does not open another noun */
+    for (const a of res.slice()) if (a.node.head && !a.node.num && !a.node.formula && !a.node.postnum && at(a.i, 'NUM').length && !at(a.i + 1, 'N').length && !at(a.i + 1, 'ADJ').length) res.push(R(Object.assign({}, a.node, { postnum: word(a.i) }), a.i + 1, a.rules.concat(['NP-POSTNUM'])));
     for (const a of res.slice()) if (a.node.head && !a.node.propn && !a.node.pron && !a.node.pron3 && !a.node.of && at(a.i, 'PROPN').length && !(!a.node.det && !(a.node.adjs || []).length && a.node.head.length === 1 && at(a.i - 1, 'PROPN').length)) for (const b of npGen(a.i)) if (b.node.propn && !b.node.det && !b.node.owner) res.push(R(Object.assign({}, b.node, { appos: a.node }), b.i, a.rules.concat(['NP-APPOSITION-CLOSE'], b.rules)));
     /* NP-PARTICIPLE-POSTMOD (4.9.50; reduced relative): "chest pain radiating to the left arm" — an -ing phrase whose understood kartā is the head */
     for (const a of res.slice()) if (!a.node.pron && !a.node.pron3 && !a.node.indef && a.node.head) for (const c of vpNF(a.i, 'ing')) if (c.node.verb && c.node.verb.lemma !== 'be') res.push(R(Object.assign({}, a.node, { partRel: c.node }), c.i, a.rules.concat(['NP-PARTICIPLE-POSTMOD'], c.rules)));
@@ -299,6 +313,11 @@ function Parser(toks, lex) {
       /* K-PRAKARA-ADV (Doc5 kāraka: manner adjunct): an open-class adverb (lexicon POS r, not closed-class) attaches to the verb of the clause it is parsed in */
       if (j < T.length && openAdv(j) && !list.some(x => x.adv === word(j))) go(j + 1, list.concat([{ adv: word(j), role: 'prakara' }]), rules.concat(['K-PRAKARA-ADV']));
       if (['every', 'each'].includes(word(j)) && j + 1 < T.length && TIMEW.has(word(j + 1)) && !list.some(x => x.time === word(j) + ' ' + word(j + 1))) go(j + 2, list.concat([{ time: word(j) + ' ' + word(j + 1), role: 'kala' }]), rules.concat(['K-KALA-QUANT']));
+      /* K-KALA-QUANT-NUM (4.9.248): "every 92.56 minutes" is one kāla, a count of a duration unit */
+      const spanUnit = w => /^(second|seconds|minute|minutes|hour|hours|day|days|week|weeks|month|months|year|years)$/.test(w || '');
+      if (['every', 'each'].includes(word(j)) && at(j + 1, 'NUM').length && spanUnit(word(j + 2))) { const phrase = word(j) + ' ' + word(j + 1) + ' ' + word(j + 2); if (!list.some(x => x.time === phrase)) go(j + 3, list.concat([{ time: phrase, role: 'kala' }]), rules.concat(['K-KALA-QUANT-NUM'])); }
+      /* K-ADJUNCT-COMMA (4.9.248): a comma before a preposition is orthography of that adjunct ("superposition, with probability"), kept so the clause realizes the same surface */
+      if (word(j) === ',' && at(j + 1, 'PREP').length && !['of', 'to', 'as'].includes(word(j + 1))) for (const n of np(j + 2, true)) { const role = KARAKA[word(j + 1)] || 'adhikarana'; go(n.i, list.concat([{ prep: word(j + 1), np: n.node, role, comma: true }]), rules.concat(['K-ADJUNCT-COMMA', 'K-' + role.toUpperCase() + '-' + word(j + 1).toUpperCase()], n.rules)); }
       if (['last', 'next', 'this'].includes(word(j)) && j + 1 < T.length && TIMEW.has(word(j + 1))) go(j + 2, list.concat([{ time: word(j) + ' ' + word(j + 1), role: 'kala' }]), rules.concat(['K-KALA-DEICTIC']));
     })(i, [], []);
     return res;
@@ -429,10 +448,10 @@ if (/^(all|both|each)$/.test(word(n.j)) && word(n.j + 1) === 'been') res.push(R(
       /* V-PARTICLE-PREPOSED (Doc5 kāraka; particle verbs): "picked up the box" — the particle stands before the karma; same verb+particle as "picked the box up" */
       if (at(g.i, 'PART').length && !at(g.i, 'PREP').length) for (const o of np(g.i + 1, true)) objs.push(Object.assign(R({ karma: o.node }, o.i, ['V-PARTICLE-PREPOSED', 'K-KARMA'].concat(o.rules)), { part: word(g.i) }));
       for (const o of objs) {
-        let j = o.i, part = o.part || null; if (!part && at(j, 'PART').length && !(j + 1 < T.length && KARAKA[word(j) + ' ' + word(j + 1)])) { part = word(j); j++; } /* a two-word preposition is not a particle */
+        let j = o.i, part = o.part || null, particlePos = part ? 'pre' : null; if (!part && at(j, 'PART').length && !(j + 1 < T.length && KARAKA[word(j) + ' ' + word(j + 1)])) { part = word(j); particlePos = 'post'; j++; } /* a two-word preposition is not a particle; a particle after the karma stays after it */
         for (const a of adjuncts(j)) { if (o.node.karma && o.node.karma.clause && a.node.length) continue; /* K-CLAUSE-LATE-CLOSURE: material after a that-complement closes inside the lowest clause (structural, not a choice) */
           if (infOK && !o.node.karma && a.node[0] && a.node[0].prep === 'to' && j === g.i) continue; /* K-INFINITIVE-APAVADA: licensed "to V" is a complement, not a PP */
-          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod }, v.aspect ? { aspect: v.aspect } : {}, part ? { particle: part } : {}, v.f ? { f: v.f } : {}, nf, v.coordLemma ? { coordLemma: v.coordLemma, coordOp: v.coordOp } : {}), roles: o.node, adj: (v.preAdv || []).map(x => ({ adv: x, role: 'prakara', pre: true })).concat(a.node) }, a.i, g.rules.concat(o.rules, a.rules))); }
+          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod }, v.aspect ? { aspect: v.aspect } : {}, part ? { particle: part, particlePos: particlePos } : {}, v.f ? { f: v.f } : {}, nf, v.coordLemma ? { coordLemma: v.coordLemma, coordOp: v.coordOp } : {}), roles: o.node, adj: (v.preAdv || []).map(x => ({ adv: x, role: 'prakara', pre: true })).concat(a.node) }, a.i, g.rules.concat(o.rules, a.rules))); }
       }
     }
     return res;
@@ -471,6 +490,9 @@ if (/^(all|both|each)$/.test(word(n.j)) && word(n.j + 1) === 'been') res.push(R(
          sharing the subject; the second is realized without repeating it */
       if (['and', 'but', 'or'].includes(word(v.i)) && v.node.verb && !v.node.verb.nf) for (const v2 of vp(v.i + 1)) { const f2 = v2.node.verb && v2.node.verb.f; if (!v2.node.verb || v2.node.verb.nf || (f2 === 'base' && sg3(s.node)) || (f2 === 'pres3' && !sg3(s.node))) continue;
         res.push(R({ coord: [c, Object.assign({ subj: s.node, sharedSubj: true }, v2.node)], op: word(v.i) }, v2.i, s.rules.concat(['K-KARTA'], v.rules, ['G-COORD-VP'], v2.rules))); }
+      /* G-COORD-VP-THEN (4.9.248): "and then" is the same shared-kartā coordination, with the adverb kept in the coordinator */
+      if (word(v.i) === 'and' && word(v.i + 1) === 'then' && v.node.verb && !v.node.verb.nf) for (const v2 of vp(v.i + 2)) { const f2 = v2.node.verb && v2.node.verb.f; if (!v2.node.verb || v2.node.verb.nf || (f2 === 'base' && sg3(s.node)) || (f2 === 'pres3' && !sg3(s.node))) continue;
+        res.push(R({ coord: [c, Object.assign({ subj: s.node, sharedSubj: true }, v2.node)], op: 'and then' }, v2.i, s.rules.concat(['K-KARTA'], v.rules, ['G-COORD-VP-THEN'], v2.rules))); }
     }
     return res;
   }
@@ -483,9 +505,9 @@ if (/^(all|both|each)$/.test(word(n.j)) && word(n.j + 1) === 'been') res.push(R(
     for (const c of clause(0)) {
       if (full(c)) out.push(R({ type: 'decl', clause: c.node }, c.i, c.rules));
       if (at(c.i, 'IF').length) for (const k of clause(c.i + 1)) if (full(k)) out.push(R({ type: 'decl', clause: Object.assign({}, c.node, { cond: k.node }) }, k.i, ['LL-COND-SCOPE-POSTPOSED'].concat(c.rules, k.rules)));
-      let j = c.i; if (word(j) === ',') j++;
+      let j = c.i; const comma = word(j) === ','; if (comma) j++;
       if (SUBW.has(word(j)) && !c.node.cond) for (const k of clause(j + 1)) if (full(k)) out.push(R({ type: 'decl', clause: Object.assign({}, c.node, { sub: { conj: word(j), clause: k.node } }) }, k.i, ['G-SUBORD-POSTPOSED-' + word(j).toUpperCase()].concat(c.rules, k.rules)));
-      if (['and', 'but'].includes(word(j))) for (const d of clause(j + 1)) if (full(d)) out.push(R({ type: 'decl', clause: { coord: [c.node, d.node], op: 'and' } }, d.i, ['G-COORD-CLAUSE'].concat(c.rules, d.rules)));
+      if (['and', 'but'].includes(word(j))) for (const d of clause(j + 1)) if (full(d)) out.push(R({ type: 'decl', clause: { coord: [c.node, d.node], op: 'and', comma: comma } }, d.i, ['G-COORD-CLAUSE'].concat(c.rules, d.rules)));
     }
     return out;
   }
@@ -505,6 +527,7 @@ if (/^(all|both|each)$/.test(word(n.j)) && word(n.j + 1) === 'been') res.push(R(
 /* ---------- generation (inverse) ---------- */
 function npText(n, persp) {
   if (!n) return '';
+  if (n.formula) return n.formula;
   if (n.conj) { const parts = n.conj.map(x => npText(x, persp)); return parts.length > 2 ? parts.slice(0, -1).join(', ') + (n.serial ? ',' : '') + ' ' + n.op + ' ' + parts[parts.length - 1] : parts.join(' ' + n.op + ' '); }
   if (n.boundOrig) return npText(n.boundOrig, persp); /* REF-BOUND-LOCAL: a structurally bound pronoun is realized as the pronoun */
   if (n.pron === 'user') return persp === 'user' ? 'I' : 'you'; if (n.pron === 'kernel') return persp === 'user' ? 'you' : 'I';
@@ -517,6 +540,7 @@ function npText(n, persp) {
   if (n.num) s += n.num + (n.head ? ' ' : '');
   if (n.adjs && n.adjs.length) s += n.adjs.join(' ') + ' ';
   if (n.head) s += (n.surface || n.head).join(' ');
+  if (n.postnum) s += ' ' + n.postnum;
   if (n.of) s += ' of ' + npText(n.of, persp);
   if (n.pp) s += ' ' + n.pp.prep + ' ' + (n.pp.np.pron ? objText(n.pp.np, persp) : npText(n.pp.np, persp)); if (n.partRel) s += ' ' + nfText(n.partRel, persp); if (n.ppRel) s += ' ' + n.ppRel.v + (n.ppRel.adv ? ' ' + n.ppRel.adv : '') + ' ' + n.ppRel.prep + ' ' + npText(n.ppRel.np, persp);
   if (n.rel) s += (n.propn || (n.head && n.head.some(h => FEMALE.has(h) || MALE.has(h) || PERSONISH.has(h))) ? ' who ' : ' that ') + vpText(n.rel, n, persp);
@@ -529,7 +553,7 @@ function nfText(c, persp) { // non-finite VP: "to buy a car" / "reading books"
   const v = c.verb; const head = v.lemma === 'be' ? (v.nf === 'inf' ? 'to be ' : 'being ') + predText(c.pred, persp) : (v.nf === 'inf' ? 'to ' + v.lemma : inflect(v.lemma, 'ing') + (v.coordLemma ? ' ' + v.coordOp + ' ' + inflect(v.coordLemma, 'ing') : '')) + (v.particle ? ' ' + v.particle : '');
   return head + rolesText(c.roles || {}, persp) + adjText(c, persp); }
 function rolesText(r, persp) { if (r.vidheya && r.vidheya.of === 'karma' && r.karma) return ' ' + objText(r.karma, persp) + ' ' + r.vidheya.adjp.join(' '); if (r.vidheya) return ' ' + r.vidheya.adjp.join(' '); if (r.prayojana && r.karma) return ' ' + objText(r.karma, persp) + ' ' + nfText(r.prayojana.inf, persp); if (r.sampradana && r.karma) return ' ' + objText(r.sampradana, persp) + ' ' + objText(r.karma, persp); if (r.karma) return ' ' + objText(r.karma, persp); return ''; }
-function adjText(c, persp) { let s = ''; for (const a of c.adj || []) if (!a.pre) s += a.ger ? ' ' + a.prep + ' ' + nfText(a.ger, persp) : a.adv ? ' ' + a.adv : a.time ? ' ' + a.time : ' ' + a.prep + ' ' + (a.np.pron ? objText(a.np, persp) : npText(a.np, persp)); return s; }
+function adjText(c, persp) { let s = ''; for (const a of c.adj || []) if (!a.pre) s += (a.comma ? ',' : '') + (a.ger ? ' ' + a.prep + ' ' + nfText(a.ger, persp) : a.adv ? ' ' + a.adv : a.time ? ' ' + a.time : ' ' + a.prep + ' ' + (a.np.pron ? objText(a.np, persp) : npText(a.np, persp))); return s; }
 const PAST_IS_OTHER_LEMMA = new Set(['saw', 'found', 'wound', 'ground', 'felt', 'fell', 'lay', 'bound', 'rent', 'flew']);
 function vpText(c, subj, persp) {
   const v = c.verb; const ag = agree(subj); const persUser = subj && subj.pron === 'user'; let vs;
@@ -547,7 +571,7 @@ function vpText(c, subj, persp) {
     if (v.aspect === 'perfect' && v.mod === 'asserted' && v.tense !== 'future') cop = (v.tense === 'past' ? 'had' : ag === 'pres3' ? 'has' : 'have') + (neg ? ' not' : '') + ' been';
     vs = cop + ' ' + predText(c.pred, persp);
   } else {
-    const base = v.lemma; const part = v.particle ? ' ' + v.particle : '';
+    const base = v.lemma; const postPart = v.particlePos === 'post'; const part = v.particle && !postPart ? ' ' + v.particle : '';
     if (v.tense === 'future') vs = 'will' + (neg ? ' not ' : ' ') + base;
     else if (v.mod && v.mod !== 'asserted') vs = MODW[v.mod] + (neg ? (v.mod === 'able' ? 'not ' : ' not ') : ' ') + base;
     else if (v.aspect === 'progressive') { const be = v.tense === 'past' ? (ag === 'pres3' || (ag === 'pres1' && persp === 'user') ? 'was' : 'were') : (ag === 'pres3' ? 'is' : (ag === 'pres1' && persp === 'user') || (subj && subj.pron === 'kernel' && persp === 'kernel') ? 'am' : 'are'); vs = be + (neg ? ' not ' : ' ') + inflect(base, 'ing'); }
@@ -558,6 +582,7 @@ function vpText(c, subj, persp) {
     else vs = v.tense === 'past' ? inflect(base, 'past') : ag === 'pres3' ? inflect(base, 'pres3') : base;
     vs += part;
     vs += rolesText(c.roles || {}, persp);
+    if (postPart && v.particle) vs += ' ' + v.particle;
   }
   const pre = (v.never ? ['never'] : []).concat((c.adj || []).filter(a => a.pre && a.adv).map(a => a.adv)); if (pre.length) { const t = vs.split(' '); const aux = /^(cannot|will|would|can|could|shall|should|may|might|must|do|does|did|has|have|had|is|are|am|was|were)$/.test(t[0]) && t.length > 1 && (v.lemma === 'be' || v.voice === 'passive' || ![c.verb.lemma, inflect(c.verb.lemma, 'pres3'), inflect(c.verb.lemma, 'past')].includes(t[0]) || t[1] === 'not'); const k = aux ? (t[1] === 'not' ? 2 : 1) : 0; vs = t.slice(0, k).concat(pre, t.slice(k)).join(' '); } /* a pre-verbal adverb stays before the main verb */
   return vs + adjText(c, persp);
@@ -567,7 +592,7 @@ function predText(p, persp) { if (p.type === 'adj' || p.type === 'adv') return p
 function clauseText(c, persp) {
   let body; /* 4.9.91: a coordination keeps its subordinate clause and condition ("… and creates a demand deposit while making loans") */
   if (c.coord && c.coord.some(x => x.sharedSubj)) body = c.coord.map(x => (x.sharedSubj ? vpText(x, x.subj, persp) : clauseText(x, persp))).join(' ' + (c.op || 'and') + ' ');
-  else if (c.coord) body = c.coord.map(x => clauseText(x, persp)).join(', and ');
+  else if (c.coord) { const sep = c.comma === false ? ' ' + (c.op || 'and') + ' ' : ', ' + (c.op || 'and') + ' '; body = c.coord.map(x => clauseText(x, persp)).join(sep); }
   else body = npText(c.subj, persp) + ' ' + vpText(c, c.subj, persp);
   if (c.sub) body = c.sub.pre ? c.sub.conj + ' ' + clauseText(c.sub.clause, persp) + ', ' + body : body + ' ' + c.sub.conj + ' ' + clauseText(c.sub.clause, persp);
   return c.cond ? 'if ' + clauseText(c.cond, persp) + ', ' + body : body;

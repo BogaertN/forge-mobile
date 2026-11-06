@@ -137,6 +137,9 @@ elif op == 'body':
 elif op == 'continue':
     from rmc_engine_v1.sim_karaka import continue_scene
     out = {'question': continue_scene(a.get('prior'), a.get('frame'))}
+elif op == 'resume':
+    from rmc_engine_v1.sim_karaka import resume_pending
+    out = resume_pending(a.get('question') or '', a.get('frame'), a.get('supplement'))
 elif op == 'gaps':
     from rmc_engine_v1.sim_karaka import read
     out = read(a.get('question') or '', a.get('frame'), a.get('facts'))
@@ -159,7 +162,7 @@ async function sim(arg) {
     if (todo.length) { await py.loadPackage(todo, { checkIntegrity: true }); todo.forEach(n => pkgsDone.add(n)); }
     packages = { rule: 'PYODIDE-LOCK-SHA256', lock: 'pyodide 0.27.7', requested: want, loaded_now: todo };
   }
-  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason, frame: arg.frame, facts: arg.facts, rows: arg.rows, name: arg.name, phrase: arg.phrase, specific: arg.specific, pub: arg.pub, term: arg.term, sides: arg.sides, memory: arg.memory, nhtsa: arg.nhtsa, epa: arg.epa, nhtsa_raw: arg.nhtsa_raw, epa_raw: arg.epa_raw, nhtsa_url: arg.nhtsa_url, epa_url: arg.epa_url, card: arg.card, card_url: arg.card_url, quaero: arg.quaero, prior: arg.prior }));
+  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason, frame: arg.frame, facts: arg.facts, rows: arg.rows, name: arg.name, phrase: arg.phrase, specific: arg.specific, pub: arg.pub, term: arg.term, sides: arg.sides, memory: arg.memory, nhtsa: arg.nhtsa, epa: arg.epa, nhtsa_raw: arg.nhtsa_raw, epa_raw: arg.epa_raw, nhtsa_url: arg.nhtsa_url, epa_url: arg.epa_url, card: arg.card, card_url: arg.card_url, quaero: arg.quaero, prior: arg.prior, supplement: arg.supplement }));
   const out = JSON.parse(py.runPython(SIM_PY));
   if (packages) out.packages = packages;
   return out;

@@ -214,14 +214,7 @@ function followSim(pending, reply) {
   const r = String(reply || '').trim();
   if (!r) return { state: 'again', why: 'empty' };
   if (looksLikeNewQuestion(r)) return { state: 'new' };
-  const span = String(pending.patientText || '');
-  const q = String(pending.question || '');
-  const i = span ? q.toLowerCase().indexOf(span.toLowerCase()) : -1;
-  if (i < 0) return { state: 'new' };
-  const bare = r.replace(/[?.!]+$/, '').trim();
-  const measured = /\d/.test(bare);
-  const repl = measured ? (span + ' ' + bare) : (/^(a|an|the)\b/i.test(bare) ? bare : 'a ' + bare);
-  return { state: 'resolved', by: measured ? 'measure' : 'kind', option: { label: repl }, run: { question: q.slice(0, i) + repl + q.slice(i + span.length) } };
+  return { state: 'resolved', by: 'supplement', run: { question: String(pending.question || ''), supplement: r } };
 }
 /* the user's reply to a pending ask -> what to do next */
 function follow(pending, reply) {

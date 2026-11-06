@@ -1445,7 +1445,12 @@ def _finish_claim(world, text, atom, premises, proof, checked, status, how, phas
         "atom": atom,
         "status": status,
         "how": how,
-        "premises": [{"id": p["id"], "text": p["text"], "source": p.get("source"), "quarantined": bool(p.get("quarantined")), "provenance": p.get("provenance")} for p in premises],
+        "premises": [{
+            "id": p["id"], "text": p["text"], "source": p.get("source"),
+            "quarantined": bool(p.get("quarantined")), "provenance": p.get("provenance"),
+            **({"sim": p["sim"]} if isinstance(p.get("sim"), dict) else {}),
+            **({"ground_forms": list(p.get("ground_forms") or [])} if p.get("ground_forms") else {}),
+        } for p in premises],
         "provenance": [p["id"] for p in premises],
         "proof_id": proof.get("proof_id"),
         "proof": proof,
@@ -1514,46 +1519,6 @@ def _listener_atom(atom: dict[str, Any] | None, voice: Any) -> dict[str, Any] | 
             t = voice(a)
             return t[:1].lower() + t[1:] if t != a or a[:1].islower() else t
         out["args"] = [arg(a) for a in out["args"]]
-    return out
-
-
-def _compilable_atom(sentence: str) -> dict[str, Any] | None:
-    """An atom the phone's outward compile accepts for this sentence, or None so the sentence is quoted.
-
-    A wrong atom holds the whole answer, so this only returns shapes the grammar has been checked on:
-    a copula whose predicate is a measure, and a transitive exceed / tip / spill / reach.
-    """
-    body = re.sub(r"\s+", " ", str(sentence or "").strip()).strip(" .")
-    if not body or " because " in body.lower():
-        return None
-    cop = re.match(r"^(.+?) is (.+)$", body, flags=re.I)
-    if cop and re.search(r"\d", cop.group(2)):
-        right = re.sub(r"\s+below zero$", "", cop.group(2), flags=re.I)
-        return {"predicate": "is", "args": [cop.group(1), right], "polarity": "pos"}
-    trans = re.match(r"^(.+?) (exceeds|tips|spills|reaches) (.+)$", body, flags=re.I)
-    if trans:
-        lemma = {"exceeds": "exceed", "tips": "tip", "spills": "spill", "reaches": "reach"}[trans.group(2).lower()]
-        return {"predicate": lemma, "args": [trans.group(1), trans.group(3)], "polarity": "pos"}
-    return None
-
-
-def _sim_spoken_atoms(parts: list[str], premises: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Outward plan for a simulation reply. Sentences the grammar cannot take an atom for are quoted."""
-    sentences = []
-    for part in parts:
-        for raw in re.split(r"(?<=[.!?])\s+", str(part or "").strip()):
-            raw = raw.strip()
-            if raw:
-                sentences.append(raw if raw.endswith((".", "!", "?")) else raw + ".")
-    out = []
-    last = len(sentences) - 1
-    prem_id = premises[0].get("id") if premises else None
-    for i, text in enumerate(sentences):
-        if text[:1].islower():
-            text = text[:1].upper() + text[1:]
-        atom = _compilable_atom(text)
-        out.append({"text": text, "atom": atom, "verbatim": atom is None, "source_id": prem_id if atom is None else None,
-                    "role": "conclusion" if i == last else "premise"})
     return out
 
 
@@ -1821,21 +1786,62 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         # (S and C hold because the receipt unified with this intervention and the sha256 replayed). ΔΦ is not in C.
         if str(pred.get("how") or "") == "WM-SOLVER-RECEIPT" and checked.get("ok"):
             claim["gate"] = {"passes": True, "S": 1.0, "C": 1.0, "phi_query": 7, "operation": "WM-SOLVER-RECEIPT"}
+        extra = [p for p in (pred.get("ground_premises") or []) if isinstance(p, dict)]
+        if extra:
+            have = {str(p.get("id")) for p in (claim.get("premises") or []) if isinstance(p, dict)}
+            claim["premises"] = list(claim.get("premises") or []) + [p for p in extra if str(p.get("id")) not in have]
         # Speak the chain like a copula hop: each premise (exact stored sentence) then the effect conclusion.
         # measure_spoken then scores hops against their own rows (high C); Echo still reads the effect filler.
-        seen_txt = set()
-        spoken_parts = []
-        pred_sents = {_norm(s) for s in re.split(r"(?<=[.!?])\s+", text) if s.strip()}
-        for prem in premises:
-            pt = str(prem.get("text") or "").strip()
-            if pt and _norm(pt) not in seen_txt and _norm(pt) not in pred_sents:
-                seen_txt.add(_norm(pt))
-                spoken_parts.append(pt if pt.endswith(".") else pt + ".")
-        if text and _norm(text) not in seen_txt:
-            spoken_parts.append(text if text.endswith(".") else text + ".")
-        spoken = " ".join(spoken_parts) if spoken_parts else text
-        claim["text"] = text  # survivor text stays the effect; derived_text is the full chain
-        claim["spoken_atoms"] = _sim_spoken_atoms(spoken_parts, premises)
+        supplied = [a for a in (pred.get("spoken_atoms") or []) if isinstance(a, dict) and str(a.get("text") or "").strip()]
+        if supplied:
+            # The solver already named each clause's atom. Nothing here splits or re-reads the English.
+            spoken_atoms = []
+            for i, a in enumerate(supplied):
+                sent = str(a.get("text") or "").strip()
+                if sent[:1].islower():
+                    sent = sent[:1].upper() + sent[1:]
+                if not sent.endswith((".", "!", "?")):
+                    sent += "."
+                atom = a.get("atom") if isinstance(a.get("atom"), dict) and a["atom"].get("predicate") not in ("holds", "stated") else None
+                spoken_atoms.append({
+                    "text": sent, "atom": atom, "verbatim": atom is None,
+                    "source_id": None if atom else (premises[0].get("id") if premises else None),
+                    "role": str(a.get("role") or ("conclusion" if i == len(supplied) - 1 else "premise")),
+                    "state_before": a.get("state_before", pred.get("state_before")),
+                    "state_after": a.get("state_after", pred.get("state_after")),
+                })
+            spoken = " ".join(a["text"] for a in spoken_atoms)
+            claim["text"] = spoken
+            claim["spoken_atoms"] = spoken_atoms
+            if isinstance(claim.get("frame_match"), dict):
+                claim["frame_match"]["filler"] = spoken
+        else:
+            # A remembered causal chain has no solver atoms. Speak each stored premise, then the effect,
+            # so each hop is measured against its own row. These sentences are quoted: they were not
+            # built as kāraka atoms by a solver.
+            seen_txt = set()
+            parts = []
+            pred_sents = {_norm(s) for s in _sentences(text)}
+            for prem in premises:
+                pt = str(prem.get("text") or "").strip()
+                if pt and _norm(pt) not in seen_txt and _norm(pt) not in pred_sents:
+                    seen_txt.add(_norm(pt))
+                    parts.append(pt if pt.endswith((".", "!", "?")) else pt + ".")
+            if text and _norm(text) not in seen_txt:
+                parts.append(text if text.endswith((".", "!", "?")) else text + ".")
+            spoken_atoms = []
+            last = len(parts) - 1
+            prem_id = premises[0].get("id") if premises else None
+            for i, sent in enumerate(parts):
+                if sent[:1].islower():
+                    sent = sent[:1].upper() + sent[1:]
+                spoken_atoms.append({
+                    "text": sent, "atom": None, "verbatim": True, "source_id": prem_id,
+                    "role": "conclusion" if i == last else "premise",
+                })
+            claim["text"] = text
+            claim["spoken_atoms"] = spoken_atoms
+            spoken = " ".join(a["text"] for a in spoken_atoms) if spoken_atoms else text
         derived = dict(derived)
         derived["status"] = "supported_only"
         derived["reason"] = "simulate_forward_chain"

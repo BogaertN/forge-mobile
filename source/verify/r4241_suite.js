@@ -221,9 +221,9 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 });
 
 T('version registry names 4.9.242', () => {
-  expect(read('VERSION').trim() === '4.9.247', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.248', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.247' && reg.features.some(x => x.id === 'R4241-SELF-FACTS-FROM-CLAUSES') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.248' && reg.features.some(x => x.id === 'R4241-SELF-FACTS-FROM-CLAUSES') && reg.count === reg.features.length, 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.242'), 'CONFLICTS entry at the top');
 });
 

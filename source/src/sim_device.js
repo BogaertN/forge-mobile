@@ -200,7 +200,7 @@
     const scene = (problem && problem.scene) || {};
     return { kind: 'sim', question: String(question || ''), word: String(word || scene.phrase || ''), patientText: String(scene.patient_text || ''), options: [], tries: 0 };
   }
-  async function simulate(question, memory, specific) {
+  async function simulate(question, memory, specific, supplement) {
     const q = String(question || '');
     const frame0 = frameOf(q);
     const property = frame0 && frame0.kriya === 'be' && frame0.kartr && /^(weight|mass|formula|structure)$/.test(String(frame0.kartr.head || ''));
@@ -211,7 +211,16 @@
     try {
       let frame = frameOf(q.slice(0, 400));
       let question = q.slice(0, 400);
-      if (lastScene && frame && (/^what\s+if\b/i.test(question) || (frame.cond && frame.cond.karma && frame.cond.karma.head === 'it'))) {
+      if (supplement && root.KQFrame && typeof root.KQFrame.supplement === 'function') {
+        const sup = root.KQFrame.supplement(supplement, root.forge);
+        const resumed = await pyCall({ op: 'resume', question: question, frame: frame, supplement: sup });
+        if (resumed && resumed.ok && resumed.question) {
+          question = resumed.question;
+          frame = frameOf(question);
+          if (resumed.specific) specific = true;
+          if (resumed.derive_missing && frame) frame.derive_missing = true;
+        }
+      } else if (lastScene && frame && (/^what\s+if\b/i.test(question) || (frame.cond && frame.cond.karma && frame.cond.karma.head === 'it'))) {
         const cont = await pyCall({ op: 'continue', frame: frame, prior: lastScene });
         if (cont && cont.question) { question = cont.question; frame = frameOf(question); }
       }

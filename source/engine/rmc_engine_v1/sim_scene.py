@@ -114,6 +114,17 @@ def scene_from_reading(reading: dict[str, Any]) -> dict[str, Any]:
     adjs = [a for a in (reading.get("adjectives") or []) if a in defaults()["adjectives"]]
     D = defaults()
     props = reading.get("props") if isinstance(reading.get("props"), dict) else {}
+    footprint_derived = False
+    # A reply that stated a height and a mass, but not the footprint, uses a square of that height.
+    # A known body keeps its own width and depth. The receipt names the derived footprint.
+    if reading.get("derive_missing") and props.get("height") and props.get("mass") is not None and not props.get("width"):
+        known = (D["bodies"] or {}).get(body_noun) if isinstance(D.get("bodies"), dict) else None
+        if not (isinstance(known, dict) and known.get("width")):
+            props = dict(props)
+            props["width"] = float(props["height"])
+            if not props.get("depth"):
+                props["depth"] = float(props["height"])
+            footprint_derived = True
     base, missing = _props_body(body_noun, props, D)
     if base is None:
         if body_noun in ("it", "them", "that", "this"):
@@ -124,6 +135,8 @@ def scene_from_reading(reading: dict[str, Any]) -> dict[str, Any]:
     defaulted = [] if props else ["shape", "dimensions", "mass"]
     if props:
         defaulted = [k for k in ("shape", "dimensions", "mass") if k == "mass" and "mass" not in props or k == "shape" and "shape" not in props]
+    if footprint_derived:
+        defaulted.append("footprint")
     for a in adjs:
         for k, f in D["adjectives"][a].items():
             if k == "width" and base["shape"] == "cylinder":

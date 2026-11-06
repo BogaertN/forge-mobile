@@ -1,4 +1,4 @@
-/* R4247 (4.9.247): depth along the push, handbook densities, world-model state and spill,
+/* R4247 (4.9.248): depth along the push, handbook densities, world-model state and spill,
  * buoyancy, heat, slope, a counterfactual follow-up, and a PySCF receipt that clears C.
  * Recorded publisher documents only. No live network. No test noun in the engine. */
 const fs = require('fs');
@@ -189,11 +189,11 @@ print(json.dumps(seal(p, run, where="home_pc")))`, JSON.stringify([q, frame]));
   expect(compiled.product_reply === true && /compiled/.test(JSON.stringify(compiled.outward_compile.sentences)), JSON.stringify(compiled.outward_compile));
 });
 
-T('laws and version 4.9.247; the suite does not fetch the network', () => {
-  expect(read('VERSION').trim() === '4.9.247', 'VERSION');
+T('laws and version 4.9.248; the suite does not fetch the network', () => {
+  expect(read('VERSION').trim() === '4.9.248', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.247' && reg.features.some(x => x.id === 'R4247-WORLD-SIM') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.247'), 'CONFLICTS');
+  expect(reg.version === '4.9.248' && reg.features.some(x => x.id === 'R4247-WORLD-SIM') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.248'), 'CONFLICTS');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T

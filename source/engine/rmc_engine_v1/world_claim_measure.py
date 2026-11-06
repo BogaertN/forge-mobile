@@ -197,6 +197,18 @@ def measure_spoken(
         row = max(weighed, key=lambda r: float(r.get("retrieval_weight") or 0.0)) if weighed else (rows[0] if rows else None)
         nodes.append(_premise_node(premise, row, alignment, gate))
     premise_by_text = {_norm(n["content"]): n for n in nodes if n["content"]}
+    # A solver receipt's spoken clauses, and a spill chained from a hold, are forms of that premise.
+    grounded_forms: set[str] = set()
+    for premise, node in zip(premises, nodes):
+        sim = premise.get("sim") if isinstance(premise.get("sim"), dict) else {}
+        forms = [sim.get("effect_text"), sim.get("causal_reason")]
+        forms.extend(a.get("text") for a in (sim.get("spoken_atoms") or []) if isinstance(a, dict))
+        forms.extend(premise.get("ground_forms") or [])
+        for form in forms:
+            key = _norm(form)
+            if key and key not in premise_by_text:
+                premise_by_text[key] = node
+                grounded_forms.add(key)
     stored_form: dict[str, str] = {}
     if survivor.get("perspective") == "listener":
         # A personal memory is spoken back in the listener's person ("my dog" → "your dog"). That swap is deixis,
@@ -233,6 +245,11 @@ def measure_spoken(
         measured_as = stored_form.get(_norm(sentence), sentence)
         if own is not None:
             role, kind, support = "hop", "memory", [own]
+            # The spoken clause is a form of the premise. Measure the stored premise, the way a
+            # deictic sentence is measured in the person it is stored in, so C is the kernel's
+            # score of that premise and not a copied gate value.
+            if _norm(sentence) in grounded_forms and _norm(measured_as) != _norm(own.get("content")):
+                measured_as = str(own.get("content") or measured_as)
         else:
             role, kind, support = "conclusion", "derived_claim", nodes
         m = _measure(measured_as, kind, support, measure_path)

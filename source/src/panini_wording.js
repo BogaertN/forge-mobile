@@ -64,21 +64,69 @@ function Wording(ctx) {
   function reparseClause0(text, open) { const d = derive(swapToks(text), open); if (!d.parses.length) return null; const ks = new Set(d.parses.map(p => canon(G.material(p.node.clause)))); if (ks.size === 1) return d.parses[0].node.clause;
     const H = heldKeys(), hit = d.parses.filter(p => H.has(canon(G.material(p.node.clause)))); if (hit.length) return new Set(hit.map(p => canon(G.material(p.node.clause)))).size === 1 ? hit[0].node.clause : null;
     /* 4.9.87: an embedded clause is read as the main clause is (G-ECONOMY: fewest Merges, Late Closure, Minimal Attachment), so a that-clause has the reading its sentence would have */
-    const ec = d.parses.every(p => p.node && p.node.clause && p.rules) ? economy(d.parses) : d.parses; return new Set(ec.map(p => canon(G.material(p.node.clause)))).size === 1 ? ec[0].node.clause : null; }
+    let ec = d.parses.every(p => p.node && p.node.clause && p.rules) ? economy(d.parses) : d.parses;
+    /* 4.9.248: "after 1.049 seconds" is a kāla adjunct. A rival that reads the unit as a verb ("seconds" = second) is not that adjunct. */
+    const durationSub = p => { const s = p.node && p.node.clause && p.node.clause.sub; return !!(s && s.conj === 'after' && s.clause && s.clause.verb && /^(second|minute|hour|day)$/.test(s.clause.verb.lemma)); };
+    const kalaAfter = p => ((p.node && p.node.clause && p.node.clause.adj) || []).some(a => a && a.prep === 'after' && a.role === 'kala');
+    if (ec.some(durationSub) && ec.some(kalaAfter)) ec = ec.filter(p => !durationSub(p));
+    return new Set(ec.map(p => canon(G.material(p.node.clause)))).size === 1 ? ec[0].node.clause : null; }
   /* 4.9.237 OUTWARD COMPILE (Nic plan 229 step 8; R0 read forwards). The engine decides an atom; the wording is compiled here, not
    * quoted. The engine's sentence is read as the kernel's own sentence (reparseClause, person swapped) into a kāraka clause; the
    * clause must state the engine's atom (same kriyā, kartṛ and karma / predicate nominal); the clause is realized by grammar.js
    * (clauseText, the kernel speaking) into R_t; R_t is re-read and must give the same material clause (the round trip is Echo by
    * structure). Any failure returns ok:false with the step that failed; nothing is guessed and no model is used. */
   const normArg = x => String(x == null ? '' : x).toLowerCase().replace(/[.!?]+$/, '').replace(/\s+/g, ' ').trim();
+  function adjunctArgs(c) {
+    return (c.adj || []).map(a => {
+      if (a.time) return { role: a.role || 'kala', time: a.time };
+      if (a.prep && a.np) return { role: a.role || null, prep: a.prep, text: G.npText(a.np, 'kernel') };
+      return null;
+    }).filter(Boolean);
+  }
   function atomOfClause(c) {
-    if (!c || c.coord || c.cond || !c.verb) return null;
+    if (!c || c.cond) return null;
+    /* 4.9.248: a coordination is the atoms of its clauses, in order. A shared kartā is still that clause's kartā. */
+    if (c.coord) {
+      const parts = c.coord.map(atomOfClause);
+      if (parts.some(p => !p)) return null;
+      return { lemma: 'coord', op: c.op || 'and', parts, args: [], polarity: 'pos', tense: null };
+    }
+    if (!c.verb) return null;
     const v = c.verb, subj = c.subj ? G.npText(c.subj, 'kernel') : null;
-    if (v.lemma === 'be' && c.pred && c.pred.type === 'np') return { lemma: 'be', args: [subj, G.npText(c.pred.np, 'kernel')], polarity: v.pol };
+    if (!subj) return null;
+    const base = { lemma: v.lemma, polarity: v.pol || 'pos', tense: v.tense || 'present', modifiers: adjunctArgs(c) };
+    if (v.particle) base.particle = v.particle;
+    if (v.lemma === 'be' && c.pred && c.pred.type === 'np') return Object.assign(base, { args: [subj, G.npText(c.pred.np, 'kernel')] });
     /* 4.9.241: an adjective predicate states is(kartṛ, adjective) as the engine's atom does ("Your car is red." → is(your car, red)) */
-    if (v.lemma === 'be' && c.pred && c.pred.type === 'adj' && Array.isArray(c.pred.words) && c.pred.words.length) return { lemma: 'be', args: [subj, c.pred.words.join(' ')], polarity: v.pol };
+    if (v.lemma === 'be' && c.pred && c.pred.type === 'adj' && Array.isArray(c.pred.words) && c.pred.words.length) return Object.assign(base, { args: [subj, c.pred.words.join(' ')] });
+    /* 4.9.248: a prepositional predicate ("is below the density of water") states is(kartṛ, prep + nominal) */
+    if (v.lemma === 'be' && c.pred && c.pred.type === 'pp' && c.pred.np) return Object.assign(base, { args: [subj, c.pred.prep + ' ' + G.npText(c.pred.np, 'kernel')] });
+    if (c.roles && c.roles.vidheya && Array.isArray(c.roles.vidheya.adjp) && c.roles.vidheya.adjp.length && !(c.roles.karma)) return Object.assign(base, { args: [subj, c.roles.vidheya.adjp.join(' ')] });
     const karma = c.roles && c.roles.karma && !c.roles.karma.clause ? G.npText(c.roles.karma, 'kernel') : null;
-    return karma ? { lemma: v.lemma, args: [subj, karma], polarity: v.pol } : null;
+    if (karma) return Object.assign(base, { args: [subj, karma] });
+    /* an intransitive clause states lemma(kartṛ) */
+    return Object.assign(base, { args: [subj] });
+  }
+  function modifierHit(have, m) {
+    return (have || []).some(h => m && m.time ? normArg(h.time) === normArg(m.time) : h && normArg(h.prep) === normArg(m.prep) && normArg(h.text) === normArg(m.text));
+  }
+  function sameAtom(clauseAtom, given) {
+    if (!clauseAtom || !given) return false;
+    if (clauseAtom.lemma === 'coord' || normArg(given.predicate) === 'coord') {
+      if (clauseAtom.lemma !== 'coord' || normArg(given.predicate) !== 'coord') return false;
+      if (given.op && normArg(given.op) !== normArg(clauseAtom.op)) return false;
+      const want = given.parts || [];
+      const got = clauseAtom.parts || [];
+      return want.length === got.length && want.every((p, i) => sameAtom(got[i], p));
+    }
+    if (!predMatches(clauseAtom.lemma, given.predicate)) return false;
+    if ((given.polarity || 'pos') !== clauseAtom.polarity) return false;
+    if (given.tense && given.tense !== clauseAtom.tense) return false;
+    if (given.particle && normArg(given.particle) !== normArg(clauseAtom.particle)) return false;
+    const args = (given.args || []).map(normArg), got = (clauseAtom.args || []).map(normArg);
+    if (args.length !== got.length || args.some((a, i) => a !== got[i])) return false;
+    if (Array.isArray(given.modifiers) && given.modifiers.length && !given.modifiers.every(m => modifierHit(clauseAtom.modifiers, m))) return false;
+    return true;
   }
   function predMatches(lemma, pred) {
     const p = normArg(pred); if (!p || !lemma) return false;
@@ -93,9 +141,7 @@ function Wording(ctx) {
     if (!c) return Object.assign(rec, { step: 'parse' });
     const a = atomOfClause(c);
     if (atom) {
-      const args = (atom.args || []).map(normArg), pol = (atom.polarity || 'pos');
-      if (!a || !predMatches(a.lemma, atom.predicate) || a.polarity !== pol || args.length !== 2 || normArg(a.args[0]) !== args[0] || normArg(a.args[1]) !== args[1])
-        return Object.assign(rec, { step: 'atom', clause_atom: a });
+      if (!sameAtom(a, atom)) return Object.assign(rec, { step: 'atom', clause_atom: a });
     }
     let r = null; try { r = G.clauseText(c, 'kernel'); } catch (e) { r = null; }
     if (!r) return Object.assign(rec, { step: 'realize' });

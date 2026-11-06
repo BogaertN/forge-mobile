@@ -100,9 +100,9 @@
        "push_height_m": 0.2024
       },
       "equations": [
-       "slip: F > \u03bc m g",
+       "slip: F > μ m g",
        "tip: F h > m g w/2",
-       "tip before slip iff h > (w/2)/\u03bc"
+       "tip before slip iff h > (w/2)/μ"
       ]
      }
     ]
@@ -170,12 +170,85 @@
          "push_height_m": 0.2024
         },
         "equations": [
-         "slip: F > \u03bc m g",
+         "slip: F > μ m g",
          "tip: F h > m g w/2",
-         "tip before slip iff h > (w/2)/\u03bc"
+         "tip before slip iff h > (w/2)/μ"
         ]
        }
-      ]
+      ],
+      "spoken_atoms": [
+       {
+        "text": "The bottle topples.",
+        "atom": {
+         "predicate": "topple",
+         "args": [
+          "the bottle"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "table"
+        },
+        "state_after": {
+         "motion": "topple",
+         "tilt_deg": 90,
+         "support": "side",
+         "patient": "bottle",
+         "surface": "table"
+        }
+       },
+       {
+        "text": "The push height exceeds the critical height.",
+        "atom": {
+         "predicate": "exceed",
+         "args": [
+          "the push height",
+          "the critical height"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "reason",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "table"
+        },
+        "state_after": {
+         "motion": "topple",
+         "tilt_deg": 90,
+         "support": "side",
+         "patient": "bottle",
+         "surface": "table"
+        }
+       }
+      ],
+      "patient": "bottle",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "table"
+      },
+      "state_after": {
+       "motion": "topple",
+       "tilt_deg": 90,
+       "support": "side",
+       "patient": "bottle",
+       "surface": "table"
+      },
+      "causal_reason": "The push height exceeds the critical height."
      }
     }
    ],
@@ -300,9 +373,9 @@
        "push_height_m": 0.0176
       },
       "equations": [
-       "slip: F > \u03bc m g",
+       "slip: F > μ m g",
        "tip: F h > m g w/2",
-       "tip before slip iff h > (w/2)/\u03bc"
+       "tip before slip iff h > (w/2)/μ"
       ]
      }
     ]
@@ -370,12 +443,85 @@
          "push_height_m": 0.0176
         },
         "equations": [
-         "slip: F > \u03bc m g",
+         "slip: F > μ m g",
          "tip: F h > m g w/2",
-         "tip before slip iff h > (w/2)/\u03bc"
+         "tip before slip iff h > (w/2)/μ"
         ]
        }
-      ]
+      ],
+      "spoken_atoms": [
+       {
+        "text": "The bottle slides.",
+        "atom": {
+         "predicate": "slide",
+         "args": [
+          "the bottle"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "table"
+        },
+        "state_after": {
+         "motion": "slide",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "table"
+        }
+       },
+       {
+        "text": "The critical height exceeds the push height.",
+        "atom": {
+         "predicate": "exceed",
+         "args": [
+          "the critical height",
+          "the push height"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "reason",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "table"
+        },
+        "state_after": {
+         "motion": "slide",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "table"
+        }
+       }
+      ],
+      "patient": "bottle",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "table"
+      },
+      "state_after": {
+       "motion": "slide",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "table"
+      },
+      "causal_reason": "The critical height exceeds the push height."
      }
     }
    ],
@@ -483,9 +629,9 @@
        "push_height_m": 0.2024
       },
       "equations": [
-       "slip: F > \u03bc m g",
+       "slip: F > μ m g",
        "tip: F h > m g w/2",
-       "tip before slip iff h > (w/2)/\u03bc"
+       "tip before slip iff h > (w/2)/μ"
       ]
      }
     ]
@@ -553,12 +699,85 @@
          "push_height_m": 0.2024
         },
         "equations": [
-         "slip: F > \u03bc m g",
+         "slip: F > μ m g",
          "tip: F h > m g w/2",
-         "tip before slip iff h > (w/2)/\u03bc"
+         "tip before slip iff h > (w/2)/μ"
         ]
        }
-      ]
+      ],
+      "spoken_atoms": [
+       {
+        "text": "The bottle slides.",
+        "atom": {
+         "predicate": "slide",
+         "args": [
+          "the bottle"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "ice"
+        },
+        "state_after": {
+         "motion": "slide",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "ice"
+        }
+       },
+       {
+        "text": "The critical height exceeds the push height.",
+        "atom": {
+         "predicate": "exceed",
+         "args": [
+          "the critical height",
+          "the push height"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "reason",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "ice"
+        },
+        "state_after": {
+         "motion": "slide",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "ice"
+        }
+       }
+      ],
+      "patient": "bottle",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "ice"
+      },
+      "state_after": {
+       "motion": "slide",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "ice"
+      },
+      "causal_reason": "The critical height exceeds the push height."
      }
     }
    ],
@@ -660,15 +879,15 @@
      {
       "solver": "statics_check",
       "role": "cross_check",
-      "outcome": "slide",
+      "outcome": "stay",
       "measurements": {
        "critical_push_height_m": 0.0361,
        "push_height_m": 0.0176
       },
       "equations": [
-       "slip: F > \u03bc m g",
+       "slip: F > μ m g",
        "tip: F h > m g w/2",
-       "tip before slip iff h > (w/2)/\u03bc"
+       "tip before slip iff h > (w/2)/μ"
       ]
      }
     ]
@@ -693,17 +912,17 @@
    "primary_solver": "mujoco_wasm",
    "clause": "Pushing the bottle near the bottom on rubber makes it stay.",
    "effect_text": "The bottle stays.",
-   "receipt_id": "sim-4f3a6542d16929f1",
-   "sha256": "4f3a6542d16929f1871db705092b7fa869348be03395bd383c92b50efd8aa796",
+   "receipt_id": "sim-04353c88445899bb",
+   "sha256": "04353c88445899bb532d8bfca79e49fd755c72ee43b4d499be1311e33775c27a",
    "rows": [
     {
-     "id": "sim-4f3a6542d16929f1",
+     "id": "sim-04353c88445899bb",
      "text": "Pushing the bottle near the bottom on rubber makes it stay.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-4f3a6542d16929f1",
-      "sha256": "4f3a6542d16929f1871db705092b7fa869348be03395bd383c92b50efd8aa796",
+      "receipt_id": "sim-04353c88445899bb",
+      "sha256": "04353c88445899bb532d8bfca79e49fd755c72ee43b4d499be1311e33775c27a",
       "intervention_key": "bottle bottom near on push rubber",
       "effect_text": "The bottle stays.",
       "outcome": "stay",
@@ -730,18 +949,63 @@
        {
         "solver": "statics_check",
         "role": "cross_check",
-        "outcome": "slide",
+        "outcome": "stay",
         "measurements": {
          "critical_push_height_m": 0.0361,
          "push_height_m": 0.0176
         },
         "equations": [
-         "slip: F > \u03bc m g",
+         "slip: F > μ m g",
          "tip: F h > m g w/2",
-         "tip before slip iff h > (w/2)/\u03bc"
+         "tip before slip iff h > (w/2)/μ"
         ]
        }
-      ]
+      ],
+      "spoken_atoms": [
+       {
+        "text": "The bottle stays.",
+        "atom": {
+         "predicate": "stay",
+         "args": [
+          "the bottle"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "rubber"
+        },
+        "state_after": {
+         "motion": "stay",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "rubber"
+        }
+       }
+      ],
+      "patient": "bottle",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "rubber"
+      },
+      "state_after": {
+       "motion": "stay",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "rubber"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -852,9 +1116,9 @@
        "push_height_m": 0.0736
       },
       "equations": [
-       "slip: F > \u03bc m g",
+       "slip: F > μ m g",
        "tip: F h > m g w/2",
-       "tip before slip iff h > (w/2)/\u03bc"
+       "tip before slip iff h > (w/2)/μ"
       ]
      }
     ]
@@ -922,12 +1186,85 @@
          "push_height_m": 0.0736
         },
         "equations": [
-         "slip: F > \u03bc m g",
+         "slip: F > μ m g",
          "tip: F h > m g w/2",
-         "tip before slip iff h > (w/2)/\u03bc"
+         "tip before slip iff h > (w/2)/μ"
         ]
        }
-      ]
+      ],
+      "spoken_atoms": [
+       {
+        "text": "The wide flat block slides.",
+        "atom": {
+         "predicate": "slide",
+         "args": [
+          "the wide flat block"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "block",
+         "surface": "table"
+        },
+        "state_after": {
+         "motion": "slide",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "block",
+         "surface": "table"
+        }
+       },
+       {
+        "text": "The critical height exceeds the push height.",
+        "atom": {
+         "predicate": "exceed",
+         "args": [
+          "the critical height",
+          "the push height"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "reason",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "block",
+         "surface": "table"
+        },
+        "state_after": {
+         "motion": "slide",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "block",
+         "surface": "table"
+        }
+       }
+      ],
+      "patient": "block",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "block",
+       "surface": "table"
+      },
+      "state_after": {
+       "motion": "slide",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "block",
+       "surface": "table"
+      },
+      "causal_reason": "The critical height exceeds the push height."
      }
     }
    ],
@@ -1015,9 +1352,9 @@
      "max_height_m": 5.099
     },
     "equations": [
-     "R = v^2 sin(2\u03b8)/g",
-     "t = 2 v sin \u03b8 / g",
-     "H = (v sin \u03b8)^2 / (2g)"
+     "R = v^2 sin(2θ)/g",
+     "t = 2 v sin θ / g",
+     "H = (v sin θ)^2 / (2g)"
     ]
    },
    "raw": null,
@@ -1048,7 +1385,45 @@
        "flight_time_s": 2.039,
        "max_height_m": 5.099
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The ball lands 35.324 meters away after 2.039 seconds.",
+        "atom": {
+         "predicate": "land",
+         "args": [
+          "the ball",
+          "35.324 meters"
+         ],
+         "polarity": "pos",
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "kala",
+           "prep": "after",
+           "text": "2.039 seconds"
+          }
+         ],
+         "particle": "away"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "land"
+        }
+       }
+      ],
+      "patient": "ball",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "land"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -1149,7 +1524,43 @@
        "equation": "2 H2 + O2 -> 2 H2O",
        "reaction_class": "synthesis"
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The reaction balances as 2 H2 + O2 -> 2 H2O.",
+        "atom": {
+         "predicate": "balance",
+         "args": [
+          "the reaction"
+         ],
+         "polarity": "pos",
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "upadhi",
+           "prep": "as",
+           "text": "2 H2 + O2 -> 2 H2O"
+          }
+         ]
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "react"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "react"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -1250,7 +1661,43 @@
        "equation": "CH4 + 2 O2 -> CO2 + 2 H2O",
        "reaction_class": "combustion"
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The reaction balances as CH4 + 2 O2 -> CO2 + 2 H2O.",
+        "atom": {
+         "predicate": "balance",
+         "args": [
+          "the reaction"
+         ],
+         "polarity": "pos",
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "upadhi",
+           "prep": "as",
+           "text": "CH4 + 2 O2 -> CO2 + 2 H2O"
+          }
+         ]
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "react"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "react"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -1343,7 +1790,37 @@
        "rings": 2,
        "table_formula_agrees": true
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The molecular weight of caffeine is 194.194 daltons.",
+        "atom": {
+         "predicate": "is",
+         "args": [
+          "the molecular weight of caffeine",
+          "194.194 daltons"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "describe"
+        }
+       }
+      ],
+      "patient": "caffeine",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "describe"
+      },
+      "causal_reason": ""
      }
     },
     {
@@ -1532,7 +2009,37 @@
        "rings": 1,
        "table_formula_agrees": true
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The molecular formula of aspirin is C9H8O4.",
+        "atom": {
+         "predicate": "is",
+         "args": [
+          "the molecular formula of aspirin",
+          "C9H8O4"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "describe"
+        }
+       }
+      ],
+      "patient": "aspirin",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "describe"
+      },
+      "causal_reason": ""
      }
     },
     {
@@ -1693,7 +2200,54 @@
        "stopped": true,
        "codons": 13
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The ribosome makes the protein MAIVMGR and then stops.",
+        "atom": {
+         "predicate": "coord",
+         "args": [],
+         "polarity": "pos",
+         "tense": "present",
+         "parts": [
+          {
+           "predicate": "make",
+           "args": [
+            "the ribosome",
+            "the protein MAIVMGR"
+           ],
+           "polarity": "pos",
+           "tense": "present"
+          },
+          {
+           "predicate": "stop",
+           "args": [
+            "the ribosome"
+           ],
+           "polarity": "pos",
+           "tense": "present"
+          }
+         ],
+         "op": "and then"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "translate"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "translate"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -1777,7 +2331,44 @@
        "product_made_mM": 3.6943,
        "initial_rate_mM_s": 0.0667
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The enzyme leaves 6.306 millimolar of substrate after 60 seconds.",
+        "atom": {
+         "predicate": "leave",
+         "args": [
+          "the enzyme",
+          "6.306 millimolar of substrate"
+         ],
+         "polarity": "pos",
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "kala",
+           "prep": "after",
+           "text": "60 seconds"
+          }
+         ]
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "consume"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "consume"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -1834,7 +2425,7 @@
     },
     "constants_source": "astropy.constants (IAU 2015)",
     "equations": [
-     "T = 2\u03c0 sqrt(a^3/GM)",
+     "T = 2π sqrt(a^3/GM)",
      "v = sqrt(GM/a)",
      "v_esc = sqrt(2GM/a)",
      "g = GM/a^2"
@@ -1871,7 +2462,73 @@
        "escape_speed_km_s": 10.845,
        "gravity_m_s2": 8.676
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The satellite circles Earth every 92.56 minutes at 7.669 kilometers per second.",
+        "atom": {
+         "predicate": "circle",
+         "args": [
+          "the satellite",
+          "Earth"
+         ],
+         "polarity": "pos",
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "kala",
+           "time": "every 92.56 minutes"
+          },
+          {
+           "role": "adhikarana",
+           "prep": "at",
+           "text": "7.669 kilometers"
+          },
+          {
+           "role": "sambandha",
+           "prep": "per",
+           "text": "second"
+          }
+         ]
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "orbit"
+        }
+       },
+       {
+        "text": "Gravity balances the centripetal acceleration.",
+        "atom": {
+         "predicate": "balance",
+         "args": [
+          "gravity",
+          "the centripetal acceleration"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "reason",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "orbit"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "orbit"
+      },
+      "causal_reason": "Gravity balances the centripetal acceleration."
      }
     }
    ],
@@ -1931,7 +2588,7 @@
       ]
      ]
     },
-    "method": "U = i expm(-i \u03c0/2 G) = G; Born rule P(k) = |<k|psi>|^2"
+    "method": "U = i expm(-i π/2 G) = G; Born rule P(k) = |<k|psi>|^2"
    },
    "raw": null,
    "outcome": "measure",
@@ -1970,7 +2627,53 @@
         ]
        ]
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The qubit ends with probability 0 for 0 and 1 for 1.",
+        "atom": {
+         "predicate": "end",
+         "args": [
+          "the qubit"
+         ],
+         "polarity": "pos",
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "karana",
+           "prep": "with",
+           "text": "probability 0"
+          },
+          {
+           "role": "sampradana",
+           "prep": "for",
+           "text": "0 and 1"
+          },
+          {
+           "role": "sampradana",
+           "prep": "for",
+           "text": "1"
+          }
+         ]
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "measure"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "measure"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -2028,7 +2731,7 @@
       ]
      ]
     },
-    "method": "U = i expm(-i \u03c0/2 G) = G; Born rule P(k) = |<k|psi>|^2"
+    "method": "U = i expm(-i π/2 G) = G; Born rule P(k) = |<k|psi>|^2"
    },
    "raw": null,
    "outcome": "measure",
@@ -2067,7 +2770,58 @@
         ]
        ]
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The qubit ends in an equal superposition, with probability 0.5 for 0 and 0.5 for 1.",
+        "atom": {
+         "predicate": "end",
+         "args": [
+          "the qubit"
+         ],
+         "polarity": "pos",
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "adhikarana",
+           "prep": "in",
+           "text": "an equal superposition"
+          },
+          {
+           "role": "karana",
+           "prep": "with",
+           "text": "probability 0.5"
+          },
+          {
+           "role": "sampradana",
+           "prep": "for",
+           "text": "0 and 0.5"
+          },
+          {
+           "role": "sampradana",
+           "prep": "for",
+           "text": "1"
+          }
+         ]
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "measure"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "measure"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -2126,7 +2880,7 @@
       ]
      ]
     },
-    "method": "U = expm(-i \u03b8/2 \u03c3x), \u03b8 = 0.5 \u03c0; Born rule P(k) = |<k|psi>|^2"
+    "method": "U = expm(-i θ/2 σx), θ = 0.5 π; Born rule P(k) = |<k|psi>|^2"
    },
    "raw": null,
    "outcome": "measure",
@@ -2165,7 +2919,58 @@
         ]
        ]
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The qubit ends in an equal superposition, with probability 0.5 for 0 and 0.5 for 1.",
+        "atom": {
+         "predicate": "end",
+         "args": [
+          "the qubit"
+         ],
+         "polarity": "pos",
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "adhikarana",
+           "prep": "in",
+           "text": "an equal superposition"
+          },
+          {
+           "role": "karana",
+           "prep": "with",
+           "text": "probability 0.5"
+          },
+          {
+           "role": "sampradana",
+           "prep": "for",
+           "text": "0 and 0.5"
+          },
+          {
+           "role": "sampradana",
+           "prep": "for",
+           "text": "1"
+          }
+         ]
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "measure"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "measure"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -2294,7 +3099,55 @@
        "total_resistance_ohm": 2000,
        "v_out": 5
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The output is 5 volts and the current is 5 milliamps.",
+        "atom": {
+         "predicate": "coord",
+         "args": [],
+         "polarity": "pos",
+         "tense": "present",
+         "parts": [
+          {
+           "predicate": "is",
+           "args": [
+            "the output",
+            "5 volts"
+           ],
+           "polarity": "pos",
+           "tense": "present"
+          },
+          {
+           "predicate": "is",
+           "args": [
+            "the current",
+            "5 milliamps"
+           ],
+           "polarity": "pos",
+           "tense": "present"
+          }
+         ],
+         "op": "and"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "solve"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "solve"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -4547,7 +5400,43 @@
        "tau_s": 0.001,
        "v_out_at_tau": 3.1665
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The capacitor charges to 4.966 volts.",
+        "atom": {
+         "predicate": "charge",
+         "args": [
+          "the capacitor"
+         ],
+         "polarity": "pos",
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "sampradana",
+           "prep": "to",
+           "text": "4.966 volts"
+          }
+         ]
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "solve"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "solve"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -4756,7 +5645,52 @@
        "contacts_at_end": 1,
        "first_contact_s": 2.02
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The ball falls.",
+        "atom": {
+         "predicate": "fall",
+         "args": [
+          "the ball"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "ball",
+         "surface": "table"
+        },
+        "state_after": {
+         "motion": "fall",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "ball",
+         "surface": "table"
+        }
+       }
+      ],
+      "patient": "ball",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "ball",
+       "surface": "table"
+      },
+      "state_after": {
+       "motion": "fall",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "ball",
+       "surface": "table"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -4832,7 +5766,53 @@
        "half_life_s": 6.9315,
        "steps": 30
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The concentration falls to 0.3679 moles per liter after 10 seconds.",
+        "atom": {
+         "predicate": "fall",
+         "args": [
+          "the concentration"
+         ],
+         "polarity": "pos",
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "sampradana",
+           "prep": "to",
+           "text": "0.3679 moles"
+          },
+          {
+           "role": "sambandha",
+           "prep": "per",
+           "text": "liter"
+          },
+          {
+           "role": "kala",
+           "prep": "after",
+           "text": "10 seconds"
+          }
+         ]
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "decay"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "decay"
+      },
+      "causal_reason": ""
      }
     }
    ],
@@ -4959,7 +5939,37 @@
        "source_current_a": 0.002,
        "total_resistance_ohm": 6000
       },
-      "cross_check": []
+      "cross_check": [],
+      "spoken_atoms": [
+       {
+        "text": "The current is 2 milliamps through 6000 ohms in total.",
+        "atom": {
+         "predicate": "is",
+         "args": [
+          "the current",
+          "2 milliamps"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "solve"
+        }
+       }
+      ],
+      "patient": null,
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "solve"
+      },
+      "causal_reason": ""
      }
     }
    ],
