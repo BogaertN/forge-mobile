@@ -884,7 +884,25 @@ def tip_check(scene: dict[str, Any]) -> dict[str, Any] | None:
     h = scene["point"]["fraction"] * b["height"]
     mu = float(scene["surface"]["mu"])
     h_crit = half_w / mu
-    out = {"solver": "statics_check", "role": "cross_check", "outcome": "topple" if h > h_crit else "slide",
+    # The reference push is the force MuJoCo applies (mujoco_job). A height that would tip a
+    # larger push still stays when that force does not overcome static friction or the tip moment.
+    outcome = "topple" if h > h_crit else "slide"
+    mass = float(b.get("mass") or 0.0)
+    g = float(scene.get("gravity") or 0.0)
+    if mass > 0 and g > 0:
+        F = float(mujoco_job(scene).get("force") or 0.0)
+        if F > 0:
+            F_slip = mu * mass * g
+            F_tip = mass * g * half_w / max(h, 1e-6)
+            if not (F > F_slip) and not (F > F_tip):
+                outcome = "stay"
+            elif h > h_crit and F > F_tip:
+                outcome = "topple"
+            elif F > F_slip:
+                outcome = "slide"
+            else:
+                outcome = "stay"
+    out = {"solver": "statics_check", "role": "cross_check", "outcome": outcome,
            "measurements": {"critical_push_height_m": round(h_crit, 4), "push_height_m": round(h, 4)},
            "equations": ["slip: F > μ m g", "tip: F h > m g w/2", "tip before slip iff h > (w/2)/μ"]}
     slope = scene.get("slope_deg")
@@ -1270,6 +1288,11 @@ def _causal_reason(problem: dict[str, Any], run: dict[str, Any]) -> str:
             return "The push height exceeds the critical height."
         if chk and run.get("outcome") == "slide":
             return "The critical height exceeds the push height."
+        if chk and run.get("outcome") == "stay":
+            slope_stay = (chk.get("slope") or {}) if isinstance(chk.get("slope"), dict) else {}
+            if slope_stay.get("outcome") == "stay":
+                return "The static friction exceeds the downhill pull."
+            return "The static friction exceeds the push force."
         slope = (chk or {}).get("slope") if chk else None
         if slope and slope.get("outcome") == "slide":
             return "The slope exceeds the friction."
@@ -1489,6 +1512,11 @@ def _reason_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, An
             return _karaka("exceed", ["the push height", "the critical height"])
         if chk and run.get("outcome") == "slide":
             return _karaka("exceed", ["the critical height", "the push height"])
+        if chk and run.get("outcome") == "stay":
+            slope_stay = (chk.get("slope") or {}) if isinstance(chk.get("slope"), dict) else {}
+            if slope_stay.get("outcome") == "stay":
+                return _karaka("exceed", ["the static friction", "the downhill pull"])
+            return _karaka("exceed", ["the static friction", "the push force"])
         slope = (chk or {}).get("slope") if chk else None
         if slope and slope.get("outcome") == "slide":
             return _karaka("exceed", ["the slope", "the friction"])

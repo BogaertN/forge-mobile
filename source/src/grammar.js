@@ -211,7 +211,11 @@ function Parser(toks, lex) {
       /* NP-PROPN-COMPOUND (4.9.85) */
       if (j < T.length && at(j, 'N').length && !at(j, 'PROPN').length && at(j, 'V').every(v => v.f === 'ing') && !(j + 1 < T.length && at(j + 1, 'N').length && !at(j + 1, 'V').length)) out.push(R({ propn: ws.join(' ') + ' ' + T[j].w }, j + 1, ['NP-PROPN-COMPOUND'])); }
     /* NP-FORMULA (4.9.248): a stoichiometric string is one nominal. A species is a chemical token (letters and a digit) with an optional count; species join with + and ->. A lone chemical token stays an ordinary noun. */
-    const chemTok = j => j < T.length && /^[a-z]{1,4}\d[a-z0-9]*$/.test(word(j));
+    const chemTok = j => j < T.length && (
+      /^[a-z]{1,4}\d[a-z0-9]*$/.test(word(j)) ||
+      /^[A-Z][a-z]?(?:\d+[A-Za-z0-9]*)?$/.test(String((T[j] && T[j].orig) || '')) ||
+      /^[A-Z][a-z]?[A-Z][a-z]?\d*[A-Za-z0-9]*$/.test(String((T[j] && T[j].orig) || ''))
+    );
     const speciesEnd = j => { if (at(j, 'NUM').length && chemTok(j + 1)) return j + 2; if (chemTok(j)) return j + 1; return null; };
     if (speciesEnd(i) != null && (word(speciesEnd(i)) === '+' || word(speciesEnd(i)) === '->' || (at(i, 'NUM').length && chemTok(i + 1)))) {
       let j = speciesEnd(i), ok = true;

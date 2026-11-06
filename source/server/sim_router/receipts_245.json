@@ -879,7 +879,7 @@
      {
       "solver": "statics_check",
       "role": "cross_check",
-      "outcome": "slide",
+      "outcome": "stay",
       "measurements": {
        "critical_push_height_m": 0.0361,
        "push_height_m": 0.0176
@@ -912,17 +912,17 @@
    "primary_solver": "mujoco_wasm",
    "clause": "Pushing the bottle near the bottom on rubber makes it stay.",
    "effect_text": "The bottle stays.",
-   "receipt_id": "sim-4f3a6542d16929f1",
-   "sha256": "4f3a6542d16929f1871db705092b7fa869348be03395bd383c92b50efd8aa796",
+   "receipt_id": "sim-04353c88445899bb",
+   "sha256": "04353c88445899bb532d8bfca79e49fd755c72ee43b4d499be1311e33775c27a",
    "rows": [
     {
-     "id": "sim-4f3a6542d16929f1",
+     "id": "sim-04353c88445899bb",
      "text": "Pushing the bottle near the bottom on rubber makes it stay.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-4f3a6542d16929f1",
-      "sha256": "4f3a6542d16929f1871db705092b7fa869348be03395bd383c92b50efd8aa796",
+      "receipt_id": "sim-04353c88445899bb",
+      "sha256": "04353c88445899bb532d8bfca79e49fd755c72ee43b4d499be1311e33775c27a",
       "intervention_key": "bottle bottom near on push rubber",
       "effect_text": "The bottle stays.",
       "outcome": "stay",
@@ -949,7 +949,7 @@
        {
         "solver": "statics_check",
         "role": "cross_check",
-        "outcome": "slide",
+        "outcome": "stay",
         "measurements": {
          "critical_push_height_m": 0.0361,
          "push_height_m": 0.0176

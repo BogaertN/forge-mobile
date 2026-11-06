@@ -691,7 +691,11 @@ def _spill_from_hold(world: dict[str, Any] | None, solved: dict[str, Any], sim: 
         solved["rules_fired"] = list(solved.get("rules_fired") or []) + ["WM-CONTAIN-SPILL"]
         solved["depth"] = len(solved["chain"])
         # The hold fact is the chain's second premise, not a solver-receipt premise: the receipt checker
-        # requires every WM-SOLVER-RECEIPT premise to carry the receipt sha256.
+        # requires every WM-SOLVER-RECEIPT premise to carry the receipt sha256. It is grounded beside the
+        # proof so the spill sentence is measured against the hold, not copied into the receipt step.
+        ground = {k: fact.get(k) for k in ("id", "text", "atom", "source")}
+        ground["ground_forms"] = [spill]
+        pred.setdefault("ground_premises", []).append(ground)
         pred["may_store_as_fact"] = False
         break
     return solved

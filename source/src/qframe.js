@@ -478,6 +478,22 @@
     return null;
   }
   function compile(text, forge) { try { return actFrame(text, forge) || canonicalize(compileQ(text, forge), forge); } catch (e) { return { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; } }
-  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, splitClauses, FILLER, ADJUNCT };
+  /* A sim-ask reply is either measures, a kind, or both. The measures are the same lift the question frame
+   * already uses. The leftover noun phrase is read as the predicate of a copula, so the kind is a kāraka
+   * and not a splice into the pending question. */
+  function supplement(text, forge) {
+    const lifted = liftMeasures(text);
+    let rest = String(lifted.text || '').replace(/[?.!]+$/g, '').replace(/\s+,/g, ' ').replace(/\band\b/gi, ' ').replace(/[,]+/g, ' ').replace(/\s+/g, ' ').trim();
+    rest = rest.replace(/^(?:it is|it's|this is|that is)\s+/i, '').trim();
+    let phrase = null;
+    if (rest && !/^\d/.test(rest)) {
+      const low = rest[0].toLowerCase() + rest.slice(1);
+      const parsed = parseOpen(forge, 'it is ' + low);
+      const pred = parsed && parsed.clause ? roles(parsed.clause).pred : null;
+      if (pred && pred.type === 'np' && pred.text) phrase = String(pred.text);
+    }
+    return { stated: lifted.stated, phrase: phrase, calls_llm: false };
+  }
+  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, splitClauses, supplement, FILLER, ADJUNCT };
   if (isNode) module.exports = api; else root.KQFrame = api;
 })(typeof self !== 'undefined' ? self : this);

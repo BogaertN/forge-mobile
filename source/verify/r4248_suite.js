@@ -67,24 +67,37 @@ print(json.dumps({"sha": got["sha256"], "atoms": got["spoken_atoms"], "store": g
   }
 });
 
-T('a shallow brick on concrete slides, and a follow-up keeps the brick while changing the point', () => {
+T('a shallow brick on concrete stays, the why compiles, and a follow-up keeps the brick', () => {
   const q = 'What happens if you push a 8 kilogram brick 0.09 meters tall near the top on concrete?';
+  const slopeQ = 'What happens if you push a brick near the top on a 5 degree ramp?';
   const bottom = Q.compile('What if you push it near the bottom?', f);
   const out = py(`
 import json, sys
-from rmc_engine_v1.sim_device import plan, tip_check
+from rmc_engine_v1.sim_device import plan, tip_check, seal
 from rmc_engine_v1.sim_karaka import continue_scene
-q, fr, bottom = json.load(sys.stdin)
+q, fr, slopeQ, slopeF, bottom = json.load(sys.stdin)
 p = plan(q, fr)
 chk = tip_check(p["scene"])
 body = p["scene"]["body"]
-prior = {"scene": {"verb":"push","action":"push","defaulted":[],"body":{"noun":body["noun"],"mass":body["mass"],"height":body["height"],"width":body["width"],"shape":body["shape"]},"point":{"name":"top"},"surface":{"name":"concrete"}}}
+run = {"solver":"mujoco_wasm","engine":"mujoco test","outcome":chk["outcome"],"measurements":{"final_tilt_deg":0,"horizontal_displacement_m":0}}
+rec = seal(p, run)
+sp = plan(slopeQ, slopeF)
+schk = tip_check(sp["scene"])
+srun = {"solver":"mujoco_wasm","engine":"mujoco test","outcome":"stay","measurements":{"final_tilt_deg":0,"horizontal_displacement_m":0}}
+srec = seal(sp, srun)
+prior = {"scene": {"verb":"push","action":"push","defaulted":[],"body":{"noun":body["noun"],"mass":body["mass"],"height":body["height"],"width":body["width"],"depth":body.get("depth"),"shape":body["shape"]},"point":{"name":"top"},"surface":{"name":"concrete"}}}
 kept = continue_scene(prior, bottom)
 planned = plan(kept)
 b2 = (planned.get("scene") or {}).get("body") or {}
-print(json.dumps({"outcome": chk.get("outcome"), "mass": body.get("mass"), "height": body.get("height"), "surface": p["scene"]["surface"]["name"], "kept_mass": b2.get("mass"), "kept_height": b2.get("height"), "point": ((planned.get("scene") or {}).get("point") or {}).get("name")}))`,
-    JSON.stringify([q, Q.compile(q, f), bottom]));
-  expect(out.outcome === 'slide' && out.mass === 8 && out.height === 0.09 && out.surface === 'concrete', JSON.stringify(out));
+print(json.dumps({"outcome": chk.get("outcome"), "why": rec.get("causal_reason"), "atoms": rec.get("spoken_atoms"), "slope": (schk.get("slope") or {}).get("outcome"), "slope_why": srec.get("causal_reason"), "slope_atoms": srec.get("spoken_atoms"), "mass": body.get("mass"), "height": body.get("height"), "depth": body.get("depth"), "surface": p["scene"]["surface"]["name"], "kept_mass": b2.get("mass"), "kept_height": b2.get("height"), "point": ((planned.get("scene") or {}).get("point") or {}).get("name")}))`,
+    JSON.stringify([q, Q.compile(q, f), slopeQ, Q.compile(slopeQ, f), bottom]));
+  expect(out.outcome === 'stay' && out.mass === 8 && out.height === 0.09 && out.depth === 0.1025 && out.surface === 'concrete', JSON.stringify(out));
+  expect(out.why === 'The static friction exceeds the push force.', out.why);
+  expect(out.slope === 'stay' && out.slope_why === 'The static friction exceeds the downhill pull.', JSON.stringify(out));
+  for (const a of out.atoms.concat(out.slope_atoms)) {
+    const r = f.outward(a.text, a.atom);
+    expect(r.ok && r.R_t === a.text && r.step === 'compiled', a.text + ' ' + JSON.stringify(r));
+  }
   expect(out.kept_mass === 8 && out.kept_height === 0.09 && out.point === 'bottom', JSON.stringify(out));
 });
 
@@ -110,11 +123,12 @@ print(json.dumps(seal(p, run)))`, JSON.stringify([q, frame]));
   expect(/spills the sand/.test(out.reply), out.reply);
 });
 
-T('a brick floats in ethanol and ethanol heated to 90 degrees boils, from the handbook', () => {
+T('a brick sinks in ethanol, a light block floats, and ethanol heated to 90 degrees boils', () => {
   const floatQ = 'What happens if you put a brick in ethanol?';
+  const lightQ = 'What happens if you put a 0.4 kilogram block 0.2 meters tall and 0.2 meters wide and 0.2 meters deep in seawater?';
   const boilQ = 'What happens if you heat ethanol to 90 degrees?';
   const warmQ = 'What happens if you heat 0.4 kilograms of seawater with 800 watts for 30 seconds?';
-  const frames = { floatQ: Q.compile(floatQ, f), boilQ: Q.compile(boilQ, f), warmQ: Q.compile(warmQ, f) };
+  const frames = { floatQ: Q.compile(floatQ, f), lightQ: Q.compile(lightQ, f), boilQ: Q.compile(boilQ, f), warmQ: Q.compile(warmQ, f) };
   const out = py(`
 import json, sys
 from rmc_engine_v1.sim_device import plan, solve, seal
@@ -122,13 +136,15 @@ body = json.load(sys.stdin)
 def one(q, fr):
     p = plan(q, fr)
     rec = seal(p, solve(p))
-    return {"effect": rec.get("effect_text"), "why": rec.get("causal_reason"), "after": rec.get("state_after"), "store": rec.get("may_store_as_fact"), "atoms": rec.get("spoken_atoms")}
-print(json.dumps({k: one(body[k], body[k+"F"]) for k in ("floatQ","boilQ","warmQ")}))`,
-    JSON.stringify({ floatQ, boilQ, warmQ, floatQF: frames.floatQ, boilQF: frames.boilQ, warmQF: frames.warmQ }));
-  expect(/floats in ethanol/.test(out.floatQ.effect) && /below the density of ethanol/.test(out.floatQ.why) && out.floatQ.store === false, JSON.stringify(out.floatQ));
+    ms = (rec.get("run") or {}).get("measurements") or {}
+    return {"effect": rec.get("effect_text"), "why": rec.get("causal_reason"), "after": rec.get("state_after"), "store": rec.get("may_store_as_fact"), "atoms": rec.get("spoken_atoms"), "rho": ms.get("rho_body"), "fluid": ms.get("rho_fluid")}
+print(json.dumps({k: one(body[k], body[k+"F"]) for k in ("floatQ","lightQ","boilQ","warmQ")}))`,
+    JSON.stringify({ floatQ, lightQ, boilQ, warmQ, floatQF: frames.floatQ, lightQF: frames.lightQ, boilQF: frames.boilQ, warmQF: frames.warmQ }));
+  expect(/sinks in ethanol/.test(out.floatQ.effect) && /above the density of ethanol/.test(out.floatQ.why) && out.floatQ.rho > 1500 && out.floatQ.rho > out.floatQ.fluid && out.floatQ.store === false, JSON.stringify(out.floatQ));
+  expect(/floats in seawater/.test(out.lightQ.effect) && /below the density of seawater/.test(out.lightQ.why) && out.lightQ.rho < out.lightQ.fluid, JSON.stringify(out.lightQ));
   expect(/boils/.test(out.boilQ.effect) && out.boilQ.after.phase === 'gas', JSON.stringify(out.boilQ));
   expect(/stays liquid/.test(out.warmQ.effect) && out.warmQ.after.temperature_c < 100, JSON.stringify(out.warmQ));
-  for (const key of ['floatQ', 'boilQ', 'warmQ']) {
+  for (const key of ['floatQ', 'lightQ', 'boilQ', 'warmQ']) {
     for (const a of out[key].atoms) {
       const r = f.outward(a.text, a.atom);
       expect(r.ok && r.R_t === a.text, a.text + ' ' + JSON.stringify(r));
@@ -169,9 +185,64 @@ from rmc_engine_v1.sim_device import plan, solve, seal
 q, fr = json.load(sys.stdin)
 print(json.dumps(seal(plan(q, fr), solve(plan(q, fr)))))`, JSON.stringify([q, frames[key]]));
     const row = ask(q, { phone: [], simulation: rec.rows });
-    expect(row.product_reply === true && row.coherence >= 0.87 && row.echo.score >= 0.85 && row.drift <= 0.35, q + ' ' + JSON.stringify({ c: row.coherence, e: row.echo, d: row.drift, r: row.reply }));
+    expect(row.product_reply === true && row.coherence >= 0.87 && row.coherence < 1 && row.echo.score >= 0.85 && row.drift <= 0.35, q + ' ' + JSON.stringify({ c: row.coherence, e: row.echo, d: row.drift, r: row.reply }));
     compiled(row, q);
   }
+});
+
+T('a sim-ask reply merges measures or a named kind through the kāraka resume', () => {
+  const q = 'What happens if you push a violin near the top?';
+  const sized = Q.supplement('A baroque violin, 0.6 meters tall and 0.4 kilograms.', f);
+  const wide = Q.supplement('0.6 meters tall, 0.2 meters wide, and 0.4 kilograms', f);
+  const kind = Q.supplement('A cello.', f);
+  expect(sized.stated.length >= 2 && /violin/i.test(sized.phrase || ''), JSON.stringify(sized));
+  expect(wide.stated.length === 3 && !wide.phrase, JSON.stringify(wide));
+  expect(/cello/i.test(kind.phrase || '') && kind.stated.length === 0, JSON.stringify(kind));
+  const resumed = py(`
+import json, sys
+from rmc_engine_v1.sim_karaka import resume_pending
+q, fr, sized, wide, kind = json.load(sys.stdin)
+print(json.dumps({"sized": resume_pending(q, fr, sized), "wide": resume_pending(q, fr, wide), "kind": resume_pending(q, fr, kind)}))`,
+    JSON.stringify([q, Q.compile(q, f), sized, wide, kind]));
+  const planned = py(`
+import json, sys
+from rmc_engine_v1.sim_device import plan, tip_check
+rows = json.load(sys.stdin)
+out = {}
+for name, row in rows.items():
+    p = plan(row["question"], row["frame"])
+    sc = p.get("scene") if isinstance(p.get("scene"), dict) else {}
+    body = sc.get("body") if isinstance(sc.get("body"), dict) else {}
+    chk = tip_check(sc) if sc.get("action") == "push" else None
+    out[name] = {"plan": p.get("ok"), "reason": p.get("reason"), "mass": body.get("mass"), "height": body.get("height"), "width": body.get("width"), "depth": body.get("depth"), "noun": body.get("noun"), "outcome": (chk or {}).get("outcome"), "defaulted": sc.get("defaulted")}
+print(json.dumps(out))`, JSON.stringify({
+    sized: { question: resumed.sized.question, frame: Object.assign(Q.compile(resumed.sized.question, f), { derive_missing: !!resumed.sized.derive_missing }) },
+    wide: { question: resumed.wide.question, frame: Object.assign(Q.compile(resumed.wide.question, f), { derive_missing: !!resumed.wide.derive_missing }) },
+    kind: { question: resumed.kind.question, frame: Q.compile(resumed.kind.question, f) },
+  }));
+  expect(planned.sized.plan === true && planned.sized.mass === 0.4 && planned.sized.height === 0.6 && planned.sized.width === 0.6 && planned.sized.depth === 0.6 && planned.sized.outcome, JSON.stringify(planned.sized));
+  expect(planned.wide.plan === true && planned.wide.mass === 0.4 && planned.wide.height === 0.6 && planned.wide.width === 0.2 && planned.wide.outcome, JSON.stringify(planned.wide));
+  expect(resumed.kind.specific === true && /cello/.test(resumed.kind.question) && planned.kind.plan === false, JSON.stringify({ resumed: resumed.kind, planned: planned.kind }));
+});
+
+T('spoken solver clauses are measured, and C is not pinned to 1', () => {
+  expect(!/gate\.get\("C"\) or 1\.0/.test(read('engine/rmc_engine_v1/world_claim_measure.py')), 'C pin still present');
+  const q = 'What happens if you put a brick in ethanol?';
+  const rec = py(`
+import json, sys
+from rmc_engine_v1.sim_device import plan, solve, seal
+q, fr = json.load(sys.stdin)
+print(json.dumps(seal(plan(q, fr), solve(plan(q, fr)))))`, JSON.stringify([q, Q.compile(q, f)]));
+  const row = ask(q, { phone: [], simulation: rec.rows });
+  expect(row.product_reply === true && row.coherence >= 0.87 && row.coherence < 1 && row.echo.score >= 0.85 && row.drift <= 0.35, JSON.stringify({ c: row.coherence, e: row.echo, d: row.drift, r: row.reply }));
+  compiled(row, q);
+});
+
+T('a formula with an undigited element symbol still compiles', () => {
+  const t = 'The reaction balances as 2 Mg + O2 -> 2 MgO.';
+  const atom = { predicate: 'balance', args: ['the reaction'], polarity: 'pos', tense: 'present', modifiers: [{ role: 'upadhi', prep: 'as', text: '2 Mg + O2 -> 2 MgO' }] };
+  const r = f.outward(t, atom);
+  expect(r.ok && r.R_t === t && r.step === 'compiled', JSON.stringify(r));
 });
 
 T('an unknown body is held and nothing is stored', () => {

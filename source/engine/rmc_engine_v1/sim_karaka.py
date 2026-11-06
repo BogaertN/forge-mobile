@@ -392,7 +392,8 @@ def read(question: str, frame: dict[str, Any] | None = None, facts: list[dict[st
         state = 0
         gate = "H" if "hadamard" in " ".join(heads) else None
         blob = " ".join(heads)
-        for name, g in (("pauli x", "X"), ("x", "X"), ("pauli y", "Y"), ("pauli z", "Z"), ("hadamard", "H")):
+        for name, g in (("pauli-x", "X"), ("pauli x", "X"), ("pauli-y", "Y"), ("pauli y", "Y"),
+                        ("pauli-z", "Z"), ("pauli z", "Z"), ("x", "X"), ("hadamard", "H")):
             if name in blob and gate is None:
                 gate = g
         for m in measures(part):
@@ -502,10 +503,13 @@ def read(question: str, frame: dict[str, Any] | None = None, facts: list[dict[st
         stated = stated_props(part)
         props = dict(prop_facts)
         props.update(stated)
-        return {"question": q, "frame": fr, "kind": kind, "verb": k, "patient": ph,
-                "phrase": _phrase_of(pat), "patient_text": str((pat or {}).get("text") or ph),
-                "adjectives": list((pat or {}).get("adjs") or []), "point": _point(part), "surface": _surface(part),
-                "slope_deg": _slope_deg(part), "part": part, "props": props, "stated": bool(stated)}
+        out = {"question": q, "frame": fr, "kind": kind, "verb": k, "patient": ph,
+               "phrase": _phrase_of(pat), "patient_text": str((pat or {}).get("text") or ph),
+               "adjectives": list((pat or {}).get("adjs") or []), "point": _point(part), "surface": _surface(part),
+               "slope_deg": _slope_deg(part), "part": part, "props": props, "stated": bool(stated)}
+        if isinstance(fr, dict) and fr.get("derive_missing"):
+            out["derive_missing"] = True
+        return out
 
     return {"hold": True, "reason": "not_a_simulation_question", "missing": "intervention", "question": q, "frame": fr}
 
@@ -569,3 +573,40 @@ def continue_scene(prior: dict[str, Any] | None, follow_frame: dict[str, Any] | 
         if slope is not None:
             bits.append(f"on a {float(slope):g} degree ramp")
     return "What happens if " + " ".join(bits) + "?"
+
+
+def resume_pending(question: str, frame: dict[str, Any] | None, supplement: dict[str, Any] | None) -> dict[str, Any]:
+    """Merge a sim-ask reply into the pending intervention.
+
+    The reply's measures (already lifted onto the frame by the phone grammar) fill the body.
+    A noun phrase with no measure replaces the patient, and the rebuilt question is planned again
+    so a named kind can be looked up. The question string is the same slot assembly as a what-if.
+    """
+    reading = read(question, frame)
+    if reading.get("hold") or reading.get("kind") not in ("push", "drop", "throw"):
+        return {"ok": False, "reason": reading.get("reason") or "pending_unreadable", "calls_llm": False}
+    sup = supplement if isinstance(supplement, dict) else {}
+    stated = stated_props({"stated": sup.get("stated") or []})
+    phrase = re.sub(r"^(?:a|an|the)\s+", "", str(sup.get("phrase") or "").strip(), count=1, flags=re.I).strip(" .")
+    noun = phrase or str(reading.get("phrase") or reading.get("patient") or "").strip()
+    if not noun:
+        return {"ok": False, "reason": "no_patient", "calls_llm": False}
+    body: dict[str, Any] = {"noun": noun, "phrase": noun}
+    for key in ("mass", "height", "width", "depth"):
+        if key in stated:
+            body[key] = stated[key]
+    scene = {
+        "verb": reading.get("verb") or reading.get("kind"),
+        "action": reading.get("kind"),
+        "defaulted": [] if stated else ["mass", "dimensions"],
+        "body": body,
+        "point": {"name": reading.get("point")} if reading.get("point") else {},
+        "surface": {"name": reading.get("surface")} if reading.get("surface") else {},
+        "slope_deg": reading.get("slope_deg"),
+    }
+    rebuilt = continue_scene({"scene": scene}, frame if isinstance(frame, dict) else {})
+    if not rebuilt:
+        return {"ok": False, "reason": "resume_unbuilt", "calls_llm": False}
+    return {"ok": True, "question": rebuilt, "specific": bool(phrase) and not stated,
+            "derive_missing": bool(stated.get("height")) and "width" not in stated and "depth" not in stated,
+            "calls_llm": False}

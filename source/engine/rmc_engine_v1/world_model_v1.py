@@ -1445,7 +1445,12 @@ def _finish_claim(world, text, atom, premises, proof, checked, status, how, phas
         "atom": atom,
         "status": status,
         "how": how,
-        "premises": [{"id": p["id"], "text": p["text"], "source": p.get("source"), "quarantined": bool(p.get("quarantined")), "provenance": p.get("provenance")} for p in premises],
+        "premises": [{
+            "id": p["id"], "text": p["text"], "source": p.get("source"),
+            "quarantined": bool(p.get("quarantined")), "provenance": p.get("provenance"),
+            **({"sim": p["sim"]} if isinstance(p.get("sim"), dict) else {}),
+            **({"ground_forms": list(p.get("ground_forms") or [])} if p.get("ground_forms") else {}),
+        } for p in premises],
         "provenance": [p["id"] for p in premises],
         "proof_id": proof.get("proof_id"),
         "proof": proof,
@@ -1781,6 +1786,10 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         # (S and C hold because the receipt unified with this intervention and the sha256 replayed). ΔΦ is not in C.
         if str(pred.get("how") or "") == "WM-SOLVER-RECEIPT" and checked.get("ok"):
             claim["gate"] = {"passes": True, "S": 1.0, "C": 1.0, "phi_query": 7, "operation": "WM-SOLVER-RECEIPT"}
+        extra = [p for p in (pred.get("ground_premises") or []) if isinstance(p, dict)]
+        if extra:
+            have = {str(p.get("id")) for p in (claim.get("premises") or []) if isinstance(p, dict)}
+            claim["premises"] = list(claim.get("premises") or []) + [p for p in extra if str(p.get("id")) not in have]
         # Speak the chain like a copula hop: each premise (exact stored sentence) then the effect conclusion.
         # measure_spoken then scores hops against their own rows (high C); Echo still reads the effect filler.
         supplied = [a for a in (pred.get("spoken_atoms") or []) if isinstance(a, dict) and str(a.get("text") or "").strip()]

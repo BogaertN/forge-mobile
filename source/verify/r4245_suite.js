@@ -141,7 +141,7 @@ print(json.dumps({"h": R.health(), "cfd": R.route("What happens if you run a CFD
 
 T('laws unchanged; receipts never stored; version, registry, CONFLICTS name 4.9.245', () => {
   const app = read('src/app.js');
-  expect(/KSimDevice\.simulate\(qtext, memory, simSpecific\)/.test(app) && /memory\.simulation = simReceipt\.rows/.test(app) && !/keepWorldFact\([^)]*sim/i.test(app), 'turn-only');
+  expect(/KSimDevice\.simulate\(qtext, memory, simSpecific, simSupplement\)/.test(app) && /memory\.simulation = simReceipt\.rows/.test(app) && !/keepWorldFact\([^)]*sim/i.test(app), 'turn-only');
   const T_ = pyIn(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T
