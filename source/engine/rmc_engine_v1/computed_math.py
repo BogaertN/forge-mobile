@@ -103,6 +103,9 @@ def tokenize(text: str, allow_var: bool = False) -> list[tuple[str, Any]] | None
         if m:
             word = m.group(0)
             parts = word.split("-")
+            # x-y is subtraction. A hyphenated number word (twenty-three) is not.
+            if allow_var and len(parts) > 1 and all(len(p) == 1 and p in "xyzn" for p in parts):
+                out.append(("var", parts[0])); i += 1; continue
             if all(p in _NUM_WORDS or p in _SCALES for p in parts):
                 # a run of number words: twenty-three, one hundred and five
                 j = i + len(word); run = parts[:]
@@ -837,6 +840,35 @@ def _one_equation(text: str):
         return None, "the equation is outside the math grammar (" + str(exc) + ")"
 
 
+def _conversion_of(body: str) -> dict[str, Any] | None:
+    """The unit grammar on one quantity phrase. None when the phrase is not a conversion."""
+    body = _norm(body)
+    has_digit = bool(re.search(r"\d", body)) or bool(re.search(r"\b(" + "|".join(_NUM_WORDS) + r")\b", body))
+    if not (has_digit and (body.startswith("convert ") or body.startswith("how many ") or re.search(r"\s(?:to|into|in)\s", body))):
+        return None
+    for rx in _CONV:
+        m = rx.match(body)
+        if not m:
+            continue
+        n = _number_only(m.group("n"))
+        if n is None:
+            continue
+        src, dst = _unit(m.group("u")), _unit(m.group("t"))
+        if src[0] == "unknown" or dst[0] == "unknown":
+            if src[0] == "unknown" and dst[0] == "unknown":
+                continue
+            return {"status": "unparsed", "kind": "conversion", "rule": "MATH-UNIT-UNKNOWN",
+                    "reason": "unit not in the explicit unit table: " + (src[1] if src[0] == "unknown" else dst[1])}
+        for side in (src, dst):
+            if side[0] == "ambiguous":
+                return {"status": "ambiguous_unit", "kind": "conversion", "rule": "MATH-UNIT-AMBIGUOUS", "unit": side[1],
+                        "options": side[2], "clarify": "Which " + side[1] + " do you mean: " + " or ".join(side[2]) + "?"}
+        return {"status": "ok", "kind": "conversion", "value": [n.numerator, n.denominator], "value_surface": _fmt_frac(n),
+                "from": src[1], "from_word": src[2], "to": dst[1], "to_word": dst[2], "lib": "pint",
+                "asked": "the quantity in " + dst[2]}
+    return None
+
+
 # ---------------------------------------------------------------- understand (no library needed)
 def understand(question: str) -> dict[str, Any] | None:
     """None: not a math question. Otherwise {'status': 'ok'|'unparsed'|'ambiguous_unit', 'kind', 'tree'/..., 'asked'}."""
@@ -936,30 +968,42 @@ def understand(question: str) -> dict[str, Any] | None:
         if not vs:
             return {"status": "unparsed", "kind": "simplify", "rule": "MATH-UNPARSED", "reason": "the expression names no variable"}
         return {"status": "ok", "kind": "simplify", "tree": tree, "var": next(iter(vs)), "lib": "sympy", "asked": "the simplified form of " + render(tree)}
+    if isinstance(fr, dict) and fr.get("rule") == "QF-MATH-SOLVE" and fr.get("op") == "solve":
+        kind = "system" if fr.get("kind") == "system" else "equation"
+        if fr.get("malformed"):
+            reason = "the system needs two equations" if kind == "system" else "an equation needs exactly one ="
+            return {"status": "unparsed", "kind": kind, "rule": "MATH-UNPARSED", "reason": reason}
+        parsed = []
+        for part in fr.get("equations") or []:
+            got, err = _one_equation(str(part))
+            if err:
+                return {"status": "unparsed", "kind": kind, "rule": "MATH-UNPARSED", "reason": err}
+            parsed.append(got)
+        if len(parsed) == 2:
+            vs = set()
+            for lhs, rhs in parsed:
+                vs |= _vars(lhs) | _vars(rhs)
+            if len(vs) != 2:
+                return {"status": "unparsed", "kind": "system", "rule": "MATH-UNPARSED", "reason": "two unknowns are needed, found " + (",".join(sorted(vs)) or "none")}
+            names = sorted(vs)
+            return {"status": "ok", "kind": "system", "equations": parsed, "vars": names, "lib": "sympy", "asked": "the values of " + " and ".join(names)}
+        if len(parsed) == 1:
+            lhs, rhs = parsed[0]
+            vs = _vars(lhs) | _vars(rhs)
+            if len(vs) != 1:
+                return {"status": "unparsed", "kind": "equation", "rule": "MATH-UNPARSED", "reason": "one unknown is needed, found " + (",".join(sorted(vs)) or "none")}
+            var = next(iter(vs))
+            return {"status": "ok", "kind": "equation", "lhs": lhs, "rhs": rhs, "var": var, "lib": "sympy", "asked": "the value of " + var}
+        return {"status": "unparsed", "kind": kind, "rule": "MATH-UNPARSED", "reason": "an equation needs exactly one ="}
+    if isinstance(fr, dict) and fr.get("rule") == "QF-MATH-CONVERT" and fr.get("op") == "convert":
+        got = _conversion_of(str(fr.get("expr") or ""))
+        if got:
+            return got
+        return {"status": "unparsed", "kind": "conversion", "rule": "MATH-UNPARSED", "reason": "the quantity is outside the unit grammar"}
     body = _LEAD.sub("", q).strip()
-    has_digit = bool(re.search(r"\d", body)) or bool(re.search(r"\b(" + "|".join(_NUM_WORDS) + r")\b", body))
-    # unit conversion
-    if has_digit and (body.startswith("convert ") or body.startswith("how many ") or re.search(r"\s(?:to|into|in)\s", body)):
-        for rx in _CONV:
-            m = rx.match(body)
-            if not m:
-                continue
-            n = _number_only(m.group("n"))
-            if n is None:
-                continue
-            src, dst = _unit(m.group("u")), _unit(m.group("t"))
-            if src[0] == "unknown" or dst[0] == "unknown":
-                if src[0] == "unknown" and dst[0] == "unknown":
-                    continue
-                return {"status": "unparsed", "kind": "conversion", "rule": "MATH-UNIT-UNKNOWN",
-                        "reason": "unit not in the explicit unit table: " + (src[1] if src[0] == "unknown" else dst[1])}
-            for side in (src, dst):
-                if side[0] == "ambiguous":
-                    return {"status": "ambiguous_unit", "kind": "conversion", "rule": "MATH-UNIT-AMBIGUOUS", "unit": side[1],
-                            "options": side[2], "clarify": "Which " + side[1] + " do you mean: " + " or ".join(side[2]) + "?"}
-            return {"status": "ok", "kind": "conversion", "value": [n.numerator, n.denominator], "value_surface": _fmt_frac(n),
-                    "from": src[1], "from_word": src[2], "to": dst[1], "to_word": dst[2], "lib": "pint",
-                    "asked": "the quantity in " + dst[2]}
+    conv = _conversion_of(body)
+    if conv is not None:
+        return conv
     # equation: solve 2x + 3 = 11 / solve for x: ... / if ... = ..., what is x
     eq = None
     m = re.match(r"^solve(?:\s+for\s+([a-z]))?\s*[:,]?\s*(.+)$", body)

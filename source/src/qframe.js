@@ -341,49 +341,120 @@
     if (aux && has(aux, 'MOD')) return 'capability';
     return 'self';
   }
+  const MATH_OP = { factor: 'factor', simplify: 'simplify', derivative: 'derivative', differentiate: 'derivative', integral: 'integral', integrate: 'integral', solve: 'solve', convert: 'convert' };
+  const MATH_ORD = { second: 2, third: 3, fourth: 4 };
+  function bareTok(w) { return String(w || '').replace(/[,;:!?]+$/g, ''); }
+  /* d/dx is one operator token: derivative with respect to that letter. */
+  function diffVar(tok) {
+    const w = bareTok(tok).toLowerCase();
+    return w.length === 4 && w.charAt(0) === 'd' && w.charAt(1) === '/' && w.charAt(2) === 'd' && 'xyzn'.indexOf(w.charAt(3)) >= 0 ? w.charAt(3) : null;
+  }
+  function operationAt(lw, i) {
+    if (MATH_OP[lw[i]] || diffVar(lw[i])) return i;
+    if (MATH_ORD[lw[i]] && lw[i + 1] === 'derivative') return i;
+    return -1;
+  }
+  /* Closed class only. A modal request counts when the next word is an operation, not when it is any verb. */
+  function operationHead(lw) {
+    let i = 0, modality = null;
+    if (has(lw[0], 'PLEASE')) i = 1;
+    if ((lw[i] === 'can' || lw[i] === 'could') && has(lw[i], 'MOD') && lw[i + 1] === 'you') {
+      const at = operationAt(lw, i + 2);
+      if (at < 0) return null;
+      return { i: at, modality: lw[i] === 'can' ? 'able' : 'possible' };
+    }
+    if (lw[i] === 'what' && (lw[i + 1] === 'is' || lw[i + 1] === 'are')) {
+      let j = i + 2;
+      if (lw[j] === 'the' || lw[j] === 'a' || lw[j] === 'an') j += 1;
+      if (operationAt(lw, j) < 0) return null;
+      return { i: j, modality: modality };
+    }
+    const at = operationAt(lw, i);
+    return at < 0 ? null : { i: at, modality: modality };
+  }
+  function equationPieces(ws) {
+    const pieces = []; let cur = [];
+    for (const w of ws) {
+      const stop = /[,;]$/.test(w);
+      const bare = bareTok(w).replace(/[?!.]+$/g, '');
+      if (bare.toLowerCase() === 'and') { if (cur.length) pieces.push(cur.join(' ')); cur = []; continue; }
+      if (bare) cur.push(bare);
+      if (stop) { pieces.push(cur.join(' ')); cur = []; }
+    }
+    if (cur.length) pieces.push(cur.join(' '));
+    return pieces.map(s => s.trim()).filter(s => s.indexOf('=') >= 0);
+  }
+  function mathOperation(ws, lw, f) {
+    const head = operationHead(lw);
+    if (!head) return null;
+    const i = head.i;
+    const dv = diffVar(lw[i]);
+    if (dv) {
+      const expr = ws.slice(i + 1).map(bareTok).join(' ').trim();
+      return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'derivative', expr: expr, order: null, variable: dv, bounds: null, malformed: !expr, modality: head.modality, rule: 'QF-MATH-CALC' });
+    }
+    let k = i, order = null;
+    if (MATH_ORD[lw[k]] && lw[k + 1] === 'derivative') { order = MATH_ORD[lw[k]]; k += 1; }
+    const op = MATH_OP[lw[k]];
+    if (!op) return null;
+    if (op === 'derivative' || op === 'integral') {
+      const needsOf = lw[k] === 'derivative' || lw[k] === 'integral';
+      if (needsOf && lw[k + 1] !== 'of') return null;
+      let rest = ws.slice(k + 1 + (lw[k + 1] === 'of' ? 1 : 0)).map(w => bareTok(w));
+      if (rest.length >= 2 && rest[rest.length - 2].toLowerCase() === 'd' && /^[xyzn]$/i.test(rest[rest.length - 1])) rest.splice(rest.length - 2, 2);
+      else if (rest.length && /^d[xyzn]$/i.test(rest[rest.length - 1])) rest.pop();
+      let variable = null, bounds = null, malformed = rest.join('').trim() === '';
+      const at = word => rest.findIndex(w => w.toLowerCase() === word);
+      const respect = at('respect');
+      if (respect >= 0) {
+        if (!(rest[respect - 1] && rest[respect - 1].toLowerCase() === 'with' && rest[respect + 1] && rest[respect + 1].toLowerCase() === 'to' && rest[respect + 2])) malformed = true;
+        else { variable = rest[respect + 2].toLowerCase(); rest = rest.slice(0, respect - 1); }
+      }
+      const from = at('from');
+      if (!malformed && from >= 0) {
+        const to = rest.findIndex((w, j) => j > from && w.toLowerCase() === 'to');
+        if (to < 0 || to === from + 1) malformed = true;
+        else {
+          bounds = { lo: rest.slice(from + 1, to).join(' '), hi: rest.slice(to + 1).join(' ') };
+          if (!bounds.lo || !bounds.hi) malformed = true;
+          rest = rest.slice(0, from);
+        }
+      }
+      const expr = rest.join(' ').trim();
+      if (!expr) malformed = true;
+      return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: op, expr: expr, order: order, variable: variable, bounds: bounds, malformed: malformed, modality: head.modality, rule: 'QF-MATH-CALC' });
+    }
+    if (op === 'factor' || op === 'simplify') {
+      const expr = ws.slice(k + 1).map(w => w.replace(/[?!.]+$/, '')).join(' ').trim();
+      if (!expr) return null;
+      return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: op, expr: expr, modality: head.modality, rule: op === 'factor' ? 'QF-MATH-FACTOR' : 'QF-MATH-SIMPLIFY' });
+    }
+    if (op === 'solve') {
+      let rest = ws.slice(k + 1);
+      let system = false;
+      if ((rest[0] || '').toLowerCase() === 'the' && (rest[1] || '').toLowerCase() === 'system') { system = true; rest = rest.slice(2); }
+      else if ((rest[0] || '').toLowerCase() === 'system') { system = true; rest = rest.slice(1); }
+      else if ((rest[0] || '').toLowerCase() === 'for' && /^[a-z]$/i.test(rest[1] || '')) rest = rest.slice(2);
+      const equations = equationPieces(rest);
+      if (!system && equations.length >= 2) system = true;
+      const malformed = system ? equations.length < 2 : equations.length !== 1;
+      return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'solve', kind: system ? 'system' : 'equation', equations: equations, malformed: malformed, modality: head.modality, rule: 'QF-MATH-SOLVE' });
+    }
+    const expr = ws.slice(k + 1).map(w => w.replace(/[?!.]+$/, '')).join(' ').trim();
+    if (!/\d/.test(expr)) return null;
+    return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'convert', expr: expr, modality: head.modality, rule: 'QF-MATH-CONVERT' });
+  }
   function compileQ(text, forge) {
     const ws = words(text); const lw = ws.map(w => w.toLowerCase());
     const f = { schema: SCHEMA, text: String(text || ''), speech_act: 'stated', mood: 'declarative', wh: null, wh_role: null, aux: null, parsed: false, declarative: null, parses: 0, rule: null, calls_llm: false };
     if (!ws.length) return Object.assign(f, { rule: 'QF-EMPTY' });
     /* arithmetic: an expression of numerals and operators goes to the compute path */
     if (/\d/.test(text) && /^[\d\s+\-*/^().=x×÷%,]+[?]?$/i.test(String(text).trim())) return Object.assign(f, { speech_act: 'compute', mood: 'expression', rule: 'QF-ARITH-EXPR' });
-    /* "factor <polynomial>" is an operation frame. The math grammar parses the expression; the word is not an answer. */
-    if (lw[0] === 'factor' && ws.length > 1) return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'factor', expr: ws.slice(1).join(' ').replace(/[?!.]+$/, ''), rule: 'QF-MATH-FACTOR' });
-    if (lw[0] === 'simplify' && ws.length > 1) return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'simplify', expr: ws.slice(1).join(' ').replace(/[?!.]+$/, ''), rule: 'QF-MATH-SIMPLIFY' });
-    /* derivative / integral. The head word is the operation. differentiate and integrate are the same operations.
-     * Bounds and "with respect to" stay on the frame; they are not an answer. */
+    /* An operation is the verb or the operator, then its expression. A closed-class please, or can/could you,
+     * or what-is-the, is the request around that operation. It is not a yes, and it is not stripped as a string. */
     {
-      const ORD = { second: 2, third: 3, fourth: 4 };
-      let i = 0, order = null, op = null;
-      if (ORD[lw[0]] && lw[1] === 'derivative') { order = ORD[lw[0]]; i = 1; }
-      if (lw[i] === 'derivative' || lw[i] === 'differentiate') op = 'derivative';
-      else if (lw[i] === 'integral' || lw[i] === 'integrate') op = 'integral';
-      const needsOf = lw[i] === 'derivative' || lw[i] === 'integral';
-      if (op && (!needsOf || lw[i + 1] === 'of')) {
-        let rest = ws.slice(i + 1 + (lw[i + 1] === 'of' ? 1 : 0)).map(w => w.replace(/[?!.]+$/, ''));
-        if (rest.length >= 2 && rest[rest.length - 2].toLowerCase() === 'd' && /^[xyzn]$/i.test(rest[rest.length - 1])) rest.splice(rest.length - 2, 2);
-        else if (rest.length && /^d[xyzn]$/i.test(rest[rest.length - 1])) rest.pop();
-        let variable = null, bounds = null, malformed = rest.join('').trim() === '';
-        const at = word => rest.findIndex(w => w.toLowerCase() === word);
-        const respect = at('respect');
-        if (respect >= 0) {
-          if (!(rest[respect - 1] && rest[respect - 1].toLowerCase() === 'with' && rest[respect + 1] && rest[respect + 1].toLowerCase() === 'to' && rest[respect + 2])) malformed = true;
-          else { variable = rest[respect + 2].toLowerCase(); rest = rest.slice(0, respect - 1); }
-        }
-        const from = at('from');
-        if (!malformed && from >= 0) {
-          const to = rest.findIndex((w, j) => j > from && w.toLowerCase() === 'to');
-          if (to < 0 || to === from + 1) malformed = true;
-          else {
-            bounds = { lo: rest.slice(from + 1, to).join(' '), hi: rest.slice(to + 1).join(' ') };
-            if (!bounds.lo || !bounds.hi) malformed = true;
-            rest = rest.slice(0, from);
-          }
-        }
-        const expr = rest.join(' ').trim();
-        if (!expr) malformed = true;
-        return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: op, expr: expr, order: order, variable: variable, bounds: bounds, malformed: malformed, rule: 'QF-MATH-CALC' });
-      }
+      const math = mathOperation(ws, lw, f);
+      if (math) return math;
     }
     /* interjection-only turn (closed class INTJ): the act is left to the engine's concept reading */
     if (lw.every(w => has(w.replace(/[,!.]/g, ''), 'INTJ') || has(w.replace(/[,!.]/g, ''), 'PLEASE'))) return Object.assign(f, { speech_act: 'interjection', mood: 'interjection', rule: 'QF-INTJ' });
