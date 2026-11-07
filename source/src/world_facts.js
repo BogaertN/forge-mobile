@@ -16,6 +16,7 @@
   const ACTIVE = 0.1;
   const COLLECT = 0.05;
   const isNode = typeof module !== 'undefined' && module.exports;
+  const WR = isNode ? require('./world_rules.js') : root.KWorldRules;
 
   function backend() {
     if (isNode) return null;
@@ -66,8 +67,10 @@
       if (c.pred && (c.pred.text || (c.pred.np && c.pred.np.text))) {
         if (c.pred.type === 'pp') slots.push('pp:' + norm(c.pred.prep) + ':' + norm((c.pred.np && c.pred.np.text) || c.pred.text));
         else {
-          copula = norm((c.pred.np && c.pred.np.text) || c.pred.text);
-          slots.push('pred:' + norm(c.pred.type || 'np') + ':' + copula);
+          const nominal = norm((c.pred.np && c.pred.np.text) || c.pred.text);
+          /* an of-phrase is the relation's complement ("part of", "mother of"), not a second name for the subject */
+          if (!c.pred.of && !(c.pred.owner && typeof c.pred.owner === 'object')) copula = nominal;
+          slots.push('pred:' + norm(c.pred.type || 'np') + ':' + nominal);
         }
       }
       if (c.karma && c.karma.text) slots.push('karma:' + norm(c.karma.text));
@@ -90,19 +93,60 @@
     const id = identity(row);
     return [id.pred, id.subj, id.slots, id.polarity].join('|');
   }
-  /* Opposite polarity conflicts only when the complements are the same relation. A second copular nominal or
-   * adjective of one subject is still refused, so an identity is not silently replaced. A different adjunct,
-   * prepositional predicate, or karma is a different atom and is kept. */
+  /* A declared relation the clause states, in the world-rules atom shape. Only constructions the grammar
+   * already distinguishes: inside/within, born+in, and a nominal head whose "_of" row exists. No phrase list. */
+  function declaredAtom(row) {
+    const c = row && row.clause;
+    if (!c || !c.parsed || !c.kartr || !c.kartr.text || !WR || !WR.relInfo) return null;
+    const pol = c.polarity === 'neg' ? 'neg' : 'pos';
+    const subj = norm(c.kartr.text);
+    if (c.kriya === 'be' && c.pred && c.pred.type === 'pp' && (norm(c.pred.prep) === 'inside' || norm(c.pred.prep) === 'within')) {
+      const obj = (c.pred.np && c.pred.np.text) || c.pred.text;
+      return obj ? { predicate: 'in', args: [subj, norm(obj)], polarity: pol } : null;
+    }
+    if (c.kriya === 'be' && c.pred && c.pred.type === 'adj' && norm(c.pred.text) === 'born') {
+      const loc = (Array.isArray(c.adj) ? c.adj : []).find(a => a && norm(a.prep) === 'in' && a.np && a.np.text);
+      return loc ? { predicate: 'born_in', args: [subj, norm(loc.np.text)], polarity: pol } : null;
+    }
+    if (c.kriya === 'be' && c.pred && c.pred.head) {
+      const whole = (c.pred.of && c.pred.of.text) || (c.pred.owner && c.pred.owner.text);
+      const pred = norm(c.pred.head) + '_of';
+      if (whole && WR.relInfo(pred)) return { predicate: pred, args: [subj, norm(whole)], polarity: pol };
+    }
+    return null;
+  }
+  /* A second value of a relation the world-rules table marks functional, and only when the two values are
+   * apart (neither contains the other through a declared containment atom, and they are not the same name).
+   * married_to, before, and live are not in that table, so a different spouse, time, or residence is kept. */
+  function functionalConflict(doc, row) {
+    const neu = declaredAtom(row);
+    if (!neu || neu.polarity !== 'pos') return null;
+    const info = WR.relInfo(neu.predicate);
+    if (!info || !info.row.functional) return null;
+    const atoms = [];
+    for (const old of doc.facts || []) { const a = declaredAtom(old); if (a && a.polarity === 'pos') atoms.push(a); }
+    const apart = WR.apartness(atoms.concat([neu]));
+    const slot = info.row.functional === 'object' ? 1 : 0;
+    const other = 1 - slot;
+    const np = WR.canonicalPred(neu.predicate);
+    for (const old of doc.facts || []) {
+      const a = declaredAtom(old);
+      if (!a || a.polarity !== 'pos' || WR.canonicalPred(a.predicate) !== np) continue;
+      if (a.args[slot] === neu.args[slot] && apart(a.args[other], neu.args[other])) return { rule: 'WORLD-FACTS-CONFLICT-FUNCTIONAL', existing: old };
+    }
+    return null;
+  }
+  /* Opposite polarity conflicts only when the complements are the same relation. A second bare copular
+   * nominal or adjective of one subject is still refused, so an identity is not silently replaced. */
   function conflictWith(doc, row) {
     const neu = identity(row);
     for (const old of doc.facts || []) {
       if (norm(old.text) === norm(row.text)) return null; /* same sentence is a no-op keep */
       const o = identity(old);
-      if (!neu.pred || neu.pred !== o.pred || neu.subj !== o.subj) continue;
-      if (neu.slots === o.slots && neu.polarity !== o.polarity) return { rule: 'WORLD-FACTS-CONFLICT-POLARITY', existing: old };
-      if (neu.copula != null && o.copula != null && neu.polarity === o.polarity && neu.copula !== o.copula) return { rule: 'WORLD-FACTS-CONFLICT-PREDICATE', existing: old };
+      if (neu.pred && neu.pred === o.pred && neu.subj === o.subj && neu.slots === o.slots && neu.polarity !== o.polarity) return { rule: 'WORLD-FACTS-CONFLICT-POLARITY', existing: old };
+      if (neu.copula != null && o.copula != null && neu.pred === o.pred && neu.subj === o.subj && neu.polarity === o.polarity && neu.copula !== o.copula) return { rule: 'WORLD-FACTS-CONFLICT-PREDICATE', existing: old };
     }
-    return null;
+    return functionalConflict(doc, row);
   }
   function placeOf(row, forge) {
     /* native phase from the row's packet/sfe when present; otherwise a stable default recorded as such */

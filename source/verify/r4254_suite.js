@@ -45,15 +45,35 @@ function register(C, expect) {
     expect(WF.rows().map(r => r.text).join('|') === 'My dog is Rex.', WF.rows().map(r => r.text).join('|'));
     WF.clear();
   });
-  C('REMEMBER-KEY', 'a different spouse, container, or time is not the opposite atom', () => {
+  C('REMEMBER-KEY', 'a different spouse or time is not the opposite atom; an apart container is the declared functional constraint', () => {
     WF.clear();
     expect(put('She is married to Bob.').ok && put('She is not married to Cy.').ok, 'spouse');
     expect(put('She is not married to Bob.').rule === 'WORLD-FACTS-CONFLICT-POLARITY', 'same spouse');
-    expect(put('The key is inside the box.').ok && put('The key is inside the drawer.').ok, 'container');
-    expect(put('The key is not inside the box.').rule === 'WORLD-FACTS-CONFLICT-POLARITY', 'same container');
     expect(put('The meeting is before lunch.').ok && put('The meeting is not before dinner.').ok, 'time');
     expect(put('The meeting is not before lunch.').rule === 'WORLD-FACTS-CONFLICT-POLARITY', 'same time');
-    expect(WF.rows().length === 6, String(WF.rows().length));
+    expect(put('The key is inside the box.').ok, 'first container');
+    const drawer = put('The key is inside the drawer.');
+    expect(drawer.ok === false && drawer.rule === 'WORLD-FACTS-CONFLICT-FUNCTIONAL' && /box/.test(drawer.message), JSON.stringify(drawer));
+    expect(put('The key is not inside the box.').rule === 'WORLD-FACTS-CONFLICT-POLARITY', 'same container');
+    expect(WF.rows().some(r => r.text === 'The key is inside the box.') && !WF.rows().some(r => /drawer/.test(r.text)), 'first container kept');
+    WF.clear();
+  });
+  C('REMEMBER-KEY', 'a second mother conflicts; a birthplace inside a known container does not', () => {
+    WF.clear();
+    expect(put('Vin is the mother of Wes.').ok);
+    const other = put('Xan is the mother of Wes.');
+    expect(other.ok === false && other.rule === 'WORLD-FACTS-CONFLICT-FUNCTIONAL', JSON.stringify(other));
+    expect(put('Ann was born in Paris.').ok && put('Paris is inside France.').ok && put('Ann was born in France.').ok, 'contained birthplace');
+    const rome = put('Ann was born in Rome.');
+    expect(rome.ok === false && rome.rule === 'WORLD-FACTS-CONFLICT-FUNCTIONAL', JSON.stringify(rome));
+    expect(WF.rows().some(r => r.text === 'Ann was born in Paris.') && WF.rows().some(r => r.text === 'Ann was born in France.'), 'both contained places kept');
+    WF.clear();
+  });
+  C('REMEMBER-KEY', 'an unparsed complement is not treated as the opposite of a different place', () => {
+    WF.clear();
+    const bare = WF.upsert({ text: 'My sister lives.', clause: { schema: 'forge.clause/v1', text: 'My sister lives', parsed: false }, atom: { predicate: 'live', args: ['my sister', ''], polarity: 'pos' }, kind: 'remember' });
+    const france = put('My sister does not live in France.');
+    expect(bare.ok && france.ok, JSON.stringify([bare, france]));
     WF.clear();
   });
   C('REMEMBER-KEY', 'an adjective of one subject is not silently replaced', () => {
