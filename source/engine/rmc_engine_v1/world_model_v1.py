@@ -899,6 +899,10 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]], *, regex_fallba
                 provenance=[eid], quarantined=is_q,
                 cite="contract 1g2034-K §8 tool output is evidence until admitted" if is_q else "contract 1g2034-K §4.2 admitted fact",
             )
+            if event.get("told_at"):
+                row["told_at"] = event["told_at"]
+            if event.get("sensitive"):
+                row["sensitive"] = True
             # 4.9.244: a Simulation Router receipt row keeps its receipt (solver, measurements, sha256, intervention key)
             if row["source"] == "sim_receipt" and isinstance(event.get("sim"), dict):
                 row["sim"] = dict(event["sim"])
@@ -2778,29 +2782,81 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
             claim["_premise_rows"] = [main, hetu]
             claims.append(_frame_claim(claim, ff, src, m, DF.alignment(placed(hetu), phase_path, question), question))
 
-    # An open "what do you know/remember about X" is the phone's own facts whose kartṛ is X. It is not a new sentence.
-    if str((qframe or {}).get("kriya") or "") in ("know", "remember", "tell", "recall"):
-        about = None
-        for adj in (qframe.get("adj") or []):
-            if isinstance(adj, dict) and str(adj.get("prep") or "").lower() == "about" and isinstance(adj.get("np"), dict):
-                about = adj["np"]
-                break
-        phones = [f for f in topical if str(f.get("source") or "") == "phone_kb"]
-        if about is not None:
-            phones = [f for f in phones if DF.np_unify(about, (f.get("frame") or {}).get("kartr"))]
-        if phones and (about is not None or (str(qframe.get("kriya") or "") in ("remember", "recall") and str(qframe.get("wh") or "") == "what")):
-            texts = [str(f.get("text") or "") for f in phones if str(f.get("text") or "").strip()]
+    # An open recall is the phone's own admitted facts. "about X" keeps X's facts. "my facts" is that whole phone store.
+    # A count is the size of that set. A secret or a quarantined row is not in it. The same sentence is one fact.
+    recall_kriya = str((qframe or {}).get("kriya") or "")
+    about = None
+    for adj in (qframe.get("adj") or []):
+        if isinstance(adj, dict) and str(adj.get("prep") or "").lower() == "about" and isinstance(adj.get("np"), dict):
+            about = adj["np"]
+            break
+    karma = qframe.get("karma") if isinstance(qframe.get("karma"), dict) else {}
+    counted = qframe.get("counted") if isinstance(qframe.get("counted"), dict) else {}
+    show_mine = recall_kriya == "show" and str(karma.get("head") or "").rstrip("s") == "fact" and (karma.get("owner") == "user" or str(karma.get("text") or "").lower().startswith("my "))
+    want_count = str(qframe.get("quantity") or "") == "many" and str(counted.get("head") or "") == "fact"
+    open_recall = about is not None and recall_kriya in ("know", "remember", "tell", "recall")
+    list_all = (recall_kriya in ("remember", "recall") and str(qframe.get("wh") or "") == "what" and about is None) or show_mine or (want_count and about is None)
+    if open_recall or list_all or (want_count and about is not None):
+        seen_text: set[str] = set()
+        phones = []
+        for fact in topical:
+            if str(fact.get("source") or "") != "phone_kb" or fact.get("quarantined") or fact.get("sensitive"):
+                continue
+            key = _norm(str(fact.get("text") or ""))
+            if not key or key in seen_text:
+                continue
+            if about is not None and not DF.np_unify(about, (fact.get("frame") or {}).get("kartr")):
+                continue
+            seen_text.add(key)
+            phones.append(fact)
+        if phones:
+            texts = [str(f.get("text") or "") for f in phones]
             n = len(texts)
+            count_sentence = ""
+            if want_count:
+                owner = str((about or {}).get("text") or "")
+                count_sentence = str(n) + " fact" + ("" if n == 1 else "s") + (" about " + owner if owner else "") + "."
             spoken = " ".join(texts)
             proof = _direct_proof(world, phones[0])
             checked = check_proof(world, proof)
             fact_atom = phones[0].get("atom") if isinstance(phones[0].get("atom"), dict) else {"predicate": "recall", "args": [str((about or {}).get("text") or ""), str(n)], "polarity": "pos"}
             claim = _finish_claim(world, spoken, fact_atom, phones, proof, checked, "supported_only", "WM-RECALL", phase_path)
             claim["recall_count"] = n
+            claim["count_sentence"] = count_sentence
             claim["_place"] = placed(phones[0])
             claim["_premise_rows"] = phones
             ff, src = DF.fact_frame(phones[0])
             claims.append(_frame_claim(claim, ff, src, {"roles": 1, "gap": "karma", "filler": texts[0], "rule": "WM-RECALL"}, DF.alignment(placed(phones[0]), phase_path, question), question))
+
+    # "when did I …" reports the timestamp stored with the fact. A fact with no timestamp is not given one.
+    when_missing = False
+    if str((qframe or {}).get("wh") or "") == "when":
+        decl = _norm(str(qframe.get("declarative") or ""))
+        asked = qframe.get("karma") if isinstance(qframe.get("karma"), dict) else None
+        dated = []
+        for fact in topical:
+            if str(fact.get("source") or "") != "phone_kb" or fact.get("quarantined") or fact.get("sensitive"):
+                continue
+            text = _norm(str(fact.get("text") or ""))
+            about_hit = bool(asked and DF.np_unify(asked, (fact.get("frame") or {}).get("kartr")))
+            inside = bool(text and text in decl)
+            if not about_hit and not inside:
+                continue
+            if fact.get("told_at"):
+                dated.append(fact)
+        if dated:
+            spoken = " ".join(str(f.get("text") or "").strip() for f in dated)
+            proof = _direct_proof(world, dated[0])
+            checked = check_proof(world, proof)
+            fact_atom = dated[0].get("atom") if isinstance(dated[0].get("atom"), dict) else {"predicate": "tell", "args": ["I", str(dated[0].get("told_at"))], "polarity": "pos"}
+            claim = _finish_claim(world, spoken, fact_atom, dated, proof, checked, "supported_only", "WM-WHEN", phase_path)
+            claim["told_at"] = [str(f.get("told_at")) for f in dated]
+            claim["_place"] = placed(dated[0])
+            claim["_premise_rows"] = dated
+            ff, src = DF.fact_frame(dated[0])
+            claims.append(_frame_claim(claim, ff, src, {"roles": 1, "gap": "kala", "filler": str(dated[0].get("told_at")), "rule": "WM-WHEN"}, DF.alignment(placed(dated[0]), phase_path, question), question))
+        else:
+            when_missing = True
 
     # A define/mean question speaks the one admitted controlled concept. Several concepts are not a choice.
     lex = qframe.get("lexicon") if isinstance(qframe.get("lexicon"), dict) else None
@@ -2955,7 +3011,9 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         status, reason = "undetermined", "frame matched but no match survived the check and debate"
     else:
         status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
-        if status == "undetermined" and str((qframe or {}).get("wh") or "") == "why" and any(
+        if status == "undetermined" and when_missing:
+            reason = "no provenance time"
+        elif status == "undetermined" and str((qframe or {}).get("wh") or "") == "why" and any(
             _same_event(qframe, DF.fact_frame(f)[0]) for f in topical if f.get("clause_link") != "hetu"
         ):
             reason = "no stored hetu"
@@ -2967,9 +3025,21 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
         elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]
+        elif claim.get("how") == "WM-RECALL":
+            parts = [str(p.get("text") or "") for p in claim.get("premises") or [] if str(p.get("text") or "").strip()]
+            if claim.get("count_sentence"):
+                parts.insert(0, str(claim["count_sentence"]))
+        elif claim.get("how") == "WM-WHEN":
+            parts = []
+            for prem in claim.get("premises") or []:
+                if str(prem.get("text") or "").strip():
+                    parts.append(str(prem.get("text")))
+                if prem.get("told_at"):
+                    parts.append("at " + str(prem.get("told_at")) + ".")
         else:
             parts = []
-        parts.append(str(claim.get("text") or ""))
+        if claim.get("how") not in ("WM-RECALL", "WM-WHEN"):
+            parts.append(str(claim.get("text") or ""))
         fm = claim.get("frame_match") or {}
         if fm.get("rule") == DF.RULE_CONVERSE:
             # 4.9.241: the polarity answer the frame gives ("not necessarily"), then the fact it rests on
@@ -2984,7 +3054,18 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         claim["spoken"] = " ".join(dict.fromkeys(_cap(voice(p) if voice else p) for p in parts if p.strip()))
         claim["perspective"] = "speaker" if selfvoice else ("listener" if personal else "as_stored")
         # 4.9.237 (plan 229 step 8): each spoken sentence with the atom it states, for the outward compile (panini_wording)
-        claim["spoken_atoms"] = _spoken_atoms(world, claim, parts, voice)
+        if claim.get("how") in ("WM-RECALL", "WM-WHEN"):
+            by_prem = {str(p.get("text") or "").strip(): p for p in claim.get("premises") or [] if isinstance(p, dict)}
+            atoms = []
+            for part in parts:
+                raw = str(part).strip()
+                prem = by_prem.get(raw)
+                voiced = _cap(voice(raw) if voice else raw)
+                atoms.append({"text": voiced, "atom": _listener_atom(prem.get("atom"), voice) if prem and isinstance(prem.get("atom"), dict) else None, "verbatim": prem is None, "role": "conclusion" if prem else "count", "source_id": (prem or {}).get("id")})
+            claim["spoken_atoms"] = atoms
+            claim["spoken"] = " ".join(a["text"] for a in atoms if a["text"])
+        else:
+            claim["spoken_atoms"] = _spoken_atoms(world, claim, parts, voice)
     report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers, measure_gap=measure_gap)
     report["match_mode"] = "frame_gate"
     report["frame_trace"] = {
@@ -3018,6 +3099,7 @@ def _finish_claim(world, text, atom, premises, proof, checked, status, how, phas
         "premises": [{
             "id": p["id"], "text": p["text"], "source": p.get("source"),
             "quarantined": bool(p.get("quarantined")), "provenance": p.get("provenance"),
+            **({"told_at": p.get("told_at")} if p.get("told_at") else {}),
             **({"sim": p["sim"]} if isinstance(p.get("sim"), dict) else {}),
             **({"ground_forms": list(p.get("ground_forms") or [])} if p.get("ground_forms") else {}),
         } for p in premises],
@@ -3145,6 +3227,8 @@ def _public_claim(claim: dict[str, Any] | None) -> dict[str, Any] | None:
         "alignment": claim.get("alignment"),
         "gate": claim.get("gate"),
         "perspective": claim.get("perspective"),
+        "told_at": claim.get("told_at"),
+        "recall_count": claim.get("recall_count"),
         "coverage_tiebreak": claim.get("coverage_tiebreak"),
         "intermediate": claim.get("intermediate"),
         "debate": {
@@ -3293,6 +3377,8 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         if clause is not None:
             with_clause += 1
             clause = memory_clauses.with_place(clause, place)
+        prov = node.get("provenance") if isinstance(node.get("provenance"), dict) else {}
+        told = str(prov.get("at") or "")
         events.append({
             "id": nid,
             "clause": clause,
@@ -3303,6 +3389,8 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
             "confidence": node.get("confidence"),
             "prior_drift_score": prior,
             "quarantined": low,
+            "sensitive": node.get("sensitive") is True,
+            "told_at": told if re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z", told) else None,
         })
     memory_clauses.note("world_model.observe_events", events=len(events), with_clause=with_clause,
                         placed=sum(1 for e in events if (e.get("place") or {}).get("phase")),

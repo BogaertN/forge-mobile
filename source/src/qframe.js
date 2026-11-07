@@ -455,7 +455,14 @@
     }
     if (has(lw[0], 'WH') && isQ) {
       const wh = lw[0]; f.wh = wh; f.mood = 'interrogative'; let rest = ws.slice(1); const lrest = lw.slice(1);
-      if (wh === 'how' && /^(many|much)$/.test(lrest[0] || '')) { f.quantity = lrest[0]; rest = rest.slice(1); lrest.shift(); }
+      if (wh === 'how' && /^(many|much)$/.test(lrest[0] || '')) {
+        f.quantity = lrest[0]; rest = rest.slice(1); lrest.shift();
+        /* "how many facts do you know …": the counted noun, then the same auxiliary question. */
+        if (lrest.length && !has(lrest[0], 'AUX') && !has(lrest[0], 'COP') && !has(lrest[0], 'MOD') && !has(lrest[0], 'WH')) {
+          f.counted = { text: lrest[0], head: String(lrest[0]).toLowerCase().replace(/s$/, '') };
+          if (lrest.length >= 2 && (has(lrest[1], 'AUX') || has(lrest[1], 'COP') || has(lrest[1], 'MOD'))) { rest = rest.slice(1); lrest.shift(); }
+        }
+      }
       const filler = FILLER[wh] || null; const adjunct = ADJUNCT[wh] || null;
       const a0 = lrest[0] || '';
       if (has(a0, 'COP') || has(a0, 'AUX') || has(a0, 'MOD')) {
@@ -518,6 +525,7 @@
         f.wh_role = 'kartr'; f.rule = 'QF-WH-SUBJ-' + (f.parsed ? 'DECL' : 'NOPARSE');
       } else { f.wh_role = adjunct; f.rule = 'QF-WH-ADJ-NOPARSE'; }
       f.speech_act = selfAct(f, wh, f.aux) || wh;
+      if (f.quantity === 'many' && f.counted && f.counted.head === 'fact' && !f.parsed) { f.kriya = 'remember'; f.partial = true; f.wh_role = f.wh_role || 'karma'; }
       return f;
     }
     if (isQ && (has(lw[0], 'COP') || has(lw[0], 'AUX') || has(lw[0], 'MOD'))) { /* yes/no: polarity of the declarative */

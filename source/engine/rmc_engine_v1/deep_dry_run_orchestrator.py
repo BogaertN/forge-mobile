@@ -1104,6 +1104,8 @@ def run_deep_dry_run(
             "clause": node.get("clause") if isinstance(node.get("clause"), dict) else None,
             "meaning_id": node.get("meaning_id"),
             "sim": node.get("sim") if isinstance(node.get("sim"), dict) else None,
+            "provenance": node.get("provenance") if isinstance(node.get("provenance"), dict) else None,
+            "sensitive": node.get("sensitive") is True,
             "packet": node.get("packet") if isinstance(node.get("packet"), dict) else None,
             "concepts": node.get("concepts") if isinstance(node.get("concepts"), list) else None,
             "sfe": node.get("sfe") if isinstance(node.get("sfe"), dict) else None,
@@ -1119,9 +1121,11 @@ def run_deep_dry_run(
         have.add(key)
         nodes.append({
             "id": body.get("receipt_id"), "text": text, "source": "phone_kb",
-            "confidence": "medium", "prior_drift_score": 0.0, "quarantined": False,
+            "confidence": "medium", "prior_drift_score": 0.0, "quarantined": body.get("quarantined") is True,
             "clause": body.get("clause") if isinstance(body.get("clause"), dict) else None,
             "meaning_id": body.get("meaning_id"), "sim": None,
+            "provenance": body.get("provenance") if isinstance(body.get("provenance"), dict) else None,
+            "sensitive": body.get("sensitive") is True,
         })
     # 4.9.234 (plan 229 step 6): RMC runs into the world model in series. The RMC reading (C, epsilon, route)
     # goes in as the world model's upstream; the sentence the world model speaks is measured and routed by the

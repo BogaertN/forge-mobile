@@ -305,7 +305,8 @@ async function rememberStatement(text) {
   const kept = rememberedRows();
   if (kept.some(x => x && String(x.text).toLowerCase() === sentence.toLowerCase())) return { ok: true, rule: 'REMEMBER-ALREADY-KEPT', text: sentence, message: 'Already remembered on this phone: ' + sentence };
   const id = 'rem-' + (window.KSha && KSha.sha256 ? KSha.sha256(sentence.toLowerCase()).slice(0, 12) : String(kept.length + 1));
-  const row = { id, text: sentence, clause, scope: 'phone', sensitive, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user' }, remembered_at: new Date().toISOString() };
+  const told = new Date().toISOString();
+  const row = { id, text: sentence, clause, scope: 'phone', sensitive, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', at: told }, remembered_at: told };
   const wf = keepWorldFact(row, 'remember');
   if (wf && wf.ok === false && /^WORLD-FACTS-CONFLICT/.test(wf.rule || '')) return { ok: false, rule: wf.rule, message: wf.message || 'Held: that contradicts a kept fact.', existing: wf.existing };
   kept.push(row);

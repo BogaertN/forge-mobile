@@ -83,7 +83,7 @@ function remember(s, text, kernelOpt) {
   }
   const contested = copulaClash(s.phone, clause);
   const d = f.perm.authorize('memory.write', { explicit: true, userTap: true, sensitive, contested, subject: sentence });
-  const row = { id: 'rem-' + s.phone.length, text: sentence, clause, tier: 'phone', trust: 'trusted', scope: 'phone', sensitive, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user' } };
+  const row = { id: 'rem-' + s.phone.length, text: sentence, clause, tier: 'phone', trust: 'trusted', scope: 'phone', sensitive, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', at: d.at || null } };
   if (d.decision === 'needs_approval') {
     const id = stageHold(f, row, d.rule);
     return { ok: false, held: true, sealing: false, rule: d.rule, permission: d, held_id: id, reply: 'Held for approval: ' + sentence + ' Nothing was stored.', text: sentence };
