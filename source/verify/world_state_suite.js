@@ -69,7 +69,7 @@ module.exports = ({ C, expect, K, ROOT }) => {
   });
   C('WS-INVERSE', 'parent/child (old: Tom parent of Sue answers Is Sue the child of Tom?, rule RELPROP-INVERSE:child_of<parent_of)', () => {
     const row = askChain(['remember that Tom is the parent of Sue'], 'is Sue the child of Tom?');
-    expect(admitted(row) && /Sue is( the| a)? child of Tom/i.test(row.reply || ''), (row.reply || row.route || 'held') + ' (parent/child inverse is not ancestor-of and is not implemented)');
+    expect(admitted(row) && row.reply === 'Tom is the parent of Sue. Sue is a child of Tom.' && row.world_model.derive.survivor.how === 'WM-PARENT-INVERSE', row.reply);
   });
   C('WS-INVERSE', 'ancestor/descendant (old: Lia ancestor of Ned answers Is Ned a descendant of Lia?)', () => {
     const row = askChain(['remember that Lia is an ancestor of Mo', 'remember that Mo is an ancestor of Ned'], 'is Ned a descendant of Lia?');

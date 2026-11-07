@@ -166,6 +166,43 @@ ANCESTOR_INVERSE = {
     "head": {"predicate": "descendant", "args": ["$y", "$x"], "polarity": "pos"},
     "guard": "distinct $x $y",
 }
+# descendant(x, y) chains in that same direction. The inverse is ancestor(y, x), never another descendant.
+DESCENDANT_RULE = {
+    "id": "WM-DESCENDANT-CHAIN",
+    "class": "forward_chain",
+    "cite": "4.9.249: descendant(descendant, ancestor) chains. It is not parent-of and it does not run backwards.",
+    "body": [
+        {"predicate": "descendant", "args": ["$x", "$y"], "polarity": "pos"},
+        {"predicate": "descendant", "args": ["$y", "$z"], "polarity": "pos"},
+    ],
+    "head": {"predicate": "descendant", "args": ["$x", "$z"], "polarity": "pos"},
+    "guard": "distinct $x $z",
+}
+DESCENDANT_INVERSE = {
+    "id": "WM-DESCENDANT-INVERSE",
+    "class": "forward_chain",
+    "cite": "4.9.249: ancestor is the inverse of descendant. The person in the of-phrase is the ancestor.",
+    "body": [{"predicate": "descendant", "args": ["$x", "$y"], "polarity": "pos"}],
+    "head": {"predicate": "ancestor", "args": ["$y", "$x"], "polarity": "pos"},
+    "guard": "distinct $x $y",
+}
+# parent(parent, child) is child(child, parent). A parent's parent is not a parent. The table does not license ancestor.
+PARENT_INVERSE = {
+    "id": "WM-PARENT-INVERSE",
+    "class": "forward_chain",
+    "cite": "4.9.249: child is the inverse of parent. Parent is not transitive.",
+    "body": [{"predicate": "parent", "args": ["$x", "$y"], "polarity": "pos"}],
+    "head": {"predicate": "child", "args": ["$y", "$x"], "polarity": "pos"},
+    "guard": "distinct $x $y",
+}
+CHILD_INVERSE = {
+    "id": "WM-CHILD-INVERSE",
+    "class": "forward_chain",
+    "cite": "4.9.249: parent is the inverse of child. Child is not transitive.",
+    "body": [{"predicate": "child", "args": ["$x", "$y"], "polarity": "pos"}],
+    "head": {"predicate": "parent", "args": ["$y", "$x"], "polarity": "pos"},
+    "guard": "distinct $x $y",
+}
 
 PART_RULE = {
     "id": "WM-PART-CHAIN",
@@ -388,7 +425,7 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         head = str(pred.get("head") or "").lower()
         if head == "part":
             part_of = _np_frame(pred.get("of"))
-        elif head in ("ancestor", "descendant"):
+        elif head in ("ancestor", "descendant", "parent", "child"):
             of_rel = (head, _np_frame(pred.get("of")))
     if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").lower() in CONTAIN_PREPS:
         contain_inner = _np_frame(pred.get("np")) or ({"text": str(pred.get("text")).strip(), "head": str(pred.get("text")).strip()} if str(pred.get("text") or "").strip() else None)
@@ -433,7 +470,7 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
     covered = _clause_words(arg0 + " " + obj + " " + verb + " " + (str(pred.get("prep")) if isinstance(pred, dict) else ""))
     if predicate == "part":
         covered |= _clause_words("part of " + obj)
-    if predicate in ("ancestor", "descendant"):
+    if predicate in ("ancestor", "descendant", "parent", "child"):
         covered |= _clause_words("an " + predicate + " of " + obj)
     for adj in (rec.get("adj") if isinstance(rec.get("adj"), list) else []):
         if isinstance(adj, dict):
@@ -458,7 +495,7 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         frame["karma"] = karma
     elif predicate == "part" and part_of:
         frame["pred"] = {"type": "np", "text": "part of " + str(part_of.get("text") or ""), "head": "part", "of": part_of}
-    elif predicate in ("ancestor", "descendant") and of_rel and of_rel[1]:
+    elif predicate in ("ancestor", "descendant", "parent", "child") and of_rel and of_rel[1]:
         det = "an" if predicate == "ancestor" else "a"
         frame["pred"] = {"type": "np", "text": det + " " + predicate + " of " + str(of_rel[1].get("text") or ""), "head": predicate, "det": det, "of": of_rel[1]}
     elif predicate == "geo" and geo_inner:
@@ -512,7 +549,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
+        "rules": [dict(COPULA_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -869,9 +906,9 @@ def check_proof(world: dict[str, Any], proof: dict[str, Any]) -> dict[str, Any]:
                 return {"ok": False, "reason": "head_mismatch", "cite": "contract 1g2034-K §6 step 8"}
             if [_norm(a) for a in head.get("args") or []] != [_norm(a) for a in atom.get("args") or []]:
                 return {"ok": False, "reason": "head_mismatch", "cite": "contract 1g2034-K §6 step 8"}
-            if rule["id"] in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN") and _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+            if rule["id"] in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-DESCENDANT-CHAIN") and _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
                 return {"ok": False, "reason": "guard_distinct", "cite": rule.get("cite") or "contract 1g2034-K §5"}
-            if rule["id"] == "WM-ANCESTOR-INVERSE" and _norm(sub.get("$x", "")) == _norm(sub.get("$y", "")):
+            if rule["id"] in ("WM-ANCESTOR-INVERSE", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE") and _norm(sub.get("$x", "")) == _norm(sub.get("$y", "")):
                 return {"ok": False, "reason": "guard_distinct", "cite": rule.get("cite") or "contract 1g2034-K §5"}
         else:
             return {"ok": False, "reason": "step_kind", "cite": "contract 1g2034-K §4.3"}
@@ -997,7 +1034,7 @@ def _render_atom(atom: dict[str, Any]) -> str:
     """Contract I1 and §9. The template expresses this atom. It does not pick another."""
     args = [str(a) for a in atom.get("args") or []]
     predicate = str(atom.get("predicate") or "")
-    if predicate in ("ancestor", "descendant") and len(args) == 2:
+    if predicate in ("ancestor", "descendant", "parent", "child") and len(args) == 2:
         det = "an" if predicate == "ancestor" else "a"
         verb = "is not" if atom.get("polarity") == "neg" else "is"
         return f"{args[0]} {verb} {det} {predicate} of {args[1]}."
@@ -1373,7 +1410,7 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
     # Both polarities. Contract §5. A positive and a negative for the same normalized atom conflict.
     for claim in claims:
         atom = claim["atom"]
-        if atom.get("predicate") not in ("is", "in", "live", "geo", "part", "ancestor", "descendant"):
+        if atom.get("predicate") not in ("is", "in", "live", "geo", "part", "ancestor", "descendant", "parent", "child"):
             continue
         opposite = "neg" if atom.get("polarity") != "neg" else "pos"
         for other in topical:
@@ -1427,6 +1464,31 @@ def _cap(sentence: str) -> str:
     return t if not t or t[-1] in ".!?" else t + "."
 
 
+def _contain_text(chosen: list[dict[str, Any]], conclusion: dict[str, Any]) -> str:
+    """Say the chain in the preposition or verb the premises already used. inside, within and contain are one atom."""
+    from rmc_engine_v1 import derive_frame as DF
+    preps: list[str] = []
+    verbs = False
+    for fact in chosen:
+        ff, _ = DF.fact_frame(fact)
+        if not isinstance(ff, dict):
+            continue
+        if str(ff.get("kriya") or "").lower() == "contain":
+            verbs = True
+        pred = ff.get("pred") if isinstance(ff.get("pred"), dict) else None
+        prep = str((pred or {}).get("prep") or "").lower()
+        if prep in ("inside", "within"):
+            preps.append(prep)
+    args = [str(a) for a in conclusion.get("args") or []]
+    if len(args) < 2:
+        return _render_atom(conclusion)
+    if preps and not verbs and all(p == preps[0] for p in preps):
+        return f"{args[0]} is {preps[0]} {args[1]}."
+    if verbs and not preps:
+        return f"{args[1]} contains {args[0]}."
+    return _render_atom(conclusion)
+
+
 def _contain_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool: list[dict[str, Any]], proof_facts: list[dict[str, Any]], seen: set[tuple[str, str, str]], qframe: dict[str, Any] | None) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], set[tuple[str, str, str]], bool]:
     """Forward-chain WM-CONTAIN-CHAIN on the same unifier as the copula rule. Only positive in(content, container) facts.
      A conclusion is not symmetric and a cycle (x inside x) is the distinct guard."""
@@ -1451,7 +1513,7 @@ def _contain_chain(world: dict[str, Any], question: str, phase_path: list[Any], 
             key = (_norm(conclusion["args"][0]), _norm(conclusion["args"][1]), "pos")
             if key in seen or _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
                 continue
-            text = _render_atom(conclusion)
+            text = _contain_text(chosen, conclusion)
             if qframe is None and _coverage(question, text) <= 0:
                 continue
             proof_world = dict(world)
@@ -1691,7 +1753,7 @@ def _ancestor_chain(world: dict[str, Any], question: str, phase_path: list[Any],
     for fact in pool:
         atom = fact.get("atom") or {}
         args = atom.get("args") or []
-        if atom.get("predicate") in ("ancestor", "descendant") and atom.get("polarity", "pos") == "pos" and len(args) >= 2:
+        if atom.get("predicate") in ("ancestor", "descendant", "parent", "child") and atom.get("polarity", "pos") == "pos" and len(args) >= 2:
             note(str(atom.get("predicate")), args[0], args[1])
 
     def emit(rule: dict[str, Any], chosen: list[dict[str, Any]], sub: dict[str, str], conclusion: dict[str, Any], cframe: dict[str, Any]) -> bool:
@@ -1714,7 +1776,7 @@ def _ancestor_chain(world: dict[str, Any], question: str, phase_path: list[Any],
         checked = check_proof(proof_world, proof)
         premises = _original_premises(chosen)
         claim = _finish_claim(world, text, conclusion, premises, proof, checked, "supported_only", rule["id"], phase_path or [])
-        if rule["id"] == "WM-ANCESTOR-INVERSE":
+        if rule["id"] in ("WM-ANCESTOR-INVERSE", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE"):
             _licensed(world, claim, rule)
         hop_rows: list[dict[str, Any]] = []
         for fact in chosen:
@@ -1780,6 +1842,49 @@ def _ancestor_chain(world: dict[str, Any], question: str, phase_path: list[Any],
             conclusion = _atom("descendant", [args[1], args[0]], "pos")
             sub = {"$x": str(args[0]), "$y": str(args[1])}
             if emit(ANCESTOR_INVERSE, [fact], sub, conclusion, _of_frame("descendant", younger, elder)):
+                added += 1
+            if incomplete:
+                break
+        hops = _match_body(DESCENDANT_RULE["body"], [f for f in pool if not f.get("self_fact")])
+        for sub, chosen in hops:
+            if _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+                continue
+            left_f, _ = DF.fact_frame(chosen[0])
+            right_f, _ = DF.fact_frame(chosen[1])
+            person = (left_f or {}).get("kartr") if isinstance(left_f, dict) else None
+            other = ((right_f or {}).get("pred") or {}).get("of") if isinstance(right_f, dict) and isinstance((right_f or {}).get("pred"), dict) else None
+            if not isinstance(person, dict) or not isinstance(other, dict):
+                continue
+            conclusion = _atom("descendant", [chosen[0]["atom"]["args"][0], chosen[1]["atom"]["args"][1]], "pos")
+            if emit(DESCENDANT_RULE, chosen, sub, conclusion, _of_frame("descendant", person, other)):
+                added += 1
+            if incomplete:
+                break
+        for fact in list(pool):
+            atom = fact.get("atom") or {}
+            args = atom.get("args") or []
+            pred_name = str(atom.get("predicate") or "")
+            if atom.get("polarity", "pos") != "pos" or len(args) < 2 or _norm(args[0]) == _norm(args[1]):
+                continue
+            if pred_name not in ("descendant", "parent", "child"):
+                continue
+            ff, _ = DF.fact_frame(fact)
+            pred = (ff or {}).get("pred") if isinstance(ff, dict) else None
+            subject = (ff or {}).get("kartr") if isinstance(ff, dict) else None
+            complement = pred.get("of") if isinstance(pred, dict) else None
+            if not isinstance(subject, dict) or not isinstance(complement, dict):
+                continue
+            sub = {"$x": str(args[0]), "$y": str(args[1])}
+            if pred_name == "descendant":
+                conclusion = _atom("ancestor", [args[1], args[0]], "pos")
+                fired = emit(DESCENDANT_INVERSE, [fact], sub, conclusion, _of_frame("ancestor", complement, subject))
+            elif pred_name == "parent":
+                conclusion = _atom("child", [args[1], args[0]], "pos")
+                fired = emit(PARENT_INVERSE, [fact], sub, conclusion, _of_frame("child", complement, subject))
+            else:
+                conclusion = _atom("parent", [args[1], args[0]], "pos")
+                fired = emit(CHILD_INVERSE, [fact], sub, conclusion, _of_frame("parent", complement, subject))
+            if fired:
                 added += 1
             if incomplete:
                 break
@@ -1934,7 +2039,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
 
     for claim in claims:
         atom = claim["atom"]
-        if atom.get("predicate") not in ("is", "in", "live", "geo", "part", "ancestor", "descendant"):
+        if atom.get("predicate") not in ("is", "in", "live", "geo", "part", "ancestor", "descendant", "parent", "child"):
             continue
         opposite = "neg" if atom.get("polarity") != "neg" else "pos"
         for other in topical:
@@ -1975,7 +2080,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     else:
         status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
     for claim in answers:
-        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE"):
+        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE"):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
         elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]
