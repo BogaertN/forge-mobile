@@ -579,6 +579,10 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         spec = _MPROP.get(prop)
         if q and spec and q["dim"] == spec[0]:
             measure = (prop, spec[1], q, str(pred.get("text") or (str(pred.get("num")) + " " + str(pred.get("unit")))).strip())
+        else:
+            # The clause is a measure, and the unit is missing or not that property's dimension.
+            # It is not stored as a copula and it is not given a number.
+            return None, "measure_incompatible"
     order_np = None
     if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").lower() in ("before", "after", "above", "below"):
         inner = _np_frame(pred.get("np"))
@@ -2560,6 +2564,7 @@ def _cmp_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool
                     emit(MEASURE_RULE, [hi, lo], sub, neg, _cmp_frame(cmp_pred, word, other, kartr, True), _cmp_text(head["args"][1], word, head["args"][0], True))
 
     seed_measures()
+
     rounds = 0
     while rounds < LIMITS["MAX_ROUNDS"]:
         rounds += 1
@@ -2615,6 +2620,59 @@ def _cmp_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool
         if added == 0:
             break
     return claims, pool, proof_facts, False
+
+
+def _measure_gap(pool: list[dict[str, Any]], qframe: dict[str, Any] | None) -> dict[str, Any] | None:
+    """Why a comparative was not licensed by the measures already in the pool.
+    A missing second quantity of the asked property is not an incompatible unit, and neither one stores a number."""
+    pred_frame = qframe.get("pred") if isinstance(qframe, dict) and isinstance(qframe.get("pred"), dict) else {}
+    asked = str(pred_frame.get("predicate") or "")
+    if asked not in CMP_DIM:
+        return None
+    from rmc_engine_v1.unit_ratio import PROPERTY as PROP
+    want = [name for name, spec in PROP.items() if spec[1] == asked or CMP_INVERSE.get(spec[1]) == asked]
+    if not want:
+        return None
+    required_dim = PROP[want[0]][0]
+    rows = []
+    for fact in pool:
+        if fact.get("source") == "derive":
+            continue
+        atom = fact.get("atom") or {}
+        qty = atom.get("quantity") if isinstance(atom.get("quantity"), dict) else None
+        if atom.get("predicate") != "measure" or atom.get("polarity", "pos") != "pos" or not qty:
+            continue
+        rows.append({
+            "id": str(fact.get("id") or ""),
+            "text": str(fact.get("text") or ""),
+            "property": str(qty.get("property") or ""),
+            "dim": str(qty.get("dim") or ""),
+            "num": str(qty.get("num") or ""),
+            "unit": str(qty.get("unit") or ""),
+            "n": str(qty.get("n") or ""),
+            "d": str(qty.get("d") or ""),
+            "owner": _norm(str((atom.get("args") or [""])[0])),
+        })
+    if not rows:
+        return None
+    relevant = [r for r in rows if r["property"] in want]
+    other = [r for r in rows if r["property"] not in want]
+    owners = {r["owner"] for r in relevant if r["owner"]}
+    bad_dim = any(r["dim"] != required_dim for r in relevant)
+    if bad_dim or other or (len(owners) >= 2 and len({r["dim"] for r in relevant}) > 1):
+        reason = "measure_incompatible"
+    elif len(owners) < 2:
+        reason = "measure_missing_comparator"
+    else:
+        return None
+    return {
+        "reason": reason,
+        "asked": asked,
+        "property": want,
+        "required_dim": required_dim,
+        "owners": len(owners),
+        "measures": [{k: r[k] for k in ("id", "text", "property", "dim", "num", "unit", "n", "d")} for r in rows],
+    }
 
 
 def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any], qframe: dict[str, Any], topical: list[dict[str, Any]]) -> dict[str, Any]:
@@ -2815,6 +2873,9 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         status, reason = "undetermined", "frame matched but no match survived the check and debate"
     else:
         status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
+    measure_gap = _measure_gap(pool, qframe) if not answers and status == "undetermined" else None
+    if measure_gap:
+        reason = str(measure_gap["reason"])
     for claim in answers:
         if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or "_THAN-" in str(claim.get("how") or "") or str(claim.get("how") or "") == "WM-MEASURE-COMPARE":
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
@@ -2838,7 +2899,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         claim["perspective"] = "speaker" if selfvoice else ("listener" if personal else "as_stored")
         # 4.9.237 (plan 229 step 8): each spoken sentence with the atom it states, for the outward compile (panini_wording)
         claim["spoken_atoms"] = _spoken_atoms(world, claim, parts, voice)
-    report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers)
+    report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers, measure_gap=measure_gap)
     report["match_mode"] = "frame_gate"
     report["frame_trace"] = {
         "rule": "4.9.236 G = f(ΔΦ, S, C): frame unification (S) x context coherence (C), ΔΦ to the operation phase weighted",
@@ -2897,7 +2958,7 @@ def _finish_claim(world, text, atom, premises, proof, checked, status, how, phas
     return claim
 
 
-def _derive_report(world, question, status, reason, claims, incomplete, answers=None) -> dict[str, Any]:
+def _derive_report(world, question, status, reason, claims, incomplete, answers=None, measure_gap=None) -> dict[str, Any]:
     if answers is not None:
         # 4.9.233: frame mode. Only frame-matched, phase-aligned survivors answer; matched claims are listed first.
         survivors = sorted(answers, key=_frame_key)
@@ -2914,7 +2975,7 @@ def _derive_report(world, question, status, reason, claims, incomplete, answers=
     ))
     chosen = survivors[0] if survivors else None
     public_claims = [_public_claim(c) for c in claims[:12]]
-    return {
+    report = {
         "operation": "Derive",
         "cite": "spec 1vBx_Q9K §1.4 Derive(W_v, R, Q); contract 1g2034-K §5 and §6 steps 6-8",
         "world_root": world.get("root"),
@@ -2930,6 +2991,9 @@ def _derive_report(world, question, status, reason, claims, incomplete, answers=
         "derived_atoms": (chosen or {}).get("spoken_atoms") if chosen and (chosen.get("spoken") or chosen.get("text")) else None,
         "proofs": {((c.get("proof") or {}).get("proof_id") or "none"): {"steps": (c.get("proof") or {}).get("steps"), "ok": c.get("checker_ok")} for c in claims[:8]},
     }
+    if measure_gap:
+        report["measure_gap"] = measure_gap
+    return report
 
 
 def _listener_atom(atom: dict[str, Any] | None, voice: Any) -> dict[str, Any] | None:
@@ -3323,7 +3387,7 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         },
         "observe": observed,
         "self_facts": {"seed": seed_trace, "evolvable": True, "cite": "spec 1vBx_Q9K §4.7 supersession keeps the parent root"},
-        "derive": {k: derived[k] for k in ("operation", "cite", "status", "reason", "incomplete", "claims", "survivor", "derived_text", "calls_llm") if k in derived},
+        "derive": {k: derived[k] for k in ("operation", "cite", "status", "reason", "incomplete", "claims", "survivor", "derived_text", "calls_llm", "measure_gap") if k in derived},
         "debate": (survivor or {}).get("debate") if survivor else {"survived": False, "calls_llm": False, "order": ["proponent", "opponent"]},
         "proofs": derived.get("proofs") or {},
         "checker": {"ok": bool(survivor and survivor.get("checker_ok")), "cite": "contract 1g2034-K §6 step 7"},

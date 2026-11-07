@@ -106,6 +106,11 @@ _INVERSE = {
 }
 
 
+def mass_names() -> list[str]:
+    """Every name whose dimension is mass. The grammar's bare-unit copula uses this set."""
+    return sorted(name for dim, _factor, names in _ROWS if dim == "mass" for name in names)
+
+
 def licenses(left: dict, right: dict, head: dict) -> bool:
     """Two positive measure atoms of one property license the true comparative, its declared inverse,
     and the two negations. Same property only. A bare length is not tall, wide, or deep."""

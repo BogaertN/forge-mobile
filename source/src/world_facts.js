@@ -207,9 +207,25 @@
       remembered_at: r.remembered_at, admitted_at: r.admitted_at, updated_at: r.updated_at,
     }));
   }
-  function clear() { MEM = { schema: SCHEMA, facts: [], updated_at: new Date().toISOString(), calls_llm: false };
+  function clear() { MEM = { schema: SCHEMA, facts: [], receipts: [], updated_at: new Date().toISOString(), calls_llm: false };
     const b = backend(); if (b) { try { b.set(KEY, JSON.stringify(MEM)); } catch (e) {} } return { ok: true }; }
+  /* Explicit forget of one stored premise. Derived answers are not stored, so nothing derived is deleted here;
+   * the next Ask recomputes from what remains. Shared packs and anchors are not this store. */
+  function forget(sel) {
+    const doc = loadRaw();
+    const key = norm(sel);
+    const facts = doc.facts || [];
+    const i = facts.findIndex(f => f && (f.id === sel || norm(f.text) === key));
+    if (i < 0) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Nothing remembered matches that.' };
+    const fact = facts[i];
+    const next = facts.slice(0, i).concat(facts.slice(i + 1));
+    const receipt = { schema: 'forge.world_facts.forget/v1', id: 'fg-' + String(fact.id || i), fact_id: fact.id, text: fact.text, at: new Date().toISOString() };
+    const saved = saveRaw(Object.assign({}, doc, { facts: next, receipts: [receipt].concat(doc.receipts || []).slice(0, 64) }));
+    if (!saved.ok) return saved;
+    return { ok: true, rule: 'WORLD-FACTS-FORGOT', fact: { id: fact.id, text: fact.text }, receipt: receipt, n: next.length, message: 'Forgot on this phone: ' + fact.text + ' · ' + receipt.id };
+  }
+  function receipts() { return ((loadRaw().receipts) || []).slice(); }
   function snapshot() { return decayed(loadRaw()); }
-  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, snapshot, conflictWith, atomKey };
+  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, forget, receipts, snapshot, conflictWith, atomKey };
   if (isNode) module.exports = api; else root.KWorldFacts = api;
 })(typeof self !== 'undefined' ? self : this);

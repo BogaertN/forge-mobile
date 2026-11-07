@@ -10,26 +10,6 @@ module.exports = ({ C, expect, K, ROOT }) => {
   const rels = f => f.worldState().relations.map(r => r.origin + ':' + r.text.toLowerCase());
   const chain = f => run(f, ['remember that Aster is inside Beryl', 'remember that Beryl is inside Cobalt']);
   const yes = r => /^Yes/.test(r.reply) && r.trace.echo.pass;
-  C('WS-PERSIST', 'durable world state: entities, stated relations and attributes carry provenance (premise = stored fact id, turn, source); derived relations are ledger items justified by memory premises + RELPROP rule ids that re-derive on replay (tampering detected); a NEW kernel on the same store answers the chain and sees the same state', () => {
-    const st = {}, f = shared(st); chain(f); f.process('remember that Aster is blue'); const ws = f.worldState();
-    expect(ws.schema === 'FORGE-WORLD-STATE/v1' && ['ent:aster', 'ent:beryl', 'ent:cobalt'].every(id => ws.entities.some(e => e.id === id && e.premises.length >= 1 && /^mem:/.test(e.first.premise))), JSON.stringify(ws.entities).slice(0, 300));
-    const st1 = ws.relations.filter(r => r.origin === 'stated'); expect(st1.length === 2 && st1.every(r => /^mem:/.test(r.premise) && r.source === 'stored fact' && typeof r.text === 'string' && 'turn' in r), JSON.stringify(st1).slice(0, 300));
-    expect(ws.attributes.some(a => a.entity === 'aster' && /^mem:/.test(a.premise)), JSON.stringify(ws.attributes));
-    const d = ws.relations.find(r => r.origin === 'derived' && r.text === 'aster is in cobalt'); expect(d && d.premises.length === 2 && d.rules.includes('RELPROP-TRANSITIVE:in'), JSON.stringify(ws.relations).slice(0, 400));
-    const it = f.justifications().find(x => x.id === d.item); expect(it && it.kind === 'relation' && it.status === 'in' && it.justifications[0].premises.every(p => /^mem:/.test(p.id)) && it.justifications[0].replay.kind === 'relprop', JSON.stringify(it).slice(0, 300));
-    expect(rels(f).includes('derived:cobalt contains aster'), 'inverse not derived');
-    for (const x of f.justifications().filter(i => i.kind === 'relation')) { const r = f.replayJustification(x.id); expect(r.ok && r.justifications.every(j => j.hash_ok && j.rederived === true), 'relation replay ' + JSON.stringify(r)); }
-    { const xs = f.store.load('justifications'), t = xs.find(i => i.id === d.item); t.justifications[0].rules = ['RELPROP-SYMMETRIC:in']; f.store.save('justifications', xs); expect(!f.replayJustification(d.item).ok, 'tampered relation replayed'); }
-    const g = shared(st); expect(JSON.stringify(g.worldState().relations) === JSON.stringify(ws.relations), 'state differs in a new session');
-    const r = g.process('does Cobalt contain Aster?'); expect(yes(r) && /Aster is inside Beryl/.test(r.reply) && /Beryl is inside Cobalt/.test(r.reply), r.reply);
-    expect(f.categories.includes('world_state') && /CASE_CATS = new Set\(\[[^\]]*'world_state'/.test(fs.readFileSync(ROOT + '/src/kernel.js', 'utf8')), 'world_state not case-scoped'); });
-  C('WS-RETRACT', 'retraction consistency: forgetting one premise withdraws every derived relation resting on it (listed with its receipt, never silently dropped), the chain answer is no longer given, and remembering it again restores the derived relations', () => {
-    const f = K(); chain(f); expect(yes(f.process('is Aster inside Cobalt?')));
-    run(f, ['forget that Beryl is inside Cobalt', 'yes']); const ws = f.worldState();
-    expect(!rels(f).some(t => /cobalt/.test(t) && /^derived/.test(t)) && rels(f).includes('derived:beryl contains aster'), JSON.stringify(rels(f)));
-    expect(['aster is in cobalt', 'cobalt contains aster', 'cobalt contains beryl'].every(t => ws.withdrawn.some(w => w.text === t && /^wd:/.test(w.receipt) && f.withdrawalReceipts().some(r => r.id === w.receipt))), JSON.stringify(ws.withdrawn).slice(0, 400));
-    expect(!/^Yes/.test(f.process('is Aster inside Cobalt?').reply) && !/^Yes/.test(f.process('does Cobalt contain Aster?').reply));
-    f.process('remember that Beryl is inside Cobalt'); expect(rels(f).includes('derived:aster is in cobalt') && yes(f.process('does Cobalt contain Aster?')), 'not restored'); });
   C('WS-SUPPOSE', '"Suppose …" isolation: a hypothetical chain is answered in a branch and neither memory nor the durable world state changes; premises given in one message never enter the durable state', () => {
     const f = K(); chain(f); f.process('where is Aster?'); const snap = () => JSON.stringify([f.store.load('memory'), f.store.load('world_state')]); const s0 = snap();
     const r = f.process('Suppose Pim is inside Quo. Quo is inside Rub. Is Pim inside Rub?'); expect(/branch/.test(r.reply) && /Yes/.test(r.reply) && r.trace.echo.pass, r.reply);
@@ -48,6 +28,58 @@ module.exports = ({ C, expect, K, ROOT }) => {
   const FK = require(ROOT + '/src/forge.js');
   const factForge = FK.ForgeKernel({ store: KM.MemoryStore(), lexicon: LEX, lexiconExt: EXT, clock: () => '2026-11-07T00:00:00Z' });
   const putFact = text => WF.upsert({ text, clause: QF.clause(text, factForge), kind: 'remember' });
+  /* Remembered premises live in world_facts and are reread by a later Ask. The chain is recomputed; it is not stored. */
+  C('WS-PERSIST', 'remembered premises survive a new read of the same store and the chain is recomputed from them (old: a new kernel on the same store answers the chain)', () => {
+    WF.clear();
+    expect(putFact('Aster is inside Beryl.').ok && putFact('Beryl is inside Cobalt.').ok && putFact('Aster is blue.').ok);
+    const ids = WF.rows().map(r => r.id);
+    expect(ids.length === 3 && ids.every(id => id) && WF.rows().every(r => r.clause && r.clause.parsed && r.provenance && r.provenance.store === 'world_facts'), JSON.stringify(WF.rows().map(r => r.text)));
+    const Ask = require('./ask_path.js');
+    const first = Ask.askStored('does Cobalt contain Aster?');
+    const again = Ask.askStored('does Cobalt contain Aster?');
+    const blue = WF.rows().find(r => /blue/.test(r.text));
+    expect(admitted(first) && first.reply === 'Aster is inside Beryl. Beryl is inside Cobalt. Aster is inside Cobalt.' && first.world_model.derive.survivor.how === 'WM-CONTAIN-CHAIN', first.reply);
+    expect(admitted(again) && again.reply === first.reply, again.reply);
+    expect(blue && blue.clause && blue.clause.parsed, 'the attribute premise was not kept');
+    const prem = (first.world_model.derive.survivor.premises || []).map(p => p.text);
+    expect(prem.some(t => /Aster is inside Beryl/.test(t)) && prem.some(t => /Beryl is inside Cobalt/.test(t)), JSON.stringify(prem));
+    expect(WF.rows().length === 3, 'the recomputation stored a derived fact');
+    WF.clear();
+  });
+  C('WS-PERSIST', 'derived relations are stored ledger items that replay (old: worldState derived RELPROP-TRANSITIVE:in and a tamper-checked justification)', () => {
+    WF.clear();
+    putFact('Aster is inside Beryl.'); putFact('Beryl is inside Cobalt.');
+    const derived = WF.rows().filter(r => r.origin === 'derived' || (r.rules || []).indexOf('RELPROP-TRANSITIVE:in') >= 0);
+    expect(derived.some(r => /aster is in cobalt/i.test(r.text) && (r.rules || []).indexOf('RELPROP-TRANSITIVE:in') >= 0), 'the original ledger row is not in the fact store: ' + WF.rows().map(r => r.text).join('|'));
+    WF.clear();
+  });
+  C('WS-RETRACT', 'explicit forget removes only that premise; the chain stops and the other premise still derives (old: chain answer no longer given, remaining inverse stays)', () => {
+    WF.clear();
+    expect(putFact('Aster is inside Beryl.').ok && putFact('Beryl is inside Cobalt.').ok && putFact('Aster is blue.').ok);
+    const Ask = require('./ask_path.js');
+    expect(admitted(Ask.askStored('is Aster inside Cobalt?')));
+    const gone = WF.forget('Beryl is inside Cobalt.');
+    expect(gone.ok && gone.rule === 'WORLD-FACTS-FORGOT' && gone.receipt && gone.receipt.fact_id && gone.receipt.text === 'Beryl is inside Cobalt.', JSON.stringify(gone));
+    expect(WF.rows().map(r => r.text).sort().join('|') === 'Aster is blue.|Aster is inside Beryl.', WF.rows().map(r => r.text).join('|'));
+    const chain = Ask.askStored('is Aster inside Cobalt?');
+    const contain = Ask.askStored('does Cobalt contain Aster?');
+    const left = Ask.askStored('is Aster inside Beryl?');
+    const inv = Ask.askStored('does Beryl contain Aster?');
+    expect(chain.product_reply !== true && contain.product_reply !== true, (chain.reply || chain.route) + ' | ' + (contain.reply || contain.route));
+    expect(admitted(left) && left.reply === 'Aster is inside Beryl.' && admitted(inv) && inv.reply === 'Aster is inside Beryl.' && inv.world_model.derive.survivor.how === 'direct', (left.reply || '') + ' | ' + (inv.reply || '') + ' ' + (inv.world_model.derive.survivor && inv.world_model.derive.survivor.how));
+    expect(putFact('Beryl is inside Cobalt.').ok);
+    const back = Ask.askStored('does Cobalt contain Aster?');
+    expect(admitted(back) && back.reply === 'Aster is inside Beryl. Beryl is inside Cobalt. Aster is inside Cobalt.' && WF.rows().length === 3, back.reply);
+    WF.clear();
+  });
+  C('WS-RETRACT', 'forgetting lists every withdrawn derived relation with a receipt (old: ws.withdrawn wd: aster is in cobalt)', () => {
+    WF.clear();
+    putFact('Aster is inside Beryl.'); putFact('Beryl is inside Cobalt.');
+    const gone = WF.forget('Beryl is inside Cobalt.');
+    const listed = (gone.withdrawn || []).filter(w => w.text === 'aster is in cobalt' && /^wd:/.test(w.receipt || ''));
+    expect(listed.length === 3, 'the original withdrawn-ledger list is not produced: ' + JSON.stringify(gone.receipt));
+    WF.clear();
+  });
   C('WS-TRANSITIVE', 'inside chain (old: Ola inside Pel inside Ras, winner world.proof)', () => {
     const row = askChain(['remember that Ola is inside Pel', 'remember that Pel is inside Ras'], 'is Ola inside Ras?');
     expect(admitted(row) && row.reply === 'Ola is inside Pel. Pel is inside Ras. Ola is inside Ras.' && row.world_model.derive.survivor.how === 'WM-CONTAIN-CHAIN', row.reply);
@@ -270,10 +302,18 @@ module.exports = ({ C, expect, K, ROOT }) => {
     const row = askChain(['remember that Quo is 3 kg', 'remember that Ola is 5 kg'], 'is Ola heavier than Quo?');
     expect(admitted(row) && row.reply === 'Ola is 5 kg. Quo is 3 kg. Ola is heavier than Quo.' && row.world_model.derive.survivor.how === 'WM-MEASURE-COMPARE', row.reply || row.route);
   });
-  /* Old wording was "no quantity". The missing comparator is a hold: no number is invented and the answer is not a false No. */
+  /* Old wording was "no quantity": Ola has no height, so taller is not answered and no number is invented. */
   C('WS-ASYM-REGRESSION', 'a measurement with no second quantity stays open (old: no quantity)', () => {
-    const row = askChain(['remember that Quo is 180 cm tall'], 'is Quo taller than Ola?');
-    expect(row.product_reply !== true && !/\d/.test(row.reply || ''), row.reply || row.route);
+    const Ask = require('./ask_path.js'); const s = Ask.session();
+    const kept = Ask.remember(s, 'remember that Quo is 180 cm tall');
+    const q = QF.compile('is Quo taller than Ola?', factForge);
+    const row = Ask.ask(s, 'is Quo taller than Ola?');
+    const claims = (row.world_model && row.world_model.derive && row.world_model.derive.claims) || [];
+    expect(kept.clause && kept.clause.pred && kept.clause.pred.type === 'measure' && kept.clause.pred.property === 'tall' && kept.clause.pred.unit === 'cm' && kept.clause.pred.num === '180', JSON.stringify(kept.clause && kept.clause.pred));
+    expect(q && q.pred && q.pred.predicate === 'taller_than', JSON.stringify(q && q.pred));
+    const gap = row.world_model.derive.measure_gap;
+    const keptQty = gap && (gap.measures || []).find(m => m.property === 'tall');
+    expect(row.product_reply !== true && row.world_model.derive.status === 'undetermined' && row.world_model.derive.reason === 'measure_missing_comparator' && gap && gap.asked === 'taller_than' && gap.owners === 1 && keptQty && keptQty.num === '180' && keptQty.unit === 'cm' && keptQty.dim === 'length' && !claims.some(c => c.how === 'WM-MEASURE-COMPARE') && !/\d/.test(row.reply || ''), (row.reply || row.route) + ' ' + row.world_model.derive.reason);
   });
   C('WS-SURFACE', 'larger stays larger in the negation (old: not greater; the atom is greater_than)', () => {
     const row = askChain(['remember that Quo is larger than Ola'], 'is Ola larger than Quo?');

@@ -71,4 +71,13 @@ function ask(s, question, extra) {
   if (s.phone.length !== before) throw new Error('ask appended phone memory');
   return row;
 }
-module.exports = { session, remember, ask, kernel, productionPools };
+function askStored(question) {
+  const WF = require(ROOT + '/src/world_facts.js');
+  const s = session();
+  s.phone = WF.rows().filter(r => r && r.text).map(r => ({ id: r.id, text: r.text, clause: r.clause, tier: 'phone', trust: 'trusted', scope: 'phone', provenance: r.provenance }));
+  const n = WF.rows().length;
+  const row = ask(s, question);
+  if (WF.rows().length !== n) throw new Error('ask stored a fact');
+  return row;
+}
+module.exports = { session, remember, ask, askStored, kernel, productionPools };

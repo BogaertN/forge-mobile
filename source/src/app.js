@@ -214,6 +214,22 @@ async function rememberAnswer(row, how) {
  * unsourced). Questions are not statements; secrets go to the vault, not plain memory. Ask then reads it back as phone memory
  * and the engine decides (a later contradicting statement makes the derive conflicted, so Ask holds and shows both). */
 const REMEMBER_STATEMENT = /^\s*(?:please\s+)?remember\s+(?:that\s+)?(\S.*?)\s*[.!]?\s*$/i;
+const FORGET_STATEMENT = /^\s*(?:please\s+)?forget\s+(?:that\s+)?(\S.*?)\s*[.!]?\s*$/i;
+function forgetStatement(text) {
+  const m = String(text).match(FORGET_STATEMENT);
+  const said = m ? m[1].trim() : '';
+  if (!said) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Forget what? Say "forget that …" with the sentence you stored.' };
+  const sentence = said.charAt(0).toUpperCase() + said.slice(1) + (/[.!]$/.test(said) ? '' : '.');
+  const same = t => String(t || '').toLowerCase().replace(/[.!]+$/, '').replace(/\s+/g, ' ').trim();
+  const WF = window.KWorldFacts;
+  const r = WF && WF.forget ? WF.forget(sentence) : { ok: false, rule: 'WORLD-FACTS-MISSING', message: 'The phone fact store is not available.' };
+  const before = rememberedRows();
+  const kept = before.filter(x => x && same(x.text) !== same(sentence));
+  if (kept.length !== before.length) { try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* the world_facts removal still stands */ } }
+  if (r && r.ok) return r;
+  if (kept.length !== before.length) return { ok: true, rule: 'REMEMBER-FORGOT', text: sentence, message: 'Forgot on this phone: ' + sentence, receipt: null };
+  return r;
+}
 async function rememberStatement(text) {
   const m = String(text).match(REMEMBER_STATEMENT);
   const said = m ? m[1].trim() : '';
@@ -270,6 +286,11 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       : r.gate ? 'Not remembered: the memory write gate failed (' + esc((r.gate.failed || []).join(', ')) + ') · ' + esc(r.rule) + '. Nothing was kept.'
       : 'Nothing to remember yet: no admitted answer in this conversation.';
     log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + msg + '</div><div class="flags">explicit request · no LLM</div></div>');
+    log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
+  }
+  if (FORGET_STATEMENT.test(text)) {
+    const r = forgetStatement(text);
+    log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.ok ? '' : ' blocked') + '" data-ask-state="' + (r.ok ? 'forgotten' : 'held') + '" data-forget-rule="' + esc(r.rule) + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + esc(r.message || '') + '</div><div class="flags">explicit request · this phone only · no shared write · no LLM</div></div>');
     log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
   }
   if (REMEMBER_STATEMENT.test(text)) {
