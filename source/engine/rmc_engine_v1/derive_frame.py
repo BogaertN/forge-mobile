@@ -112,6 +112,10 @@ def np_unify(q: Any, f: Any) -> bool:
         return False
     if _owner_user(q) != _owner_user(f):
         return False
+    # A numeral has no alphabetic token, so an empty word set would match every other empty phrase.
+    if q.get("num") or f.get("num") or not _words(str(q.get("text") or "")) or not _words(str(f.get("text") or "")):
+        if " ".join(str(q.get("text") or "").lower().split()) != " ".join(str(f.get("text") or "").lower().split()):
+            return False
     # 4.9.240: the genitive of-phrase is the possessive ("the name of my dog" = "my dog's name"): one possessor slot
     qo, fo = genitive(q), genitive(f)
     if isinstance(qo, dict) and not (isinstance(fo, dict) and np_unify(qo, fo)):
@@ -163,15 +167,25 @@ def _specific(np: dict[str, Any]) -> bool:
 
 
 def _atom_np(text: str) -> dict[str, Any]:
+    """A noun phrase read off an atom string. A sentence-initial capital is not a name when the phrase
+    starts with a possessive determiner: "My pet" is the asker's pet, the same noun the question frame
+    parses as head pet, owner user. A bare capitalised name ("Rex", "New York") stays a proper noun."""
     t = str(text or "").strip()
     first = t.split()[0].lower() if t.split() else ""
-    out = {"text": t, "det": first if first in _DETS else None}
+    poss = _POSSESSIVE.match(t)
+    out: dict[str, Any] = {"text": t, "det": first if first in _DETS or poss else None}
     m = re.match(r"(?i)(.+?)\s+of\s+(.+)$", t)
     if m:
         ws = [w for w in m.group(1).split() if w.lower() not in _DETS]
         out["head"] = ws[-1] if ws else None
         out["of"] = {"text": m.group(2)}
-    if t[:1].isupper() and first not in _DETS and len(t.split()) <= 3:
+    if poss and not out.get("head"):
+        rest = [w for w in str(poss.group(3) or "").split() if w.lower() not in _DETS]
+        if rest:
+            out["head"] = rest[-1]
+        if str(poss.group(1) or "").lower() == "my":
+            out["owner"] = "user"
+    elif t[:1].isupper() and first not in _DETS and len(t.split()) <= 3:
         out["propn"] = t
     return out
 
@@ -317,11 +331,81 @@ def fact_frame(fact: dict[str, Any]) -> tuple[dict[str, Any] | None, str]:
         return fact["role_frame"], "clause_roles"
     atom = fact.get("atom") or {}
     args = atom.get("args") or []
+    if atom.get("predicate") == "in" and len(args) >= 2:
+        return contain_frame(atom), "atom"
     if atom.get("predicate") == "is" and len(args) >= 2:
         return {"kriya": "be", "polarity": atom.get("polarity") or "pos", "kartr": _atom_np(args[0]), "pred": _atom_np(args[1])}, "atom"
     if atom.get("predicate") and len(args) >= 2:
         return {"kriya": str(atom["predicate"]), "polarity": atom.get("polarity") or "pos", "kartr": _atom_np(args[0]), "karma": _atom_np(args[1])}, "atom"
     return None, "none"
+
+
+CONTAIN_PREPS = frozenset({"inside", "within"})
+
+
+def _contain_inner(pred: Any) -> dict[str, Any] | None:
+    if not isinstance(pred, dict) or str(pred.get("type") or "") != "pp":
+        return None
+    if str(pred.get("prep") or "").lower() not in CONTAIN_PREPS:
+        return None
+    inner = pred.get("np") if isinstance(pred.get("np"), dict) and str(pred["np"].get("text") or "").strip() else None
+    if inner:
+        return inner
+    text = str(pred.get("text") or "").strip()
+    return {"text": text, "head": pred.get("head") or text} if text else None
+
+
+def _adjunct_np(frame: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not isinstance(frame, dict):
+        return None
+    for adj in frame.get("adj") or []:
+        if isinstance(adj, dict) and isinstance(adj.get("np"), dict) and str(adj["np"].get("text") or "").strip():
+            return adj["np"]
+    return None
+
+
+def contain_roles(frame: dict[str, Any] | None) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """(content, container) when the frame is the containment relation, from either reading."""
+    if not isinstance(frame, dict):
+        return None, None
+    kriya = str(frame.get("kriya") or "").lower()
+    if kriya == "contain":
+        return frame.get("karma") if isinstance(frame.get("karma"), dict) else None, frame.get("kartr") if isinstance(frame.get("kartr"), dict) else None
+    if kriya == "be":
+        return frame.get("kartr") if isinstance(frame.get("kartr"), dict) else None, _contain_inner(frame.get("pred"))
+    return None, None
+
+
+def live_place(frame: dict[str, Any] | None) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """(resident, place) when the frame is the verb live with an adhikarana in-phrase. inside/on/at are not residence."""
+    if not isinstance(frame, dict) or str(frame.get("kriya") or "").lower() != "live":
+        return None, None
+    for adj in frame.get("adj") or []:
+        if isinstance(adj, dict) and str(adj.get("prep") or "").lower() == "in" and str(adj.get("role") or "") == "adhikarana" and isinstance(adj.get("np"), dict):
+            return frame.get("kartr") if isinstance(frame.get("kartr"), dict) else None, adj["np"]
+    return None, None
+
+
+def geo_places(frame: dict[str, Any] | None) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """(place, region) for copular in only when the grammar filed both names as lexicon locations."""
+    if not isinstance(frame, dict) or str(frame.get("kriya") or "").lower() != "be":
+        return None, None
+    pred = frame.get("pred")
+    if not isinstance(pred, dict) or str(pred.get("type") or "") != "pp" or str(pred.get("prep") or "").lower() != "in":
+        return None, None
+    left = frame.get("kartr") if isinstance(frame.get("kartr"), dict) else None
+    right = pred.get("np") if isinstance(pred.get("np"), dict) else None
+    if left and left.get("loc") and right and right.get("loc"):
+        return left, right
+    return None, None
+
+
+def contain_frame(conclusion: dict[str, Any]) -> dict[str, Any]:
+    """The inner reading of a derived in(content, container) atom: kartṛ content, PP predicate inside container."""
+    args = [str(a) for a in (conclusion.get("args") or ["", ""])]
+    inner = _atom_np(args[1] if len(args) > 1 else "")
+    return {"kriya": "be", "polarity": conclusion.get("polarity") or "pos", "kartr": _atom_np(args[0] if args else ""),
+            "pred": {"type": "pp", "prep": "inside", "text": inner.get("text"), "np": inner}, "derived": True}
 
 
 def chain_frame(first: dict[str, Any], second: dict[str, Any], conclusion: dict[str, Any]) -> dict[str, Any]:
@@ -349,18 +433,59 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
             return attr
     if qk == "do" and str(qframe.get("wh_role") or "") == "karma" and fk not in ("be", "have", "do", "") and is_gap(qframe.get("karma")):
         return pro_verb(qframe, fframe)
+    role = str(qframe.get("wh_role") or "")
+    qc, qn = contain_roles(qframe)
+    fc, fn = contain_roles(fframe)
+    fpol = fframe.get("polarity") or "pos"
+    # Containment is one relation read two ways (be+inside, or contain). The kriyā strings differ; the roles do not.
+    qmeas = qframe.get("pred") if isinstance(qframe.get("pred"), dict) and qframe["pred"].get("type") == "measure" else None
+    fmeas = fframe.get("pred") if isinstance(fframe.get("pred"), dict) and fframe["pred"].get("type") == "measure" else None
+    if role in ("polarity", "") and qmeas and fmeas and np_unify(qframe.get("kartr"), fframe.get("kartr")):
+        same = str(qmeas.get("num") or "") == str(fmeas.get("num") or "") and str(qmeas.get("unit") or "").lower() == str(fmeas.get("unit") or "").lower() and str(qmeas.get("property") or "").lower() == str(fmeas.get("property") or "").lower()
+        if same:
+            yes = fpol == (qframe.get("polarity") or "pos")
+            return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "measure", "rule": "polar"}
+    if role in ("polarity", "") and qc and qn and fc and fn and np_unify(qc, fc) and np_unify(qn, fn):
+        yes = fpol == (qframe.get("polarity") or "pos")
+        return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "contain", "rule": "polar_contain"}
+    qp, qwhere = live_place(qframe)
+    fp, fwhere = live_place(fframe)
+    if role in ("polarity", "") and qp and qwhere and fp and fwhere and np_unify(qp, fp) and np_unify(qwhere, fwhere):
+        yes = fpol == (qframe.get("polarity") or "pos")
+        return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "live", "rule": "polar_live"}
+    gq, gn = geo_places(qframe)
+    fg, fn2 = geo_places(fframe)
+    if role in ("polarity", "") and gq and gn and fg and fn2 and np_unify(gq, fg) and np_unify(gn, fn2):
+        yes = fpol == (qframe.get("polarity") or "pos")
+        return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "geo", "rule": "polar_geo"}
     if not qk or qk != fk:
         return None
-    role = str(qframe.get("wh_role") or "")
     qs, qp, qo = qframe.get("kartr"), qframe.get("pred"), qframe.get("karma")
     fs, fp, fo = fframe.get("kartr"), fframe.get("pred"), fframe.get("karma")
-    fpol = fframe.get("polarity") or "pos"
     if role == "polarity":
         if qk == "be":
             for a, b, orient in ((fs, fp, "kartr=kartr"), (fp, fs, "kartr=pred")):
                 if orient == "kartr=pred" and not identity(fs, fp):
                     continue  # 4.9.240: only an identity runs backwards; kind and membership never do
                 if np_unify(qs, a) and np_unify(qp, b):
+                    # A prepositional predicate is the preposition plus its object. "before lunch" is not "after lunch"
+                    # and not "above lunch": the noun phrase alone does not decide the relation.
+                    if isinstance(qp, dict) and isinstance(b, dict):
+                        qp_prep = str(qp.get("prep") or "").lower()
+                        b_prep = str(b.get("prep") or "").lower()
+                        if qp_prep and b_prep and qp_prep != b_prep:
+                            continue
+                        qthan = qp.get("than") if isinstance(qp.get("than"), dict) else None
+                        bthan = b.get("than") if isinstance(b.get("than"), dict) else None
+                        if qthan or bthan:
+                            if not (qthan and bthan and np_unify(qthan, bthan)):
+                                continue
+                            if str(qp.get("text") or "").lower() != str(b.get("text") or "").lower():
+                                continue
+                    qa, fa = _adjunct_np(qframe), _adjunct_np(fframe)
+                    # "married to Cy" is not "married to Bob": a complement on the question has to be the fact's complement
+                    if qa and not (fa and np_unify(qa, fa)):
+                        continue
                     yes = (fpol == (qframe.get("polarity") or "pos"))
                     return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": orient, "rule": "polar"}
             # 4.9.241: the converse of a positive kind inclusion is answered "not necessarily" (it does not follow, and it

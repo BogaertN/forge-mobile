@@ -33,7 +33,13 @@ def solve(scene: dict[str, Any]) -> dict[str, Any]:
     b = scene["body"]
     if b["shape"] == "sphere":
         return {"solver": NAME, "engine": "sympy " + sp.__version__, "outcome": None, "note": "a sphere has no tipping edge"}
-    half_w = sp.nsimplify(b["radius"] if b["shape"] == "cylinder" else b["width"] / 2)
+    if b["shape"] == "cylinder":
+        half = b["radius"]
+    elif b["shape"] == "box" and isinstance(b.get("depth"), (int, float)) and float(b["depth"]) > 0:
+        half = float(b["depth"]) / 2.0
+    else:
+        return {"solver": NAME, "engine": "sympy " + sp.__version__, "outcome": None, "reason": "depth_missing", "role": "cross_check"}
+    half_w = sp.nsimplify(half)
     H = sp.nsimplify(b["height"]); mu = sp.nsimplify(scene["surface"]["mu"])
     h = sp.nsimplify(round(scene["point"]["fraction"], 4)) * H
     # slipping needs F > mu m g; tipping about the front edge needs F h > m g half_w  →  tip first iff h > half_w / mu

@@ -18,7 +18,70 @@
 (function (root) {
 'use strict';
 const KEY = 'forge.curation.v1', SCHEMA = 'FORGE-CURATION/v1';
+const ENVELOPE = 'FORGE-GAP-ENVELOPE/v1', EXPORT_SCHEMA = 'FORGE-GAP-EXPORT/v1';
+const DISCLOSURE = 'This file stays on this device until you move it. It may contain personal questions. The hash detects corruption. It is not a credential and it does not authorize a write.';
 const MAX_QUEUE = 60, MAX_ATTEMPTS = 3;
+const SECRET_KEY = /proof|signer|password|authorization|credential|api[_-]?key|signature/i;
+function canon(o) { if (Array.isArray(o)) return '[' + o.map(canon).join(',') + ']'; if (o && typeof o === 'object') return '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}'; return JSON.stringify(o); }
+function sha256of(s) { const sha = (typeof require === 'function' ? require('./sha256.js').sha256 : (root.KSha && root.KSha.sha256)); return sha(s); }
+function stripSecrets(v) {
+  if (Array.isArray(v)) return v.map(stripSecrets);
+  if (!v || typeof v !== 'object') return v;
+  const out = {};
+  for (const k of Object.keys(v)) { if (SECRET_KEY.test(k) || /^(token|nonce|secret)$/i.test(k)) continue; const x = stripSecrets(v[k]); if (x !== undefined) out[k] = x; }
+  return out;
+}
+function qframeOf(row, extra) {
+  const q = (extra && extra.qframe) || (row && row.qframe) || null;
+  if (!q || typeof q !== 'object' || q.valid === false) return null;
+  let frame = null;
+  if (q.schema === 'forge.qframe/v1' && (q.text || q.rule || q.kriya)) frame = q;
+  else if (q.frame && typeof q.frame === 'object') frame = Object.assign({ schema: 'forge.qframe/v1' }, q.frame);
+  return frame ? stripSecrets(frame) : null;
+}
+function simOf(row, extra) {
+  const raw = (extra && extra.sim) || null;
+  const problem = raw && raw.problem && typeof raw.problem === 'object' ? raw.problem : raw;
+  if (!problem || typeof problem !== 'object' || problem.ok === true) return null;
+  if (!problem.reason && problem.missing == null) return null;
+  const scene = problem.scene && typeof problem.scene === 'object' ? problem.scene : {};
+  const facts = Array.isArray(problem.facts) ? problem.facts : [];
+  return { schema: problem.schema || 'FORGE-SIM-PROBLEM/v1', ok: false, reason: problem.reason || null, missing: problem.missing == null ? null : problem.missing,
+    defaulted: Array.isArray(scene.defaulted) ? scene.defaulted.slice() : [],
+    facts: facts.filter(f => f && typeof f === 'object').map(f => ({ property: f.property || null, value: f.value, unit: f.unit == null ? null : f.unit, hosts: Array.isArray(f.hosts) ? f.hosts.slice() : [], source: f.source || (f.average ? 'two_publishers' : null) })),
+    calls_llm: false };
+}
+function gapEnvelope(question, row, extra) {
+  let frame = qframeOf(row, extra);
+  if (frame && !frame.text && question) frame = Object.assign({}, frame, { text: question });
+  const sim = simOf(row, extra);
+  if (!frame && !sim) return null;
+  return { schema: ENVELOPE, question: question, qframe: frame, sim: sim, calls_llm: false, write_authority: false };
+}
+function openSnapshot(p) {
+  if (!p || !p.question) return null;
+  const question = norm(p.question);
+  const options = Array.isArray(p.options) ? p.options.filter(o => o && typeof o === 'object').map(o => ({ label: o.label || null, sense: o.sense || null, concept: o.concept || null })) : [];
+  return { schema: ENVELOPE, lane: 'awaiting_user', key: gapKey(question), question: question,
+    continuation: { kind: p.kind || null, question: question, word: p.word || null, options: options },
+    calls_llm: false, write_authority: false };
+}
+function exportDocument(state, openTurn) {
+  const src = state && state.schema === SCHEMA ? state : { schema: SCHEMA, queue: [], pending: [], admitted: [], quarantine: [], cold: [], digest: null };
+  const copy = (list, lane) => (Array.isArray(list) ? list : []).map(r => { const row = stripSecrets(JSON.parse(JSON.stringify(r))); if (row.gap) row.gap = Object.assign({}, row.gap, { lane: lane, write_authority: false }); return row; });
+  const curation = { schema: SCHEMA, queue: copy(src.queue, 'queue'), pending: copy(src.pending, 'pending'), quarantine: copy(src.quarantine, 'quarantine'), cold: copy(src.cold, 'cold'), admitted: copy(src.admitted, 'admitted'), digest: src.digest || null };
+  const open = openSnapshot(openTurn);
+  const openTurns = [];
+  if (open) {
+    const lists = ['queue', 'quarantine', 'cold'];
+    const hit = lists.reduce((a, k) => a || curation[k].find(r => r.key === open.key), null);
+    if (hit && hit.gap && hit.gap.lane !== 'pending') { hit.continuation = open.continuation; hit.awaiting_user = true; }
+    else if (!hit) openTurns.push(open);
+  }
+  const body = { schema: EXPORT_SCHEMA, disclosure: DISCLOSURE, calls_llm: false, supabase_write: false, write_authority: false, curation: curation, open_turns: openTurns };
+  body.canonical_sha256 = sha256of(canon(body));
+  return body;
+}
 const QWORD = /^(what|who|whom|whose|why|how|when|where|which|is|are|was|were|do|does|did|can|could|should|would|will)\b/i;
 function norm(q) { return String(q || '').replace(/\s+/g, ' ').trim(); }
 function gapKey(q) { return norm(q).toLowerCase().replace(/[?.!\s]+$/, ''); }
@@ -37,16 +100,19 @@ function Curators(o) {
   const KM = o.kmath || root.KMath || null;
   const load = () => { try { const s = o.store ? o.store.get(KEY) : null; return s && s.schema === SCHEMA ? s : null; } catch (e) { return null; } };
   let st = load() || { schema: SCHEMA, queue: [], admitted: [], pending: [], quarantine: [], cold: [], log: [], digest: null };
-  let busy = false, answering = false, halted = null;
+  let busy = false, answering = false, halted = null, inflight = null;
   const save = () => { try { if (o.store) o.store.set(KEY, st); } catch (e) { /* storage full: keep this session */ } };
   const log = (who, rule, extra) => { st.log.push(Object.assign({ at: now(), who, rule }, extra || {})); if (st.log.length > 60) st.log = st.log.slice(-60); };
   const known = k => st.queue.concat(st.admitted, st.pending, st.quarantine, st.cold).some(g => g.key === k);
-  function noteHeld(question, row) {
+  function noteHeld(question, row, extra) {
     const q = norm(question); const k = gapKey(q);
     if (!q || q.length < 6 || q.length > 200 || !(/\?$/.test(q) || QWORD.test(q))) return { ok: false, rule: 'CURATE-NOT-A-QUESTION' };
     if (row && row.product_reply) return { ok: false, rule: 'CURATE-ALREADY-ANSWERED' };
     if (known(k)) return { ok: false, rule: 'CURATE-GAP-KNOWN' };
-    st.queue.push({ key: k, question: q, added_at: now(), attempts: 0, source: 'ask_held', held_rule: row && row.route || null });
+    const item = { key: k, question: q, added_at: now(), attempts: 0, source: 'ask_held', held_rule: row && row.route || null };
+    const gap = gapEnvelope(q, row, extra);
+    if (gap) item.gap = gap;
+    st.queue.push(item);
     if (st.queue.length > MAX_QUEUE) st.queue = st.queue.slice(-MAX_QUEUE);
     log('athena', 'CURATE-GAP-QUEUED', { question: q }); save();
     return { ok: true, rule: 'CURATE-GAP-QUEUED' };
@@ -99,6 +165,7 @@ function Curators(o) {
     }
     if (typeof m.eps === 'number') gap.eps_hist = hist.concat([m.eps]).slice(-8);
     const base = { key: gap.key, question: gap.question, eps: m.eps, C: m.C, echo: m.echo && m.echo.score, lane: m.lane, region: m.region, chi_pass: chi, chi_fell: fell, at: now(), calls_llm: false };
+    if (gap.gap) base.gap = gap.gap;
     if (m.lane === 'hard') return { to: 'cold', rec: Object.assign(base, { rule: m.region === 'forbidden' ? 'ATHENA-FORBIDDEN-REJECT' : 'ATHENA-HARD-REJECT' }) };
     if (m.lane === 'quarantine' || m.lane === 'correct') return { to: 'quarantine', rec: Object.assign(base, { rule: m.lane === 'correct' ? (chi && fell === false ? 'GILLIGAN-CHI-DID-NOT-FALL' : 'GILLIGAN-STILL-CORRECT-BAND') : 'ATHENA-QUARANTINE', digest: st.digest }) };
     if (!m.row || !m.row.product_reply || !m.row.reply) return { to: gap.attempts >= MAX_ATTEMPTS ? 'cold' : 'queue', rec: Object.assign(base, { rule: anchors.length ? 'ATHENA-NO-ADMIT' : 'ATHENA-NO-TRUSTED-ANCHOR', reply: null }) };
@@ -127,12 +194,13 @@ function Curators(o) {
       const digest = o.digest ? await o.digest() : null;
       if (digest && digest !== st.digest) { /* Gilligan: a new anchor set re-opens the quarantine once */
         const back = st.quarantine.filter(r => r.digest !== digest); st.quarantine = st.quarantine.filter(r => r.digest === digest);
-        for (const r of back) st.queue.push({ key: r.key, question: r.question, added_at: now(), attempts: 0, source: 'gilligan_requarantine' });
+        for (const r of back) st.queue.push(Object.assign({ key: r.key, question: r.question, added_at: now(), attempts: 0, source: 'gilligan_requarantine' }, r.gap ? { gap: r.gap } : {}));
         if (back.length) log('gilligan', 'GILLIGAN-REOPEN-QUARANTINE', { n: back.length });
         st.digest = digest;
       }
       const gap = st.queue.shift();
       if (!gap) { save(); return { ok: true, rule: 'CURATE-IDLE' }; }
+      inflight = gap;
       let out;
       try { out = await curate(gap); } catch (e) { out = { to: gap.attempts >= MAX_ATTEMPTS ? 'cold' : 'queue', rec: { key: gap.key, question: gap.question, rule: 'CURATE-ENGINE-ERROR', error: String(e && e.message || e).slice(0, 200), at: now() } }; }
       if (out.to === 'queue') st.queue.push(Object.assign(gap, { last: out.rec.rule }));
@@ -141,7 +209,7 @@ function Curators(o) {
       log(out.to === 'quarantine' || out.to === 'cold' ? 'gilligan' : 'athena', out.rec.rule, { question: gap.question, eps: out.rec.eps });
       save();
       return { ok: true, rule: out.rec.rule, to: out.to, rec: out.rec };
-    } finally { busy = false; }
+    } finally { inflight = null; busy = false; }
   }
   /* a pending row is retried through the same locked-down writer (e.g. after sign-in) */
   async function flushPending() {
@@ -150,9 +218,14 @@ function Curators(o) {
     for (const r of st.pending) { if (!r.body) { left.push(r); continue; } const w = await o.insert(r.body); if (w && w.ok) { written++; st.admitted.push(Object.assign({}, r, { rule: 'CURATE-WRITTEN', body: undefined, supabase: { id: w.id || null } })); } else { r.rule = (w && w.rule) || r.rule; left.push(r); } }
     st.pending = left; save(); return { ok: true, written, pending: left.length };
   }
-  function status() { return { schema: SCHEMA, queued: st.queue.length, admitted: st.admitted.length, pending: st.pending.length, quarantine: st.quarantine.length, cold: st.cold.length, last: st.log[st.log.length - 1] || null, digest: st.digest, calls_llm: false }; }
-  return { noteHeld, tick, flushPending, status, state: () => JSON.parse(JSON.stringify(st)), setAnswering: on => { answering = on === true; }, laneOf: e => laneOf(e, KM) };
+  function status() { return { schema: SCHEMA, queued: st.queue.length + (inflight ? 1 : 0), admitted: st.admitted.length, pending: st.pending.length, quarantine: st.quarantine.length, cold: st.cold.length, last: st.log[st.log.length - 1] || null, digest: st.digest, calls_llm: false }; }
+  function state() {
+    const copy = JSON.parse(JSON.stringify(st));
+    if (inflight && !copy.queue.some(g => g.key === inflight.key)) copy.queue.unshift(JSON.parse(JSON.stringify(inflight)));
+    return copy;
+  }
+  return { noteHeld, tick, flushPending, status, state, setAnswering: on => { answering = on === true; }, laneOf: e => laneOf(e, KM) };
 }
-const api = { Curators, laneOf, gapKey, SCHEMA };
+const api = { Curators, laneOf, gapKey, SCHEMA, ENVELOPE, EXPORT_SCHEMA, DISCLOSURE, exportDocument, canon, stripSecrets };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KCuratorsLib = api;
 })(typeof self !== 'undefined' ? self : this);

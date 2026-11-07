@@ -214,14 +214,14 @@ for name, row in rows.items():
     sc = p.get("scene") if isinstance(p.get("scene"), dict) else {}
     body = sc.get("body") if isinstance(sc.get("body"), dict) else {}
     chk = tip_check(sc) if sc.get("action") == "push" else None
-    out[name] = {"plan": p.get("ok"), "reason": p.get("reason"), "mass": body.get("mass"), "height": body.get("height"), "width": body.get("width"), "depth": body.get("depth"), "noun": body.get("noun"), "outcome": (chk or {}).get("outcome"), "defaulted": sc.get("defaulted")}
+    out[name] = {"plan": p.get("ok"), "reason": p.get("reason"), "missing": p.get("missing"), "mass": body.get("mass"), "height": body.get("height"), "width": body.get("width"), "depth": body.get("depth"), "noun": body.get("noun"), "outcome": (chk or {}).get("outcome"), "defaulted": sc.get("defaulted")}
 print(json.dumps(out))`, JSON.stringify({
     sized: { question: resumed.sized.question, frame: Object.assign(Q.compile(resumed.sized.question, f), { derive_missing: !!resumed.sized.derive_missing }) },
     wide: { question: resumed.wide.question, frame: Object.assign(Q.compile(resumed.wide.question, f), { derive_missing: !!resumed.wide.derive_missing }) },
     kind: { question: resumed.kind.question, frame: Q.compile(resumed.kind.question, f) },
   }));
-  expect(planned.sized.plan === true && planned.sized.mass === 0.4 && planned.sized.height === 0.6 && planned.sized.width === 0.6 && planned.sized.depth === 0.6 && planned.sized.outcome, JSON.stringify(planned.sized));
-  expect(planned.wide.plan === true && planned.wide.mass === 0.4 && planned.wide.height === 0.6 && planned.wide.width === 0.2 && planned.wide.outcome, JSON.stringify(planned.wide));
+  expect(planned.sized.plan === false && planned.sized.reason === 'property_missing' && (planned.sized.missing === 'width' || planned.sized.missing === 'depth'), JSON.stringify(planned.sized));
+  expect(planned.wide.plan === false && planned.wide.reason === 'property_missing' && planned.wide.missing === 'depth', JSON.stringify(planned.wide));
   expect(resumed.kind.specific === true && /cello/.test(resumed.kind.question) && planned.kind.plan === false, JSON.stringify({ resumed: resumed.kind, planned: planned.kind }));
 });
 
@@ -259,10 +259,10 @@ print(json.dumps({"ok": p.get("ok"), "reason": p.get("reason"), "missing": p.get
 });
 
 T('laws and version 4.9.248; no model and no secret', () => {
-  expect(read('VERSION').trim() === '4.9.248', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.249', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.248' && reg.features.some(x => x.id === 'R4248-SOLVER-ATOMS') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.248'), 'CONFLICTS');
+  expect(reg.version === '4.9.249' && reg.features.some(x => x.id === 'R4248-SOLVER-ATOMS') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.249'), 'CONFLICTS');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T

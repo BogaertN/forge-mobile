@@ -32,20 +32,21 @@ const ask = (q, memory) => {
   return JSON.parse(r.stdout.trim().split('\n').pop());
 };
 
-T('a shallow box tips along its depth, and a square footprint still uses width', () => {
+T('a shallow box tips along its measured depth, and a missing depth is not a square', () => {
   const out = py(`
 import json
 from rmc_engine_v1.sim_device import tip_check, _geom, push_half
 shallow = {"action":"push","body":{"shape":"box","height":1.23,"width":1.35,"depth":0.62,"mass":200},"surface":{"mu":0.4},"point":{"fraction":0.92}}
 bottom = dict(shallow, point={"fraction":0.08})
 square = {"action":"push","body":{"shape":"box","height":1.23,"width":1.35,"mass":200},"surface":{"mu":0.4},"point":{"fraction":0.92}}
+held = tip_check(square)
 print(json.dumps({
   "top": tip_check(shallow)["outcome"], "bot": tip_check(bottom)["outcome"],
-  "half": push_half(shallow["body"]), "square_outcome": tip_check(square)["outcome"],
-  "square_half": push_half(square["body"]), "geom": _geom(shallow["body"])[1]
+  "half": push_half(shallow["body"]), "held_outcome": held.get("outcome"), "held_reason": held.get("reason"),
+  "missing_half": push_half(square["body"]), "geom": _geom(shallow["body"])[1]
 }))`);
   expect(out.top === 'topple' && out.bot === 'slide', JSON.stringify(out));
-  expect(Math.abs(out.half - 0.31) < 1e-9 && out.square_outcome === 'slide' && Math.abs(out.square_half - 0.675) < 1e-9, JSON.stringify(out));
+  expect(Math.abs(out.half - 0.31) < 1e-9 && out.held_outcome === null && out.held_reason === 'depth_missing' && out.missing_half === null, JSON.stringify(out));
   expect(out.geom.startsWith('0.310000'), out.geom);
 });
 
@@ -190,10 +191,10 @@ print(json.dumps(seal(p, run, where="home_pc")))`, JSON.stringify([q, frame]));
 });
 
 T('laws and version 4.9.248; the suite does not fetch the network', () => {
-  expect(read('VERSION').trim() === '4.9.248', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.249', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.248' && reg.features.some(x => x.id === 'R4247-WORLD-SIM') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.248'), 'CONFLICTS');
+  expect(reg.version === '4.9.249' && reg.features.some(x => x.id === 'R4247-WORLD-SIM') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.249'), 'CONFLICTS');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T

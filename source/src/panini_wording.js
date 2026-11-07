@@ -61,7 +61,16 @@ function Wording(ctx) {
   /* 8.3.1 read backwards (4.9.83): a sentence-initial capital is orthography — a first word that is a common noun of the lexicon (followed by a lower-case word) is read as that noun
      first; a name (no common-noun reading) keeps its capital */
   function reparseClause(text, open) { const m0 = /^([A-Z])([a-z]+)(?=\s+[a-z])/.exec(String(text || '')); /* not an abbreviation or the first word of a capitalised name ("Mr. Pell", "General Motors") */ if (m0 && !(lex.isProper && lex.isProper(m0[1].toLowerCase() + m0[2])) && memNames().get(m0[1].toLowerCase() + m0[2]) !== 'name') /* 4.9.92: a lexicon name keeps its capital */ { const lw = (m0[1].toLowerCase() + m0[2]); const tg = derive(swapToks(lw), open).T || []; if (tg[0] && (tg[0].an || []).some(a => a.tag === 'N') && !(tg[0].an || []).some(a => a.tag === 'PROPN' && a.rule !== 'TAG-PROPN-INITIAL-ALT')) { const r = reparseClause0(lw + String(text).slice(m0[0].length), open); if (r) return r; } } return reparseClause0(text, open); }
+  function attachment(p) {
+    const c = p && p.node && p.node.clause; if (!c || !c.verb) return '';
+    const rel = c.subj && (c.subj.relObj || c.subj.rel);
+    const rv = rel && rel.verb;
+    const pred = c.pred || {};
+    return [c.verb.lemma, c.verb.tense, c.verb.pol, c.subj && c.subj.head, pred.type, pred.adj || (pred.words || []).join(' '), rv && rv.lemma, rel && rel.gap, rel && rel.subj && (rel.subj.head || rel.subj.propn)].join('|');
+  }
   function reparseClause0(text, open) { const d = derive(swapToks(text), open); if (!d.parses.length) return null; const ks = new Set(d.parses.map(p => canon(G.material(p.node.clause)))); if (ks.size === 1) return d.parses[0].node.clause;
+    const same = d.parses.every(p => attachment(p) && attachment(p) === attachment(d.parses[0]));
+    if (same) return d.parses[0].node.clause;
     const H = heldKeys(), hit = d.parses.filter(p => H.has(canon(G.material(p.node.clause)))); if (hit.length) return new Set(hit.map(p => canon(G.material(p.node.clause)))).size === 1 ? hit[0].node.clause : null;
     /* 4.9.87: an embedded clause is read as the main clause is (G-ECONOMY: fewest Merges, Late Closure, Minimal Attachment), so a that-clause has the reading its sentence would have */
     let ec = d.parses.every(p => p.node && p.node.clause && p.rules) ? economy(d.parses) : d.parses;
@@ -96,13 +105,27 @@ function Wording(ctx) {
     if (!subj) return null;
     const base = { lemma: v.lemma, polarity: v.pol || 'pos', tense: v.tense || 'present', modifiers: adjunctArgs(c) };
     if (v.particle) base.particle = v.particle;
+    if (v.lemma === 'be' && c.pred && c.pred.type === 'measure' && c.pred.num != null && c.pred.unit) return Object.assign(base, { args: [subj, String(c.pred.num) + ' ' + String(c.pred.unit)] });
+    if (v.lemma === 'be' && c.pred && c.pred.measure && Array.isArray(c.pred.words) && c.pred.words.length >= 3) return Object.assign(base, { args: [subj, c.pred.words.join(' ')] });
+    if (v.lemma === 'be' && c.pred && c.pred.type === 'cmp' && c.pred.than) {
+      const surface = Array.isArray(c.pred.surface) && c.pred.surface.length ? c.pred.surface[c.pred.surface.length - 1] : c.pred.adj;
+      const than = G.npText(c.pred.than, 'kernel');
+      if (surface && than) return Object.assign(base, { args: [subj, String(surface) + ' than ' + than] });
+    }
     if (v.lemma === 'be' && c.pred && c.pred.type === 'np') return Object.assign(base, { args: [subj, G.npText(c.pred.np, 'kernel')] });
     /* 4.9.241: an adjective predicate states is(kartṛ, adjective) as the engine's atom does ("Your car is red." → is(your car, red)) */
     if (v.lemma === 'be' && c.pred && c.pred.type === 'adj' && Array.isArray(c.pred.words) && c.pred.words.length) return Object.assign(base, { args: [subj, c.pred.words.join(' ')] });
     /* 4.9.248: a prepositional predicate ("is below the density of water") states is(kartṛ, prep + nominal) */
     if (v.lemma === 'be' && c.pred && c.pred.type === 'pp' && c.pred.np) return Object.assign(base, { args: [subj, c.pred.prep + ' ' + G.npText(c.pred.np, 'kernel')] });
     if (c.roles && c.roles.vidheya && Array.isArray(c.roles.vidheya.adjp) && c.roles.vidheya.adjp.length && !(c.roles.karma)) return Object.assign(base, { args: [subj, c.roles.vidheya.adjp.join(' ')] });
-    const karma = c.roles && c.roles.karma && !c.roles.karma.clause ? G.npText(c.roles.karma, 'kernel') : null;
+    if (v.voice === 'passive' && c.subj) {
+      const agent = c.roles && c.roles.karta ? G.npText(c.roles.karta, 'kernel') : null;
+      const patient = G.npText(c.subj, 'kernel');
+      if (patient) return Object.assign(base, { args: agent ? [agent, patient] : [patient] });
+    }
+    const karmaNode = c.roles && c.roles.karma;
+    const inf = karmaNode && karmaNode.inf && karmaNode.inf.verb;
+    const karma = inf ? [inf.lemma, karmaNode.inf.roles && karmaNode.inf.roles.karma ? G.npText(karmaNode.inf.roles.karma, 'kernel') : ''].filter(Boolean).join(' ') : (karmaNode && !karmaNode.clause ? G.npText(karmaNode, 'kernel') : null);
     if (karma) return Object.assign(base, { args: [subj, karma] });
     /* an intransitive clause states lemma(kartṛ) */
     return Object.assign(base, { args: [subj] });
@@ -119,12 +142,91 @@ function Wording(ctx) {
       const got = clauseAtom.parts || [];
       return want.length === got.length && want.every((p, i) => sameAtom(got[i], p));
     }
+    /* in(content, container) is the typed containment atom. The clause may say it as "content is inside container"
+     * or as "container contains content". Other prepositions are not this atom. */
+    /* live(resident, place) is the verb live plus adhikarana in. geo(place, region) is copular in between
+     * two lexicon locations. Neither is the containment atom. */
+    if (['married', 'next', 'adjacent'].indexOf(normArg(given.predicate)) >= 0 && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      const to = (clauseAtom.modifiers || []).find(m => m && normArg(m.prep) === 'to');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && got[1] === normArg(given.predicate) && to && normArg(to.text) === want[1]) return true;
+      return false;
+    }
+    if (['ancestor', 'descendant', 'parent', 'child', 'sibling'].indexOf(normArg(given.predicate)) >= 0 && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      const rel = normArg(given.predicate);
+      const dets = rel === 'ancestor' ? ['an', 'the'] : ['a', 'the'];
+      const phrases = dets.map(det => det + ' ' + rel + ' of ' + want[1]);
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && phrases.indexOf(got[1]) >= 0) return true;
+      return false;
+    }
+    if (normArg(given.predicate) === 'part' && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && got[1] === 'part of ' + want[1]) return true;
+      return false;
+    }
+    if (normArg(given.predicate) === 'live' && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      const loc = (clauseAtom.modifiers || []).find(m => m && normArg(m.prep) === 'in' && normArg(m.role) === 'adhikarana');
+      if (clauseAtom.lemma === 'live' && got.length === 1 && polOk && got[0] === want[0] && loc && normArg(loc.text) === want[1]) return true;
+      return false;
+    }
+    if (normArg(given.predicate) === 'measure' && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && got[1] === want[1]) return true;
+      return false;
+    }
+    if ((given.args || []).length === 2) {
+      const WR = isNode ? require('./world_rules.js') : root.KWorldRules;
+      const words = [];
+      if (WR && WR.COMPARATIVES && WR.COMPARATIVES.forEach) WR.COMPARATIVES.forEach((pred, word) => { if (pred === normArg(given.predicate)) words.push(word); });
+      if (words.length) {
+        const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+        const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+        if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && words.some(w => got[1] === w + ' than ' + want[1])) return true;
+        return false;
+      }
+      /* A comparative with no declared row still has to round-trip. It is not given an inverse. */
+      if (clauseAtom.lemma === 'be') {
+        const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+        const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+        if (got.length === 2 && polOk && got[0] === want[0] && got[1] === normArg(given.predicate) + ' than ' + want[1]) return true;
+      }
+    }
+    if (['before', 'after', 'above', 'below'].indexOf(normArg(given.predicate)) >= 0 && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && got[1] === normArg(given.predicate) + ' ' + want[1]) return true;
+      return false;
+    }
+    if (normArg(given.predicate) === 'geo' && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && got[1] === 'in ' + want[1]) return true;
+      return false;
+    }
+    if (normArg(given.predicate) === 'in' && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk) {
+        const m = /^(in|inside|within)\s+(.+)$/.exec(got[1]);
+        if (m && got[0] === want[0] && normArg(m[2]) === want[1]) return true;
+      }
+      if (clauseAtom.lemma === 'contain' && got.length === 2 && polOk && got[1] === want[0] && got[0] === want[1]) return true;
+      return false;
+    }
     if (!predMatches(clauseAtom.lemma, given.predicate)) return false;
     if ((given.polarity || 'pos') !== clauseAtom.polarity) return false;
     if (given.tense && given.tense !== clauseAtom.tense) return false;
     if (given.particle && normArg(given.particle) !== normArg(clauseAtom.particle)) return false;
     const args = (given.args || []).map(normArg), got = (clauseAtom.args || []).map(normArg);
-    if (args.length !== got.length || args.some((a, i) => a !== got[i])) return false;
+    const withoutDo = s => String(s || '').replace(/\b(?:do|does|did)\s+(?=[a-z])/g, '');
+    if (args.length !== got.length || args.some((a, i) => a !== got[i] && withoutDo(a) !== withoutDo(got[i]))) return false;
     if (Array.isArray(given.modifiers) && given.modifiers.length && !given.modifiers.every(m => modifierHit(clauseAtom.modifiers, m))) return false;
     return true;
   }

@@ -61,7 +61,11 @@ for q, r in fx.items():
     if not r.get("ok"):
         continue
     a = S.seal(r["problem"], r["run"])["sha256"] == r["sha256"]
-    b = S.seal(r["problem"], S.finish(r["problem"], r["raw"]))["sha256"] == r["sha256"] if r.get("raw") else None
+    body = (((r.get("problem") or {}).get("scene") or {}).get("body") or {})
+    if r.get("raw") and body.get("shape") == "box" and not body.get("depth"):
+        b = S.finish(r["problem"], r["raw"]).get("error") == "depth_missing"
+    else:
+        b = S.seal(r["problem"], S.finish(r["problem"], r["raw"]))["sha256"] == r["sha256"] if r.get("raw") else None
     res[q] = [a, b, r["rows"][0]["source"], len(r["sha256"])]
 print(json.dumps(res))`, JSON.stringify(FIX));
   for (const [q, [a, b, src, n]] of Object.entries(out)) expect(a === true && b !== false && src === 'sim_receipt' && n === 64, q + ' ' + JSON.stringify([a, b]));
@@ -147,10 +151,10 @@ import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T
 print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine", "hard_stop")}))`);
   expect(T_.C_min === 0.87 && T_.echo_min === 0.85 && T_.drift_quarantine === 0.35 && T_.hard_stop === 0.8, JSON.stringify(T_));
-  expect(read('VERSION').trim() === '4.9.248', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.249', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.248' && reg.features.some(x => x.id === 'R4245-SIM-ONDEVICE') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.248'), 'CONFLICTS');
+  expect(reg.version === '4.9.249' && reg.features.some(x => x.id === 'R4245-SIM-ONDEVICE') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.249'), 'CONFLICTS');
 });
 
 const results = [];

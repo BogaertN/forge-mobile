@@ -184,6 +184,7 @@ function doc6Tag(gate) {
  * the shared KB only through the locked-down writer (signed-in linked account, writer role, verified device signature);
  * otherwise it stays here, pending. Nothing else in Ask writes. */
 let lastAdmitted = null;
+let whyPrior = null;
 async function rememberAnswer(row, how) {
   const mw = row && row.memory_write;
   /* 4.9.211 (DRIFT-SPEC D12 + D8): a lasting write needs the engine's write gate: clean at θ_admit, Φ6 correction then Φ7 naming,
@@ -214,19 +215,112 @@ async function rememberAnswer(row, how) {
  * unsourced). Questions are not statements; secrets go to the vault, not plain memory. Ask then reads it back as phone memory
  * and the engine decides (a later contradicting statement makes the derive conflicted, so Ask holds and shows both). */
 const REMEMBER_STATEMENT = /^\s*(?:please\s+)?remember\s+(?:that\s+)?(\S.*?)\s*[.!]?\s*$/i;
+function forgetStatement(text) {
+  const frame = window.KQFrame && forge ? KQFrame.compile(text, forge) : null;
+  const target = window.KQFrame && KQFrame.forgetTarget ? KQFrame.forgetTarget(frame) : { ok: false, rule: 'FORGET-NOT-A-COMMAND' };
+  if (!target.ok) return { ok: false, rule: target.rule, message: target.rule === 'FORGET-NOT-A-CLAUSE' ? 'Forget the whole sentence you stored. A name alone is not that sentence.' : 'That is not a forget command. Nothing was forgotten.' };
+  const red = window.KPrivacy && KPrivacy.redact ? KPrivacy.redact(text) : { secrets: [] };
+  if (red.secrets.length) return { ok: false, rule: 'PRIV-SECRET-NOT-KEPT', message: 'That looks like a secret. It is not kept, and it is not written into a forget receipt.' };
+  const WF = window.KWorldFacts;
+  const same = WF && WF.sameText ? (a, b) => WF.sameText(a, b) : (a, b) => String(a || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '') === String(b || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '');
+  const about = (row, np) => { const k = row && row.clause && row.clause.kartr; return !!(k && np && k.head && String(k.head).toLowerCase() === String(np.head).toLowerCase() && k.owner === np.owner); };
+  const pool = rememberedRows().concat(WF && WF.rows ? WF.rows() : []);
+  let texts = [];
+  if (target.kind === 'sentence') {
+    const hit = pool.find(r => r && same(r.text, target.text));
+    if (!hit) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Nothing remembered matches that sentence.' };
+    texts = [hit.text];
+  } else {
+    for (const row of pool) if (row && about(row, target.np) && !texts.some(t => same(t, row.text))) texts.push(row.text);
+    if (!texts.length) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Nothing remembered is about ' + (target.np.text || 'that') + '.' };
+  }
+  if (forge && forge.perm) {
+    const d = forge.perm.authorize('memory.forget', { explicit: true, userTap: true, subject: texts.length + ' phone fact' + (texts.length === 1 ? '' : 's') });
+    if (d.decision === 'needs_approval') {
+      const hw = forge.store.load('held_writes');
+      const id = 'held:forget:' + hw.length;
+      hw.push({ id: id, status: 'held', kind: 'phone_forget', text: texts[0], texts: texts.slice(), canon: texts.slice(), input: texts[0], perm_rule: d.rule, at: new Date().toISOString() });
+      forge.store.save('held_writes', hw);
+      return { ok: false, held: true, rule: d.rule, held_id: id, texts: texts.slice(), message: 'Held for approval: ' + texts.length + ' fact' + (texts.length === 1 ? '' : 's') + '. Nothing was forgotten.' };
+    }
+    if (d.decision !== 'allow') return { ok: false, rule: d.rule, texts: texts.slice(), message: d.rule };
+  }
+  const before = rememberedRows();
+  const kept = before.filter(x => x && !texts.some(t => same(x.text, t)));
+  if (kept.length !== before.length) { try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* the world_facts removal still stands */ } }
+  let receipt = null;
+  for (const sentence of texts) {
+    const r = WF && WF.forget ? WF.forget(sentence) : null;
+    if (r && r.ok) receipt = r.receipt || receipt;
+  }
+  const message = texts.length === 1 ? 'Forgot on this phone: ' + texts[0] : 'Forgot ' + texts.length + ' facts.';
+  return { ok: true, rule: 'WORLD-FACTS-FORGOT', texts: texts.slice(), text: texts[0], receipt: receipt, message: message };
+}
 async function rememberStatement(text) {
   const m = String(text).match(REMEMBER_STATEMENT);
   const said = m ? m[1].trim() : '';
   if (!said) return { ok: false, rule: 'REMEMBER-EMPTY', message: 'Remember what? Say "remember that …" with a statement.' };
-  if (/\?$/.test(said) || /^(?:what|who|whom|whose|which|when|where|why|how|is|are|was|were|do|does|did|can|could|will|would|should)\b/i.test(said)) return { ok: false, rule: 'REMEMBER-NOT-A-STATEMENT', message: 'That is a question, not a statement. Ask it, then say "remember this" to keep an admitted answer.' };
-  if (window.KPrivacy && KPrivacy.redact && KPrivacy.redact(said).secrets.length) return { ok: false, rule: 'PRIV-SECRET-NOT-KEPT', message: 'That looks like a secret (a password, key or card). It is not kept in plain memory; use the vault.' };
-  const sentence = said.charAt(0).toUpperCase() + said.slice(1) + (/[.!]$/.test(said) ? '' : '.');
+  const tag = /,\s*(?:isn'?t|aren'?t|wasn'?t|weren'?t|don'?t|doesn'?t|didn'?t)\s+(?:it|he|she|they|i|you|we)\s*\??$/i.test(said);
+  if (!tag && (/\?$/.test(said) || /^(?:what|who|whom|whose|which|when|where|why|how|is|are|was|were|do|does|did|can|could|will|would|should)\b/i.test(said))) return { ok: false, rule: 'REMEMBER-NOT-A-STATEMENT', message: 'That is a question, not a statement. Ask it, then say "remember this" to keep an admitted answer.' };
+  const red = window.KPrivacy && KPrivacy.redact ? KPrivacy.redact(said) : { text: said, secrets: [] };
+  const sensitive = red.secrets.length > 0;
+  if (sensitive && (!forge || !forge.perm || forge.perm.policy().memoryApproval !== 'contested_or_sensitive')) {
+    if (forge && forge.perm) forge.perm.authorize('memory.write', { explicit: true, userTap: true, sensitive: true, subject: 'sealed value' });
+    return { ok: false, held: false, sealing: false, rule: 'PRIV-SECRET-NOT-KEPT', message: 'That looks like a secret (a password, key or card). It is not kept in plain memory; use the vault.' };
+  }
+  const body = sensitive ? red.text : said;
+  let sentence = body.charAt(0).toUpperCase() + body.slice(1) + (/[.!]$/.test(body) ? '' : '.');
+  const clause = window.KQFrame && KQFrame.clause ? KQFrame.clause(sentence, forge) : null;
+  if (clause && clause.rule === 'GRAMMAR-TAG-POLARITY') return { ok: false, held: false, rule: 'GRAMMAR-TAG-POLARITY', message: 'The tag does not confirm that clause. Nothing was stored.' };
+  if (clause && clause.tag && clause.parsed && clause.text) sentence = clause.text.charAt(0).toUpperCase() + clause.text.slice(1).replace(/[.!?]+$/, '') + '.';
+  const alts = window.KQFrame && KQFrame.readings ? KQFrame.readings(sentence, forge) : [];
+  if (alts.length > 1) {
+    const reply = 'readings ' + alts.map((r, i) => '(' + (i + 1) + ') “verb: ' + r.kriya + ', karma: ' + ((r.karma && r.karma.text) || '') + '”').join(' ');
+    const sig = r => [r && r.kriya, r && r.voice, r && r.kartr && r.kartr.text, r && r.karma && r.karma.text, r && r.karakas && r.karakas.sampradana && r.karakas.sampradana.text, r && r.text].join('|');
+    const d = forge && forge.perm ? forge.perm.authorize('memory.write', { explicit: true, userTap: true, subject: sentence }) : { decision: 'allow', rule: 'PERM-EXPLICIT-REQUEST' };
+    const canon = alts.map(sig);
+    if (d.decision === 'needs_approval') {
+      try {
+        const hw = forge.store.load('held_writes');
+        const id = 'held:amb:' + hw.length;
+        hw.push({ id, status: 'held', kind: 'phone_statement', text: sentence, clause: null, readings: alts, canon, selected: null, input: sentence, perm_rule: d.rule });
+        forge.store.save('held_writes', hw);
+        pendingAsk = { kind: 'clause', mode: 'held', holdId: id };
+      } catch (e) { pendingAsk = null; }
+      return { ok: false, held: true, rule: d.rule, message: reply + ' Nothing was stored.' };
+    }
+    if (d.decision !== 'allow') { pendingAsk = null; return { ok: false, held: false, rule: d.rule, message: 'Not stored: ' + (d.rule || 'the write was not authorized') + '.' }; }
+    pendingAsk = { kind: 'clause', mode: 'allowed', permId: d.id, readings: alts, canon, sentence };
+    return { ok: false, held: true, rule: 'GRAMMAR-AMBIGUOUS', message: reply };
+  }
+  let contested = false;
+  try {
+    const keptNow = rememberedRows();
+    contested = keptNow.some(r => {
+      const o = r && r.clause;
+      if (!clause || !clause.parsed || !o || !o.parsed || !clause.kartr || !o.kartr || !clause.pred || !o.pred) return false;
+      const subj = String(clause.kartr.text || '').toLowerCase() === String(o.kartr.text || '').toLowerCase();
+      const pred = String((clause.pred.np && clause.pred.np.text) || clause.pred.text || '').toLowerCase();
+      const op = String((o.pred.np && o.pred.np.text) || o.pred.text || '').toLowerCase();
+      return subj && pred && op && pred !== op && clause.pred.type !== 'cmp' && o.pred.type !== 'cmp';
+    });
+  } catch (e) { contested = false; }
+  const d = forge && forge.perm ? forge.perm.authorize('memory.write', { explicit: true, userTap: true, sensitive, contested, subject: sentence }) : { decision: 'allow', rule: 'PERM-EXPLICIT-REQUEST' };
+  if (d.decision === 'needs_approval') {
+    try {
+      const hw = forge.store.load('held_writes');
+      const id = 'held:' + (window.KSha && KSha.sha256 ? KSha.sha256(sentence.toLowerCase()).slice(0, 12) : String(hw.length + 1));
+      if (!hw.some(x => x.id === id && x.status === 'held')) hw.push({ id, status: 'held', kind: 'phone_statement', text: sentence, clause, input: sentence, sensitive, perm_rule: d.rule });
+      forge.store.save('held_writes', hw);
+    } catch (e) { /* the refusal still stores nothing */ }
+    return { ok: false, held: true, sealing: false, rule: d.rule, permission: d, message: 'Held for approval: ' + sentence + ' Nothing was stored.' };
+  }
+  if (d.decision !== 'allow') return { ok: false, held: false, sealing: false, rule: d.rule, permission: d, message: 'Not stored: ' + (d.rule || 'the write was not authorized') + '.' };
   const kept = rememberedRows();
   if (kept.some(x => x && String(x.text).toLowerCase() === sentence.toLowerCase())) return { ok: true, rule: 'REMEMBER-ALREADY-KEPT', text: sentence, message: 'Already remembered on this phone: ' + sentence };
   const id = 'rem-' + (window.KSha && KSha.sha256 ? KSha.sha256(sentence.toLowerCase()).slice(0, 12) : String(kept.length + 1));
-  /* 4.9.231 (plan 229 step 3): the statement is kept as its kāraka clause beside its text (the kernel's own parser) */
-  const clause = window.KQFrame && KQFrame.clause ? KQFrame.clause(sentence, forge) : null;
-  const row = { id, text: sentence, clause, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', said: String(text) }, remembered_at: new Date().toISOString() };
+  const told = new Date().toISOString();
+  const row = { id, text: sentence, clause, scope: 'phone', sensitive, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', at: told }, remembered_at: told };
   const wf = keepWorldFact(row, 'remember');
   if (wf && wf.ok === false && /^WORLD-FACTS-CONFLICT/.test(wf.rule || '')) return { ok: false, rule: wf.rule, message: wf.message || 'Held: that contradicts a kept fact.', existing: wf.existing };
   kept.push(row);
@@ -237,6 +331,7 @@ const REMEMBER_LAST = /^\s*remember\s*(this|that|it|the answer|that answer)?\s*[
 /* 4.9.226 (Nic pt141u): meaning follow-up. Forge asks which meaning; the next message picks one and the ORIGINAL question is asked again under it.
  * The pending ask lives in this session only. With no ask pending, say() is unchanged. */
 let pendingAsk = null;
+window.KGapOpen = () => pendingAsk ? { kind: pendingAsk.kind, question: pendingAsk.question, word: pendingAsk.word || null, options: Array.isArray(pendingAsk.options) ? pendingAsk.options : [] } : null;
 function askCard(kind, bodyHtml, state) {
   const log = $('#log');
   log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="' + state + '" data-followup="' + kind + '"><span class="kind deterministic_route">meaning</span><div data-ask-body>' + bodyHtml + '</div><div class="flags">no LLM · deterministic · nothing stored</div></div>');
@@ -245,6 +340,35 @@ function askCard(kind, bodyHtml, state) {
 async function say(text) { if (lexState.core === 'loading') { queue.push(text); return; }
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
   let qtext = text; let askCtx = {}; let simSpecific = false; let simSupplement = null;
+  if (pendingAsk && pendingAsk.kind === 'clause') {
+    const pending = pendingAsk;
+    const n = parseInt(String(text).trim(), 10);
+    const sig = r => [r && r.kriya, r && r.voice, r && r.kartr && r.kartr.text, r && r.karma && r.karma.text, r && r.karakas && r.karakas.sampradana && r.karakas.sampradana.text, r && r.text].join('|');
+    const chosen = pending.readings && pending.readings[n - 1];
+    if (!chosen || !pending.canon || pending.canon[n - 1] !== sig(chosen)) { askCard('again', 'Say the number of one reading.', 'meaning-ask'); return null; }
+    if (pending.mode === 'held') {
+      pendingAsk = null;
+      try {
+        const hw = forge.store.load('held_writes');
+        const h = hw.find(x => x.id === pending.holdId && x.status === 'held');
+        if (!h || !h.readings || !h.readings[n - 1] || h.canon[n - 1] !== sig(h.readings[n - 1])) { askCard('held', 'That reading is not the one that was authorized.', 'held'); return { ok: false, rule: 'GRAMMAR-NO-READING' }; }
+        h.selected = n - 1; h.clause = h.readings[n - 1]; h.text = h.readings[n - 1].text;
+        forge.store.save('held_writes', hw);
+      } catch (e) { /* nothing stored */ }
+      askCard('held', 'Reading ' + n + ' is selected. Nothing was stored.', 'held');
+      return { ok: false, held: true, rule: 'PERM-D10-EVERY-WRITE' };
+    }
+    if (pending.mode !== 'allowed' || !pending.permId) { pendingAsk = null; askCard('held', 'Nothing was stored.', 'held'); return { ok: false, rule: 'GRAMMAR-NO-READING' }; }
+    pendingAsk = null;
+    const kept = rememberedRows();
+    const row = { id: 'rem-' + kept.length, text: chosen.text, clause: chosen, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', reading: n, perm_id: pending.permId }, remembered_at: new Date().toISOString() };
+    keepWorldFact(row, 'remember');
+    kept.push(row);
+    try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* the refusal is the card below */ }
+    log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="remembered" data-remember-rule="REMEMBER-BY-USER-REQUEST"><span class="kind deterministic_route">memory</span><div data-ask-body>I noted reading ' + n + '.</div><div class="flags">explicit request · kept on this phone only · no LLM</div></div>');
+    refreshChrome();
+    return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: chosen.text };
+  }
   if (pendingAsk && window.KSenses && KSenses.follow) {
     const f = KSenses.follow(pendingAsk, text);
     if (f.state === 'resolved') {
@@ -271,9 +395,17 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + msg + '</div><div class="flags">explicit request · no LLM</div></div>');
     log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
   }
+  if (window.KQFrame && KQFrame.forgetTarget && forge) {
+    const ft = KQFrame.forgetTarget(KQFrame.compile(text, forge));
+    if (ft && (ft.ok || ft.rule === 'FORGET-NOT-A-CLAUSE')) {
+      const r = forgetStatement(text);
+      log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.ok ? '' : ' blocked') + '" data-ask-state="' + (r.ok ? 'forgotten' : 'held') + '" data-forget-rule="' + esc(r.rule) + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + esc(r.message || '') + '</div><div class="flags">explicit request · this phone only · no shared write · no LLM</div></div>');
+      log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
+    }
+  }
   if (REMEMBER_STATEMENT.test(text)) {
     const r = await rememberStatement(text);
-    log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.ok ? '' : ' blocked') + '" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '" data-remember-rule="' + esc(r.rule) + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + esc(r.message) + '</div><div class="flags">explicit request · kept on this phone only · no LLM</div></div>');
+    log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.ok ? '' : ' blocked') + '" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '" data-remember-rule="' + esc(r.rule) + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + esc(r.message) + '</div><div class="flags">explicit request · ' + (r.ok ? 'kept on this phone only' : 'nothing stored') + ' · no LLM</div></div>');
     log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
   }
   /* 4.9.235 (plan 229 step 7): an unpicked many-meaning subject is ASKED before the engine runs (4.9.229 asked after the
@@ -285,6 +417,20 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       const pa = KSenses.planAsk(qtext, null, { sensed: askCtx.sensed, chain: askCtx.chain });
       if (pa && pa.kind === 'sense') { pendingAsk = pa; stats.held++; askCard('ask', esc(KSenses.askText(pa, false)), 'meaning-ask'); refreshChrome(); return { ok: true, held: true, reply: null, product_reply: false, meaning_ask: true, asked_before_engine: true, calls_llm: false }; }
     } catch (e) { /* the ask is optional; the engine runs below */ }
+  }
+  let whyReplay = null;
+  if (window.KQFrame && window.KRMCCore && KRMCCore.bareWhy) {
+    let frame = null;
+    try { frame = KQFrame.compile(qtext, forge); } catch (e) { frame = null; }
+    if (KRMCCore.bareWhy(frame)) {
+      if (!whyPrior || whyPrior.rejected || !whyPrior.question) {
+        const heldWhy = KRMCCore.whyHold('no_admitted_derivation');
+        log.insertAdjacentHTML('beforeend', '<div class="msg bot blocked" data-ask-state="held" data-followup="why"><span class="kind deterministic_hold">deterministic_hold</span><div data-ask-body>Held. No answer was admitted. route why_no_derivation.</div><div class="flags">no LLM · nothing stored</div></div>');
+        log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return heldWhy;
+      }
+      whyReplay = whyPrior;
+      qtext = whyPrior.question;
+    }
   }
   if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(true);
   let row;
@@ -322,14 +468,27 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
      * documents are shown only on the Self-seed card (window.SELF_SEED_DEMO); Ask never treats a recording as research. */
   } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
   if (row && askCtx.sim) { row.sim = { ok: !!askCtx.sim.ok, status: askCtx.sim.status, reason: askCtx.sim.reason || null, receipt_id: askCtx.sim.receipt_id || null, sha256: askCtx.sim.sha256 || null, solver: askCtx.sim.primary_solver || (askCtx.sim.problem && askCtx.sim.problem.solver) || null, where: askCtx.sim.where || null, home_pc_required: !!askCtx.sim.home_pc_required }; }
+  if (whyReplay && window.KRMCCore && KRMCCore.sameWhy && !KRMCCore.sameWhy(whyReplay, row)) {
+    whyPrior = null;
+    row = KRMCCore.whyHold('stale_derivation');
+  } else if (whyReplay && row && row.product_reply) {
+    row.followup = { kind: 'why', of: whyReplay.question, how: whyReplay.how };
+  }
   lastResult = row;
   /* 4.9.208: a held question becomes a curation gap for Athena (no write happens here) */
-  if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try { row.curation = KCurators.noteHeld(qtext, row); } catch (e) { /* the curators are optional */ } }
+  if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try {
+    let compiled = null;
+    try { if (window.KQFrame && window.forge) compiled = window.KQFrame.compile(qtext, window.forge); } catch (e) { compiled = null; }
+    const qframe = compiled && compiled.schema === 'forge.qframe/v1' ? compiled : (row.qframe || null);
+    row.curation = KCurators.noteHeld(qtext, row, { qframe: qframe, sim: askCtx.sim || null });
+  } catch (e) { /* the curators are optional */ } }
   /* 4.9.209 (Nic plan, Release A item 2): an admitted answer writes nothing. No session RAM, no receipt store, no Supabase.
    * The engine's proposal waits for "remember …" or the Remember tap (rememberAnswer). */
   /* 4.9.229's after-the-engine sense ask moved above the engine run (4.9.235): the meaning is asked first, never after an answer. */
   const admitted = !!(row && row.product_reply && row.reply);
-  if (admitted) lastAdmitted = row;
+  if (whyReplay) { /* the follow-up does not replace the derivation it explained */ }
+  else if (admitted && window.KRMCCore && KRMCCore.whySnapshot) { whyPrior = KRMCCore.whySnapshot(row, qtext); if (whyPrior && whyPrior.rejected) whyPrior = null; lastAdmitted = row; }
+  else { whyPrior = null; if (admitted) lastAdmitted = row; }
   /* 4.9.242: world_facts is written only on explicit Remember (rememberStatement / rememberAnswer tap).
    * A spoken engine answer is NOT auto-persisted — otherwise the short paraphrase becomes phone evidence on the
    * next turn and can outrank the source anchor (Why is the sky blue? held after "The sky looks blue to us." was
@@ -578,7 +737,7 @@ function renderMem() { const mem = forge.memory(), cold = forge.cold(), ev = for
   const clearCs = $('#clearConfirmedShared'); if (clearCs) clearCs.onclick = () => { if (!confirm('Clear session shared knowledge pull? This does not change the hosted packs.')) return; forge.clearConfirmedShared(); renderMem(); };
   $$('[data-cs-admit]').forEach(b => b.onclick = () => { if (!confirm('Admit held sentence? Not memory.')) return; const r = forge.admitConfirmedSharedItem(b.dataset.csAdmit, true); alert(r.ok ? 'Admitted.' : ('Not admitted: ' + (r.rule || ''))); renderMem(); });
   $$('[data-del]').forEach(b => b.onclick = () => { if (confirm('Forget this record? It moves to cold storage (Doc 7) and stops answering questions.')) { forge.deleteRecord(b.dataset.del, 'RMC Memory tab (explicit tap + confirm)', true); renderMem(); } });
-  $$('[data-approve]').forEach(b => b.onclick = () => { const r = forge.commitHeld(b.dataset.approve, true); alert(r.ok ? 'Committed · read-back ' + r.readback.map(x => x.readback).join(', ') : 'Not committed: ' + (r.rule || 'read-back mismatch, rolled back')); renderMem(); });
+  $$('[data-approve]').forEach(b => b.onclick = () => { const r = forge.commitHeld(b.dataset.approve, true); if (r && r.ok && r.kind === 'phone_forget' && window.KWorldFacts) { (r.texts || []).forEach(t => { try { KWorldFacts.forget(t); } catch (e) { /* already gone */ } }); try { const kept = rememberedRows().filter(x => !(r.texts || []).some(t => KWorldFacts.sameText(x.text, t))); localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* the world_facts removal still stands */ } } alert(r.ok ? 'Committed · read-back ' + ((r.readback || []).map(x => x.readback).join(', ') || 'match') : 'Not committed: ' + (r.rule || 'read-back mismatch, rolled back')); renderMem(); });
   $$('[data-reject]').forEach(b => b.onclick = () => { forge.rejectHeld(b.dataset.reject, true); renderMem(); });
   $$('[data-gates]').forEach(b => b.onclick = () => { const g = forge.resurrectPreview(b.dataset.gates); const el = document.getElementById('gate-' + b.dataset.gates); if (el) el.innerHTML = g ? '<b>' + esc(g.decision) + '</b> (tier ' + esc(g.tier) + ')<br>' + g.gates.map(x => (x.pass ? '✅ ' : '❌ ') + esc(x.gate + ' — ' + x.detail)).join('<br>') : ''; });
   $$('[data-res]').forEach(b => b.onclick = () => { if (!confirm('Return this record to processing as a proposal? The seven gates are checked. Nothing is stored.')) return; const r = forge.resurrect(b.dataset.res, true); alert(r.ok ? 'Proposal only. Nothing stored.' : 'Not proposed: ' + r.rule); renderMem(); });
