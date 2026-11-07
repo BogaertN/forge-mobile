@@ -58,6 +58,17 @@ function register(C, expect) {
     expect(WF.rows().some(r => r.text === 'The key is inside the box.') && !WF.rows().some(r => /drawer/.test(r.text)), 'first container kept');
     WF.clear();
   });
+  C('REMEMBER-KEY', 'a different comparison is kept; older does not replace taller', () => {
+    WF.clear();
+    expect(put('Pavel is older than Soren.').ok);
+    const tall = put('Pavel is taller than Soren.');
+    const other = put('Pavel is older than Nia.');
+    const neg = put('Pavel is not older than Soren.');
+    expect(tall.ok === true && other.ok === true, JSON.stringify([tall, other]));
+    expect(neg.ok === false && neg.rule === 'WORLD-FACTS-CONFLICT-POLARITY', JSON.stringify(neg));
+    expect(WF.rows().some(r => r.text === 'Pavel is taller than Soren.') && WF.rows().some(r => r.text === 'Pavel is older than Soren.'), WF.rows().map(r => r.text).join('|'));
+    WF.clear();
+  });
   C('REMEMBER-KEY', 'a second spouse is kept; married-to is not in the functional table', () => {
     WF.clear();
     expect(put('Nia is married to Pavel.').ok && put('Nia is married to Soren.').ok, WF.rows().map(r => r.text).join('|'));

@@ -66,7 +66,11 @@
       let copula = null;
       if (c.pred && (c.pred.text || (c.pred.np && c.pred.np.text))) {
         if (c.pred.type === 'pp') slots.push('pp:' + norm(c.pred.prep) + ':' + norm((c.pred.np && c.pred.np.text) || c.pred.text));
-        else {
+        else if (c.pred.type === 'cmp') {
+          /* older and taller are different relations. The than-complement is part of the relation, and neither is a bare copula. */
+          const than = c.pred.than && c.pred.than.text;
+          slots.push('cmp:' + norm(c.pred.predicate || c.pred.text) + ':' + norm(than || ''));
+        } else {
           const nominal = norm((c.pred.np && c.pred.np.text) || c.pred.text);
           /* an of-phrase is the relation's complement ("part of", "mother of"), not a second name for the subject */
           if (!c.pred.of && !(c.pred.owner && typeof c.pred.owner === 'object')) copula = nominal;

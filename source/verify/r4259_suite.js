@@ -25,14 +25,17 @@ function register(C, expect) {
     const no = ask(['remember that the red lamp is older than the blue lamp'], 'is the blue lamp older than the red lamp?');
     expect(admitted(no) && no.reply === 'The red lamp is older than the blue lamp. The blue lamp is not older than the red lamp.' && no.world_model.derive.survivor.how === 'WM-OLDER_THAN-ASYM', no.reply);
   });
-  C('COMPARE', 'a stored taller fact stays taller: it does not become older, shorter, or a chain', () => {
+  C('COMPARE', 'height stays height: a taller fact answers itself and does not become age', () => {
     const yes = ask(['remember that my brother is taller than my sister'], 'is my brother taller than my sister?');
-    expect(admitted(yes) && /taller than your sister/.test(yes.reply) && yes.world_model.derive.survivor.how === 'direct', yes.reply);
-    const older = ask(['remember that my brother is taller than my sister'], 'is my brother older than my sister?');
     const shorter = ask(['remember that my brother is taller than my sister'], 'is my sister shorter than my brother?');
     const chain = ask(['remember that Nia is taller than Bo', 'remember that Bo is taller than Cy'], 'is Nia taller than Cy?');
+    expect(admitted(yes) && yes.reply === 'Your brother is taller than your sister.' && yes.world_model.derive.survivor.how === 'direct', yes.reply);
+    expect(admitted(shorter) && shorter.reply === 'Your brother is taller than your sister. Your sister is shorter than your brother.' && shorter.world_model.derive.survivor.how === 'WM-TALLER_THAN-INVERSE', shorter.reply);
+    expect(admitted(chain) && chain.world_model.derive.survivor.how === 'WM-TALLER_THAN-CHAIN', chain.reply);
+    const older = ask(['remember that my brother is taller than my sister'], 'is my brother older than my sister?');
     const fromAge = ask(['remember that my brother is older than my sister'], 'is my brother taller than my sister?');
-    expect(older.product_reply !== true && shorter.product_reply !== true && chain.product_reply !== true && fromAge.product_reply !== true, [older.reply, shorter.reply, chain.reply, fromAge.reply].join(' | '));
+    const mix = ask(['remember that Nia is taller than Pavel', 'remember that Pavel is older than Soren'], 'is Nia older than Soren?');
+    expect(older.product_reply !== true && fromAge.product_reply !== true && mix.product_reply !== true, [older.reply, fromAge.reply, mix.reply].join(' | '));
   });
   C('COMPARE', 'relative age does not invent a number, and a negative of the inverse conflicts', () => {
     const num = ask(['remember that my brother is older than my sister'], 'is my brother 40?');

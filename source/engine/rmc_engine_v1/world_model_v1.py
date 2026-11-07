@@ -262,12 +262,12 @@ for _pred, _inv, _domain in (("before", "after", "kala"), ("after", "before", "k
     ORDER_RULES.extend((_chain, _inverse))
     ORDER_CHAIN[_pred] = _chain
     ORDER_INVERSE[_pred] = _inverse
-# Age and magnitude are the two dimensions this batch types. Their words are the declared comparative list.
-# taller/heavier/wider and the rest stay untyped here so they cannot mix with age or magnitude.
-CMP_DIM = {"older_than": "age", "younger_than": "age", "greater_than": "magnitude", "less_than": "magnitude"}
-CMP_INVERSE = {"older_than": "younger_than", "younger_than": "older_than", "greater_than": "less_than", "less_than": "greater_than"}
+# Each pair is its own dimension. A height atom never chains with age or magnitude.
+# heavier/wider/higher/deeper/longer stay untyped: the original rows that need them stay unmet.
+CMP_DIM = {"older_than": "age", "younger_than": "age", "greater_than": "magnitude", "less_than": "magnitude", "taller_than": "height", "shorter_than": "height"}
+CMP_INVERSE = {"older_than": "younger_than", "younger_than": "older_than", "greater_than": "less_than", "less_than": "greater_than", "taller_than": "shorter_than", "shorter_than": "taller_than"}
 # Each declared word's antonym is also a declared word of the inverse row.
-CMP_SURFACE_INVERSE = {"older": "younger", "younger": "older", "greater": "less", "less": "greater", "more": "fewer", "fewer": "more", "larger": "smaller", "smaller": "larger"}
+CMP_SURFACE_INVERSE = {"older": "younger", "younger": "older", "greater": "less", "less": "greater", "more": "fewer", "fewer": "more", "larger": "smaller", "smaller": "larger", "taller": "shorter", "shorter": "taller"}
 CMP_RULES: list[dict[str, Any]] = []
 CMP_CHAIN: dict[str, dict[str, Any]] = {}
 CMP_INV_RULE: dict[str, dict[str, Any]] = {}
@@ -522,9 +522,10 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         declared = str(pred.get("predicate") or "")
         than = _np_frame(pred.get("than"))
         surface = str(pred.get("text") or "").strip()
-        # Every declared comparative keeps its than-complement. Only age and magnitude have derivation rules.
-        if declared and than and str(than.get("text") or "").strip() and surface:
-            cmp_rel = (declared, than, surface)
+        # A comparative with no declared row (longer) keeps the than-complement for a direct answer.
+        # It is not added to a dimension, so it does not chain or invert.
+        if than and str(than.get("text") or "").strip() and surface:
+            cmp_rel = (declared or surface, than, surface)
     order_np = None
     if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").lower() in ("before", "after", "above", "below"):
         inner = _np_frame(pred.get("np"))
@@ -622,7 +623,7 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         kept = [a for a in (frame.get("adj") or []) if str(a.get("prep") or "").lower() != "to"]
         frame["adj"] = kept + [{"prep": "to", "role": "sampradana", "np": to_rel[1]}]
     elif cmp_rel:
-        pred_frame = {"type": "cmp", "text": cmp_rel[2], "predicate": cmp_rel[0], "than": cmp_rel[1]}
+        pred_frame = {"type": "cmp", "text": cmp_rel[2], "predicate": cmp_rel[0] if cmp_rel[0] in CMP_DIM or cmp_rel[0] in CMP_INVERSE else None, "than": cmp_rel[1]}
         if cmp_rel[0] in CMP_DIM:
             pred_frame["dimension"] = CMP_DIM[cmp_rel[0]]
         frame["pred"] = pred_frame
@@ -1167,7 +1168,7 @@ def _render_atom(atom: dict[str, Any]) -> str:
     args = [str(a) for a in atom.get("args") or []]
     predicate = str(atom.get("predicate") or "")
     if predicate in CMP_DIM and len(args) == 2:
-        word = {"older_than": "older", "younger_than": "younger", "greater_than": "greater", "less_than": "less"}[predicate]
+        word = {"older_than": "older", "younger_than": "younger", "greater_than": "greater", "less_than": "less", "taller_than": "taller", "shorter_than": "shorter"}[predicate]
         verb = "is not" if atom.get("polarity") == "neg" else "is"
         return f"{args[0]} {verb} {word} than {args[1]}."
     if predicate in ("before", "after", "above", "below") and len(args) == 2:
@@ -2358,11 +2359,12 @@ def _cmp_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool
         other = pred.get("than") if isinstance(pred, dict) and isinstance(pred.get("than"), dict) else None
         return subject, other
 
-    def wanted_surface(predicate: str, source_word: str) -> str:
+    def wanted_surface(predicate: str, source_word: str, antonym: bool) -> str:
         qpred = qframe.get("pred") if isinstance(qframe, dict) else None
         if isinstance(qpred, dict) and str(qpred.get("predicate") or "") == predicate and str(qpred.get("text") or "").strip():
             return str(qpred.get("text")).strip()
-        return CMP_SURFACE_INVERSE.get(source_word, source_word)
+        # An inverse or an exclusion speaks the partner word. Asymmetry keeps the same word.
+        return CMP_SURFACE_INVERSE.get(source_word, source_word) if antonym else source_word
 
     def emit(rule: dict[str, Any], chosen: list[dict[str, Any]], sub: dict[str, str], conclusion: dict[str, Any], cframe: dict[str, Any], text: str) -> bool:
         key = (str(conclusion.get("predicate")), _norm(conclusion["args"][0]), _norm(conclusion["args"][1]), str(conclusion.get("polarity") or "pos"))
@@ -2413,8 +2415,6 @@ def _cmp_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool
         rounds += 1
         added = 0
         for fact in list(pool):
-            if fact.get("source") == "derive":
-                continue
             atom = fact.get("atom") or {}
             args = atom.get("args") or []
             pred = str(atom.get("predicate") or "")
@@ -2425,15 +2425,19 @@ def _cmp_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool
                 continue
             word = surface_of(fact, "")
             inv = CMP_INVERSE[pred]
-            inv_word = wanted_surface(inv, word)
             sub = {"$x": str(args[0]), "$y": str(args[1])}
-            inv_atom = _atom(inv, [args[1], args[0]], "pos")
-            if emit(CMP_INV_RULE[pred], [fact], sub, inv_atom, _cmp_frame(inv, inv_word, other, subject), _cmp_text(str(other.get("text") or args[1]), inv_word, str(subject.get("text") or args[0]))):
-                added += 1
+            # A stated comparison licenses its inverse. A derived comparison does not license a second one:
+            # the inverse chain already produced that direction.
+            if fact.get("source") != "derive":
+                inv_word = wanted_surface(inv, word, True)
+                inv_atom = _atom(inv, [args[1], args[0]], "pos")
+                if emit(CMP_INV_RULE[pred], [fact], sub, inv_atom, _cmp_frame(inv, inv_word, other, subject), _cmp_text(str(other.get("text") or args[1]), inv_word, str(subject.get("text") or args[0]))):
+                    added += 1
+            asym_word = wanted_surface(pred, word, False)
             asym = _atom(pred, [args[1], args[0]], "neg")
-            if emit(CMP_ASYM[pred], [fact], sub, asym, _cmp_frame(pred, word, other, subject, True), _cmp_text(str(other.get("text") or args[1]), word, str(subject.get("text") or args[0]), True)):
+            if emit(CMP_ASYM[pred], [fact], sub, asym, _cmp_frame(pred, asym_word, other, subject, True), _cmp_text(str(other.get("text") or args[1]), asym_word, str(subject.get("text") or args[0]), True)):
                 added += 1
-            excl_word = wanted_surface(inv, word)
+            excl_word = wanted_surface(inv, word, True)
             excl = _atom(inv, [args[0], args[1]], "neg")
             if emit(CMP_EXCL[pred], [fact], sub, excl, _cmp_frame(inv, excl_word, subject, other, True), _cmp_text(str(subject.get("text") or args[0]), excl_word, str(other.get("text") or args[1]), True)):
                 added += 1
@@ -2656,7 +2660,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     else:
         status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
     for claim in answers:
-        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or str(claim.get("how") or "").startswith("WM-OLDER") or str(claim.get("how") or "").startswith("WM-YOUNGER") or str(claim.get("how") or "").startswith("WM-GREATER") or str(claim.get("how") or "").startswith("WM-LESS"):
+        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or "_THAN-" in str(claim.get("how") or ""):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
         elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]

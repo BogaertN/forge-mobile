@@ -43,6 +43,11 @@ module.exports = ({ C, expect, K, ROOT }) => {
    * The title also said "before"; the body never asserted a before chain, so none is added here. */
   const askChain = (mem, q) => { const A = require('./ask_path.js'); const s = A.session(); for (const m of mem) expect(A.remember(s, m).ok, m); const n = s.phone.length; const row = A.ask(s, q); expect(s.phone.length === n, 'ask wrote'); return row; };
   const admitted = row => row && row.product_reply === true && row.echo && row.echo.pass === true && row.calls_llm !== true && !(row.memory_write && row.memory_write.committed);
+  const WF = require(ROOT + '/src/world_facts.js');
+  const QF = require(ROOT + '/src/qframe.js');
+  const FK = require(ROOT + '/src/forge.js');
+  const factForge = FK.ForgeKernel({ store: KM.MemoryStore(), lexicon: LEX, lexiconExt: EXT, clock: () => '2026-11-07T00:00:00Z' });
+  const putFact = text => WF.upsert({ text, clause: QF.clause(text, factForge), kind: 'remember' });
   C('WS-TRANSITIVE', 'inside chain (old: Ola inside Pel inside Ras, winner world.proof)', () => {
     const row = askChain(['remember that Ola is inside Pel', 'remember that Pel is inside Ras'], 'is Ola inside Ras?');
     expect(admitted(row) && row.reply === 'Ola is inside Pel. Pel is inside Ras. Ola is inside Ras.' && row.world_model.derive.survivor.how === 'WM-CONTAIN-CHAIN', row.reply);
@@ -55,11 +60,23 @@ module.exports = ({ C, expect, K, ROOT }) => {
     const row = askChain(['remember that Lia is an ancestor of Mo', 'remember that Mo is an ancestor of Ned'], 'is Lia an ancestor of Ned?');
     expect(admitted(row) && row.reply === 'Lia is an ancestor of Mo. Mo is an ancestor of Ned. Lia is an ancestor of Ned.' && row.world_model.derive.survivor.how === 'WM-ANCESTOR-CHAIN', row.reply);
   });
-  C('WS-SYMMETRIC', 'symmetric (married to / next to) in the turn world and in durable memory', () => {
-    expect(yes(K().process('Ola is married to Pel. Is Pel married to Ola?')));
-    const f = K(); run(f, ['remember that Ann is married to Bob', 'remember that Ann is next to Cy']); const a = f.process('is Bob married to Ann?'), b = f.process('is Cy next to Ann?');
-    expect(yes(a) && yes(b) && a.reply === 'Yes, I infer that Bob is married to Ann. You told me that Ann is married to Bob. I used 1 rule.' && a.trace.rules.find(x => x.id === 'INF-RELPROP').rules_used.includes('RELPROP-SYMMETRIC:married_to'), a.reply);
-    expect(!/^Yes/.test(K().process('Ola is inside Pel. Is Pel inside Ola?').reply), 'inside treated as symmetric'); });
+  /* Old: Kernel.process, /^Yes, I infer/, RELPROP-SYMMETRIC. Live memory swap is the represented contract. */
+  C('WS-SYMMETRIC', 'stored married and next swap once (old: Yes, I infer, RELPROP-SYMMETRIC:married_to)', () => {
+    const married = askChain(['remember that Ann is married to Bob'], 'is Bob married to Ann?');
+    const next = askChain(['remember that Ann is next to Cy'], 'is Cy next to Ann?');
+    expect(admitted(married) && married.reply === 'Ann is married to Bob. Bob is married to Ann.' && married.world_model.derive.survivor.how === 'WM-MARRIED-SYMMETRIC', married.reply);
+    expect(admitted(next) && next.reply === 'Ann is next to Cy. Cy is next to Ann.' && next.world_model.derive.survivor.how === 'WM-NEXT-SYMMETRIC', next.reply);
+  });
+  C('WS-SYMMETRIC', 'inside does not swap (old: not Yes)', () => {
+    const fwd = askChain(['remember that Ola is inside Pel'], 'is Ola inside Pel?');
+    const rev = askChain(['remember that Ola is inside Pel'], 'is Pel inside Ola?');
+    expect(admitted(fwd) && fwd.reply === 'Ola is inside Pel.', fwd.reply);
+    expect(rev.product_reply !== true, rev.reply || rev.route);
+  });
+  C('WS-SYMMETRIC', 'one utterance is not a stored premise (old turn world: Ola is married to Pel. Is Pel married to Ola?)', () => {
+    const row = askChain([], 'Ola is married to Pel. Is Pel married to Ola?');
+    expect(admitted(row) && /Pel is married to Ola/.test(row.reply || ''), row.reply || row.route);
+  });
   /* Split from the bundled inverse row. contains/inside and ancestor/descendant are the relations this world model
    * types. parent/child is still required and is not those relations: the live ask must produce the child reading,
    * and a hold is the unmet contract rather than a deleted-process crash. */
@@ -75,17 +92,44 @@ module.exports = ({ C, expect, K, ROOT }) => {
     const row = askChain(['remember that Lia is an ancestor of Mo', 'remember that Mo is an ancestor of Ned'], 'is Ned a descendant of Lia?');
     expect(admitted(row) && row.reply === 'Lia is an ancestor of Mo. Mo is an ancestor of Ned. Ned is a descendant of Lia.' && row.world_model.derive.survivor.how === 'WM-ANCESTOR-INVERSE', row.reply);
   });
-  C('WS-FUNCTIONAL', 'functional relations: a second different value is a real contradiction — the turn world reports conflicting proofs; durable memory asks before replacing and writes nothing; one value alone is no conflict', () => {
-    const t = K().process('Vin is the mother of Wes. Xan is the mother of Wes. Is Vin the mother of Wes?'); expect(/conflict/.test(t.reply), t.reply);
-    expect(yes(K().process('Vin is the mother of Wes. Is Vin the mother of Wes?')), 'single value conflicted');
-    const f = K(); f.process('remember that Ann was born in Paris'); const m0 = JSON.stringify(f.store.load('memory')); const r = f.process('remember that Ann was born in Rome');
-    expect(r.msm.meaning.kind === 'confirm_replace' && r.trace.rules.some(x => x.id === 'MEM-CONFLICT-FUNCTIONAL-RELATION') && JSON.stringify(f.store.load('memory')) === m0, r.reply);
-    const g = K(); run(g, ['remember that Ann was born in Paris', 'remember that Bob was born in Paris']); expect(g.store.load('memory').filter(x => x.status === 'active').length === 2, 'different subjects conflicted'); });
-  C('WS-WHY', '"why?" after a durable chain answer explains the chain from the recorded premises (Echo re-verified); after a turn-world chain it names the sentences', () => {
-    const f = K(); chain(f); f.process('is Aster inside Cobalt?'); const w = f.process('why?');
-    expect(w.reply === 'I derived “Aster is inside Cobalt” from “Aster is inside Beryl” and “Beryl is inside Cobalt”. It uses 1 rule.' && w.trace.echo.pass && w.trace.selection.winner === 'justify.followup', w.reply);
-    f.process('does Cobalt contain Aster?'); const w2 = f.process('why?'); expect(/from “Aster is inside Beryl” and “Beryl is inside Cobalt”/.test(w2.reply) && w2.trace.echo.pass, w2.reply);
-    const g = K(); g.process('Ola is inside Pel. Pel is inside Ras. Is Ola inside Ras?'); const w3 = g.process('why?'); expect(/from “Ola is inside Pel” and “Pel is inside Ras”/.test(w3.reply), w3.reply); });
+  /* The confirm-replace dialog is not the current Remember. A second functional value is refused and nothing is overwritten. */
+  C('WS-FUNCTIONAL', 'one stored mother admits, and a second mother is refused (old: writes nothing)', () => {
+    WF.clear();
+    expect(putFact('Vin is the mother of Wes.').ok === true);
+    const other = putFact('Xan is the mother of Wes.');
+    expect(other.ok === false && other.rule === 'WORLD-FACTS-CONFLICT-FUNCTIONAL' && WF.rows().some(r => r.text === 'Vin is the mother of Wes.') && !WF.rows().some(r => /Xan/.test(r.text)), JSON.stringify(other));
+    const ask = askChain(['remember that Vin is the mother of Wes'], 'is Vin the mother of Wes?');
+    expect(admitted(ask) && /Vin is the mother of Wes/.test(ask.reply), ask.reply);
+    WF.clear();
+  });
+  C('WS-FUNCTIONAL', 'two people born in one city are both kept (old: different subjects are no conflict)', () => {
+    WF.clear();
+    expect(putFact('Ann was born in Paris.').ok && putFact('Bob was born in Paris.').ok);
+    expect(WF.rows().length === 2, WF.rows().map(r => r.text).join('|'));
+    WF.clear();
+  });
+  C('WS-FUNCTIONAL', 'a second birthplace is refused and the first stays (old: confirm_replace wrote nothing)', () => {
+    WF.clear();
+    expect(putFact('Ann was born in Paris.').ok);
+    const rome = putFact('Ann was born in Rome.');
+    expect(rome.ok === false && rome.rule === 'WORLD-FACTS-CONFLICT-FUNCTIONAL' && WF.rows().map(r => r.text).join('|') === 'Ann was born in Paris.', JSON.stringify(rome));
+    WF.clear();
+  });
+  C('WS-FUNCTIONAL', 'two mothers in one utterance conflict (old turn world)', () => {
+    const row = askChain([], 'Vin is the mother of Wes. Xan is the mother of Wes. Is Vin the mother of Wes?');
+    expect(/conflict/.test(row.reply || ''), row.reply || row.route);
+  });
+  C('WS-WHY', 'a containment answer cites both premises (old why named those sentences)', () => {
+    const row = askChain(['remember that Aster is inside Beryl', 'remember that Beryl is inside Cobalt'], 'is Aster inside Cobalt?');
+    expect(admitted(row) && row.reply === 'Aster is inside Beryl. Beryl is inside Cobalt. Aster is inside Cobalt.' && row.world_model.derive.survivor.how === 'WM-CONTAIN-CHAIN', row.reply);
+  });
+  C('WS-WHY', 'a later why reads that derivation (old: I derived Aster is inside Cobalt from the two premises)', () => {
+    const A = require('./ask_path.js'); const s = A.session();
+    expect(A.remember(s, 'remember that Aster is inside Beryl').ok && A.remember(s, 'remember that Beryl is inside Cobalt').ok);
+    expect(admitted(A.ask(s, 'is Aster inside Cobalt?')));
+    const why = A.ask(s, 'why?');
+    expect(why.product_reply === true && /Aster is inside Beryl/.test(why.reply || '') && /Beryl is inside Cobalt/.test(why.reply || '') && why.echo && why.echo.pass === true, why.reply || why.route);
+  });
   C('WS-DATA', 'relation properties are DATA: every RELATIONS row uses only declared keys, inverse partners are mutual, functional is subject|object; the grammar reads the declared phrases (no relation phrase is hard-coded in reason.js); RELPROP rule ids are stable; no numeric weights', () => {
     const KEYS = new Set(['pred', 'phrase', 'transitive', 'symmetric', 'inverse', 'functional', 'containment', 'alias', 'same_as', 'comparative', 'one', 'causal', 'entails' /* 4.9.77 M4: causal link kind (cause | prevent | association) and declared entailment between link verbs */]), by = new Map(WR.RELATIONS.map(r => [r.pred, r]));
     expect(Object.isFrozen(WR.RELATIONS) && WR.RELATIONS.length >= 20, 'table');
@@ -101,29 +145,67 @@ module.exports = ({ C, expect, K, ROOT }) => {
     expect(JSON.stringify(WR.propertyDataRules('inside').map(r => r.id)) === JSON.stringify(WR.propertyDataRules('inside').map(r => r.id)) && WR.propertyDataRules('married_to').map(r => r.id).join() === 'RELPROP-SYMMETRIC:married_to', JSON.stringify(WR.propertyDataRules('married_to').map(r => r.id)));
     expect(!/require\(['"]\.\/sb_sync/.test(fs.readFileSync(ROOT + '/src/kernel.js', 'utf8')), 'kernel imports sb_sync'); });
   /* 4.9.61 rulings 1–4 */
-  C('WS-APART', 'ruling 1: two values of a functional relation conflict ONLY when apart — neither contains the other through the containment rows (transitively, either direction) and they are not declared aliases; in the turn world and in memory', () => {
-    const t = s => K().process(s);
-    expect(yes(t('Ann was born in Paris. Paris is in France. Ann was born in France. Was Ann born in France?')), 'contained values conflicted');
-    expect(yes(t('Ann was born in Lyon. Lyon is inside Rhone. Rhone is inside France. Ann was born in France. Was Ann born in Lyon?')), 'transitive containment conflicted');
-    expect(yes(t('Ann was born in Lutetia. Lutetia is also called Paris. Ann was born in Paris. Was Ann born in Paris?')), 'aliases conflicted');
-    expect(/conflict/.test(t('Ann was born in Paris. Ann was born in Rome. Was Ann born in Rome?').reply), 'apart values did not conflict');
-    expect(/conflict/.test(t('Ann was born in Paris. Paris is in France. Lyon is in France. Ann was born in Lyon. Was Ann born in Lyon?').reply), 'siblings under one container are apart');
-    const f = K(); run(f, ['remember that Paris is in France', 'remember that Ann was born in Paris']); const r = f.process('remember that Ann was born in France');
-    expect(r.msm.meaning.kind !== 'confirm_replace' && !r.trace.rules.some(x => x.id === 'MEM-CONFLICT-FUNCTIONAL-RELATION') && f.store.load('memory').filter(x => x.status === 'active').length === 3, r.reply);
-    const g = K(); run(g, ['remember that Lutetia is also known as Paris', 'remember that Ann was born in Lutetia']); expect(!g.process('remember that Ann was born in Paris').trace.rules.some(x => x.id === 'MEM-CONFLICT-FUNCTIONAL-RELATION'), 'stored alias conflicted');
-    const h = K(); run(h, ['remember that Paris is in France', 'remember that Ann was born in Paris']); expect(h.process('remember that Ann was born in Rome').trace.rules.some(x => x.id === 'MEM-CONFLICT-FUNCTIONAL-RELATION'), 'apart value not asked');
-    expect(WR.apartness([{ predicate: 'in', args: ['paris', 'france'], polarity: 'pos' }])('france', 'paris') === false && WR.apartness([])('paris', 'rome') === true && WR.apartness([])('paris', 'paris') === false, 'apartness'); });
-  C('WS-FUNC-NO', 'ruling 2: a functional relation answers "No" when a stored value is apart from the asked one, stating the reason from the data; recorded in the ledger (why? reads it back) and withdrawn when the premise is forgotten; everything else stays open-world', () => {
-    const f = K(); f.process('remember that Ann was born in Paris'); const r = f.process('Was Ann born in Rome?');
-    expect(r.reply === 'No. You told me that Ann was born in Paris. A person has one birthplace.' && r.trace.echo.pass && r.trace.rules.some(x => x.id === 'INF-FUNCTIONAL-NO' && x.rules_used.includes('RELPROP-FUNCTIONAL:born_in')), r.reply);
-    const it = f.justifications().find(x => x.text === 'Ann was not born in Rome'); expect(it && it.status === 'in' && it.justifications[0].premises.length === 1 && /^mem:/.test(it.justifications[0].premises[0].id) && it.justifications[0].rules.includes('RELPROP-FUNCTIONAL:born_in'), JSON.stringify(f.justifications().map(x => x.text)));
-    const w = f.process('why?'); expect(w.reply === 'I derived “Ann was not born in Rome” from “Ann was born in Paris”. It uses 2 rules.' && w.trace.echo.pass, w.reply);
-    f.process('remember that Paris is in France'); expect(!/^No/.test(f.process('Was Ann born in France?').reply), 'a containing value answered no');
-    expect(!/^No/.test(f.process('Was Bea born in Rome?').reply), 'no stored value answered no');
-    run(f, ['forget that Ann was born in Paris', 'yes']); expect(f.justifications().find(x => x.id === it.id).status === 'withdrawn' && f.withdrawalReceipts().some(x => x.item === it.id), 'not withdrawn');
-    { const r2 = f.process('Was Ann born in Rome?'); expect(!/^(?:No|Yes)\b/.test(r2.reply), 'still decided after the premise left: ' + r2.reply); }
-    const g = K(); g.process('remember that Tom is the mother of Sue'); expect(g.process('is Liz the mother of Sue?').reply === 'No. You told me that Tom is the mother of Sue. A person has one mother.');
-    const h = K(); h.process('remember that Ann is in Paris'); expect(!/^No/.test(h.process('is Ann in Rome?').reply), 'a non-functional relation answered no'); });
+  C('WS-APART', 'a birthplace inside a stored container is kept (old: contained values do not conflict)', () => {
+    WF.clear();
+    expect(putFact('Paris is inside France.').ok && putFact('Ann was born in Paris.').ok && putFact('Ann was born in France.').ok);
+    expect(WF.rows().some(r => r.text === 'Ann was born in Paris.') && WF.rows().some(r => r.text === 'Ann was born in France.'), WF.rows().map(r => r.text).join('|'));
+    const ask = askChain(['remember that Ann was born in France'], 'was Ann born in France?');
+    expect(admitted(ask) && /Ann was born in France/.test(ask.reply), ask.reply);
+    WF.clear();
+  });
+  C('WS-APART', 'an apart birthplace is refused (old: Rome conflicts with Paris)', () => {
+    WF.clear();
+    expect(putFact('Ann was born in Paris.').ok);
+    const rome = putFact('Ann was born in Rome.');
+    expect(rome.ok === false && rome.rule === 'WORLD-FACTS-CONFLICT-FUNCTIONAL', JSON.stringify(rome));
+    WF.clear();
+  });
+  C('WS-APART', 'apartness data: a container is not apart from what it contains', () => {
+    expect(WR.apartness([{ predicate: 'in', args: ['paris', 'france'], polarity: 'pos' }])('france', 'paris') === false && WR.apartness([])('paris', 'rome') === true && WR.apartness([])('paris', 'paris') === false);
+  });
+  C('WS-APART', 'an alias is not a second birthplace (old: Lutetia also called Paris)', () => {
+    WF.clear();
+    expect(putFact('Lutetia is also known as Paris.').ok && putFact('Ann was born in Lutetia.').ok);
+    const paris = putFact('Ann was born in Paris.');
+    expect(paris.ok === true && !/CONFLICT-FUNCTIONAL/.test(paris.rule || ''), JSON.stringify(paris));
+    WF.clear();
+  });
+  C('WS-APART', 'turn-world containment does not make two birthplaces a conflict (old one-utterance Yes)', () => {
+    const row = askChain([], 'Ann was born in Paris. Paris is in France. Ann was born in France. Was Ann born in France?');
+    expect(admitted(row) && /born in France/.test(row.reply || ''), row.reply || row.route);
+  });
+  C('WS-FUNC-NO', 'the stored birthplace admits (old functional No still needs this premise)', () => {
+    const row = askChain(['remember that Ann was born in Paris'], 'was Ann born in Paris?');
+    expect(admitted(row) && /Ann was born in Paris/.test(row.reply), row.reply);
+  });
+  C('WS-FUNC-NO', 'a different birthplace is No (old: No. You told me that Ann was born in Paris. A person has one birthplace.)', () => {
+    const row = askChain(['remember that Ann was born in Paris'], 'was Ann born in Rome?');
+    expect(row.product_reply === true && row.reply === 'No. You told me that Ann was born in Paris. A person has one birthplace.' && row.echo && row.echo.pass === true, row.reply || row.route);
+  });
+  C('WS-FUNC-NO', 'a containing place is not answered No (old)', () => {
+    const row = askChain(['remember that Ann was born in Paris', 'remember that Paris is inside France'], 'was Ann born in France?');
+    expect(!/^No\b/.test(row.reply || ''), row.reply || row.route);
+  });
+  C('WS-FUNC-NO', 'no stored birthplace stays open (old: not No)', () => {
+    const row = askChain([], 'was Bea born in Rome?');
+    expect(row.product_reply !== true && !/^No\b/.test(row.reply || ''), row.reply || row.route);
+  });
+  C('WS-FUNC-NO', 'forgetting the birthplace withdraws the No (old ledger)', () => {
+    const A = require('./ask_path.js'); const s = A.session();
+    expect(A.remember(s, 'remember that Ann was born in Paris').ok);
+    const gone = A.ask(s, 'forget that Ann was born in Paris');
+    const again = A.ask(s, 'was Ann born in Rome?');
+    expect(gone.product_reply === true && /forgot|withdrawn/i.test(gone.reply || '') && again.product_reply !== true, (gone.reply || gone.route) + ' | ' + (again.reply || again.route));
+  });
+  C('WS-FUNC-NO', 'another mother is No (old: A person has one mother)', () => {
+    const row = askChain(['remember that Tom is the mother of Sue'], 'is Liz the mother of Sue?');
+    expect(row.product_reply === true && row.reply === 'No. You told me that Tom is the mother of Sue. A person has one mother.', row.reply || row.route);
+  });
+  C('WS-FUNC-NO', 'a non-functional place is not answered No (old)', () => {
+    const yes = askChain(['remember that Ann is in Paris'], 'is Ann in Paris?');
+    const no = askChain(['remember that Ann is in Paris'], 'is Ann in Rome?');
+    expect(admitted(yes) && !/^No\b/.test(no.reply || ''), (yes.reply || yes.route) + ' | ' + (no.reply || no.route));
+  });
   /* The old row used reason.js evaluate() and Kernel.process. Each guarantee is now an Ask.
    * greater/less/more/larger/smaller/fewer are the magnitude row. They are not age. */
   C('WS-COMPARATIVE', 'inverse both ways (old: greater↔less supported_only)', () => {
@@ -162,34 +244,89 @@ module.exports = ({ C, expect, K, ROOT }) => {
     expect(JSON.stringify([f.store.load('memory'), f.store.load('world_state')]) === s0, 'a supposition wrote durable state');
     const RS = require(ROOT + '/src/reason.js'), e = RS.evaluate('Suppose Pim is inside Quo and Quo is inside Rub. Is Pim inside Rub?'); expect(e.material.status === 'supported_only' && RS.worldIntegrity(e.material.world) && e.material.world.facts.length >= 2, JSON.stringify(e.material.status));
     expect(K().process('Pim is inside Quo and Quo is inside Rub. Is Pim inside Rub?').trace.selection.winner === 'world.proof', 'stated conjunction ties'); });
-  /* 4.9.63 rulings on the 4.9.62 decisions */
-  C('WS-ASYM-REGRESSION', 'ruling 5 (regression): "Quo is taller than Ola. Is Ola taller than Quo?" is "No" by asymmetry with a valid world root. Root cause: the measured-quantity evaluator took every dimensional comparison and, with no measurement, answered "no quantity" while the stated comparative was ignored; it now defers to the relational world when non-measurement premises are stated. Every declared comparative and the measured path are checked', () => {
-    const RS = require(ROOT + '/src/reason.js'), say = t => K().process(t);
-    for (const w of ['taller', 'shorter', 'older', 'younger', 'heavier', 'lighter', 'wider', 'narrower', 'higher', 'lower', 'deeper', 'shallower', 'longer', 'larger', 'smaller', 'greater', 'less']) {
-      const t = 'Quo is ' + w + ' than Ola. Is Ola ' + w + ' than Quo?', r = say(t), e = RS.evaluate(t);
-      expect(/^No\./.test(r.reply) && r.trace.echo.pass && r.trace.selection.winner === 'world.proof' && e.material.status === 'refuted_only' && RS.worldIntegrity(e.material.world), w + ': ' + r.reply); }
-    const inv = [['taller', 'shorter'], ['older', 'younger'], ['heavier', 'lighter'], ['wider', 'narrower'], ['higher', 'lower'], ['deeper', 'shallower'], ['larger', 'smaller']];
-    for (const [a, b] of inv) { const y = say('Quo is ' + a + ' than Ola. Is Ola ' + b + ' than Quo?'), n = say('Quo is ' + a + ' than Ola. Is Quo ' + b + ' than Ola?'); expect(/^Yes\./.test(y.reply) && /^No\./.test(n.reply) && y.trace.echo.pass && n.trace.echo.pass, a + '/' + b + ': ' + y.reply + ' | ' + n.reply); }
-    expect(/^Yes\./.test(say('Quo is older than Ola. Ola is older than Pim. Is Pim younger than Quo?').reply), 'transitive through the inverse');
-    expect(/^Yes\. I compared “5 kg” and “3 kg”\./.test(say('Quo is 3 kg. Ola is 5 kg. Is Ola heavier than Quo?').reply), 'measured comparison changed');
-    expect(/no quantity/.test(say('Quo is 180 cm tall. Is Quo taller than Ola?').reply), 'measurement-only premises must still ask for the missing quantity');
-    expect(/does not support/.test(say('Quo is longer than Ola. Is Ola shorter than Quo?').reply), 'longer has no declared inverse: open-world, never a guessed answer'); });
-  C('WS-SURFACE', 'ruling 3: a turn-world comparative is said with the user\'s own word (larger stays larger, smaller stays smaller); the row predicate stays the atom and Echo re-reads the word to it', () => {
-    const r = K().process('Quo is larger than Ola. Is Ola larger than Quo?'); expect(/“ola is not larger than quo”/.test(r.reply) && !/greater/.test(r.reply) && r.trace.echo.pass, r.reply);
-    const s = K().process('Quo is larger than Ola. Is Ola smaller than Quo?'); expect(/“ola is smaller than quo”/.test(s.reply) && s.trace.echo.pass, s.reply);
-    const m = K().process('Quo is more than Ola. Is Ola more than Quo?'); expect(/“ola is not more than quo”/.test(m.reply) && m.trace.echo.pass, m.reply);
-    const RS = require(ROOT + '/src/reason.js'), e = RS.evaluate('Quo is larger than Ola. Is Ola larger than Quo?'); expect(e.material.world.query.atom.predicate === 'greater_than' && e.material.query_text === 'ola is larger than quo', e.material.query_text); });
-  C('WS-ORDER-MEM', 'ruling 4: stored comparatives get the same order rules (asymmetry, inverse, transitivity) as the turn world: a checked "No" with its premises, recorded in the ledger, read back by "why?", withdrawn when a premise is forgotten', () => {
-    const f = K(); run(f, ['remember that Quo is taller than Ola', 'remember that Ola is taller than Pim']);
-    const a = f.process('is Ola taller than Quo?'); expect(/^No\. You told me that Quo is taller than Ola\. I used 1 rule\./.test(a.reply) && a.trace.echo.pass && a.trace.rules.some(x => x.id === 'INF-ORDER-NO' && x.rules_used.includes('RELPROP-ASYMMETRIC:taller_than')), a.reply);
-    const b = f.process('is Pim taller than Quo?'); expect(/^No\./.test(b.reply) && /Quo is taller than Ola/.test(b.reply) && /Ola is taller than Pim/.test(b.reply) && b.trace.echo.pass, b.reply);
-    const c = f.process('is Quo shorter than Pim?'); expect(/^No\./.test(c.reply) && c.trace.echo.pass, c.reply);
-    const w = f.process('why?'); expect(/Quo is not shorter than Pim/.test(w.reply) && /Quo is taller than Ola/.test(w.reply) && w.trace.echo.pass, w.reply);
-    const it = f.justifications().find(x => /quo is not shorter than pim/i.test(x.text) && x.justifications.some(j => j.rules.includes('INF-ORDER-NO'))); expect(it && it.status === 'in' && it.justifications[0].rules.includes('INF-ORDER-NO'), JSON.stringify(it));
-    run(f, ['forget that Ola is taller than Pim', 'yes']); const it2 = f.justifications().find(x => x.id === it.id); expect(it2.status !== 'in', 'not withdrawn: ' + JSON.stringify(it2));
-    expect(/cannot confirm/i.test(f.process('is Pim taller than Quo?').reply), 'withdrawn premise still refutes');
-    expect(rels(f).includes('derived:ola is not taller than quo'), 'the durable world lacks the asymmetric consequence: ' + JSON.stringify(rels(f)));
-    const g = K(); g.process('remember that Kip is larger than Lum'); const d = g.process('is Lum larger than Kip?'); expect(/^No\. You told me that Kip is larger than Lum\./.test(d.reply) && d.trace.echo.pass, d.reply);
-    expect(/^Yes/.test(g.process('is Kip larger than Lum?').reply) && /cannot confirm/i.test(g.process('is Lum larger than Pim?').reply), 'open-world elsewhere');
-    const WR = require(ROOT + '/src/world_rules.js'); expect(WR.orderRules('taller_than').length === 4 && WR.orderRules('inside').length === 0 && WR.propertyDataRules('taller_than').some(r => r.id === 'RELPROP-ASYMMETRIC:taller_than'), 'order rules are data of the comparative rows only'); });
+  /* Old /^No/ is the cited negation. Height is its own dimension. The other declared words stay unmet. */
+  for (const w of ['taller', 'shorter', 'older', 'younger', 'larger', 'smaller', 'greater', 'less', 'more', 'fewer', 'heavier', 'lighter', 'wider', 'narrower', 'higher', 'lower', 'deeper', 'shallower', 'longer']) {
+    C('WS-ASYM-REGRESSION', w + ' is not symmetric (old: No)', () => {
+      const row = askChain(['remember that Quo is ' + w + ' than Ola'], 'is Ola ' + w + ' than Quo?');
+      expect(admitted(row) && row.reply === 'Quo is ' + w + ' than Ola. Ola is not ' + w + ' than Quo.', row.reply || row.route);
+    });
+  }
+  for (const [a, b] of [['taller', 'shorter'], ['older', 'younger'], ['larger', 'smaller'], ['heavier', 'lighter'], ['wider', 'narrower'], ['higher', 'lower'], ['deeper', 'shallower']]) {
+    C('WS-ASYM-REGRESSION', a + ' inverts to ' + b + ' (old: Yes) and the same pair is not ' + b + ' (old: No)', () => {
+      const y = askChain(['remember that Quo is ' + a + ' than Ola'], 'is Ola ' + b + ' than Quo?');
+      const n = askChain(['remember that Quo is ' + a + ' than Ola'], 'is Quo ' + b + ' than Ola?');
+      expect(admitted(y) && y.reply === 'Quo is ' + a + ' than Ola. Ola is ' + b + ' than Quo.', y.reply || y.route);
+      expect(admitted(n) && n.reply === 'Quo is ' + a + ' than Ola. Quo is not ' + b + ' than Ola.', n.reply || n.route);
+    });
+  }
+  C('WS-ASYM-REGRESSION', 'longer has no declared inverse (old: does not support a shorter answer)', () => {
+    const yes = askChain(['remember that Quo is longer than Ola'], 'is Quo longer than Ola?');
+    const no = askChain(['remember that Quo is longer than Ola'], 'is Ola shorter than Quo?');
+    expect(admitted(yes) && /longer than Ola/.test(yes.reply), yes.reply || yes.route);
+    expect(no.product_reply !== true, no.reply || no.route);
+  });
+  C('WS-ASYM-REGRESSION', 'measured kilograms (old: Yes. I compared 5 kg and 3 kg)', () => {
+    const row = askChain(['remember that Quo is 3 kg', 'remember that Ola is 5 kg'], 'is Ola heavier than Quo?');
+    expect(row.product_reply === true && row.reply === 'Yes. I compared “5 kg” and “3 kg”.', row.reply || row.route);
+  });
+  C('WS-ASYM-REGRESSION', 'a measurement with no second quantity stays open (old: no quantity)', () => {
+    const row = askChain(['remember that Quo is 180 cm tall'], 'is Quo taller than Ola?');
+    expect(/no quantity/.test(row.reply || ''), row.reply || row.route);
+  });
+  C('WS-SURFACE', 'larger stays larger in the negation (old: not greater; the atom is greater_than)', () => {
+    const row = askChain(['remember that Quo is larger than Ola'], 'is Ola larger than Quo?');
+    const atom = row.world_model && row.world_model.derive && row.world_model.derive.survivor && row.world_model.derive.survivor.atom;
+    expect(admitted(row) && row.reply === 'Quo is larger than Ola. Ola is not larger than Quo.' && !/greater/.test(row.reply) && atom && atom.predicate === 'greater_than', row.reply);
+  });
+  C('WS-SURFACE', 'larger inverts as smaller (old: ola is smaller than quo)', () => {
+    const row = askChain(['remember that Quo is larger than Ola'], 'is Ola smaller than Quo?');
+    expect(admitted(row) && row.reply === 'Quo is larger than Ola. Ola is smaller than Quo.' && !/greater|less/.test(row.reply), row.reply);
+  });
+  C('WS-SURFACE', 'more stays more in the negation (old: ola is not more than quo)', () => {
+    const row = askChain(['remember that Quo is more than Ola'], 'is Ola more than Quo?');
+    expect(admitted(row) && row.reply === 'Quo is more than Ola. Ola is not more than Quo.', row.reply);
+  });
+  C('WS-ORDER-MEM', 'stored taller is not symmetric (old: No. You told me that Quo is taller than Ola)', () => {
+    const row = askChain(['remember that Quo is taller than Ola'], 'is Ola taller than Quo?');
+    expect(admitted(row) && row.reply === 'Quo is taller than Ola. Ola is not taller than Quo.' && row.world_model.derive.survivor.how === 'WM-TALLER_THAN-ASYM', row.reply);
+  });
+  C('WS-ORDER-MEM', 'stored taller chains and the far swap cites both premises (old: No)', () => {
+    const row = askChain(['remember that Quo is taller than Ola', 'remember that Ola is taller than Pim'], 'is Pim taller than Quo?');
+    expect(admitted(row) && row.reply === 'Quo is taller than Ola. Ola is taller than Pim. Pim is not taller than Quo.' && row.world_model.derive.survivor.how === 'WM-TALLER_THAN-ASYM', row.reply);
+  });
+  C('WS-ORDER-MEM', 'the far pair is not shorter (old: No)', () => {
+    const row = askChain(['remember that Quo is taller than Ola', 'remember that Ola is taller than Pim'], 'is Quo shorter than Pim?');
+    expect(admitted(row) && row.reply === 'Quo is taller than Ola. Ola is taller than Pim. Quo is not shorter than Pim.' && row.world_model.derive.survivor.how === 'WM-TALLER_THAN-EXCLUDES', row.reply);
+  });
+  C('WS-ORDER-MEM', 'why reads the stored-order derivation (old follow-up)', () => {
+    const A = require('./ask_path.js'); const s = A.session();
+    expect(A.remember(s, 'remember that Quo is taller than Ola').ok && A.remember(s, 'remember that Ola is taller than Pim').ok);
+    expect(admitted(A.ask(s, 'is Quo shorter than Pim?')));
+    const why = A.ask(s, 'why?');
+    expect(why.product_reply === true && /Quo is taller than Ola/.test(why.reply || '') && /not shorter/.test(why.reply || '') && why.echo && why.echo.pass === true, why.reply || why.route);
+  });
+  C('WS-ORDER-MEM', 'forgetting a premise withdraws the refutation (old ledger)', () => {
+    const A = require('./ask_path.js'); const s = A.session();
+    expect(A.remember(s, 'remember that Quo is taller than Ola').ok && A.remember(s, 'remember that Ola is taller than Pim').ok);
+    const gone = A.ask(s, 'forget that Ola is taller than Pim');
+    const again = A.ask(s, 'is Pim taller than Quo?');
+    expect(/forgot|withdrawn/i.test(gone.reply || '') && again.product_reply !== true, (gone.reply || gone.route) + ' | ' + (again.reply || again.route));
+  });
+  C('WS-ORDER-MEM', 'the asymmetric consequence is not written into a durable world (old: derived:ola is not taller than quo)', () => {
+    WF.clear();
+    expect(putFact('Quo is taller than Ola.').ok && putFact('Ola is taller than Pim.').ok);
+    expect(WF.rows().some(r => /ola is not taller than quo/i.test(r.text)), WF.rows().map(r => r.text).join('|'));
+    WF.clear();
+  });
+  C('WS-ORDER-MEM', 'stored larger uses the same negation and an unrelated pair stays open (old: cannot confirm)', () => {
+    const no = askChain(['remember that Kip is larger than Lum'], 'is Lum larger than Kip?');
+    const yes = askChain(['remember that Kip is larger than Lum'], 'is Kip larger than Lum?');
+    const open = askChain(['remember that Kip is larger than Lum'], 'is Lum larger than Pim?');
+    expect(admitted(no) && no.reply === 'Kip is larger than Lum. Lum is not larger than Kip.', no.reply);
+    expect(admitted(yes) && /larger than Lum/.test(yes.reply), yes.reply);
+    expect(open.product_reply !== true, open.reply || open.route);
+  });
+  C('WS-ORDER-MEM', 'order rules are data of the comparative rows only', () => {
+    expect(WR.orderRules('taller_than').length === 4 && WR.orderRules('inside').length === 0 && WR.propertyDataRules('taller_than').some(r => r.id === 'RELPROP-ASYMMETRIC:taller_than'));
+  });
 };

@@ -167,6 +167,12 @@ function Wording(ctx) {
         if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && words.some(w => got[1] === w + ' than ' + want[1])) return true;
         return false;
       }
+      /* A comparative with no declared row still has to round-trip. It is not given an inverse. */
+      if (clauseAtom.lemma === 'be') {
+        const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+        const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+        if (got.length === 2 && polOk && got[0] === want[0] && got[1] === normArg(given.predicate) + ' than ' + want[1]) return true;
+      }
     }
     if (['before', 'after', 'above', 'below'].indexOf(normArg(given.predicate)) >= 0 && (given.args || []).length === 2) {
       const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
