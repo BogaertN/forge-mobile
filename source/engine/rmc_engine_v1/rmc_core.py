@@ -549,9 +549,15 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         # spoken in another person (a self-fact in the kernel's person, a personal memory in the listener's), is not
         # spoken as stored: the survivor's spoken form is that same fact, said in the right person
         _surv = (world.get("derive") or {}).get("survivor") if isinstance(world.get("derive"), dict) else None
+        _match = (_surv.get("frame_match") or {}) if isinstance(_surv, dict) else {}
         _restated = isinstance(_surv, dict) and _surv.get("perspective") in ("speaker", "listener") and _norm_sentence(scored) in {
             _norm_sentence(p.get("text")) for p in (_surv.get("premises") or []) if isinstance(p, dict)} | {_norm_sentence(_surv.get("text"))}
-        if live and derive_status != "conflicted" and scored and not _restated and ("memory" in scored_kind or meaning_preview.get("language_core")):
+        # A kind-inclusion converse is "not necessarily", not the stored sentence read backwards.
+        # A framed question that Derive did not support is not answered by token coverage of some other memory sentence.
+        _converse = _match.get("rule") == "polar_converse"
+        from rmc_engine_v1 import question_frame as _qf_cov
+        _framed_hold = _qf_cov.valid(_qf_cov.current(), question) and derive_status != "supported_only"
+        if live and derive_status != "conflicted" and scored and not _restated and not _converse and not _framed_hold and ("memory" in scored_kind or meaning_preview.get("language_core")):
             if echo_against_question(question, scored, rendered=True).get("pass"):
                 rendered = scored
         # 4.9.241 (Nic: natural conversation): a turn that is only conversational acts the speech-act lexicon answers is

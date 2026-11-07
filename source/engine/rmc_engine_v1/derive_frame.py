@@ -326,7 +326,7 @@ def fact_frame(fact: dict[str, Any]) -> tuple[dict[str, Any] | None, str]:
     return None, "none"
 
 
-CONTAIN_PREPS = frozenset({"in", "inside", "within"})
+CONTAIN_PREPS = frozenset({"inside", "within"})
 
 
 def _contain_inner(pred: Any) -> dict[str, Any] | None:

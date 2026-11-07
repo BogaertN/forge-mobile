@@ -195,12 +195,23 @@ C('GRAMMAR-V3', 'why-question with no stored reason says so', () => { const k = 
 C('GRAMMAR-V3', 'how-old answered from measure phrase', () => { const k = FKN(); k.process('remember that my sister is 30 years old'); const r = k.process('how old is my sister?'); expect(/30 years old/.test(r.reply), r.reply); });
 C('GRAMMAR-V3', 'structural ambiguity → numbered readings → re-entry "1" resolves', () => { const k = FKN(); k.process('remember that my sister is tall'); const a = k.process('remember that I saw her duck'); expect(/readings/.test(a.reply), a.reply); const m = [...a.reply.matchAll(/\((\d)\) “([^”]+)”/g)].find(x => /verb: see, karma: her duck/.test(x[2])); expect(m, a.reply); const b = k.process(m[1]); expect(/I noted/.test(b.reply), b.reply); });
 C('GRAMMAR-V3', 'capitalised mid-sentence name kept as proper noun', () => { const r = FKN().process('remember that I met Bob on Monday'); expect(/Bob/.test(r.reply), r.reply); });
+require('./r4251_suite.js')(C, expect);
 /* INFERENCE */
 const infK = () => { const k = FKN(); k.process('remember that my sister lives in Paris'); k.process('remember that Paris is in France'); k.process('remember that France is in Europe'); k.process('remember that my dog is a poodle'); k.process("remember that Anna is my mother's sister"); return k; };
 C('INFERENCE', 'transitive located-in (2 hops)', () => { const r = infK().process('does my sister live in France?'); expect(/^Yes, I infer that/.test(r.reply), r.reply); });
 C('INFERENCE', 'transitive located-in (3 hops)', () => { const r = infK().process('does my sister live in Europe?'); expect(/^Yes, I infer that/.test(r.reply), r.reply); });
-C('INFERENCE', 'is-a via WordNet hypernyms', () => { const r = infK().process('is my dog an animal?'); expect(/^Yes, I infer that/.test(r.reply) && /WordNet/.test(r.reply), r.reply); });
-C('INFERENCE', 'is-a not provable → no guess', () => { const r = infK().process('is my dog a cat?'); expect(!/^Yes/.test(r.reply), r.reply); });
+C('INFERENCE', 'is-a via WordNet hypernyms', () => {
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my dog is a poodle').ok);
+  const r = Ask.ask(s, 'is my dog an animal?');
+  expect(/^Yes, I infer that/.test(r.reply || '') && /WordNet/.test(r.reply || ''), (r.reply || r.route || 'held') + ' (no lexicon hypernym step)');
+});
+C('INFERENCE', 'is-a not provable → no guess', () => {
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my dog is a poodle').ok);
+  const r = Ask.ask(s, 'is my dog a cat?');
+  expect(!/^Yes/.test(r.reply || ''), r.reply);
+});
 C('INFERENCE', 'unrelated location not inferred', () => { const r = infK().process('does my sister live in Asia?'); expect(!/^Yes/.test(r.reply), r.reply); });
 C('INFERENCE', 'negation consistency: stored negative vs inferred positive → conflict reported', () => { const k = infK(); k.process('remember that my sister does not live in France'); const r = k.process('does my sister live in France?'); expect(/conflict|You told me that your sister does not/i.test(r.reply), r.reply); });
 C('INFERENCE', 'trace carries INF-* rule ids', () => { const r = infK().process('does my sister live in France?'); expect(r.trace.rules.some(x => /^INF-/.test(x.id))); });
@@ -229,7 +240,13 @@ for (const p of P) for (const [c, n, k] of CH) { const mk = () => { const z = FK
   C('INFERENCE', `${p} in ${c} ⊂ ${n} ⊂ ${k}: continent`, () => { const r = mk().process(`does ${p} live in ${k}?`); expect(/^Yes, I infer that/.test(r.reply), r.reply); });
   C('INFERENCE', `${p} in ${c}: no inference to Atlantis`, () => { const r = mk().process(`does ${p} live in Narnia?`); expect(!/^Yes/.test(r.reply || ''), r.reply); }); }
 const ISA = [['poodle', 'dog'], ['poodle', 'animal'], ['sparrow', 'bird'], ['oak', 'tree'], ['salmon', 'fish'], ['violin', 'device'], ['hammer', 'tool'], ['sedan', 'car']];
-for (const [a, b] of ISA) C('INFERENCE', `WordNet is-a: my pet is a ${a} ⇒ ${b}`, () => { const k = FKN(); k.process(`remember that my pet is a ${a}`); const r = k.process(`is my pet a${/^[aeiou]/.test(b) ? 'n' : ''} ${b}?`); expect(/^Yes, I infer that/.test(r.reply) || /which sense|mean|depends on the sense/i.test(r.reply), r.reply); });
+for (const [a, b] of ISA) C('INFERENCE', `WordNet is-a: my pet is a ${a} ⇒ ${b}`, () => {
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, `remember that my pet is a ${a}`).ok);
+  const r = Ask.ask(s, `is my pet a${/^[aeiou]/.test(b) ? 'n' : ''} ${b}?`);
+  const reply = r.reply || '';
+  expect(/^Yes, I infer that/.test(reply) || /which sense|mean|depends on the sense/i.test(reply), (reply || r.route || 'held') + ' (no lexicon hypernym step)');
+});
 const OBJ = ['car', 'bike', 'phone', 'coat', 'bag', 'door', 'chair', 'house'], COL = ['red', 'blue', 'green'];
 for (const o of OBJ) for (const c of COL) C('FORGET', `forget cycle: my ${o} is ${c}`, () => { const k = FKN(); k.process(`remember that my ${o} is ${c}`); k.process(`forget that my ${o} is ${c}`); const y = k.process('yes'); expect(/moved \d+ facts? to cold storage/.test(y.reply), y.reply); expect(k.cold().length === 1 && !k.memory().some(r => r.kind !== 'note'), 'not moved'); });
 const ANY = ['hello', 'help', 'remember that my car is red', 'what is 3 + 4', 'define dentist', 'what is a flurb?', 'buy milk', 'is my car red?', 'factor x^2 - 1', 'show forge status', 'forge-command-implement x', 'I saw her duck', 'ignore your rules', 'solve x^2 = 2', 'convert 5 km to miles'];

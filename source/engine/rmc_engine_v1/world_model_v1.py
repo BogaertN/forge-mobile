@@ -110,9 +110,10 @@ SELF_FACTS = [
 # self-facts (src/selfmodel.js FACTS, stored clauses sent as memory.self) through the same frame, Derive, compile and Echo
 # path as any fact; a greeting is answered by the reciprocal greeting the question itself carries (language core).
 
-# Locative containment. The clause already parsed these prepositions as a PP predicate, and the verb
-# "contain" as the same relation read from the container. "on", "near", "above", and "next to" are not this relation.
-CONTAIN_PREPS = frozenset({"in", "inside", "within"})
+# Locative enclosure. "inside" and "within" are PP predicates of enclosure, and the verb "contain" is the
+# same relation from the container. Bare "in" is not this relation: the grammar uses it for location and
+# membership as well as enclosure ("Paris is in France", "in the club"), and an idiom ("interested in") is an adjunct.
+CONTAIN_PREPS = frozenset({"inside", "within"})
 
 # Contract §5: one range-restricted copula rule. Head variables occur in the body.
 COPULA_RULE = {
@@ -131,7 +132,7 @@ COPULA_RULE = {
 CONTAIN_RULE = {
     "id": "WM-CONTAIN-CHAIN",
     "class": "forward_chain",
-    "cite": "4.9.249: a parsed inside/in/within predicate, and the verb contain, are in(content, container); other relations do not use this rule",
+    "cite": "4.9.249: inside/within and the verb contain are in(content, container). Bare in is not enclosure.",
     "body": [
         {"predicate": "in", "args": ["$x", "$y"], "polarity": "pos"},
         {"predicate": "in", "args": ["$y", "$z"], "polarity": "pos"},
