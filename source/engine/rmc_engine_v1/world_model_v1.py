@@ -143,6 +143,20 @@ GEO_RULE = {
 }
 # A resident of a place lives in a region that place is geographically in. Residence does not run backwards,
 # and a geographic fact does not by itself say that someone lives anywhere.
+# "X is part of Y" is the noun complement the grammar already parses (head part, of-phrase Y).
+# It is not enclosure and not every of-phrase ("the name of my dog").
+PART_RULE = {
+    "id": "WM-PART-CHAIN",
+    "class": "forward_chain",
+    "cite": "4.9.249: part(part, whole) chains. It is not containment and it is not symmetric.",
+    "body": [
+        {"predicate": "part", "args": ["$x", "$y"], "polarity": "pos"},
+        {"predicate": "part", "args": ["$y", "$z"], "polarity": "pos"},
+    ],
+    "head": {"predicate": "part", "args": ["$x", "$z"], "polarity": "pos"},
+    "guard": "distinct $x $z",
+}
+
 LIVE_RULE = {
     "id": "WM-LIVE-GEO",
     "class": "forward_chain",
@@ -346,6 +360,9 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
                 break
     contain_inner = None
     geo_inner = None
+    part_of = None
+    if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "np" and str(pred.get("head") or "").lower() == "part" and isinstance(pred.get("of"), dict) and str(pred["of"].get("text") or "").strip():
+        part_of = _np_frame(pred.get("of"))
     if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").lower() in CONTAIN_PREPS:
         contain_inner = _np_frame(pred.get("np")) or ({"text": str(pred.get("text")).strip(), "head": str(pred.get("text")).strip()} if str(pred.get("text") or "").strip() else None)
     elif verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").lower() == "in":
@@ -363,6 +380,10 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         # the inverse reading of the same relation: the kartṛ is the container
         predicate, obj = "in", kartr["text"]
         arg0 = str(karma["text"]).strip()
+    elif part_of and str(part_of.get("text") or "").strip():
+        # part(part, whole). The of-phrase is the whole. Other of-phrases stay copular nominals.
+        predicate, obj = "part", str(part_of["text"]).strip()
+        arg0 = kartr["text"]
     elif geo_inner and str(geo_inner.get("text") or "").strip():
         # geo(place, region). Both names are lexicon locations. Other copular "in" stays a copula predicate.
         predicate, obj = "geo", str(geo_inner["text"]).strip()
@@ -380,6 +401,8 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
     else:
         return None, "clause_shape"
     covered = _clause_words(arg0 + " " + obj + " " + verb + " " + (str(pred.get("prep")) if isinstance(pred, dict) else ""))
+    if predicate == "part":
+        covered |= _clause_words("part of " + obj)
     for adj in (rec.get("adj") if isinstance(rec.get("adj"), list) else []):
         if isinstance(adj, dict):
             covered |= _clause_words(str(adj.get("prep") or "") + " " + str((adj.get("np") or {}).get("text") or ""))
@@ -401,6 +424,8 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         frame["pred"] = {"type": "pp", "prep": str(pred.get("prep") or "inside").lower(), "text": obj, "np": contain_inner}
     elif predicate == "in":
         frame["karma"] = karma
+    elif predicate == "part" and part_of:
+        frame["pred"] = {"type": "np", "text": "part of " + str(part_of.get("text") or ""), "head": "part", "of": part_of}
     elif predicate == "geo" and geo_inner:
         frame["pred"] = {"type": "pp", "prep": "in", "text": obj, "np": geo_inner}
     elif predicate == "live" and live_np:
@@ -452,7 +477,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
+        "rules": [dict(COPULA_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -809,7 +834,7 @@ def check_proof(world: dict[str, Any], proof: dict[str, Any]) -> dict[str, Any]:
                 return {"ok": False, "reason": "head_mismatch", "cite": "contract 1g2034-K §6 step 8"}
             if [_norm(a) for a in head.get("args") or []] != [_norm(a) for a in atom.get("args") or []]:
                 return {"ok": False, "reason": "head_mismatch", "cite": "contract 1g2034-K §6 step 8"}
-            if rule["id"] in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO") and _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+            if rule["id"] in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN") and _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
                 return {"ok": False, "reason": "guard_distinct", "cite": rule.get("cite") or "contract 1g2034-K §5"}
         else:
             return {"ok": False, "reason": "step_kind", "cite": "contract 1g2034-K §4.3"}
@@ -935,6 +960,10 @@ def _render_atom(atom: dict[str, Any]) -> str:
     """Contract I1 and §9. The template expresses this atom. It does not pick another."""
     args = [str(a) for a in atom.get("args") or []]
     predicate = str(atom.get("predicate") or "")
+    if predicate == "part" and len(args) == 2 and atom.get("polarity") == "neg":
+        return f"{args[0]} is not part of {args[1]}."
+    if predicate == "part" and len(args) == 2:
+        return f"{args[0]} is part of {args[1]}."
     if predicate == "live" and len(args) == 2 and atom.get("polarity") == "neg":
         return f"{args[0]} does not live in {args[1]}."
     if predicate == "live" and len(args) == 2:
@@ -1293,11 +1322,14 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
     pclaims, pool, proof_facts, p_incomplete = _place_chains(world, question, phase_path or [], pool, proof_facts, None)
     claims.extend(pclaims)
     incomplete = incomplete or p_incomplete
+    tclaims, pool, proof_facts, t_incomplete = _part_chain(world, question, phase_path or [], pool, proof_facts, None)
+    claims.extend(tclaims)
+    incomplete = incomplete or t_incomplete
 
     # Both polarities. Contract §5. A positive and a negative for the same normalized atom conflict.
     for claim in claims:
         atom = claim["atom"]
-        if atom.get("predicate") not in ("is", "in", "live", "geo"):
+        if atom.get("predicate") not in ("is", "in", "live", "geo", "part"):
             continue
         opposite = "neg" if atom.get("polarity") != "neg" else "pos"
         for other in topical:
@@ -1521,6 +1553,82 @@ def _place_chains(world: dict[str, Any], question: str, phase_path: list[Any], p
     return claims, pool, proof_facts, incomplete
 
 
+def _part_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool: list[dict[str, Any]], proof_facts: list[dict[str, Any]], qframe: dict[str, Any] | None) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], bool]:
+    """WM-PART-CHAIN. Only positive part(part, whole) facts. Not symmetric, and a cycle is the distinct guard."""
+    from rmc_engine_v1 import derive_frame as DF
+    claims: list[dict[str, Any]] = []
+    incomplete = False
+    seen: set[tuple[str, str]] = set()
+    for fact in pool:
+        atom = fact.get("atom") or {}
+        args = atom.get("args") or []
+        if atom.get("predicate") == "part" and atom.get("polarity", "pos") == "pos" and len(args) >= 2:
+            seen.add((_norm(args[0]), _norm(args[1])))
+    rounds = 0
+    while rounds < LIMITS["MAX_ROUNDS"]:
+        rounds += 1
+        added = 0
+        hops = _match_body(PART_RULE["body"], [f for f in pool if not f.get("self_fact")])
+        for sub, chosen in hops:
+            if len(claims) >= 24:
+                incomplete = True
+                break
+            if _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+                continue
+            conclusion = _atom("part", [chosen[0]["atom"]["args"][0], chosen[1]["atom"]["args"][1]], "pos")
+            key = (_norm(conclusion["args"][0]), _norm(conclusion["args"][1]))
+            if key in seen:
+                continue
+            left_f, _ = DF.fact_frame(chosen[0])
+            right_f, _ = DF.fact_frame(chosen[1])
+            part_np = (left_f or {}).get("kartr") if isinstance(left_f, dict) else None
+            whole = ((right_f or {}).get("pred") or {}).get("of") if isinstance(right_f, dict) and isinstance((right_f or {}).get("pred"), dict) else None
+            if not isinstance(part_np, dict) or not isinstance(whole, dict):
+                continue
+            text = _render_atom(conclusion)
+            if qframe is None and _coverage(question, text) <= 0:
+                continue
+            cframe = {"kriya": "be", "polarity": "pos", "kartr": part_np, "pred": {"type": "np", "text": "part of " + str(whole.get("text") or ""), "head": "part", "of": whole}, "derived": True}
+            proof_world = dict(world)
+            proof_world["facts"] = proof_facts
+            proof = _chain_proof(proof_world, chosen[0], chosen[1], sub, conclusion, PART_RULE["id"])
+            checked = check_proof(proof_world, proof)
+            premises = _original_premises(chosen)
+            claim = _finish_claim(world, text, conclusion, premises, proof, checked, "supported_only", PART_RULE["id"], phase_path or [])
+            hop_rows: list[dict[str, Any]] = []
+            for fact in chosen:
+                prior = fact.get("hop_trace") if isinstance(fact.get("hop_trace"), list) else None
+                if prior:
+                    hop_rows.extend(prior)
+                    continue
+                measured = _drift_for(fact["text"], [fact], phase_path or [])
+                hop_rows.append(_hop_row(fact["text"], list(fact.get("provenance") or [fact.get("id")]), measured, len(hop_rows) + 1))
+            hop_rows.append(_hop_row(text, [p.get("id") for p in premises], claim["drift"], len(hop_rows) + 1))
+            for i, hop in enumerate(hop_rows, start=1):
+                hop["n"] = i
+            claim["hops"] = hop_rows
+            if qframe is not None:
+                place = _derived_place(chosen)
+                m = DF.match(qframe, cframe)
+                _frame_claim(claim, cframe, "chain", m, DF.alignment(place or {"text": text}, phase_path, question), question)
+                claim["_place"] = place or {"text": text}
+                claim["_premise_rows"] = list(premises)
+                claim["intermediate"] = not bool(m)
+            claims.append(claim)
+            if claim.get("debate", {}).get("survived") is not True:
+                continue
+            seen.add(key)
+            row = _fact_row("hop-" + _digest(text)[:12], {"text": text, "atom": conclusion, "parsed": True, "atom_source": "derive", "place": _derived_place(chosen), "frame": cframe}, source="derive", provenance=[p.get("id") for p in premises], quarantined=False, cite=PART_RULE["cite"])
+            row["source_facts"] = premises
+            row["hop_trace"] = hop_rows
+            pool.append(row)
+            proof_facts.append(row)
+            added += 1
+        if added == 0 or incomplete:
+            break
+    return claims, pool, proof_facts, incomplete
+
+
 def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any], qframe: dict[str, Any], topical: list[dict[str, Any]]) -> dict[str, Any]:
     """4.9.233: a fact answers only when its frame unifies with the question frame AND its placement is phase-aligned
     with the question (grace = rpm·cos²δ, δ ≤ π/4); band relation and the 4.9.204 attraction rank the aligned matches;
@@ -1656,10 +1764,14 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     claims.extend(pclaims)
     chain_claims += len(pclaims)
     incomplete = incomplete or p_incomplete
+    tclaims, pool, proof_facts, t_incomplete = _part_chain(world, question, phase_path, pool, proof_facts, qframe)
+    claims.extend(tclaims)
+    chain_claims += len(tclaims)
+    incomplete = incomplete or t_incomplete
 
     for claim in claims:
         atom = claim["atom"]
-        if atom.get("predicate") not in ("is", "in", "live", "geo"):
+        if atom.get("predicate") not in ("is", "in", "live", "geo", "part"):
             continue
         opposite = "neg" if atom.get("polarity") != "neg" else "pos"
         for other in topical:
@@ -1700,7 +1812,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     else:
         status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
     for claim in answers:
-        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO"):
+        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN"):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
         elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]

@@ -431,7 +431,9 @@
         const parsed = [];
         for (const c of cands) { const p = parse(forge, c.s); if (p && p.clause) parsed.push({ c, p, r: roles(p.clause, forge) }); }
         const surface = ws.slice(1).map(w => w.toLowerCase());
-        const withPrep = parsed.filter(x => x.r.pred && x.r.pred.type === 'pp' && surface.includes(String(x.r.pred.prep || '').toLowerCase()));
+        /* "of" on a noun ("part of the car") is the noun's complement, not a predicate preposition. Preferring
+         * the of-PP would move "part" into the subject ("the wheel part is of the car"). inside/in/on stay. */
+        const withPrep = parsed.filter(x => x.r.pred && x.r.pred.type === 'pp' && String(x.r.pred.prep || '').toLowerCase() !== 'of' && surface.includes(String(x.r.pred.prep || '').toLowerCase()));
         const pick = withPrep[0] || parsed[0];
         if (pick) { Object.assign(f, pick.r); f.parsed = true; f.declarative = pick.c.s; f.parses = pick.p.parses; }
       }
