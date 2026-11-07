@@ -221,6 +221,17 @@ function forgetStatement(text) {
   const said = m ? m[1].trim() : '';
   if (!said) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Forget what? Say "forget that …" with the sentence you stored.' };
   const sentence = said.charAt(0).toUpperCase() + said.slice(1) + (/[.!]$/.test(said) ? '' : '.');
+  if (forge && forge.perm) {
+    const d = forge.perm.authorize('memory.forget', { explicit: true, userTap: true, subject: sentence });
+    if (d.decision === 'needs_approval') {
+      const hw = forge.store.load('held_writes');
+      const id = 'held:forget:' + hw.length;
+      hw.push({ id: id, status: 'held', kind: 'phone_forget', text: sentence, input: sentence, perm_rule: d.rule, at: new Date().toISOString() });
+      forge.store.save('held_writes', hw);
+      return { ok: false, held: true, rule: d.rule, held_id: id, text: sentence, message: 'Held for approval: ' + sentence + ' Nothing was forgotten.' };
+    }
+    if (d.decision !== 'allow') return { ok: false, rule: d.rule, text: sentence, message: d.rule };
+  }
   const WF = window.KWorldFacts;
   const r = WF && WF.forget ? WF.forget(sentence) : { ok: false, rule: 'WORLD-FACTS-MISSING', message: 'The phone fact store is not available.' };
   const before = rememberedRows();
@@ -235,7 +246,8 @@ async function rememberStatement(text) {
   const m = String(text).match(REMEMBER_STATEMENT);
   const said = m ? m[1].trim() : '';
   if (!said) return { ok: false, rule: 'REMEMBER-EMPTY', message: 'Remember what? Say "remember that …" with a statement.' };
-  if (/\?$/.test(said) || /^(?:what|who|whom|whose|which|when|where|why|how|is|are|was|were|do|does|did|can|could|will|would|should)\b/i.test(said)) return { ok: false, rule: 'REMEMBER-NOT-A-STATEMENT', message: 'That is a question, not a statement. Ask it, then say "remember this" to keep an admitted answer.' };
+  const tag = /,\s*(?:isn'?t|aren'?t|wasn'?t|weren'?t|don'?t|doesn'?t|didn'?t)\s+(?:it|he|she|they|i|you|we)\s*\??$/i.test(said);
+  if (!tag && (/\?$/.test(said) || /^(?:what|who|whom|whose|which|when|where|why|how|is|are|was|were|do|does|did|can|could|will|would|should)\b/i.test(said))) return { ok: false, rule: 'REMEMBER-NOT-A-STATEMENT', message: 'That is a question, not a statement. Ask it, then say "remember this" to keep an admitted answer.' };
   const red = window.KPrivacy && KPrivacy.redact ? KPrivacy.redact(said) : { text: said, secrets: [] };
   const sensitive = red.secrets.length > 0;
   if (sensitive && (!forge || !forge.perm || forge.perm.policy().memoryApproval !== 'contested_or_sensitive')) {
@@ -243,8 +255,16 @@ async function rememberStatement(text) {
     return { ok: false, held: false, sealing: false, rule: 'PRIV-SECRET-NOT-KEPT', message: 'That looks like a secret (a password, key or card). It is not kept in plain memory; use the vault.' };
   }
   const body = sensitive ? red.text : said;
-  const sentence = body.charAt(0).toUpperCase() + body.slice(1) + (/[.!]$/.test(body) ? '' : '.');
+  let sentence = body.charAt(0).toUpperCase() + body.slice(1) + (/[.!]$/.test(body) ? '' : '.');
   const clause = window.KQFrame && KQFrame.clause ? KQFrame.clause(sentence, forge) : null;
+  if (clause && clause.rule === 'GRAMMAR-TAG-POLARITY') return { ok: false, held: false, rule: 'GRAMMAR-TAG-POLARITY', message: 'The tag does not confirm that clause. Nothing was stored.' };
+  if (clause && clause.tag && clause.parsed && clause.text) sentence = clause.text.charAt(0).toUpperCase() + clause.text.slice(1).replace(/[.!?]+$/, '') + '.';
+  const alts = window.KQFrame && KQFrame.readings ? KQFrame.readings(sentence, forge) : [];
+  if (alts.length > 1) {
+    pendingAsk = { kind: 'clause', options: alts };
+    const reply = 'readings ' + alts.map((r, i) => '(' + (i + 1) + ') “verb: ' + r.kriya + ', karma: ' + ((r.karma && r.karma.text) || '') + '”').join(' ');
+    return { ok: false, held: true, rule: 'GRAMMAR-AMBIGUOUS', message: reply };
+  }
   let contested = false;
   try {
     const keptNow = rememberedRows();
@@ -291,6 +311,22 @@ function askCard(kind, bodyHtml, state) {
 async function say(text) { if (lexState.core === 'loading') { queue.push(text); return; }
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
   let qtext = text; let askCtx = {}; let simSpecific = false; let simSupplement = null;
+  if (pendingAsk && pendingAsk.kind === 'clause') {
+    const n = parseInt(String(text).trim(), 10);
+    const chosen = pendingAsk.options && pendingAsk.options[n - 1];
+    if (!chosen) { askCard('again', 'Say the number of one reading.', 'meaning-ask'); return null; }
+    pendingAsk = null;
+    const d = forge && forge.perm ? forge.perm.authorize('memory.write', { explicit: true, userTap: true, subject: chosen.text }) : { decision: 'allow', rule: 'PERM-EXPLICIT-REQUEST' };
+    if (d.decision !== 'allow') { askCard('held', esc(d.rule || 'Not stored.'), 'held'); return { ok: false, rule: d.rule }; }
+    const kept = rememberedRows();
+    const row = { id: 'rem-' + kept.length, text: chosen.text, clause: chosen, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', reading: n }, remembered_at: new Date().toISOString() };
+    keepWorldFact(row, 'remember');
+    kept.push(row);
+    try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* the refusal is the card below */ }
+    log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="remembered" data-remember-rule="REMEMBER-BY-USER-REQUEST"><span class="kind deterministic_route">memory</span><div data-ask-body>I noted reading ' + n + '.</div><div class="flags">explicit request · kept on this phone only · no LLM</div></div>');
+    refreshChrome();
+    return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: chosen.text };
+  }
   if (pendingAsk && window.KSenses && KSenses.follow) {
     const f = KSenses.follow(pendingAsk, text);
     if (f.state === 'resolved') {
@@ -324,7 +360,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   }
   if (REMEMBER_STATEMENT.test(text)) {
     const r = await rememberStatement(text);
-    log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.ok ? '' : ' blocked') + '" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '" data-remember-rule="' + esc(r.rule) + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + esc(r.message) + '</div><div class="flags">explicit request · kept on this phone only · no LLM</div></div>');
+    log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.ok ? '' : ' blocked') + '" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '" data-remember-rule="' + esc(r.rule) + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + esc(r.message) + '</div><div class="flags">explicit request · ' + (r.ok ? 'kept on this phone only' : 'nothing stored') + ' · no LLM</div></div>');
     log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
   }
   /* 4.9.235 (plan 229 step 7): an unpicked many-meaning subject is ASKED before the engine runs (4.9.229 asked after the

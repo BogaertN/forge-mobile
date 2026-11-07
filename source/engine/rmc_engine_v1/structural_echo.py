@@ -26,7 +26,7 @@ from typing import Any
 from rmc_engine_v1.mobile_config import THRESHOLDS
 
 ROLES = ("kartr", "karma", "pred")
-GAP_ROLES = {"kartr", "karma", "pred", "polarity", "prakara"}  # 4.9.241: a how-gap (state) too
+GAP_ROLES = {"kartr", "karma", "pred", "polarity", "prakara", "hetu"}  # 4.9.241: a how-gap (state); a why-gap is the stored hetu
 
 
 def _norm(text: Any) -> str:
@@ -90,6 +90,25 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
             "output_text": str(reply or "")[:400],
             "structure": {"checks": checks, "held": held, "made": len(checks), "rule": how or "WM-SIMULATE",
                           "frame_source": "simulate", "question_rule": q_rule, "uses_token_overlap": False},
+            "calls_llm": False,
+        }
+    if str(qframe.get("wh_role") or "") == "hetu" and how == "WM-HETU":
+        filler = str((claim.get("frame_match") or {}).get("filler") or claim.get("text") or "").strip()
+        said = _norm(filler).rstrip(".") in _norm(reply)
+        checks = [
+            {"check": "kriya", "ok": str(qframe.get("kriya") or "").lower() == str(ff.get("kriya") or "").lower(),
+             "question": qframe.get("kriya"), "clause": ff.get("kriya"), "reading": "the asked event"},
+            {"check": "gap:hetu", "ok": said, "filler": filler, "kind": "hetu"},
+            {"check": "stated", "ok": said, "atom": {"predicate": atom.get("predicate"), "args": atom.get("args")}, "spoken": filler},
+        ]
+        held = sum(1 for c in checks if c["ok"])
+        value = round(held / len(checks), 6) if checks else 0.0
+        return {
+            "score": value, "min": THRESHOLDS["echo_min"], "pass": value >= float(THRESHOLDS["echo_min"]),
+            "method": "structural_frame", "compares": "spoken_clause_frame_to_question_frame",
+            "output_text": str(reply or "")[:400],
+            "structure": {"checks": checks, "held": held, "made": len(checks), "rule": "WM-HETU",
+                          "frame_source": "hetu", "question_rule": q_rule, "uses_token_overlap": False},
             "calls_llm": False,
         }
     m = DF.match(qframe, ff)

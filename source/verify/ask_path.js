@@ -47,7 +47,8 @@ function remember(s, text, kernelOpt) {
   const m = String(text).match(REMEMBER);
   const said = m ? m[1].trim() : '';
   if (!said) return { ok: false, rule: 'REMEMBER-EMPTY' };
-  if (/\?$/.test(said) || /^(?:what|who|whom|whose|which|when|where|why|how|is|are|was|were|do|does|did|can|could|will|would|should)\b/i.test(said)) return { ok: false, rule: 'REMEMBER-NOT-A-STATEMENT' };
+  const tag = /,\s*(?:isn'?t|aren'?t|wasn'?t|weren'?t|don'?t|doesn'?t|didn'?t)\s+(?:it|he|she|they|i|you|we)\s*\??$/i.test(said);
+  if (!tag && (/\?$/.test(said) || /^(?:what|who|whom|whose|which|when|where|why|how|is|are|was|were|do|does|did|can|could|will|would|should)\b/i.test(said))) return { ok: false, rule: 'REMEMBER-NOT-A-STATEMENT' };
   const f = kernelOpt || kernel();
   const red = Priv.redact(said);
   const sensitive = red.secrets.length > 0;
@@ -56,8 +57,16 @@ function remember(s, text, kernelOpt) {
     return { ok: false, held: false, sealing: false, rule: 'PRIV-SECRET-NOT-KEPT', permission: null, reply: null };
   }
   const body = sensitive ? red.text : said;
-  const sentence = body.charAt(0).toUpperCase() + body.slice(1) + (/[.!]$/.test(body) ? '' : '.');
+  let sentence = body.charAt(0).toUpperCase() + body.slice(1) + (/[.!]$/.test(body) ? '' : '.');
   const clause = Q.clause(sentence, f);
+  if (clause && clause.rule === 'GRAMMAR-TAG-POLARITY') return { ok: false, held: false, rule: 'GRAMMAR-TAG-POLARITY', reply: null, text: sentence };
+  if (clause && clause.tag && clause.parsed && clause.text) sentence = clause.text.charAt(0).toUpperCase() + clause.text.slice(1).replace(/[.!?]+$/, '') + '.';
+  const alts = Q.readings(sentence, f);
+  if (alts.length > 1) {
+    s.pending = alts;
+    const reply = 'readings ' + alts.map((r, i) => '(' + (i + 1) + ') “verb: ' + r.kriya + ', karma: ' + ((r.karma && r.karma.text) || '') + '”').join(' ');
+    return { ok: false, held: true, sealing: false, rule: 'GRAMMAR-AMBIGUOUS', readings: alts, reply, text: sentence };
+  }
   const contested = copulaClash(s.phone, clause);
   const d = f.perm.authorize('memory.write', { explicit: true, userTap: true, sensitive, contested, subject: sentence });
   const row = { id: 'rem-' + s.phone.length, text: sentence, clause, tier: 'phone', trust: 'trusted', scope: 'phone', sensitive, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user' } };
@@ -73,6 +82,53 @@ function remember(s, text, kernelOpt) {
     f.store.save('memory', mem);
   }
   return { ok: true, held: false, sealing: false, rule: 'REMEMBER-BY-USER-REQUEST', permission: d, text: sentence, clause };
+}
+function chooseReading(s, n, kernelOpt) {
+  const alts = s.pending || [];
+  const i = parseInt(String(n).trim(), 10) - 1;
+  const clause = alts[i];
+  if (!clause) return { ok: false, rule: 'GRAMMAR-NO-READING', reply: null };
+  s.pending = null;
+  const f = kernelOpt || kernel();
+  const d = f.perm.authorize('memory.write', { explicit: true, userTap: true, subject: clause.text });
+  if (d.decision !== 'allow') return { ok: false, held: true, rule: d.rule, permission: d, reply: null };
+  const row = { id: 'rem-' + s.phone.length, text: clause.text, clause, tier: 'phone', trust: 'trusted', scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', reading: i + 1 } };
+  s.phone.push(row);
+  if (kernelOpt) {
+    const mem = f.store.load('memory');
+    mem.push({ id: row.id, kind: 'statement', text: row.text, clause: row.clause, status: 'active', provenance: row.provenance });
+    f.store.save('memory', mem);
+  }
+  return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', permission: d, text: clause.text, clause, reply: 'I noted reading ' + (i + 1) + '.' };
+}
+function dropPhone(s, text) {
+  const key = String(text || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '');
+  s.phone = s.phone.filter(r => String(r.text || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '') !== key);
+}
+function forget(s, text, kernelOpt) {
+  const said = String(text || '').replace(/^\s*(?:please\s+)?forget\s+(?:that\s+)?/i, '').trim();
+  if (!said) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING' };
+  const sentence = said.charAt(0).toUpperCase() + said.slice(1) + (/[.!]$/.test(said) ? '' : '.');
+  const f = kernelOpt || kernel();
+  const d = f.perm.authorize('memory.forget', { explicit: true, userTap: true, subject: sentence });
+  if (d.decision === 'needs_approval') {
+    const hw = f.store.load('held_writes');
+    const id = 'held:forget:' + hw.length;
+    hw.push({ id, status: 'held', kind: 'phone_forget', text: sentence, input: sentence, perm_rule: d.rule, at: '2026-11-07T00:00:00Z' });
+    f.store.save('held_writes', hw);
+    return { ok: false, held: true, rule: d.rule, held_id: id, text: sentence, reply: null };
+  }
+  if (d.decision !== 'allow') return { ok: false, rule: d.rule, permission: d, text: sentence };
+  dropPhone(s, sentence);
+  if (kernelOpt) f.store.save('memory', f.store.load('memory').filter(r => String(r.text || '') !== sentence));
+  return { ok: true, rule: 'PERM-EXPLICIT-REQUEST', permission: d, text: sentence };
+}
+function commit(s, kernelOpt, id, tap) {
+  const f = kernelOpt || kernel();
+  const before = (f.heldWrites() || []).find(h => h.id === id);
+  const r = f.commitHeld(id, tap);
+  if (r && r.ok && before && before.kind === 'phone_forget') dropPhone(s, before.text);
+  return r;
 }
 function confirmHeld(kernelOpt) {
   const f = kernelOpt || kernel();
@@ -124,7 +180,8 @@ function ask(s, question, extra) {
   const memory = { receipts: [], phone: s.phone.slice(), hosted: [], anchors: extra.anchors || prod.anchors, research: [], self: [], pools, relation_overlay: { next_to_transitive: flag('next_to'), before_transitive: flag('before'), after_transitive: flag('after'), above_transitive: flag('above'), below_transitive: flag('below') } };
   const payload = Core.withClauses({ question, frame, live: true, dry_run: false, memory }, Q, f);
   let row = R.askSync(payload);
-  row = Core.outwardCompile(row, payload, f, null);
+  const R2 = require(ROOT + '/src/rmc_renderer_200.js');
+  row = Core.outwardCompile(row, payload, f, R2);
   if (s.phone.length !== before) throw new Error('ask appended phone memory');
   if (!extra._whyReplay) {
     const snap = Core.whySnapshot(row, question);
@@ -141,4 +198,4 @@ function askStored(question) {
   if (WF.rows().length !== n) throw new Error('ask stored a fact');
   return row;
 }
-module.exports = { session, remember, confirmHeld, ask, askStored, kernel, productionPools };
+module.exports = { session, remember, chooseReading, forget, commit, confirmHeld, ask, askStored, kernel, productionPools };

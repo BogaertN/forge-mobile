@@ -500,6 +500,11 @@ function Kernel(opts) {
   function commitHeld(id, userTap) {
     const hw = store.load('held_writes'); const h = hw.find(x => x.id === id && x.status === 'held'); if (!h) return { ok: false, rule: 'HELD-UNKNOWN' };
     const d = perm.authorize('memory.approve_held', { userTap, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
+    if (h.kind === 'phone_forget') {
+      store.save('memory', store.load('memory').filter(r => String(r.text || '') !== String(h.text || '')));
+      h.status = 'committed'; h.decided_at = now(); h.permission = d.id; store.save('held_writes', hw);
+      return { ok: true, id: h.id, rule: 'PERM-EXPLICIT-REQUEST', text: h.text, permission: d };
+    }
     if (h.kind === 'phone_statement') {
       const mem = store.load('memory');
       const rec = { id: 'mem:' + h.id, kind: 'statement', text: h.text, clause: h.clause || null, status: 'active', sensitive: !!h.sensitive, provenance: { source: 'user', request: 'remember_command', rule: 'PERM-EXPLICIT-REQUEST', actor: 'user' } };

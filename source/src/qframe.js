@@ -83,6 +83,14 @@
   }
   function np(n, forge) {
     if (!n) return null;
+    if (n.verb && !n.head && !n.words) {
+      const inner = n.roles && n.roles.karma ? np(n.roles.karma, forge) : null;
+      return { text: [n.verb.lemma, inner && inner.text].filter(Boolean).join(' '), head: n.verb.lemma || null, infinitive: true, owner: null, kernel: false, user: false, indef: false };
+    }
+    if (n.inf && n.inf.verb) {
+      const inner = n.inf.roles && n.inf.roles.karma ? np(n.inf.roles.karma, forge) : null;
+      return { text: [n.inf.verb.lemma, inner && inner.text].filter(Boolean).join(' '), head: n.inf.verb.lemma || null, infinitive: true, owner: null, kernel: false, user: false, indef: false };
+    }
     let text = null; try { text = G.npText(n, 'user'); } catch (e) {}
     const out = { text, head: head(n), owner: n.owner && typeof n.owner === 'object' ? np(n.owner, forge) : (n.owner || null), kernel: n.pron === 'kernel', user: n.pron === 'user', indef: !!n.indef };
     /* 4.9.231: the parts a fact atom is built from (step 4): modifiers, determiner, number, a proper name, the of-complement */
@@ -95,6 +103,11 @@
     if (n.num != null && n.num !== '') out.num = str(n.num);
     if (Array.isArray(n.conj)) out.conj = n.conj.map(x => np(x, forge));
     if (n.of && typeof n.of === 'object') out.of = np(n.of, forge);
+    /* A relative clause stays on its antecedent. The antecedent's head is not replaced by the relative's subject. */
+    const rel = n.relObj || n.rel;
+    if (rel && rel.verb) {
+      out.rel = { gap: (n.relObj && n.relObj.gap) || 'kartr', kriya: rel.verb.lemma || null, tense: rel.verb.tense || null, polarity: rel.verb.pol || 'pos', kartr: rel.subj ? np(rel.subj, forge) : null };
+    }
     return out;
   }
   const WR = isNode ? require('./world_rules.js') : root.KWorldRules;
@@ -120,7 +133,8 @@
     return {
       kriya: v.lemma || null, tense: v.tense || null, polarity: v.pol || null, modality: v.mod || null,
       voice: v.voice || 'active',
-      kartr: np(cl.subj, forge), karma: karakas.karma || null, karakas,
+      kartr: (v.voice === 'passive' && cl.roles && cl.roles.karta ? np(cl.roles.karta, forge) : np(cl.subj, forge)),
+      karma: (v.voice === 'passive' ? np(cl.subj, forge) : (karakas.karma || null)), karakas,
       pred: pr ? (measurePred(pr) || (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np, forge)) : pr.type === 'pp' ? (n => ({ type: 'pp', prep: pr.prep || null, text: (n && n.text) || str((pr.np && (pr.np.head || pr.np.text)) || pr.words || null), np: n }))(pr.np ? np(pr.np, forge) : null) : pr.type === 'cmp' ? cmpPred(pr, forge) : { type: pr.type || null, text: str(pr.words || pr.text || null) })) : null,
       adj: (cl.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np, forge) : null })),
       adjuncts: (cl.adj || []).length, material,
@@ -173,14 +187,38 @@
     const parts = splitClauses(s);
     if (parts.length < 2) return clauseOne(s, forge);
     const clauses = parts.map(p => Object.assign(clauseOne(p.text, forge), { link: p.link }));
-    return { schema: CLAUSE, text: s.replace(/[.!?]+$/, '').trim(), parsed: false, split: 'subordinate', clauses, calls_llm: false };
+    return { schema: CLAUSE, text: s.replace(/[.!?]+$/, '').trim(), parsed: clauses.every(c => c && c.parsed), split: 'subordinate', clauses, calls_llm: false };
+  }
+  /* A closed-class tag (", isn't it") asks to confirm the clause. It is not a second fact and it does not choose a referent. */
+  function peelTag(s) {
+    const m = String(s || '').match(/^(.*),\s*(isn'?t|aren'?t|wasn'?t|weren'?t|don'?t|doesn'?t|didn'?t)\s+(it|he|she|they|i|you|we)\s*$/i);
+    return m ? { body: m[1].trim(), tag: { polarity: 'neg', pronoun: m[3].toLowerCase() } } : null;
   }
   function clause(text, forge) {
     try {
       const ss = sentencesOf(text); if (!ss.length) return null;
-      const all = ss.slice(0, 8).map(s => clauseSplit(s, forge));
+      const all = ss.slice(0, 8).map(s => {
+        const tag = peelTag(s.replace(/[.!?]+$/, '').trim());
+        const rec = clauseSplit(tag ? tag.body : s, forge);
+        if (!tag) return rec;
+        if (rec && rec.polarity === 'neg') return Object.assign({}, rec, { parsed: false, rule: 'GRAMMAR-TAG-POLARITY', tag: tag.tag });
+        return Object.assign({}, rec, { tag: tag.tag });
+      });
       return all.length === 1 ? all[0] : Object.assign({ schema: CLAUSE, text: String(text).trim(), parsed: all.every(c => c.parsed), calls_llm: false, sentences: all });
     } catch (e) { return { schema: CLAUSE, text: String(text || ''), parsed: false, error: String(e && e.message || e).slice(0, 200), calls_llm: false }; }
+  }
+  function readings(text, forge) {
+    if (!forge || typeof forge.derive !== 'function') return [];
+    let d = null; try { d = forge.derive(String(text || '').replace(/[.!?]+$/, '').trim() + '.'); } catch (e) { return []; }
+    const out = [], seen = new Set();
+    for (const p of (d && d.parses) || []) {
+      const cl = p && p.node && p.node.clause; if (!cl) continue;
+      const rec = Object.assign({ schema: CLAUSE, text: String(text || '').replace(/[.!?]+$/, '').trim(), parsed: true, parses: 1, calls_llm: false }, roles(cl, forge));
+      const key = [rec.kriya, rec.voice, rec.kartr && (rec.kartr.head || rec.kartr.text), rec.kartr && rec.kartr.rel && rec.kartr.rel.kriya, rec.karma && (rec.karma.head || rec.karma.text), rec.karakas && rec.karakas.sampradana && (rec.karakas.sampradana.head || rec.karakas.sampradana.text)].join('|');
+      if (seen.has(key)) continue;
+      seen.add(key); out.push(rec);
+    }
+    return out;
   }
   /* a per-session cache: the same text always gives the same clause, so a pool is parsed once.
    * A failure is not cached. The extended lexicon attaches after the core, and a sentence that
@@ -423,7 +461,13 @@
       if (has(a0, 'COP') || has(a0, 'AUX') || has(a0, 'MOD')) {
         f.aux = a0; const body = rest.slice(1);
         const cands = filler ? declaratives(a0, body, filler) : (has(a0, 'COP') && body.length === 1 ? declaratives(a0, body, 'something') : declaratives(a0, body, null));
-        for (const c of cands) { const p = parseOpen(forge, c.s); if (p && p.clause) { Object.assign(f, roles(p.clause, forge)); f.parsed = true; f.declarative = c.s; f.parses = p.parses; break; } }
+        /* A strict declarative wins. Do-support must not treat a later noun as the verb just because an open parse accepts it. */
+        const strict = [];
+        for (const c of cands) { const p = parse(forge, c.s); if (p && p.clause) strict.push({ c, p }); }
+        const want = AUX_TENSE[a0];
+        const tensed = want ? strict.filter(x => x.p.clause.verb && x.p.clause.verb.tense === want) : [];
+        const pick = tensed[0] || strict[0] || cands.map(c => ({ c, p: parseOpen(forge, c.s) })).find(x => x.p && x.p.clause);
+        if (pick && pick.p && pick.p.clause) { Object.assign(f, roles(pick.p.clause, forge)); f.parsed = true; f.declarative = pick.c.s; f.parses = pick.p.parses; }
         /* 4.9.241 QF-CANON-PRO-VERB: "do" is the pro-verb. "What can you do?" / "What do you do?" asks for an action of the
          * subject: kriyā do, the karma is the gap (the verb phrase the answer supplies), the modal kept. */
         if (!f.parsed && filler && body.length >= 2 && String(body[body.length - 1]).toLowerCase() === 'do') {
@@ -503,7 +547,9 @@
           });
           return !complement;
         });
-        const pick = adjComp[0] || withPrep[0] || parsed[0];
+        const passive = parsed.find(x => x.r.voice === 'passive');
+        const mainCopula = parsed.find(x => x.r.kriya === 'be' && x.r.pred);
+        const pick = passive || adjComp[0] || withPrep[0] || (parsed[0] && parsed[0].r.kriya !== 'be' && mainCopula) || parsed[0];
         if (pick) { Object.assign(f, pick.r); f.parsed = true; f.declarative = pick.c.s; f.parses = pick.p.parses; }
       }
       f.speech_act = selfAct(f, null, f.aux) || 'stated'; f.polar = true; f.rule = 'QF-YN-' + (f.parsed ? 'DECL' : 'NOPARSE');
@@ -593,6 +639,6 @@
     }
     return { stated: lifted.stated, phrase: phrase, calls_llm: false };
   }
-  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, splitClauses, supplement, FILLER, ADJUNCT };
+  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, readings, splitClauses, supplement, FILLER, ADJUNCT };
   if (isNode) module.exports = api; else root.KQFrame = api;
 })(typeof self !== 'undefined' ? self : this);

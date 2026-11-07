@@ -187,14 +187,40 @@ C('LEGACY-LLM', 'echoforge-advisory (the LLM lane) is refused; the Tool Bench an
 /* AUDIT */
 C('AUDIT', 'receipt chain verifies after 20 turns', () => { const k = FKN(); for (let i = 0; i < 20; i++) k.process(i % 2 ? 'hello' : 'what is ' + i + ' + 1'); const v = k.verifyAudit(); expect(v.ok && v.count === 20, JSON.stringify(v)); });
 C('AUDIT', 'tampering with a stored receipt breaks the chain', () => { const k = FKN(); k.process('hello'); k.process('what is 1 + 1'); const rs = k.store.load('receipts'); rs[0].output_sha256 = '0'.repeat(64); k.store.save('receipts', rs); expect(!k.verifyAudit().ok); });
-/* GRAMMAR v3 */
-const gram = [['the cake was eaten by my brother', /eaten by your brother/], ['the window was broken', /window was broken/], ['remember that the book that I read was long', /book that you (did )?read/], ['how old is my sister?', /./], ['remember that my sister is 30 years old', /30 years old/], ['remember that my sister is taller than my brother', /taller than your brother/], ['remember that my mother gave my sister a book', /gave your sister a book/], ['remember that I want to learn French', /want to learn French/], ['remember that I stayed home because it rained', /because it rained/], ['remember that my dog is happy, isn\'t it?', /./]];
-for (const [u, re] of gram) C('GRAMMAR-V3', u, () => { const r = FKN().process(u); expect(re.test(r.reply || ''), r.reply || r.block_reason); });
-C('GRAMMAR-V3', 'why-question answered from stored because-clause', () => { const k = FKN(); k.process('remember that I stayed home because it rained'); const r = k.process('why did I stay home?'); expect(/because it rained/.test(r.reply), r.reply); });
-C('GRAMMAR-V3', 'why-question with no stored reason says so', () => { const k = FKN(); k.process('remember that my car is red'); const r = k.process('why is my car red?'); expect(/not tell me why|not why|reason/i.test(r.reply), r.reply); });
-C('GRAMMAR-V3', 'how-old answered from measure phrase', () => { const k = FKN(); k.process('remember that my sister is 30 years old'); const r = k.process('how old is my sister?'); expect(/30 years old/.test(r.reply), r.reply); });
-C('GRAMMAR-V3', 'structural ambiguity → numbered readings → re-entry "1" resolves', () => { const k = FKN(); k.process('remember that my sister is tall'); const a = k.process('remember that I saw her duck'); expect(/readings/.test(a.reply), a.reply); const m = [...a.reply.matchAll(/\((\d)\) “([^”]+)”/g)].find(x => /verb: see, karma: her duck/.test(x[2])); expect(m, a.reply); const b = k.process(m[1]); expect(/I noted/.test(b.reply), b.reply); });
-C('GRAMMAR-V3', 'capitalised mid-sentence name kept as proper noun', () => { const r = FKN().process('remember that I met Bob on Monday'); expect(/Bob/.test(r.reply), r.reply); });
+/* GRAMMAR v3. The old turn echoed the sentence. Ask stores an explicit Remember and answers from the clause. */
+function gramAsk(mem, q) {
+  const A = require('./ask_path.js'); const s = A.session();
+  if (mem) { const rec = A.remember(s, mem); if (!rec.ok) return rec; }
+  return A.ask(s, q);
+}
+C('GRAMMAR-V3', 'the cake was eaten by my brother', () => { const r = gramAsk('remember that the cake was eaten by my brother', 'was the cake eaten by my brother?'); expect(/eaten by your brother/.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'the window was broken', () => { const r = gramAsk('remember that the window was broken', 'is the window broken?'); expect(/window was broken/.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'remember that the book that I read was long', () => { const r = gramAsk('remember that the book that I read was long', 'was the book that I read long?'); expect(/book that you/.test(r.reply || '') && /read/.test(r.reply || '') && /long/.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'how old is my sister?', () => { const r = gramAsk(null, 'how old is my sister?'); expect(r.reply == null && !/\d/.test(String(r.reply || '')), JSON.stringify(r.reply)); });
+C('GRAMMAR-V3', 'remember that my sister is 30 years old', () => { const r = gramAsk('remember that my sister is 30 years old', 'how old is my sister?'); expect(/30 years old/.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'remember that my sister is taller than my brother', () => { const r = gramAsk('remember that my sister is taller than my brother', 'is my sister taller than my brother?'); expect(/taller than your brother/.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'remember that my mother gave my sister a book', () => { const r = gramAsk('remember that my mother gave my sister a book', 'did my mother give my sister a book?'); expect(/gave your sister a book/.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'remember that I want to learn French', () => { const r = gramAsk('remember that I want to learn French', 'do I want to learn French?'); expect(/want to learn French/.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'remember that I stayed home because it rained', () => { const r = gramAsk('remember that I stayed home because it rained', 'why did I stay home?'); expect(/rained/.test(r.reply || '') && !/because the sun|because she wanted/i.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'remember that my dog is happy, isn\'t it?', () => { const r = gramAsk('remember that my dog is happy, isn\'t it?', 'is my dog happy?'); expect(/dog is happy/.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'why-question answered from stored because-clause', () => { const r = gramAsk('remember that I stayed home because it rained', 'why did I stay home?'); expect(/rained/.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'why-question with no stored reason says so', () => {
+  const A = require('./ask_path.js'); const s = A.session(); const n = s.phone.length;
+  A.remember(s, 'remember that my car is red'); const r = A.ask(s, 'why is my car red?');
+  expect(r.reply == null && r.world_model.derive.reason === 'no stored hetu' && s.phone.length === n + 1, (r.reply || r.world_model.derive.reason));
+});
+C('GRAMMAR-V3', 'how-old answered from measure phrase', () => { const r = gramAsk('remember that my sister is 30 years old', 'how old is my sister?'); expect(/30 years old/.test(r.reply || ''), r.reply); });
+C('GRAMMAR-V3', 'structural ambiguity → numbered readings → re-entry "1" resolves', () => {
+  const A = require('./ask_path.js'); const s = A.session();
+  A.remember(s, 'remember that my sister is tall');
+  const a = A.remember(s, 'remember that I saw her duck');
+  expect(/readings/.test(a.reply || '') && s.phone.length === 1, a.reply);
+  const m = [...a.reply.matchAll(/\((\d)\) “([^”]+)”/g)].find(x => /verb: see, karma: her duck/.test(x[2]));
+  expect(m, a.reply);
+  const b = A.chooseReading(s, m[1]);
+  expect(/I noted/.test(b.reply || '') && s.phone.length === 2, b.reply);
+});
+C('GRAMMAR-V3', 'capitalised mid-sentence name kept as proper noun', () => { const r = gramAsk('remember that I met Bob on Monday', 'did I meet Bob on Monday?'); expect(/Bob/.test(r.reply || ''), r.reply); });
 require('./r4251_suite.js')(C, expect);
 require('./r4252_suite.js')(C, expect);
 /* INFERENCE */
@@ -209,6 +235,7 @@ require('./r4259_suite.js')(C, expect);
 require('./r4260_suite.js')(C, expect);
 require('./r4261_suite.js')(C, expect);
 require('./r4262_suite.js')(C, expect);
+require('./r4263_suite.js')(C, expect);
 C('INFERENCE', 'is-a via WordNet hypernyms', () => {
   const Ask = require('./ask_path.js'); const s = Ask.session();
   expect(Ask.remember(s, 'remember that my dog is a poodle').ok);
@@ -297,10 +324,10 @@ for (const u of ANY) { C('AUDIT', `receipt issued + chained: "${u}"`, () => { co
   C('MSM-V1', `MSM-v1 lineage root ties to InputEvent: "${u}"`, () => { const r = FKN().process(u); expect(JSON.stringify(r.forge.msm.lineage_root).includes(r.forge.input_event.metadata.contract_id), 'lineage'); });
   C('FORGE2-PORT', `InputEvent contract id verifies: "${u}"`, () => { const r = FKN().process(u); expect(SP.verifyContractMetadata(r.forge.input_event.metadata, r.forge.input_event.body) !== false); });
   C('DETERMINISM', `same input ⇒ identical receipt/contract ids: "${u}"`, () => { const a = FKN().process(u).forge, b = FKN().process(u).forge; expect(a.input_event.metadata.contract_id === b.input_event.metadata.contract_id && a.receipt.receipt_id === b.receipt.receipt_id); }); }
-const PASS = [['the cake was eaten by my brother', 'eaten by your brother'], ['the letter was written by my mother', 'written by your mother'], ['the car was bought by my father', 'bought by your father'], ['the window was broken by my friend', 'broken by your friend'], ['the song was sung by Anna', 'sung by Anna']];
-for (const [u, s] of PASS) C('GRAMMAR-V3', `passive: ${u}`, () => { const r = FKN().process('remember that ' + u); expect((r.reply || '').includes(s), r.reply || r.block_reason); });
+const PASS = [['the cake was eaten by my brother', 'was the cake eaten by my brother?', 'eaten by your brother'], ['the letter was written by my mother', 'was the letter written by my mother?', 'written by your mother'], ['the car was bought by my father', 'was the car bought by my father?', 'bought by your father'], ['the window was broken by my friend', 'was the window broken by my friend?', 'broken by your friend'], ['the song was sung by Anna', 'was the song sung by Anna?', 'sung by Anna']];
+for (const [u, q, s] of PASS) C('GRAMMAR-V3', `passive: ${u}`, () => { const r = gramAsk('remember that ' + u, q); expect((r.reply || '').includes(s), r.reply); });
 const CMP = ['taller', 'older', 'younger', 'faster', 'smaller'];
-for (const c of CMP) C('GRAMMAR-V3', `comparative: my sister is ${c} than my brother`, () => { const r = FKN().process(`remember that my sister is ${c} than my brother`); expect((r.reply || '').includes(c + ' than your brother'), r.reply || r.block_reason); });
+for (const c of CMP) C('GRAMMAR-V3', `comparative: my sister is ${c} than my brother`, () => { const r = gramAsk(`remember that my sister is ${c} than my brother`, `is my sister ${c} than my brother?`); expect((r.reply || '').includes(c + ' than your brother'), r.reply); });
 
 /* NON-LLM PROOF SCAN — the list lives in verify/nonllm.js, which also writes FORGE-NONLLM-RECEIPT/v1 */
 for (const c of require('./nonllm.js').scan(ROOT).checks) C('NON-LLM SCAN', c.name, () => { if (!c.ok) throw new Error(c.detail || 'found'); });

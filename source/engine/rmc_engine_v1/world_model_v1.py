@@ -636,7 +636,7 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
     elif verb == "be" and pred and str(pred.get("text") or "").strip():
         predicate, obj = "is", str(pred["text"]).strip()
         arg0 = kartr["text"]
-    elif verb and verb != "be" and karma and pol == "pos":
+    elif verb and verb != "be" and karma:
         predicate, obj = verb, karma["text"]
         arg0 = kartr["text"]
     else:
@@ -658,6 +658,10 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
     missing = sorted(w for w in _clause_words(sentence) if w not in covered and not any(w.startswith(c[:4]) for c in covered if len(c) >= 4))
     if missing and verb == "live" and set(missing) <= {"live", "lives", "lived"}:
         missing = []
+    if str(rec.get("voice") or "") == "passive":
+        missing = [w for w in missing if w != "by"]
+    if verb and len(verb) >= 3:
+        missing = [w for w in missing if not w.startswith(verb)]
     if missing and verb != "be" and len(missing) == 1:
         # the surface form of the verb ("wrote" for kriyā write) sits between the kartṛ and the karma
         gap = re.search(re.escape(kartr["text"].lower()) + r"\s+(?:\w+\s+)?([a-z']+)\s+" + re.escape(obj.lower()), str(sentence).lower())
@@ -2675,6 +2679,21 @@ def _measure_gap(pool: list[dict[str, Any]], qframe: dict[str, Any] | None) -> d
     }
 
 
+def _same_event(qframe: dict[str, Any], frame: dict[str, Any] | None) -> bool:
+    """The asked event is this fact: same verb, polarity, tense and kartṛ. A why-gap is not a role the fact has to fill."""
+    from rmc_engine_v1 import derive_frame as DF
+    if not isinstance(qframe, dict) or not isinstance(frame, dict):
+        return False
+    if str(qframe.get("kriya") or "").lower() != str(frame.get("kriya") or "").lower():
+        return False
+    if str(frame.get("polarity") or "pos") != str(qframe.get("polarity") or "pos"):
+        return False
+    qt, ft = str(qframe.get("tense") or ""), str(frame.get("tense") or "")
+    if qt and ft and qt != ft:
+        return False
+    return bool(DF.np_unify(qframe.get("kartr"), frame.get("kartr")))
+
+
 def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any], qframe: dict[str, Any], topical: list[dict[str, Any]]) -> dict[str, Any]:
     """4.9.233: a fact answers only when its frame unifies with the question frame AND its placement is phase-aligned
     with the question (grace = rpm·cos²δ, δ ≤ π/4); band relation and the 4.9.204 attraction rank the aligned matches;
@@ -2734,6 +2753,30 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         claim["_place"] = placed(fact)
         claim["_premise_rows"] = [fact]
         claims.append(_frame_claim(claim, ff, src, m, al, question))
+
+    # A why-question is the hetu of the asked event, the clause the sentence already called its cause. It is not a new explanation.
+    if str((qframe or {}).get("wh") or "") == "why":
+        hetus = [f for f in topical if f.get("clause_link") == "hetu"]
+        mains = [f for f in topical if f.get("clause_link") != "hetu"]
+        for hetu in hetus:
+            sent = str(hetu.get("sentence") or "")
+            main = next((f for f in mains if (sent and f.get("sentence") == sent) or (set(f.get("provenance") or []) & set(hetu.get("provenance") or []))), None)
+            if main is None:
+                continue
+            ff, src = DF.fact_frame(main)
+            if not _same_event(qframe, ff):
+                continue
+            m = {"roles": 2, "gap": "hetu", "filler": str(hetu.get("text") or ""), "rule": "WM-HETU"}
+            proof = _direct_proof(world, hetu)
+            checked = check_proof(world, proof)
+            claim = _finish_claim(world, str(hetu.get("text") or ""), hetu.get("atom") or {}, [main, hetu], proof, checked, "supported_only", "WM-HETU", phase_path)
+            claim["hops"] = [
+                _hop_row(str(main.get("text") or ""), list(main.get("provenance") or [main.get("id")]), _drift_for(str(main.get("text") or ""), [main], phase_path), 1),
+                _hop_row(str(hetu.get("text") or ""), list(hetu.get("provenance") or [hetu.get("id")]), claim["drift"], 2),
+            ]
+            claim["_place"] = placed(hetu)
+            claim["_premise_rows"] = [main, hetu]
+            claims.append(_frame_claim(claim, ff, src, m, DF.alignment(placed(hetu), phase_path, question), question))
 
     # Copula chain: every conclusion is checked and debated; only a conclusion whose frame unifies with the question can
     # answer. The others stay in the pool as hops (bounded).
@@ -2873,6 +2916,10 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         status, reason = "undetermined", "frame matched but no match survived the check and debate"
     else:
         status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
+        if status == "undetermined" and str((qframe or {}).get("wh") or "") == "why" and any(
+            _same_event(qframe, DF.fact_frame(f)[0]) for f in topical if f.get("clause_link") != "hetu"
+        ):
+            reason = "no stored hetu"
     measure_gap = _measure_gap(pool, qframe) if not answers and status == "undetermined" else None
     if measure_gap:
         reason = str(measure_gap["reason"])
