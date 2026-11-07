@@ -55,6 +55,7 @@
     return Object.assign({}, doc, { facts, as_of: iso });
   }
   function norm(t) { return String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, ''); }
+  function sameText(a, b) { return norm(a) === norm(b); }
   /* The relation the world model would atomise: kriyā, kartṛ, and every complement role. Polarity is separate,
    * so the same relation with the opposite polarity is one atom flipped, and a different complement is not. */
   function identity(row) {
@@ -226,6 +227,6 @@
   }
   function receipts() { return ((loadRaw().receipts) || []).slice(); }
   function snapshot() { return decayed(loadRaw()); }
-  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, forget, receipts, snapshot, conflictWith, atomKey };
+  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, forget, receipts, snapshot, conflictWith, atomKey, norm, sameText };
   if (isNode) module.exports = api; else root.KWorldFacts = api;
 })(typeof self !== 'undefined' ? self : this);

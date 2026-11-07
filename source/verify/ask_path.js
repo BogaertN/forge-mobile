@@ -59,6 +59,16 @@ function ask(s, question, extra) {
   extra = extra && typeof extra === 'object' ? extra : {};
   const f = kernel();
   const frame = Q.compile(question, f);
+  if (!extra._whyReplay && Core.bareWhy(frame)) {
+    const prior = s.prior;
+    const beforeWhy = s.phone.length;
+    if (!prior || prior.rejected || !prior.question) return Core.whyHold('no_admitted_derivation');
+    const fresh = ask(s, prior.question, Object.assign({}, extra, { _whyReplay: true }));
+    if (s.phone.length !== beforeWhy) throw new Error('why appended phone memory');
+    if (!Core.sameWhy(prior, fresh)) { s.prior = null; return Core.whyHold('stale_derivation'); }
+    fresh.followup = { kind: 'why', of: prior.question, how: prior.how };
+    return fresh;
+  }
   const before = s.phone.length;
   const prod = extra.isolated === true ? { shared: [], anchors: [] } : productionPools();
   const pools = [{ name: 'confirmed_shared', into: 'hosted', rows: prod.shared.concat(extra.sharedRows || []) }];
@@ -69,6 +79,10 @@ function ask(s, question, extra) {
   let row = R.askSync(payload);
   row = Core.outwardCompile(row, payload, f, null);
   if (s.phone.length !== before) throw new Error('ask appended phone memory');
+  if (!extra._whyReplay) {
+    const snap = Core.whySnapshot(row, question);
+    s.prior = snap && !snap.rejected ? snap : null;
+  }
   return row;
 }
 function askStored(question) {

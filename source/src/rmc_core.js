@@ -183,6 +183,40 @@ function run(payload, opts) {
   return RMC.ask(payload, opts).then(compileOut(payload));
 }
 function runSync(payload) { payload = withFrame(payload); return RMC && RMC.askSync ? RMC.askSync(payload) : { ok: false, foundations: true, product_reply: false, calls_llm: false, error: 'no_sync' }; }
-const api = { run, runSync, withFrame, withClauses, outwardCompile, selfRows, stateRows, noteState };
+/* A bare "why?" is the question frame's hetu follow-up. It explains only the prior admitted derivation,
+ * by re-checking that derivation. It is not a command and it does not store a sentence. */
+function bareWhy(frame) {
+  return !!(frame && frame.wh === 'why' && frame.wh_role === 'hetu' && frame.parsed !== true && !frame.declarative);
+}
+function hiddenPremise(p) {
+  if (!p || p.quarantined === true) return true;
+  const src = String(p.source || '');
+  if (src === 'research' || src === 'wikipedia') return true;
+  return /password|secret|api[_-]?key|credential/i.test(String(p.text || ''));
+}
+function whySnapshot(row, question) {
+  if (!row || row.product_reply !== true || !row.reply || !question) return null;
+  const d = row.world_model && row.world_model.derive;
+  const s = d && d.survivor;
+  if (!s || !s.how || !s.atom) return null;
+  const premises = (s.premises || []).map(p => ({ id: p.id, text: p.text, source: p.source || '', provenance: p.provenance || null, quarantined: p.quarantined === true }));
+  if (!premises.length || premises.some(hiddenPremise)) return { rejected: true };
+  return { question: question, reply: row.reply, how: s.how, atom: { predicate: s.atom.predicate, args: (s.atom.args || []).slice(), polarity: s.atom.polarity || 'pos' }, premises: premises, proof_id: s.proof_id || null };
+}
+function sameWhy(prior, row) {
+  if (!prior || prior.rejected || !row || row.product_reply !== true || row.reply !== prior.reply || !(row.echo && row.echo.pass === true)) return false;
+  const s = row.world_model && row.world_model.derive && row.world_model.derive.survivor;
+  if (!s || s.how !== prior.how || !s.atom) return false;
+  const args = a => (a || []).map(x => String(x).toLowerCase()).join('|');
+  if (s.atom.predicate !== prior.atom.predicate || (s.atom.polarity || 'pos') !== prior.atom.polarity || args(s.atom.args) !== args(prior.atom.args)) return false;
+  const texts = list => (list || []).map(p => p.text).sort().join('|');
+  if (texts(s.premises) !== texts(prior.premises)) return false;
+  if ((s.premises || []).some(hiddenPremise) || prior.premises.some(hiddenPremise)) return false;
+  return true;
+}
+function whyHold(reason) {
+  return { ok: false, product_reply: false, reply: null, held: true, route: 'why_no_derivation', calls_llm: false, model_invoked: false, echo: { pass: false, score: 0 }, memory_write: { committed: false }, followup: { kind: 'why', reason: reason } };
+}
+const api = { run, runSync, withFrame, withClauses, outwardCompile, selfRows, stateRows, noteState, bareWhy, whySnapshot, sameWhy, whyHold };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KRMCCore = api;
 })(typeof self !== 'undefined' ? self : this);

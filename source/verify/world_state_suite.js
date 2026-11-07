@@ -28,48 +28,13 @@ module.exports = ({ C, expect, K, ROOT }) => {
   const FK = require(ROOT + '/src/forge.js');
   const factForge = FK.ForgeKernel({ store: KM.MemoryStore(), lexicon: LEX, lexiconExt: EXT, clock: () => '2026-11-07T00:00:00Z' });
   const putFact = text => WF.upsert({ text, clause: QF.clause(text, factForge), kind: 'remember' });
-  /* Remembered premises live in world_facts and are reread by a later Ask. The chain is recomputed; it is not stored. */
-  C('WS-PERSIST', 'remembered premises survive a new read of the same store and the chain is recomputed from them (old: a new kernel on the same store answers the chain)', () => {
-    WF.clear();
-    expect(putFact('Aster is inside Beryl.').ok && putFact('Beryl is inside Cobalt.').ok && putFact('Aster is blue.').ok);
-    const ids = WF.rows().map(r => r.id);
-    expect(ids.length === 3 && ids.every(id => id) && WF.rows().every(r => r.clause && r.clause.parsed && r.provenance && r.provenance.store === 'world_facts'), JSON.stringify(WF.rows().map(r => r.text)));
-    const Ask = require('./ask_path.js');
-    const first = Ask.askStored('does Cobalt contain Aster?');
-    const again = Ask.askStored('does Cobalt contain Aster?');
-    const blue = WF.rows().find(r => /blue/.test(r.text));
-    expect(admitted(first) && first.reply === 'Aster is inside Beryl. Beryl is inside Cobalt. Aster is inside Cobalt.' && first.world_model.derive.survivor.how === 'WM-CONTAIN-CHAIN', first.reply);
-    expect(admitted(again) && again.reply === first.reply, again.reply);
-    expect(blue && blue.clause && blue.clause.parsed, 'the attribute premise was not kept');
-    const prem = (first.world_model.derive.survivor.premises || []).map(p => p.text);
-    expect(prem.some(t => /Aster is inside Beryl/.test(t)) && prem.some(t => /Beryl is inside Cobalt/.test(t)), JSON.stringify(prem));
-    expect(WF.rows().length === 3, 'the recomputation stored a derived fact');
-    WF.clear();
-  });
+  /* The compatible reload and forget rows live in r4260_suite.js so the targeted gate runs them.
+   * These two stay here: they demand a stored derived ledger, which is not built. */
   C('WS-PERSIST', 'derived relations are stored ledger items that replay (old: worldState derived RELPROP-TRANSITIVE:in and a tamper-checked justification)', () => {
     WF.clear();
     putFact('Aster is inside Beryl.'); putFact('Beryl is inside Cobalt.');
     const derived = WF.rows().filter(r => r.origin === 'derived' || (r.rules || []).indexOf('RELPROP-TRANSITIVE:in') >= 0);
     expect(derived.some(r => /aster is in cobalt/i.test(r.text) && (r.rules || []).indexOf('RELPROP-TRANSITIVE:in') >= 0), 'the original ledger row is not in the fact store: ' + WF.rows().map(r => r.text).join('|'));
-    WF.clear();
-  });
-  C('WS-RETRACT', 'explicit forget removes only that premise; the chain stops and the other premise still derives (old: chain answer no longer given, remaining inverse stays)', () => {
-    WF.clear();
-    expect(putFact('Aster is inside Beryl.').ok && putFact('Beryl is inside Cobalt.').ok && putFact('Aster is blue.').ok);
-    const Ask = require('./ask_path.js');
-    expect(admitted(Ask.askStored('is Aster inside Cobalt?')));
-    const gone = WF.forget('Beryl is inside Cobalt.');
-    expect(gone.ok && gone.rule === 'WORLD-FACTS-FORGOT' && gone.receipt && gone.receipt.fact_id && gone.receipt.text === 'Beryl is inside Cobalt.', JSON.stringify(gone));
-    expect(WF.rows().map(r => r.text).sort().join('|') === 'Aster is blue.|Aster is inside Beryl.', WF.rows().map(r => r.text).join('|'));
-    const chain = Ask.askStored('is Aster inside Cobalt?');
-    const contain = Ask.askStored('does Cobalt contain Aster?');
-    const left = Ask.askStored('is Aster inside Beryl?');
-    const inv = Ask.askStored('does Beryl contain Aster?');
-    expect(chain.product_reply !== true && contain.product_reply !== true, (chain.reply || chain.route) + ' | ' + (contain.reply || contain.route));
-    expect(admitted(left) && left.reply === 'Aster is inside Beryl.' && admitted(inv) && inv.reply === 'Aster is inside Beryl.' && inv.world_model.derive.survivor.how === 'direct', (left.reply || '') + ' | ' + (inv.reply || '') + ' ' + (inv.world_model.derive.survivor && inv.world_model.derive.survivor.how));
-    expect(putFact('Beryl is inside Cobalt.').ok);
-    const back = Ask.askStored('does Cobalt contain Aster?');
-    expect(admitted(back) && back.reply === 'Aster is inside Beryl. Beryl is inside Cobalt. Aster is inside Cobalt.' && WF.rows().length === 3, back.reply);
     WF.clear();
   });
   C('WS-RETRACT', 'forgetting lists every withdrawn derived relation with a receipt (old: ws.withdrawn wd: aster is in cobalt)', () => {
@@ -159,8 +124,15 @@ module.exports = ({ C, expect, K, ROOT }) => {
     const A = require('./ask_path.js'); const s = A.session();
     expect(A.remember(s, 'remember that Aster is inside Beryl').ok && A.remember(s, 'remember that Beryl is inside Cobalt').ok);
     expect(admitted(A.ask(s, 'is Aster inside Cobalt?')));
+    const n = s.phone.length;
     const why = A.ask(s, 'why?');
-    expect(why.product_reply === true && /Aster is inside Beryl/.test(why.reply || '') && /Beryl is inside Cobalt/.test(why.reply || '') && why.echo && why.echo.pass === true, why.reply || why.route);
+    expect(s.phone.length === n && why.product_reply === true && why.reply === 'Aster is inside Beryl. Beryl is inside Cobalt. Aster is inside Cobalt.' && why.followup && why.followup.kind === 'why' && why.followup.how === 'WM-CONTAIN-CHAIN' && why.echo && why.echo.pass === true && !(why.memory_write && why.memory_write.committed), why.reply || why.route);
+  });
+  C('WS-WHY', 'a one-utterance chain is explained without being remembered (old: Ola is inside Pel. Pel is inside Ras. why names those sentences)', () => {
+    const A = require('./ask_path.js'); const s = A.session();
+    A.ask(s, 'Ola is inside Pel. Pel is inside Ras. Is Ola inside Ras?');
+    const why = A.ask(s, 'why?');
+    expect(why.product_reply === true && /Ola is inside Pel/.test(why.reply || '') && /Pel is inside Ras/.test(why.reply || '') && why.echo && why.echo.pass === true, (why.reply || why.route) + ' (one utterance is not a remembered premise)');
   });
   C('WS-DATA', 'relation properties are DATA: every RELATIONS row uses only declared keys, inverse partners are mutual, functional is subject|object; the grammar reads the declared phrases (no relation phrase is hard-coded in reason.js); RELPROP rule ids are stable; no numeric weights', () => {
     const KEYS = new Set(['pred', 'phrase', 'transitive', 'symmetric', 'inverse', 'functional', 'containment', 'alias', 'same_as', 'comparative', 'one', 'causal', 'entails' /* 4.9.77 M4: causal link kind (cause | prevent | association) and declared entailment between link verbs */]), by = new Map(WR.RELATIONS.map(r => [r.pred, r]));

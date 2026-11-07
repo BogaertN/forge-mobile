@@ -184,6 +184,7 @@ function doc6Tag(gate) {
  * the shared KB only through the locked-down writer (signed-in linked account, writer role, verified device signature);
  * otherwise it stays here, pending. Nothing else in Ask writes. */
 let lastAdmitted = null;
+let whyPrior = null;
 async function rememberAnswer(row, how) {
   const mw = row && row.memory_write;
   /* 4.9.211 (DRIFT-SPEC D12 + D8): a lasting write needs the engine's write gate: clean at θ_admit, Φ6 correction then Φ7 naming,
@@ -220,11 +221,11 @@ function forgetStatement(text) {
   const said = m ? m[1].trim() : '';
   if (!said) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Forget what? Say "forget that …" with the sentence you stored.' };
   const sentence = said.charAt(0).toUpperCase() + said.slice(1) + (/[.!]$/.test(said) ? '' : '.');
-  const same = t => String(t || '').toLowerCase().replace(/[.!]+$/, '').replace(/\s+/g, ' ').trim();
   const WF = window.KWorldFacts;
   const r = WF && WF.forget ? WF.forget(sentence) : { ok: false, rule: 'WORLD-FACTS-MISSING', message: 'The phone fact store is not available.' };
   const before = rememberedRows();
-  const kept = before.filter(x => x && same(x.text) !== same(sentence));
+  const same = WF && WF.sameText ? (a, b) => WF.sameText(a, b) : (a, b) => String(a || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '') === String(b || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '');
+  const kept = before.filter(x => x && !same(x.text, sentence));
   if (kept.length !== before.length) { try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* the world_facts removal still stands */ } }
   if (r && r.ok) return r;
   if (kept.length !== before.length) return { ok: true, rule: 'REMEMBER-FORGOT', text: sentence, message: 'Forgot on this phone: ' + sentence, receipt: null };
@@ -308,6 +309,20 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       if (pa && pa.kind === 'sense') { pendingAsk = pa; stats.held++; askCard('ask', esc(KSenses.askText(pa, false)), 'meaning-ask'); refreshChrome(); return { ok: true, held: true, reply: null, product_reply: false, meaning_ask: true, asked_before_engine: true, calls_llm: false }; }
     } catch (e) { /* the ask is optional; the engine runs below */ }
   }
+  let whyReplay = null;
+  if (window.KQFrame && window.KRMCCore && KRMCCore.bareWhy) {
+    let frame = null;
+    try { frame = KQFrame.compile(qtext, forge); } catch (e) { frame = null; }
+    if (KRMCCore.bareWhy(frame)) {
+      if (!whyPrior || whyPrior.rejected || !whyPrior.question) {
+        const heldWhy = KRMCCore.whyHold('no_admitted_derivation');
+        log.insertAdjacentHTML('beforeend', '<div class="msg bot blocked" data-ask-state="held" data-followup="why"><span class="kind deterministic_hold">deterministic_hold</span><div data-ask-body>Held. No answer was admitted. route why_no_derivation.</div><div class="flags">no LLM · nothing stored</div></div>');
+        log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return heldWhy;
+      }
+      whyReplay = whyPrior;
+      qtext = whyPrior.question;
+    }
+  }
   if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(true);
   let row;
   try {
@@ -344,6 +359,12 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
      * documents are shown only on the Self-seed card (window.SELF_SEED_DEMO); Ask never treats a recording as research. */
   } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
   if (row && askCtx.sim) { row.sim = { ok: !!askCtx.sim.ok, status: askCtx.sim.status, reason: askCtx.sim.reason || null, receipt_id: askCtx.sim.receipt_id || null, sha256: askCtx.sim.sha256 || null, solver: askCtx.sim.primary_solver || (askCtx.sim.problem && askCtx.sim.problem.solver) || null, where: askCtx.sim.where || null, home_pc_required: !!askCtx.sim.home_pc_required }; }
+  if (whyReplay && window.KRMCCore && KRMCCore.sameWhy && !KRMCCore.sameWhy(whyReplay, row)) {
+    whyPrior = null;
+    row = KRMCCore.whyHold('stale_derivation');
+  } else if (whyReplay && row && row.product_reply) {
+    row.followup = { kind: 'why', of: whyReplay.question, how: whyReplay.how };
+  }
   lastResult = row;
   /* 4.9.208: a held question becomes a curation gap for Athena (no write happens here) */
   if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try {
@@ -356,7 +377,9 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
    * The engine's proposal waits for "remember …" or the Remember tap (rememberAnswer). */
   /* 4.9.229's after-the-engine sense ask moved above the engine run (4.9.235): the meaning is asked first, never after an answer. */
   const admitted = !!(row && row.product_reply && row.reply);
-  if (admitted) lastAdmitted = row;
+  if (whyReplay) { /* the follow-up does not replace the derivation it explained */ }
+  else if (admitted && window.KRMCCore && KRMCCore.whySnapshot) { whyPrior = KRMCCore.whySnapshot(row, qtext); if (whyPrior && whyPrior.rejected) whyPrior = null; lastAdmitted = row; }
+  else { whyPrior = null; if (admitted) lastAdmitted = row; }
   /* 4.9.242: world_facts is written only on explicit Remember (rememberStatement / rememberAnswer tap).
    * A spoken engine answer is NOT auto-persisted — otherwise the short paraphrase becomes phone evidence on the
    * next turn and can outrank the source anchor (Why is the sky blue? held after "The sky looks blue to us." was
