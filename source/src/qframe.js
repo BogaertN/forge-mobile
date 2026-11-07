@@ -73,32 +73,41 @@
   }
   const str = v => Array.isArray(v) ? v.join(' ') : (v == null ? null : String(v));
   const head = n => n ? str(n.pron || n.indef || n.pron3 || n.head || n.propn || n.name || null) : null;
-  function np(n) {
+  /* The grammar already reads a proper name as a place when the lexicon's own name test files it under noun.location
+   * (kernel featsOf). That flag is the geographic role. A name with no such filing is not guessed to be a place. */
+  function locName(forge, propn) {
+    if (!propn || !forge || !forge.lexicon) return false;
+    const w = String(propn).toLowerCase();
+    const lex = forge.lexicon;
+    return !!(lex.isName && lex.isName(w) && lex.lexnameOf && lex.lexnameOf(w) === 'noun.location');
+  }
+  function np(n, forge) {
     if (!n) return null;
     let text = null; try { text = G.npText(n, 'user'); } catch (e) {}
-    const out = { text, head: head(n), owner: n.owner && typeof n.owner === 'object' ? np(n.owner) : (n.owner || null), kernel: n.pron === 'kernel', user: n.pron === 'user', indef: !!n.indef };
+    const out = { text, head: head(n), owner: n.owner && typeof n.owner === 'object' ? np(n.owner, forge) : (n.owner || null), kernel: n.pron === 'kernel', user: n.pron === 'user', indef: !!n.indef };
     /* 4.9.231: the parts a fact atom is built from (step 4): modifiers, determiner, number, a proper name, the of-complement */
     if (Array.isArray(n.adjs) && n.adjs.length) out.adjs = n.adjs.slice();
     if (n.det) out.det = n.det;
     if (n.quant) out.quant = str(n.quant); /* 4.9.241: "no body" carries the negative quantifier (it negates its clause) */
     if (n.plural) out.plural = true;
     if (n.propn) out.propn = str(n.propn);
+    if (locName(forge, out.propn)) out.loc = true;
     if (n.num != null && n.num !== '') out.num = str(n.num);
-    if (Array.isArray(n.conj)) out.conj = n.conj.map(x => np(x));
-    if (n.of && typeof n.of === 'object') out.of = np(n.of);
+    if (Array.isArray(n.conj)) out.conj = n.conj.map(x => np(x, forge));
+    if (n.of && typeof n.of === 'object') out.of = np(n.of, forge);
     return out;
   }
-  function roles(cl) {
+  function roles(cl, forge) {
     if (!cl) return {};
     const v = cl.verb || {}; let material = null; try { material = G.material(cl); } catch (e) {}
-    const karakas = {}; for (const [k, x] of Object.entries(cl.roles || {})) karakas[k] = x && typeof x === 'object' && !Array.isArray(x) ? np(x) : x;
+    const karakas = {}; for (const [k, x] of Object.entries(cl.roles || {})) karakas[k] = x && typeof x === 'object' && !Array.isArray(x) ? np(x, forge) : x;
     const pr = cl.pred || null;
     return {
       kriya: v.lemma || null, tense: v.tense || null, polarity: v.pol || null, modality: v.mod || null,
       voice: v.voice || 'active',
-      kartr: np(cl.subj), karma: karakas.karma || null, karakas,
-      pred: pr ? (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np)) : pr.type === 'pp' ? (n => ({ type: 'pp', prep: pr.prep || null, text: (n && n.text) || str((pr.np && (pr.np.head || pr.np.text)) || pr.words || null), np: n }))(pr.np ? np(pr.np) : null) : { type: pr.type || null, text: str(pr.words || pr.text || null) }) : null,
-      adj: (cl.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np) : null })),
+      kartr: np(cl.subj, forge), karma: karakas.karma || null, karakas,
+      pred: pr ? (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np, forge)) : pr.type === 'pp' ? (n => ({ type: 'pp', prep: pr.prep || null, text: (n && n.text) || str((pr.np && (pr.np.head || pr.np.text)) || pr.words || null), np: n }))(pr.np ? np(pr.np, forge) : null) : { type: pr.type || null, text: str(pr.words || pr.text || null) }) : null,
+      adj: (cl.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np, forge) : null })),
       adjuncts: (cl.adj || []).length, material,
     };
   }
@@ -116,12 +125,12 @@
     const ws = words(text), ci = ws.findIndex(w => /^(are|were)$/i.test(w));
     if (ci >= 1 && ci < ws.length - 1) {
       const gp = genericPlural(forge, ws.slice(0, ci).concat(ws.slice(ci + 1)), ci);
-      if (gp) { const r = roles(gp.p.clause); delete r.material;
+      if (gp) { const r = roles(gp.p.clause, forge); delete r.material;
         return Object.assign(rec, r, { parsed: true, parses: gp.p.parses, adjuncts: [], canonical: [{ rule: 'QF-CANON-GENERIC-PLURAL', surface: text, reading: gp.s }] }); }
     }
     const p = parse(forge, text);
     if (!p || !p.clause) return rec;
-    const r = roles(p.clause);
+    const r = roles(p.clause, forge);
     const adj = (p.clause.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np) : null }));
     delete r.material; return Object.assign(rec, r, { parsed: true, parses: p.parses, adjuncts: adj });
   }
@@ -231,7 +240,7 @@
     const p = parse(forge, s); if (!p || !p.clause) return false;
     const was = { rule: f.rule, declarative: f.declarative };
     for (const k of ['kriya', 'tense', 'polarity', 'modality', 'voice', 'kartr', 'karma', 'karakas', 'pred', 'adj', 'adjuncts', 'material']) delete f[k];
-    Object.assign(f, roles(p.clause)); f.parsed = true; f.partial = false; f.declarative = s; f.parses = p.parses;
+    Object.assign(f, roles(p.clause, forge)); f.parsed = true; f.partial = false; f.declarative = s; f.parses = p.parses;
     f.canonical = (f.canonical || []).concat([{ rule, surface_rule: was.rule, surface_declarative: was.declarative || null }]);
     return true;
   }
@@ -313,7 +322,7 @@
           const st = condTxt.match(/^(.*)\s+in\s+(?:the\s+)?state\s+(\d+)\s*$/i);
           if (st) { const c3 = parseOpen(forge, st[1]); if (c3 && c3.clause) { cond = c3; stateNum = st[2]; } }
         }
-        const condRoles = cond && cond.clause ? roles(cond.clause) : null;
+        const condRoles = cond && cond.clause ? roles(cond.clause, forge) : null;
         if (condRoles && stateNum != null) condRoles.adj = (condRoles.adj || []).concat([{ prep: 'in', role: 'adhikarana', np: { text: 'state ' + stateNum, head: 'state', num: stateNum } }]);
         if (condRoles && condCanon && Array.isArray(condCanon.stated)) condRoles.stated = condCanon.stated;
         Object.assign(f, {
@@ -335,7 +344,7 @@
       if (cut > 1) {
         const condTxt = join(ws.slice(1, cut)).replace(/,$/, ''); const mainWs = has(lw[cut], 'THEN') ? ws.slice(cut + 1) : ws.slice(cut);
         const cond = parse(forge, condTxt); const main = compileQ(join(mainWs) + (/\?\s*$/.test(text) ? '?' : ''), forge);
-        return Object.assign(main, { text: f.text, cond: cond ? Object.assign({ text: condTxt, parses: cond.parses }, roles(cond.clause)) : { text: condTxt, parsed: false }, conditional: true, speech_act: main.speech_act === 'stated' ? 'stated' : main.speech_act, rule: 'QF-IF-' + (main.rule || '') });
+        return Object.assign(main, { text: f.text, cond: cond ? Object.assign({ text: condTxt, parses: cond.parses }, roles(cond.clause, forge)) : { text: condTxt, parsed: false }, conditional: true, speech_act: main.speech_act === 'stated' ? 'stated' : main.speech_act, rule: 'QF-IF-' + (main.rule || '') });
       }
     }
     const isQ = /\?\s*$/.test(text) || has(lw[0], 'WH') || ((has(lw[0], 'COP') || has(lw[0], 'AUX') || has(lw[0], 'MOD')) && ws.length > 1);
@@ -346,7 +355,7 @@
         const kind = lw[ci - 1]; const body = ws.slice(ci + 1); let vf = 'owns'; try { vf = G.inflect('own', tenseOf(lw[ci])) || vf; } catch (e) {}
         const s = 'someone ' + vf + ' ' + join(body); const p = parse(forge, s);
         if (p && p.clause && p.clause.roles && p.clause.roles.karma) {
-          Object.assign(f, roles(p.clause), { wh: 'whose', mood: 'interrogative', aux: lw[ci], wh_role: 'kartr', parsed: true, declarative: s, parses: p.parses, rule: 'QF-WH-SUBJ-DECL', speech_act: 'who' });
+          Object.assign(f, roles(p.clause, forge), { wh: 'whose', mood: 'interrogative', aux: lw[ci], wh_role: 'kartr', parsed: true, declarative: s, parses: p.parses, rule: 'QF-WH-SUBJ-DECL', speech_act: 'who' });
           f.karma = Object.assign({}, f.karma, { kind: singular(forge, kind) || kind }); f.wh_det = kind;
           f.canonical = [{ rule: 'QF-CANON-WHOSE', surface_rule: 'QF-WH-ADJ-NOPARSE', surface_declarative: null }];
           return f;
@@ -361,7 +370,7 @@
       if (has(a0, 'COP') || has(a0, 'AUX') || has(a0, 'MOD')) {
         f.aux = a0; const body = rest.slice(1);
         const cands = filler ? declaratives(a0, body, filler) : (has(a0, 'COP') && body.length === 1 ? declaratives(a0, body, 'something') : declaratives(a0, body, null));
-        for (const c of cands) { const p = parseOpen(forge, c.s); if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = c.s; f.parses = p.parses; break; } }
+        for (const c of cands) { const p = parseOpen(forge, c.s); if (p && p.clause) { Object.assign(f, roles(p.clause, forge)); f.parsed = true; f.declarative = c.s; f.parses = p.parses; break; } }
         /* 4.9.241 QF-CANON-PRO-VERB: "do" is the pro-verb. "What can you do?" / "What do you do?" asks for an action of the
          * subject: kriyā do, the karma is the gap (the verb phrase the answer supplies), the modal kept. */
         if (!f.parsed && filler && body.length >= 2 && String(body[body.length - 1]).toLowerCase() === 'do') {
@@ -400,7 +409,7 @@
         f.wh_role = 'pred'; f.wh_det = kind; f.rule = 'QF-WH-DET-COP-' + (f.partial ? 'SUBJ' : 'NOPARSE');
       } else if (filler) { /* subject question: the wh-word is kartṛ ("who wrote Hamlet" → "someone wrote Hamlet") */
         const s = join([filler].concat(rest)); const p = parse(forge, s);
-        if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = s; f.parses = p.parses; }
+        if (p && p.clause) { Object.assign(f, roles(p.clause, forge)); f.parsed = true; f.declarative = s; f.parses = p.parses; }
         f.wh_role = 'kartr'; f.rule = 'QF-WH-SUBJ-' + (f.parsed ? 'DECL' : 'NOPARSE');
       } else { f.wh_role = adjunct; f.rule = 'QF-WH-ADJ-NOPARSE'; }
       f.speech_act = selfAct(f, wh, f.aux) || wh;
@@ -409,7 +418,7 @@
     if (isQ && (has(lw[0], 'COP') || has(lw[0], 'AUX') || has(lw[0], 'MOD'))) { /* yes/no: polarity of the declarative */
       f.mood = 'interrogative'; f.aux = lw[0]; f.wh_role = 'polarity';
       const gp = /^(are|were)$/.test(lw[0]) ? genericPlural(forge, ws.slice(1)) : null;
-      if (gp) { Object.assign(f, roles(gp.p.clause)); f.parsed = true; f.declarative = gp.s; f.parses = gp.p.parses;
+      if (gp) { Object.assign(f, roles(gp.p.clause, forge)); f.parsed = true; f.declarative = gp.s; f.parses = gp.p.parses;
         f.canonical = [{ rule: 'QF-CANON-GENERIC-PLURAL', surface_rule: 'QF-YN-DECL', surface_declarative: null }]; }
       /* Among the declaratives that parse, a prepositional predicate whose preposition is in the question
        * ("is the red car inside the garage?" → "the red car is inside the garage") wins over a shorter subject
@@ -420,7 +429,7 @@
         const at = s => s.toLowerCase().split(/\s+/).indexOf(aux);
         const cands = declaratives(lw[0], ws.slice(1), null).slice().sort((a, b) => at(a.s) - at(b.s) || a.s.localeCompare(b.s));
         const parsed = [];
-        for (const c of cands) { const p = parse(forge, c.s); if (p && p.clause) parsed.push({ c, p, r: roles(p.clause) }); }
+        for (const c of cands) { const p = parse(forge, c.s); if (p && p.clause) parsed.push({ c, p, r: roles(p.clause, forge) }); }
         const surface = ws.slice(1).map(w => w.toLowerCase());
         const withPrep = parsed.filter(x => x.r.pred && x.r.pred.type === 'pp' && surface.includes(String(x.r.pred.prep || '').toLowerCase()));
         const pick = withPrep[0] || parsed[0];
@@ -438,7 +447,7 @@
         const s = join(ws.slice(0, wi).concat(['something']));
         const pIn = gapWords.length ? parseOpen(forge, s) : null;
         if (pIn && pIn.clause) {
-          Object.assign(f, roles(pIn.clause), { wh: 'what', mood: 'interrogative', wh_role: 'karma', parsed: true, declarative: s, parses: pIn.parses, rule: 'QF-WH-INSITU', speech_act: 'what' });
+          Object.assign(f, roles(pIn.clause, forge), { wh: 'what', mood: 'interrogative', wh_role: 'karma', parsed: true, declarative: s, parses: pIn.parses, rule: 'QF-WH-INSITU', speech_act: 'what' });
           const propHead = gapWords[gapWords.length - 1].toLowerCase();
           const propAdjs = gapWords.slice(0, -1).map(w => w.toLowerCase());
           if (f.kriya === 'have' && f.kartr && f.kartr.text && /^(weight|mass|formula|structure|charge)$/.test(propHead)) {
@@ -451,11 +460,11 @@
     }
     /* declarative */
     const p = parse(forge, join(ws));
-    if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = join(ws); f.parses = p.parses; f.rule = 'QF-DECL'; return f; }
+    if (p && p.clause) { Object.assign(f, roles(p.clause, forge)); f.parsed = true; f.declarative = join(ws); f.parses = p.parses; f.rule = 'QF-DECL'; return f; }
     /* imperative: the addressee is kartṛ */
     const imps = ['you ' + join(ws)]; if (ws.length > 2) imps.push('you ' + join([ws[0], 'that'].concat(ws.slice(1)))); /* a clausal complement may drop "that" */
     for (const s of imps) { const pi = parse(forge, s);
-      if (pi && pi.clause) { Object.assign(f, roles(pi.clause)); f.parsed = true; f.mood = 'imperative'; f.speech_act = 'command'; f.declarative = s; f.parses = pi.parses; f.rule = 'QF-IMP'; return f; } }
+      if (pi && pi.clause) { Object.assign(f, roles(pi.clause, forge)); f.parsed = true; f.mood = 'imperative'; f.speech_act = 'command'; f.declarative = s; f.parses = pi.parses; f.rule = 'QF-IMP'; return f; } }
     /* a bare noun phrase (a fragment, e.g. a reply that picks a meaning) */
     const pf = parse(forge, join(ws) + ' is something');
     if (pf && pf.clause && pf.clause.subj) { f.kartr = np(pf.clause.subj); f.mood = 'fragment'; f.rule = 'QF-FRAGMENT-NP'; return f; }
@@ -508,7 +517,7 @@
     if (rest && !/^\d/.test(rest)) {
       const low = rest[0].toLowerCase() + rest.slice(1);
       const parsed = parseOpen(forge, 'it is ' + low);
-      const pred = parsed && parsed.clause ? roles(parsed.clause).pred : null;
+      const pred = parsed && parsed.clause ? roles(parsed.clause, forge).pred : null;
       if (pred && pred.type === 'np' && pred.text) phrase = String(pred.text);
     }
     return { stated: lifted.stated, phrase: phrase, calls_llm: false };

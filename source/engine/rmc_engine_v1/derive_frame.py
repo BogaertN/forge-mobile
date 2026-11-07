@@ -372,6 +372,30 @@ def contain_roles(frame: dict[str, Any] | None) -> tuple[dict[str, Any] | None, 
     return None, None
 
 
+def live_place(frame: dict[str, Any] | None) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """(resident, place) when the frame is the verb live with an adhikarana in-phrase. inside/on/at are not residence."""
+    if not isinstance(frame, dict) or str(frame.get("kriya") or "").lower() != "live":
+        return None, None
+    for adj in frame.get("adj") or []:
+        if isinstance(adj, dict) and str(adj.get("prep") or "").lower() == "in" and str(adj.get("role") or "") == "adhikarana" and isinstance(adj.get("np"), dict):
+            return frame.get("kartr") if isinstance(frame.get("kartr"), dict) else None, adj["np"]
+    return None, None
+
+
+def geo_places(frame: dict[str, Any] | None) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """(place, region) for copular in only when the grammar filed both names as lexicon locations."""
+    if not isinstance(frame, dict) or str(frame.get("kriya") or "").lower() != "be":
+        return None, None
+    pred = frame.get("pred")
+    if not isinstance(pred, dict) or str(pred.get("type") or "") != "pp" or str(pred.get("prep") or "").lower() != "in":
+        return None, None
+    left = frame.get("kartr") if isinstance(frame.get("kartr"), dict) else None
+    right = pred.get("np") if isinstance(pred.get("np"), dict) else None
+    if left and left.get("loc") and right and right.get("loc"):
+        return left, right
+    return None, None
+
+
 def contain_frame(conclusion: dict[str, Any]) -> dict[str, Any]:
     """The inner reading of a derived in(content, container) atom: kartṛ content, PP predicate inside container."""
     args = [str(a) for a in (conclusion.get("args") or ["", ""])]
@@ -413,6 +437,16 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
     if role in ("polarity", "") and qc and qn and fc and fn and np_unify(qc, fc) and np_unify(qn, fn):
         yes = fpol == (qframe.get("polarity") or "pos")
         return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "contain", "rule": "polar_contain"}
+    qp, qwhere = live_place(qframe)
+    fp, fwhere = live_place(fframe)
+    if role in ("polarity", "") and qp and qwhere and fp and fwhere and np_unify(qp, fp) and np_unify(qwhere, fwhere):
+        yes = fpol == (qframe.get("polarity") or "pos")
+        return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "live", "rule": "polar_live"}
+    gq, gn = geo_places(qframe)
+    fg, fn2 = geo_places(fframe)
+    if role in ("polarity", "") and gq and gn and fg and fn2 and np_unify(gq, fg) and np_unify(gn, fn2):
+        yes = fpol == (qframe.get("polarity") or "pos")
+        return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "geo", "rule": "polar_geo"}
     if not qk or qk != fk:
         return None
     qs, qp, qo = qframe.get("kartr"), qframe.get("pred"), qframe.get("karma")

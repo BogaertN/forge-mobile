@@ -198,9 +198,8 @@ C('GRAMMAR-V3', 'capitalised mid-sentence name kept as proper noun', () => { con
 require('./r4251_suite.js')(C, expect);
 require('./r4252_suite.js')(C, expect);
 /* INFERENCE */
-const infK = () => { const k = FKN(); k.process('remember that my sister lives in Paris'); k.process('remember that Paris is in France'); k.process('remember that France is in Europe'); k.process('remember that my dog is a poodle'); k.process("remember that Anna is my mother's sister"); return k; };
-C('INFERENCE', 'transitive located-in (2 hops)', () => { const r = infK().process('does my sister live in France?'); expect(/^Yes, I infer that/.test(r.reply), r.reply); });
-C('INFERENCE', 'transitive located-in (3 hops)', () => { const r = infK().process('does my sister live in Europe?'); expect(/^Yes, I infer that/.test(r.reply), r.reply); });
+require('./r4253_suite.js').original(C, expect);
+require('./r4253_suite.js').repaired(C, expect);
 C('INFERENCE', 'is-a via WordNet hypernyms', () => {
   const Ask = require('./ask_path.js'); const s = Ask.session();
   expect(Ask.remember(s, 'remember that my dog is a poodle').ok);
@@ -213,9 +212,6 @@ C('INFERENCE', 'is-a not provable → no guess', () => {
   const r = Ask.ask(s, 'is my dog a cat?');
   expect(!/^Yes/.test(r.reply || ''), r.reply);
 });
-C('INFERENCE', 'unrelated location not inferred', () => { const r = infK().process('does my sister live in Asia?'); expect(!/^Yes/.test(r.reply), r.reply); });
-C('INFERENCE', 'negation consistency: stored negative vs inferred positive → conflict reported', () => { const k = infK(); k.process('remember that my sister does not live in France'); const r = k.process('does my sister live in France?'); expect(/conflict|You told me that your sister does not/i.test(r.reply), r.reply); });
-C('INFERENCE', 'trace carries INF-* rule ids', () => { const r = infK().process('does my sister live in France?'); expect(r.trace.rules.some(x => /^INF-/.test(x.id))); });
 /* FORGET (Doc 7 lawful delete → cold storage) */
 C('FORGET', 'forget asks for confirmation first', () => { const k = FKN(); k.process('remember that my car is red'); const r = k.process('forget that my car is red'); expect(/“yes” or “no”/.test(r.reply) && k.memory().length === 1, r.reply); });
 C('FORGET', 'confirmed forget moves to cold storage, recall stops', () => { const k = FKN(); k.process('remember that my car is red'); k.process('forget that my car is red'); k.process('yes'); expect(k.memory().filter(r => r.kind !== 'note').length === 0 && k.cold().length >= 1); const r = k.process('is my car red?'); expect(!/^Yes/.test(r.reply), r.reply); });
@@ -235,11 +231,6 @@ const sg = n => (n < 0 ? '- ' + -n : '+ ' + n);
 for (let a = -4; a <= 4; a++) for (let b = a; b <= 4; b++) { if (a === 0 || b === 0) continue; const B = -(a + b), Cc = a * b; const p = 'x^2 ' + (B ? sg(B) + 'x ' : '') + sg(Cc); C('MATH-V3', `factor ${p}`, () => { const r = FKN().process('factor ' + p); const f = z => z < 0 ? '(x + ' + -z + ')' : '(x - ' + z + ')'; expect((r.reply || '').includes(a === b ? f(a) : '') && r.trace.echo.pass, r.reply || r.block_reason); }); }
 for (let n = 1; n <= 6; n++) for (let c = 1; c <= 5; c++) C('MATH-V3', `derivative of ${c}x^${n}`, () => { const r = FKN().process(`derivative of ${c}x^${n}`); const e = n === 1 ? String(c) : (c * n) + (n - 1 === 1 ? 'x' : 'x^' + (n - 1)); expect((r.reply || '').includes(e), r.reply + ' / ' + e); });
 for (let i = 1; i <= 25; i++) { const x = (i % 7) - 3, y = (i % 5) - 2; const eq = `x + y = ${x + y} and x - y = ${x - y}`; C('MATH-V3', `linear system ${eq}`, () => { const r = FKN().process('solve ' + eq); expect((r.reply || '').includes('x = ' + x) && r.reply.includes('y = ' + y), r.reply || r.block_reason); }); }
-const P = ['my sister', 'my brother', 'my friend', 'my aunt', 'my uncle'], CH = [['Lyon', 'France', 'Europe'], ['Kyoto', 'Japan', 'Asia'], ['Toronto', 'Canada', 'America'], ['Porto', 'Portugal', 'Europe'], ['Cairo', 'Egypt', 'Africa']];
-for (const p of P) for (const [c, n, k] of CH) { const mk = () => { const z = FKN(); z.process(`remember that ${p} lives in ${c}`); z.process(`remember that ${c} is in ${n}`); z.process(`remember that ${n} is in ${k}`); return z; };
-  C('INFERENCE', `${p} in ${c} ⊂ ${n} ⊂ ${k}: country`, () => { const r = mk().process(`does ${p} live in ${n}?`); expect(/^Yes, I infer that/.test(r.reply), r.reply); });
-  C('INFERENCE', `${p} in ${c} ⊂ ${n} ⊂ ${k}: continent`, () => { const r = mk().process(`does ${p} live in ${k}?`); expect(/^Yes, I infer that/.test(r.reply), r.reply); });
-  C('INFERENCE', `${p} in ${c}: no inference to Atlantis`, () => { const r = mk().process(`does ${p} live in Narnia?`); expect(!/^Yes/.test(r.reply || ''), r.reply); }); }
 const ISA = [['poodle', 'dog'], ['poodle', 'animal'], ['sparrow', 'bird'], ['oak', 'tree'], ['salmon', 'fish'], ['violin', 'device'], ['hammer', 'tool'], ['sedan', 'car']];
 for (const [a, b] of ISA) C('INFERENCE', `WordNet is-a: my pet is a ${a} ⇒ ${b}`, () => {
   const Ask = require('./ask_path.js'); const s = Ask.session();

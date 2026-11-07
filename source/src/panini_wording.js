@@ -121,6 +121,21 @@ function Wording(ctx) {
     }
     /* in(content, container) is the typed containment atom. The clause may say it as "content is inside container"
      * or as "container contains content". Other prepositions are not this atom. */
+    /* live(resident, place) is the verb live plus adhikarana in. geo(place, region) is copular in between
+     * two lexicon locations. Neither is the containment atom. */
+    if (normArg(given.predicate) === 'live' && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      const loc = (clauseAtom.modifiers || []).find(m => m && normArg(m.prep) === 'in' && normArg(m.role) === 'adhikarana');
+      if (clauseAtom.lemma === 'live' && got.length === 1 && polOk && got[0] === want[0] && loc && normArg(loc.text) === want[1]) return true;
+      return false;
+    }
+    if (normArg(given.predicate) === 'geo' && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && got[1] === 'in ' + want[1]) return true;
+      return false;
+    }
     if (normArg(given.predicate) === 'in' && (given.args || []).length === 2) {
       const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
       const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
