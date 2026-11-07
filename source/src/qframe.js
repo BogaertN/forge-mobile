@@ -433,8 +433,24 @@
         const surface = ws.slice(1).map(w => w.toLowerCase());
         /* "of" on a noun ("part of the car") is the noun's complement, not a predicate preposition. Preferring
          * the of-PP would move "part" into the subject ("the wheel part is of the car"). inside/in/on stay. */
-        const withPrep = parsed.filter(x => x.r.pred && x.r.pred.type === 'pp' && String(x.r.pred.prep || '').toLowerCase() !== 'of' && surface.includes(String(x.r.pred.prep || '').toLowerCase()));
-        const pick = withPrep[0] || parsed[0];
+        const adjective = w => sensesOf(forge, w, 'a').length > 0 || sensesOf(forge, w, 's').length > 0;
+        /* An adjective that takes the following preposition ("next to", "married to") keeps it. The earliest
+         * copula can split a noun phrase ("the red is car next to the garage"); that noun is not the adjective. */
+        const adjComp = parsed.filter(x => {
+          const word = String((x.r.pred && x.r.pred.text) || '').toLowerCase();
+          return x.r.pred && x.r.pred.type === 'adj' && adjective(word) && (x.r.adj || []).some(a => a && a.np && surface.includes(String(a.prep || '').toLowerCase()));
+        });
+        const withPrep = parsed.filter(x => {
+          if (!x.r.pred || x.r.pred.type !== 'pp') return false;
+          const prep = String(x.r.pred.prep || '').toLowerCase();
+          if (!prep || prep === 'of' || !surface.includes(prep)) return false;
+          const complement = parsed.some(y => {
+            const word = String((y.r.pred && y.r.pred.text) || '').toLowerCase();
+            return y.r.pred && y.r.pred.type === 'adj' && adjective(word) && (y.r.adj || []).some(a => a && String(a.prep || '').toLowerCase() === prep && a.np);
+          });
+          return !complement;
+        });
+        const pick = adjComp[0] || withPrep[0] || parsed[0];
         if (pick) { Object.assign(f, pick.r); f.parsed = true; f.declarative = pick.c.s; f.parses = pick.p.parses; }
       }
       f.speech_act = selfAct(f, null, f.aux) || 'stated'; f.polar = true; f.rule = 'QF-YN-' + (f.parsed ? 'DECL' : 'NOPARSE');

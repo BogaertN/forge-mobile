@@ -492,6 +492,9 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     question = str(payload.get("question") or payload.get("text") or "").strip()
     if not question:
         return {"ok": False, "engine": "rmc_engine_v1", "error": "empty_question", "calls_llm": False, "product_reply": False}
+    _payload_memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
+    from rmc_engine_v1.world_model_v1 import set_relation_overlay
+    set_relation_overlay(_payload_memory.get("relation_overlay") if isinstance(_payload_memory.get("relation_overlay"), dict) else None)
     rows = _rows(payload)
     # 4.9.216 computed tier: only the engine's own computation receipt for this question is a computed premise.
     # A row that merely claims tier "computed" from the phone's memory is not.
@@ -557,7 +560,10 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         _converse = _match.get("rule") == "polar_converse"
         from rmc_engine_v1 import question_frame as _qf_cov
         _framed_hold = _qf_cov.valid(_qf_cov.current(), question) and derive_status != "supported_only"
-        if live and derive_status != "conflicted" and scored and not _restated and not _converse and not _framed_hold and ("memory" in scored_kind or meaning_preview.get("language_core")):
+        # A symmetric derivation already speaks the premise and the reverse. Token coverage of the premise
+        # ("the blue boat is next to the dock") would replace the reverse ("the dock is next to the blue boat").
+        _derived_speech = isinstance(_surv, dict) and derive_status == "supported_only" and str(_surv.get("how") or "") in ("WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC") and bool(str(_surv.get("spoken") or "").strip())
+        if live and derive_status != "conflicted" and scored and not _restated and not _converse and not _framed_hold and not _derived_speech and ("memory" in scored_kind or meaning_preview.get("language_core")):
             if echo_against_question(question, scored, rendered=True).get("pass"):
                 rendered = scored
         # 4.9.241 (Nic: natural conversation): a turn that is only conversational acts the speech-act lexicon answers is

@@ -123,7 +123,14 @@ function Wording(ctx) {
      * or as "container contains content". Other prepositions are not this atom. */
     /* live(resident, place) is the verb live plus adhikarana in. geo(place, region) is copular in between
      * two lexicon locations. Neither is the containment atom. */
-    if (['ancestor', 'descendant', 'parent', 'child'].indexOf(normArg(given.predicate)) >= 0 && (given.args || []).length === 2) {
+    if (['married', 'next', 'adjacent'].indexOf(normArg(given.predicate)) >= 0 && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      const to = (clauseAtom.modifiers || []).find(m => m && normArg(m.prep) === 'to');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && got[1] === normArg(given.predicate) && to && normArg(to.text) === want[1]) return true;
+      return false;
+    }
+    if (['ancestor', 'descendant', 'parent', 'child', 'sibling'].indexOf(normArg(given.predicate)) >= 0 && (given.args || []).length === 2) {
       const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
       const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
       const rel = normArg(given.predicate);

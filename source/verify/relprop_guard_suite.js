@@ -15,6 +15,7 @@ module.exports = ({ C, expect, ROOT }) => {
    * A negative cell counts only when the stated direction itself is admitted, so a hold is not evidence
    * that a relation the engine never read is non-transitive. Kernel.process is not called. */
   const HOW = { inside: 'WM-CONTAIN-CHAIN', within: 'WM-CONTAIN-CHAIN', contain: 'WM-CONTAIN-CHAIN', part_of: 'WM-PART-CHAIN', ancestor_of: 'WM-ANCESTOR-CHAIN', descendant_of: 'WM-DESCENDANT-CHAIN' };
+  const SYM = { married_to: 'WM-MARRIED-SYMMETRIC', next_to: 'WM-NEXT-SYMMETRIC', adjacent_to: 'WM-ADJACENT-SYMMETRIC', sibling_of: 'WM-SIBLING-SYMMETRIC' };
   const Ask = require(ROOT + '/verify/ask_path.js');
   const liveAsk = (mem, q) => { const s = Ask.session(); for (const m of mem) { const kept = Ask.remember(s, m); expect(kept.ok, m + ' ' + (kept.why || '')); } const n = s.phone.length; const row = Ask.ask(s, q); expect(s.phone.length === n, 'ask wrote'); return row; };
   const admitted = row => row && row.product_reply === true && row.echo && row.echo.pass === true && row.calls_llm !== true && !(row.memory_write && row.memory_write.committed);
@@ -34,7 +35,11 @@ module.exports = ({ C, expect, ROOT }) => {
     C('RELPROP-GUARD', p.replace(/_/g, ' ') + (sy ? ' reverses (symmetric)' : ' does not reverse (not symmetric)'), () => {
       const fwd = liveAsk(['remember that ' + say('Orla', 'Pemba')], ask('Orla', 'Pemba'));
       const row = liveAsk(['remember that ' + say('Orla', 'Pemba')], ask('Pemba', 'Orla'));
-      if (sy) { expect(admitted(row), shown(row)); return; }
+      if (sy) {
+        const how = row.world_model && row.world_model.derive && row.world_model.derive.survivor && row.world_model.derive.survivor.how;
+        expect(admitted(row) && how === SYM[p], shown(row) + (how ? ' ' + how : ''));
+        return;
+      }
       expect(admitted(fwd) && row.product_reply !== true, 'stated ' + shown(fwd) + ' / reverse ' + shown(row));
     }); }
 };

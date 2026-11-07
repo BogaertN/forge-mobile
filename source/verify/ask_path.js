@@ -14,6 +14,7 @@ const Q = require(ROOT + '/src/qframe.js');
 const R = require(ROOT + '/src/rmc_client.js');
 const Core = require(ROOT + '/src/rmc_core.js');
 const Priv = require(ROOT + '/src/privacy.js');
+const WR = require(ROOT + '/src/world_rules.js');
 const LEX = require(ROOT + '/data/lexicon.json');
 const EXT = require(ROOT + '/data/lexicon-ext.json');
 const REMEMBER = /^\s*(?:please\s+)?remember\s+(?:that\s+)?(\S.*?)\s*[.!]?\s*$/i;
@@ -62,7 +63,8 @@ function ask(s, question, extra) {
   const prod = extra.isolated === true ? { shared: [], anchors: [] } : productionPools();
   const pools = [{ name: 'confirmed_shared', into: 'hosted', rows: prod.shared.concat(extra.sharedRows || []) }];
   if (extra.anchorRows && extra.anchorRows.length) pools.unshift({ name: 'anchors', into: 'anchors', rows: extra.anchorRows });
-  const memory = { receipts: [], phone: s.phone.slice(), hosted: [], anchors: extra.anchors || prod.anchors, research: [], self: [], pools };
+  const nextRow = WR.relInfo('next_to');
+  const memory = { receipts: [], phone: s.phone.slice(), hosted: [], anchors: extra.anchors || prod.anchors, research: [], self: [], pools, relation_overlay: { next_to_transitive: !!(nextRow && nextRow.row && nextRow.row.transitive) } };
   const payload = Core.withClauses({ question, frame, live: true, dry_run: false, memory }, Q, f);
   let row = R.askSync(payload);
   row = Core.outwardCompile(row, payload, f, null);

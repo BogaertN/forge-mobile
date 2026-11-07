@@ -58,6 +58,12 @@ function register(C, expect) {
     expect(WF.rows().some(r => r.text === 'The key is inside the box.') && !WF.rows().some(r => /drawer/.test(r.text)), 'first container kept');
     WF.clear();
   });
+  C('REMEMBER-KEY', 'a second spouse is kept; married-to is not in the functional table', () => {
+    WF.clear();
+    expect(put('Nia is married to Pavel.').ok && put('Nia is married to Soren.').ok, WF.rows().map(r => r.text).join('|'));
+    expect(WF.rows().length === 2, String(WF.rows().length));
+    WF.clear();
+  });
   C('REMEMBER-KEY', 'a second parent is kept; parent is not in the functional table', () => {
     WF.clear();
     expect(put('Tom is the parent of Sue.').ok && put('Ann is the parent of Sue.').ok && put('Tom is the parent of Ned.').ok, WF.rows().map(r => r.text).join('|'));
