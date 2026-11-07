@@ -261,8 +261,22 @@ async function rememberStatement(text) {
   if (clause && clause.tag && clause.parsed && clause.text) sentence = clause.text.charAt(0).toUpperCase() + clause.text.slice(1).replace(/[.!?]+$/, '') + '.';
   const alts = window.KQFrame && KQFrame.readings ? KQFrame.readings(sentence, forge) : [];
   if (alts.length > 1) {
-    pendingAsk = { kind: 'clause', options: alts };
     const reply = 'readings ' + alts.map((r, i) => '(' + (i + 1) + ') “verb: ' + r.kriya + ', karma: ' + ((r.karma && r.karma.text) || '') + '”').join(' ');
+    const sig = r => [r && r.kriya, r && r.voice, r && r.kartr && r.kartr.text, r && r.karma && r.karma.text, r && r.karakas && r.karakas.sampradana && r.karakas.sampradana.text, r && r.text].join('|');
+    const d = forge && forge.perm ? forge.perm.authorize('memory.write', { explicit: true, userTap: true, subject: sentence }) : { decision: 'allow', rule: 'PERM-EXPLICIT-REQUEST' };
+    const canon = alts.map(sig);
+    if (d.decision === 'needs_approval') {
+      try {
+        const hw = forge.store.load('held_writes');
+        const id = 'held:amb:' + hw.length;
+        hw.push({ id, status: 'held', kind: 'phone_statement', text: sentence, clause: null, readings: alts, canon, selected: null, input: sentence, perm_rule: d.rule });
+        forge.store.save('held_writes', hw);
+        pendingAsk = { kind: 'clause', mode: 'held', holdId: id };
+      } catch (e) { pendingAsk = null; }
+      return { ok: false, held: true, rule: d.rule, message: reply + ' Nothing was stored.' };
+    }
+    if (d.decision !== 'allow') { pendingAsk = null; return { ok: false, held: false, rule: d.rule, message: 'Not stored: ' + (d.rule || 'the write was not authorized') + '.' }; }
+    pendingAsk = { kind: 'clause', mode: 'allowed', permId: d.id, readings: alts, canon, sentence };
     return { ok: false, held: true, rule: 'GRAMMAR-AMBIGUOUS', message: reply };
   }
   let contested = false;
@@ -312,14 +326,27 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
   let qtext = text; let askCtx = {}; let simSpecific = false; let simSupplement = null;
   if (pendingAsk && pendingAsk.kind === 'clause') {
+    const pending = pendingAsk;
     const n = parseInt(String(text).trim(), 10);
-    const chosen = pendingAsk.options && pendingAsk.options[n - 1];
-    if (!chosen) { askCard('again', 'Say the number of one reading.', 'meaning-ask'); return null; }
+    const sig = r => [r && r.kriya, r && r.voice, r && r.kartr && r.kartr.text, r && r.karma && r.karma.text, r && r.karakas && r.karakas.sampradana && r.karakas.sampradana.text, r && r.text].join('|');
+    const chosen = pending.readings && pending.readings[n - 1];
+    if (!chosen || !pending.canon || pending.canon[n - 1] !== sig(chosen)) { askCard('again', 'Say the number of one reading.', 'meaning-ask'); return null; }
+    if (pending.mode === 'held') {
+      pendingAsk = null;
+      try {
+        const hw = forge.store.load('held_writes');
+        const h = hw.find(x => x.id === pending.holdId && x.status === 'held');
+        if (!h || !h.readings || !h.readings[n - 1] || h.canon[n - 1] !== sig(h.readings[n - 1])) { askCard('held', 'That reading is not the one that was authorized.', 'held'); return { ok: false, rule: 'GRAMMAR-NO-READING' }; }
+        h.selected = n - 1; h.clause = h.readings[n - 1]; h.text = h.readings[n - 1].text;
+        forge.store.save('held_writes', hw);
+      } catch (e) { /* nothing stored */ }
+      askCard('held', 'Reading ' + n + ' is selected. Nothing was stored.', 'held');
+      return { ok: false, held: true, rule: 'PERM-D10-EVERY-WRITE' };
+    }
+    if (pending.mode !== 'allowed' || !pending.permId) { pendingAsk = null; askCard('held', 'Nothing was stored.', 'held'); return { ok: false, rule: 'GRAMMAR-NO-READING' }; }
     pendingAsk = null;
-    const d = forge && forge.perm ? forge.perm.authorize('memory.write', { explicit: true, userTap: true, subject: chosen.text }) : { decision: 'allow', rule: 'PERM-EXPLICIT-REQUEST' };
-    if (d.decision !== 'allow') { askCard('held', esc(d.rule || 'Not stored.'), 'held'); return { ok: false, rule: d.rule }; }
     const kept = rememberedRows();
-    const row = { id: 'rem-' + kept.length, text: chosen.text, clause: chosen, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', reading: n }, remembered_at: new Date().toISOString() };
+    const row = { id: 'rem-' + kept.length, text: chosen.text, clause: chosen, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', reading: n, perm_id: pending.permId }, remembered_at: new Date().toISOString() };
     keepWorldFact(row, 'remember');
     kept.push(row);
     try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* the refusal is the card below */ }

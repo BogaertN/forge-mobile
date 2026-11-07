@@ -499,6 +499,12 @@ function Kernel(opts) {
 
   function commitHeld(id, userTap) {
     const hw = store.load('held_writes'); const h = hw.find(x => x.id === id && x.status === 'held'); if (!h) return { ok: false, rule: 'HELD-UNKNOWN' };
+    if (h.kind === 'phone_statement' && Array.isArray(h.readings)) {
+      const sig = r => [r && r.kriya, r && r.voice, r && r.kartr && r.kartr.text, r && r.karma && r.karma.text, r && r.karakas && r.karakas.sampradana && r.karakas.sampradana.text, r && r.text].join('|');
+      const chosen = h.selected == null ? null : h.readings[h.selected];
+      if (!chosen || !Array.isArray(h.canon) || h.canon[h.selected] !== sig(chosen) || (h.clause && sig(h.clause) !== h.canon[h.selected])) return { ok: false, rule: chosen ? 'GRAMMAR-FORGED-READING' : 'GRAMMAR-NO-READING', held: true };
+      h.text = chosen.text; h.clause = chosen;
+    }
     const d = perm.authorize('memory.approve_held', { userTap, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
     if (h.kind === 'phone_forget') {
       store.save('memory', store.load('memory').filter(r => String(r.text || '') !== String(h.text || '')));

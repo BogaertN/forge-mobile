@@ -464,6 +464,14 @@
         /* A strict declarative wins. Do-support must not treat a later noun as the verb just because an open parse accepts it. */
         const strict = [];
         for (const c of cands) { const p = parse(forge, c.s); if (p && p.clause) strict.push({ c, p }); }
+        if (!strict.length && filler) {
+          for (let i = 1; i < body.length; i++) {
+            if (!/^(about|of)$/.test(String(body[i]).toLowerCase())) continue;
+            const s = join(body.slice(0, i).concat([filler], body.slice(i)));
+            const p = parse(forge, s);
+            if (p && p.clause) { strict.push({ c: { s: s }, p }); break; }
+          }
+        }
         const want = AUX_TENSE[a0];
         const tensed = want ? strict.filter(x => x.p.clause.verb && x.p.clause.verb.tense === want) : [];
         const pick = tensed[0] || strict[0] || cands.map(c => ({ c, p: parseOpen(forge, c.s) })).find(x => x.p && x.p.clause);
@@ -622,7 +630,24 @@
     }
     return null;
   }
-  function compile(text, forge) { try { return actFrame(text, forge) || canonicalize(compileQ(text, forge), forge); } catch (e) { return { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; } }
+  function termOf(frame) {
+    if (!frame) return null;
+    if (frame.kriya === 'define' && frame.karma) return frame.karma.head || frame.karma.text;
+    if (frame.kriya === 'mean' && frame.kartr) return frame.kartr.head || frame.kartr.text;
+    if (frame.kriya === 'be' && frame.kartr && String(frame.kartr.head || '') === 'meaning' && frame.kartr.of) return frame.kartr.of.head || frame.kartr.of.text;
+    return null;
+  }
+  function attachLexicon(frame, forge) {
+    const term = termOf(frame);
+    if (!term || !forge || !forge.lexicon || typeof forge.lexicon.controlled !== 'function') return frame;
+    const head = String(term).toLowerCase();
+    let concepts = [];
+    try { concepts = (forge.lexicon.controlled(head) || []).filter(c => c && (c.surfaces || []).some(s => String(s).toLowerCase() === head) && c.senses && c.senses[0] && c.senses[0].gloss); } catch (e) { concepts = []; }
+    if (concepts.length === 1) frame.lexicon = { id: concepts[0].id, term: head, gloss: concepts[0].senses[0].gloss, source: concepts[0].source || null, status: concepts[0].status || null };
+    else if (concepts.length > 1) frame.lexicon = { ambiguous: true, term: head, ids: concepts.map(c => c.id) };
+    return frame;
+  }
+  function compile(text, forge) { try { return attachLexicon(actFrame(text, forge) || canonicalize(compileQ(text, forge), forge), forge); } catch (e) { return { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; } }
   /* A sim-ask reply is either measures, a kind, or both. The measures are the same lift the question frame
    * already uses. The leftover noun phrase is read as the predicate of a copula, so the kind is a kāraka
    * and not a splice into the pending question. */

@@ -35,10 +35,13 @@ function copulaClash(rows, clause) {
     return os === subj && op && op !== pred && o.pred.type !== 'cmp' && o.pred.type !== 'pp';
   });
 }
+function readingSig(r) {
+  return [r && r.kriya, r && r.voice, r && r.kartr && r.kartr.text, r && r.karma && r.karma.text, r && r.karakas && r.karakas.sampradana && r.karakas.sampradana.text, r && r.text].join('|');
+}
 function stageHold(f, row, rule) {
   const hw = f.store.load('held_writes');
   const id = 'held:' + row.id;
-  if (!hw.some(x => x.id === id && x.status === 'held')) hw.push({ id, status: 'held', kind: 'phone_statement', text: row.text, clause: row.clause, input: row.text, sensitive: !!row.sensitive, perm_rule: rule, at: '2026-11-07T00:00:00Z' });
+  if (!hw.some(x => x.id === id && x.status === 'held')) hw.push({ id, status: 'held', kind: 'phone_statement', text: row.text, clause: row.clause || null, readings: row.readings || null, canon: row.canon || null, selected: row.selected == null ? null : row.selected, input: row.text, sensitive: !!row.sensitive, perm_rule: rule, at: '2026-11-07T00:00:00Z' });
   f.store.save('held_writes', hw);
   return id;
 }
@@ -63,9 +66,20 @@ function remember(s, text, kernelOpt) {
   if (clause && clause.tag && clause.parsed && clause.text) sentence = clause.text.charAt(0).toUpperCase() + clause.text.slice(1).replace(/[.!?]+$/, '') + '.';
   const alts = Q.readings(sentence, f);
   if (alts.length > 1) {
-    s.pending = alts;
     const reply = 'readings ' + alts.map((r, i) => '(' + (i + 1) + ') “verb: ' + r.kriya + ', karma: ' + ((r.karma && r.karma.text) || '') + '”').join(' ');
-    return { ok: false, held: true, sealing: false, rule: 'GRAMMAR-AMBIGUOUS', readings: alts, reply, text: sentence };
+    const d = f.perm.authorize('memory.write', { explicit: true, userTap: true, subject: sentence });
+    const canon = alts.map(readingSig);
+    s.pending = null;
+    s.pendingAuth = null;
+    s.pendingHold = null;
+    if (d.decision === 'needs_approval') {
+      const id = stageHold(f, { id: 'amb-' + s.phone.length, text: sentence, readings: alts, canon, selected: null }, d.rule);
+      s.pendingHold = id;
+      return { ok: false, held: true, sealing: false, rule: d.rule, permission: d, readings: alts, reply, held_id: id, text: sentence };
+    }
+    if (d.decision !== 'allow') return { ok: false, held: false, sealing: false, rule: d.rule, permission: d, readings: alts, reply: null, text: sentence };
+    s.pendingAuth = { perm_id: d.id, readings: alts, canon, sentence, used: false };
+    return { ok: false, held: true, sealing: false, rule: 'GRAMMAR-AMBIGUOUS', permission: d, readings: alts, reply, text: sentence };
   }
   const contested = copulaClash(s.phone, clause);
   const d = f.perm.authorize('memory.write', { explicit: true, userTap: true, sensitive, contested, subject: sentence });
@@ -83,23 +97,38 @@ function remember(s, text, kernelOpt) {
   }
   return { ok: true, held: false, sealing: false, rule: 'REMEMBER-BY-USER-REQUEST', permission: d, text: sentence, clause };
 }
-function chooseReading(s, n, kernelOpt) {
-  const alts = s.pending || [];
-  const i = parseInt(String(n).trim(), 10) - 1;
-  const clause = alts[i];
-  if (!clause) return { ok: false, rule: 'GRAMMAR-NO-READING', reply: null };
-  s.pending = null;
-  const f = kernelOpt || kernel();
-  const d = f.perm.authorize('memory.write', { explicit: true, userTap: true, subject: clause.text });
-  if (d.decision !== 'allow') return { ok: false, held: true, rule: d.rule, permission: d, reply: null };
-  const row = { id: 'rem-' + s.phone.length, text: clause.text, clause, tier: 'phone', trust: 'trusted', scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', reading: i + 1 } };
+function storeReading(s, f, clause, kernelOpt, n) {
+  const row = { id: 'rem-' + s.phone.length, text: clause.text, clause, tier: 'phone', trust: 'trusted', scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', reading: n } };
   s.phone.push(row);
   if (kernelOpt) {
     const mem = f.store.load('memory');
     mem.push({ id: row.id, kind: 'statement', text: row.text, clause: row.clause, status: 'active', provenance: row.provenance });
     f.store.save('memory', mem);
   }
-  return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', permission: d, text: clause.text, clause, reply: 'I noted reading ' + (i + 1) + '.' };
+  return row;
+}
+function chooseReading(s, n, kernelOpt) {
+  const i = parseInt(String(n).trim(), 10) - 1;
+  const f = kernelOpt || kernel();
+  if (s.pendingHold) {
+    const hw = f.store.load('held_writes');
+    const h = hw.find(x => x.id === s.pendingHold && x.status === 'held');
+    if (!h || !Array.isArray(h.readings) || !h.readings[i] || !Array.isArray(h.canon) || h.canon[i] !== readingSig(h.readings[i])) return { ok: false, rule: 'GRAMMAR-NO-READING', reply: null };
+    h.selected = i;
+    h.clause = h.readings[i];
+    h.text = h.readings[i].text;
+    f.store.save('held_writes', hw);
+    s.pendingHold = null;
+    return { ok: false, held: true, rule: h.perm_rule, held_id: h.id, reply: null };
+  }
+  const auth = s.pendingAuth;
+  if (!auth || auth.used || !Array.isArray(auth.readings) || !auth.readings[i] || !Array.isArray(auth.canon) || auth.canon[i] !== readingSig(auth.readings[i])) return { ok: false, rule: 'GRAMMAR-NO-READING', reply: null };
+  const clause = auth.readings[i];
+  auth.used = true;
+  s.pendingAuth = null;
+  s.pending = null;
+  storeReading(s, f, clause, kernelOpt, i + 1);
+  return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', perm_id: auth.perm_id, text: clause.text, clause, reply: 'I noted reading ' + (i + 1) + '.' };
 }
 function dropPhone(s, text) {
   const key = String(text || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '');
@@ -128,6 +157,10 @@ function commit(s, kernelOpt, id, tap) {
   const before = (f.heldWrites() || []).find(h => h.id === id);
   const r = f.commitHeld(id, tap);
   if (r && r.ok && before && before.kind === 'phone_forget') dropPhone(s, before.text);
+  if (r && r.ok && before && before.kind === 'phone_statement' && Array.isArray(before.readings) && before.readings[before.selected]) {
+    const clause = before.readings[before.selected];
+    s.phone.push({ id: 'rem-' + s.phone.length, text: clause.text, clause, tier: 'phone', trust: 'trusted', scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', reading: before.selected + 1 } });
+  }
   return r;
 }
 function confirmHeld(kernelOpt) {

@@ -564,7 +564,7 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         # ("the blue boat is next to the dock") would replace the reverse ("the dock is next to the blue boat").
         _how = str((_surv or {}).get("how") or "") if isinstance(_surv, dict) else ""
         _derived_speech = isinstance(_surv, dict) and derive_status == "supported_only" and bool(str(_surv.get("spoken") or "").strip()) and (
-            _how in ("WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC")
+            _how in ("WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-RECALL", "WM-LEXICON")
             or _how.endswith("-ASYM") or _how.endswith("-EXCLUDES") or "_THAN-" in _how or _how == "WM-MEASURE-COMPARE")
         if live and derive_status != "conflicted" and scored and not _restated and not _converse and not _framed_hold and not _derived_speech and ("memory" in scored_kind or meaning_preview.get("language_core")):
             if echo_against_question(question, scored, rendered=True).get("pass"):
@@ -580,6 +580,7 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         if (
             live
             and not greeting
+            and not _derived_speech
             and derive_status != "conflicted"
             and language_core.get("admitted_candidate")
             and language_core.get("claim")
@@ -602,6 +603,8 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             from rmc_engine_v1 import question_frame as _qf
             from rmc_engine_v1.structural_echo import score as _structural_echo
             _q = _qf.current() if _qf.valid(_qf.current(), question) else None
+            if _q is None and _how in ("WM-RECALL", "WM-LEXICON"):
+                _q = _qf.current()
             structural = _structural_echo(_q, (world.get("derive") or {}).get("survivor"), rendered) if _q else None
             if structural is not None:
                 structural["replaced"] = {"method": echo.get("method"), "score": echo.get("score"), "note": "4.9.217 re-parse with token coverage; logged, not used"}

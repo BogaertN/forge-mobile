@@ -2778,6 +2778,45 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
             claim["_premise_rows"] = [main, hetu]
             claims.append(_frame_claim(claim, ff, src, m, DF.alignment(placed(hetu), phase_path, question), question))
 
+    # An open "what do you know/remember about X" is the phone's own facts whose kartṛ is X. It is not a new sentence.
+    if str((qframe or {}).get("kriya") or "") in ("know", "remember", "tell", "recall"):
+        about = None
+        for adj in (qframe.get("adj") or []):
+            if isinstance(adj, dict) and str(adj.get("prep") or "").lower() == "about" and isinstance(adj.get("np"), dict):
+                about = adj["np"]
+                break
+        phones = [f for f in topical if str(f.get("source") or "") == "phone_kb"]
+        if about is not None:
+            phones = [f for f in phones if DF.np_unify(about, (f.get("frame") or {}).get("kartr"))]
+        if phones and (about is not None or (str(qframe.get("kriya") or "") in ("remember", "recall") and str(qframe.get("wh") or "") == "what")):
+            texts = [str(f.get("text") or "") for f in phones if str(f.get("text") or "").strip()]
+            n = len(texts)
+            spoken = " ".join(texts)
+            proof = _direct_proof(world, phones[0])
+            checked = check_proof(world, proof)
+            fact_atom = phones[0].get("atom") if isinstance(phones[0].get("atom"), dict) else {"predicate": "recall", "args": [str((about or {}).get("text") or ""), str(n)], "polarity": "pos"}
+            claim = _finish_claim(world, spoken, fact_atom, phones, proof, checked, "supported_only", "WM-RECALL", phase_path)
+            claim["recall_count"] = n
+            claim["_place"] = placed(phones[0])
+            claim["_premise_rows"] = phones
+            ff, src = DF.fact_frame(phones[0])
+            claims.append(_frame_claim(claim, ff, src, {"roles": 1, "gap": "karma", "filler": texts[0], "rule": "WM-RECALL"}, DF.alignment(placed(phones[0]), phase_path, question), question))
+
+    # A define/mean question speaks the one admitted controlled concept. Several concepts are not a choice.
+    lex = qframe.get("lexicon") if isinstance(qframe.get("lexicon"), dict) else None
+    if lex and lex.get("gloss") and not lex.get("ambiguous"):
+        spoken = "“" + str(lex.get("term") or "") + "” means " + str(lex.get("gloss") or "")
+        if lex.get("source"):
+            spoken += " (" + str(lex.get("id") or "") + "; " + str(lex.get("source") or "") + ")"
+        lex_atom = {"predicate": "mean", "args": [str(lex.get("term") or ""), str(lex.get("gloss") or "")], "polarity": "pos"}
+        lex_fact = {"id": str(lex.get("id") or "lexicon"), "text": spoken, "atom": lex_atom, "source": "lexicon", "status": "admitted"}
+        proof = _direct_proof(world, lex_fact)
+        checked = {"ok": True, "reason": "admitted lexicon concept"}
+        claim = _finish_claim(world, spoken + ".", lex_atom, [lex_fact], proof, checked, "supported_only", "WM-LEXICON", phase_path)
+        claim["_place"] = {}
+        claim["_premise_rows"] = []
+        claims.append(_frame_claim(claim, {"kriya": "mean", "polarity": "pos", "kartr": {"text": str(lex.get("term") or ""), "head": str(lex.get("term") or "")}}, "lexicon", {"roles": 1, "gap": "karma", "filler": str(lex.get("gloss") or ""), "rule": "WM-LEXICON"}, {"aligned": True}, question))
+
     # Copula chain: every conclusion is checked and debated; only a conclusion whose frame unifies with the question can
     # answer. The others stay in the pool as hops (bounded).
     pool = list(topical)

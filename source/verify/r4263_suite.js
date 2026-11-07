@@ -54,6 +54,63 @@ function register(C, expect) {
     const picked = A.chooseReading(s, '1');
     expect(picked.ok === true && s.phone.length === 1 && s.phone[0].clause.kriya === a.readings[0].kriya, picked.reply);
   });
+  C('GRAMMAR-V3', 'a plain tag question and a plain ambiguity do not write in any approval mode', () => {
+    const WF = require('../src/world_facts.js');
+    for (const policy of ['explicit_request', 'every_write', 'contested_or_sensitive']) {
+      const k = fresh(); const s = A.session();
+      k.perm.setPolicy('memoryApproval', policy, true);
+      const facts = WF.rows().length;
+      const mem = k.memory().length;
+      const writes = k.perm.log().filter(e => e.action === 'memory.write').length;
+      A.ask(s, "my dog is happy, isn't it?");
+      A.ask(s, 'I saw her duck');
+      const pick = A.chooseReading(s, '3', k);
+      const bare = A.remember(s, "my dog is happy, isn't it?", k);
+      expect(pick.rule === 'GRAMMAR-NO-READING' && bare.rule === 'REMEMBER-EMPTY' && s.phone.length === 0 && k.memory().length === mem && WF.rows().length === facts && k.perm.log().filter(e => e.action === 'memory.write').length === writes, policy + ' ' + pick.rule);
+    }
+  });
+  C('GRAMMAR-V3', 'a reading number does not authorize the write; every_write still needs a tap', () => {
+    const k = fresh(); const s = A.session();
+    k.perm.setPolicy('memoryApproval', 'every_write', true);
+    const held = A.remember(s, 'remember that I saw her duck', k);
+    expect(held.held === true && held.rule === 'PERM-D10-EVERY-WRITE' && s.phone.length === 0 && k.memory().length === 0, held.rule);
+    const pick = A.chooseReading(s, '1', k);
+    expect(pick.held === true && pick.ok === false && s.phone.length === 0 && k.memory().length === 0, JSON.stringify(pick));
+    const noTap = A.commit(s, k, pick.held_id, false);
+    expect(!noTap.ok && noTap.rule === 'PERM-NEEDS-USER-TAP' && s.phone.length === 0 && k.memory().length === 0, JSON.stringify(noTap));
+    const again = A.chooseReading(s, '2', k);
+    expect(again.rule === 'GRAMMAR-NO-READING' && s.phone.length === 0, again.rule);
+    const hw = k.store.load('held_writes');
+    const h = hw.find(x => x.id === pick.held_id);
+    h.clause = { text: 'My pin is 4821.', kriya: 'be', kartr: { text: 'pin' }, karma: null };
+    k.store.save('held_writes', hw);
+    const forged = A.commit(s, k, pick.held_id, true);
+    expect(!forged.ok && forged.rule === 'GRAMMAR-FORGED-READING' && k.memory().length === 0 && !JSON.stringify(k.memory()).includes('4821'), JSON.stringify(forged));
+    h.clause = h.readings[h.selected];
+    k.store.save('held_writes', hw);
+    const tapped = A.commit(s, k, pick.held_id, true);
+    expect(tapped.ok === true && s.phone.length === 1 && s.phone[0].text === h.readings[0].text && k.memory().length === 1, JSON.stringify(tapped));
+    const replay = A.commit(s, k, pick.held_id, true);
+    expect(!replay.ok && replay.rule === 'HELD-UNKNOWN' && k.memory().length === 1, JSON.stringify(replay));
+  });
+  C('GRAMMAR-V3', 'an allowed reading is stored once from the remember authorization', () => {
+    const k = fresh(); const s = A.session();
+    const a = A.remember(s, 'remember that I saw her duck', k);
+    const writes = k.perm.log().filter(e => e.action === 'memory.write').length;
+    expect(a.rule === 'GRAMMAR-AMBIGUOUS' && writes === 1 && s.phone.length === 0, a.rule);
+    const one = A.chooseReading(s, '1', k);
+    const two = A.chooseReading(s, '1', k);
+    expect(one.ok === true && two.rule === 'GRAMMAR-NO-READING' && s.phone.length === 1 && k.memory().length === 1 && k.perm.log().filter(e => e.action === 'memory.write').length === writes, two.rule);
+  });
+  C('LC-NO-ROUTES', 'recall names only the asked person and writes nothing', () => {
+    const s = A.session(); const n = s.phone.length;
+    A.remember(s, 'remember that my sister lives in Paris');
+    A.remember(s, 'remember that my brother lives in Rome');
+    const row = A.ask(s, 'what do you know about my sister?');
+    expect(/Paris/.test(row.reply || '') && !/Rome/.test(row.reply || '') && s.phone.length === n + 2, row.reply);
+    const unknown = A.ask(s, 'define zorblax');
+    expect(unknown.reply == null && !/means/.test(unknown.reply || '') && s.phone.length === n + 2, unknown.reply);
+  });
   C('GRAMMAR-V3', 'ask and why do not write, and forget waits for a tap', () => {
     const k = fresh(); const s = A.session();
     A.remember(s, 'remember that my lamp is blue', k);
