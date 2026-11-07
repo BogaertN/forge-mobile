@@ -110,6 +110,10 @@ SELF_FACTS = [
 # self-facts (src/selfmodel.js FACTS, stored clauses sent as memory.self) through the same frame, Derive, compile and Echo
 # path as any fact; a greeting is answered by the reciprocal greeting the question itself carries (language core).
 
+# Locative containment. The clause already parsed these prepositions as a PP predicate, and the verb
+# "contain" as the same relation read from the container. "on", "near", "above", and "next to" are not this relation.
+CONTAIN_PREPS = frozenset({"in", "inside", "within"})
+
 # Contract §5: one range-restricted copula rule. Head variables occur in the body.
 COPULA_RULE = {
     "id": "WM-COPULA-CHAIN",
@@ -120,6 +124,19 @@ COPULA_RULE = {
         {"predicate": "is", "args": ["$y", "$z"], "polarity": "pos"},
     ],
     "head": {"predicate": "is", "args": ["$x", "$z"], "polarity": "pos"},
+    "guard": "distinct $x $z",
+}
+
+# One containment rule on the same unifier. in(content, container) chains forward. It is not symmetric.
+CONTAIN_RULE = {
+    "id": "WM-CONTAIN-CHAIN",
+    "class": "forward_chain",
+    "cite": "4.9.249: a parsed inside/in/within predicate, and the verb contain, are in(content, container); other relations do not use this rule",
+    "body": [
+        {"predicate": "in", "args": ["$x", "$y"], "polarity": "pos"},
+        {"predicate": "in", "args": ["$y", "$z"], "polarity": "pos"},
+    ],
+    "head": {"predicate": "in", "args": ["$x", "$z"], "polarity": "pos"},
     "guard": "distinct $x $z",
 }
 
@@ -292,13 +309,30 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
     pol = "neg" if str(rec.get("polarity") or "pos") == "neg" else "pos"
     pred = rec.get("pred") if isinstance(rec.get("pred"), dict) else None
     karma = _np_frame(rec.get("karma"))
-    if verb == "be" and pred and str(pred.get("text") or "").strip():
+    contain_inner = None
+    if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").lower() in CONTAIN_PREPS:
+        contain_inner = _np_frame(pred.get("np")) or ({"text": str(pred.get("text")).strip(), "head": str(pred.get("text")).strip()} if str(pred.get("text") or "").strip() else None)
+    if contain_inner and str(contain_inner.get("text") or "").strip():
+        # in(content, container). The preposition is the relation, not part of a copula predicate.
+        predicate, obj = "in", str(contain_inner["text"]).strip()
+        arg0 = kartr["text"]
+    elif verb == "contain" and karma and str(karma.get("text") or "").strip():
+        # the inverse reading of the same relation: the kartṛ is the container
+        predicate, obj = "in", kartr["text"]
+        arg0 = str(karma["text"]).strip()
+    elif verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").strip():
+        inner = str((pred.get("np") or {}).get("text") or pred.get("text") or "").strip()
+        predicate, obj = "is", (str(pred.get("prep")).strip() + " " + inner).strip()
+        arg0 = kartr["text"]
+    elif verb == "be" and pred and str(pred.get("text") or "").strip():
         predicate, obj = "is", str(pred["text"]).strip()
+        arg0 = kartr["text"]
     elif verb and verb != "be" and karma and pol == "pos":
         predicate, obj = verb, karma["text"]
+        arg0 = kartr["text"]
     else:
         return None, "clause_shape"
-    covered = _clause_words(kartr["text"] + " " + obj + " " + verb)
+    covered = _clause_words(arg0 + " " + obj + " " + verb + " " + (str(pred.get("prep")) if isinstance(pred, dict) else ""))
     for adj in rec.get("adjuncts") or []:
         if isinstance(adj, dict):
             covered |= _clause_words(str(adj.get("prep") or "") + " " + str((adj.get("np") or {}).get("text") or ""))
@@ -311,12 +345,18 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
     if missing:
         return None, "clause_incomplete:" + ",".join(missing[:4])
     frame = {"kriya": verb, "polarity": pol, "kartr": kartr, "tense": rec.get("tense")}
-    if predicate == "is":
+    if rec.get("adjuncts"):
+        frame["adj"] = rec.get("adjuncts")
+    if predicate == "in" and contain_inner:
+        frame["pred"] = {"type": "pp", "prep": str(pred.get("prep") or "inside").lower(), "text": obj, "np": contain_inner}
+    elif predicate == "in":
+        frame["karma"] = karma
+    elif predicate == "is":
         frame["pred"] = _np_frame(pred) if pred.get("type") == "np" else {"text": obj, "type": pred.get("type")}
     else:
         frame["karma"] = karma
     clean = re.sub(r"\s+", " ", str(sentence or "").strip()).strip(" .")
-    return {"text": clean + ".", "atom": _atom(predicate, [kartr["text"], obj], pol), "parsed": True, "frame": frame}, "clause"
+    return {"text": clean + ".", "atom": _atom(predicate, [arg0, obj], pol), "parsed": True, "frame": frame}, "clause"
 
 
 def clause_units(clause: Any, sentence: str) -> list[tuple[str, dict[str, Any] | None, str | None]]:
@@ -358,7 +398,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE), dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
+        "rules": [dict(COPULA_RULE), dict(CONTAIN_RULE), dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -715,8 +755,8 @@ def check_proof(world: dict[str, Any], proof: dict[str, Any]) -> dict[str, Any]:
                 return {"ok": False, "reason": "head_mismatch", "cite": "contract 1g2034-K §6 step 8"}
             if [_norm(a) for a in head.get("args") or []] != [_norm(a) for a in atom.get("args") or []]:
                 return {"ok": False, "reason": "head_mismatch", "cite": "contract 1g2034-K §6 step 8"}
-            if rule["id"] == "WM-COPULA-CHAIN" and _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
-                return {"ok": False, "reason": "guard_distinct", "cite": "contract 1g2034-K §5"}
+            if rule["id"] in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN") and _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+                return {"ok": False, "reason": "guard_distinct", "cite": rule.get("cite") or "contract 1g2034-K §5"}
         else:
             return {"ok": False, "reason": "step_kind", "cite": "contract 1g2034-K §4.3"}
         derived[n] = atom
@@ -841,6 +881,10 @@ def _render_atom(atom: dict[str, Any]) -> str:
     """Contract I1 and §9. The template expresses this atom. It does not pick another."""
     args = [str(a) for a in atom.get("args") or []]
     predicate = str(atom.get("predicate") or "")
+    if predicate == "in" and len(args) == 2 and atom.get("polarity") == "neg":
+        return f"{args[0]} is not inside {args[1]}."
+    if predicate == "in" and len(args) == 2:
+        return f"{args[0]} is inside {args[1]}."
     if predicate == "is" and atom.get("polarity") == "neg" and len(args) == 2:
         return f"{args[0]} is not {args[1]}."
     if predicate == "is" and len(args) == 2:
@@ -876,11 +920,11 @@ def _owner_proof(world: dict[str, Any], fact: dict[str, Any], sub: dict[str, str
     ])
 
 
-def _chain_proof(world: dict[str, Any], left: dict[str, Any], right: dict[str, Any], sub: dict[str, str], conclusion: dict[str, Any]) -> dict[str, Any]:
+def _chain_proof(world: dict[str, Any], left: dict[str, Any], right: dict[str, Any], sub: dict[str, str], conclusion: dict[str, Any], rule_id: str = "WM-COPULA-CHAIN") -> dict[str, Any]:
     return _proof_shell(world, conclusion, [
         {"n": 1, "kind": "fact", "fact_id": left["id"], "premises": [], "substitution": {}, "atom": left["atom"]},
         {"n": 2, "kind": "fact", "fact_id": right["id"], "premises": [], "substitution": {}, "atom": right["atom"]},
-        {"n": 3, "kind": "rule", "rule_id": "WM-COPULA-CHAIN", "premises": [1, 2], "substitution": sub, "atom": conclusion},
+        {"n": 3, "kind": "rule", "rule_id": rule_id, "premises": [1, 2], "substitution": sub, "atom": conclusion},
     ])
 
 
@@ -1181,15 +1225,19 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
         if added == 0:
             break
 
+    cclaims, pool, proof_facts, seen, c_incomplete = _contain_chain(world, question, phase_path or [], pool, proof_facts, seen, None)
+    claims.extend(cclaims)
+    incomplete = incomplete or c_incomplete
+
     # Both polarities. Contract §5. A positive and a negative for the same normalized atom conflict.
     for claim in claims:
         atom = claim["atom"]
-        if atom.get("predicate") != "is":
+        if atom.get("predicate") not in ("is", "in"):
             continue
         opposite = "neg" if atom.get("polarity") != "neg" else "pos"
         for other in topical:
             oatom = other.get("atom") or {}
-            if oatom.get("predicate") != "is" or oatom.get("polarity") != opposite:
+            if oatom.get("predicate") != atom.get("predicate") or oatom.get("polarity") != opposite:
                 continue
             if [_norm(a) for a in atom.get("args") or []] == [_norm(a) for a in oatom.get("args") or []]:
                 claim["status"] = "conflicted"
@@ -1236,6 +1284,77 @@ def _cap(sentence: str) -> str:
     t = str(sentence or "").strip()
     t = t[:1].upper() + t[1:] if t else t
     return t if not t or t[-1] in ".!?" else t + "."
+
+
+def _contain_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool: list[dict[str, Any]], proof_facts: list[dict[str, Any]], seen: set[tuple[str, str, str]], qframe: dict[str, Any] | None) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], set[tuple[str, str, str]], bool]:
+    """Forward-chain WM-CONTAIN-CHAIN on the same unifier as the copula rule. Only positive in(content, container) facts.
+     A conclusion is not symmetric and a cycle (x inside x) is the distinct guard."""
+    from rmc_engine_v1 import derive_frame as DF
+    claims: list[dict[str, Any]] = []
+    incomplete = False
+    for fact in pool:
+        atom = fact.get("atom") or {}
+        args = atom.get("args") or []
+        if atom.get("predicate") == "in" and atom.get("polarity", "pos") == "pos" and len(args) >= 2:
+            seen.add((_norm(args[0]), _norm(args[1]), "pos"))
+    rounds = 0
+    while rounds < LIMITS["MAX_ROUNDS"]:
+        rounds += 1
+        hops = _match_body(CONTAIN_RULE["body"], [f for f in pool if not f.get("self_fact")])
+        added = 0
+        for sub, chosen in hops:
+            if len(claims) >= 24:
+                incomplete = True
+                break
+            conclusion = _atom("in", [chosen[0]["atom"]["args"][0], chosen[1]["atom"]["args"][1]], "pos")
+            key = (_norm(conclusion["args"][0]), _norm(conclusion["args"][1]), "pos")
+            if key in seen or _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+                continue
+            text = _render_atom(conclusion)
+            if qframe is None and _coverage(question, text) <= 0:
+                continue
+            proof_world = dict(world)
+            proof_world["facts"] = proof_facts
+            proof = _chain_proof(proof_world, chosen[0], chosen[1], sub, conclusion, "WM-CONTAIN-CHAIN")
+            checked = check_proof(proof_world, proof)
+            premises = _original_premises(chosen)
+            claim = _finish_claim(world, text, conclusion, premises, proof, checked, "supported_only", "WM-CONTAIN-CHAIN", phase_path or [])
+            hop_rows: list[dict[str, Any]] = []
+            for fact in chosen:
+                prior = fact.get("hop_trace") if isinstance(fact.get("hop_trace"), list) else None
+                if prior:
+                    hop_rows.extend(prior)
+                    continue
+                measured = _drift_for(fact["text"], [fact], phase_path or [])
+                hop_rows.append(_hop_row(fact["text"], list(fact.get("provenance") or [fact.get("id")]), measured, len(hop_rows) + 1))
+            hop_rows.append(_hop_row(text, [p.get("id") for p in premises], claim["drift"], len(hop_rows) + 1))
+            for i, hop in enumerate(hop_rows, start=1):
+                hop["n"] = i
+            claim["hops"] = hop_rows
+            cframe = DF.contain_frame(conclusion)
+            if qframe is not None:
+                place = _derived_place(chosen)
+                m = DF.match(qframe, cframe)
+                _frame_claim(claim, cframe, "chain", m, DF.alignment(place or {"text": text}, phase_path, question), question)
+                claim["_place"] = place or {"text": text}
+                claim["_premise_rows"] = list(premises)
+                claim["intermediate"] = not bool(m)
+            claims.append(claim)
+            if claim.get("debate", {}).get("survived") is not True:
+                continue
+            seen.add(key)
+            row = _fact_row(
+                "hop-" + _digest(text)[:12], {"text": text, "atom": conclusion, "parsed": True, "atom_source": "derive", "place": _derived_place(chosen), "frame": cframe},
+                source="derive", provenance=[p.get("id") for p in premises], quarantined=False, cite=CONTAIN_RULE["cite"],
+            )
+            row["source_facts"] = premises
+            row["hop_trace"] = hop_rows
+            pool.append(row)
+            proof_facts = proof_facts + [row]
+            added += 1
+        if added == 0:
+            break
+    return claims, pool, proof_facts, seen, incomplete
 
 
 def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any], qframe: dict[str, Any], topical: list[dict[str, Any]]) -> dict[str, Any]:
@@ -1365,14 +1484,19 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         if added == 0:
             break
 
+    cclaims, pool, proof_facts, seen, c_incomplete = _contain_chain(world, question, phase_path, pool, proof_facts, seen, qframe)
+    claims.extend(cclaims)
+    chain_claims += len(cclaims)
+    incomplete = incomplete or c_incomplete
+
     for claim in claims:
         atom = claim["atom"]
-        if atom.get("predicate") != "is":
+        if atom.get("predicate") not in ("is", "in"):
             continue
         opposite = "neg" if atom.get("polarity") != "neg" else "pos"
         for other in topical:
             oatom = other.get("atom") or {}
-            if oatom.get("predicate") == "is" and oatom.get("polarity") == opposite and \
+            if oatom.get("predicate") == atom.get("predicate") and oatom.get("polarity") == opposite and \
                     [_norm(a) for a in atom.get("args") or []] == [_norm(a) for a in oatom.get("args") or []]:
                 claim["status"] = "conflicted"
                 claim["debate"] = run_debate(claim, content_tokens=content_tokens)
@@ -1380,6 +1504,21 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     # 4.9.236 gate G = f(ΔΦ, S, C): S (frame) and C (context) decide; ΔΦ weights. Nothing is written back to a memory.
     for claim in claims:
         claim["gate"] = DF.gate(qframe, claim.get("frame_match"), claim, claim.pop("_premise_rows", None) or [], claim.pop("_place", None))
+    # A positive derivation and a stored negative of the same atom are a conflict. Neither side is spoken.
+    blocked = set()
+    for claim in claims:
+        if claim.get("status") != "conflicted":
+            continue
+        atom = claim.get("atom") or {}
+        blocked.add((str(atom.get("predicate")), tuple(_norm(a) for a in atom.get("args") or [])))
+    for claim in claims:
+        atom = claim.get("atom") or {}
+        key = (str(atom.get("predicate")), tuple(_norm(a) for a in atom.get("args") or []))
+        if key in blocked and isinstance(claim.get("gate"), dict):
+            failed = list((claim["gate"].get("context_failed") or []))
+            if "conflicted" not in failed:
+                failed.append("conflicted")
+            claim["gate"] = dict(claim["gate"], passes=False, context_failed=failed)
     matched = [c for c in claims if c.get("frame_match")]
     answers = [c for c in matched if (c.get("gate") or {}).get("passes")]
     if answers:
@@ -1393,7 +1532,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     else:
         status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
     for claim in answers:
-        if claim.get("how") == "WM-COPULA-CHAIN":
+        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN"):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
         elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]

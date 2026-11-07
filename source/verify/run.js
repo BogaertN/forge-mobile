@@ -23,7 +23,7 @@ const say = (k, u) => { const r = k.process(u); transcript.push([u, r.reply, r.o
 const expect = (cond, msg) => { if (!cond) throw new Error(msg); };
 
 require('./ask_contract.js')(C, expect);
-C('LEGACY-UNRESOLVED', 'spatial inside-chain (old Kernel.process answered Yes; current world model does not derive it; step 16 stays unbuilt)', () => {
+C('WS-TRANSITIVE', 'inside-chain (old: process answered Yes from RELPROP-TRANSITIVE:in; now ask_path → WM-CONTAIN-CHAIN)', () => {
   const A = require('./ask_path.js'); const s = A.session();
   expect(A.remember(s, 'remember that Aster is inside Beryl').ok && A.remember(s, 'remember that Beryl is inside Cobalt').ok);
   const row = A.ask(s, 'is Aster inside Cobalt?');

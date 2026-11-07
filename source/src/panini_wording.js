@@ -119,6 +119,18 @@ function Wording(ctx) {
       const got = clauseAtom.parts || [];
       return want.length === got.length && want.every((p, i) => sameAtom(got[i], p));
     }
+    /* in(content, container) is the typed containment atom. The clause may say it as "content is inside container"
+     * or as "container contains content". Other prepositions are not this atom. */
+    if (normArg(given.predicate) === 'in' && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk) {
+        const m = /^(in|inside|within)\s+(.+)$/.exec(got[1]);
+        if (m && got[0] === want[0] && normArg(m[2]) === want[1]) return true;
+      }
+      if (clauseAtom.lemma === 'contain' && got.length === 2 && polOk && got[1] === want[0] && got[0] === want[1]) return true;
+      return false;
+    }
     if (!predMatches(clauseAtom.lemma, given.predicate)) return false;
     if ((given.polarity || 'pos') !== clauseAtom.polarity) return false;
     if (given.tense && given.tense !== clauseAtom.tense) return false;

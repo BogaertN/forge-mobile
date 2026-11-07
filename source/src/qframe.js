@@ -97,7 +97,7 @@
       kriya: v.lemma || null, tense: v.tense || null, polarity: v.pol || null, modality: v.mod || null,
       voice: v.voice || 'active',
       kartr: np(cl.subj), karma: karakas.karma || null, karakas,
-      pred: pr ? (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np)) : pr.type === 'pp' ? { type: 'pp', prep: pr.prep || null, text: str((pr.np && (pr.np.head || pr.np.text)) || pr.words || null), np: pr.np ? np(pr.np) : null } : { type: pr.type || null, text: str(pr.words || pr.text || null) }) : null,
+      pred: pr ? (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np)) : pr.type === 'pp' ? (n => ({ type: 'pp', prep: pr.prep || null, text: (n && n.text) || str((pr.np && (pr.np.head || pr.np.text)) || pr.words || null), np: n }))(pr.np ? np(pr.np) : null) : { type: pr.type || null, text: str(pr.words || pr.text || null) }) : null,
       adj: (cl.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np) : null })),
       adjuncts: (cl.adj || []).length, material,
     };
@@ -406,7 +406,21 @@
       const gp = /^(are|were)$/.test(lw[0]) ? genericPlural(forge, ws.slice(1)) : null;
       if (gp) { Object.assign(f, roles(gp.p.clause)); f.parsed = true; f.declarative = gp.s; f.parses = gp.p.parses;
         f.canonical = [{ rule: 'QF-CANON-GENERIC-PLURAL', surface_rule: 'QF-YN-DECL', surface_declarative: null }]; }
-      if (!gp) for (const c of declaratives(lw[0], ws.slice(1), null)) { const p = parse(forge, c.s); if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = c.s; f.parses = p.parses; break; } }
+      /* Among the declaratives that parse, a prepositional predicate whose preposition is in the question
+       * ("is the red car inside the garage?" → "the red car is inside the garage") wins over a shorter subject
+       * that swallowed that preposition ("the red is car inside the garage"). Otherwise the copula stays as early
+       * as a real parse allows ("is Aster inside Cobalt?" → "Aster is inside Cobalt", not "Aster inside is Cobalt"). */
+      if (!gp) {
+        const aux = String(lw[0]).toLowerCase();
+        const at = s => s.toLowerCase().split(/\s+/).indexOf(aux);
+        const cands = declaratives(lw[0], ws.slice(1), null).slice().sort((a, b) => at(a.s) - at(b.s) || a.s.localeCompare(b.s));
+        const parsed = [];
+        for (const c of cands) { const p = parse(forge, c.s); if (p && p.clause) parsed.push({ c, p, r: roles(p.clause) }); }
+        const surface = ws.slice(1).map(w => w.toLowerCase());
+        const withPrep = parsed.filter(x => x.r.pred && x.r.pred.type === 'pp' && surface.includes(String(x.r.pred.prep || '').toLowerCase()));
+        const pick = withPrep[0] || parsed[0];
+        if (pick) { Object.assign(f, pick.r); f.parsed = true; f.declarative = pick.c.s; f.parses = pick.p.parses; }
+      }
       f.speech_act = selfAct(f, null, f.aux) || 'stated'; f.polar = true; f.rule = 'QF-YN-' + (f.parsed ? 'DECL' : 'NOPARSE');
       return f;
     }
