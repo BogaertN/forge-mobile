@@ -21,7 +21,7 @@ MASS_REL = 0.005  # chemical masses agree within 0.5 percent (PubChem average vs
 # and still be the same kind (a 110 cm and a 132 cm example of one kind).
 ARTIFACT_REL = 0.25
 BROAD_SPREAD = 0.45  # a bare noun whose heights scatter more than this is more than one kind
-UA = "forge-mobile/4.9.248"
+UA = "forge-mobile/4.9.249"
 Http = Callable[[str], str]
 
 PUBLISHERS = {
@@ -301,11 +301,6 @@ def agree_objects(head: str, sides: list[tuple[str, str, dict[str, float]]], rel
         pubs = [_pub(sid, url) for sid, url, _ in vals]
         unit = "kg" if prop == "mass" else "m"
         rows.append(_fact(head, prop, round(mean, 4), unit, pubs))
-    if any(r["property"] == "height" for r in rows) and any(r["property"] == "width" for r in rows):
-        pubs = rows[0]["publishers"]
-        depth = next((r for r in rows if r["property"] == "depth"), None)
-        shape = "box" if depth else "box"
-        rows.append(_fact(head, "shape", shape, None, pubs))
     return rows
 
 
@@ -550,7 +545,6 @@ def resolve_objects(phrase: str, sides: list[dict[str, Any]], head: str | None =
             per = [(sid, url, ms) for (sid, url), ms in grouped.items()]
     medians: list[tuple[str, str, dict[str, float]]] = []
     species_all: list[str] = []
-    depth_one: list[tuple[str, str, float]] = []
     for sid, url, matched in per:
         med: dict[str, float] = {}
         for prop in ("height", "width", "depth", "mass"):
@@ -564,23 +558,26 @@ def resolve_objects(phrase: str, sides: list[dict[str, Any]], head: str | None =
                     species_all.append(s)
         if med:
             medians.append((sid, url, med))
-            if "depth" in med:
-                depth_one.append((sid, url, med["depth"]))
     rows = agree_objects(label, medians, ARTIFACT_REL) if len(medians) >= 2 else []
     spoken = " ".join(words)
     if rows and not any(r["property"] == "mass" for r in rows):
         by = {r["property"]: r for r in rows}
         geom = {k: by[k]["value"] for k in ("height", "width", "depth") if k in by}
-        if "depth" not in geom and depth_one:
-            geom["depth"] = _median([v for _, _, v in depth_one])
-        mass = _mass_from_materials(geom, species_all)
+        # A shell mass needs a depth that two publishers already agreed. One publisher's depth is not copied across.
+        mass = _mass_from_materials(geom, species_all) if "depth" in by and "height" in by and "width" in by else None
         if mass and mass > 0:
-            pubs = list(rows[0]["publishers"])
+            pubs: list[dict[str, Any]] = []
+            seen: set[tuple[Any, Any]] = set()
+            for prop in ("height", "width", "depth"):
+                for p in by[prop]["publishers"]:
+                    ident = (p.get("id"), p.get("url"))
+                    if ident in seen:
+                        continue
+                    seen.add(ident)
+                    pubs.append(p)
             pubs.append(_pub("toolbox", PUBLISHERS["toolbox"]["license_url"]))
             pubs.append(_pub("wooddb", PUBLISHERS["wooddb"]["license_url"]))
             rows.append(_fact(label, "mass", round(mass, 1), "kg", pubs))
-            if "depth" not in by and geom.get("depth"):
-                rows.append(_fact(label, "depth", round(float(geom["depth"]), 4), "m", rows[0]["publishers"]))
     for row in rows:
         row["average"] = True
         row["phrase"] = spoken
@@ -826,8 +823,6 @@ def agree_vehicle(head: str, nhtsa: dict[str, float], epa: dict[str, Any], nhtsa
             continue
         mean = (float(nhtsa[prop]) + float(epa[prop])) / 2.0
         rows.append(_fact(head, prop, round(mean, 4), "kg" if prop == "mass" else "m", pubs))
-    if rows and any(r["property"] == "height" for r in rows) and any(r["property"] == "width" for r in rows):
-        rows.append(_fact(head, "shape", "box", None, pubs))
     if not rows or not any(r["property"] == "mass" for r in rows):
         return {"ok": [], "ask": False, "held": [{"head": head.lower(), "property": "mass", "reason": "two_publishers_required",
                                                   "nhtsa": sorted(nhtsa), "epa": sorted(k for k in epa if k != "vclass"),

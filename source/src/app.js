@@ -237,6 +237,7 @@ const REMEMBER_LAST = /^\s*remember\s*(this|that|it|the answer|that answer)?\s*[
 /* 4.9.226 (Nic pt141u): meaning follow-up. Forge asks which meaning; the next message picks one and the ORIGINAL question is asked again under it.
  * The pending ask lives in this session only. With no ask pending, say() is unchanged. */
 let pendingAsk = null;
+window.KGapOpen = () => pendingAsk ? { kind: pendingAsk.kind, question: pendingAsk.question, word: pendingAsk.word || null, options: Array.isArray(pendingAsk.options) ? pendingAsk.options : [] } : null;
 function askCard(kind, bodyHtml, state) {
   const log = $('#log');
   log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="' + state + '" data-followup="' + kind + '"><span class="kind deterministic_route">meaning</span><div data-ask-body>' + bodyHtml + '</div><div class="flags">no LLM · deterministic · nothing stored</div></div>');
@@ -324,7 +325,12 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   if (row && askCtx.sim) { row.sim = { ok: !!askCtx.sim.ok, status: askCtx.sim.status, reason: askCtx.sim.reason || null, receipt_id: askCtx.sim.receipt_id || null, sha256: askCtx.sim.sha256 || null, solver: askCtx.sim.primary_solver || (askCtx.sim.problem && askCtx.sim.problem.solver) || null, where: askCtx.sim.where || null, home_pc_required: !!askCtx.sim.home_pc_required }; }
   lastResult = row;
   /* 4.9.208: a held question becomes a curation gap for Athena (no write happens here) */
-  if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try { row.curation = KCurators.noteHeld(qtext, row); } catch (e) { /* the curators are optional */ } }
+  if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try {
+    let compiled = null;
+    try { if (window.KQFrame && window.forge) compiled = window.KQFrame.compile(qtext, window.forge); } catch (e) { compiled = null; }
+    const qframe = compiled && compiled.schema === 'forge.qframe/v1' ? compiled : (row.qframe || null);
+    row.curation = KCurators.noteHeld(qtext, row, { qframe: qframe, sim: askCtx.sim || null });
+  } catch (e) { /* the curators are optional */ } }
   /* 4.9.209 (Nic plan, Release A item 2): an admitted answer writes nothing. No session RAM, no receipt store, no Supabase.
    * The engine's proposal waits for "remember …" or the Remember tap (rememberAnswer). */
   /* 4.9.229's after-the-engine sense ask moved above the engine run (4.9.235): the meaning is asked first, never after an answer. */

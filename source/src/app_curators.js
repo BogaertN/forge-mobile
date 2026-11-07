@@ -24,7 +24,7 @@
     root.FORGE_CURATORS = cur;
     return cur;
   }
-  function noteHeld(question, row) { const c = make(); return c ? c.noteHeld(question, row) : { ok: false, rule: 'CURATE-NOT-LOADED' }; }
+  function noteHeld(question, row, extra) { const c = make(); return c ? c.noteHeld(question, row, extra) : { ok: false, rule: 'CURATE-NOT-LOADED' }; }
   function setAnswering(v) { answering = v === true; if (cur) cur.setAnswering(answering); }
   async function step() {
     const c = make();
@@ -46,10 +46,19 @@
     body.innerHTML = '<div class="card" data-curators><div class="cardhead">Curators <span class="pill' + (isOn ? ' ok' : '') + '">' + (isOn ? 'on' : 'off') + '</span><span class="pill">no LLM</span></div>'
       + '<div class="small" data-curators-truth>Athena takes the questions Ask held. It looks each one up through the same engine Ask uses (resonance packets, measured drift, coherence, Echo), using only the trusted anchors: the starter set and the Supabase anchors cached on this phone. Wikipedia is never used as a premise. An answer is admitted only at drift ≤ 0.35, C ≥ 0.87 and Echo ≥ 0.85, and only if the answer alone re-derives itself under Echo (re-parse). Gilligan checks every premise is a trusted anchor before any write, gives the 0.35–0.40 band one re-measure, keeps 0.40–0.80 in quarantine until the anchors change, and keeps the hard band cold. An admitted row is written to Supabase only through the locked-down writer (a linked account with the writer role and a verified device signature). Otherwise it stays on this phone as pending and is not used by Ask. The curators run only while this page is open, never while Ask is answering, one question at a time.</div>'
       + '<label class="row"><input type="checkbox" id="curatorsOn"' + (isOn ? ' checked' : '') + '> Curators on</label>'
+      + '<div class="row"><button type="button" id="gapExport">Export held gaps</button></div>'
+      + '<div class="small" data-gap-disclosure>' + esc(root.KCuratorsLib && root.KCuratorsLib.DISCLOSURE) + '</div>'
       + '<table><tr><td>queued</td><td>' + s.queued + '</td></tr><tr><td>written to Supabase</td><td>' + s.admitted + '</td></tr><tr><td>pending on this phone</td><td>' + s.pending + '</td></tr><tr><td>quarantine</td><td>' + s.quarantine + '</td></tr><tr><td>cold</td><td>' + s.cold + '</td></tr><tr><td>anchor digest</td><td>' + esc(s.digest || '—') + '</td></tr><tr><td>last</td><td>' + esc(s.last ? s.last.who + ' ' + s.last.rule + (s.last.question ? ' · ' + s.last.question : '') : '—') + '</td></tr></table></div>'
       + '<div class="card"><div class="cardhead">Queued (held Ask questions)</div>' + rows(st.queue, ['attempts', 'last']) + '</div>'
       + '<div class="card"><div class="cardhead">Written / pending</div>' + rows(st.admitted.concat(st.pending), ['rule', 'eps', 'C', 'echo']) + '</div>'
       + '<div class="card"><div class="cardhead">Quarantine / cold</div>' + rows(st.quarantine.concat(st.cold), ['rule', 'eps', 'lane']) + '</div>';
+    const exp = $('#gapExport');
+    if (exp) exp.onclick = () => {
+      const live = root.KCurators && root.KCurators.curators ? root.KCurators.curators() : c;
+      const doc = root.KCuratorsLib.exportDocument(live.state(), root.KGapOpen ? root.KGapOpen() : null);
+      const blob = new Blob([JSON.stringify(doc, null, 1)], { type: 'application/json' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'forge-gap-export.json'; a.click();
+    };
     const box = $('#curatorsOn');
     if (box) box.onchange = () => { if (root.KNextLayer) root.KNextLayer.set('dream_idle', box.checked); try { root.localStorage.setItem(PREF, box.checked ? '1' : '0'); } catch (e) { /* private mode */ } paint(); };
   }

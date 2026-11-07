@@ -1,3 +1,25 @@
+## v4.9.249 — The phone gap file round-trips into a dry-run plan; a missing depth stays missing (Nic)
+
+**Conflict:** Step 13 of the 4.9.229 layer chain was still open. A held question was stored as a string, the runner read that queue and researched it, and `pending` writer-blocked rows were never exported. A box with no depth was given a square footprint, and a depth measured by one publisher was stamped with the other publisher's name. A stated height and mass was turned into a cube.
+
+**Where:**
+- `src/curators_208.js` keeps a `FORGE-GAP-ENVELOPE/v1` on the existing curator row: the question frame already compiled, and the sim hold (`reason`, `missing`, `defaulted`, per-property hosts). `exportDocument` downloads `FORGE-GAP-EXPORT/v1`. An open meaning or sim follow-up is only in that download, as `awaiting_user`, and is not written into the store and is not a fact. Signing proofs and credential-shaped fields are left out. The disclosure says the file may contain personal questions.
+- `tools/athena_runner_229.py --plan` prints the plan and exits. It does not call `process_one`, discover gaps, sleep, or open a socket. `FORGE_ATHENA_COMMIT` and `--commit` do not make it write. The canonical hash detects corruption. It does not admit a row and it does not authorize a write. A question-only file is an explicit `unsupported` hold. A stale reply, a frame whose text is a different question, a bad hash, or a duplicate key is refused.
+- `sim_scene._props_body`, `sim_device.push_half` / `tip_check` / `_body_density`, and `server/sim_router/solvers/sympy_math.py` require a box's depth. Width is not used in its place. A stated height and mass does not invent a width or a depth. `athena_props.resolve_objects` keeps a depth only when two publishers already agreed on it, and it no longer emits a shape as if those publishers had measured one.
+- A body in `physical_defaults.json` is still used when the question names that body and does not replace its documented axes. No new default was added.
+
+**Resolution:** The export and the plan list the same keys and the same structured rows. A missing depth or a height-and-mass reply holds. Two publishers' depth is the depth that is kept. C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. No hosted write. No cron.
+
+**Next, not this release** (plan 229 steps 14–16, unchanged):
+
+14. **Step 14. Athena writes clauses and rules, not just sentences.** The curator's admitted row includes the clause and the atom. Rules go through only when an existing contract already validates them. Gilligan rejects any row whose reparse does not equal the clause. Test: a tampered clause is rejected.
+
+15. **Step 15. Neo, one loop.** Either retire the Neo label or make Neo the scheduler that runs steps 13–14 on an idle tick, logged and dry-run first. Test: the tick count and the receipt chain are intact.
+
+16. **Step 16. End-to-end chain test.** One fixture conversation: Remember fact A, Remember fact B, ask the chained question, get the derived outward-compiled reply, explicitly Remember that derived reply, and recall it next turn. Assert every layer's trace key is present in order.
+
+Proof: `verify/r4249_suite.js`.
+
 ## v4.9.248 — Solver atoms compile outward; the English is not read back (Nic)
 
 **Conflict:** 4.9.247 spoke a simulation by writing an English sentence and then splitting that sentence, with a regular expression, back into an atom. Sentences the pattern did not know were quoted. A quoted sentence does not round-trip through the Pāṇini grammar.

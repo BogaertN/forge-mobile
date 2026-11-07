@@ -83,18 +83,20 @@ print(json.dumps({"theo": theo, "hep_reactants": pb.get("reactants"), "pm": {"ok
 });
 
 T('stated measures and remembered copulas build the body; a wide catalog spread asks which kind; an agreed average is spoken', () => {
-  const statedQ = 'What happens if you push a 35 kilogram crate 1.6 meters tall and 0.4 meters wide near the top?';
+  const statedQ = 'What happens if you push a 35 kilogram crate 1.6 meters tall and 0.4 meters wide and 0.5 meters deep near the top?';
+  const shallowQ = 'What happens if you push a 35 kilogram crate 1.6 meters tall and 0.4 meters wide near the top?';
   const bareQ = 'What happens if you push a crate near the top?';
   const avgQ = 'What happens if you push a carton near the top?';
-  const frames = { stated: Q.compile(statedQ, f), bare: Q.compile(bareQ, f), avg: Q.compile(avgQ, f) };
-  expect(frames.stated.cond && frames.stated.cond.stated && frames.stated.cond.stated.length === 3, JSON.stringify(frames.stated.cond && frames.stated.cond.stated));
-  const memory = ['A crate is 35 kilograms.', 'A crate is 1.6 meters tall.', 'A crate is 0.4 meters wide.'].map(t => ({ clause: Q.clause(t, f) }));
+  const frames = { stated: Q.compile(statedQ, f), shallow: Q.compile(shallowQ, f), bare: Q.compile(bareQ, f), avg: Q.compile(avgQ, f) };
+  expect(frames.stated.cond && frames.stated.cond.stated && frames.stated.cond.stated.length === 4, JSON.stringify(frames.stated.cond && frames.stated.cond.stated));
+  const memory = ['A crate is 35 kilograms.', 'A crate is 1.6 meters tall.', 'A crate is 0.4 meters wide.', 'A crate is 0.5 meters deep.'].map(t => ({ clause: Q.clause(t, f) }));
   const out = py(`
 import json, sys
 from rmc_engine_v1.sim_device import plan, seal
 from rmc_engine_v1.athena_props import resolve_objects
 body = json.load(sys.stdin)
 st = plan(body["statedQ"], body["stated"])
+shallow = plan(body["shallowQ"], body["shallow"])
 mem = plan(body["bareQ"], body["bare"], None, body["memory"])
 spread = resolve_objects("carton", [{"id":"vam","url":"https://api.vam.ac.uk/x","records":[
   {"title":"carton","dimensions":[{"dimension":"Height","value":40,"unit":"cm","part":""},{"dimension":"Width","value":30,"unit":"cm","part":""}]},
@@ -104,15 +106,17 @@ agree = resolve_objects("carton", [
   {"id":"cleveland","url":"https://openaccess-api.clevelandart.org/x","records":[{"title":"carton","objectType":"carton","dimensions":[{"dimension":"Height","value":0.41,"unit":"m","part":""},{"dimension":"Width","value":0.31,"unit":"m","part":""},{"dimension":"Weight","value":2.05,"unit":"kg","part":""}]}]}
 ], "carton")
 pc = plan(body["avgQ"], body["avg"], agree["ok"])
-rec = seal(pc, {"outcome":"topple","measurements":{"final_tilt_deg":70},"engine":"test"}) if pc.get("ok") else {}
 sb, mb = (st.get("scene") or {}).get("body") or {}, (mem.get("scene") or {}).get("body") or {}
-print(json.dumps({"stated": {"ok": st.get("ok"), "mass": sb.get("mass"), "h": sb.get("height"), "w": sb.get("width"), "avg": sb.get("average")},
-  "mem": {"ok": mem.get("ok"), "mass": mb.get("mass"), "h": mb.get("height"), "w": mb.get("width")},
-  "ask": spread.get("ask"), "effect": rec.get("effect_text"), "hosts": sorted({h for r in agree.get("ok") or [] for h in r.get("hosts") or []})}))`,
-    JSON.stringify({ statedQ, bareQ, avgQ, stated: frames.stated, bare: frames.bare, avg: frames.avg, memory }));
-  expect(out.stated.ok && out.stated.mass === 35 && out.stated.h === 1.6 && out.stated.w === 0.4 && !out.stated.avg, JSON.stringify(out.stated));
-  expect(out.mem.ok && out.mem.mass === 35 && out.mem.h === 1.6 && out.mem.w === 0.4, JSON.stringify(out.mem));
-  expect(out.ask === true && /average carton of .* kilograms topples/.test(out.effect || ''), JSON.stringify(out));
+print(json.dumps({"stated": {"ok": st.get("ok"), "mass": sb.get("mass"), "h": sb.get("height"), "w": sb.get("width"), "d": sb.get("depth"), "avg": sb.get("average")},
+  "shallow": {"ok": shallow.get("ok"), "missing": shallow.get("missing")},
+  "mem": {"ok": mem.get("ok"), "mass": mb.get("mass"), "h": mb.get("height"), "w": mb.get("width"), "d": mb.get("depth")},
+  "ask": spread.get("ask"), "carton": {"ok": pc.get("ok"), "missing": pc.get("missing")},
+  "hosts": sorted({h for r in agree.get("ok") or [] for h in r.get("hosts") or []})}))`,
+    JSON.stringify({ statedQ, shallowQ, bareQ, avgQ, stated: frames.stated, shallow: frames.shallow, bare: frames.bare, avg: frames.avg, memory }));
+  expect(out.stated.ok && out.stated.mass === 35 && out.stated.h === 1.6 && out.stated.w === 0.4 && out.stated.d === 0.5 && !out.stated.avg, JSON.stringify(out.stated));
+  expect(out.shallow.ok === false && out.shallow.missing === 'depth', JSON.stringify(out.shallow));
+  expect(out.mem.ok && out.mem.mass === 35 && out.mem.h === 1.6 && out.mem.w === 0.4 && out.mem.d === 0.5, JSON.stringify(out.mem));
+  expect(out.ask === true && out.carton.ok === false && out.carton.missing === 'depth', JSON.stringify(out));
   expect(out.hosts.length >= 2 && out.hosts.every(h => !/wikipedia|wikidata|wikimedia/.test(h)), JSON.stringify(out.hosts));
 });
 
@@ -150,10 +154,10 @@ print(json.dumps({"port": int(env_port) if env_port else 8790}))
 });
 
 T('laws and version 4.9.248', () => {
-  expect(read('VERSION').trim() === '4.9.248', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.249', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.248' && reg.features.some(x => x.id === 'R4246-KARAKA-ATHENA') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.248'), 'CONFLICTS');
+  expect(reg.version === '4.9.249' && reg.features.some(x => x.id === 'R4246-KARAKA-ATHENA') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.249'), 'CONFLICTS');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T
