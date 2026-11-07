@@ -16,9 +16,31 @@ const ids = r => r.trace.rules.map(x => x.id);
 const derived = r => { expect(r.reply, 'no reply: ' + (r.trace.block_reason || '')); expect(r.trace.derivation && (r.trace.derivation.rules || r.trace.derivation.rule_count), 'no derivation trace'); expect(r.trace.echo && r.trace.echo.pass, 'echo not passed'); return r.reply; };
 
 /* ---------- INFERENCE (W3) ---------- */
-T('INFERENCE', 'comparative transitivity with pronoun “me”: brother > sister > me ⇒ brother older than me (2 cited facts)', () => { const k = K(); say(k, 'remember that my sister is older than me', 'remember that my brother is older than my sister'); const r = k.process('is my brother older than me?'); expect(/^Yes, I infer/.test(derived(r)) && ids(r).includes('INF-REL-TRANSITIVE-COMPARATIVE')); });
-T('INFERENCE', 'antonym normalisation: “older” fact answers a “younger” question', () => { const k = K(); say(k, 'remember that my brother is older than my sister'); const r = k.process('is my sister younger than my brother?'); expect(/^Yes/.test(derived(r))); });
-T('INFERENCE', 'comparative is not symmetric: brother older than sister ⇏ sister older than brother', () => { const k = K(); say(k, 'remember that my brother is older than my sister'); const r = k.process('is my sister older than my brother?'); expect(!/^Yes/.test(derived(r))); });
+T('INFERENCE', 'comparative transitivity with pronoun “me”: brother > sister > me ⇒ brother older than me (2 cited facts)', () => {
+  /* Old: Kernel.process, /^Yes, I infer/, INF-REL-TRANSITIVE-COMPARATIVE.
+   * Live: older_than chains inside age. Both premises are cited. No age number is invented. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my sister is older than me').ok && Ask.remember(s, 'remember that my brother is older than my sister').ok);
+  const row = Ask.ask(s, 'is my brother older than me?');
+  expect(row.product_reply === true && row.echo && row.echo.pass === true && row.reply === 'Your brother is older than your sister. Your sister is older than you. Your brother is older than you.', row.reply);
+  expect(row.world_model.derive.survivor.how === 'WM-OLDER_THAN-CHAIN' && row.calls_llm !== true && !(row.memory_write && row.memory_write.committed));
+});
+T('INFERENCE', 'antonym normalisation: “older” fact answers a “younger” question', () => {
+  /* Old: Kernel.process, /^Yes/. Live: younger_than is the inverse of older_than, same two people. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my brother is older than my sister').ok);
+  const row = Ask.ask(s, 'is my sister younger than my brother?');
+  expect(row.product_reply === true && row.reply === 'Your brother is older than your sister. Your sister is younger than your brother.' && row.world_model.derive.survivor.how === 'WM-OLDER_THAN-INVERSE', row.reply);
+});
+T('INFERENCE', 'comparative is not symmetric: brother older than sister ⇏ sister older than brother', () => {
+  /* Old: Kernel.process, the reply was not /^Yes/. Live: the forward comparison admits, and the swap is the asymmetric negation. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my brother is older than my sister').ok);
+  const fwd = Ask.ask(s, 'is my brother older than my sister?');
+  const row = Ask.ask(s, 'is my sister older than my brother?');
+  expect(fwd.product_reply === true && /older than your sister/.test(fwd.reply) && !/not older/.test(fwd.reply), fwd.reply);
+  expect(row.product_reply === true && row.reply === 'Your brother is older than your sister. Your sister is not older than your brother.' && row.world_model.derive.survivor.how === 'WM-OLDER_THAN-ASYM', row.reply);
+});
 T('INFERENCE', 'temporal order: before + after(inverse) chain', () => {
   /* Old: Kernel.process, reply /^Yes, I infer/, rule INF-REL-TRANSITIVE-BEFORE.
    * Live: after(dinner, lunch) is before(lunch, dinner); WM-BEFORE-CHAIN cites both premises. */

@@ -1,4 +1,4 @@
-/* R4258 (4.9.249): before/after and above/below are two orders.
+/* R4258 (4.9.249): copular before/after and above/below are the preposition relations.
  *
  * Old assertion                                      Live assertion
  * meeting before lunch, dinner after lunch,          WM-BEFORE-CHAIN cites both stored sentences
@@ -24,7 +24,7 @@ function ask(mem, q) {
   return row;
 }
 function register(C, expect) {
-  C('ORDER', 'a time order keeps one scene and refuses two scenes', () => {
+  C('ORDER', 'a before chain keeps one adjunct and refuses two', () => {
     const same = ask(['remember that the meeting is before lunch in the hall', 'remember that lunch is before dinner in the hall'], 'is the meeting before dinner in the hall?');
     expect(admitted(same) && same.reply === 'The meeting is before lunch in the hall. Lunch is before dinner in the hall. The meeting is before dinner in the hall.' && same.world_model.derive.survivor.how === 'WM-BEFORE-CHAIN', same.reply || same.route);
     const mixed = ask(['remember that the meeting is before lunch in the hall', 'remember that lunch is before dinner on the roof'], 'is the meeting before dinner?');

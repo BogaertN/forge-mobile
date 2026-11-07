@@ -124,14 +124,37 @@ module.exports = ({ C, expect, K, ROOT }) => {
     { const r2 = f.process('Was Ann born in Rome?'); expect(!/^(?:No|Yes)\b/.test(r2.reply), 'still decided after the premise left: ' + r2.reply); }
     const g = K(); g.process('remember that Tom is the mother of Sue'); expect(g.process('is Liz the mother of Sue?').reply === 'No. You told me that Tom is the mother of Sue. A person has one mother.');
     const h = K(); h.process('remember that Ann is in Paris'); expect(!/^No/.test(h.process('is Ann in Rome?').reply), 'a non-functional relation answered no'); });
-  C('WS-COMPARATIVE', 'ruling 3: "less / smaller / fewer than" and "more / greater / larger than" from the data table, inverse in both directions, asymmetric, transitive; turn world and memory', () => {
-    const st = t => require(ROOT + '/src/reason.js').evaluate(t).material.status;
-    expect(st('Quo is greater than Ola. Is Ola less than Quo?') === 'supported_only' && st('Quo is less than Ola. Is Ola greater than Quo?') === 'supported_only', 'inverse');
-    expect(st('Quo is smaller than Ola. Is Ola larger than Quo?') === 'supported_only' && st('Quo is more than Ola. Is Ola fewer than Quo?') === 'supported_only', 'synonyms');
-    expect(st('Quo is greater than Ola. Is Quo less than Ola?') === 'refuted_only' && st('Quo is fewer than Ola. Is Quo more than Ola?') === 'refuted_only', 'asymmetry');
-    expect(st('Quo is greater than Ola. Ola is greater than Pim. Is Pim less than Quo?') === 'supported_only', 'transitive through the inverse');
-    const f = K(); run(f, ['remember that Quo is greater than Ola', 'remember that Kip is less than Lop', 'remember that Bo is fewer than Cy']);
-    for (const [q, cite] of [['is Ola less than Quo?', 'Quo is greater than Ola'], ['is Lop more than Kip?', 'Kip is less than Lop'], ['is Lop greater than Kip?', 'Kip is less than Lop'], ['is Cy more than Bo?', 'Bo is fewer than Cy']]) { const r = f.process(q); expect(yes(r) && r.reply.includes('You told me that ' + cite + '.'), q + ' → ' + r.reply); } });
+  /* The old row used reason.js evaluate() and Kernel.process. Each guarantee is now an Ask.
+   * greater/less/more/larger/smaller/fewer are the magnitude row. They are not age. */
+  C('WS-COMPARATIVE', 'inverse both ways (old: greater↔less supported_only)', () => {
+    const less = askChain(['remember that Quo is greater than Ola'], 'is Ola less than Quo?');
+    const greater = askChain(['remember that Quo is less than Ola'], 'is Ola greater than Quo?');
+    expect(admitted(less) && less.reply === 'Quo is greater than Ola. Ola is less than Quo.' && less.world_model.derive.survivor.how === 'WM-GREATER_THAN-INVERSE', less.reply);
+    expect(admitted(greater) && greater.reply === 'Quo is less than Ola. Ola is greater than Quo.' && greater.world_model.derive.survivor.how === 'WM-LESS_THAN-INVERSE', greater.reply);
+  });
+  C('WS-COMPARATIVE', 'synonyms stay on the magnitude row (old: smaller→larger and more→fewer)', () => {
+    const larger = askChain(['remember that Quo is smaller than Ola'], 'is Ola larger than Quo?');
+    const fewer = askChain(['remember that Quo is more than Ola'], 'is Ola fewer than Quo?');
+    expect(admitted(larger) && larger.reply === 'Quo is smaller than Ola. Ola is larger than Quo.', larger.reply);
+    expect(admitted(fewer) && fewer.reply === 'Quo is more than Ola. Ola is fewer than Quo.', fewer.reply);
+  });
+  C('WS-COMPARATIVE', 'asymmetry (old: greater does not admit less on the same pair, refuted_only)', () => {
+    const less = askChain(['remember that Quo is greater than Ola'], 'is Quo less than Ola?');
+    const more = askChain(['remember that Quo is fewer than Ola'], 'is Quo more than Ola?');
+    expect(admitted(less) && less.reply === 'Quo is greater than Ola. Quo is not less than Ola.' && less.world_model.derive.survivor.how === 'WM-GREATER_THAN-EXCLUDES', less.reply);
+    expect(admitted(more) && more.reply === 'Quo is fewer than Ola. Quo is not more than Ola.' && more.world_model.derive.survivor.how === 'WM-LESS_THAN-EXCLUDES', more.reply);
+  });
+  C('WS-COMPARATIVE', 'transitive through the inverse (old: Pim is less than Quo)', () => {
+    const row = askChain(['remember that Quo is greater than Ola', 'remember that Ola is greater than Pim'], 'is Pim less than Quo?');
+    expect(admitted(row) && row.reply === 'Ola is greater than Pim. Quo is greater than Ola. Pim is less than Quo.' && row.world_model.derive.survivor.how === 'WM-LESS_THAN-CHAIN', row.reply);
+  });
+  C('WS-COMPARATIVE', 'memory cites the stored comparison (old: You told me that …)', () => {
+    const pairs = [['remember that Quo is greater than Ola', 'is Ola less than Quo?', 'Quo is greater than Ola.'], ['remember that Kip is less than Lop', 'is Lop more than Kip?', 'Kip is less than Lop.'], ['remember that Kip is less than Lop', 'is Lop greater than Kip?', 'Kip is less than Lop.'], ['remember that Bo is fewer than Cy', 'is Cy more than Bo?', 'Bo is fewer than Cy.']];
+    for (const [mem, q, cite] of pairs) {
+      const row = askChain([mem], q);
+      expect(admitted(row) && row.reply.indexOf(cite) === 0, q + ' → ' + row.reply);
+    }
+  });
   C('WS-SUPPOSE-AND', 'ruling 4: "Suppose A and B." with two full clauses is one supposition set — the candidates agree (no tie clarification), the answer is in a branch, nothing is written; the clause split re-derives in the integrity check', () => {
     const f = K(); chain(f); const s0 = JSON.stringify([f.store.load('memory'), f.store.load('world_state')]);
     const r = f.process('Suppose Pim is inside Quo and Quo is inside Rub. Is Pim inside Rub?'); expect(/branch/.test(r.reply) && /Yes/.test(r.reply) && r.trace.selection.winner === 'world.proof' && r.trace.echo.pass, r.reply);

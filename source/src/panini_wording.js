@@ -96,6 +96,11 @@ function Wording(ctx) {
     if (!subj) return null;
     const base = { lemma: v.lemma, polarity: v.pol || 'pos', tense: v.tense || 'present', modifiers: adjunctArgs(c) };
     if (v.particle) base.particle = v.particle;
+    if (v.lemma === 'be' && c.pred && c.pred.type === 'cmp' && c.pred.than) {
+      const surface = Array.isArray(c.pred.surface) && c.pred.surface.length ? c.pred.surface[c.pred.surface.length - 1] : c.pred.adj;
+      const than = G.npText(c.pred.than, 'kernel');
+      if (surface && than) return Object.assign(base, { args: [subj, String(surface) + ' than ' + than] });
+    }
     if (v.lemma === 'be' && c.pred && c.pred.type === 'np') return Object.assign(base, { args: [subj, G.npText(c.pred.np, 'kernel')] });
     /* 4.9.241: an adjective predicate states is(kartṛ, adjective) as the engine's atom does ("Your car is red." → is(your car, red)) */
     if (v.lemma === 'be' && c.pred && c.pred.type === 'adj' && Array.isArray(c.pred.words) && c.pred.words.length) return Object.assign(base, { args: [subj, c.pred.words.join(' ')] });
@@ -151,6 +156,17 @@ function Wording(ctx) {
       const loc = (clauseAtom.modifiers || []).find(m => m && normArg(m.prep) === 'in' && normArg(m.role) === 'adhikarana');
       if (clauseAtom.lemma === 'live' && got.length === 1 && polOk && got[0] === want[0] && loc && normArg(loc.text) === want[1]) return true;
       return false;
+    }
+    if ((given.args || []).length === 2) {
+      const WR = isNode ? require('./world_rules.js') : root.KWorldRules;
+      const words = [];
+      if (WR && WR.COMPARATIVES && WR.COMPARATIVES.forEach) WR.COMPARATIVES.forEach((pred, word) => { if (pred === normArg(given.predicate)) words.push(word); });
+      if (words.length) {
+        const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+        const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+        if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && words.some(w => got[1] === w + ' than ' + want[1])) return true;
+        return false;
+      }
     }
     if (['before', 'after', 'above', 'below'].indexOf(normArg(given.predicate)) >= 0 && (given.args || []).length === 2) {
       const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);

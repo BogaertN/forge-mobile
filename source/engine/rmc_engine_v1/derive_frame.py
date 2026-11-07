@@ -112,6 +112,10 @@ def np_unify(q: Any, f: Any) -> bool:
         return False
     if _owner_user(q) != _owner_user(f):
         return False
+    # A numeral has no alphabetic token, so an empty word set would match every other empty phrase.
+    if q.get("num") or f.get("num") or not _words(str(q.get("text") or "")) or not _words(str(f.get("text") or "")):
+        if " ".join(str(q.get("text") or "").lower().split()) != " ".join(str(f.get("text") or "").lower().split()):
+            return False
     # 4.9.240: the genitive of-phrase is the possessive ("the name of my dog" = "my dog's name"): one possessor slot
     qo, fo = genitive(q), genitive(f)
     if isinstance(qo, dict) and not (isinstance(fo, dict) and np_unify(qo, fo)):
@@ -464,6 +468,13 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
                         b_prep = str(b.get("prep") or "").lower()
                         if qp_prep and b_prep and qp_prep != b_prep:
                             continue
+                        qthan = qp.get("than") if isinstance(qp.get("than"), dict) else None
+                        bthan = b.get("than") if isinstance(b.get("than"), dict) else None
+                        if qthan or bthan:
+                            if not (qthan and bthan and np_unify(qthan, bthan)):
+                                continue
+                            if str(qp.get("text") or "").lower() != str(b.get("text") or "").lower():
+                                continue
                     qa, fa = _adjunct_np(qframe), _adjunct_np(fframe)
                     # "married to Cy" is not "married to Bob": a complement on the question has to be the fact's complement
                     if qa and not (fa and np_unify(qa, fa)):
