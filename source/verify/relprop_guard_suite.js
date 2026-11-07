@@ -14,7 +14,7 @@ module.exports = ({ C, expect, ROOT }) => {
   /* Every cell is the production Ask, with the shipped pools. A chain or a reversal has to be admitted.
    * A negative cell counts only when the stated direction itself is admitted, so a hold is not evidence
    * that a relation the engine never read is non-transitive. Kernel.process is not called. */
-  const HOW = { inside: 'WM-CONTAIN-CHAIN', within: 'WM-CONTAIN-CHAIN', contain: 'WM-CONTAIN-CHAIN', part_of: 'WM-PART-CHAIN', ancestor_of: 'WM-ANCESTOR-CHAIN', descendant_of: 'WM-DESCENDANT-CHAIN' };
+  const HOW = { inside: 'WM-CONTAIN-CHAIN', within: 'WM-CONTAIN-CHAIN', contain: 'WM-CONTAIN-CHAIN', part_of: 'WM-PART-CHAIN', ancestor_of: 'WM-ANCESTOR-CHAIN', descendant_of: 'WM-DESCENDANT-CHAIN', before: 'WM-BEFORE-CHAIN', after: 'WM-AFTER-CHAIN', above: 'WM-ABOVE-CHAIN', below: 'WM-BELOW-CHAIN' };
   const SYM = { married_to: 'WM-MARRIED-SYMMETRIC', next_to: 'WM-NEXT-SYMMETRIC', adjacent_to: 'WM-ADJACENT-SYMMETRIC', sibling_of: 'WM-SIBLING-SYMMETRIC' };
   const Ask = require(ROOT + '/verify/ask_path.js');
   const liveAsk = (mem, q) => { const s = Ask.session(); for (const m of mem) { const kept = Ask.remember(s, m); expect(kept.ok, m + ' ' + (kept.why || '')); } const n = s.phone.length; const row = Ask.ask(s, q); expect(s.phone.length === n, 'ask wrote'); return row; };

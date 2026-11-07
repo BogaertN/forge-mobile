@@ -152,6 +152,12 @@ function Wording(ctx) {
       if (clauseAtom.lemma === 'live' && got.length === 1 && polOk && got[0] === want[0] && loc && normArg(loc.text) === want[1]) return true;
       return false;
     }
+    if (['before', 'after', 'above', 'below'].indexOf(normArg(given.predicate)) >= 0 && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && got[1] === normArg(given.predicate) + ' ' + want[1]) return true;
+      return false;
+    }
     if (normArg(given.predicate) === 'geo' && (given.args || []).length === 2) {
       const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
       const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');

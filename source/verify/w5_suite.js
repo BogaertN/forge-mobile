@@ -19,8 +19,23 @@ const derived = r => { expect(r.reply, 'no reply: ' + (r.trace.block_reason || '
 T('INFERENCE', 'comparative transitivity with pronoun “me”: brother > sister > me ⇒ brother older than me (2 cited facts)', () => { const k = K(); say(k, 'remember that my sister is older than me', 'remember that my brother is older than my sister'); const r = k.process('is my brother older than me?'); expect(/^Yes, I infer/.test(derived(r)) && ids(r).includes('INF-REL-TRANSITIVE-COMPARATIVE')); });
 T('INFERENCE', 'antonym normalisation: “older” fact answers a “younger” question', () => { const k = K(); say(k, 'remember that my brother is older than my sister'); const r = k.process('is my sister younger than my brother?'); expect(/^Yes/.test(derived(r))); });
 T('INFERENCE', 'comparative is not symmetric: brother older than sister ⇏ sister older than brother', () => { const k = K(); say(k, 'remember that my brother is older than my sister'); const r = k.process('is my sister older than my brother?'); expect(!/^Yes/.test(derived(r))); });
-T('INFERENCE', 'temporal order: before + after(inverse) chain', () => { const k = K(); say(k, 'remember that the meeting is before lunch', 'remember that dinner is after lunch'); const r = k.process('is the meeting before dinner?'); expect(/^Yes, I infer/.test(derived(r)) && ids(r).includes('INF-REL-TRANSITIVE-BEFORE')); });
-T('INFERENCE', 'temporal order is not reversed: meeting before dinner ⇏ dinner before meeting', () => { const k = K(); say(k, 'remember that the meeting is before lunch', 'remember that lunch is before dinner'); const r = k.process('is dinner before the meeting?'); expect(!/^Yes/.test(derived(r))); });
+T('INFERENCE', 'temporal order: before + after(inverse) chain', () => {
+  /* Old: Kernel.process, reply /^Yes, I infer/, rule INF-REL-TRANSITIVE-BEFORE.
+   * Live: after(dinner, lunch) is before(lunch, dinner); WM-BEFORE-CHAIN cites both premises. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that the meeting is before lunch').ok && Ask.remember(s, 'remember that dinner is after lunch').ok);
+  const row = Ask.ask(s, 'is the meeting before dinner?');
+  expect(row.product_reply === true && row.echo && row.echo.pass === true && row.reply === 'The meeting is before lunch. Dinner is after lunch. The meeting is before dinner.', row.reply);
+  expect(row.world_model.derive.survivor.how === 'WM-BEFORE-CHAIN' && row.calls_llm !== true && !(row.memory_write && row.memory_write.committed), row.world_model.derive.survivor && row.world_model.derive.survivor.how);
+});
+T('INFERENCE', 'temporal order is not reversed: meeting before dinner ⇏ dinner before meeting', () => {
+  /* Old: Kernel.process, the reply was not /^Yes/. Live: the opposite direction is a hold, and Ask stores nothing. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that the meeting is before lunch').ok && Ask.remember(s, 'remember that lunch is before dinner').ok);
+  const n = s.phone.length;
+  const row = Ask.ask(s, 'is dinner before the meeting?');
+  expect(row.product_reply !== true && s.phone.length === n, row.reply || row.route);
+});
 T('INFERENCE', 'part-of transitivity: wheel ⊂ engine ⊂ car; “of”-predicate reading removed by apavāda', () => {
   /* Old: Kernel.process, reply /^Yes, I infer/, rules LL-COPULA-OF-APAVADA and INF-REL-TRANSITIVE-PARTOF.
    * Live: the question frame keeps "part of" (of is not a predicate PP) and WM-PART-CHAIN cites both premises. */

@@ -457,6 +457,13 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
                 if orient == "kartr=pred" and not identity(fs, fp):
                     continue  # 4.9.240: only an identity runs backwards; kind and membership never do
                 if np_unify(qs, a) and np_unify(qp, b):
+                    # A prepositional predicate is the preposition plus its object. "before lunch" is not "after lunch"
+                    # and not "above lunch": the noun phrase alone does not decide the relation.
+                    if isinstance(qp, dict) and isinstance(b, dict):
+                        qp_prep = str(qp.get("prep") or "").lower()
+                        b_prep = str(b.get("prep") or "").lower()
+                        if qp_prep and b_prep and qp_prep != b_prep:
+                            continue
                     qa, fa = _adjunct_np(qframe), _adjunct_np(fframe)
                     # "married to Cy" is not "married to Bob": a complement on the question has to be the fact's complement
                     if qa and not (fa and np_unify(qa, fa)):

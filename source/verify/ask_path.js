@@ -63,8 +63,8 @@ function ask(s, question, extra) {
   const prod = extra.isolated === true ? { shared: [], anchors: [] } : productionPools();
   const pools = [{ name: 'confirmed_shared', into: 'hosted', rows: prod.shared.concat(extra.sharedRows || []) }];
   if (extra.anchorRows && extra.anchorRows.length) pools.unshift({ name: 'anchors', into: 'anchors', rows: extra.anchorRows });
-  const nextRow = WR.relInfo('next_to');
-  const memory = { receipts: [], phone: s.phone.slice(), hosted: [], anchors: extra.anchors || prod.anchors, research: [], self: [], pools, relation_overlay: { next_to_transitive: !!(nextRow && nextRow.row && nextRow.row.transitive) } };
+  const flag = (pred) => { const info = WR.relInfo(pred); return !!(info && info.row && info.row.transitive); };
+  const memory = { receipts: [], phone: s.phone.slice(), hosted: [], anchors: extra.anchors || prod.anchors, research: [], self: [], pools, relation_overlay: { next_to_transitive: flag('next_to'), before_transitive: flag('before'), after_transitive: flag('after'), above_transitive: flag('above'), below_transitive: flag('below') } };
   const payload = Core.withClauses({ question, frame, live: true, dry_run: false, memory }, Q, f);
   let row = R.askSync(payload);
   row = Core.outwardCompile(row, payload, f, null);

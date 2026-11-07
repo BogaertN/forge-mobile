@@ -230,6 +230,38 @@ NEXT_CHAIN = {
     "head": {"predicate": "next", "args": ["$x", "$z"], "polarity": "pos"},
     "guard": "distinct $x $z",
 }
+# before/after are the grammar's kala pair. above/below are the vertical adhikarana pair. They do not cross.
+def _order_rule(pred: str, inv: str, domain: str) -> tuple[dict[str, Any], dict[str, Any]]:
+    chain = {
+        "id": "WM-" + pred.upper() + "-CHAIN",
+        "class": "forward_chain",
+        "cite": "4.9.249: " + pred + " chains inside " + domain + " only, when the active row says it is transitive, and only with the same qualifiers.",
+        "body": [
+            {"predicate": pred, "args": ["$x", "$y"], "polarity": "pos"},
+            {"predicate": pred, "args": ["$y", "$z"], "polarity": "pos"},
+        ],
+        "head": {"predicate": pred, "args": ["$x", "$z"], "polarity": "pos"},
+        "guard": "distinct $x $z",
+        "domain": domain,
+    }
+    inverse = {
+        "id": "WM-" + pred.upper() + "-INVERSE",
+        "class": "forward_chain",
+        "cite": "4.9.249: " + inv + " is the inverse of " + pred + ". The direction stays inside " + domain + ".",
+        "body": [{"predicate": pred, "args": ["$x", "$y"], "polarity": "pos"}],
+        "head": {"predicate": inv, "args": ["$y", "$x"], "polarity": "pos"},
+        "guard": "distinct $x $y",
+        "domain": domain,
+    }
+    return chain, inverse
+ORDER_RULES = []
+ORDER_CHAIN: dict[str, dict[str, Any]] = {}
+ORDER_INVERSE: dict[str, dict[str, Any]] = {}
+for _pred, _inv, _domain in (("before", "after", "kala"), ("after", "before", "kala"), ("above", "below", "space"), ("below", "above", "space")):
+    _chain, _inverse = _order_rule(_pred, _inv, _domain)
+    ORDER_RULES.extend((_chain, _inverse))
+    ORDER_CHAIN[_pred] = _chain
+    ORDER_INVERSE[_pred] = _inverse
 
 PART_RULE = {
     "id": "WM-PART-CHAIN",
@@ -462,6 +494,11 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
                 if isinstance(adj, dict) and str(adj.get("prep") or "").lower() == "to" and isinstance(adj.get("np"), dict):
                     to_rel = (ahead, _np_frame(adj.get("np")))
                     break
+    order_np = None
+    if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").lower() in ("before", "after", "above", "below"):
+        inner = _np_frame(pred.get("np"))
+        if inner and str(inner.get("text") or "").strip():
+            order_np = (str(pred.get("prep") or "").lower(), inner)
     if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").lower() in CONTAIN_PREPS:
         contain_inner = _np_frame(pred.get("np")) or ({"text": str(pred.get("text")).strip(), "head": str(pred.get("text")).strip()} if str(pred.get("text") or "").strip() else None)
     elif verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").lower() == "in":
@@ -488,6 +525,10 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         arg0 = kartr["text"]
     elif to_rel and to_rel[1] and str(to_rel[1].get("text") or "").strip():
         predicate, obj = to_rel[0], str(to_rel[1]["text"]).strip()
+        arg0 = kartr["text"]
+    elif order_np and order_np[1] and str(order_np[1].get("text") or "").strip():
+        # Copular before/after is the kala order. Copular above/below is the vertical order. A verb adjunct is not this atom.
+        predicate, obj = order_np[0], str(order_np[1]["text"]).strip()
         arg0 = kartr["text"]
     elif geo_inner and str(geo_inner.get("text") or "").strip():
         # geo(place, region). Both names are lexicon locations. Other copular "in" stays a copula predicate.
@@ -542,6 +583,9 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         frame["pred"] = {"type": "adj", "text": predicate}
         kept = [a for a in (frame.get("adj") or []) if str(a.get("prep") or "").lower() != "to"]
         frame["adj"] = kept + [{"prep": "to", "role": "sampradana", "np": to_rel[1]}]
+    elif predicate in ("before", "after", "above", "below") and order_np and order_np[1]:
+        frame["pred"] = {"type": "pp", "prep": predicate, "text": obj, "np": order_np[1]}
+        frame["order_domain"] = "kala" if predicate in ("before", "after") else "space"
     elif predicate == "geo" and geo_inner:
         frame["pred"] = {"type": "pp", "prep": "in", "text": obj, "np": geo_inner}
     elif predicate == "live" and live_np:
@@ -593,7 +637,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(MARRIED_SYMMETRIC), dict(NEXT_SYMMETRIC), dict(ADJACENT_SYMMETRIC), dict(SIBLING_SYMMETRIC), dict(NEXT_CHAIN), dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
+        "rules": [dict(COPULA_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(MARRIED_SYMMETRIC), dict(NEXT_SYMMETRIC), dict(ADJACENT_SYMMETRIC), dict(SIBLING_SYMMETRIC), dict(NEXT_CHAIN)] + [dict(r) for r in ORDER_RULES] + [dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -950,9 +994,9 @@ def check_proof(world: dict[str, Any], proof: dict[str, Any]) -> dict[str, Any]:
                 return {"ok": False, "reason": "head_mismatch", "cite": "contract 1g2034-K §6 step 8"}
             if [_norm(a) for a in head.get("args") or []] != [_norm(a) for a in atom.get("args") or []]:
                 return {"ok": False, "reason": "head_mismatch", "cite": "contract 1g2034-K §6 step 8"}
-            if rule["id"] in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-DESCENDANT-CHAIN", "WM-NEXT-CHAIN") and _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+            if rule["id"] in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-DESCENDANT-CHAIN", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN") and _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
                 return {"ok": False, "reason": "guard_distinct", "cite": rule.get("cite") or "contract 1g2034-K §5"}
-            if rule["id"] in ("WM-ANCESTOR-INVERSE", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC") and _norm(sub.get("$x", "")) == _norm(sub.get("$y", "")):
+            if rule["id"] in ("WM-ANCESTOR-INVERSE", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") and _norm(sub.get("$x", "")) == _norm(sub.get("$y", "")):
                 return {"ok": False, "reason": "guard_distinct", "cite": rule.get("cite") or "contract 1g2034-K §5"}
         else:
             return {"ok": False, "reason": "step_kind", "cite": "contract 1g2034-K §4.3"}
@@ -1078,6 +1122,9 @@ def _render_atom(atom: dict[str, Any]) -> str:
     """Contract I1 and §9. The template expresses this atom. It does not pick another."""
     args = [str(a) for a in atom.get("args") or []]
     predicate = str(atom.get("predicate") or "")
+    if predicate in ("before", "after", "above", "below") and len(args) == 2:
+        verb = "is not" if atom.get("polarity") == "neg" else "is"
+        return f"{args[0]} {verb} {predicate} {args[1]}."
     if predicate in ("married", "next", "adjacent") and len(args) == 2:
         verb = "is not" if atom.get("polarity") == "neg" else "is"
         return f"{args[0]} {verb} {predicate} to {args[1]}."
@@ -1452,14 +1499,16 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
     incomplete = incomplete or t_incomplete
     aclaims, pool, proof_facts, a_incomplete = _ancestor_chain(world, question, phase_path or [], pool, proof_facts, None)
     sclaims, pool, proof_facts, s_incomplete = _symmetric(world, question, phase_path or [], pool, proof_facts, None)
+    oclaims, pool, proof_facts, o_incomplete = _order_chain(world, question, phase_path or [], pool, proof_facts, None)
     claims.extend(aclaims)
     claims.extend(sclaims)
-    incomplete = incomplete or a_incomplete or s_incomplete
+    claims.extend(oclaims)
+    incomplete = incomplete or a_incomplete or s_incomplete or o_incomplete
 
     # Both polarities. Contract §5. A positive and a negative for the same normalized atom conflict.
     for claim in claims:
         atom = claim["atom"]
-        if atom.get("predicate") not in ("is", "in", "live", "geo", "part", "ancestor", "descendant", "parent", "child", "married", "next", "adjacent", "sibling"):
+        if atom.get("predicate") not in ("is", "in", "live", "geo", "part", "ancestor", "descendant", "parent", "child", "married", "next", "adjacent", "sibling", "before", "after", "above", "below"):
             continue
         opposite = "neg" if atom.get("polarity") != "neg" else "pos"
         for other in topical:
@@ -2064,6 +2113,157 @@ def _symmetric(world: dict[str, Any], question: str, phase_path: list[Any], pool
     return claims, pool, proof_facts, False
 
 
+def _qual_key(frame: dict[str, Any] | None) -> tuple:
+    """Scene and time adjuncts other than the order predicate. Two orders chain only when these match."""
+    items = []
+    for adj in (frame or {}).get("adj") or []:
+        if not isinstance(adj, dict):
+            continue
+        prep = str(adj.get("prep") or "").lower()
+        np = adj.get("np") if isinstance(adj.get("np"), dict) else {}
+        text = _norm(str(np.get("text") or ""))
+        if prep and text:
+            items.append((str(adj.get("role") or ""), prep, text))
+    return tuple(sorted(items))
+
+
+def _order_quals(frame: dict[str, Any] | None) -> list[dict[str, Any]]:
+    return [a for a in ((frame or {}).get("adj") or []) if isinstance(a, dict)]
+
+
+def _order_frame(pred: str, kartr: dict[str, Any], other: dict[str, Any], quals: list[dict[str, Any]]) -> dict[str, Any]:
+    return {"kriya": "be", "polarity": "pos", "kartr": kartr, "pred": {"type": "pp", "prep": pred, "text": other.get("text"), "np": other},
+            "adj": list(quals), "order_domain": "kala" if pred in ("before", "after") else "space", "derived": True}
+
+
+def _order_text(atom: dict[str, Any], quals: list[dict[str, Any]]) -> str:
+    base = _render_atom(atom).rstrip(".")
+    extra = []
+    for adj in quals:
+        prep = str(adj.get("prep") or "")
+        np = adj.get("np") if isinstance(adj.get("np"), dict) else {}
+        if prep and np.get("text"):
+            extra.append(prep + " " + str(np["text"]))
+    return base + ((" " + " ".join(extra)) if extra else "") + "."
+
+
+def _order_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool: list[dict[str, Any]], proof_facts: list[dict[str, Any]], qframe: dict[str, Any] | None) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], bool]:
+    """Chain one order domain. before/after do not mix with above/below, and a different scene or time blocks the hop."""
+    from rmc_engine_v1 import derive_frame as DF
+    claims: list[dict[str, Any]] = []
+    seen: set[tuple[str, str, str]] = set()
+
+    def note(pred: str, a: str, b: str) -> None:
+        seen.add((pred, _norm(a), _norm(b)))
+
+    for fact in pool:
+        atom = fact.get("atom") or {}
+        args = atom.get("args") or []
+        pred = str(atom.get("predicate") or "")
+        if pred in ORDER_CHAIN and atom.get("polarity", "pos") == "pos" and len(args) >= 2:
+            note(pred, args[0], args[1])
+
+    def emit(rule: dict[str, Any], chosen: list[dict[str, Any]], sub: dict[str, str], conclusion: dict[str, Any], cframe: dict[str, Any], text: str, pool_even_if_unmatched: bool) -> bool:
+        if len(claims) >= 24:
+            return False
+        key = (str(conclusion.get("predicate")), _norm(conclusion["args"][0]), _norm(conclusion["args"][1]))
+        if key in seen or _norm(conclusion["args"][0]) == _norm(conclusion["args"][1]):
+            return False
+        matched = DF.match(qframe, cframe) if qframe is not None else None
+        if qframe is not None and not matched and not pool_even_if_unmatched:
+            return False
+        if qframe is None and _coverage(question, text) <= 0 and not pool_even_if_unmatched:
+            return False
+        proof_world = dict(world)
+        proof_world["facts"] = proof_facts
+        steps = [{"n": i + 1, "kind": "fact", "fact_id": fact["id"], "premises": [], "substitution": {}, "atom": fact["atom"]} for i, fact in enumerate(chosen)]
+        steps.append({"n": len(chosen) + 1, "kind": "rule", "rule_id": rule["id"], "premises": list(range(1, len(chosen) + 1)), "substitution": sub, "atom": conclusion})
+        proof = _proof_shell(proof_world, conclusion, steps)
+        checked = check_proof(proof_world, proof)
+        premises = _original_premises(chosen)
+        claim = _finish_claim(world, text, conclusion, premises, proof, checked, "supported_only", rule["id"], phase_path or [])
+        if rule["id"].endswith("-INVERSE"):
+            _licensed(world, claim, rule)
+        hop_rows = []
+        for fact in chosen:
+            sources = fact.get("source_facts") if fact.get("source") == "derive" and fact.get("source_facts") else [fact]
+            for src in sources:
+                if not isinstance(src, dict):
+                    continue
+                measured = _drift_for(src.get("text") or "", [src], phase_path or [])
+                hop_rows.append(_hop_row(src.get("text") or "", list(src.get("provenance") or [src.get("id")]), measured, len(hop_rows) + 1))
+        hop_rows.append(_hop_row(text, [p.get("id") for p in premises], claim["drift"], len(hop_rows) + 1))
+        claim["hops"] = hop_rows
+        place = _derived_place(chosen)
+        if qframe is not None and matched:
+            _frame_claim(claim, cframe, "chain", matched, DF.alignment(place or {"text": text}, phase_path, question), question)
+            claim["_place"] = place or {"text": text}
+            claim["_premise_rows"] = list(premises)
+            claim["intermediate"] = False
+            claims.append(claim)
+        elif qframe is None and _coverage(question, text) > 0:
+            claims.append(claim)
+        if claim.get("debate", {}).get("survived") is not True:
+            return False
+        note(str(conclusion.get("predicate")), conclusion["args"][0], conclusion["args"][1])
+        row = _fact_row("hop-" + _digest(text)[:12], {"text": text, "atom": conclusion, "parsed": True, "atom_source": "derive", "place": place, "frame": cframe}, source="derive", provenance=[p.get("id") for p in premises], quarantined=False, cite=rule["cite"])
+        row["source_facts"] = premises
+        row["hop_trace"] = hop_rows
+        pool.append(row)
+        proof_facts.append(row)
+        return True
+
+    def sides(fact: dict[str, Any]) -> tuple[dict[str, Any] | None, dict[str, Any] | None, list[dict[str, Any]]]:
+        ff, _ = DF.fact_frame(fact)
+        if not isinstance(ff, dict):
+            return None, None, []
+        subject = ff.get("kartr") if isinstance(ff.get("kartr"), dict) else None
+        pred = ff.get("pred") if isinstance(ff.get("pred"), dict) else None
+        other = pred.get("np") if isinstance(pred, dict) and isinstance(pred.get("np"), dict) else None
+        return subject, other, _order_quals(ff)
+
+    rounds = 0
+    while rounds < LIMITS["MAX_ROUNDS"]:
+        rounds += 1
+        added = 0
+        for fact in list(pool):
+            if fact.get("source") == "derive":
+                continue
+            atom = fact.get("atom") or {}
+            args = atom.get("args") or []
+            pred = str(atom.get("predicate") or "")
+            if pred not in ORDER_INVERSE or atom.get("polarity", "pos") != "pos" or len(args) < 2 or _norm(args[0]) == _norm(args[1]):
+                continue
+            subject, other, quals = sides(fact)
+            if not isinstance(subject, dict) or not isinstance(other, dict):
+                continue
+            rule = ORDER_INVERSE[pred]
+            inv = str(rule["head"]["predicate"])
+            conclusion = _atom(inv, [args[1], args[0]], "pos")
+            sub = {"$x": str(args[0]), "$y": str(args[1])}
+            if emit(rule, [fact], sub, conclusion, _order_frame(inv, other, subject, quals), _order_text(conclusion, quals), True):
+                added += 1
+        for pred, rule in ORDER_CHAIN.items():
+            if world.get(pred + "_transitive", True) is not True:
+                continue
+            for sub, chosen in _match_body(rule["body"], [f for f in pool if not f.get("self_fact")]):
+                if _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+                    continue
+                left_s, _, left_q = sides(chosen[0])
+                _, right_o, right_q = sides(chosen[1])
+                if not isinstance(left_s, dict) or not isinstance(right_o, dict) or _qual_key({"adj": left_q}) != _qual_key({"adj": right_q}):
+                    continue
+                if str((DF.fact_frame(chosen[0])[0] or {}).get("order_domain") or "") != str((DF.fact_frame(chosen[1])[0] or {}).get("order_domain") or ""):
+                    continue
+                conclusion = _atom(pred, [chosen[0]["atom"]["args"][0], chosen[1]["atom"]["args"][1]], "pos")
+                sub = {"$x": str(chosen[0]["atom"]["args"][0]), "$y": str(chosen[0]["atom"]["args"][1]), "$z": str(chosen[1]["atom"]["args"][1])}
+                if emit(rule, chosen, sub, conclusion, _order_frame(pred, left_s, right_o, left_q), _order_text(conclusion, left_q), True):
+                    added += 1
+        if added == 0:
+            break
+    return claims, pool, proof_facts, False
+
+
 def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any], qframe: dict[str, Any], topical: list[dict[str, Any]]) -> dict[str, Any]:
     """4.9.233: a fact answers only when its frame unifies with the question frame AND its placement is phase-aligned
     with the question (grace = rpm·cos²δ, δ ≤ π/4); band relation and the 4.9.204 attraction rank the aligned matches;
@@ -2211,10 +2411,14 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     claims.extend(sclaims)
     chain_claims += len(sclaims)
     incomplete = incomplete or s_incomplete
+    oclaims, pool, proof_facts, o_incomplete = _order_chain(world, question, phase_path, pool, proof_facts, qframe)
+    claims.extend(oclaims)
+    chain_claims += len(oclaims)
+    incomplete = incomplete or o_incomplete
 
     for claim in claims:
         atom = claim["atom"]
-        if atom.get("predicate") not in ("is", "in", "live", "geo", "part", "ancestor", "descendant", "parent", "child", "married", "next", "adjacent", "sibling"):
+        if atom.get("predicate") not in ("is", "in", "live", "geo", "part", "ancestor", "descendant", "parent", "child", "married", "next", "adjacent", "sibling", "before", "after", "above", "below"):
             continue
         opposite = "neg" if atom.get("polarity") != "neg" else "pos"
         for other in topical:
@@ -2255,7 +2459,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     else:
         status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
     for claim in answers:
-        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN"):
+        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE"):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
         elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]
@@ -2601,7 +2805,9 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
     base, seed_trace = seed_self_facts(empty_world())
     world, observed = observe(base, events)
     overlay = memory.get("relation_overlay") if isinstance(memory.get("relation_overlay"), dict) else _RELATION_OVERLAY
-    world["next_to_transitive"] = overlay.get("next_to_transitive") is True
+    # Shipped rows: before/after/above/below chain; next_to does not. A manifest may flip a cell.
+    for key, default in (("next_to_transitive", False), ("before_transitive", True), ("after_transitive", True), ("above_transitive", True), ("below_transitive", True)):
+        world[key] = overlay[key] is True if key in overlay else default
     admitted_facts = [f for f in world.get("facts") or [] if not f.get("self_fact")]
     memory_clauses.note("world_model.observe_atoms", atom_sources=observed.get("atom_sources"),
                         clause_fallback_reasons=observed.get("clause_fallback_reasons"),
