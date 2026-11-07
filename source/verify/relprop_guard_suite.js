@@ -13,10 +13,30 @@ module.exports = ({ C, expect, ROOT }) => {
     married_to: [0, 1, ...cop('married to')], next_to: [0, 1, ...cop('next to')], adjacent_to: [0, 1, ...cop('adjacent to')], sibling_of: [0, 1, ...cop('a sibling of')],
     before: [1, 0, ...cop('before')], after: [1, 0, ...cop('after')], above: [1, 0, ...cop('above')], below: [1, 0, ...cop('below')] };
   const yes = r => /^Yes\b/.test(r.reply);
+  /* part_of and ancestor_of are the relations this milestone types. Their two rows each leave Kernel.process
+   * for the live Ask path. The forward question must be admitted, so a reverse hold is the direction and not a missed parse.
+   * Every other cell stays on the deleted turn until that relation is migrated. */
+  const LIVE = { part_of: 'WM-PART-CHAIN', ancestor_of: 'WM-ANCESTOR-CHAIN' };
+  const Ask = require(ROOT + '/verify/ask_path.js');
+  const liveAsk = (mem, q) => { const s = Ask.session(); for (const m of mem) { const kept = Ask.remember(s, m); expect(kept.ok, m + ' ' + (kept.why || '')); } return Ask.ask(s, q); };
+  const admitted = row => row && row.product_reply === true && row.echo && row.echo.pass === true && row.calls_llm !== true;
   C('RELPROP-GUARD', 'the meaning table covers every MEA-mutable cell (no cell is adoptable by absence of a test)', () => { const miss = MEA.cells().filter(([p]) => !T[p]); expect(!miss.length, 'uncovered: ' + JSON.stringify(miss)); });
   for (const p of Object.keys(T)) { const [tr, sy, say, ask] = T[p];
-    C('RELPROP-GUARD', p.replace(/_/g, ' ') + (tr ? ' chains (transitive)' : ' does not chain (not transitive)'), () => { const f = K(); f.process('remember that ' + say('Tolva', 'Mirek')); f.process('remember that ' + say('Mirek', 'Sanju'));
+    C('RELPROP-GUARD', p.replace(/_/g, ' ') + (tr ? ' chains (transitive)' : ' does not chain (not transitive)'), () => {
+      if (LIVE[p]) {
+        const row = liveAsk(['remember that ' + say('Tolva', 'Mirek'), 'remember that ' + say('Mirek', 'Sanju')], ask('Tolva', 'Sanju'));
+        expect(tr && admitted(row) && row.world_model.derive.survivor.how === LIVE[p], (row.reply || row.route || 'held'));
+        return;
+      }
+      const f = K(); f.process('remember that ' + say('Tolva', 'Mirek')); f.process('remember that ' + say('Mirek', 'Sanju'));
       const r = f.process(ask('Tolva', 'Sanju')); expect(tr ? yes(r) && r.trace.echo.pass : !yes(r), (tr ? 'no chain: ' : 'wrong chain: ') + r.reply); });
-    C('RELPROP-GUARD', p.replace(/_/g, ' ') + (sy ? ' reverses (symmetric)' : ' does not reverse (not symmetric)'), () => { const f = K(); f.process('remember that ' + say('Orla', 'Pemba'));
+    C('RELPROP-GUARD', p.replace(/_/g, ' ') + (sy ? ' reverses (symmetric)' : ' does not reverse (not symmetric)'), () => {
+      if (LIVE[p]) {
+        const fwd = liveAsk(['remember that ' + say('Orla', 'Pemba')], ask('Orla', 'Pemba'));
+        const row = liveAsk(['remember that ' + say('Orla', 'Pemba')], ask('Pemba', 'Orla'));
+        expect(!sy && admitted(fwd) && row.product_reply !== true, (fwd.reply || '') + ' / ' + (row.reply || row.route || 'held'));
+        return;
+      }
+      const f = K(); f.process('remember that ' + say('Orla', 'Pemba'));
       const r = f.process(ask('Pemba', 'Orla')); expect(sy ? yes(r) && r.trace.echo.pass : !yes(r), (sy ? 'no reversal: ' : 'wrong reversal: ') + r.reply); }); }
 };

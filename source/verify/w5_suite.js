@@ -21,7 +21,15 @@ T('INFERENCE', 'antonym normalisation: “older” fact answers a “younger” 
 T('INFERENCE', 'comparative is not symmetric: brother older than sister ⇏ sister older than brother', () => { const k = K(); say(k, 'remember that my brother is older than my sister'); const r = k.process('is my sister older than my brother?'); expect(!/^Yes/.test(derived(r))); });
 T('INFERENCE', 'temporal order: before + after(inverse) chain', () => { const k = K(); say(k, 'remember that the meeting is before lunch', 'remember that dinner is after lunch'); const r = k.process('is the meeting before dinner?'); expect(/^Yes, I infer/.test(derived(r)) && ids(r).includes('INF-REL-TRANSITIVE-BEFORE')); });
 T('INFERENCE', 'temporal order is not reversed: meeting before dinner ⇏ dinner before meeting', () => { const k = K(); say(k, 'remember that the meeting is before lunch', 'remember that lunch is before dinner'); const r = k.process('is dinner before the meeting?'); expect(!/^Yes/.test(derived(r))); });
-T('INFERENCE', 'part-of transitivity: wheel ⊂ engine ⊂ car; “of”-predicate reading removed by apavāda', () => { const k = K(); say(k, 'remember that the wheel is part of the engine', 'remember that the engine is part of the car'); const r = k.process('is the wheel part of the car?'); expect(/^Yes, I infer/.test(derived(r)) && ids(r).includes('LL-COPULA-OF-APAVADA') && ids(r).includes('INF-REL-TRANSITIVE-PARTOF')); });
+T('INFERENCE', 'part-of transitivity: wheel ⊂ engine ⊂ car; “of”-predicate reading removed by apavāda', () => {
+  /* Old: Kernel.process, reply /^Yes, I infer/, rules LL-COPULA-OF-APAVADA and INF-REL-TRANSITIVE-PARTOF.
+   * Live: the question frame keeps "part of" (of is not a predicate PP) and WM-PART-CHAIN cites both premises. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that the wheel is part of the engine').ok && Ask.remember(s, 'remember that the engine is part of the car').ok);
+  const row = Ask.ask(s, 'is the wheel part of the car?');
+  expect(row.product_reply === true && row.echo && row.echo.pass === true && row.reply === 'The wheel is part of the engine. The engine is part of the car. The wheel is part of the car.', row.reply);
+  expect(row.world_model.derive.survivor.how === 'WM-PART-CHAIN' && row.calls_llm !== true && !(row.memory_write && row.memory_write.committed), row.world_model.derive.survivor.how);
+});
 T('INFERENCE', 'possession: “I have a dog” stored and answered; “what does my sister have?” recalls', () => { const k = K(); say(k, 'remember that I have a dog', 'remember that my sister has a cat'); expect(/^Yes/.test(derived(k.process('do I have a dog?')))); expect(/has a cat/.test(derived(k.process('what does my sister have?')))); });
 T('INFERENCE', 'perfect aspect still wins over possessive “have” before a participle', () => { const k = K(); const r = k.process('remember that I have eaten'); expect(/have eaten/.test(derived(r)) && !ids(r).includes('V-FINITE-HAVE-POSSESSIVE')); });
 T('INFERENCE', 'negative universal: “no dog is a cat” + “Rex is a dog” ⇒ No (was a false Yes before v4.3)', () => { const k = K(); say(k, 'remember that no dog is a cat', 'remember that Rex is a dog'); const r = k.process('is Rex a cat?'); expect(/^No\./.test(derived(r)) && ids(r).includes('INF-ISA-DISJOINT')); });

@@ -36,21 +36,45 @@ module.exports = ({ C, expect, K, ROOT }) => {
     const r2 = f.process('Suppose Ola is married to Pel. Is Pel married to Ola?'); expect(/Yes/.test(r2.reply), r2.reply);
     f.process('Kip contains Lop. Is Lop inside Kip?'); expect(snap() === s0, 'a hypothetical wrote durable state');
     expect(!f.worldState().entities.some(e => /pim|quo|ola|kip/.test(e.id)) && !/^Yes/.test(f.process('is Pim inside Rub?').reply), 'branch leaked'); });
-  C('WS-TRANSITIVE', 'transitive (inside / part of / ancestor of / before …) in the turn world and in durable memory, with the property rule named', () => {
-    const t = K().process('Ola is inside Pel. Pel is inside Ras. Is Ola inside Ras?'); expect(yes(t) && t.trace.selection.winner === 'world.proof', t.reply);
-    const p = K().process('Gem is part of Hub. Hub is part of Ivo. Is Gem part of Ivo?'); expect(yes(p), p.reply);
-    const f = K(); run(f, ['remember that Lia is an ancestor of Mo', 'remember that Mo is an ancestor of Ned']); const r = f.process('is Lia an ancestor of Ned?');
-    expect(yes(r) && r.trace.rules.some(x => x.id === 'INF-RELPROP' && x.rules_used.includes('RELPROP-TRANSITIVE:ancestor_of')), r.reply + JSON.stringify(r.trace.rules.map(x => x.id))); });
+  /* The old row bundled four names and one process() call. Each guarantee is now its own row on the live Ask path.
+   * inside → WM-CONTAIN-CHAIN (the old winner was world.proof / RELPROP-TRANSITIVE:in).
+   * part of → WM-PART-CHAIN (the old reply was Yes).
+   * ancestor of → WM-ANCESTOR-CHAIN (the old trace id was RELPROP-TRANSITIVE:ancestor_of).
+   * The title also said "before"; the body never asserted a before chain, so none is added here. */
+  const askChain = (mem, q) => { const A = require('./ask_path.js'); const s = A.session(); for (const m of mem) expect(A.remember(s, m).ok, m); const n = s.phone.length; const row = A.ask(s, q); expect(s.phone.length === n, 'ask wrote'); return row; };
+  const admitted = row => row && row.product_reply === true && row.echo && row.echo.pass === true && row.calls_llm !== true && !(row.memory_write && row.memory_write.committed);
+  C('WS-TRANSITIVE', 'inside chain (old: Ola inside Pel inside Ras, winner world.proof)', () => {
+    const row = askChain(['remember that Ola is inside Pel', 'remember that Pel is inside Ras'], 'is Ola inside Ras?');
+    expect(admitted(row) && row.reply === 'Ola is inside Pel. Pel is inside Ras. Ola is inside Ras.' && row.world_model.derive.survivor.how === 'WM-CONTAIN-CHAIN', row.reply);
+  });
+  C('WS-TRANSITIVE', 'part-of chain (old: Gem part of Hub part of Ivo answered Yes)', () => {
+    const row = askChain(['remember that Gem is part of Hub', 'remember that Hub is part of Ivo'], 'is Gem part of Ivo?');
+    expect(admitted(row) && row.reply === 'Gem is part of Hub. Hub is part of Ivo. Gem is part of Ivo.' && row.world_model.derive.survivor.how === 'WM-PART-CHAIN', row.reply);
+  });
+  C('WS-TRANSITIVE', 'ancestor-of chain (old: Lia ancestor of Mo ancestor of Ned, rule RELPROP-TRANSITIVE:ancestor_of)', () => {
+    const row = askChain(['remember that Lia is an ancestor of Mo', 'remember that Mo is an ancestor of Ned'], 'is Lia an ancestor of Ned?');
+    expect(admitted(row) && row.reply === 'Lia is an ancestor of Mo. Mo is an ancestor of Ned. Lia is an ancestor of Ned.' && row.world_model.derive.survivor.how === 'WM-ANCESTOR-CHAIN', row.reply);
+  });
   C('WS-SYMMETRIC', 'symmetric (married to / next to) in the turn world and in durable memory', () => {
     expect(yes(K().process('Ola is married to Pel. Is Pel married to Ola?')));
     const f = K(); run(f, ['remember that Ann is married to Bob', 'remember that Ann is next to Cy']); const a = f.process('is Bob married to Ann?'), b = f.process('is Cy next to Ann?');
     expect(yes(a) && yes(b) && a.reply === 'Yes, I infer that Bob is married to Ann. You told me that Ann is married to Bob. I used 1 rule.' && a.trace.rules.find(x => x.id === 'INF-RELPROP').rules_used.includes('RELPROP-SYMMETRIC:married_to'), a.reply);
     expect(!/^Yes/.test(K().process('Ola is inside Pel. Is Pel inside Ola?').reply), 'inside treated as symmetric'); });
-  C('WS-INVERSE', 'inverse pairs (contains/inside, parent/child, ancestor/descendant) in the turn world and in durable memory', () => {
-    expect(yes(K().process('Kip contains Lop. Is Lop inside Kip?')));
-    const f = K(); run(f, ['remember that Tom is the parent of Sue', 'remember that Lia is an ancestor of Mo', 'remember that Mo is an ancestor of Ned']);
-    const a = f.process('is Sue the child of Tom?'), b = f.process('is Ned a descendant of Lia?'); expect(yes(a) && yes(b), a.reply + ' / ' + b.reply);
-    expect(a.trace.rules.find(x => x.id === 'INF-RELPROP').rules_used.includes('RELPROP-INVERSE:child_of<parent_of'), JSON.stringify(a.trace.rules.find(x => x.id === 'INF-RELPROP'))); });
+  /* Split from the bundled inverse row. contains/inside and ancestor/descendant are the relations this world model
+   * types. parent/child is still required and is not those relations: the live ask must produce the child reading,
+   * and a hold is the unmet contract rather than a deleted-process crash. */
+  C('WS-INVERSE', 'contains/inside (old: Kip contains Lop answers Is Lop inside Kip?)', () => {
+    const row = askChain(['remember that Kip contains Lop'], 'is Lop inside Kip?');
+    expect(admitted(row) && /Kip contains Lop\./.test(row.reply || ''), row.reply);
+  });
+  C('WS-INVERSE', 'parent/child (old: Tom parent of Sue answers Is Sue the child of Tom?, rule RELPROP-INVERSE:child_of<parent_of)', () => {
+    const row = askChain(['remember that Tom is the parent of Sue'], 'is Sue the child of Tom?');
+    expect(admitted(row) && /Sue is( the| a)? child of Tom/i.test(row.reply || ''), (row.reply || row.route || 'held') + ' (parent/child inverse is not ancestor-of and is not implemented)');
+  });
+  C('WS-INVERSE', 'ancestor/descendant (old: Lia ancestor of Ned answers Is Ned a descendant of Lia?)', () => {
+    const row = askChain(['remember that Lia is an ancestor of Mo', 'remember that Mo is an ancestor of Ned'], 'is Ned a descendant of Lia?');
+    expect(admitted(row) && row.reply === 'Lia is an ancestor of Mo. Mo is an ancestor of Ned. Ned is a descendant of Lia.' && row.world_model.derive.survivor.how === 'WM-ANCESTOR-INVERSE', row.reply);
+  });
   C('WS-FUNCTIONAL', 'functional relations: a second different value is a real contradiction — the turn world reports conflicting proofs; durable memory asks before replacing and writes nothing; one value alone is no conflict', () => {
     const t = K().process('Vin is the mother of Wes. Xan is the mother of Wes. Is Vin the mother of Wes?'); expect(/conflict/.test(t.reply), t.reply);
     expect(yes(K().process('Vin is the mother of Wes. Is Vin the mother of Wes?')), 'single value conflicted');

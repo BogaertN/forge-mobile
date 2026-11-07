@@ -47,6 +47,11 @@ function register(C, expect) {
     const d = row.world_model && row.world_model.derive;
     expect(row.product_reply !== true && d && d.status === 'conflicted', (row.reply || '') + ' ' + (d && d.status));
   });
+  C('ANCESTOR-OF', 'a stored negative of the derived ancestor conflicts', () => {
+    const row = ask(['remember that Lia is an ancestor of Mo', 'remember that Mo is an ancestor of Ned', 'remember that Lia is not an ancestor of Ned'], 'is Lia an ancestor of Ned?');
+    const d = row.world_model && row.world_model.derive;
+    expect(row.product_reply !== true && d && d.status === 'conflicted', (row.reply || '') + ' ' + (d && d.status));
+  });
   C('PART-OF', 'inside and a bare of-phrase are not part-of', () => {
     const box = ask(['remember that the wheel is inside the car', 'remember that the car is part of the fleet'], 'is the wheel part of the fleet?');
     expect(box.product_reply !== true, box.reply);
