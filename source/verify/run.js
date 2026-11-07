@@ -207,6 +207,7 @@ require('./r4257_suite.js')(C, expect);
 require('./r4258_suite.js')(C, expect);
 require('./r4259_suite.js')(C, expect);
 require('./r4260_suite.js')(C, expect);
+require('./r4261_suite.js')(C, expect);
 C('INFERENCE', 'is-a via WordNet hypernyms', () => {
   const Ask = require('./ask_path.js'); const s = Ask.session();
   expect(Ask.remember(s, 'remember that my dog is a poodle').ok);
@@ -225,9 +226,39 @@ C('FORGET', 'confirmed forget moves to cold storage, recall stops', () => { cons
 C('FORGET', 'declined forget keeps the fact', () => { const k = FKN(); k.process('remember that my car is red'); k.process('forget that my car is red'); k.process('no'); expect(k.memory().length === 1); });
 C('FORGET', 'forget everything about an entity', () => { const k = FKN(); k.process('remember that my sister lives in Paris'); k.process('remember that my sister is tall'); const a = k.process('forget everything about my sister'); expect(/2 facts/.test(a.reply), a.reply); k.process('yes'); expect(k.memory().length === 0); });
 C('FORGET', 'Memory-tab forget also goes to cold storage (never erased)', () => { const k = FKN(); k.process('remember that my car is red'); const id = k.memory()[0].id; k.deleteRecord(id, 'test'); expect(k.cold().some(c => c.id === id)); });
-/* MATH v3 */
-const mth = [['factor x^2 - 5x + 6', '(x - 2)(x - 3)'], ['solve 2x^2 + 3x - 1 = 0', '(-3 ± √17)/4'], ['solve x^3 - 6x^2 + 11x - 6 = 0', 'x = 1'], ['solve x^4 - 5x^2 + 4 = 0', 'x = 1'], ['solve x + y = 3 and x - y = 1', 'x = 2'], ['derivative of x^3 + 2x', '3x^2 + 2'], ['integral of 2x', 'x^2'], ['convert 60 km/h to m/s', '50/3']];
-for (const [u, s] of mth) C('MATH-V3', u, () => { const r = FKN().process(u); expect((r.reply || '').includes(s), r.reply || r.block_reason); });
+/* MATH v3. Factor, derivative and integral still call the deleted turn: the live grammar does not read them.
+ * One-variable equations and the two-equation line go through Ask. The old "(-3 ± √17)/4" string is the same two exact roots. */
+const AskM = require('./ask_path.js');
+const WFM = require(ROOT + '/src/world_facts.js');
+function askMath(q) {
+  const n = WFM.rows().length; const s = AskM.session(); const row = AskM.ask(s, q);
+  if (s.phone.length !== 0 || WFM.rows().length !== n) throw new Error('a math question stored a premise');
+  return row;
+}
+const mathOk = row => row && row.product_reply === true && row.echo && row.echo.pass === true && row.echo.method === 'computed_quantity_reparse' && row.calls_llm !== true && row.computed && row.computed.status === 'ok' && !(row.memory_write && row.memory_write.committed);
+C('MATH-V3', 'factor x^2 - 5x + 6', () => { const r = FKN().process('factor x^2 - 5x + 6'); expect((r.reply || '').includes('(x - 2)(x - 3)'), r.reply || r.block_reason); });
+C('MATH-V3', 'solve 2x^2 + 3x - 1 = 0', () => {
+  const row = askMath('solve 2x^2 + 3x - 1 = 0');
+  expect(mathOk(row) && row.reply.includes('x = -√(17)/4 - 3/4') && row.reply.includes('x = -3/4 + √(17)/4'), (row.reply || row.route) + ' (old reply contained (-3 ± √17)/4)');
+});
+C('MATH-V3', 'solve x^3 - 6x^2 + 11x - 6 = 0', () => {
+  const row = askMath('solve x^3 - 6x^2 + 11x - 6 = 0');
+  expect(mathOk(row) && ['x = 1', 'x = 2', 'x = 3'].every(t => row.reply.includes(t)), row.reply || row.route);
+});
+C('MATH-V3', 'solve x^4 - 5x^2 + 4 = 0', () => {
+  const row = askMath('solve x^4 - 5x^2 + 4 = 0');
+  expect(mathOk(row) && ['x = -2', 'x = -1', 'x = 1', 'x = 2'].every(t => row.reply.includes(t)), row.reply || row.route);
+});
+C('MATH-V3', 'solve x + y = 3 and x - y = 1', () => {
+  const row = askMath('solve x + y = 3 and x - y = 1');
+  expect(mathOk(row) && row.reply.includes('x = 2') && row.reply.includes('y = 1'), row.reply || row.route);
+});
+C('MATH-V3', 'derivative of x^3 + 2x', () => { const r = FKN().process('derivative of x^3 + 2x'); expect((r.reply || '').includes('3x^2 + 2'), r.reply || r.block_reason); });
+C('MATH-V3', 'integral of 2x', () => { const r = FKN().process('integral of 2x'); expect((r.reply || '').includes('x^2'), r.reply || r.block_reason); });
+C('MATH-V3', 'convert 60 km/h to m/s', () => {
+  const row = askMath('convert 60 km/h to m/s');
+  expect(mathOk(row) && (row.reply || '').includes('50/3'), (row.reply || row.route) + ' (the live conversion is a float; Echo does not accept an exact 50/3)');
+});
 /* PRIVACY v3 */
 C('PRIVACY', 'sensitive value never echoed on store', () => { const r = FKN().process('remember that my pin is 4321'); expect(!/4321/.test(r.reply) && /Identity Vault/.test(r.reply), r.reply); });
 C('PRIVACY', 'sensitive value absent from receipts and InputEvent-free outputs', () => { const k = FKN(); k.process('remember that my pin is 4321'); expect(!JSON.stringify(k.receipts()).includes('4321')); });
@@ -237,7 +268,7 @@ for (const u of ['hello', 'remember that my car is red', 'buy milk', 'solve x = 
 const sg = n => (n < 0 ? '- ' + -n : '+ ' + n);
 for (let a = -4; a <= 4; a++) for (let b = a; b <= 4; b++) { if (a === 0 || b === 0) continue; const B = -(a + b), Cc = a * b; const p = 'x^2 ' + (B ? sg(B) + 'x ' : '') + sg(Cc); C('MATH-V3', `factor ${p}`, () => { const r = FKN().process('factor ' + p); const f = z => z < 0 ? '(x + ' + -z + ')' : '(x - ' + z + ')'; expect((r.reply || '').includes(a === b ? f(a) : '') && r.trace.echo.pass, r.reply || r.block_reason); }); }
 for (let n = 1; n <= 6; n++) for (let c = 1; c <= 5; c++) C('MATH-V3', `derivative of ${c}x^${n}`, () => { const r = FKN().process(`derivative of ${c}x^${n}`); const e = n === 1 ? String(c) : (c * n) + (n - 1 === 1 ? 'x' : 'x^' + (n - 1)); expect((r.reply || '').includes(e), r.reply + ' / ' + e); });
-for (let i = 1; i <= 25; i++) { const x = (i % 7) - 3, y = (i % 5) - 2; const eq = `x + y = ${x + y} and x - y = ${x - y}`; C('MATH-V3', `linear system ${eq}`, () => { const r = FKN().process('solve ' + eq); expect((r.reply || '').includes('x = ' + x) && r.reply.includes('y = ' + y), r.reply || r.block_reason); }); }
+for (let i = 1; i <= 25; i++) { const x = (i % 7) - 3, y = (i % 5) - 2; const eq = `x + y = ${x + y} and x - y = ${x - y}`; C('MATH-V3', `linear system ${eq}`, () => { const row = askMath('solve ' + eq); expect(mathOk(row) && row.reply.includes('x = ' + x) && row.reply.includes('y = ' + y), row.reply || row.route); }); }
 const ISA = [['poodle', 'dog'], ['poodle', 'animal'], ['sparrow', 'bird'], ['oak', 'tree'], ['salmon', 'fish'], ['violin', 'device'], ['hammer', 'tool'], ['sedan', 'car']];
 for (const [a, b] of ISA) C('INFERENCE', `WordNet is-a: my pet is a ${a} ⇒ ${b}`, () => {
   const Ask = require('./ask_path.js'); const s = Ask.session();

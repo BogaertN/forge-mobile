@@ -117,6 +117,12 @@ function register(C, expect) {
     s.prior.premises[0].quarantined = true;
     const hidden = A.ask(s, 'why?');
     expect(hidden.product_reply !== true && hidden.reply == null, hidden.reply || hidden.route);
+    const facts = WF.rows().length;
+    A.ask(s, 'is Aster inside Cobalt?');
+    s.prior.premises[0].text = 'the password is hunter2';
+    const secret = A.ask(s, 'why?');
+    const dumped = JSON.stringify(secret);
+    expect(secret.product_reply !== true && secret.reply == null && !/hunter2|password/.test(dumped) && WF.rows().length === facts && s.phone.every(p => !/hunter2|password/.test(p.text || '')), dumped);
     const proof = Object.values(chain.world_model.proofs)[0];
     const checked = JSON.parse(execFileSync('python3', ['-c', 'import json,sys; from rmc_engine_v1.world_model_v1 import check_proof; p=json.load(sys.stdin); print(json.dumps(check_proof(p["world"], p["proof"])))'], { cwd: path.join(__dirname, '..'), env: Object.assign({}, process.env, { PYTHONPATH: path.join(__dirname, '..', 'engine') }), input: JSON.stringify({ world: chain.world_model.world, proof: proof }), encoding: 'utf8' }));
     expect(proof.ok === true && checked.ok === false, JSON.stringify(checked));

@@ -1,7 +1,7 @@
 """Computed trust tier (4.9.216, Nic). No seed answers, no per-question tuning, no LLM.
 
 A math question is read by a small deterministic grammar into a symbolic tree (numbers, the four operations,
-percent, powers, roots, one-variable equations, unit conversions). Only what the grammar understands becomes an
+percent, powers, roots, one-variable equations, a pair of linear equations, unit conversions). Only what the grammar understands becomes an
 expression; nothing is passed to eval or to a parser of the user's raw text. The tree is computed with SymPy
 (exact arithmetic, solve for one variable) or with Pint when units are involved (explicit units only; an ambiguous
 unit such as "gallon" is held with a clarifying question). The result is written as one answer sentence plus a
@@ -361,6 +361,20 @@ def _exact(node) -> Fraction:
     raise ValueError("not a plain number")
 
 
+def _one_equation(text: str):
+    """One equation as two expression trees, or (None, reason). The reason is the grammar's, not a guessed value."""
+    if str(text).count("=") != 1:
+        return None, "an equation needs exactly one ="
+    left, right = str(text).split("=")
+    lt, rt = tokenize(left, allow_var=True), tokenize(right, allow_var=True)
+    try:
+        if lt is None or rt is None:
+            raise ValueError("word")
+        return (_parse_expr(lt), _parse_expr(rt)), None
+    except ValueError as exc:
+        return None, "the equation is outside the math grammar (" + str(exc) + ")"
+
+
 # ---------------------------------------------------------------- understand (no library needed)
 def understand(question: str) -> dict[str, Any] | None:
     """None: not a math question. Otherwise {'status': 'ok'|'unparsed'|'ambiguous_unit', 'kind', 'tree'/..., 'asked'}."""
@@ -402,16 +416,27 @@ def understand(question: str) -> dict[str, Any] | None:
             eq = (m.group(2), m.group(1))
     if eq is not None:
         want, text = eq
+        parts = re.split(r"\s+and\s+", text)
+        if len(parts) == 2 and want is None and all(p.count("=") == 1 for p in parts):
+            parsed = []
+            for part in parts:
+                got, err = _one_equation(part)
+                if err:
+                    return {"status": "unparsed", "kind": "system", "rule": "MATH-UNPARSED", "reason": err}
+                parsed.append(got)
+            vs: set[str] = set()
+            for lhs, rhs in parsed:
+                vs |= _vars(lhs) | _vars(rhs)
+            if len(vs) != 2:
+                return {"status": "unparsed", "kind": "system", "rule": "MATH-UNPARSED", "reason": "two unknowns are needed, found " + (",".join(sorted(vs)) or "none")}
+            names = sorted(vs)
+            return {"status": "ok", "kind": "system", "equations": parsed, "vars": names, "lib": "sympy", "asked": "the values of " + " and ".join(names)}
         if text.count("=") != 1:
             return {"status": "unparsed", "kind": "equation", "rule": "MATH-UNPARSED", "reason": "an equation needs exactly one ="}
-        left, right = text.split("=")
-        lt, rt = tokenize(left, allow_var=True), tokenize(right, allow_var=True)
-        try:
-            if lt is None or rt is None:
-                raise ValueError("word")
-            lhs, rhs = _parse_expr(lt), _parse_expr(rt)
-        except ValueError as exc:
-            return {"status": "unparsed", "kind": "equation", "rule": "MATH-UNPARSED", "reason": "the equation is outside the math grammar (" + str(exc) + ")"}
+        got, err = _one_equation(text)
+        if err:
+            return {"status": "unparsed", "kind": "equation", "rule": "MATH-UNPARSED", "reason": err}
+        lhs, rhs = got
         vs = _vars(lhs) | _vars(rhs)
         if len(vs) != 1 or (want and want not in vs):
             return {"status": "unparsed", "kind": "equation", "rule": "MATH-UNPARSED", "reason": "one unknown is needed, found " + (",".join(sorted(vs)) or "none")}
@@ -683,6 +708,30 @@ def compute(question: str, u: dict[str, Any] | None = None) -> dict[str, Any]:
                 sentence = "Solving " + _render_eq(u["lhs"]) + " = " + _render_eq(u["rhs"]) + " gives " + text + "."
             result = {"solutions": [str(s) for s in real], "text": text, "exact": True}
             expression = str(eqn)
+        elif u["kind"] == "system":
+            syms = [sp.Symbol(name) for name in u["vars"]]
+            eqs = [sp.Eq(_sym(lhs, sp), _sym(rhs, sp)) for lhs, rhs in u["equations"]]
+            found = sp.solve(eqs, syms, dict=True)
+            shown = " and ".join(_render_eq(lhs) + " = " + _render_eq(rhs) for lhs, rhs in u["equations"])
+            real = []
+            for sol in found:
+                if all(sol[s].is_real is not False for s in syms):
+                    real.append(sol)
+            if not real:
+                text = "no solution"
+                sentence = "Solving " + shown + " gives no solution."
+            else:
+                chunks = []
+                for sol in real:
+                    bits = []
+                    for name, sym in zip(u["vars"], syms):
+                        t, _ex = fmt_value(sp.nsimplify(sol[sym]), sp)
+                        bits.append(name + " = " + t)
+                    chunks.append(" and ".join(bits))
+                text = " or ".join(chunks)
+                sentence = "Solving " + shown + " gives " + text + "."
+            result = {"solutions": [str(sol) for sol in real], "text": text, "exact": True}
+            expression = " ; ".join(str(eq) for eq in eqs)
         elif u["kind"] == "conversion":
             import pint
             libs["pint"] = pint.__version__
@@ -740,6 +789,8 @@ def _public(u: dict[str, Any]) -> dict[str, Any]:
     for k in ("tree", "lhs", "rhs", "part", "whole"):
         if k in u:
             out[k] = _render_eq(u[k]) if k in ("lhs", "rhs") else render(u[k])
+    if "equations" in u:
+        out["equations"] = [_render_eq(a) + " = " + _render_eq(b) for a, b in u["equations"]]
     return out
 
 
@@ -807,6 +858,42 @@ def echo(question: str, reply: str, computed: dict[str, Any] | None) -> dict[str
             else:
                 want_text = " or ".join(u["var"] + " = " + fmt_value(sp.nsimplify(z), sp)[0] for z in sols)
                 ok = m.group(3) == want_text and all(abs(complex(sp.N(f.subs(x, z), 30))) <= 1e-9 for z in sols)
+        elif u["kind"] == "system":
+            m = re.match(r"^solving (.+) gives (.+)$", s, re.I)
+            if not m:
+                return fail("the reply is not 'solving the equations gives the unknowns'")
+            pieces = re.split(r"\s+and\s+", m.group(1))
+            if len(pieces) != len(u["equations"]):
+                return fail("the reply does not state both equations")
+            stated = []
+            for piece in pieces:
+                got, err = _one_equation(piece)
+                if err:
+                    return fail("the reply's equation does not parse")
+                stated.append(got)
+            syms = [sp.Symbol(name) for name in u["vars"]]
+            asked = [sp.Eq(_sym(lhs, sp), _sym(rhs, sp)) for lhs, rhs in u["equations"]]
+            spoken = [sp.Eq(_sym(lhs, sp), _sym(rhs, sp)) for lhs, rhs in stated]
+            same = len(asked) == len(spoken) and all(
+                sp.simplify((a.lhs - a.rhs) - (b.lhs - b.rhs)) == 0 for a, b in zip(asked, spoken)
+            )
+            if not same:
+                return fail("the reply solves different equations")
+            found = [sol for sol in sp.solve(spoken, syms, dict=True) if all(sol[v].is_real is not False for v in syms)]
+            if not found:
+                ok = m.group(2) == "no solution"
+            else:
+                chunks = []
+                for sol in found:
+                    bits = []
+                    for name, sym in zip(u["vars"], syms):
+                        bits.append(name + " = " + fmt_value(sp.nsimplify(sol[sym]), sp)[0])
+                    chunks.append(" and ".join(bits))
+                ok = m.group(2) == " or ".join(chunks)
+                for sol in found:
+                    for eq in asked:
+                        if abs(complex(sp.N((eq.lhs - eq.rhs).subs(sol), 30))) > 1e-9:
+                            ok = False
         elif u["kind"] == "conversion":
             import pint
             ureg = _ureg(pint)
