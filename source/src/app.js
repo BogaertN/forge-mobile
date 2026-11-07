@@ -215,32 +215,46 @@ async function rememberAnswer(row, how) {
  * unsourced). Questions are not statements; secrets go to the vault, not plain memory. Ask then reads it back as phone memory
  * and the engine decides (a later contradicting statement makes the derive conflicted, so Ask holds and shows both). */
 const REMEMBER_STATEMENT = /^\s*(?:please\s+)?remember\s+(?:that\s+)?(\S.*?)\s*[.!]?\s*$/i;
-const FORGET_STATEMENT = /^\s*(?:please\s+)?forget\s+(?:that\s+)?(\S.*?)\s*[.!]?\s*$/i;
 function forgetStatement(text) {
-  const m = String(text).match(FORGET_STATEMENT);
-  const said = m ? m[1].trim() : '';
-  if (!said) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Forget what? Say "forget that …" with the sentence you stored.' };
-  const sentence = said.charAt(0).toUpperCase() + said.slice(1) + (/[.!]$/.test(said) ? '' : '.');
+  const frame = window.KQFrame && forge ? KQFrame.compile(text, forge) : null;
+  const target = window.KQFrame && KQFrame.forgetTarget ? KQFrame.forgetTarget(frame) : { ok: false, rule: 'FORGET-NOT-A-COMMAND' };
+  if (!target.ok) return { ok: false, rule: target.rule, message: target.rule === 'FORGET-NOT-A-CLAUSE' ? 'Forget the whole sentence you stored. A name alone is not that sentence.' : 'That is not a forget command. Nothing was forgotten.' };
+  const red = window.KPrivacy && KPrivacy.redact ? KPrivacy.redact(text) : { secrets: [] };
+  if (red.secrets.length) return { ok: false, rule: 'PRIV-SECRET-NOT-KEPT', message: 'That looks like a secret. It is not kept, and it is not written into a forget receipt.' };
+  const WF = window.KWorldFacts;
+  const same = WF && WF.sameText ? (a, b) => WF.sameText(a, b) : (a, b) => String(a || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '') === String(b || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '');
+  const about = (row, np) => { const k = row && row.clause && row.clause.kartr; return !!(k && np && k.head && String(k.head).toLowerCase() === String(np.head).toLowerCase() && k.owner === np.owner); };
+  const pool = rememberedRows().concat(WF && WF.rows ? WF.rows() : []);
+  let texts = [];
+  if (target.kind === 'sentence') {
+    const hit = pool.find(r => r && same(r.text, target.text));
+    if (!hit) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Nothing remembered matches that sentence.' };
+    texts = [hit.text];
+  } else {
+    for (const row of pool) if (row && about(row, target.np) && !texts.some(t => same(t, row.text))) texts.push(row.text);
+    if (!texts.length) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Nothing remembered is about ' + (target.np.text || 'that') + '.' };
+  }
   if (forge && forge.perm) {
-    const d = forge.perm.authorize('memory.forget', { explicit: true, userTap: true, subject: sentence });
+    const d = forge.perm.authorize('memory.forget', { explicit: true, userTap: true, subject: texts.length + ' phone fact' + (texts.length === 1 ? '' : 's') });
     if (d.decision === 'needs_approval') {
       const hw = forge.store.load('held_writes');
       const id = 'held:forget:' + hw.length;
-      hw.push({ id: id, status: 'held', kind: 'phone_forget', text: sentence, input: sentence, perm_rule: d.rule, at: new Date().toISOString() });
+      hw.push({ id: id, status: 'held', kind: 'phone_forget', text: texts[0], texts: texts.slice(), canon: texts.slice(), input: texts[0], perm_rule: d.rule, at: new Date().toISOString() });
       forge.store.save('held_writes', hw);
-      return { ok: false, held: true, rule: d.rule, held_id: id, text: sentence, message: 'Held for approval: ' + sentence + ' Nothing was forgotten.' };
+      return { ok: false, held: true, rule: d.rule, held_id: id, texts: texts.slice(), message: 'Held for approval: ' + texts.length + ' fact' + (texts.length === 1 ? '' : 's') + '. Nothing was forgotten.' };
     }
-    if (d.decision !== 'allow') return { ok: false, rule: d.rule, text: sentence, message: d.rule };
+    if (d.decision !== 'allow') return { ok: false, rule: d.rule, texts: texts.slice(), message: d.rule };
   }
-  const WF = window.KWorldFacts;
-  const r = WF && WF.forget ? WF.forget(sentence) : { ok: false, rule: 'WORLD-FACTS-MISSING', message: 'The phone fact store is not available.' };
   const before = rememberedRows();
-  const same = WF && WF.sameText ? (a, b) => WF.sameText(a, b) : (a, b) => String(a || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '') === String(b || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '');
-  const kept = before.filter(x => x && !same(x.text, sentence));
+  const kept = before.filter(x => x && !texts.some(t => same(x.text, t)));
   if (kept.length !== before.length) { try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* the world_facts removal still stands */ } }
-  if (r && r.ok) return r;
-  if (kept.length !== before.length) return { ok: true, rule: 'REMEMBER-FORGOT', text: sentence, message: 'Forgot on this phone: ' + sentence, receipt: null };
-  return r;
+  let receipt = null;
+  for (const sentence of texts) {
+    const r = WF && WF.forget ? WF.forget(sentence) : null;
+    if (r && r.ok) receipt = r.receipt || receipt;
+  }
+  const message = texts.length === 1 ? 'Forgot on this phone: ' + texts[0] : 'Forgot ' + texts.length + ' facts.';
+  return { ok: true, rule: 'WORLD-FACTS-FORGOT', texts: texts.slice(), text: texts[0], receipt: receipt, message: message };
 }
 async function rememberStatement(text) {
   const m = String(text).match(REMEMBER_STATEMENT);
@@ -381,10 +395,13 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + msg + '</div><div class="flags">explicit request · no LLM</div></div>');
     log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
   }
-  if (FORGET_STATEMENT.test(text)) {
-    const r = forgetStatement(text);
-    log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.ok ? '' : ' blocked') + '" data-ask-state="' + (r.ok ? 'forgotten' : 'held') + '" data-forget-rule="' + esc(r.rule) + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + esc(r.message || '') + '</div><div class="flags">explicit request · this phone only · no shared write · no LLM</div></div>');
-    log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
+  if (window.KQFrame && KQFrame.forgetTarget && forge) {
+    const ft = KQFrame.forgetTarget(KQFrame.compile(text, forge));
+    if (ft && (ft.ok || ft.rule === 'FORGET-NOT-A-CLAUSE')) {
+      const r = forgetStatement(text);
+      log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.ok ? '' : ' blocked') + '" data-ask-state="' + (r.ok ? 'forgotten' : 'held') + '" data-forget-rule="' + esc(r.rule) + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + esc(r.message || '') + '</div><div class="flags">explicit request · this phone only · no shared write · no LLM</div></div>');
+      log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
+    }
   }
   if (REMEMBER_STATEMENT.test(text)) {
     const r = await rememberStatement(text);
@@ -720,7 +737,7 @@ function renderMem() { const mem = forge.memory(), cold = forge.cold(), ev = for
   const clearCs = $('#clearConfirmedShared'); if (clearCs) clearCs.onclick = () => { if (!confirm('Clear session shared knowledge pull? This does not change the hosted packs.')) return; forge.clearConfirmedShared(); renderMem(); };
   $$('[data-cs-admit]').forEach(b => b.onclick = () => { if (!confirm('Admit held sentence? Not memory.')) return; const r = forge.admitConfirmedSharedItem(b.dataset.csAdmit, true); alert(r.ok ? 'Admitted.' : ('Not admitted: ' + (r.rule || ''))); renderMem(); });
   $$('[data-del]').forEach(b => b.onclick = () => { if (confirm('Forget this record? It moves to cold storage (Doc 7) and stops answering questions.')) { forge.deleteRecord(b.dataset.del, 'RMC Memory tab (explicit tap + confirm)', true); renderMem(); } });
-  $$('[data-approve]').forEach(b => b.onclick = () => { const r = forge.commitHeld(b.dataset.approve, true); alert(r.ok ? 'Committed · read-back ' + r.readback.map(x => x.readback).join(', ') : 'Not committed: ' + (r.rule || 'read-back mismatch, rolled back')); renderMem(); });
+  $$('[data-approve]').forEach(b => b.onclick = () => { const r = forge.commitHeld(b.dataset.approve, true); if (r && r.ok && r.kind === 'phone_forget' && window.KWorldFacts) { (r.texts || []).forEach(t => { try { KWorldFacts.forget(t); } catch (e) { /* already gone */ } }); try { const kept = rememberedRows().filter(x => !(r.texts || []).some(t => KWorldFacts.sameText(x.text, t))); localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* the world_facts removal still stands */ } } alert(r.ok ? 'Committed · read-back ' + ((r.readback || []).map(x => x.readback).join(', ') || 'match') : 'Not committed: ' + (r.rule || 'read-back mismatch, rolled back')); renderMem(); });
   $$('[data-reject]').forEach(b => b.onclick = () => { forge.rejectHeld(b.dataset.reject, true); renderMem(); });
   $$('[data-gates]').forEach(b => b.onclick = () => { const g = forge.resurrectPreview(b.dataset.gates); const el = document.getElementById('gate-' + b.dataset.gates); if (el) el.innerHTML = g ? '<b>' + esc(g.decision) + '</b> (tier ' + esc(g.tier) + ')<br>' + g.gates.map(x => (x.pass ? '✅ ' : '❌ ') + esc(x.gate + ' — ' + x.detail)).join('<br>') : ''; });
   $$('[data-res]').forEach(b => b.onclick = () => { if (!confirm('Return this record to processing as a proposal? The seven gates are checked. Nothing is stored.')) return; const r = forge.resurrect(b.dataset.res, true); alert(r.ok ? 'Proposal only. Nothing stored.' : 'Not proposed: ' + r.rule); renderMem(); });

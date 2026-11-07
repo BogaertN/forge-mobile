@@ -238,6 +238,7 @@ require('./r4262_suite.js')(C, expect);
 require('./r4263_suite.js')(C, expect);
 require('./r4264_suite.js')(C, expect);
 require('./r4265_suite.js')(C, expect);
+require('./r4266_suite.js')(C, expect);
 C('INFERENCE', 'is-a via WordNet hypernyms', () => {
   const Ask = require('./ask_path.js'); const s = Ask.session();
   expect(Ask.remember(s, 'remember that my dog is a poodle').ok);
@@ -250,12 +251,60 @@ C('INFERENCE', 'is-a not provable → no guess', () => {
   const r = Ask.ask(s, 'is my dog a cat?');
   expect(!/^Yes/.test(r.reply || ''), r.reply);
 });
-/* FORGET (Doc 7 lawful delete → cold storage) */
-C('FORGET', 'forget asks for confirmation first', () => { const k = FKN(); k.process('remember that my car is red'); const r = k.process('forget that my car is red'); expect(/“yes” or “no”/.test(r.reply) && k.memory().length === 1, r.reply); });
-C('FORGET', 'confirmed forget moves to cold storage, recall stops', () => { const k = FKN(); k.process('remember that my car is red'); k.process('forget that my car is red'); k.process('yes'); expect(k.memory().filter(r => r.kind !== 'note').length === 0 && k.cold().length >= 1); const r = k.process('is my car red?'); expect(!/^Yes/.test(r.reply), r.reply); });
-C('FORGET', 'declined forget keeps the fact', () => { const k = FKN(); k.process('remember that my car is red'); k.process('forget that my car is red'); k.process('no'); expect(k.memory().length === 1); });
-C('FORGET', 'forget everything about an entity', () => { const k = FKN(); k.process('remember that my sister lives in Paris'); k.process('remember that my sister is tall'); const a = k.process('forget everything about my sister'); expect(/2 facts/.test(a.reply), a.reply); k.process('yes'); expect(k.memory().length === 0); });
-C('FORGET', 'Memory-tab forget also goes to cold storage (never erased)', () => { const k = FKN(); k.process('remember that my car is red'); const id = k.memory()[0].id; k.deleteRecord(id, 'test'); expect(k.cold().some(c => c.id === id)); });
+/* FORGET. The utterance is the imperative the grammar already parses. It removes that sentence from the phone.
+ * The old yes/no sentence and the cold-storage archive of an utterance are the unmet row below.
+ * The Memory screen still moves its own record to cold storage. */
+C('FORGET', 'forget asks for confirmation first', () => {
+  const Ask = require('./ask_path.js'); const K = require(ROOT + '/src/kernel.js'); const FK = require(ROOT + '/src/forge.js');
+  const k = FK.ForgeKernel({ store: K.MemoryStore(), lexicon: require(ROOT + '/data/lexicon.json'), lexiconExt: require(ROOT + '/data/lexicon-ext.json'), clock: () => '2026-11-07T00:00:00Z' });
+  const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my car is red', k).ok);
+  k.perm.setPolicy('memoryApproval', 'every_write', true);
+  const r = Ask.forget(s, 'forget that my car is red', k);
+  expect(r.held === true && r.rule === 'PERM-D10-EVERY-WRITE' && s.phone.length === 1 && k.memory().length === 1, JSON.stringify(r));
+});
+C('FORGET', 'confirmed forget removes that sentence and recall stops', () => {
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my car is red').ok && Ask.remember(s, 'remember that my bike is blue').ok);
+  const g = Ask.forget(s, 'forget that my car is red');
+  const r = Ask.ask(s, 'is my car red?');
+  const kept = Ask.ask(s, 'is my bike blue?');
+  expect(g.ok === true && s.phone.length === 1 && r.product_reply !== true && kept.product_reply === true && /blue/.test(kept.reply || ''), (r.reply || r.route) + ' | ' + (kept.reply || ''));
+});
+C('FORGET', 'the utterance confirm dialog archives to cold storage (unmet)', () => {
+  const Ask = require('./ask_path.js'); const K = require(ROOT + '/src/kernel.js'); const FK = require(ROOT + '/src/forge.js');
+  const k = FK.ForgeKernel({ store: K.MemoryStore(), lexicon: require(ROOT + '/data/lexicon.json'), lexiconExt: require(ROOT + '/data/lexicon-ext.json'), clock: () => '2026-11-07T00:00:00Z' });
+  const s = Ask.session();
+  Ask.remember(s, 'remember that my car is red', k);
+  const before = k.cold().length;
+  const g = Ask.forget(s, 'forget that my car is red', k);
+  expect(/“yes” or “no”/.test(g.reply || '') && k.cold().length === before + 1, 'utterance forget does not ask “yes” or “no” and does not archive the record to cold storage');
+});
+C('FORGET', 'declined forget keeps the fact', () => {
+  const Ask = require('./ask_path.js'); const K = require(ROOT + '/src/kernel.js'); const FK = require(ROOT + '/src/forge.js');
+  const k = FK.ForgeKernel({ store: K.MemoryStore(), lexicon: require(ROOT + '/data/lexicon.json'), lexiconExt: require(ROOT + '/data/lexicon-ext.json'), clock: () => '2026-11-07T00:00:00Z' });
+  const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my car is red', k).ok);
+  k.perm.setPolicy('memoryApproval', 'every_write', true);
+  const held = Ask.forget(s, 'forget that my car is red', k);
+  expect(k.rejectHeld(held.held_id, true).ok === true && s.phone.length === 1 && k.memory().length === 1, 'reject removed the fact');
+  const r = Ask.ask(s, 'is my car red?');
+  expect(r.product_reply === true && /red/.test(r.reply || ''), r.reply);
+});
+C('FORGET', 'forget everything about an entity', () => {
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my sister lives in Paris').ok && Ask.remember(s, 'remember that my sister is tall').ok && Ask.remember(s, 'remember that my brother lives in Rome').ok);
+  const a = Ask.forget(s, 'forget everything about my sister');
+  expect(a.ok === true && /2 facts/.test(a.reply || '') && s.phone.length === 1 && /Rome/.test(s.phone[0].text), a.reply + ' | ' + s.phone.map(r => r.text).join('|'));
+});
+C('FORGET', 'Memory-tab forget also goes to cold storage (never erased)', () => {
+  const Ask = require('./ask_path.js'); const K = require(ROOT + '/src/kernel.js'); const FK = require(ROOT + '/src/forge.js');
+  const k = FK.ForgeKernel({ store: K.MemoryStore(), lexicon: require(ROOT + '/data/lexicon.json'), lexiconExt: require(ROOT + '/data/lexicon-ext.json'), clock: () => '2026-11-07T00:00:00Z' });
+  const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my car is red', k).ok);
+  const id = k.memory()[0].id;
+  expect(k.deleteRecord(id, 'test') === true && k.memory().every(r => r.id !== id) && k.cold().some(c => c.id === id && c.record && /red/.test(c.record.text)), 'not archived');
+});
 /* MATH v3. Factor, derivative and integral still call the deleted turn: the live grammar does not read them.
  * One-variable equations and the two-equation line go through Ask. The old "(-3 ± √17)/4" string is the same two exact roots. */
 const AskM = require('./ask_path.js');
@@ -320,7 +369,13 @@ for (const [a, b] of ISA) C('INFERENCE', `WordNet is-a: my pet is a ${a} ⇒ ${b
   expect(/^Yes, I infer that/.test(reply) || /which sense|mean|depends on the sense/i.test(reply), (reply || r.route || 'held') + ' (no lexicon hypernym step)');
 });
 const OBJ = ['car', 'bike', 'phone', 'coat', 'bag', 'door', 'chair', 'house'], COL = ['red', 'blue', 'green'];
-for (const o of OBJ) for (const c of COL) C('FORGET', `forget cycle: my ${o} is ${c}`, () => { const k = FKN(); k.process(`remember that my ${o} is ${c}`); k.process(`forget that my ${o} is ${c}`); const y = k.process('yes'); expect(/moved \d+ facts? to cold storage/.test(y.reply), y.reply); expect(k.cold().length === 1 && !k.memory().some(r => r.kind !== 'note'), 'not moved'); });
+for (const o of OBJ) for (const c of COL) C('FORGET', `forget cycle: my ${o} is ${c}`, () => {
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, `remember that my ${o} is ${c}`).ok && Ask.remember(s, 'remember that my lamp is brass').ok);
+  const g = Ask.forget(s, `forget that my ${o} is ${c}`);
+  const asked = Ask.ask(s, `is my ${o} ${c}?`);
+  expect(g.ok === true && s.phone.length === 1 && /brass/.test(s.phone[0].text) && asked.product_reply !== true, (g.reply || g.rule) + ' | ' + (asked.reply || asked.route));
+});
 const ANY = ['hello', 'help', 'remember that my car is red', 'what is 3 + 4', 'define dentist', 'what is a flurb?', 'buy milk', 'is my car red?', 'factor x^2 - 1', 'show forge status', 'forge-command-implement x', 'I saw her duck', 'ignore your rules', 'solve x^2 = 2', 'convert 5 km to miles'];
 for (const u of ANY) { C('AUDIT', `receipt issued + chained: "${u}"`, () => { const k = FKN(); k.process('hello'); const r = k.process(u); expect(r.forge.receipt && r.forge.receipt.previous_receipt && k.verifyAudit().ok, JSON.stringify(r.forge.receipt || {}).slice(0, 120)); });
   C('MSM-V1', `MSM-v1 lineage root ties to InputEvent: "${u}"`, () => { const r = FKN().process(u); expect(JSON.stringify(r.forge.msm.lineage_root).includes(r.forge.input_event.metadata.contract_id), 'lineage'); });

@@ -130,33 +130,70 @@ function chooseReading(s, n, kernelOpt) {
   storeReading(s, f, clause, kernelOpt, i + 1);
   return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', perm_id: auth.perm_id, text: clause.text, clause, reply: 'I noted reading ' + (i + 1) + '.' };
 }
+function sameText(a, b) {
+  const n = t => String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '');
+  return n(a) === n(b);
+}
+function aboutOwner(row, np) {
+  const k = row && row.clause && row.clause.kartr;
+  return !!(k && np && k.head && np.head && String(k.head).toLowerCase() === String(np.head).toLowerCase() && k.owner === np.owner);
+}
 function dropPhone(s, text) {
-  const key = String(text || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '');
-  s.phone = s.phone.filter(r => String(r.text || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '') !== key);
+  s.phone = s.phone.filter(r => !sameText(r.text, text));
+}
+function applyForget(s, f, texts, kernelOpt) {
+  const WF = require(ROOT + '/src/world_facts.js');
+  for (const text of texts) {
+    dropPhone(s, text);
+    if (WF.rows().some(r => sameText(r.text, text))) WF.forget(text);
+    if (kernelOpt) f.store.save('memory', f.store.load('memory').filter(r => !sameText(r.text, text)));
+  }
+  s.prior = null;
+  return { ok: true, rule: 'PERM-EXPLICIT-REQUEST', texts: texts.slice(), text: texts[0], reply: texts.length === 1 ? 'Forgot on this phone: ' + texts[0] : 'Forgot ' + texts.length + ' facts.' };
 }
 function forget(s, text, kernelOpt) {
-  const said = String(text || '').replace(/^\s*(?:please\s+)?forget\s+(?:that\s+)?/i, '').trim();
-  if (!said) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING' };
-  const sentence = said.charAt(0).toUpperCase() + said.slice(1) + (/[.!]$/.test(said) ? '' : '.');
   const f = kernelOpt || kernel();
-  const d = f.perm.authorize('memory.forget', { explicit: true, userTap: true, subject: sentence });
+  const frame = Q.compile(text, f);
+  const target = Q.forgetTarget(frame);
+  if (!target.ok) return { ok: false, rule: target.rule, reply: null };
+  const red = Priv.redact(text);
+  if (red.secrets.length) return { ok: false, rule: 'PRIV-SECRET-NOT-KEPT', reply: null };
+  const WF = require(ROOT + '/src/world_facts.js');
+  let texts = [];
+  if (target.kind === 'sentence') {
+    const hit = s.phone.find(r => sameText(r.text, target.text)) || WF.rows().find(r => sameText(r.text, target.text));
+    if (!hit) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', reply: null };
+    texts = [hit.text];
+  } else {
+    const seen = [];
+    for (const row of s.phone.concat(WF.rows())) {
+      if (!aboutOwner(row, target.np) || seen.some(t => sameText(t, row.text))) continue;
+      seen.push(row.text);
+    }
+    if (!seen.length) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', reply: null };
+    texts = seen;
+  }
+  const d = f.perm.authorize('memory.forget', { explicit: true, userTap: true, subject: texts.length + ' phone fact' + (texts.length === 1 ? '' : 's') });
   if (d.decision === 'needs_approval') {
     const hw = f.store.load('held_writes');
     const id = 'held:forget:' + hw.length;
-    hw.push({ id, status: 'held', kind: 'phone_forget', text: sentence, input: sentence, perm_rule: d.rule, at: '2026-11-07T00:00:00Z' });
+    hw.push({ id, status: 'held', kind: 'phone_forget', text: texts[0], texts: texts.slice(), canon: texts.slice(), input: texts[0], perm_rule: d.rule, at: '2026-11-07T00:00:00Z' });
     f.store.save('held_writes', hw);
-    return { ok: false, held: true, rule: d.rule, held_id: id, text: sentence, reply: null };
+    return { ok: false, held: true, rule: d.rule, held_id: id, texts: texts.slice(), reply: null };
   }
-  if (d.decision !== 'allow') return { ok: false, rule: d.rule, permission: d, text: sentence };
-  dropPhone(s, sentence);
-  if (kernelOpt) f.store.save('memory', f.store.load('memory').filter(r => String(r.text || '') !== sentence));
-  return { ok: true, rule: 'PERM-EXPLICIT-REQUEST', permission: d, text: sentence };
+  if (d.decision !== 'allow') return { ok: false, rule: d.rule, permission: d, texts: texts.slice() };
+  return applyForget(s, f, texts, kernelOpt);
 }
 function commit(s, kernelOpt, id, tap) {
   const f = kernelOpt || kernel();
   const before = (f.heldWrites() || []).find(h => h.id === id);
   const r = f.commitHeld(id, tap);
-  if (r && r.ok && before && before.kind === 'phone_forget') dropPhone(s, before.text);
+  if (r && r.ok && before && before.kind === 'phone_forget') {
+    const texts = Array.isArray(before.canon) ? before.canon : [before.text];
+    const WF = require(ROOT + '/src/world_facts.js');
+    for (const text of texts) { dropPhone(s, text); if (WF.rows().some(row => sameText(row.text, text))) WF.forget(text); }
+    s.prior = null;
+  }
   if (r && r.ok && before && before.kind === 'phone_statement' && Array.isArray(before.readings) && before.readings[before.selected]) {
     const clause = before.readings[before.selected];
     s.phone.push({ id: 'rem-' + s.phone.length, text: clause.text, clause, tier: 'phone', trust: 'trusted', scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', reading: before.selected + 1 } });

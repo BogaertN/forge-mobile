@@ -125,6 +125,14 @@
     const declared = WR && WR.COMPARATIVES && WR.COMPARATIVES.get ? WR.COMPARATIVES.get(word) : null;
     return { type: 'cmp', adj: pr.adj || null, degree: pr.degree || null, surface, text: surface.join(' ') || null, than: pr.than ? np(pr.than, forge) : null, predicate: declared || null };
   }
+  function objectRole(x, forge) {
+    if (x && x.clause && x.clause.verb) {
+      let text = null;
+      try { text = G.clauseText(x.clause, 'user'); } catch (e) { text = null; }
+      return { text: text, head: null, clause: roles(x.clause, forge) };
+    }
+    return np(x, forge);
+  }
   function roles(cl, forge) {
     if (!cl) return {};
     const v = cl.verb || {}; let material = null; try { material = G.material(cl); } catch (e) {}
@@ -134,7 +142,7 @@
       kriya: v.lemma || null, tense: v.tense || null, polarity: v.pol || null, modality: v.mod || null,
       voice: v.voice || 'active',
       kartr: (v.voice === 'passive' && cl.roles && cl.roles.karta ? np(cl.roles.karta, forge) : np(cl.subj, forge)),
-      karma: (v.voice === 'passive' ? np(cl.subj, forge) : (karakas.karma || null)), karakas,
+      karma: (v.voice === 'passive' ? np(cl.subj, forge) : objectRole(cl.roles && cl.roles.karma, forge)), karakas,
       pred: pr ? (measurePred(pr) || (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np, forge)) : pr.type === 'pp' ? (n => ({ type: 'pp', prep: pr.prep || null, text: (n && n.text) || str((pr.np && (pr.np.head || pr.np.text)) || pr.words || null), np: n }))(pr.np ? np(pr.np, forge) : null) : pr.type === 'cmp' ? cmpPred(pr, forge) : { type: pr.type || null, text: str(pr.words || pr.text || null) })) : null,
       adj: (cl.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np, forge) : null })),
       adjuncts: (cl.adj || []).length, material,
@@ -665,10 +673,15 @@
     /* declarative */
     const p = parse(forge, join(ws));
     if (p && p.clause) { Object.assign(f, roles(p.clause, forge)); f.parsed = true; f.declarative = join(ws); f.parses = p.parses; f.rule = 'QF-DECL'; return f; }
-    /* imperative: the addressee is kartṛ */
-    const imps = ['you ' + join(ws)]; if (ws.length > 2) imps.push('you ' + join([ws[0], 'that'].concat(ws.slice(1)))); /* a clausal complement may drop "that" */
-    for (const s of imps) { const pi = parse(forge, s);
-      if (pi && pi.clause) { Object.assign(f, roles(pi.clause, forge)); f.parsed = true; f.mood = 'imperative'; f.speech_act = 'command'; f.declarative = s; f.parses = pi.parses; f.rule = 'QF-IMP'; return f; } }
+    /* imperative: the addressee is kartṛ. A leading please is the closed-class request, then the same imperative. */
+    const asImperative = (words0) => {
+      const imps = ['you ' + join(words0)]; if (words0.length > 2) imps.push('you ' + join([words0[0], 'that'].concat(words0.slice(1))));
+      for (const s of imps) { const pi = parse(forge, s);
+        if (pi && pi.clause) { Object.assign(f, roles(pi.clause, forge)); f.parsed = true; f.mood = 'imperative'; f.speech_act = 'command'; f.declarative = s; f.parses = pi.parses; f.rule = 'QF-IMP'; return f; } }
+      return null;
+    };
+    if (has(lw[0], 'PLEASE') && ws.length > 1) { const peeled = asImperative(ws.slice(1)); if (peeled) return peeled; }
+    const imp = asImperative(ws); if (imp) return imp;
     /* a bare noun phrase (a fragment, e.g. a reply that picks a meaning) */
     const pf = parse(forge, join(ws) + ' is something');
     if (pf && pf.clause && pf.clause.subj) { f.kartr = np(pf.clause.subj); f.mood = 'fragment'; f.rule = 'QF-FRAGMENT-NP'; return f; }
@@ -743,6 +756,15 @@
     }
     return { stated: lifted.stated, phrase: phrase, calls_llm: false };
   }
-  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, readings, splitClauses, supplement, FILLER, ADJUNCT };
+  /* An imperative forget names its object. A that-clause is one sentence. "everything about NP" is that owner only.
+   * A bare noun is not a sentence, and a capability question is not this command. */
+  function forgetTarget(frame) {
+    if (!frame || frame.rule !== 'QF-IMP' || frame.kriya !== 'forget' || frame.polarity === 'neg' || frame.modality === 'able') return { ok: false, rule: 'FORGET-NOT-A-COMMAND' };
+    const about = (frame.adj || []).find(a => a && a.prep === 'about' && a.np && a.np.head);
+    if (frame.karma && frame.karma.head === 'everything' && about) return { ok: true, kind: 'about', np: about.np };
+    if (frame.karma && frame.karma.clause && frame.karma.text) return { ok: true, kind: 'sentence', text: frame.karma.text };
+    return { ok: false, rule: 'FORGET-NOT-A-CLAUSE' };
+  }
+  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, readings, splitClauses, supplement, forgetTarget, FILLER, ADJUNCT };
   if (isNode) module.exports = api; else root.KQFrame = api;
 })(typeof self !== 'undefined' ? self : this);

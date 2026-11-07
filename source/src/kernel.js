@@ -507,9 +507,13 @@ function Kernel(opts) {
     }
     const d = perm.authorize('memory.approve_held', { userTap, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
     if (h.kind === 'phone_forget') {
-      store.save('memory', store.load('memory').filter(r => String(r.text || '') !== String(h.text || '')));
+      const canon = Array.isArray(h.canon) ? h.canon : [h.text];
+      const asked = Array.isArray(h.texts) ? h.texts : [h.text];
+      if (asked.length !== canon.length || asked.some((t, i) => t !== canon[i])) return { ok: false, rule: 'FORGET-FORGED-TARGET', held: true };
+      const gone = new Set(canon.map(t => String(t || '')));
+      store.save('memory', store.load('memory').filter(r => !gone.has(String(r.text || ''))));
       h.status = 'committed'; h.decided_at = now(); h.permission = d.id; store.save('held_writes', hw);
-      return { ok: true, id: h.id, rule: 'PERM-EXPLICIT-REQUEST', text: h.text, permission: d };
+      return { ok: true, id: h.id, kind: 'phone_forget', rule: 'PERM-EXPLICIT-REQUEST', text: h.text, texts: canon.slice(), permission: d, readback: canon.map(() => ({ readback: 'match' })) };
     }
     if (h.kind === 'phone_statement') {
       const mem = store.load('memory');
