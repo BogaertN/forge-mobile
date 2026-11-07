@@ -70,6 +70,8 @@
           /* older and taller are different relations. The than-complement is part of the relation, and neither is a bare copula. */
           const than = c.pred.than && c.pred.than.text;
           slots.push('cmp:' + norm(c.pred.predicate || c.pred.text) + ':' + norm(than || ''));
+        } else if (c.pred.type === 'measure') {
+          slots.push('measure:' + norm(c.pred.property) + ':' + norm(c.pred.num) + ':' + norm(c.pred.unit));
         } else {
           const nominal = norm((c.pred.np && c.pred.np.text) || c.pred.text);
           /* an of-phrase is the relation's complement ("part of", "mother of"), not a second name for the subject */

@@ -265,13 +265,15 @@ module.exports = ({ C, expect, K, ROOT }) => {
     expect(admitted(yes) && /longer than Ola/.test(yes.reply), yes.reply || yes.route);
     expect(no.product_reply !== true, no.reply || no.route);
   });
+  /* Old wording was "Yes. I compared 5 kg and 3 kg." The guarantee is the comparison, with both quantities cited. */
   C('WS-ASYM-REGRESSION', 'measured kilograms (old: Yes. I compared 5 kg and 3 kg)', () => {
     const row = askChain(['remember that Quo is 3 kg', 'remember that Ola is 5 kg'], 'is Ola heavier than Quo?');
-    expect(row.product_reply === true && row.reply === 'Yes. I compared “5 kg” and “3 kg”.', row.reply || row.route);
+    expect(admitted(row) && row.reply === 'Ola is 5 kg. Quo is 3 kg. Ola is heavier than Quo.' && row.world_model.derive.survivor.how === 'WM-MEASURE-COMPARE', row.reply || row.route);
   });
+  /* Old wording was "no quantity". The missing comparator is a hold: no number is invented and the answer is not a false No. */
   C('WS-ASYM-REGRESSION', 'a measurement with no second quantity stays open (old: no quantity)', () => {
     const row = askChain(['remember that Quo is 180 cm tall'], 'is Quo taller than Ola?');
-    expect(/no quantity/.test(row.reply || ''), row.reply || row.route);
+    expect(row.product_reply !== true && !/\d/.test(row.reply || ''), row.reply || row.route);
   });
   C('WS-SURFACE', 'larger stays larger in the negation (old: not greater; the atom is greater_than)', () => {
     const row = askChain(['remember that Quo is larger than Ola'], 'is Ola larger than Quo?');

@@ -317,6 +317,18 @@ for _pred in CMP_DIM:
         CMP_INV_RULE[_pred] = _inverse
         CMP_EXCL[_pred] = _excl
 
+MEASURE_RULE = {
+    "id": "WM-MEASURE-COMPARE",
+    "class": "forward_chain",
+    "cite": "4.9.249: same property, compatible units, exact rational comparison. A missing measure is not a number.",
+    "body": [
+        {"predicate": "measure", "args": ["$x", "$qx"], "polarity": "pos"},
+        {"predicate": "measure", "args": ["$y", "$qy"], "polarity": "pos"},
+    ],
+    "head": {"predicate": "heavier_than", "args": ["$hi", "$lo"], "polarity": "pos"},
+    "guard": "distinct $x $y",
+}
+
 PART_RULE = {
     "id": "WM-PART-CHAIN",
     "class": "forward_chain",
@@ -559,6 +571,14 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         # It is not added to a dimension, so it does not chain or invert.
         if than and str(than.get("text") or "").strip() and surface:
             cmp_rel = (declared or surface, than, surface)
+    measure = None
+    if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "measure":
+        from rmc_engine_v1.unit_ratio import PROPERTY as _MPROP, quantity as _mq
+        prop = str(pred.get("property") or "").strip().lower()
+        q = _mq(str(pred.get("num") or ""), str(pred.get("unit") or ""))
+        spec = _MPROP.get(prop)
+        if q and spec and q["dim"] == spec[0]:
+            measure = (prop, spec[1], q, str(pred.get("text") or (str(pred.get("num")) + " " + str(pred.get("unit")))).strip())
     order_np = None
     if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "pp" and str(pred.get("prep") or "").lower() in ("before", "after", "above", "below"):
         inner = _np_frame(pred.get("np"))
@@ -593,6 +613,9 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         arg0 = kartr["text"]
     elif cmp_rel:
         predicate, obj = cmp_rel[0], str(cmp_rel[1]["text"]).strip()
+        arg0 = kartr["text"]
+    elif measure:
+        predicate, obj = "measure", measure[3]
         arg0 = kartr["text"]
     elif order_np and order_np[1] and str(order_np[1].get("text") or "").strip():
         # The copular preposition is the relation. A verb adjunct is not this atom.
@@ -660,6 +683,8 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         if cmp_rel[0] in CMP_DIM:
             pred_frame["dimension"] = CMP_DIM[cmp_rel[0]]
         frame["pred"] = pred_frame
+    elif measure:
+        frame["pred"] = {"type": "measure", "num": measure[2]["num"], "unit": measure[2]["unit"], "property": measure[0], "text": measure[3]}
     elif predicate in ("before", "after", "above", "below") and order_np and order_np[1]:
         # The preposition is the relation. A copular frame has no kala or adhikarana role on this predicate,
         # so it is not labeled temporal or vertical.
@@ -673,7 +698,10 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
     else:
         frame["karma"] = karma
     clean = re.sub(r"\s+", " ", str(sentence or "").strip()).strip(" .")
-    return {"text": clean + ".", "atom": _atom(predicate, [arg0, obj], pol), "parsed": True, "frame": frame}, "clause"
+    atom = _atom(predicate, [arg0, obj], pol)
+    if measure:
+        atom["quantity"] = dict(measure[2], property=measure[0])
+    return {"text": clean + ".", "atom": atom, "parsed": True, "frame": frame}, "clause"
 
 
 def clause_units(clause: Any, sentence: str) -> list[tuple[str, dict[str, Any] | None, str | None]]:
@@ -715,7 +743,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(MARRIED_SYMMETRIC), dict(NEXT_SYMMETRIC), dict(ADJACENT_SYMMETRIC), dict(SIBLING_SYMMETRIC), dict(NEXT_CHAIN)] + [dict(r) for r in ORDER_RULES] + [dict(r) for r in CMP_RULES] + [dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
+        "rules": [dict(COPULA_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(MARRIED_SYMMETRIC), dict(NEXT_SYMMETRIC), dict(ADJACENT_SYMMETRIC), dict(SIBLING_SYMMETRIC), dict(NEXT_CHAIN), dict(MEASURE_RULE)] + [dict(r) for r in ORDER_RULES] + [dict(r) for r in CMP_RULES] + [dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -1031,6 +1059,20 @@ def check_proof(world: dict[str, Any], proof: dict[str, Any]) -> dict[str, Any]:
                 return {"ok": False, "reason": "rule_missing", "cite": "contract 1g2034-K §4.3"}
             sub = step.get("substitution") if isinstance(step.get("substitution"), dict) else {}
             premise_ns = step.get("premises") or []
+            if rule["id"] == "WM-MEASURE-COMPARE":
+                from rmc_engine_v1.unit_ratio import licenses as _measure_licenses
+                prems = []
+                for pn in premise_ns:
+                    prev = derived.get(int(pn))
+                    if not prev:
+                        return {"ok": False, "reason": "measure_premise_missing", "cite": MEASURE_RULE["cite"]}
+                    prems.append(prev)
+                if len(prems) != 2 or not _measure_licenses(prems[0], prems[1], atom):
+                    return {"ok": False, "reason": "measure_not_licensed", "cite": MEASURE_RULE["cite"]}
+                if _norm(str((prems[0].get("args") or [""])[0])) == _norm(str((prems[1].get("args") or [""])[0])):
+                    return {"ok": False, "reason": "guard_distinct", "cite": MEASURE_RULE["cite"]}
+                derived[n] = atom
+                continue
             if rule["id"] in ("WM-OWNER-OF", "WM-NAME-OF"):
                 bad = (_replay_owner if rule["id"] == "WM-OWNER-OF" else _replay_name)(step, derived)
                 if bad:
@@ -2456,6 +2498,68 @@ def _cmp_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool
             claims.append(claim)
         return True
 
+    def seed_measures() -> None:
+        """A pair of measures of one property, compared as exact rationals. No second measure, no answer."""
+        from rmc_engine_v1.unit_ratio import PROPERTY as _PROP
+        found = []
+        for fact in pool:
+            atom = fact.get("atom") or {}
+            qty = atom.get("quantity") if isinstance(atom.get("quantity"), dict) else None
+            if fact.get("source") == "derive" or atom.get("predicate") != "measure" or atom.get("polarity", "pos") != "pos" or not qty:
+                continue
+            if not (atom.get("args") or [""])[0]:
+                continue
+            found.append(fact)
+        owners: dict[tuple[str, str], list[dict[str, Any]]] = {}
+        for fact in found:
+            qty = fact["atom"]["quantity"]
+            owners.setdefault((str(qty.get("property")), _norm(str(fact["atom"]["args"][0]))), []).append(fact)
+        skip = set()
+        for key, vals in owners.items():
+            ratios = {(str(v["atom"]["quantity"].get("n")), str(v["atom"]["quantity"].get("d"))) for v in vals}
+            if len(ratios) > 1:
+                skip.add(key)
+        groups: dict[str, list[dict[str, Any]]] = {}
+        for fact in found:
+            qty = fact["atom"]["quantity"]
+            key = (str(qty.get("property")), _norm(str(fact["atom"]["args"][0])))
+            if key in skip:
+                continue
+            groups.setdefault(str(qty.get("property")), []).append(fact)
+        for prop, facts in groups.items():
+            spec = _PROP.get(prop)
+            if not spec:
+                continue
+            cmp_pred = spec[1]
+            for i in range(len(facts)):
+                for j in range(i + 1, len(facts)):
+                    a, b = facts[i], facts[j]
+                    if _norm(str(a["atom"]["args"][0])) == _norm(str(b["atom"]["args"][0])):
+                        continue
+                    try:
+                        order = int(a["atom"]["quantity"]["n"]) * int(b["atom"]["quantity"]["d"]) - int(b["atom"]["quantity"]["n"]) * int(a["atom"]["quantity"]["d"])
+                    except (KeyError, TypeError, ValueError):
+                        continue
+                    if order == 0 or a["atom"]["quantity"].get("dim") != b["atom"]["quantity"].get("dim"):
+                        continue
+                    hi, lo = (a, b) if order > 0 else (b, a)
+                    head = _atom(cmp_pred, [str(hi["atom"]["args"][0]), str(lo["atom"]["args"][0])], "pos")
+                    word = CMP_WORD.get(cmp_pred, "")
+                    kartr = {"text": head["args"][0]}
+                    other = {"text": head["args"][1]}
+                    sub = {"$x": str(hi["atom"]["args"][0]), "$qx": str(hi["atom"]["args"][1]), "$y": str(lo["atom"]["args"][0]), "$qy": str(lo["atom"]["args"][1]), "$hi": head["args"][0], "$lo": head["args"][1]}
+                    emit(MEASURE_RULE, [hi, lo], sub, head, _cmp_frame(cmp_pred, word, kartr, other), _cmp_text(head["args"][0], word, head["args"][1]))
+                    inv = CMP_INVERSE.get(cmp_pred)
+                    if inv:
+                        inv_word = CMP_SURFACE_INVERSE.get(word, "")
+                        inv_head = _atom(inv, [head["args"][1], head["args"][0]], "pos")
+                        emit(MEASURE_RULE, [hi, lo], sub, inv_head, _cmp_frame(inv, inv_word, other, kartr), _cmp_text(head["args"][1], inv_word, head["args"][0]))
+                        excl = _atom(inv, [head["args"][0], head["args"][1]], "neg")
+                        emit(MEASURE_RULE, [hi, lo], sub, excl, _cmp_frame(inv, inv_word, kartr, other, True), _cmp_text(head["args"][0], inv_word, head["args"][1], True))
+                    neg = _atom(cmp_pred, [head["args"][1], head["args"][0]], "neg")
+                    emit(MEASURE_RULE, [hi, lo], sub, neg, _cmp_frame(cmp_pred, word, other, kartr, True), _cmp_text(head["args"][1], word, head["args"][0], True))
+
+    seed_measures()
     rounds = 0
     while rounds < LIMITS["MAX_ROUNDS"]:
         rounds += 1
@@ -2712,7 +2816,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     else:
         status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
     for claim in answers:
-        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or "_THAN-" in str(claim.get("how") or ""):
+        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or "_THAN-" in str(claim.get("how") or "") or str(claim.get("how") or "") == "WM-MEASURE-COMPARE":
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
         elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]

@@ -170,7 +170,9 @@ def memory_facts(rows: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
             continue
         pred = cl.get("pred") if isinstance(cl.get("pred"), dict) else {}
         stated = None
-        if pred.get("type") == "np" and pred.get("num") is not None:
+        if pred.get("type") == "measure" and pred.get("num") is not None:
+            stated = [{"num": pred.get("num"), "unit": str(pred.get("unit") or "").lower(), "dim": str(pred.get("property") or "").lower()}]
+        elif pred.get("type") == "np" and pred.get("num") is not None:
             stated = [{"num": pred.get("num"), "unit": _head(pred), "dim": "mass"}]
         elif pred.get("text"):
             m = re.search(r"(\d+(?:\.\d+)?)\s+([a-z]+)\s+(tall|high|wide|deep|long|thick)", str(pred.get("text")), re.I)

@@ -565,7 +565,7 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         _how = str((_surv or {}).get("how") or "") if isinstance(_surv, dict) else ""
         _derived_speech = isinstance(_surv, dict) and derive_status == "supported_only" and bool(str(_surv.get("spoken") or "").strip()) and (
             _how in ("WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC")
-            or _how.endswith("-ASYM") or _how.endswith("-EXCLUDES") or "_THAN-" in _how)
+            or _how.endswith("-ASYM") or _how.endswith("-EXCLUDES") or "_THAN-" in _how or _how == "WM-MEASURE-COMPARE")
         if live and derive_status != "conflicted" and scored and not _restated and not _converse and not _framed_hold and not _derived_speech and ("memory" in scored_kind or meaning_preview.get("language_core")):
             if echo_against_question(question, scored, rendered=True).get("pass"):
                 rendered = scored

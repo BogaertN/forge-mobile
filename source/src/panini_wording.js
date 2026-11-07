@@ -96,6 +96,8 @@ function Wording(ctx) {
     if (!subj) return null;
     const base = { lemma: v.lemma, polarity: v.pol || 'pos', tense: v.tense || 'present', modifiers: adjunctArgs(c) };
     if (v.particle) base.particle = v.particle;
+    if (v.lemma === 'be' && c.pred && c.pred.type === 'measure' && c.pred.num != null && c.pred.unit) return Object.assign(base, { args: [subj, String(c.pred.num) + ' ' + String(c.pred.unit)] });
+    if (v.lemma === 'be' && c.pred && c.pred.measure && Array.isArray(c.pred.words) && c.pred.words.length >= 3) return Object.assign(base, { args: [subj, c.pred.words.join(' ')] });
     if (v.lemma === 'be' && c.pred && c.pred.type === 'cmp' && c.pred.than) {
       const surface = Array.isArray(c.pred.surface) && c.pred.surface.length ? c.pred.surface[c.pred.surface.length - 1] : c.pred.adj;
       const than = G.npText(c.pred.than, 'kernel');
@@ -155,6 +157,12 @@ function Wording(ctx) {
       const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
       const loc = (clauseAtom.modifiers || []).find(m => m && normArg(m.prep) === 'in' && normArg(m.role) === 'adhikarana');
       if (clauseAtom.lemma === 'live' && got.length === 1 && polOk && got[0] === want[0] && loc && normArg(loc.text) === want[1]) return true;
+      return false;
+    }
+    if (normArg(given.predicate) === 'measure' && (given.args || []).length === 2) {
+      const want = given.args.map(normArg), got = (clauseAtom.args || []).map(normArg);
+      const polOk = (given.polarity || 'pos') === (clauseAtom.polarity || 'pos');
+      if (clauseAtom.lemma === 'be' && got.length === 2 && polOk && got[0] === want[0] && got[1] === want[1]) return true;
       return false;
     }
     if ((given.args || []).length === 2) {

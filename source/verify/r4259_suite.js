@@ -70,6 +70,17 @@ function register(C, expect) {
     const d = neg.world_model && neg.world_model.derive;
     expect(neg.product_reply !== true && d && d.status === 'conflicted', (neg.reply || neg.route || '') + ' ' + (d && d.status));
   });
+  C('COMPARE', 'a mass converts exactly, and a bare length or a missing height does not', () => {
+    const grams = ask(['remember that Quo is 3000 grams', 'remember that Ola is 5 kg'], 'is Ola heavier than Quo?');
+    const tall = ask(['remember that Quo is 180 cm tall', 'remember that Ola is 2 m tall'], 'is Ola taller than Quo?');
+    const bare = ask(['remember that Quo is 180 cm'], 'is Quo taller than Ola?');
+    const cross = ask(['remember that Quo is 3 kg', 'remember that Ola is 180 cm tall'], 'is Ola heavier than Quo?');
+    const mismatch = ask(['remember that Quo is 3 kg tall'], 'is Quo taller than Ola?');
+    const high = ask(['remember that the shelf is 2 m high', 'remember that the crate is 180 cm tall'], 'is the shelf taller than the crate?');
+    expect(admitted(grams) && grams.reply === 'Ola is 5 kg. Quo is 3000 grams. Ola is heavier than Quo.' && grams.world_model.derive.survivor.how === 'WM-MEASURE-COMPARE', grams.reply);
+    expect(admitted(tall) && /Ola is taller than Quo/.test(tall.reply) && /180 cm tall/.test(tall.reply) && /2 m tall/.test(tall.reply), tall.reply);
+    expect(bare.product_reply !== true && cross.product_reply !== true && mismatch.product_reply !== true && high.product_reply !== true, [bare.reply, cross.reply, mismatch.reply, high.reply].join(' | '));
+  });
   C('ORDER', 'a numeral above a numeral is not the thing-above-thing chain', () => {
     const other = ask(['remember that the score is above 10'], 'is the score above 5?');
     const same = ask(['remember that the score is above 10'], 'is the score above 10?');

@@ -98,6 +98,12 @@
     return out;
   }
   const WR = isNode ? require('./world_rules.js') : root.KWorldRules;
+  function measurePred(pr) {
+    /* P-MEASURE-ADJ keeps the adjective as the property. P-MEASURE-BARE is mass only. */
+    if (pr.type === 'measure' && pr.num != null && pr.unit) return { type: 'measure', num: String(pr.num), unit: String(pr.unit).toLowerCase(), property: String(pr.property || 'heavy').toLowerCase(), text: String(pr.num) + ' ' + String(pr.unit) };
+    if (pr.measure && Array.isArray(pr.words) && pr.words.length >= 3) return { type: 'measure', num: String(pr.words[0]), unit: String(pr.words[1]).toLowerCase(), property: String(pr.words[2]).toLowerCase(), text: pr.words.join(' ') };
+    return null;
+  }
   function cmpPred(pr, forge) {
     /* The comparative the grammar already built: its surface word, its than-complement, and the
      * declared row that word names. A word with no row stays a comparative with no predicate. */
@@ -115,7 +121,7 @@
       kriya: v.lemma || null, tense: v.tense || null, polarity: v.pol || null, modality: v.mod || null,
       voice: v.voice || 'active',
       kartr: np(cl.subj, forge), karma: karakas.karma || null, karakas,
-      pred: pr ? (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np, forge)) : pr.type === 'pp' ? (n => ({ type: 'pp', prep: pr.prep || null, text: (n && n.text) || str((pr.np && (pr.np.head || pr.np.text)) || pr.words || null), np: n }))(pr.np ? np(pr.np, forge) : null) : pr.type === 'cmp' ? cmpPred(pr, forge) : { type: pr.type || null, text: str(pr.words || pr.text || null) }) : null,
+      pred: pr ? (measurePred(pr) || (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np, forge)) : pr.type === 'pp' ? (n => ({ type: 'pp', prep: pr.prep || null, text: (n && n.text) || str((pr.np && (pr.np.head || pr.np.text)) || pr.words || null), np: n }))(pr.np ? np(pr.np, forge) : null) : pr.type === 'cmp' ? cmpPred(pr, forge) : { type: pr.type || null, text: str(pr.words || pr.text || null) })) : null,
       adj: (cl.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np, forge) : null })),
       adjuncts: (cl.adj || []).length, material,
     };

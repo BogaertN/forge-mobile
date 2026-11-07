@@ -438,6 +438,13 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
     fc, fn = contain_roles(fframe)
     fpol = fframe.get("polarity") or "pos"
     # Containment is one relation read two ways (be+inside, or contain). The kriyā strings differ; the roles do not.
+    qmeas = qframe.get("pred") if isinstance(qframe.get("pred"), dict) and qframe["pred"].get("type") == "measure" else None
+    fmeas = fframe.get("pred") if isinstance(fframe.get("pred"), dict) and fframe["pred"].get("type") == "measure" else None
+    if role in ("polarity", "") and qmeas and fmeas and np_unify(qframe.get("kartr"), fframe.get("kartr")):
+        same = str(qmeas.get("num") or "") == str(fmeas.get("num") or "") and str(qmeas.get("unit") or "").lower() == str(fmeas.get("unit") or "").lower() and str(qmeas.get("property") or "").lower() == str(fmeas.get("property") or "").lower()
+        if same:
+            yes = fpol == (qframe.get("polarity") or "pos")
+            return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "measure", "rule": "polar"}
     if role in ("polarity", "") and qc and qn and fc and fn and np_unify(qc, fc) and np_unify(qn, fn):
         yes = fpol == (qframe.get("polarity") or "pos")
         return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "contain", "rule": "polar_contain"}
