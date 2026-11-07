@@ -2,7 +2,7 @@
  *
  * One-variable equations and a pair of linear equations are the grammar's tree, then SymPy,
  * then computed_quantity Echo. A question does not write phone memory or world_facts.
- * Factor, derivative, integral, and the exact 50/3 conversion stay outside this file.
+ * Derivative and integral stay outside this file. Conversion states the exact fraction. Factor uses the operation frame.
  */
 const A = require('./ask_path.js');
 const WF = require('../src/world_facts.js');
@@ -38,6 +38,31 @@ function register(C, expect) {
     const three = ask('solve x + y = 3 and x - y = 1 and x = 0');
     expect(bad.product_reply !== true && bad.reply == null && bad.computed && bad.computed.status === 'unparsed' && bad.computed.rule === 'MATH-UNPARSED', JSON.stringify(bad.computed));
     expect(three.product_reply !== true && three.reply == null && three.computed && three.computed.rule === 'MATH-UNPARSED', JSON.stringify(three.computed));
+  });
+  C('MATH-V3', '60 km/h is the exact 50/3, and a float is not called exact', () => {
+    const row = ask('convert 60 km/h to m/s');
+    const res = row.computed.receipt.result;
+    const neg = ask('convert -60 km/h to m/s');
+    const zero = ask('convert 0 km/h to m/s');
+    const bad = ask('convert 60 km to kg');
+    const miles = ask('convert 5 miles to km');
+    expect(admitted(row) && row.reply === '60 km/h is 50/3 (≈ 16.66666667) m/s.' && res.numerator === '50' && res.denominator === '3' && res.exact === true && res.approximate === '16.66666667', row.reply);
+    expect(admitted(neg) && neg.reply.includes('-50/3') && neg.reply.includes('≈ -16.66666667'), neg.reply);
+    expect(admitted(zero) && zero.reply === '0 km/h is 0 m/s.' && !/≈/.test(zero.reply), zero.reply);
+    expect(bad.product_reply !== true && bad.reply == null && bad.computed.rule === 'MATH-UNIT-DIMENSION' && !/\d/.test(bad.reply || ''), JSON.stringify(bad.computed));
+    expect(admitted(miles) && miles.reply === '5 miles is 8.04672 km.' && miles.computed.receipt.result.exact === true && miles.computed.receipt.result.approximate == null, miles.reply);
+  });
+  C('MATH-V3', 'factor states the factors, and an irreducible or broken polynomial does not invent one', () => {
+    const row = ask('factor x^2 - 5x + 6');
+    const neg = ask('factor x^2 - 4');
+    const rep = ask('factor x^2 + 8x + 16');
+    const irr = ask('factor x^2 + 1');
+    const bad = ask('factor x^2 +');
+    expect(admitted(row) && row.reply.includes('(x - 2)(x - 3)') && row.computed.receipt.result.text === '(x - 2)(x - 3)', row.reply);
+    expect(admitted(neg) && neg.reply.includes('(x - 2)') && neg.reply.includes('(x + 2)'), neg.reply);
+    expect(admitted(rep) && rep.reply.includes('(x + 4)^2'), rep.reply);
+    expect(irr.product_reply !== true && irr.reply == null && irr.computed.rule === 'MATH-IRREDUCIBLE', JSON.stringify(irr.computed));
+    expect(bad.product_reply !== true && bad.reply == null && bad.computed.rule === 'MATH-UNPARSED', JSON.stringify(bad.computed));
   });
   C('MATH-V3', 'the same system asked twice is the same sentence', () => {
     const a = ask('solve x + y = 4 and x - y = 2');

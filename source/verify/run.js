@@ -236,7 +236,10 @@ function askMath(q) {
   return row;
 }
 const mathOk = row => row && row.product_reply === true && row.echo && row.echo.pass === true && row.echo.method === 'computed_quantity_reparse' && row.calls_llm !== true && row.computed && row.computed.status === 'ok' && !(row.memory_write && row.memory_write.committed);
-C('MATH-V3', 'factor x^2 - 5x + 6', () => { const r = FKN().process('factor x^2 - 5x + 6'); expect((r.reply || '').includes('(x - 2)(x - 3)'), r.reply || r.block_reason); });
+C('MATH-V3', 'factor x^2 - 5x + 6', () => {
+  const row = askMath('factor x^2 - 5x + 6');
+  expect(mathOk(row) && row.reply.includes('(x - 2)(x - 3)') && row.computed.kind === 'factor' && row.computed.receipt.result.text === '(x - 2)(x - 3)', row.reply || row.route);
+});
 C('MATH-V3', 'solve 2x^2 + 3x - 1 = 0', () => {
   const row = askMath('solve 2x^2 + 3x - 1 = 0');
   expect(mathOk(row) && row.reply.includes('x = -√(17)/4 - 3/4') && row.reply.includes('x = -3/4 + √(17)/4'), (row.reply || row.route) + ' (old reply contained (-3 ± √17)/4)');
@@ -257,7 +260,8 @@ C('MATH-V3', 'derivative of x^3 + 2x', () => { const r = FKN().process('derivati
 C('MATH-V3', 'integral of 2x', () => { const r = FKN().process('integral of 2x'); expect((r.reply || '').includes('x^2'), r.reply || r.block_reason); });
 C('MATH-V3', 'convert 60 km/h to m/s', () => {
   const row = askMath('convert 60 km/h to m/s');
-  expect(mathOk(row) && (row.reply || '').includes('50/3'), (row.reply || row.route) + ' (the live conversion is a float; Echo does not accept an exact 50/3)');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(mathOk(row) && row.reply.includes('50/3') && row.reply.includes('≈ 16.66666667') && res && res.numerator === '50' && res.denominator === '3' && res.exact === true, row.reply || row.route);
 });
 /* PRIVACY v3 */
 C('PRIVACY', 'sensitive value never echoed on store', () => { const r = FKN().process('remember that my pin is 4321'); expect(!/4321/.test(r.reply) && /Identity Vault/.test(r.reply), r.reply); });
@@ -266,7 +270,7 @@ C('PRIVACY', 'sensitive value absent from receipts and InputEvent-free outputs',
 for (const u of ['hello', 'remember that my car is red', 'buy milk', 'solve x = 2', 'show forge status']) C('AUTHORITY', `authority boundary flags (no LLM, no network, no exec): "${u}"`, () => { const b = FKN().process(u).forge.authority_boundary; expect(b.calls_llm === false && b.kernel_network === 'none' && b.tool_egress === 'none' && !('network' in b) && b.execution_enabled === false, JSON.stringify(b)); });
 /* v3 generated grids */
 const sg = n => (n < 0 ? '- ' + -n : '+ ' + n);
-for (let a = -4; a <= 4; a++) for (let b = a; b <= 4; b++) { if (a === 0 || b === 0) continue; const B = -(a + b), Cc = a * b; const p = 'x^2 ' + (B ? sg(B) + 'x ' : '') + sg(Cc); C('MATH-V3', `factor ${p}`, () => { const r = FKN().process('factor ' + p); const f = z => z < 0 ? '(x + ' + -z + ')' : '(x - ' + z + ')'; expect((r.reply || '').includes(a === b ? f(a) : '') && r.trace.echo.pass, r.reply || r.block_reason); }); }
+for (let a = -4; a <= 4; a++) for (let b = a; b <= 4; b++) { if (a === 0 || b === 0) continue; const B = -(a + b), Cc = a * b; const p = 'x^2 ' + (B ? sg(B) + 'x ' : '') + sg(Cc); C('MATH-V3', `factor ${p}`, () => { const row = askMath('factor ' + p); const f = z => z < 0 ? '(x + ' + -z + ')' : '(x - ' + z + ')'; expect(mathOk(row) && row.reply.includes(f(a)) && row.reply.includes(f(b)) && row.computed.kind === 'factor', (row.reply || row.route) + ' / ' + f(a) + f(b)); }); }
 for (let n = 1; n <= 6; n++) for (let c = 1; c <= 5; c++) C('MATH-V3', `derivative of ${c}x^${n}`, () => { const r = FKN().process(`derivative of ${c}x^${n}`); const e = n === 1 ? String(c) : (c * n) + (n - 1 === 1 ? 'x' : 'x^' + (n - 1)); expect((r.reply || '').includes(e), r.reply + ' / ' + e); });
 for (let i = 1; i <= 25; i++) { const x = (i % 7) - 3, y = (i % 5) - 2; const eq = `x + y = ${x + y} and x - y = ${x - y}`; C('MATH-V3', `linear system ${eq}`, () => { const row = askMath('solve ' + eq); expect(mathOk(row) && row.reply.includes('x = ' + x) && row.reply.includes('y = ' + y), row.reply || row.route); }); }
 const ISA = [['poodle', 'dog'], ['poodle', 'animal'], ['sparrow', 'bird'], ['oak', 'tree'], ['salmon', 'fish'], ['violin', 'device'], ['hammer', 'tool'], ['sedan', 'car']];

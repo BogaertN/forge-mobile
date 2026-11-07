@@ -309,6 +309,8 @@
     if (!ws.length) return Object.assign(f, { rule: 'QF-EMPTY' });
     /* arithmetic: an expression of numerals and operators goes to the compute path */
     if (/\d/.test(text) && /^[\d\s+\-*/^().=x×÷%,]+[?]?$/i.test(String(text).trim())) return Object.assign(f, { speech_act: 'compute', mood: 'expression', rule: 'QF-ARITH-EXPR' });
+    /* "factor <polynomial>" is an operation frame. The math grammar parses the expression; the word is not an answer. */
+    if (lw[0] === 'factor' && ws.length > 1) return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'factor', expr: ws.slice(1).join(' ').replace(/[?!.]+$/, ''), rule: 'QF-MATH-FACTOR' });
     /* interjection-only turn (closed class INTJ): the act is left to the engine's concept reading */
     if (lw.every(w => has(w.replace(/[,!.]/g, ''), 'INTJ') || has(w.replace(/[,!.]/g, ''), 'PLEASE'))) return Object.assign(f, { speech_act: 'interjection', mood: 'interjection', rule: 'QF-INTJ' });
     /* 4.9.243 QF-WHAT-HAPPENS-IF: "What happens if C?" asks for the effect of intervention C.

@@ -289,6 +289,46 @@ _AMBIGUOUS = {
     "year": ["365-day year", "Julian year (365.25 days)"], "month": ["30-day month", "1/12 of a year"],
     "degree": ["degree Celsius", "degree Fahrenheit"], "degrees": ["degrees Celsius", "degrees Fahrenheit"],
 }
+# Exact size in SI (metre, kilogram, second). A compound pint name is products and quotients of these.
+# Temperature is affine and is not in this table. A unit with no exact factor is not converted by a float.
+_EXACT_BASE = {
+    "meter": ({"L": 1}, Fraction(1)),
+    "kilometer": ({"L": 1}, Fraction(1000)),
+    "centimeter": ({"L": 1}, Fraction(1, 100)),
+    "millimeter": ({"L": 1}, Fraction(1, 1000)),
+    "mile": ({"L": 1}, Fraction("1609.344")),
+    "nautical_mile": ({"L": 1}, Fraction(1852)),
+    "inch": ({"L": 1}, Fraction("0.0254")),
+    "foot": ({"L": 1}, Fraction("0.3048")),
+    "yard": ({"L": 1}, Fraction("0.9144")),
+    "gram": ({"M": 1}, Fraction(1, 1000)),
+    "kilogram": ({"M": 1}, Fraction(1)),
+    "milligram": ({"M": 1}, Fraction(1, 1000000)),
+    "pound": ({"M": 1}, Fraction("0.45359237")),
+    "metric_ton": ({"M": 1}, Fraction(1000)),
+    "short_ton": ({"M": 1}, Fraction(2000) * Fraction("0.45359237")),
+    "long_ton": ({"M": 1}, Fraction(2240) * Fraction("0.45359237")),
+    "stone": ({"M": 1}, Fraction(14) * Fraction("0.45359237")),
+    "ounce": ({"M": 1}, Fraction("0.45359237") / 16),
+    "troy_ounce": ({"M": 1}, Fraction("0.0311034768")),
+    "second": ({"T": 1}, Fraction(1)),
+    "minute": ({"T": 1}, Fraction(60)),
+    "hour": ({"T": 1}, Fraction(3600)),
+    "day": ({"T": 1}, Fraction(86400)),
+    "week": ({"T": 1}, Fraction(604800)),
+    "liter": ({"L": 3}, Fraction(1, 1000)),
+    "milliliter": ({"L": 3}, Fraction(1, 1000000)),
+    "gallon": ({"L": 3}, Fraction(231) * (Fraction("0.0254") ** 3)),
+    "imperial_gallon": ({"L": 3}, Fraction("0.00454609")),
+    "acre": ({"L": 2}, Fraction("4046.8564224")),
+    "hectare": ({"L": 2}, Fraction(10000)),
+}
+# K = scale * reading + offset. Celsius and Fahrenheit use the exact definitions, not a float sample.
+_AFFINE = {
+    "kelvin": (Fraction(1), Fraction(0)),
+    "degree_Celsius": (Fraction(1), Fraction("273.15")),
+    "degree_Fahrenheit": (Fraction(5, 9), Fraction("273.15") - Fraction(32) * Fraction(5, 9)),
+}
 _UNIT_WORDS = sorted(set(_UNITS) | set(_AMBIGUOUS), key=len, reverse=True)
 _PLURAL_SPECIAL = {"feet": "foot", "inches": "inch", "degrees": "degrees", "celsius": "celsius", "fahrenheit": "fahrenheit", "lbs": "lbs", "mph": "mph", "kph": "kph"}
 
@@ -315,6 +355,107 @@ def _unit(phrase: str) -> tuple[str, str, Any]:
         if c in _AMBIGUOUS:
             return "ambiguous", c, _AMBIGUOUS[c]
     return "unknown", p, None
+
+
+def _dim_mul(a, b, sign=1):
+    out = dict(a)
+    for k, v in b.items():
+        out[k] = out.get(k, 0) + sign * v
+        if out[k] == 0:
+            del out[k]
+    return out
+
+
+def _ratio_unit(name: str):
+    """(kind, dim, factor) or (kind, scale, offset). kind is ratio or affine. None when the name has no exact factor."""
+    if name in _AFFINE:
+        scale, offset = _AFFINE[name]
+        return ("affine", scale, offset)
+    toks = str(name).split()
+    if not toks:
+        return None
+
+    def atom(i):
+        word = toks[i]
+        if word not in _EXACT_BASE:
+            raise KeyError(word)
+        dim, fac = _EXACT_BASE[word]
+        i += 1
+        if i + 1 < len(toks) and toks[i] == "**":
+            n = int(toks[i + 1])
+            dim = {k: v * n for k, v in dim.items()}
+            fac = fac ** n
+            i += 2
+        return dim, fac, i
+
+    try:
+        dim, fac, i = atom(0)
+        while i < len(toks) and toks[i] in ("*", "/"):
+            op = toks[i]
+            dim2, fac2, i = atom(i + 1)
+            dim = _dim_mul(dim, dim2, 1 if op == "*" else -1)
+            fac = fac * fac2 if op == "*" else fac / fac2
+        if i != len(toks):
+            return None
+    except (KeyError, ValueError, ZeroDivisionError):
+        return None
+    return ("ratio", dim, fac)
+
+
+def _convert_exact(n: Fraction, src: str, dst: str):
+    """The destination quantity as a Fraction, or (None, rule, reason)."""
+    a, b = _ratio_unit(src), _ratio_unit(dst)
+    if a is None or b is None:
+        return None, "MATH-UNIT-INEXACT", "no exact factor for " + (src if a is None else dst)
+    if a[0] != b[0]:
+        return None, "MATH-UNIT-DIMENSION", "cannot convert " + src + " to " + dst
+    if a[0] == "affine":
+        kelvin = a[1] * n + a[2]
+        if b[1] == 0:
+            return None, "MATH-UNIT-DIMENSION", "cannot convert " + src + " to " + dst
+        return (kelvin - b[2]) / b[1], None, None
+    if a[1] != b[1]:
+        return None, "MATH-UNIT-DIMENSION", "cannot convert " + src + " to " + dst
+    if b[2] == 0:
+        return None, "MATH-UNIT-DIMENSION", "cannot convert " + src + " to " + dst
+    return n * a[2] / b[2], None, None
+
+
+def _fmt_factor(fac, sp) -> str:
+    """The solver's factors, juxtaposed. Order is the text of each factor, so the form is stable and not a stored answer."""
+    def one(node) -> str:
+        if node.func == sp.Pow:
+            base, exp = node.as_base_exp()
+            return one(base) + "^" + str(exp)
+        if node.is_Add or node.func == sp.Add:
+            return "(" + str(node) + ")"
+        if getattr(node, "is_symbol", False) or node.func == sp.Symbol:
+            return str(node)
+        return "(" + str(node) + ")"
+
+    if fac.func == sp.Mul:
+        coeff = sp.Integer(1)
+        bits = []
+        for arg in fac.args:
+            if arg.is_number:
+                coeff *= arg
+            else:
+                bits.append(one(arg))
+        bits.sort()
+        head = "" if coeff == 1 else ("-" if coeff == -1 else str(coeff))
+        return head + "".join(bits)
+    return one(fac)
+
+
+def _approx_frac(f: Fraction) -> str:
+    """Ten significant digits of an exact fraction. The digits are not a second measurement."""
+    from decimal import Decimal, getcontext
+    getcontext().prec = 50
+    d = Decimal(f.numerator) / Decimal(f.denominator)
+    s = format(d, ".10g")
+    if "." in s and "e" not in s:
+        s = s.rstrip("0").rstrip(".")
+    return s
 
 
 _CONV = [
@@ -381,6 +522,20 @@ def understand(question: str) -> dict[str, Any] | None:
     q = _norm(question)
     if not q:
         return None
+    from rmc_engine_v1 import question_frame as _qf
+    fr = _qf.current()
+    if isinstance(fr, dict) and fr.get("rule") == "QF-MATH-FACTOR" and fr.get("op") == "factor":
+        expr = _norm(str(fr.get("expr") or ""))
+        toks = tokenize(expr, allow_var=True)
+        try:
+            if toks is None:
+                raise ValueError("word")
+            tree = _parse_expr(toks)
+        except ValueError as exc:
+            return {"status": "unparsed", "kind": "factor", "rule": "MATH-UNPARSED", "reason": "the polynomial is outside the math grammar (" + str(exc) + ")"}
+        if not _vars(tree):
+            return {"status": "unparsed", "kind": "factor", "rule": "MATH-UNPARSED", "reason": "a constant has no factors"}
+        return {"status": "ok", "kind": "factor", "tree": tree, "lib": "sympy", "asked": "the factors of " + render(tree)}
     body = _LEAD.sub("", q).strip()
     has_digit = bool(re.search(r"\d", body)) or bool(re.search(r"\b(" + "|".join(_NUM_WORDS) + r")\b", body))
     # unit conversion
@@ -735,17 +890,32 @@ def compute(question: str, u: dict[str, Any] | None = None) -> dict[str, Any]:
         elif u["kind"] == "conversion":
             import pint
             libs["pint"] = pint.__version__
-            ureg = _ureg(pint)
             n = Fraction(u["value"][0], u["value"][1])
-            q = ureg.Quantity(float(n), ureg.parse_units(u["from"])) if " " not in u["from"] else ureg.Quantity(float(n), u["from"])
-            out = q.to(ureg.parse_units(u["to"]) if " " not in u["to"] else u["to"])
-            mag = float(out.magnitude)
-            text = _fmt_float(mag)
-            approx = repr(mag) != text and float(text) != mag
-            sentence = u["value_surface"] + " " + _unit_word(u["from_word"], n != 1) + " is " + ("≈ " if approx else "") + text + " " + _unit_word(u["to_word"], mag != 1) + "."
-            result = {"value": mag, "text": text + " " + _unit_word(u["to_word"], mag != 1), "exact": False,
-                      "from": u["from"], "to": u["to"]}
-            expression = u["value_surface"] + " " + u["from"] + " -> " + u["to"]
+            out, rule, why = _convert_exact(n, u["from"], u["to"])
+            if rule:
+                return {"status": "uncomputable", "kind": "conversion", "rule": rule, "reason": why}
+            exact_text = _fmt_frac(out)
+            approx = _approx_frac(out) if "/" in exact_text else None
+            src_w = _unit_word(u["from_word"], n != 1)
+            dst_w = _unit_word(u["to_word"], out != 1)
+            shown = exact_text if approx is None else exact_text + " (≈ " + approx + ")"
+            sentence = u["value_surface"] + " " + src_w + " is " + shown + " " + dst_w + "."
+            text = exact_text + " " + dst_w
+            result = {"value": exact_text, "numerator": str(out.numerator), "denominator": str(out.denominator),
+                      "text": text, "exact": True, "approximate": approx, "from": u["from"], "to": u["to"]}
+            expression = u["value_surface"] + " " + u["from"] + " -> " + exact_text + " " + u["to"]
+        elif u["kind"] == "factor":
+            expr = sp.expand(_sym(u["tree"], sp))
+            fac = sp.factor(expr)
+            if sp.expand(fac - expr) != 0:
+                return {"status": "uncomputable", "kind": "factor", "rule": "MATH-UNCOMPUTABLE", "reason": "factor did not reproduce the polynomial"}
+            if sp.expand(fac - expr) == 0 and fac == expr:
+                return {"status": "irreducible", "kind": "factor", "rule": "MATH-IRREDUCIBLE", "reason": "no rational factor other than the polynomial itself"}
+            text = _fmt_factor(fac, sp)
+            sentence = render(u["tree"]) + " factors as " + text + "."
+            sentence = sentence[0].upper() + sentence[1:]
+            result = {"text": text, "exact": True}
+            expression = str(expr)
         else:
             return {"status": "unparsed", "rule": "MATH-UNPARSED", "reason": "kind"}
     except ZeroDivisionError as exc:
@@ -895,20 +1065,41 @@ def echo(question: str, reply: str, computed: dict[str, Any] | None) -> dict[str
                         if abs(complex(sp.N((eq.lhs - eq.rhs).subs(sol), 30))) > 1e-9:
                             ok = False
         elif u["kind"] == "conversion":
-            import pint
-            ureg = _ureg(pint)
-            m = re.match(r"^(.+?) is (?:≈ )?([-\d.e+]+) (.+)$", s)
+            m = re.match(r"^(.+?) is (-?\d+(?:/\d+|\.\d+)?)(?: \(≈ ([-\d.e+]+)\))? (.+)$", s)
             if not m:
-                return fail("the reply is not 'quantity is value unit'")
+                return fail("the reply is not an exact quantity")
             src_n, src_u = m.group(1).split(" ", 1) if " " in m.group(1) else (m.group(1), "")
             n = _number_only(src_n)
-            us, ud = _unit(src_u), _unit(m.group(3))
+            us, ud = _unit(src_u), _unit(m.group(4))
             if n is None or us[0] != "ok" or ud[0] != "ok" or us[1] != u["from"] or ud[1] != u["to"] or n != Fraction(u["value"][0], u["value"][1]):
                 return fail("the reply converts a different quantity or to a different unit")
-            q = ureg.Quantity(float(n), u["from"])
-            want = float(q.to(u["to"]).magnitude)
-            got = float(m.group(2))
-            ok = abs(got - want) <= 1e-9 * max(1.0, abs(want)) and _fmt_float(want) == m.group(2)
+            want, rule, _why = _convert_exact(n, u["from"], u["to"])
+            if rule or want is None:
+                return fail("the conversion is not an exact rational")
+            shown = m.group(2)
+            if shown != _fmt_frac(want):
+                return fail("the reply does not state the exact value")
+            approx = m.group(3)
+            if "/" in _fmt_frac(want):
+                ok = approx == _approx_frac(want)
+            else:
+                ok = approx is None
+        elif u["kind"] == "factor":
+            m = re.match(r"^(.+?) factors as (.+)$", s, re.I)
+            if not m:
+                return fail("the reply is not 'polynomial factors as ...'")
+            toks = tokenize(m.group(1), allow_var=True)
+            if toks is None:
+                return fail("the reply's polynomial does not parse")
+            lhs = _parse_expr(toks)
+            if render(lhs) != render(u["tree"]):
+                return fail("the reply factors a different polynomial")
+            expr = sp.expand(_sym(u["tree"], sp))
+            fac = sp.factor(expr)
+            if fac == expr:
+                return fail("the polynomial has no rational factor")
+            fresh = _fmt_factor(fac, sp)
+            ok = m.group(2) == fresh and sp.expand(fac - expr) == 0 and fresh != render(u["tree"])
         else:
             return fail("kind")
     except Exception as exc:
