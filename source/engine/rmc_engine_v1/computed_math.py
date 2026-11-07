@@ -121,6 +121,10 @@ def tokenize(text: str, allow_var: bool = False) -> list[tuple[str, Any]] | None
                 out.append(("op", "*")); i += 1; continue   # 3 x 4
             if allow_var and len(word) == 1 and word in "xyzn":
                 out.append(("var", word)); i += 1; continue
+            if allow_var and word in ("sin", "cos", "tan", "exp", "ln", "log") and i + len(word) < len(s) and s[i + len(word)] == "(":
+                out.append(("fn", "ln" if word in ("ln", "log") else word)); i += len(word); continue
+            if allow_var and word == "pi":
+                out.append(("const", "pi")); i += len(word); continue
             if word == "and":
                 out.append(("op", "AND")); i += 3; continue
             if word in ("power",) and out and out[-1] == ("op", "^"):
@@ -222,6 +226,12 @@ class _P:
             return tok
         if tok[0] == "var":
             self.i += 1; return tok
+        if tok[0] == "fn":
+            self.i += 1
+            self.eat("("); arg = self.expr(); self.eat(")")
+            return ("fn", tok[1], arg)
+        if tok[0] == "const":
+            self.i += 1; return tok
         if tok == ("op", "("):
             self.eat("("); inner = self.expr(); self.eat(")")
             return ("paren", inner)
@@ -241,6 +251,10 @@ def _vars(node) -> set[str]:
         return set()
     if node[0] == "var":
         return {node[1]}
+    if node[0] == "const":
+        return set()
+    if node[0] == "fn":
+        return _vars(node[2])
     out = set()
     for part in node[1:]:
         out |= _vars(part)
@@ -449,6 +463,250 @@ def _fmt_alg(expr, sp) -> str:
     return "".join(bits)
 
 
+def _fmt_closed(expr, sp) -> str:
+    """Exact text for a polynomial or an elementary combination. A polynomial keeps the algebra form."""
+    e = expr
+    if getattr(e, "is_rational", False) and e.is_Rational:
+        return _fmt_frac(Fraction(int(e.p), int(e.q)))
+    if e == sp.pi:
+        return "π"
+    try:
+        if e == 0:
+            return "0"
+        syms = list(e.free_symbols)
+        if len(syms) <= 1 and e.is_polynomial(*(syms or [])):
+            return _fmt_alg(sp.expand(e), sp)
+    except Exception:
+        pass
+    if e.func == sp.Add:
+        bits = []
+        for i, term in enumerate(e.as_ordered_terms()):
+            s = _fmt_closed(term, sp)
+            if i == 0:
+                bits.append(s)
+            elif s.startswith("-"):
+                bits.append(" - " + s[1:])
+            else:
+                bits.append(" + " + s)
+        return "".join(bits)
+    if e.func == sp.Mul:
+        coeff, factors = e.as_coeff_mul()
+        sign = ""
+        if coeff.is_number and coeff < 0:
+            sign = "-"
+            coeff = -coeff
+        ctext = "" if coeff == 1 else _fmt_closed(coeff, sp)
+        parts = [_fmt_closed(f, sp) for f in factors]
+        body = "·".join(p for p in parts if p)
+        if ctext and body:
+            if re.fullmatch(r"\d+(?:/\d+)?", ctext) and re.match(r"[A-Za-z(√]", body):
+                return sign + ctext + body
+            return sign + ctext + "·" + body
+        return sign + (ctext or body)
+    if e.func == sp.Pow:
+        base, exp = e.as_base_exp()
+        if exp == sp.Rational(1, 2):
+            return "√(" + _fmt_closed(base, sp) + ")"
+        if exp == -1:
+            inner = _fmt_closed(base, sp)
+            return "1/" + inner if re.fullmatch(r"[A-Za-zπ]\w*", inner) or re.fullmatch(r"\d+", inner) else "1/(" + inner + ")"
+        et = str(exp) if exp.is_Integer else _fmt_closed(exp, sp)
+        return _fmt_closed(base, sp) + "^" + et
+    return _fmt_call(e, sp)
+
+
+def _fmt_call(e, sp) -> str:
+    names = {sp.sin: "sin", sp.cos: "cos", sp.tan: "tan", sp.exp: "exp", sp.log: "ln",
+             sp.fresnels: "fresnels", sp.fresnelc: "fresnelc"}
+    if e.func in names and e.args:
+        return names[e.func] + "(" + _fmt_closed(e.args[0], sp) + ")"
+    if getattr(e, "is_symbol", False):
+        return str(e)
+    if e == sp.pi:
+        return "π"
+    if getattr(e, "is_rational", False) and e.is_Rational:
+        return _fmt_frac(Fraction(int(e.p), int(e.q)))
+    return str(e).replace("**", "^").replace("*", "·")
+
+
+def _domain_notes(expr, var, sp) -> list[str]:
+    """Real restrictions the formula actually uses. A log is not claimed on the whole line."""
+    notes = []
+    for lg in sorted(expr.atoms(sp.log), key=lambda z: str(z)):
+        arg = lg.args[0]
+        if arg == var:
+            note = str(var) + " > 0"
+        else:
+            note = _fmt_closed(arg, sp) + " > 0"
+        if note not in notes:
+            notes.append(note)
+    return notes
+
+
+def _specials(expr, sp) -> list[str]:
+    found = []
+    for name in ("fresnels", "fresnelc", "erf", "erfi", "Si", "Ci", "Ei", "li", "expint"):
+        fn = getattr(sp, name, None)
+        if fn is not None and expr.has(fn):
+            found.append(name)
+    if expr.has(sp.Integral):
+        found.append("Integral")
+    return found
+
+
+def _fmt_fresnel(anti, var, sp):
+    """Constant times one Fresnel of a constant times the variable, written without the gamma form."""
+    for fn, tag in ((sp.fresnels, "fresnels"), (sp.fresnelc, "fresnelc")):
+        hits = list(anti.atoms(fn))
+        if len(hits) != 1 or _specials(anti, sp) != [tag]:
+            continue
+        f = hits[0]
+        coeff = sp.simplify(anti / f)
+        if var in coeff.free_symbols:
+            continue
+        arg = f.args[0]
+        ratio = sp.simplify(arg / var)
+        if var in getattr(ratio, "free_symbols", set()):
+            continue
+        if sp.simplify(coeff - sp.sqrt(sp.pi / 2)) == 0:
+            ct = "√(π/2)"
+        elif sp.simplify(coeff + sp.sqrt(sp.pi / 2)) == 0:
+            ct = "-√(π/2)"
+        else:
+            ct = _fmt_closed(coeff, sp)
+        if sp.simplify(ratio - sp.sqrt(2 / sp.pi)) == 0:
+            at = "√(2/π)·" + str(var)
+        elif sp.simplify(ratio + sp.sqrt(2 / sp.pi)) == 0:
+            at = "-√(2/π)·" + str(var)
+        else:
+            at = _fmt_closed(arg, sp)
+        return ct + "·" + tag + "(" + at + ")"
+    return None
+
+
+def _poly3(lhs, rhs, var, sp):
+    x = sp.Symbol(var)
+    expr = sp.expand(_sym(lhs, sp) - _sym(rhs, sp))
+    if not expr.is_polynomial(x):
+        return None
+    p = sp.Poly(sp.expand(expr), x)
+    if p.degree() != 3 or any(not c.is_rational for c in p.coeffs()):
+        return None
+    return p
+
+
+def _cubic_clause(lhs, rhs, var, sp):
+    """Real roots of a rational cubic. Rational roots stay rational. One real root is Cardano.
+    Three real roots are the trigonometric form. Anything else is left to the general solver."""
+    p = _poly3(lhs, rhs, var, sp)
+    if p is None:
+        return None
+    x = sp.Symbol(var)
+    found = sp.roots(p.as_expr(), x)
+    if found and sum(found.values()) == 3 and all(k.is_rational for k in found):
+        items = []
+        roots = []
+        for root, mult in sorted(found.items(), key=lambda kv: kv[0]):
+            text = _fmt_frac(Fraction(int(root.p), int(root.q)))
+            item = var + " = " + text
+            if int(mult) != 1:
+                item += " (multiplicity " + str(int(mult)) + ")"
+            items.append(item)
+            roots.append({"text": text, "multiplicity": int(mult)})
+        return {"text": " or ".join(items), "method": "rational", "roots": roots, "checks": list(found.keys())}
+    a, b, c, d = [sp.Rational(c) for c in p.all_coeffs()]
+    pp = sp.together((3 * a * c - b ** 2) / (3 * a ** 2))
+    qq = sp.together((2 * b ** 3 - 9 * a * b * c + 27 * a ** 2 * d) / (27 * a ** 3))
+    disc = sp.together((qq / 2) ** 2 + (pp / 3) ** 3)
+    if not disc.is_rational:
+        return None
+    shift = sp.together(-b / (3 * a))
+    if disc > 0:
+        rad = _fmt_ratio(Fraction(int(disc.p), int(disc.q)))
+        half = _fmt_ratio(Fraction(int((-qq / 2).p), int((-qq / 2).q)))
+        body = "∛(" + half + " + √(" + rad + ")) + ∛(" + half + " - √(" + rad + "))"
+        if shift != 0:
+            st = _fmt_ratio(Fraction(int(abs(shift.p)), int(abs(shift.q))))
+            body += " + " + st if shift > 0 else " - " + st
+        check = sp.real_root(-qq / 2 + sp.sqrt(disc), 3) + sp.real_root(-qq / 2 - sp.sqrt(disc), 3) + shift
+        return {"text": var + " = " + body, "method": "cardano", "roots": [{"text": body, "multiplicity": 1}], "checks": [check]}
+    if disc < 0:
+        m2 = sp.together(-pp / 3)
+        arg = sp.together((3 * qq) / (2 * pp) * sp.sqrt(-3 / pp))
+        if not m2.is_rational or not arg.is_rational:
+            return None
+        mtext = "2" if m2 == 1 else "2·√(" + _fmt_ratio(Fraction(int(m2.p), int(m2.q))) + ")"
+        argt = _fmt_ratio(Fraction(int(arg.p), int(arg.q)))
+        base = mtext + "·cos(⅓·arccos(" + argt + ")"
+        pieces, checks = [], []
+        m = 2 * sp.sqrt(m2)
+        for k in range(3):
+            piece = base + ")" if k == 0 else base + " - " + str(2 * k) + "π/3)"
+            if shift != 0:
+                st = _fmt_ratio(Fraction(int(abs(shift.p)), int(abs(shift.q))))
+                piece += " + " + st if shift > 0 else " - " + st
+            pieces.append(var + " = " + piece)
+            checks.append(m * sp.cos(sp.acos(arg) / 3 - 2 * sp.pi * k / 3) + shift)
+        return {"text": " or ".join(pieces), "method": "trigonometric", "roots": [{"text": t.split(" = ", 1)[1], "multiplicity": 1} for t in pieces], "checks": checks}
+    return None
+
+
+def _simplify_ratio(tree, sp):
+    """Cancel the exact polynomial GCD. Excluded points are the real rational roots of that GCD."""
+    vs = _vars(tree)
+    if len(vs) != 1:
+        return None
+    var = next(iter(vs))
+    x = sp.Symbol(var)
+    # The two sides are expanded apart, so SymPy does not cancel the factor before the GCD is recorded.
+    if tree[0] == "div":
+        num, den = sp.expand(_sym(tree[1], sp)), sp.expand(_sym(tree[2], sp))
+    else:
+        num, den = sp.expand(_sym(tree, sp)), sp.Integer(1)
+    if den == 0:
+        raise ZeroDivisionError("division by zero")
+    if not num.is_polynomial(x) or not den.is_polynomial(x):
+        return None
+    pn, pd = sp.Poly(num, x), sp.Poly(den, x)
+    if any(not c.is_rational for c in list(pn.coeffs()) + list(pd.coeffs())):
+        return None
+    g = sp.gcd(pn, pd)
+    qn, qd = sp.div(pn, g)[0], sp.div(pd, g)[0]
+    if qd.LC() < 0:
+        qn, qd = -qn, -qd
+    lc = qd.LC()
+    qn, qd = sp.Poly(sp.together(qn.as_expr() / lc), x), sp.Poly(sp.together(qd.as_expr() / lc), x)
+    if qd.degree() == 0 and qd.LC() == 1:
+        shown = _fmt_alg(sp.expand(qn.as_expr()), sp)
+    else:
+        shown = "(" + _fmt_alg(sp.expand(qn.as_expr()), sp) + ")/(" + _fmt_alg(sp.expand(qd.as_expr()), sp) + ")"
+    excluded = []
+    if g.degree() > 0:
+        for root, mult in sorted(sp.roots(g.as_expr(), x).items(), key=lambda kv: (not kv[0].is_rational, str(kv[0]))):
+            if root.is_rational:
+                excluded.append({"value": _fmt_frac(Fraction(int(root.p), int(root.q))), "multiplicity": int(mult)})
+    return {"var": var, "text": shown, "excluded": excluded}
+
+
+def _simplify_sentence(tree, sp) -> str:
+    got = _simplify_ratio(tree, sp)
+    sentence = "The simplified form of " + render(tree) + " is " + got["text"] + "."
+    for ex in got["excluded"]:
+        sentence += " " + got["var"] + " ≠ " + ex["value"] + "."
+    return sentence
+
+
+def _bound_point(u, side, sp):
+    src = u.get(side + "_expr")
+    if src:
+        toks = tokenize(str(src), allow_var=True)
+        if toks is None:
+            raise ValueError("bound")
+        return _sym(_parse_expr(toks), sp)
+    pair = u.get(side)
+    return sp.Rational(pair[0], pair[1])
+
+
 def _fmt_factor(fac, sp) -> str:
     """The solver's factors, juxtaposed. Order is the text of each factor, so the form is stable and not a stored answer."""
     def one(node) -> str:
@@ -507,6 +765,21 @@ def _number_only(text: str) -> Fraction | None:
         return _exact(tree)
     except Exception:
         return None
+
+
+def _pi_bound(node) -> bool:
+    """A bound built only from exact numbers and π. Not a guessed limit."""
+    if not isinstance(node, tuple):
+        return False
+    if node[0] == "num":
+        return True
+    if node[0] == "const":
+        return node[1] == "pi"
+    if node[0] in ("paren", "neg"):
+        return _pi_bound(node[1])
+    if node[0] in ("add", "sub", "mul", "div", "pow"):
+        return _pi_bound(node[1]) and _pi_bound(node[2])
+    return False
 
 
 def _exact(node) -> Fraction:
@@ -589,6 +862,7 @@ def understand(question: str) -> dict[str, Any] | None:
         var = named or (next(iter(vs)) if vs else None)
         bounds = fr.get("bounds") if isinstance(fr.get("bounds"), dict) else None
         lo = hi = None
+        lo_expr = hi_expr = None
         if bounds:
             for side, raw in (("lo", bounds.get("lo")), ("hi", bounds.get("hi"))):
                 bt = tokenize(str(raw or ""), allow_var=True)
@@ -603,11 +877,13 @@ def understand(question: str) -> dict[str, Any] | None:
                 try:
                     num = _exact(btree)
                 except ValueError:
-                    return {"status": "unparsed", "kind": "integral", "rule": "MATH-UNPARSED", "reason": "a bound is not a number"}
+                    if not _pi_bound(btree):
+                        return {"status": "unparsed", "kind": "integral", "rule": "MATH-UNPARSED", "reason": "a bound is not an exact number"}
+                    num = None
                 if side == "lo":
-                    lo = num
+                    lo, lo_expr = num, (None if num is not None else _norm(str(raw)))
                 else:
-                    hi = num
+                    hi, hi_expr = num, (None if num is not None else _norm(str(raw)))
         order = fr.get("order")
         try:
             order = 1 if order is None else int(order)
@@ -616,9 +892,30 @@ def understand(question: str) -> dict[str, Any] | None:
         if order < 1:
             return {"status": "unparsed", "kind": "derivative", "rule": "MATH-UNPARSED", "reason": "the derivative order is not a count"}
         kind = "derivative" if fr.get("op") == "derivative" else "integral"
-        return {"status": "ok", "kind": kind, "tree": tree, "var": var, "order": order, "definite": bool(bounds),
-                "lo": None if lo is None else [lo.numerator, lo.denominator], "hi": None if hi is None else [hi.numerator, hi.denominator],
-                "lib": "sympy", "asked": kind + " of " + render(tree)}
+        out = {"status": "ok", "kind": kind, "tree": tree, "var": var, "order": order, "definite": bool(bounds),
+               "lo": None if lo is None else [lo.numerator, lo.denominator], "hi": None if hi is None else [hi.numerator, hi.denominator],
+               "lib": "sympy", "asked": kind + " of " + render(tree)}
+        if lo_expr:
+            out["lo_expr"] = lo_expr
+        if hi_expr:
+            out["hi_expr"] = hi_expr
+        return out
+    if isinstance(fr, dict) and fr.get("rule") == "QF-MATH-SIMPLIFY" and fr.get("op") == "simplify":
+        expr = _norm(str(fr.get("expr") or ""))
+        toks = tokenize(expr, allow_var=True)
+        try:
+            if toks is None:
+                raise ValueError("word")
+            tree = _parse_expr(toks)
+        except ValueError as exc:
+            return {"status": "unparsed", "kind": "simplify", "rule": "MATH-UNPARSED", "reason": "the expression is outside the math grammar (" + str(exc) + ")"}
+        vs = _vars(tree)
+        if len(vs) > 1:
+            return {"status": "ambiguous_var", "kind": "simplify", "rule": "MATH-VAR-AMBIGUOUS", "reason": "which variable: " + ",".join(sorted(vs)),
+                    "clarify": "Which variable: " + " or ".join(sorted(vs)) + "?"}
+        if not vs:
+            return {"status": "unparsed", "kind": "simplify", "rule": "MATH-UNPARSED", "reason": "the expression names no variable"}
+        return {"status": "ok", "kind": "simplify", "tree": tree, "var": next(iter(vs)), "lib": "sympy", "asked": "the simplified form of " + render(tree)}
     body = _LEAD.sub("", q).strip()
     has_digit = bool(re.search(r"\d", body)) or bool(re.search(r"\b(" + "|".join(_NUM_WORDS) + r")\b", body))
     # unit conversion
@@ -714,6 +1011,13 @@ def understand(question: str) -> dict[str, Any] | None:
 
 
 # ---------------------------------------------------------------- rendering of the asked quantity
+def _fmt_ratio(f: Fraction) -> str:
+    """n/d, including a terminating fraction. A closed form does not replace -1/2 with -0.5."""
+    if f.denominator == 1:
+        return str(f.numerator)
+    return str(f.numerator) + "/" + str(f.denominator)
+
+
 def _fmt_frac(f: Fraction) -> str:
     if f.denominator == 1:
         return str(f.numerator)
@@ -732,7 +1036,7 @@ def _fmt_frac(f: Fraction) -> str:
     return str(f.numerator) + "/" + str(f.denominator)
 
 
-_PREC = {"add": 1, "sub": 1, "mul": 2, "div": 2, "pct": 3, "pctof": 2, "pow": 4, "neg": 3, "root": 5, "num": 9, "var": 9, "paren": 9}
+_PREC = {"add": 1, "sub": 1, "mul": 2, "div": 2, "pct": 3, "pctof": 2, "pow": 4, "neg": 3, "root": 5, "num": 9, "var": 9, "paren": 9, "fn": 9, "const": 9}
 
 
 def render(node) -> str:
@@ -742,6 +1046,10 @@ def render(node) -> str:
         return node[2] if isinstance(node[2], str) else _fmt_frac(node[1])
     if k == "var":
         return node[1]
+    if k == "const":
+        return "π" if node[1] == "pi" else node[1]
+    if k == "fn":
+        return node[1] + "(" + render(node[2]) + ")"
     if k == "paren":
         return "(" + render(node[1]) + ")"
     if k == "neg":
@@ -772,6 +1080,10 @@ def _render_eq(node) -> str:
         return node[2] if isinstance(node[2], str) else _fmt_frac(node[1])
     if k == "var":
         return node[1]
+    if k == "const":
+        return "π" if node[1] == "pi" else node[1]
+    if k == "fn":
+        return node[1] + "(" + _render_eq(node[2]) + ")"
     if k == "paren":
         return "(" + _render_eq(node[1]) + ")"
     if k == "neg":
@@ -808,6 +1120,11 @@ def _sym(node, sp, var=None):
         return sp.Rational(node[1].numerator, node[1].denominator)
     if k == "var":
         return sp.Symbol(node[1])
+    if k == "const":
+        return sp.pi if node[1] == "pi" else sp.E
+    if k == "fn":
+        arg = _sym(node[2], sp)
+        return {"sin": sp.sin, "cos": sp.cos, "tan": sp.tan, "exp": sp.exp, "ln": sp.log}[node[1]](arg)
     if k == "paren":
         return _sym(node[1], sp)
     if k == "neg":
@@ -928,24 +1245,32 @@ def compute(question: str, u: dict[str, Any] | None = None) -> dict[str, Any]:
             result = {"value": str(v), "text": text + "%", "exact": exact}
             expression = "(" + str(part) + ")/(" + str(whole) + ")*100"
         elif u["kind"] == "equation":
-            x = sp.Symbol(u["var"])
-            eqn = sp.Eq(_sym(u["lhs"], sp), _sym(u["rhs"], sp))
-            sols = sp.solve(eqn, x, dict=False)
-            if eqn is sp.true or (isinstance(eqn, bool) and eqn):
-                return {"status": "unparsed", "kind": "equation", "rule": "MATH-IDENTITY", "reason": "every value of " + u["var"] + " satisfies it"}
-            real = [s for s in sols if s.is_real is not False]
-            if not real:
-                text = "no real solution"
-                sentence = "Solving " + _render_eq(u["lhs"]) + " = " + _render_eq(u["rhs"]) + " gives no real solution for " + u["var"] + "."
-            else:
-                parts = []
-                for s in sorted(real, key=lambda z: float(sp.N(z))):
-                    t, _ = fmt_value(sp.nsimplify(s), sp)
-                    parts.append(u["var"] + " = " + t)
-                text = " or ".join(parts)
+            clause = _cubic_clause(u["lhs"], u["rhs"], u["var"], sp)
+            if clause is not None:
+                text = clause["text"]
                 sentence = "Solving " + _render_eq(u["lhs"]) + " = " + _render_eq(u["rhs"]) + " gives " + text + "."
-            result = {"solutions": [str(s) for s in real], "text": text, "exact": True}
-            expression = str(eqn)
+                result = {"solutions": [r["text"] for r in clause["roots"]], "text": text, "exact": True,
+                          "method": clause["method"], "multiplicities": [r["multiplicity"] for r in clause["roots"]]}
+                expression = str(sp.Eq(_sym(u["lhs"], sp), _sym(u["rhs"], sp)))
+            else:
+                x = sp.Symbol(u["var"])
+                eqn = sp.Eq(_sym(u["lhs"], sp), _sym(u["rhs"], sp))
+                sols = sp.solve(eqn, x, dict=False)
+                if eqn is sp.true or (isinstance(eqn, bool) and eqn):
+                    return {"status": "unparsed", "kind": "equation", "rule": "MATH-IDENTITY", "reason": "every value of " + u["var"] + " satisfies it"}
+                real = [s for s in sols if s.is_real is not False]
+                if not real:
+                    text = "no real solution"
+                    sentence = "Solving " + _render_eq(u["lhs"]) + " = " + _render_eq(u["rhs"]) + " gives no real solution for " + u["var"] + "."
+                else:
+                    parts = []
+                    for s in sorted(real, key=lambda z: float(sp.N(z))):
+                        t, _ = fmt_value(sp.nsimplify(s), sp)
+                        parts.append(u["var"] + " = " + t)
+                    text = " or ".join(parts)
+                    sentence = "Solving " + _render_eq(u["lhs"]) + " = " + _render_eq(u["rhs"]) + " gives " + text + "."
+                result = {"solutions": [str(s) for s in real], "text": text, "exact": True}
+                expression = str(eqn)
         elif u["kind"] == "system":
             syms = [sp.Symbol(name) for name in u["vars"]]
             eqs = [sp.Eq(_sym(lhs, sp), _sym(rhs, sp)) for lhs, rhs in u["equations"]]
@@ -999,40 +1324,61 @@ def compute(question: str, u: dict[str, Any] | None = None) -> dict[str, Any]:
             sentence = sentence[0].upper() + sentence[1:]
             result = {"text": text, "exact": True}
             expression = str(expr)
+        elif u["kind"] == "simplify":
+            got = _simplify_ratio(u["tree"], sp)
+            if got is None:
+                return {"status": "uncomputable", "kind": "simplify", "rule": "MATH-UNCOMPUTABLE", "reason": "not a rational function of one variable"}
+            sentence = _simplify_sentence(u["tree"], sp)
+            result = {"text": got["text"], "exact": True, "variable": got["var"], "excluded": got["excluded"]}
+            expression = str(sp.together(_sym(u["tree"], sp)))
         elif u["kind"] == "derivative":
             v = sp.Symbol(u["var"])
             expr = sp.expand(_sym(u["tree"], sp))
             d = sp.diff(expr, v, int(u.get("order") or 1))
-            text = _fmt_alg(d, sp)
+            text = _fmt_closed(sp.expand(d), sp)
             order = int(u.get("order") or 1)
-            sentence = "The derivative of " + render(u["tree"]) + " with respect to " + u["var"] + (" of order " + str(order) if order != 1 else "") + " is " + text + "."
+            domain = _domain_notes(expr, v, sp)
+            sentence = "The derivative of " + render(u["tree"]) + " with respect to " + u["var"] + (" of order " + str(order) if order != 1 else "") + " is " + text + (" for " + " and ".join(domain) if domain else "") + "."
             result = {"text": text, "exact": True, "variable": u["var"], "order": order}
+            if domain:
+                result["domain"] = domain
             expression = str(expr)
         elif u["kind"] == "integral":
             expr = sp.expand(_sym(u["tree"], sp))
             if u.get("definite"):
-                if not u.get("var"):
-                    v = sp.Symbol("_t")
-                    expr_d = expr
-                else:
-                    v = sp.Symbol(u["var"])
-                    expr_d = expr
-                lo, hi = Fraction(u["lo"][0], u["lo"][1]), Fraction(u["hi"][0], u["hi"][1])
-                val = sp.integrate(expr_d, (v, sp.Rational(lo.numerator, lo.denominator), sp.Rational(hi.numerator, hi.denominator)))
-                if not getattr(val, "is_rational", False) or not val.is_Rational:
-                    return {"status": "uncomputable", "kind": "integral", "rule": "MATH-UNCOMPUTABLE", "reason": "the definite integral is not an exact rational"}
-                text = _fmt_frac(Fraction(int(val.p), int(val.q)))
-                sentence = "The definite integral of " + render(u["tree"]) + " from " + _fmt_frac(lo) + " to " + _fmt_frac(hi) + " is " + text + "."
-                result = {"text": text, "exact": True, "definite": True, "variable": u.get("var"), "lo": _fmt_frac(lo), "hi": _fmt_frac(hi)}
+                v = sp.Symbol(u["var"] or "_t")
+                lo_s, hi_s = _bound_point(u, "lo", sp), _bound_point(u, "hi", sp)
+                val = sp.simplify(sp.integrate(expr, (v, lo_s, hi_s)))
+                if val.has(sp.Float):
+                    return {"status": "uncomputable", "kind": "integral", "rule": "MATH-UNCOMPUTABLE", "reason": "the definite integral is not exact"}
+                text = _fmt_frac(Fraction(int(val.p), int(val.q))) if getattr(val, "is_rational", False) and val.is_Rational else _fmt_closed(val, sp)
+                lo_t, hi_t = _fmt_closed(lo_s, sp), _fmt_closed(hi_s, sp)
+                sentence = "The definite integral of " + render(u["tree"]) + " from " + lo_t + " to " + hi_t + " is " + text + "."
+                result = {"text": text, "exact": True, "definite": True, "variable": u.get("var"), "lo": lo_t, "hi": hi_t}
             else:
                 v = sp.Symbol(u["var"])
                 anti = sp.integrate(expr, v)
-                back = sp.expand(sp.diff(anti, v))
-                if sp.expand(back - expr) != 0:
-                    return {"status": "uncomputable", "kind": "integral", "rule": "MATH-DOMAIN", "reason": "differentiating the antiderivative does not recover the integrand on the whole line"}
-                text = _fmt_alg(anti, sp) + " + C"
-                sentence = "The integral of " + render(u["tree"]) + " with respect to " + u["var"] + " is " + text + "."
-                result = {"text": text, "exact": True, "definite": False, "variable": u["var"], "constant": "C"}
+                if sp.simplify(sp.diff(anti, v) - expr) != 0:
+                    return {"status": "uncomputable", "kind": "integral", "rule": "MATH-DOMAIN", "reason": "differentiating the antiderivative does not recover the integrand on its domain"}
+                domain = _domain_notes(expr, v, sp)
+                for note in _domain_notes(anti, v, sp):
+                    if note not in domain:
+                        domain.append(note)
+                shown = _fmt_fresnel(anti, v, sp)
+                if _specials(anti, sp) or anti.has(sp.Integral):
+                    if shown:
+                        text = shown + " + C"
+                        sentence = "The integral of " + render(u["tree"]) + " with respect to " + u["var"] + " is not an elementary function. It is " + shown + " + C."
+                    else:
+                        text = None
+                        sentence = "The integral of " + render(u["tree"]) + " with respect to " + u["var"] + " is not an elementary function."
+                    result = {"text": text, "exact": True, "definite": False, "variable": u["var"], "elementary": False, "special": _specials(anti, sp), "constant": "C" if shown else None}
+                else:
+                    text = _fmt_closed(sp.expand(anti), sp) + " + C"
+                    sentence = "The integral of " + render(u["tree"]) + " with respect to " + u["var"] + " is " + text + (" for " + " and ".join(domain) if domain else "") + "."
+                    result = {"text": text, "exact": True, "definite": False, "variable": u["var"], "constant": "C", "elementary": True}
+                if domain:
+                    result["domain"] = domain
             expression = str(expr)
         else:
             return {"status": "unparsed", "rule": "MATH-UNPARSED", "reason": "kind"}
@@ -1139,13 +1485,19 @@ def echo(question: str, reply: str, computed: dict[str, Any] | None) -> dict[str
                 return fail("the reply solves a different equation")
             # Re-solve the equation the reply states and write its solutions with the same formatter; the reply must
             # say exactly that. Each real solution is also substituted back into the asked equation.
-            sols = sorted([z for z in sp.solve(sp.Eq(_sym(lhs, sp), _sym(rhs, sp)), x) if z.is_real is not False], key=lambda z: float(sp.N(z)))
+            # A rational cubic uses its rational roots, with multiplicity. One real root uses Cardano. Three real
+            # roots use the trigonometric form. The old rule ids ALG-CUBIC-CARDANO and ALG-CUBIC-TRIGONOMETRIC named those forms.
             f = _sym(u["lhs"], sp) - _sym(u["rhs"], sp)
-            if not sols:
-                ok = m.group(3) == "no real solution for " + u["var"]
+            clause = _cubic_clause(lhs, rhs, u["var"], sp)
+            if clause is not None:
+                ok = m.group(3) == clause["text"] and all(abs(complex(sp.N(f.subs(x, z), 30))) <= 1e-9 for z in clause["checks"])
             else:
-                want_text = " or ".join(u["var"] + " = " + fmt_value(sp.nsimplify(z), sp)[0] for z in sols)
-                ok = m.group(3) == want_text and all(abs(complex(sp.N(f.subs(x, z), 30))) <= 1e-9 for z in sols)
+                sols = sorted([z for z in sp.solve(sp.Eq(_sym(lhs, sp), _sym(rhs, sp)), x) if z.is_real is not False], key=lambda z: float(sp.N(z)))
+                if not sols:
+                    ok = m.group(3) == "no real solution for " + u["var"]
+                else:
+                    want_text = " or ".join(u["var"] + " = " + fmt_value(sp.nsimplify(z), sp)[0] for z in sols)
+                    ok = m.group(3) == want_text and all(abs(complex(sp.N(f.subs(x, z), 30))) <= 1e-9 for z in sols)
         elif u["kind"] == "system":
             m = re.match(r"^solving (.+) gives (.+)$", s, re.I)
             if not m:
@@ -1218,31 +1570,52 @@ def echo(question: str, reply: str, computed: dict[str, Any] | None) -> dict[str
                 return fail("the polynomial has no rational factor")
             fresh = _fmt_factor(fac, sp)
             ok = m.group(2) == fresh and sp.expand(fac - expr) == 0 and fresh != render(u["tree"])
+        elif u["kind"] == "simplify":
+            fresh = _simplify_sentence(u["tree"], sp)
+            got = _simplify_ratio(u["tree"], sp)
+            ok = got is not None and s + "." == fresh
         elif u["kind"] == "derivative":
-            m = re.match(r"^the derivative of .+ is (.+)$", s, re.I)
+            m = re.match(r"^the derivative of .+ is (.+?)(?: for (.+))?$", s, re.I)
             if not m:
                 return fail("the reply is not the derivative")
             v = sp.Symbol(u["var"])
-            fresh = _fmt_alg(sp.diff(sp.expand(_sym(u["tree"], sp)), v, int(u.get("order") or 1)), sp)
-            ok = m.group(1) == fresh
+            expr = sp.expand(_sym(u["tree"], sp))
+            fresh = _fmt_closed(sp.expand(sp.diff(expr, v, int(u.get("order") or 1))), sp)
+            domain = _domain_notes(expr, v, sp)
+            ok = m.group(1) == fresh and (m.group(2) or "") == (" and ".join(domain) if domain else "")
         elif u["kind"] == "integral":
             if u.get("definite"):
-                m = re.match(r"^the definite integral of .+ is (-?\d+(?:/\d+|\.\d+)?)(\s+\+ C)?$", s, re.I)
+                m = re.match(r"^the definite integral of .+ is (.+?)(\s+\+ C)?$", s, re.I)
                 if not m or m.group(2):
                     return fail("a definite integral is a number, not an antiderivative")
                 v = sp.Symbol(u["var"] or "_t")
-                lo, hi = Fraction(u["lo"][0], u["lo"][1]), Fraction(u["hi"][0], u["hi"][1])
-                val = sp.integrate(sp.expand(_sym(u["tree"], sp)), (v, sp.Rational(lo.numerator, lo.denominator), sp.Rational(hi.numerator, hi.denominator)))
-                ok = m.group(1) == _fmt_frac(Fraction(int(val.p), int(val.q)))
+                lo_s, hi_s = _bound_point(u, "lo", sp), _bound_point(u, "hi", sp)
+                val = sp.simplify(sp.integrate(sp.expand(_sym(u["tree"], sp)), (v, lo_s, hi_s)))
+                fresh = _fmt_frac(Fraction(int(val.p), int(val.q))) if getattr(val, "is_rational", False) and val.is_Rational else _fmt_closed(val, sp)
+                ok = m.group(1) == fresh
             else:
-                m = re.match(r"^the integral of .+ is (.+) \+ C$", s, re.I)
-                if not m:
-                    return fail("an indefinite integral states the antiderivative and + C")
                 v = sp.Symbol(u["var"])
                 expr = sp.expand(_sym(u["tree"], sp))
                 anti = sp.integrate(expr, v)
-                back = sp.expand(sp.diff(anti, v))
-                ok = m.group(1) == _fmt_alg(anti, sp) and sp.expand(back - expr) == 0
+                recovers = sp.simplify(sp.diff(anti, v) - expr) == 0
+                if not recovers:
+                    ok = False
+                elif _specials(anti, sp) or anti.has(sp.Integral):
+                    shown = _fmt_fresnel(anti, v, sp)
+                    if shown:
+                        m = re.match(r"^the integral of .+ is not an elementary function\. it is (.+) \+ C$", s, re.I)
+                        ok = bool(m) and m.group(1) == shown
+                    else:
+                        ok = bool(re.match(r"^the integral of .+ is not an elementary function$", s, re.I))
+                else:
+                    m = re.match(r"^the integral of .+ is (.+) \+ C(?: for (.+))?$", s, re.I)
+                    if not m:
+                        return fail("an indefinite integral states the antiderivative and + C")
+                    domain = _domain_notes(expr, v, sp)
+                    for note in _domain_notes(anti, v, sp):
+                        if note not in domain:
+                            domain.append(note)
+                    ok = m.group(1) == _fmt_closed(sp.expand(anti), sp) and (m.group(2) or "") == (" and ".join(domain) if domain else "")
         else:
             return fail("kind")
     except Exception as exc:

@@ -311,13 +311,20 @@
     if (/\d/.test(text) && /^[\d\s+\-*/^().=x×÷%,]+[?]?$/i.test(String(text).trim())) return Object.assign(f, { speech_act: 'compute', mood: 'expression', rule: 'QF-ARITH-EXPR' });
     /* "factor <polynomial>" is an operation frame. The math grammar parses the expression; the word is not an answer. */
     if (lw[0] === 'factor' && ws.length > 1) return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'factor', expr: ws.slice(1).join(' ').replace(/[?!.]+$/, ''), rule: 'QF-MATH-FACTOR' });
-    /* derivative / integral. The head word is the operation. Bounds and "with respect to" stay on the frame; they are not an answer. */
+    if (lw[0] === 'simplify' && ws.length > 1) return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'simplify', expr: ws.slice(1).join(' ').replace(/[?!.]+$/, ''), rule: 'QF-MATH-SIMPLIFY' });
+    /* derivative / integral. The head word is the operation. differentiate and integrate are the same operations.
+     * Bounds and "with respect to" stay on the frame; they are not an answer. */
     {
       const ORD = { second: 2, third: 3, fourth: 4 };
-      let i = 0, order = null;
+      let i = 0, order = null, op = null;
       if (ORD[lw[0]] && lw[1] === 'derivative') { order = ORD[lw[0]]; i = 1; }
-      if ((lw[i] === 'derivative' || lw[i] === 'integral') && lw[i + 1] === 'of') {
-        let rest = ws.slice(i + 2).map(w => w.replace(/[?!.]+$/, ''));
+      if (lw[i] === 'derivative' || lw[i] === 'differentiate') op = 'derivative';
+      else if (lw[i] === 'integral' || lw[i] === 'integrate') op = 'integral';
+      const needsOf = lw[i] === 'derivative' || lw[i] === 'integral';
+      if (op && (!needsOf || lw[i + 1] === 'of')) {
+        let rest = ws.slice(i + 1 + (lw[i + 1] === 'of' ? 1 : 0)).map(w => w.replace(/[?!.]+$/, ''));
+        if (rest.length >= 2 && rest[rest.length - 2].toLowerCase() === 'd' && /^[xyzn]$/i.test(rest[rest.length - 1])) rest.splice(rest.length - 2, 2);
+        else if (rest.length && /^d[xyzn]$/i.test(rest[rest.length - 1])) rest.pop();
         let variable = null, bounds = null, malformed = rest.join('').trim() === '';
         const at = word => rest.findIndex(w => w.toLowerCase() === word);
         const respect = at('respect');
@@ -337,7 +344,7 @@
         }
         const expr = rest.join(' ').trim();
         if (!expr) malformed = true;
-        return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: lw[i], expr: expr, order: order, variable: variable, bounds: bounds, malformed: malformed, rule: 'QF-MATH-CALC' });
+        return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: op, expr: expr, order: order, variable: variable, bounds: bounds, malformed: malformed, rule: 'QF-MATH-CALC' });
       }
     }
     /* interjection-only turn (closed class INTJ): the act is left to the engine's concept reading */

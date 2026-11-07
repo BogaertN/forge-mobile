@@ -88,6 +88,34 @@ function register(C, expect) {
     expect(admitted(def) && def.reply === 'The definite integral of 2 times x from 0 to 3 is 9.' && !/\+ C/.test(def.reply) && def.computed.receipt.result.definite === true, def.reply);
     expect(bound.product_reply !== true && bound.reply == null && bound.computed.rule === 'MATH-BOUND-VARIABLE', JSON.stringify(bound.computed));
   });
+  C('MATH-V3', 'a log derivative keeps its domain, and a non-elementary integral is not given an elementary formula', () => {
+    const ln = ask('derivative of ln(x)');
+    const bad = ask('integrate sin(');
+    const mix = ask('derivative of sin(x) + y');
+    const fres = ask('integrate sin(x^2)');
+    const hole = ask('integrate 1/x');
+    expect(admitted(ln) && ln.computed.receipt.result.text === '1/x' && ln.computed.receipt.result.domain.join() === 'x > 0', ln.reply);
+    expect(bad.product_reply !== true && bad.reply == null && bad.computed.rule === 'MATH-UNPARSED', JSON.stringify(bad.computed));
+    expect(mix.product_reply !== true && mix.reply == null && mix.computed.rule === 'MATH-VAR-AMBIGUOUS', JSON.stringify(mix.computed));
+    expect(admitted(fres) && fres.computed.receipt.result.elementary === false && /fresnels/.test(fres.reply) && /not an elementary function/.test(fres.reply), fres.reply);
+    expect(admitted(hole) && hole.computed.receipt.result.text === 'ln(x) + C' && hole.computed.receipt.result.domain.join() === 'x > 0' && hole.reply.includes('for x > 0'), hole.reply);
+  });
+  C('MATH-V3', 'a rational GCD keeps the excluded point, and a cubic keeps its real-root form', () => {
+    const gcd = ask('simplify (x^2-1)/(x-1)');
+    const low = ask('simplify (x+1)/(x-1)');
+    const two = ask('simplify (x+y)/(x-1)');
+    const card = ask('solve x^3 + x + 1 = 0');
+    const trig = ask('solve x^3 - 3x + 1 = 0');
+    const ints = ask('solve x^3 - 6x^2 + 11x - 6 = 0');
+    const rep = ask('solve x^3 - 4x^2 + 5x - 2 = 0');
+    expect(admitted(gcd) && gcd.computed.receipt.result.text === 'x + 1' && gcd.computed.receipt.result.excluded[0].value === '1' && gcd.reply.includes('x ≠ 1'), gcd.reply);
+    expect(admitted(low) && low.computed.receipt.result.excluded.length === 0 && !/≠/.test(low.reply), low.reply);
+    expect(two.product_reply !== true && two.reply == null && two.computed.rule === 'MATH-VAR-AMBIGUOUS', JSON.stringify(two.computed));
+    expect(admitted(card) && card.computed.receipt.result.method === 'cardano' && card.reply.includes('∛(-1/2 + √(31/108))'), card.reply);
+    expect(admitted(trig) && trig.computed.receipt.result.method === 'trigonometric' && trig.computed.receipt.result.solutions.length === 3, trig.reply);
+    expect(admitted(ints) && ints.computed.receipt.result.method === 'rational' && !/[∛√]/.test(ints.reply), ints.reply);
+    expect(admitted(rep) && rep.reply.includes('x = 1 (multiplicity 2)') && rep.reply.includes('x = 2'), rep.reply);
+  });
   C('MATH-V3', 'the same system asked twice is the same sentence', () => {
     const a = ask('solve x + y = 4 and x - y = 2');
     const b = ask('solve x + y = 4 and x - y = 2');

@@ -87,15 +87,68 @@ const DER = [['sin(x)*x^2', 'cos(x)·x^2 + sin(x)·(2x)'], ['e^x', 'e^x'], ['exp
 for (const [i, o] of DER) T('CALCULUS', 'd/dx ' + i + ' = ' + o + ' (rule-tagged, numerically cross-checked)', () => { const r = CA.derivative(i); expect(r.ok && r.result === o, JSON.stringify(r)); expect(r.rules.every(x => /^D-\d\d-/.test(x))); });
 const INT = [['sin(x)', 0, 'pi', '2'], ['exp(x)', 0, 1, 'e - 1'], ['1/x', 1, 'e', '1'], ['cos(2x)', 0, 'pi/4', '1/2'], ['x*sin(x)', 0, 'pi', 'π'], ['x^2*exp(x)', 0, 1, 'e - 2']];
 for (const [f, a, b, v] of INT) T('CALCULUS', '∫_' + a + '^' + b + ' ' + f + ' dx = ' + v + ' (FTC, Simpson cross-check)', () => { const r = CA.integral(f, null, a, b); expect(r.ok && r.definite.value === v, JSON.stringify(r)); expect(r.rules.includes('I-09-FTC')); });
-T('CALCULUS', 'outside the antiderivative table → refused, never guessed (∫ sin(x²))', () => { const r = CA.integral('sin(x^2)'); expect(!r.ok && r.error === 'CALC_NOT_IN_TABLE'); const k = K(); expect(/cannot integrate/.test(derived(k.process('integrate sin(x^2)')))); });
-T('CALCULUS', 'kernel replies for trig/exp/log calculus are derived and re-verified', () => { const k = K(); for (const q of ['differentiate sin(x)*x^2', 'derivative of ln(x)', 'integrate sin(x) from 0 to pi', 'integrate x*sin(x) dx']) { const r = k.process(q); derived(r); expect(ids(r).includes('CALC-NUMERIC-CROSSCHECK'), q); } });
-T('CALCULUS', 'polynomial calculus path unchanged (GP-014)', () => { const k = K(); expect(derived(k.process('derivative of x^3')) === 'd/dx (x^3) = 3x^2.'); expect(/= 9\.$/.test(derived(k.process('integrate x^2 from 0 to 3')))); });
-T('ALGEBRA', 'rational function: GCD cancelled and the excluded point kept (x ≠ 1)', () => { const r = A.ratSimplify('(x^2-1)/(x-1)'); expect(r.ok && r.result === 'x + 1' && r.excluded.join() === '1'); const k = K(); const t = k.process('simplify (x^2-1)/(x-1)'); expect(derived(t) === 'The simplified form is x + 1. x ≠ 1.'); });
+function askCalc(q) {
+  const Ask = require('./ask_path.js'); const WF = require('../src/world_facts.js');
+  const n = WF.rows().length; const s = Ask.session(); const row = Ask.ask(s, q);
+  expect(s.phone.length === 0 && WF.rows().length === n, 'a math question stored a premise');
+  return row;
+}
+const calcOk = row => row && row.product_reply === true && row.echo && row.echo.pass === true && row.echo.method === 'computed_quantity_reparse' && row.calls_llm !== true && row.computed && row.computed.status === 'ok' && !(row.memory_write && row.memory_write.committed);
+T('CALCULUS', 'outside the antiderivative table → refused, never guessed (∫ sin(x²))', () => {
+  /* The elementary table still refuses this. The live integral does not invent an elementary formula.
+   * Fresnel S is the exact special function, and differentiating it recovers sin(x^2). The old reply was "cannot integrate". */
+  const r = CA.integral('sin(x^2)'); expect(!r.ok && r.error === 'CALC_NOT_IN_TABLE');
+  const row = askCalc('integrate sin(x^2)');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(calcOk(row) && res && res.elementary === false && res.special.join() === 'fresnels' && res.text === '√(π/2)·fresnels(√(2/π)·x) + C' && /not an elementary function/.test(row.reply) && row.reply.includes('+ C'), row.reply || row.route);
+});
+T('CALCULUS', 'kernel replies for trig/exp/log calculus are derived and re-verified', () => {
+  /* CALC-NUMERIC-CROSSCHECK was the old numeric cross-check id. The live re-verification is Echo recomputing the same tree.
+   * ln is stated for x > 0. The check is not a claim that the formula holds on the whole real line. */
+  const d = askCalc('differentiate sin(x)*x^2');
+  const ln = askCalc('derivative of ln(x)');
+  const def = askCalc('integrate sin(x) from 0 to pi');
+  const parts = askCalc('integrate x*sin(x) dx');
+  expect(calcOk(d) && d.computed.receipt.result.text === 'x^2·cos(x) + 2x·sin(x)' && d.computed.receipt.result.variable === 'x', d.reply);
+  expect(calcOk(ln) && ln.computed.receipt.result.text === '1/x' && ln.computed.receipt.result.domain.join() === 'x > 0' && ln.reply.includes('for x > 0'), ln.reply);
+  expect(calcOk(def) && def.reply === 'The definite integral of sin(x) from 0 to π is 2.' && def.computed.receipt.result.definite === true && !/\+ C/.test(def.reply), def.reply);
+  expect(calcOk(parts) && parts.computed.receipt.result.text === '-x·cos(x) + sin(x) + C' && parts.computed.receipt.result.elementary === true, parts.reply);
+});
+T('CALCULUS', 'polynomial calculus path unchanged (GP-014)', () => {
+  /* GP-014 locks the meaning atoms and severs an overclaim. The old phrase was "d/dx (x^3) = 3x^2." That template is not the guarantee.
+   * The derivative is 3x^2 and the definite integral is 9. */
+  const d = askCalc('derivative of x^3');
+  const n = askCalc('integrate x^2 from 0 to 3');
+  const banned = /proven scientifically|empirically confirmed|proves that reality|law of nature/;
+  expect(calcOk(d) && d.computed.receipt.result.text === '3x^2' && d.reply.includes('3x^2') && !banned.test(d.reply), d.reply);
+  expect(calcOk(n) && n.reply === 'The definite integral of x squared from 0 to 3 is 9.' && !/\+ C/.test(n.reply) && !banned.test(n.reply), n.reply);
+});
+T('ALGEBRA', 'rational function: GCD cancelled and the excluded point kept (x ≠ 1)', () => {
+  const r = A.ratSimplify('(x^2-1)/(x-1)'); expect(r.ok && r.result === 'x + 1' && r.excluded.join() === '1');
+  const row = askCalc('simplify (x^2-1)/(x-1)');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(calcOk(row) && res && res.text === 'x + 1' && res.excluded.length === 1 && res.excluded[0].value === '1' && res.excluded[0].multiplicity === 1 && row.reply.includes('x ≠ 1'), row.reply || row.route);
+});
 T('ALGEBRA', 'rational function already in lowest terms is left unchanged', () => { const r = A.ratSimplify('(x+1)/(x-1)'); expect(r.ok && r.result === '(x + 1)/(x - 1)' && !r.excluded.length); });
-T('ALGEBRA', 'exact cubic, one real root: Cardano closed form agrees with the numeric root', () => { const k = K(); const r = k.process('solve x^3 + x + 1 = 0'); expect(/x = ∛\(-1\/2 \+ √\(31\/108\)\) \+ ∛\(-1\/2 - √\(31\/108\)\)\./.test(derived(r)) && ids(r).includes('ALG-CUBIC-CARDANO')); });
-T('ALGEBRA', 'exact cubic, three real roots: trigonometric form (casus irreducibilis)', () => { const k = K(); const r = k.process('solve x^3 - 3x + 1 = 0'); expect(/2·cos\(⅓·arccos\(-1\/2\)\)/.test(derived(r)) && ids(r).includes('ALG-CUBIC-TRIGONOMETRIC')); });
+T('ALGEBRA', 'exact cubic, one real root: Cardano closed form agrees with the numeric root', () => {
+  /* ALG-CUBIC-CARDANO named this real cube-root form. The reply is that form, and Echo substitutes it back into the polynomial. */
+  const row = askCalc('solve x^3 + x + 1 = 0');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(calcOk(row) && /x = ∛\(-1\/2 \+ √\(31\/108\)\) \+ ∛\(-1\/2 - √\(31\/108\)\)\./.test(row.reply) && res && res.method === 'cardano' && res.multiplicities.join() === '1', row.reply || row.route);
+});
+T('ALGEBRA', 'exact cubic, three real roots: trigonometric form (casus irreducibilis)', () => {
+  /* ALG-CUBIC-TRIGONOMETRIC named this three-real-root form. All three roots are stated. */
+  const row = askCalc('solve x^3 - 3x + 1 = 0');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(calcOk(row) && /2·cos\(⅓·arccos\(-1\/2\)\)/.test(row.reply) && res && res.method === 'trigonometric' && res.multiplicities.length === 3 && res.solutions.length === 3, row.reply || row.route);
+});
 T('ALGEBRA', 'cubic closed forms evaluate back to the roots (1e-9)', () => { for (const c of [[1, 0, 1, 1], [1, 0, -3, 1], [1, -2, 0, -2], [2, -3, -3, 1]]) { const z = CA.cubicExact(...c); if (!z) continue; for (const r of z.roots) expect(Math.abs(c[0] * r.approx ** 3 + c[1] * r.approx ** 2 + c[2] * r.approx + c[3]) < 1e-9); } });
-T('ALGEBRA', 'rational-root cubic keeps exact integer roots (no closed-form clutter)', () => { const k = K(); const r = k.process('solve x^3 - 6x^2 + 11x - 6 = 0'); expect(derived(r) === 'x^3 - 6x^2 + 11x - 6 = 0 ⇒ x = 1 or x = 2 or x = 3.'); });
+T('ALGEBRA', 'rational-root cubic keeps exact integer roots (no closed-form clutter)', () => {
+  /* The old sentence used ⇒. The guarantee is the three simple integer roots, not a Cardano wrapping. */
+  const row = askCalc('solve x^3 - 6x^2 + 11x - 6 = 0');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(calcOk(row) && ['x = 1', 'x = 2', 'x = 3'].every(t => row.reply.includes(t)) && !/[∛√]/.test(row.reply) && res && res.method === 'rational' && res.multiplicities.join() === '1,1,1', row.reply || row.route);
+});
 T('ALGEBRA', 'no eval / new Function anywhere in shipped sources', () => { for (const f of fs.readdirSync(ROOT + '/src').filter(f => /\.js$/.test(f))) { const s = fs.readFileSync(ROOT + '/src/' + f, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, ''); expect(!/\beval\s*\(|new\s+Function\s*\(|set(?:Timeout|Interval)\s*\(\s*['"`]/.test(s), f); } });
 /* ---------- LIFECYCLE / BRIDGES / MEA ---------- */
 T('LIFECYCLE', 'every forge turn carries MSM lifecycle states captured → … → delivered|blocked', () => { const f = FF(); for (const q of ['remember that my car is red', 'is my car blue?', 'what is 2+2', 'zzqx']) { const r = f.process(q); const L = r.forge.w3.lifecycle.map(s => s.state); expect(L[0] === 'captured' && /delivered|blocked/.test(L.join()), q + ' ' + L); } });
