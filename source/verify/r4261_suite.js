@@ -97,8 +97,8 @@ function register(C, expect) {
     expect(admitted(ln) && ln.computed.receipt.result.text === '1/x' && ln.computed.receipt.result.domain.join() === 'x > 0', ln.reply);
     expect(bad.product_reply !== true && bad.reply == null && bad.computed.rule === 'MATH-UNPARSED', JSON.stringify(bad.computed));
     expect(mix.product_reply !== true && mix.reply == null && mix.computed.rule === 'MATH-VAR-AMBIGUOUS', JSON.stringify(mix.computed));
-    expect(admitted(fres) && fres.computed.receipt.result.elementary === false && /fresnels/.test(fres.reply) && /not an elementary function/.test(fres.reply), fres.reply);
-    expect(admitted(hole) && hole.computed.receipt.result.text === 'ln(x) + C' && hole.computed.receipt.result.domain.join() === 'x > 0' && hole.reply.includes('for x > 0'), hole.reply);
+    expect(admitted(fres) && fres.computed.receipt.result.elementary === false && fres.computed.receipt.result.recovery === 'derivative' && fres.computed.receipt.result.domain.join() === 'all real x' && /fresnels/.test(fres.reply) && /not an elementary function/.test(fres.reply), fres.reply);
+    expect(admitted(hole) && hole.computed.receipt.result.text === 'ln(x) + C' && hole.computed.receipt.result.primitive === 'positive-domain' && hole.computed.receipt.result.domain.join() === 'x > 0' && hole.reply.includes('for x > 0') && !/x ≠ 0|all real|x < 0/.test(hole.reply), hole.reply);
   });
   C('MATH-V3', 'a rational GCD keeps the excluded point, and a cubic keeps its real-root form', () => {
     const gcd = ask('simplify (x^2-1)/(x-1)');
@@ -109,7 +109,7 @@ function register(C, expect) {
     const ints = ask('solve x^3 - 6x^2 + 11x - 6 = 0');
     const rep = ask('solve x^3 - 4x^2 + 5x - 2 = 0');
     expect(admitted(gcd) && gcd.computed.receipt.result.text === 'x + 1' && gcd.computed.receipt.result.excluded[0].value === '1' && gcd.reply.includes('x ≠ 1'), gcd.reply);
-    expect(admitted(low) && low.computed.receipt.result.excluded.length === 0 && !/≠/.test(low.reply), low.reply);
+    expect(admitted(low) && low.computed.receipt.result.excluded.length === 0 && low.computed.receipt.result.domain[0].value === '1' && low.computed.receipt.result.domain[0].reason === 'denominator' && low.computed.receipt.result.finite_at_domain === false && low.reply.includes('x ≠ 1'), low.reply);
     expect(two.product_reply !== true && two.reply == null && two.computed.rule === 'MATH-VAR-AMBIGUOUS', JSON.stringify(two.computed));
     expect(admitted(card) && card.computed.receipt.result.method === 'cardano' && card.reply.includes('∛(-1/2 + √(31/108))'), card.reply);
     expect(admitted(trig) && trig.computed.receipt.result.method === 'trigonometric' && trig.computed.receipt.result.solutions.length === 3, trig.reply);

@@ -21,17 +21,64 @@ const REMEMBER = /^\s*(?:please\s+)?remember\s+(?:that\s+)?(\S.*?)\s*[.!]?\s*$/i
 let forge = null;
 function kernel() { return forge || (forge = FK.ForgeKernel({ store: K.MemoryStore(), lexicon: LEX, lexiconExt: EXT, clock: () => '2026-11-07T00:00:00Z' })); }
 function session() { return { phone: [] }; }
-function remember(s, text) {
+function copulaClash(rows, clause) {
+  const c = clause;
+  if (!c || !c.parsed || !c.kriya || !c.kartr || !c.pred) return false;
+  const subj = String(c.kartr.text || '').toLowerCase();
+  const pred = String((c.pred.np && c.pred.np.text) || c.pred.text || '').toLowerCase();
+  if (!subj || !pred || c.pred.type === 'cmp' || c.pred.type === 'pp' || c.pred.type === 'measure') return false;
+  return rows.some(r => {
+    const o = r && r.clause;
+    if (!o || !o.parsed || !o.kartr || !o.pred) return false;
+    const os = String(o.kartr.text || '').toLowerCase();
+    const op = String((o.pred.np && o.pred.np.text) || o.pred.text || '').toLowerCase();
+    return os === subj && op && op !== pred && o.pred.type !== 'cmp' && o.pred.type !== 'pp';
+  });
+}
+function stageHold(f, row, rule) {
+  const hw = f.store.load('held_writes');
+  const id = 'held:' + row.id;
+  if (!hw.some(x => x.id === id && x.status === 'held')) hw.push({ id, status: 'held', kind: 'phone_statement', text: row.text, clause: row.clause, input: row.text, sensitive: !!row.sensitive, perm_rule: rule, at: '2026-11-07T00:00:00Z' });
+  f.store.save('held_writes', hw);
+  return id;
+}
+/* Explicit Remember is the only statement write. The permission service decides it. A secret is stored only as the redacted sentence. */
+function remember(s, text, kernelOpt) {
   const m = String(text).match(REMEMBER);
   const said = m ? m[1].trim() : '';
   if (!said) return { ok: false, rule: 'REMEMBER-EMPTY' };
   if (/\?$/.test(said) || /^(?:what|who|whom|whose|which|when|where|why|how|is|are|was|were|do|does|did|can|could|will|would|should)\b/i.test(said)) return { ok: false, rule: 'REMEMBER-NOT-A-STATEMENT' };
-  if (Priv.redact(said).secrets.length) return { ok: false, rule: 'PRIV-SECRET-NOT-KEPT' };
-  const sentence = said.charAt(0).toUpperCase() + said.slice(1) + (/[.!]$/.test(said) ? '' : '.');
-  const clause = Q.clause(sentence, kernel());
-  const row = { id: 'rem-' + s.phone.length, text: sentence, clause, tier: 'phone', trust: 'trusted', scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', said: String(text) } };
+  const f = kernelOpt || kernel();
+  const red = Priv.redact(said);
+  const sensitive = red.secrets.length > 0;
+  if (sensitive && f.perm.policy().memoryApproval !== 'contested_or_sensitive') {
+    f.perm.authorize('memory.write', { explicit: true, userTap: true, sensitive: true, subject: 'sealed value' });
+    return { ok: false, held: false, sealing: false, rule: 'PRIV-SECRET-NOT-KEPT', permission: null, reply: null };
+  }
+  const body = sensitive ? red.text : said;
+  const sentence = body.charAt(0).toUpperCase() + body.slice(1) + (/[.!]$/.test(body) ? '' : '.');
+  const clause = Q.clause(sentence, f);
+  const contested = copulaClash(s.phone, clause);
+  const d = f.perm.authorize('memory.write', { explicit: true, userTap: true, sensitive, contested, subject: sentence });
+  const row = { id: 'rem-' + s.phone.length, text: sentence, clause, tier: 'phone', trust: 'trusted', scope: 'phone', sensitive, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user' } };
+  if (d.decision === 'needs_approval') {
+    const id = stageHold(f, row, d.rule);
+    return { ok: false, held: true, sealing: false, rule: d.rule, permission: d, held_id: id, reply: 'Held for approval: ' + sentence + ' Nothing was stored.', text: sentence };
+  }
+  if (d.decision !== 'allow') return { ok: false, held: false, sealing: false, rule: d.rule, permission: d, reply: null, text: sentence };
   s.phone.push(row);
-  return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: sentence, clause };
+  if (kernelOpt) {
+    const mem = f.store.load('memory');
+    mem.push({ id: row.id, kind: 'statement', text: row.text, clause: row.clause, status: 'active', sensitive, provenance: row.provenance });
+    f.store.save('memory', mem);
+  }
+  return { ok: true, held: false, sealing: false, rule: 'REMEMBER-BY-USER-REQUEST', permission: d, text: sentence, clause };
+}
+function confirmHeld(kernelOpt) {
+  const f = kernelOpt || kernel();
+  const held = (f.heldWrites() || []).filter(h => h.status === 'held');
+  if (!held.length) return { ok: false, held: false, rule: 'HELD-UNKNOWN', reply: null };
+  return { ok: false, held: true, sealing: false, rule: held[held.length - 1].perm_rule, reply: 'Held for approval. The kept fact was not replaced.' };
 }
 let POOLS = null;
 function productionPools() {
@@ -94,4 +141,4 @@ function askStored(question) {
   if (WF.rows().length !== n) throw new Error('ask stored a fact');
   return row;
 }
-module.exports = { session, remember, ask, askStored, kernel, productionPools };
+module.exports = { session, remember, confirmHeld, ask, askStored, kernel, productionPools };

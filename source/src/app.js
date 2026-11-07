@@ -236,14 +236,42 @@ async function rememberStatement(text) {
   const said = m ? m[1].trim() : '';
   if (!said) return { ok: false, rule: 'REMEMBER-EMPTY', message: 'Remember what? Say "remember that …" with a statement.' };
   if (/\?$/.test(said) || /^(?:what|who|whom|whose|which|when|where|why|how|is|are|was|were|do|does|did|can|could|will|would|should)\b/i.test(said)) return { ok: false, rule: 'REMEMBER-NOT-A-STATEMENT', message: 'That is a question, not a statement. Ask it, then say "remember this" to keep an admitted answer.' };
-  if (window.KPrivacy && KPrivacy.redact && KPrivacy.redact(said).secrets.length) return { ok: false, rule: 'PRIV-SECRET-NOT-KEPT', message: 'That looks like a secret (a password, key or card). It is not kept in plain memory; use the vault.' };
-  const sentence = said.charAt(0).toUpperCase() + said.slice(1) + (/[.!]$/.test(said) ? '' : '.');
+  const red = window.KPrivacy && KPrivacy.redact ? KPrivacy.redact(said) : { text: said, secrets: [] };
+  const sensitive = red.secrets.length > 0;
+  if (sensitive && (!forge || !forge.perm || forge.perm.policy().memoryApproval !== 'contested_or_sensitive')) {
+    if (forge && forge.perm) forge.perm.authorize('memory.write', { explicit: true, userTap: true, sensitive: true, subject: 'sealed value' });
+    return { ok: false, held: false, sealing: false, rule: 'PRIV-SECRET-NOT-KEPT', message: 'That looks like a secret (a password, key or card). It is not kept in plain memory; use the vault.' };
+  }
+  const body = sensitive ? red.text : said;
+  const sentence = body.charAt(0).toUpperCase() + body.slice(1) + (/[.!]$/.test(body) ? '' : '.');
+  const clause = window.KQFrame && KQFrame.clause ? KQFrame.clause(sentence, forge) : null;
+  let contested = false;
+  try {
+    const keptNow = rememberedRows();
+    contested = keptNow.some(r => {
+      const o = r && r.clause;
+      if (!clause || !clause.parsed || !o || !o.parsed || !clause.kartr || !o.kartr || !clause.pred || !o.pred) return false;
+      const subj = String(clause.kartr.text || '').toLowerCase() === String(o.kartr.text || '').toLowerCase();
+      const pred = String((clause.pred.np && clause.pred.np.text) || clause.pred.text || '').toLowerCase();
+      const op = String((o.pred.np && o.pred.np.text) || o.pred.text || '').toLowerCase();
+      return subj && pred && op && pred !== op && clause.pred.type !== 'cmp' && o.pred.type !== 'cmp';
+    });
+  } catch (e) { contested = false; }
+  const d = forge && forge.perm ? forge.perm.authorize('memory.write', { explicit: true, userTap: true, sensitive, contested, subject: sentence }) : { decision: 'allow', rule: 'PERM-EXPLICIT-REQUEST' };
+  if (d.decision === 'needs_approval') {
+    try {
+      const hw = forge.store.load('held_writes');
+      const id = 'held:' + (window.KSha && KSha.sha256 ? KSha.sha256(sentence.toLowerCase()).slice(0, 12) : String(hw.length + 1));
+      if (!hw.some(x => x.id === id && x.status === 'held')) hw.push({ id, status: 'held', kind: 'phone_statement', text: sentence, clause, input: sentence, sensitive, perm_rule: d.rule });
+      forge.store.save('held_writes', hw);
+    } catch (e) { /* the refusal still stores nothing */ }
+    return { ok: false, held: true, sealing: false, rule: d.rule, permission: d, message: 'Held for approval: ' + sentence + ' Nothing was stored.' };
+  }
+  if (d.decision !== 'allow') return { ok: false, held: false, sealing: false, rule: d.rule, permission: d, message: 'Not stored: ' + (d.rule || 'the write was not authorized') + '.' };
   const kept = rememberedRows();
   if (kept.some(x => x && String(x.text).toLowerCase() === sentence.toLowerCase())) return { ok: true, rule: 'REMEMBER-ALREADY-KEPT', text: sentence, message: 'Already remembered on this phone: ' + sentence };
   const id = 'rem-' + (window.KSha && KSha.sha256 ? KSha.sha256(sentence.toLowerCase()).slice(0, 12) : String(kept.length + 1));
-  /* 4.9.231 (plan 229 step 3): the statement is kept as its kāraka clause beside its text (the kernel's own parser) */
-  const clause = window.KQFrame && KQFrame.clause ? KQFrame.clause(sentence, forge) : null;
-  const row = { id, text: sentence, clause, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', said: String(text) }, remembered_at: new Date().toISOString() };
+  const row = { id, text: sentence, clause, scope: 'phone', sensitive, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user' }, remembered_at: new Date().toISOString() };
   const wf = keepWorldFact(row, 'remember');
   if (wf && wf.ok === false && /^WORLD-FACTS-CONFLICT/.test(wf.rule || '')) return { ok: false, rule: wf.rule, message: wf.message || 'Held: that contradicts a kept fact.', existing: wf.existing };
   kept.push(row);

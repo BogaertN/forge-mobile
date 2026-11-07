@@ -100,7 +100,7 @@ T('CALCULUS', 'outside the antiderivative table → refused, never guessed (∫ 
   const r = CA.integral('sin(x^2)'); expect(!r.ok && r.error === 'CALC_NOT_IN_TABLE');
   const row = askCalc('integrate sin(x^2)');
   const res = row.computed && row.computed.receipt && row.computed.receipt.result;
-  expect(calcOk(row) && res && res.elementary === false && res.special.join() === 'fresnels' && res.text === '√(π/2)·fresnels(√(2/π)·x) + C' && /not an elementary function/.test(row.reply) && row.reply.includes('+ C'), row.reply || row.route);
+  expect(calcOk(row) && res && res.elementary === false && res.recovery === 'derivative' && res.domain.join() === 'all real x' && res.special.join() === 'fresnels' && res.text === '√(π/2)·fresnels(√(2/π)·x) + C' && /not an elementary function/.test(row.reply) && row.reply.includes('+ C'), row.reply || row.route);
 });
 T('CALCULUS', 'kernel replies for trig/exp/log calculus are derived and re-verified', () => {
   /* CALC-NUMERIC-CROSSCHECK was the old numeric cross-check id. The live re-verification is Echo recomputing the same tree.

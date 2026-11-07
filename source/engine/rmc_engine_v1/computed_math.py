@@ -680,18 +680,38 @@ def _simplify_ratio(tree, sp):
         shown = _fmt_alg(sp.expand(qn.as_expr()), sp)
     else:
         shown = "(" + _fmt_alg(sp.expand(qn.as_expr()), sp) + ")/(" + _fmt_alg(sp.expand(qd.as_expr()), sp) + ")"
-    excluded = []
-    if g.degree() > 0:
-        for root, mult in sorted(sp.roots(g.as_expr(), x).items(), key=lambda kv: (not kv[0].is_rational, str(kv[0]))):
+    def roots_of(poly, reason):
+        found = []
+        if poly.degree() <= 0:
+            return found
+        for root, mult in sorted(sp.roots(poly.as_expr(), x).items(), key=lambda kv: (not kv[0].is_rational, str(kv[0]))):
             if root.is_rational:
-                excluded.append({"value": _fmt_frac(Fraction(int(root.p), int(root.q))), "multiplicity": int(mult)})
-    return {"var": var, "text": shown, "excluded": excluded}
+                found.append({"value": _fmt_frac(Fraction(int(root.p), int(root.q))), "multiplicity": int(mult), "reason": reason})
+        return found
+    excluded = roots_of(g, "cancelled") if g.degree() > 0 else []
+    poles = roots_of(qd, "denominator")
+    # Cancelling a factor does not widen the domain. A pole that was never cancelled stays undefined.
+    domain, seen = [], set()
+    for point in excluded + poles:
+        if point["value"] in seen:
+            continue
+        seen.add(point["value"])
+        domain.append(point)
+    finite = False if domain else None
+    for point in domain:
+        n, d = point["value"].split("/") if "/" in point["value"] else (point["value"], "1")
+        at = sp.Rational(int(n), int(d))
+        if den.subs(x, at) == 0:
+            continue
+        finite = True
+        break
+    return {"var": var, "text": shown, "excluded": excluded, "domain": domain, "finite_at_domain": finite}
 
 
 def _simplify_sentence(tree, sp) -> str:
     got = _simplify_ratio(tree, sp)
     sentence = "The simplified form of " + render(tree) + " is " + got["text"] + "."
-    for ex in got["excluded"]:
+    for ex in got["domain"]:
         sentence += " " + got["var"] + " ≠ " + ex["value"] + "."
     return sentence
 
@@ -1329,7 +1349,7 @@ def compute(question: str, u: dict[str, Any] | None = None) -> dict[str, Any]:
             if got is None:
                 return {"status": "uncomputable", "kind": "simplify", "rule": "MATH-UNCOMPUTABLE", "reason": "not a rational function of one variable"}
             sentence = _simplify_sentence(u["tree"], sp)
-            result = {"text": got["text"], "exact": True, "variable": got["var"], "excluded": got["excluded"]}
+            result = {"text": got["text"], "exact": True, "variable": got["var"], "excluded": got["excluded"], "domain": got["domain"], "finite_at_domain": got["finite_at_domain"]}
             expression = str(sp.together(_sym(u["tree"], sp)))
         elif u["kind"] == "derivative":
             v = sp.Symbol(u["var"])
@@ -1372,11 +1392,11 @@ def compute(question: str, u: dict[str, Any] | None = None) -> dict[str, Any]:
                     else:
                         text = None
                         sentence = "The integral of " + render(u["tree"]) + " with respect to " + u["var"] + " is not an elementary function."
-                    result = {"text": text, "exact": True, "definite": False, "variable": u["var"], "elementary": False, "special": _specials(anti, sp), "constant": "C" if shown else None}
+                    result = {"text": text, "exact": True, "definite": False, "variable": u["var"], "elementary": False, "special": _specials(anti, sp), "constant": "C" if shown else None, "recovery": "derivative", "domain": ["all real " + u["var"]]}
                 else:
                     text = _fmt_closed(sp.expand(anti), sp) + " + C"
                     sentence = "The integral of " + render(u["tree"]) + " with respect to " + u["var"] + " is " + text + (" for " + " and ".join(domain) if domain else "") + "."
-                    result = {"text": text, "exact": True, "definite": False, "variable": u["var"], "constant": "C", "elementary": True}
+                    result = {"text": text, "exact": True, "definite": False, "variable": u["var"], "constant": "C", "elementary": True, "primitive": "positive-domain" if domain else "entire"}
                 if domain:
                     result["domain"] = domain
             expression = str(expr)
