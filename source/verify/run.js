@@ -196,6 +196,7 @@ C('GRAMMAR-V3', 'how-old answered from measure phrase', () => { const k = FKN();
 C('GRAMMAR-V3', 'structural ambiguity → numbered readings → re-entry "1" resolves', () => { const k = FKN(); k.process('remember that my sister is tall'); const a = k.process('remember that I saw her duck'); expect(/readings/.test(a.reply), a.reply); const m = [...a.reply.matchAll(/\((\d)\) “([^”]+)”/g)].find(x => /verb: see, karma: her duck/.test(x[2])); expect(m, a.reply); const b = k.process(m[1]); expect(/I noted/.test(b.reply), b.reply); });
 C('GRAMMAR-V3', 'capitalised mid-sentence name kept as proper noun', () => { const r = FKN().process('remember that I met Bob on Monday'); expect(/Bob/.test(r.reply), r.reply); });
 require('./r4251_suite.js')(C, expect);
+require('./r4252_suite.js')(C, expect);
 /* INFERENCE */
 const infK = () => { const k = FKN(); k.process('remember that my sister lives in Paris'); k.process('remember that Paris is in France'); k.process('remember that France is in Europe'); k.process('remember that my dog is a poodle'); k.process("remember that Anna is my mother's sister"); return k; };
 C('INFERENCE', 'transitive located-in (2 hops)', () => { const r = infK().process('does my sister live in France?'); expect(/^Yes, I infer that/.test(r.reply), r.reply); });

@@ -163,15 +163,25 @@ def _specific(np: dict[str, Any]) -> bool:
 
 
 def _atom_np(text: str) -> dict[str, Any]:
+    """A noun phrase read off an atom string. A sentence-initial capital is not a name when the phrase
+    starts with a possessive determiner: "My pet" is the asker's pet, the same noun the question frame
+    parses as head pet, owner user. A bare capitalised name ("Rex", "New York") stays a proper noun."""
     t = str(text or "").strip()
     first = t.split()[0].lower() if t.split() else ""
-    out = {"text": t, "det": first if first in _DETS else None}
+    poss = _POSSESSIVE.match(t)
+    out: dict[str, Any] = {"text": t, "det": first if first in _DETS or poss else None}
     m = re.match(r"(?i)(.+?)\s+of\s+(.+)$", t)
     if m:
         ws = [w for w in m.group(1).split() if w.lower() not in _DETS]
         out["head"] = ws[-1] if ws else None
         out["of"] = {"text": m.group(2)}
-    if t[:1].isupper() and first not in _DETS and len(t.split()) <= 3:
+    if poss and not out.get("head"):
+        rest = [w for w in str(poss.group(3) or "").split() if w.lower() not in _DETS]
+        if rest:
+            out["head"] = rest[-1]
+        if str(poss.group(1) or "").lower() == "my":
+            out["owner"] = "user"
+    elif t[:1].isupper() and first not in _DETS and len(t.split()) <= 3:
         out["propn"] = t
     return out
 

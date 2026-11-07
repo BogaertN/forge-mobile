@@ -158,11 +158,16 @@
       return all.length === 1 ? all[0] : Object.assign({ schema: CLAUSE, text: String(text).trim(), parsed: all.every(c => c.parsed), calls_llm: false, sentences: all });
     } catch (e) { return { schema: CLAUSE, text: String(text || ''), parsed: false, error: String(e && e.message || e).slice(0, 200), calls_llm: false }; }
   }
-  /* a per-session cache: the same text always gives the same clause, so a pool is parsed once */
+  /* a per-session cache: the same text always gives the same clause, so a pool is parsed once.
+   * A failure is not cached. The extended lexicon attaches after the core, and a sentence that
+   * failed before that attachment can parse once it is there. A success stays cached. */
   const CACHE = new Map();
   function clauseCached(text, forge) {
     const k = String(text || ''); if (CACHE.has(k)) return CACHE.get(k);
-    const c = clause(k, forge); if (CACHE.size > 20000) CACHE.clear(); CACHE.set(k, c); return c;
+    const c = clause(k, forge);
+    const ok = c && (c.parsed || (c.clauses || []).some(x => x && x.parsed) || (c.sentences || []).some(x => x && (x.parsed || (x.clauses || []).some(y => y && y.parsed))));
+    if (ok) { if (CACHE.size > 20000) CACHE.clear(); CACHE.set(k, c); }
+    return c;
   }
   /* the subject NP alone, for a question whose full declarative will not parse: the longest prefix that parses as "NP is something" */
   function subjectOnly(forge, body) {
