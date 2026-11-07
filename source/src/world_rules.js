@@ -36,8 +36,9 @@
     { pred: 'mother_of', phrase: 'mother of', functional: 'object', one: { who: 'person', has: 'mother' } }, { pred: 'father_of', phrase: 'father of', functional: 'object', one: { who: 'person', has: 'father' } },
     { pred: 'greater_than', inverse: 'less_than', comparative: ['greater', 'more', 'larger'] }, { pred: 'less_than', inverse: 'greater_than', comparative: ['less', 'smaller', 'fewer'] },
     /* 4.9.63 ruling 5: the dimensional comparatives as data (inverse pairs; the order rules give asymmetry and transitivity). "longer" has no
-       declared inverse here: "shorter" is the inverse of "taller" only, so a longer/shorter question stays open-world (never a wrong No) */
+       declared inverse: "shorter" is the inverse of "taller" only, so a longer fact does not answer a shorter question. */
     { pred: 'taller_than', inverse: 'shorter_than', comparative: ['taller'] }, { pred: 'shorter_than', inverse: 'taller_than', comparative: ['shorter'] },
+    { pred: 'longer_than', comparative: ['longer'] },
     { pred: 'older_than', inverse: 'younger_than', comparative: ['older'] }, { pred: 'younger_than', inverse: 'older_than', comparative: ['younger'] },
     { pred: 'heavier_than', inverse: 'lighter_than', comparative: ['heavier'] }, { pred: 'lighter_than', inverse: 'heavier_than', comparative: ['lighter'] },
     { pred: 'wider_than', inverse: 'narrower_than', comparative: ['wider'] }, { pred: 'narrower_than', inverse: 'wider_than', comparative: ['narrower'] },

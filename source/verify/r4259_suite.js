@@ -52,6 +52,24 @@ function register(C, expect) {
     const stated = ask(['remember that Nia is older than Bo'], 'is Nia older than Bo?');
     expect(admitted(stated), stated.reply || stated.route);
   });
+  C('COMPARE', 'mass, width, elevation, depth, and length stay apart, and shorter follows height', () => {
+    const mass = ask(['remember that the crate is heavier than the drum in the hall', 'remember that the drum is heavier than the sack in the hall'], 'is the crate heavier than the sack in the hall?');
+    const split = ask(['remember that the crate is heavier than the drum in the hall', 'remember that the drum is heavier than the sack on the roof'], 'is the crate heavier than the sack?');
+    const cross = ask(['remember that the crate is heavier than the drum'], 'is the crate wider than the drum?');
+    const elev = ask(['remember that the crate is higher than the drum'], 'is the crate taller than the drum?');
+    const longer = ask(['remember that the rope is longer than the cord'], 'is the cord shorter than the rope?');
+    const height = ask(['remember that the rope is taller than the cord'], 'is the cord shorter than the rope?');
+    const both = ask(['remember that the rope is longer than the cord', 'remember that the rope is taller than the cord'], 'is the cord shorter than the rope?');
+    const self = ask(['remember that Nia is heavier than Bo', 'remember that Bo is heavier than Nia'], 'is Nia heavier than Nia?');
+    const neg = ask(['remember that Quo is heavier than Ola', 'remember that Ola is not lighter than Quo'], 'is Ola lighter than Quo?');
+    const one = ask(['remember that Quo is 180 cm tall'], 'is Quo taller than Ola?');
+    expect(admitted(mass) && mass.reply === 'The crate is heavier than the drum in the hall. The drum is heavier than the sack in the hall. The crate is heavier than the sack in the hall.' && mass.world_model.derive.survivor.how === 'WM-HEAVIER_THAN-CHAIN', mass.reply);
+    expect(split.product_reply !== true && cross.product_reply !== true && elev.product_reply !== true && longer.product_reply !== true && self.product_reply !== true && one.product_reply !== true, [split.reply, cross.reply, elev.reply, longer.reply, self.reply, one.reply].join(' | '));
+    expect(admitted(height) && /taller than the cord/.test(height.reply) && /shorter than the rope/.test(height.reply) && height.world_model.derive.survivor.how === 'WM-TALLER_THAN-INVERSE', height.reply);
+    expect(admitted(both) && /taller than the cord/.test(both.reply) && !/longer/.test(both.reply), both.reply);
+    const d = neg.world_model && neg.world_model.derive;
+    expect(neg.product_reply !== true && d && d.status === 'conflicted', (neg.reply || neg.route || '') + ' ' + (d && d.status));
+  });
   C('ORDER', 'a numeral above a numeral is not the thing-above-thing chain', () => {
     const other = ask(['remember that the score is above 10'], 'is the score above 5?');
     const same = ask(['remember that the score is above 10'], 'is the score above 10?');
