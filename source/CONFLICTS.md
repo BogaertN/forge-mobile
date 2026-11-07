@@ -10,6 +10,8 @@
 
 **Resolution:** The export and the plan list the same keys and the same structured rows. A missing depth or a height-and-mass reply holds. Two publishers' depth is the depth that is kept. C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. No hosted write. No cron.
 
+The Doc 9 runner `verify/run.js` still called `Kernel.process`, which 4.9.215 deleted. That call threw before a summary was written. The runner now records that deleted turn as `LEGACY-PROCESS` and still writes the summary. Checks that match the live Ask path moved to `verify/ask_path.js` (`verify/ask_contract.js`): qframe, the engine, outward compile, Echo, and an explicit remember that stores a clause and does not commit on Ask. A wrong arithmetic sentence fails computed Echo. Node's engine spawn also puts `_mathlibs` on `PYTHONPATH` when that directory is present, so a conversion sees the same pinned wheels the phone loads. Spatial "inside" chains, the old golden transcript, and the suites that still call `process` are not given a second reasoner. Step 16 would be the chain test, and it stays unbuilt.
+
 **Next, not this release** (plan 229 steps 14–16, unchanged):
 
 14. **Step 14. Athena writes clauses and rules, not just sentences.** The curator's admitted row includes the clause and the atom. Rules go through only when an existing contract already validates them. Gilligan rejects any row whose reparse does not equal the clause. Test: a tampered clause is rejected.

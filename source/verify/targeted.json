@@ -3,6 +3,7 @@
   "release": "4.9.249",
   "suites": [
     "r4249_suite.js",
+    "ask_contract.js",
     "r4245_suite.js",
     "r4248_suite.js",
     "r4247_suite.js",

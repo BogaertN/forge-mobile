@@ -11,14 +11,18 @@ function held(extra) { return Object.assign({ ok: false, engine: 'rmc_engine_v1'
 function askSync(payload) {
   if (typeof require !== 'function') return held({ error: 'browser_uses_worker' });
   const cp = require('child_process');
+  const fs = require('fs');
   const path = require('path');
-  const engine = path.join(__dirname, '..', 'engine');
+  const root = path.join(__dirname, '..');
+  const engine = path.join(root, 'engine');
+  const libs = path.join(root, '_mathlibs');
+  const pyPath = [engine].concat(fs.existsSync(libs) ? [libs] : []).join(path.delimiter);
   let r;
   try {
     r = cp.spawnSync(process.env.PYTHON || 'python3', ['-m', 'rmc_engine_v1.rmc_core'], {
       input: JSON.stringify(payload || {}),
       cwd: engine,
-      env: Object.assign({}, process.env, { PYTHONPATH: engine }),
+      env: Object.assign({}, process.env, { PYTHONPATH: pyPath }),
       encoding: 'utf8',
       timeout: 20000,
       maxBuffer: 8 * 1024 * 1024
