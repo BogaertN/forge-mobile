@@ -200,6 +200,7 @@ require('./r4252_suite.js')(C, expect);
 /* INFERENCE */
 require('./r4253_suite.js').original(C, expect);
 require('./r4253_suite.js').repaired(C, expect);
+require('./r4254_suite.js')(C, expect);
 C('INFERENCE', 'is-a via WordNet hypernyms', () => {
   const Ask = require('./ask_path.js'); const s = Ask.session();
   expect(Ask.remember(s, 'remember that my dog is a poodle').ok);

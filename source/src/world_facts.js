@@ -2,8 +2,11 @@
  * this store keeps explicit Remember facts on the device as clause facts so Derive can chain across turns. Spoken answers are not auto-written (a spoken answer must not become its own evidence).
  * Each row carries its text, clause, native phase (Φ, band, Hz), provenance, trust and SPC charge. Charge decays
  * with the Genesis Node half-life (168 h): C(t) = C0 · e^(−λt), λ = ln2 / 168. Collection drops charge below 0.05.
- * Bound: at most MAX rows by charge. A contradictory write (same kartṛ + kriyā, incompatible polarity or a second
- * referring identity) is refused — nothing is overwritten silently. Personal; no hosted writes. No model. */
+ * Bound: at most MAX rows by charge. A write is refused, never overwritten, when it is the same relation with the
+ * opposite polarity, or a second copular nominal or adjective of one subject. The relation is the kriyā, the kartṛ,
+ * and every complement the clause states (predicate, karma, adjunct role). A different complement is a different
+ * atom: "lives in Paris" does not contradict "does not live in France" until a proof relates them. Personal; no
+ * hosted writes. No model. */
 (function (root) {
   const SCHEMA = 'forge.world_facts/v1';
   const KEY = 'forge.world_facts.v1';
@@ -51,39 +54,53 @@
     return Object.assign({}, doc, { facts, as_of: iso });
   }
   function norm(t) { return String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, ''); }
+  /* The relation the world model would atomise: kriyā, kartṛ, and every complement role. Polarity is separate,
+   * so the same relation with the opposite polarity is one atom flipped, and a different complement is not. */
+  function identity(row) {
+    const c = row && row.clause;
+    const pol = (c && c.parsed && c.polarity) || (row && row.atom && row.atom.polarity) || 'pos';
+    const polarity = pol === 'neg' ? 'neg' : 'pos';
+    if (c && c.parsed && c.kriya && c.kartr && c.kartr.text) {
+      const slots = [];
+      let copula = null;
+      if (c.pred && (c.pred.text || (c.pred.np && c.pred.np.text))) {
+        if (c.pred.type === 'pp') slots.push('pp:' + norm(c.pred.prep) + ':' + norm((c.pred.np && c.pred.np.text) || c.pred.text));
+        else {
+          copula = norm((c.pred.np && c.pred.np.text) || c.pred.text);
+          slots.push('pred:' + norm(c.pred.type || 'np') + ':' + copula);
+        }
+      }
+      if (c.karma && c.karma.text) slots.push('karma:' + norm(c.karma.text));
+      for (const a of (Array.isArray(c.adj) ? c.adj : [])) {
+        if (!a) continue;
+        if (a.time) slots.push('kala:' + norm(a.time));
+        else if (a.np && a.np.text) slots.push(norm(a.role || 'adj') + ':' + norm(a.prep || '') + ':' + norm(a.np.text));
+      }
+      slots.sort();
+      return { pred: norm(c.kriya), subj: norm(c.kartr.text), slots: slots.join(';'), polarity, copula: c.kriya === 'be' && copula != null ? copula : null };
+    }
+    const a = row && row.atom;
+    if (a && a.predicate && Array.isArray(a.args) && a.args.length >= 2) {
+      const rest = a.args.slice(1).map(norm).join(';');
+      return { pred: norm(a.predicate), subj: norm(a.args[0]), slots: 'arg:' + rest, polarity, copula: norm(a.predicate) === 'is' ? rest : null };
+    }
+    return { pred: '', subj: '', slots: 'text:' + norm(row && row.text), polarity, copula: null };
+  }
   function atomKey(row) {
-    const a = row.atom; if (a && a.predicate && Array.isArray(a.args) && a.args.length >= 2)
-      return [String(a.predicate).toLowerCase(), norm(a.args[0]), String(a.polarity || 'pos')].join('|');
-    const c = row.clause; if (c && c.kriya && c.kartr && c.kartr.text)
-      return [String(c.kriya).toLowerCase(), norm(c.kartr.text), String(c.polarity || 'pos')].join('|');
-    return 'text|' + norm(row.text);
+    const id = identity(row);
+    return [id.pred, id.subj, id.slots, id.polarity].join('|');
   }
-  function predOf(row) {
-    const a = row.atom; if (a && Array.isArray(a.args) && a.args[1] != null) return norm(a.args[1]);
-    const c = row.clause; if (c && c.pred && c.pred.text) return norm(c.pred.text);
-    if (c && c.karma && c.karma.text) return norm(c.karma.text);
-    return null;
-  }
-  function referringClause(c) {
-    if (!c || !c.kartr) return false;
-    const k = c.kartr;
-    return !!(k.propn || k.owner || k.user || k.kernel || /^(the|this|that|my|your|his|her|its|our|their)\b/i.test(String(k.text || '')));
-  }
-  /* a new fact conflicts with a kept one when they share the atom key (same kriyā, kartṛ, polarity) but name a different
-   * predicate/karma — identity and kind membership of one subject do not silently replace each other; opposite polarity
-   * of the same args is also a conflict (handled by the key's polarity slot matching a flipped write below). */
+  /* Opposite polarity conflicts only when the complements are the same relation. A second copular nominal or
+   * adjective of one subject is still refused, so an identity is not silently replaced. A different adjunct,
+   * prepositional predicate, or karma is a different atom and is kept. */
   function conflictWith(doc, row) {
-    const key = atomKey(row), pred = predOf(row);
-    const flipPol = k => k.endsWith('|pos') ? k.slice(0, -3) + 'neg' : (k.endsWith('|neg') ? k.slice(0, -3) + 'pos' : null);
-    const flipped = flipPol(key);
+    const neu = identity(row);
     for (const old of doc.facts || []) {
       if (norm(old.text) === norm(row.text)) return null; /* same sentence is a no-op keep */
-      const ok = atomKey(old);
-      if (flipped && ok === flipped) return { rule: 'WORLD-FACTS-CONFLICT-POLARITY', existing: old };
-      if (ok === key) {
-        const op = predOf(old);
-        if (pred != null && op != null && pred !== op) return { rule: 'WORLD-FACTS-CONFLICT-PREDICATE', existing: old };
-      }
+      const o = identity(old);
+      if (!neu.pred || neu.pred !== o.pred || neu.subj !== o.subj) continue;
+      if (neu.slots === o.slots && neu.polarity !== o.polarity) return { rule: 'WORLD-FACTS-CONFLICT-POLARITY', existing: old };
+      if (neu.copula != null && o.copula != null && neu.polarity === o.polarity && neu.copula !== o.copula) return { rule: 'WORLD-FACTS-CONFLICT-PREDICATE', existing: old };
     }
     return null;
   }
