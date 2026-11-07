@@ -2,7 +2,7 @@
  *
  * One-variable equations and a pair of linear equations are the grammar's tree, then SymPy,
  * then computed_quantity Echo. A question does not write phone memory or world_facts.
- * Derivative and integral stay outside this file. Conversion states the exact fraction. Factor uses the operation frame.
+ * Conversion states the exact fraction. Factor, derivative, and integral use the operation frame.
  */
 const A = require('./ask_path.js');
 const WF = require('../src/world_facts.js');
@@ -63,6 +63,30 @@ function register(C, expect) {
     expect(admitted(rep) && rep.reply.includes('(x + 4)^2'), rep.reply);
     expect(irr.product_reply !== true && irr.reply == null && irr.computed.rule === 'MATH-IRREDUCIBLE', JSON.stringify(irr.computed));
     expect(bad.product_reply !== true && bad.reply == null && bad.computed.rule === 'MATH-UNPARSED', JSON.stringify(bad.computed));
+  });
+  C('MATH-V3', 'a derivative keeps its variable and a sum, and a constant power is the constant', () => {
+    const sum = ask('derivative of x^3 + 2x');
+    const one = ask('derivative of 1x^1');
+    const neg = ask('derivative of x^2 - 4x');
+    const second = ask('second derivative of x^4');
+    const mix = ask('derivative of x + y');
+    const bare = ask('derivative of 7');
+    const bad = ask('derivative of x^');
+    expect(admitted(sum) && sum.computed.receipt.result.text === '3x^2 + 2' && sum.computed.receipt.result.variable === 'x' && sum.computed.receipt.result.order === 1, sum.reply);
+    expect(admitted(one) && one.computed.receipt.result.text === '1', one.reply);
+    expect(admitted(neg) && neg.computed.receipt.result.text === '2x - 4', neg.reply);
+    expect(admitted(second) && second.computed.receipt.result.text === '12x^2' && second.computed.receipt.result.order === 2, second.reply);
+    expect(mix.product_reply !== true && mix.reply == null && mix.computed.rule === 'MATH-VAR-AMBIGUOUS', JSON.stringify(mix.computed));
+    expect(bare.product_reply !== true && bare.reply == null && bare.computed.rule === 'MATH-VAR-AMBIGUOUS', JSON.stringify(bare.computed));
+    expect(bad.product_reply !== true && bad.reply == null && bad.computed.rule === 'MATH-UNPARSED', JSON.stringify(bad.computed));
+  });
+  C('MATH-V3', 'an indefinite integral states + C, and a definite integral is the number', () => {
+    const ind = ask('integral of 2x');
+    const def = ask('integral of 2x from 0 to 3');
+    const bound = ask('integral of 2x from x to 3');
+    expect(admitted(ind) && ind.reply.includes('x^2') && ind.reply.includes('+ C') && ind.computed.receipt.result.definite === false && ind.computed.receipt.result.text === 'x^2 + C', ind.reply);
+    expect(admitted(def) && def.reply === 'The definite integral of 2 times x from 0 to 3 is 9.' && !/\+ C/.test(def.reply) && def.computed.receipt.result.definite === true, def.reply);
+    expect(bound.product_reply !== true && bound.reply == null && bound.computed.rule === 'MATH-BOUND-VARIABLE', JSON.stringify(bound.computed));
   });
   C('MATH-V3', 'the same system asked twice is the same sentence', () => {
     const a = ask('solve x + y = 4 and x - y = 2');

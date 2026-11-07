@@ -421,6 +421,34 @@ def _convert_exact(n: Fraction, src: str, dst: str):
     return n * a[2] / b[2], None, None
 
 
+def _fmt_alg(expr, sp) -> str:
+    """One expanded polynomial in the grammar's symbols: 3x^2 + 2, 4x, 0. Not a stored answer."""
+    e = sp.expand(expr)
+    if e == 0:
+        return "0"
+    if getattr(e, "is_rational", False) and e.is_Rational:
+        return _fmt_frac(Fraction(int(e.p), int(e.q)))
+    syms = list(e.free_symbols)
+    if len(syms) != 1:
+        return str(e).replace("**", "^")
+    v = syms.pop()
+    poly = sp.Poly(e, v)
+    bits = []
+    for exp, coeff in zip((m[0] for m in poly.monoms()), poly.coeffs()):
+        c = Fraction(int(coeff.p), int(coeff.q))
+        mag = -c if c < 0 else c
+        body = "" if exp > 0 and mag == 1 else _fmt_frac(mag)
+        if exp == 1:
+            body += str(v)
+        elif exp > 1:
+            body += str(v) + "^" + str(exp)
+        if not bits:
+            bits.append(("-" if c < 0 else "") + body)
+        else:
+            bits.append((" - " if c < 0 else " + ") + body)
+    return "".join(bits)
+
+
 def _fmt_factor(fac, sp) -> str:
     """The solver's factors, juxtaposed. Order is the text of each factor, so the form is stable and not a stored answer."""
     def one(node) -> str:
@@ -536,6 +564,61 @@ def understand(question: str) -> dict[str, Any] | None:
         if not _vars(tree):
             return {"status": "unparsed", "kind": "factor", "rule": "MATH-UNPARSED", "reason": "a constant has no factors"}
         return {"status": "ok", "kind": "factor", "tree": tree, "lib": "sympy", "asked": "the factors of " + render(tree)}
+    if isinstance(fr, dict) and fr.get("rule") == "QF-MATH-CALC" and fr.get("op") in ("derivative", "integral"):
+        if fr.get("malformed"):
+            return {"status": "unparsed", "kind": fr.get("op"), "rule": "MATH-UNPARSED", "reason": "the calculus phrase is incomplete"}
+        expr = _norm(str(fr.get("expr") or ""))
+        toks = tokenize(expr, allow_var=True)
+        try:
+            if toks is None:
+                raise ValueError("word")
+            tree = _parse_expr(toks)
+        except ValueError as exc:
+            return {"status": "unparsed", "kind": fr.get("op"), "rule": "MATH-UNPARSED", "reason": "the expression is outside the math grammar (" + str(exc) + ")"}
+        vs = _vars(tree)
+        named = str(fr.get("variable") or "") or None
+        if named and named not in vs:
+            return {"status": "ambiguous_var", "kind": fr.get("op"), "rule": "MATH-VAR-AMBIGUOUS", "reason": "the expression does not use " + named,
+                    "clarify": "The expression does not use " + named + "."}
+        if not named and len(vs) > 1:
+            return {"status": "ambiguous_var", "kind": fr.get("op"), "rule": "MATH-VAR-AMBIGUOUS", "reason": "which variable: " + ",".join(sorted(vs)),
+                    "clarify": "Which variable: " + " or ".join(sorted(vs)) + "?"}
+        if not named and not vs and not fr.get("bounds"):
+            return {"status": "ambiguous_var", "kind": fr.get("op"), "rule": "MATH-VAR-AMBIGUOUS", "reason": "the expression names no variable",
+                    "clarify": "Which variable?"}
+        var = named or (next(iter(vs)) if vs else None)
+        bounds = fr.get("bounds") if isinstance(fr.get("bounds"), dict) else None
+        lo = hi = None
+        if bounds:
+            for side, raw in (("lo", bounds.get("lo")), ("hi", bounds.get("hi"))):
+                bt = tokenize(str(raw or ""), allow_var=True)
+                try:
+                    if bt is None:
+                        raise ValueError("word")
+                    btree = _parse_expr(bt)
+                except ValueError as exc:
+                    return {"status": "unparsed", "kind": "integral", "rule": "MATH-UNPARSED", "reason": "a bound is outside the math grammar (" + str(exc) + ")"}
+                if _vars(btree):
+                    return {"status": "unparsed", "kind": "integral", "rule": "MATH-BOUND-VARIABLE", "reason": "a bound contains a variable"}
+                try:
+                    num = _exact(btree)
+                except ValueError:
+                    return {"status": "unparsed", "kind": "integral", "rule": "MATH-UNPARSED", "reason": "a bound is not a number"}
+                if side == "lo":
+                    lo = num
+                else:
+                    hi = num
+        order = fr.get("order")
+        try:
+            order = 1 if order is None else int(order)
+        except (TypeError, ValueError):
+            return {"status": "unparsed", "kind": fr.get("op"), "rule": "MATH-UNPARSED", "reason": "the derivative order is not a count"}
+        if order < 1:
+            return {"status": "unparsed", "kind": "derivative", "rule": "MATH-UNPARSED", "reason": "the derivative order is not a count"}
+        kind = "derivative" if fr.get("op") == "derivative" else "integral"
+        return {"status": "ok", "kind": kind, "tree": tree, "var": var, "order": order, "definite": bool(bounds),
+                "lo": None if lo is None else [lo.numerator, lo.denominator], "hi": None if hi is None else [hi.numerator, hi.denominator],
+                "lib": "sympy", "asked": kind + " of " + render(tree)}
     body = _LEAD.sub("", q).strip()
     has_digit = bool(re.search(r"\d", body)) or bool(re.search(r"\b(" + "|".join(_NUM_WORDS) + r")\b", body))
     # unit conversion
@@ -916,6 +999,41 @@ def compute(question: str, u: dict[str, Any] | None = None) -> dict[str, Any]:
             sentence = sentence[0].upper() + sentence[1:]
             result = {"text": text, "exact": True}
             expression = str(expr)
+        elif u["kind"] == "derivative":
+            v = sp.Symbol(u["var"])
+            expr = sp.expand(_sym(u["tree"], sp))
+            d = sp.diff(expr, v, int(u.get("order") or 1))
+            text = _fmt_alg(d, sp)
+            order = int(u.get("order") or 1)
+            sentence = "The derivative of " + render(u["tree"]) + " with respect to " + u["var"] + (" of order " + str(order) if order != 1 else "") + " is " + text + "."
+            result = {"text": text, "exact": True, "variable": u["var"], "order": order}
+            expression = str(expr)
+        elif u["kind"] == "integral":
+            expr = sp.expand(_sym(u["tree"], sp))
+            if u.get("definite"):
+                if not u.get("var"):
+                    v = sp.Symbol("_t")
+                    expr_d = expr
+                else:
+                    v = sp.Symbol(u["var"])
+                    expr_d = expr
+                lo, hi = Fraction(u["lo"][0], u["lo"][1]), Fraction(u["hi"][0], u["hi"][1])
+                val = sp.integrate(expr_d, (v, sp.Rational(lo.numerator, lo.denominator), sp.Rational(hi.numerator, hi.denominator)))
+                if not getattr(val, "is_rational", False) or not val.is_Rational:
+                    return {"status": "uncomputable", "kind": "integral", "rule": "MATH-UNCOMPUTABLE", "reason": "the definite integral is not an exact rational"}
+                text = _fmt_frac(Fraction(int(val.p), int(val.q)))
+                sentence = "The definite integral of " + render(u["tree"]) + " from " + _fmt_frac(lo) + " to " + _fmt_frac(hi) + " is " + text + "."
+                result = {"text": text, "exact": True, "definite": True, "variable": u.get("var"), "lo": _fmt_frac(lo), "hi": _fmt_frac(hi)}
+            else:
+                v = sp.Symbol(u["var"])
+                anti = sp.integrate(expr, v)
+                back = sp.expand(sp.diff(anti, v))
+                if sp.expand(back - expr) != 0:
+                    return {"status": "uncomputable", "kind": "integral", "rule": "MATH-DOMAIN", "reason": "differentiating the antiderivative does not recover the integrand on the whole line"}
+                text = _fmt_alg(anti, sp) + " + C"
+                sentence = "The integral of " + render(u["tree"]) + " with respect to " + u["var"] + " is " + text + "."
+                result = {"text": text, "exact": True, "definite": False, "variable": u["var"], "constant": "C"}
+            expression = str(expr)
         else:
             return {"status": "unparsed", "rule": "MATH-UNPARSED", "reason": "kind"}
     except ZeroDivisionError as exc:
@@ -1100,6 +1218,31 @@ def echo(question: str, reply: str, computed: dict[str, Any] | None) -> dict[str
                 return fail("the polynomial has no rational factor")
             fresh = _fmt_factor(fac, sp)
             ok = m.group(2) == fresh and sp.expand(fac - expr) == 0 and fresh != render(u["tree"])
+        elif u["kind"] == "derivative":
+            m = re.match(r"^the derivative of .+ is (.+)$", s, re.I)
+            if not m:
+                return fail("the reply is not the derivative")
+            v = sp.Symbol(u["var"])
+            fresh = _fmt_alg(sp.diff(sp.expand(_sym(u["tree"], sp)), v, int(u.get("order") or 1)), sp)
+            ok = m.group(1) == fresh
+        elif u["kind"] == "integral":
+            if u.get("definite"):
+                m = re.match(r"^the definite integral of .+ is (-?\d+(?:/\d+|\.\d+)?)(\s+\+ C)?$", s, re.I)
+                if not m or m.group(2):
+                    return fail("a definite integral is a number, not an antiderivative")
+                v = sp.Symbol(u["var"] or "_t")
+                lo, hi = Fraction(u["lo"][0], u["lo"][1]), Fraction(u["hi"][0], u["hi"][1])
+                val = sp.integrate(sp.expand(_sym(u["tree"], sp)), (v, sp.Rational(lo.numerator, lo.denominator), sp.Rational(hi.numerator, hi.denominator)))
+                ok = m.group(1) == _fmt_frac(Fraction(int(val.p), int(val.q)))
+            else:
+                m = re.match(r"^the integral of .+ is (.+) \+ C$", s, re.I)
+                if not m:
+                    return fail("an indefinite integral states the antiderivative and + C")
+                v = sp.Symbol(u["var"])
+                expr = sp.expand(_sym(u["tree"], sp))
+                anti = sp.integrate(expr, v)
+                back = sp.expand(sp.diff(anti, v))
+                ok = m.group(1) == _fmt_alg(anti, sp) and sp.expand(back - expr) == 0
         else:
             return fail("kind")
     except Exception as exc:

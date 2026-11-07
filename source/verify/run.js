@@ -256,8 +256,16 @@ C('MATH-V3', 'solve x + y = 3 and x - y = 1', () => {
   const row = askMath('solve x + y = 3 and x - y = 1');
   expect(mathOk(row) && row.reply.includes('x = 2') && row.reply.includes('y = 1'), row.reply || row.route);
 });
-C('MATH-V3', 'derivative of x^3 + 2x', () => { const r = FKN().process('derivative of x^3 + 2x'); expect((r.reply || '').includes('3x^2 + 2'), r.reply || r.block_reason); });
-C('MATH-V3', 'integral of 2x', () => { const r = FKN().process('integral of 2x'); expect((r.reply || '').includes('x^2'), r.reply || r.block_reason); });
+C('MATH-V3', 'derivative of x^3 + 2x', () => {
+  const row = askMath('derivative of x^3 + 2x');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(mathOk(row) && row.reply.includes('3x^2 + 2') && res && res.text === '3x^2 + 2' && res.variable === 'x' && res.order === 1, row.reply || row.route);
+});
+C('MATH-V3', 'integral of 2x', () => {
+  const row = askMath('integral of 2x');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(mathOk(row) && row.reply.includes('x^2') && row.reply.includes('+ C') && res && res.definite === false && res.text === 'x^2 + C', row.reply || row.route);
+});
 C('MATH-V3', 'convert 60 km/h to m/s', () => {
   const row = askMath('convert 60 km/h to m/s');
   const res = row.computed && row.computed.receipt && row.computed.receipt.result;
@@ -271,7 +279,7 @@ for (const u of ['hello', 'remember that my car is red', 'buy milk', 'solve x = 
 /* v3 generated grids */
 const sg = n => (n < 0 ? '- ' + -n : '+ ' + n);
 for (let a = -4; a <= 4; a++) for (let b = a; b <= 4; b++) { if (a === 0 || b === 0) continue; const B = -(a + b), Cc = a * b; const p = 'x^2 ' + (B ? sg(B) + 'x ' : '') + sg(Cc); C('MATH-V3', `factor ${p}`, () => { const row = askMath('factor ' + p); const f = z => z < 0 ? '(x + ' + -z + ')' : '(x - ' + z + ')'; expect(mathOk(row) && row.reply.includes(f(a)) && row.reply.includes(f(b)) && row.computed.kind === 'factor', (row.reply || row.route) + ' / ' + f(a) + f(b)); }); }
-for (let n = 1; n <= 6; n++) for (let c = 1; c <= 5; c++) C('MATH-V3', `derivative of ${c}x^${n}`, () => { const r = FKN().process(`derivative of ${c}x^${n}`); const e = n === 1 ? String(c) : (c * n) + (n - 1 === 1 ? 'x' : 'x^' + (n - 1)); expect((r.reply || '').includes(e), r.reply + ' / ' + e); });
+for (let n = 1; n <= 6; n++) for (let c = 1; c <= 5; c++) C('MATH-V3', `derivative of ${c}x^${n}`, () => { const e = n === 1 ? String(c) : (c * n) + (n - 1 === 1 ? 'x' : 'x^' + (n - 1)); const row = askMath(`derivative of ${c}x^${n}`); const res = row.computed && row.computed.receipt && row.computed.receipt.result; expect(mathOk(row) && row.reply.includes(e) && res && res.text === e && res.order === 1 && res.variable === 'x', (row.reply || row.route) + ' / ' + e); });
 for (let i = 1; i <= 25; i++) { const x = (i % 7) - 3, y = (i % 5) - 2; const eq = `x + y = ${x + y} and x - y = ${x - y}`; C('MATH-V3', `linear system ${eq}`, () => { const row = askMath('solve ' + eq); expect(mathOk(row) && row.reply.includes('x = ' + x) && row.reply.includes('y = ' + y), row.reply || row.route); }); }
 const ISA = [['poodle', 'dog'], ['poodle', 'animal'], ['sparrow', 'bird'], ['oak', 'tree'], ['salmon', 'fish'], ['violin', 'device'], ['hammer', 'tool'], ['sedan', 'car']];
 for (const [a, b] of ISA) C('INFERENCE', `WordNet is-a: my pet is a ${a} ⇒ ${b}`, () => {

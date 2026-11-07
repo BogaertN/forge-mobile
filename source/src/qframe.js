@@ -311,6 +311,35 @@
     if (/\d/.test(text) && /^[\d\s+\-*/^().=x×÷%,]+[?]?$/i.test(String(text).trim())) return Object.assign(f, { speech_act: 'compute', mood: 'expression', rule: 'QF-ARITH-EXPR' });
     /* "factor <polynomial>" is an operation frame. The math grammar parses the expression; the word is not an answer. */
     if (lw[0] === 'factor' && ws.length > 1) return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'factor', expr: ws.slice(1).join(' ').replace(/[?!.]+$/, ''), rule: 'QF-MATH-FACTOR' });
+    /* derivative / integral. The head word is the operation. Bounds and "with respect to" stay on the frame; they are not an answer. */
+    {
+      const ORD = { second: 2, third: 3, fourth: 4 };
+      let i = 0, order = null;
+      if (ORD[lw[0]] && lw[1] === 'derivative') { order = ORD[lw[0]]; i = 1; }
+      if ((lw[i] === 'derivative' || lw[i] === 'integral') && lw[i + 1] === 'of') {
+        let rest = ws.slice(i + 2).map(w => w.replace(/[?!.]+$/, ''));
+        let variable = null, bounds = null, malformed = rest.join('').trim() === '';
+        const at = word => rest.findIndex(w => w.toLowerCase() === word);
+        const respect = at('respect');
+        if (respect >= 0) {
+          if (!(rest[respect - 1] && rest[respect - 1].toLowerCase() === 'with' && rest[respect + 1] && rest[respect + 1].toLowerCase() === 'to' && rest[respect + 2])) malformed = true;
+          else { variable = rest[respect + 2].toLowerCase(); rest = rest.slice(0, respect - 1); }
+        }
+        const from = at('from');
+        if (!malformed && from >= 0) {
+          const to = rest.findIndex((w, j) => j > from && w.toLowerCase() === 'to');
+          if (to < 0 || to === from + 1) malformed = true;
+          else {
+            bounds = { lo: rest.slice(from + 1, to).join(' '), hi: rest.slice(to + 1).join(' ') };
+            if (!bounds.lo || !bounds.hi) malformed = true;
+            rest = rest.slice(0, from);
+          }
+        }
+        const expr = rest.join(' ').trim();
+        if (!expr) malformed = true;
+        return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: lw[i], expr: expr, order: order, variable: variable, bounds: bounds, malformed: malformed, rule: 'QF-MATH-CALC' });
+      }
+    }
     /* interjection-only turn (closed class INTJ): the act is left to the engine's concept reading */
     if (lw.every(w => has(w.replace(/[,!.]/g, ''), 'INTJ') || has(w.replace(/[,!.]/g, ''), 'PLEASE'))) return Object.assign(f, { speech_act: 'interjection', mood: 'interjection', rule: 'QF-INTJ' });
     /* 4.9.243 QF-WHAT-HAPPENS-IF: "What happens if C?" asks for the effect of intervention C.
