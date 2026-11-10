@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net; worker-src 'self' blob:; connect-src 'self' https://hqcvywujrygbnaowgwln.supabase.co https: http://localhost:* http://127.0.0.1:*; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; media-src 'self' blob: mediastream:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; manifest-src 'self'"><meta name="referrer" content="no-referrer"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08111c"><meta name="description" content="AI.Web Forge — mobile Bidirectional Language Kernel (no LLM): deterministic, traceable, forge2 contract spine, RMC memory">
+<title>PREVIEW 4.9.249 — Forge Mobile</title>
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head><body data-ui-shell="4.9.126" data-preview="4.9.249">
+<div id="previewBanner" style="position:sticky;top:0;z-index:10000;background:#b45309;color:#fff;text-align:center;font:700 14px/1.3 system-ui,sans-serif;padding:8px 12px;letter-spacing:.04em">PREVIEW 4.9.249</div>
+<header class="chrome">
+  <button id="railBtn" class="icon" aria-label="Open left rail">☰</button>
+  <div class="brand"><b>Forge Mobile</b> <span>Language Kernel</span><div class="buildnote" id="buildNote">no LLM · deterministic · forge2 contract spine</div></div>
+  <span id="lexBadge" class="badge">lexicon: loading…</span><button id="installBtn" class="icon" hidden aria-label="Install app">⤓</button>
+</header>
+<div id="errBanner" class="errbanner" role="alert" hidden></div>
+<nav id="tabs" class="toptabs" role="tablist">
+  <button data-tab="output" class="on" role="tab" aria-controls="output" aria-selected="true">Ask</button><button data-tab="custody" role="tab" aria-controls="custody" aria-selected="false">Custody</button><button data-tab="memory" role="tab" aria-controls="memory" aria-selected="false">Memory</button><button data-tab="ideas" role="tab" aria-controls="ideas" aria-selected="false">Ideas</button><button data-tab="audit" role="tab" aria-controls="audit" aria-selected="false">Audit</button><button data-tab="vault" role="tab" aria-controls="vault" aria-selected="false">Vault</button><button data-tab="echoforge" role="tab" aria-controls="echoforge" aria-selected="false">Tools</button><button data-tab="dryrun" role="tab" aria-controls="dryrun" aria-selected="false">Dry-Run</button><button data-tab="library" role="tab" aria-controls="library" aria-selected="false">Library</button><button data-tab="status" role="tab" aria-controls="status" aria-selected="false">Status</button>
+</nav>
+<aside id="rail" class="rail" hidden>
+  <div class="railhead">LEFT RAIL <button class="icon" id="railClose" aria-label="Close">✕</button></div>
+  <h5>STATE</h5><div id="railState" class="mono small"></div>
+</aside>
+<main>
+<section id="output" class="tab on" role="tabpanel">
+  <div class="badges" id="statusBadges"></div>
+  <div class="card ask"><div class="cardhead">Ask <span class="pill ok" data-claim="A-01">plan only</span><span class="pill">no LLM</span></div>
+    <div class="meta" data-starter-onboard>starter_pack on · Clear starter knowledge in Memory</div>
+    <div class="discover" data-discover="invent-compose">invent a hypothesis · compose that idea · suppose a story</div>
+    <form id="f"><textarea id="q" rows="2" autocomplete="off" placeholder="Ask anything. It will not execute commands." aria-label="Ask Forge"></textarea><button type="button" id="mic" aria-label="voice input (device speech recognition; text marked unverified)" title="voice input — unverified">🎤</button><button class="primary">Send</button></form></div>
+  <div id="ppe197" class="card" data-ppe197>
+    <div class="cardhead">Phase Parsing Engine <span class="pill">4.9.197</span><span class="pill">proposal v1</span></div>
+    <div class="small">Letter map places the packet. θ=(Φ−1)·40°. Birth ε 0, μ 1.0. M charge is −2, and the example −1 is flagged. No LLM. C_min stays 0.87.</div>
+    <div class="row">
+      <button type="button" id="ppe197Seeds" data-ppe197-run="seeds">Word packets</button>
+      <button type="button" id="ppe197Harper" data-ppe197-run="harper">Harper diff</button>
+      <button type="button" id="ppe197Drift" data-ppe197-run="drift">Drift signatures</button>
+    </div>
+    <div id="ppe197Body" class="mono small" data-ppe197-body>Loading the lexicon.</div>
+  </div>
+  <div id="growth198" class="card" data-growth198>
+    <div class="cardhead">Lexicon Growth <span class="pill">4.9.198</span><span class="pill">proposal v1</span></div>
+    <div class="small">An unknown word gets a resonance packet. θ=(Φ−1)·40°. Birth ε 0, μ 1.0. It stays provisional until C is at least 0.87, Echo is at least 0.85, and drift is under 0.3. A name seals at Φ7 when drift is under 0.2. Drift above 0.35 is quarantined. No LLM.</div>
+    <div class="row">
+      <button type="button" id="growth198Packets" data-growth198-run="packets">Novel packets</button>
+      <button type="button" id="growth198Promote" data-growth198-run="promote">Promote</button>
+      <button type="button" id="growth198Quarantine" data-growth198-run="quarantine">Quarantine</button>
+      <button type="button" id="growth198Recall" data-growth198-run="recall">Recall</button>
+      <button type="button" id="growth198Restart" data-growth198-run="restart">Restart</button>
+    </div>
+    <div id="growth198Body" class="mono small" data-growth198-body style="white-space:pre-wrap">Loading the growth tier.</div>
+  </div>
+  <div id="geometry199" class="card" data-geometry199>
+    <div class="cardhead">Geometry gates <span class="pill">4.9.199</span><span class="pill">RSOC numbers</span></div>
+    <div class="small">Phase 6 sits before naming and export. A seal needs closure of 2πn. Memory charge is conserved on the ledger. Unified Algebra forms are recorded. RSOC numbers win. No LLM. C_min stays 0.87.</div>
+    <div class="row">
+      <button type="button" id="geometry199Open" data-geometry199-run="open">Open loop</button>
+      <button type="button" id="geometry199Closure" data-geometry199-run="closure">Closure</button>
+      <button type="button" id="geometry199Charge" data-geometry199-run="charge">Charge</button>
+      <button type="button" id="geometry199Membrane" data-geometry199-run="membrane">Membrane</button>
+      <button type="button" id="geometry199Ops" data-geometry199-run="operators">Operators</button>
+    </div>
+    <div id="geometry199Body" class="mono small" data-geometry199-body style="white-space:pre-wrap">Loading the geometry gates.</div>
+  </div>
+  <div id="renderer200" class="card" data-renderer200>
+    <div class="cardhead">RMC renderer <span class="pill">4.9.200</span><span class="pill">no model</span></div>
+    <div class="small">A sentence plan is rendered from a template, decoded, and kept only when Echo is at least 0.85 against the question. A failing Echo returns no output. The answer stays on the question's loop. Tone follows charge. C_min stays 0.87.</div>
+    <div class="row">
+      <button type="button" id="renderer200Pass" data-renderer200-run="pass">Echo passes</button>
+      <button type="button" id="renderer200Echo" data-renderer200-run="echo">Echo fails</button>
+      <button type="button" id="renderer200Tone" data-renderer200-run="tone">Tone</button>
+      <button type="button" id="renderer200Anchor" data-renderer200-run="anchor">Loop anchor</button>
+      <button type="button" id="renderer200Hooks" data-renderer200-run="hooks">M and lambda</button>
+    </div>
+    <div id="renderer200Body" class="mono small" data-renderer200-body style="white-space:pre-wrap">Loading the RMC renderer.</div>
+  </div>
+  <div id="gilin201" class="card" data-gilin201>
+    <div class="cardhead">GILIN / CRP <span class="pill">4.9.201</span><span class="pill">internal checks</span></div>
+    <div class="small">Heartbeat coordinates two nodes inside π/4. CRP 0.78, warn 0.40, and C* 0.82 are logged and do not admit. Admission stays C 0.87 and drift at or under 0.35. Echo stays 0.85 against the question. No LLM.</div>
+    <div class="row">
+      <button type="button" id="gilin201Beat" data-gilin201-run="heartbeat">Heartbeat</button>
+      <button type="button" id="gilin201Crp" data-gilin201-run="crp">CRP 0.78</button>
+      <button type="button" id="gilin201Warn" data-gilin201-run="warn">Warn 0.40</button>
+      <button type="button" id="gilin201Star" data-gilin201-run="cstar">C* 0.82</button>
+      <button type="button" id="gilin201Law" data-gilin201-run="law">Law 0.87</button>
+      <button type="button" id="gilin201Skip" data-gilin201-run="skip">5 to 8</button>
+    </div>
+    <div id="gilin201Body" class="mono small" data-gilin201-body style="white-space:pre-wrap">Loading GILIN.</div>
+  </div>
+  <div id="selfseed202" class="card" data-selfseed202>
+    <div class="cardhead">Self-seeding anchors <span class="pill">4.9.202</span><span class="pill">no hand seed</span></div>
+    <div class="small">A question held for no premise is fetched from the allowlist. Sentences stay only when a lexicon packet phase-aligns with the question loop inside π/4. One tier-1 source or two hosts can corroborate. Echo stays 0.85 against the question. Wikipedia is a pointer, never an anchor. A failure waits out the backoff. C_min stays 0.87.</div>
+    <div class="row">
+      <button type="button" id="selfseedCleo" data-selfseed202-run="cleopatra">Cleopatra</button>
+      <button type="button" id="selfseedWw2" data-selfseed202-run="ww2">World War II</button>
+      <button type="button" id="selfseedAda" data-selfseed202-run="phase">Ada phase</button>
+      <button type="button" id="selfseedNoise" data-selfseed202-run="nonsense">Nonsense</button>
+      <button type="button" id="selfseedQuarantine" data-selfseed202-run="quarantine">Quarantine</button>
+      <button type="button" id="selfseedHamlet" data-selfseed202-run="hamlet">Hamlet</button>
+    </div>
+    <div id="selfseed202Body" class="mono small" data-selfseed202-body style="white-space:pre-wrap">Loading self-seed.</div>
+  </div>
+  <div id="freq203" class="card" data-freq203>
+    <div class="cardhead">Phase + frequency <span class="pill">4.9.203</span><span class="pill">proposal v1</span></div>
+    <div class="small">Each word keeps its master phase and adds a decimal frequency signature. The 144 Hz slot holds θ=(Φ−1)·40°. Resonance needs the master inside π/4, frequencies within ε=0.02 of the band marker, and phase agreement at least 0.87. The letter formula awaits Nic. RSOC operators are not FHRR. No LLM.</div>
+    <div class="row">
+      <button type="button" id="freq203Sun" data-freq203-run="sun">Sun signature</button>
+      <button type="button" id="freq203Related" data-freq203-run="related">Related words</button>
+      <button type="button" id="freq203Chart" data-freq203-run="chart">Collisions</button>
+      <button type="button" id="freq203Merge" data-freq203-run="merge">Merge</button>
+      <button type="button" id="freq203Membrane" data-freq203-run="membrane">Phase 6</button>
+      <button type="button" id="freq203Fracture" data-freq203-run="fracture">Fracture</button>
+      <button type="button" id="freq203Amplify" data-freq203-run="amplify">Amplify</button>
+      <button type="button" id="freq203Discharge" data-freq203-run="discharge">Discharge</button>
+      <button type="button" id="freq203Ban" data-freq203-run="ban">+120°</button>
+    </div>
+    <div id="freq203Chart" data-freq203-chart></div>
+    <div id="freq203Body" class="mono small" data-freq203-body style="white-space:pre-wrap">Loading the frequency signature.</div>
+  </div>
+  <div id="freq204" class="card" data-freq204>
+    <div class="cardhead">Frequency tuning <span class="pill">4.9.204</span><span class="pill">proposal v1</span></div>
+    <div class="small">Spelling fixes the starting decimals. Words co-admitted in a lawful answer attract by ζ cos²δ e^(−2.2|Δ|), with ζ = 0.12. Conflict pairs repel. A spacing spring stops the field collapsing onto one hertz. Only frequency offsets move. The 144 Hz glyph master does not. Phase 6 gates every write. C_min stays 0.87. No LLM.</div>
+    <div class="row">
+      <button type="button" id="freq204Sun" data-freq204-run="sun-light">Sun / light</button>
+      <button type="button" id="freq204Hot" data-freq204-run="sun-hot">Sun / hot</button>
+      <button type="button" id="freq204Far" data-freq204-run="unrelated">Unrelated</button>
+      <button type="button" id="freq204Undo" data-freq204-run="retract">Retract</button>
+      <button type="button" id="freq204Decay" data-freq204-run="decay">168 h</button>
+      <button type="button" id="freq204Membrane" data-freq204-run="membrane">Phase 6</button>
+      <button type="button" id="freq204Ban" data-freq204-run="ban">5→8</button>
+      <button type="button" id="freq204ChartBtn" data-freq204-run="chart">Collisions</button>
+    </div>
+    <div id="freq204Chart" data-freq204-chart></div>
+    <div id="freq204Body" class="mono small" data-freq204-body style="white-space:pre-wrap">Loading the tuning field.</div>
+  </div>
+  <div id="custodyStrip" class="custody-strip" data-custody-strip>Custody · Athena and Gilligan curate held questions</div>
+  <div id="rmcLive" class="card" hidden><div class="cardhead">RMC trace <span class="pill">Ask path</span></div><div id="rmcLiveBody" class="small"></div></div>
+  <div id="driftMonitor" class="card" data-drift-monitor>
+    <div class="cardhead">Drift monitor <span class="pill">v4.3</span><span class="pill">log only</span></div>
+    <div class="small">Stdlib drift core. No LLM. Φ5→Φ8 is the only categorical hard fire. Writes stay off in this card. C_min stays 0.87.</div>
+    <div class="row">
+      <button type="button" id="driftWorst" data-drift-run="worst">5→8 worst case</button>
+      <button type="button" id="driftSteps" data-drift-run="steps">3 drifts</button>
+      <button type="button" id="driftMask" data-drift-run="mask">Mask and restore</button>
+    </div>
+    <div id="driftMonitorBody" class="mono small" data-drift-body>Loading the drift trace.</div>
+  </div>
+  <div id="drift194" class="card" data-drift194>
+    <div class="cardhead">Breaker and analyzer <span class="pill">4.9.194</span><span class="pill">log only</span></div>
+    <div class="small">Three failures inside 0.7 s open the window. Two do not. Bands and classes are internal. No LLM. C_min stays 0.87.</div>
+    <div class="row">
+      <button type="button" id="drift194Window" data-drift194-run="window">3 fails in 0.7 s</button>
+      <button type="button" id="drift194Predict" data-drift194-run="predict">Prediction</button>
+      <button type="button" id="drift194Fail" data-drift194-run="failsafe">Failsafe and classes</button>
+    </div>
+    <div id="drift194Body" class="mono small" data-drift194-body>Loading the breaker.</div>
+  </div>
+  <div id="dpa195" class="card" data-dpa195>
+    <div class="cardhead">Dead path archive <span class="pill">4.9.195</span><span class="pill">write once</span></div>
+    <div class="small">A rewrite is rejected. The SHA-256 chain verifies. A ledger fork keeps the existing chain. No LLM. C_min stays 0.87.</div>
+    <div class="row">
+      <button type="button" id="dpa195Rewrite" data-dpa195-run="rewrite">Rewrite rejected</button>
+      <button type="button" id="dpa195Chain" data-dpa195-run="chain">Hash chain</button>
+      <button type="button" id="dpa195Fork" data-dpa195-run="fork">Fork resolved</button>
+    </div>
+    <div id="dpa195Body" class="mono small" data-dpa195-body>Loading the archive.</div>
+  </div>
+  <div id="tiers196" class="card" data-tiers196>
+    <div class="cardhead">Storage tiers <span class="pill">4.9.196</span><span class="pill">simulated clock</span></div>
+    <div class="small">Hot, Warm (SPC), Cold, then Deep ghost loop. The charge is the 168-hour decay. Resurrection needs all seven gates. No LLM. C_min stays 0.87.</div>
+    <div class="row">
+      <button type="button" id="tiers196Clock" data-tiers196-run="clock">Clock</button>
+      <button type="button" id="tiers196Gates" data-tiers196-run="gates">Seven gates</button>
+      <button type="button" id="tiers196Deep" data-tiers196-run="deep">Deep seal</button>
+    </div>
+    <div id="tiers196Body" class="mono small" data-tiers196-body>Loading the tiers.</div>
+  </div>
+  <div id="lexiconPacket" class="card" data-lexicon-packet><div class="cardhead">Lexicon packet <span class="pill">resonance</span></div><div id="lexiconPacketBody" class="small">Loading the seed lexicon.</div></div>
+  <div id="log" role="log" aria-live="polite" aria-label="Conversation"></div>
+  <div class="card"><div class="cardhead">Authority Boundary</div><div id="authBoundary" class="flags"></div></div>
+</section>
+<section id="custody" class="tab" role="tabpanel"><div id="custodyBody"></div><div id="homePcSim" data-home-pc-slot></div></section>
+<section id="vault" class="tab" role="tabpanel"><div class="card"><div class="cardhead">Mobile Identity Vault <span class="pill" id="vaultState">—</span></div><div class="small">Local encrypted store on this phone, not the full Identity Vault service. Forge cannot recover a lost passphrase.</div><div class="small">PINs, passwords, and keys become “sealed” in the kernel, trace, memory, and receipts. AES-GCM-256 with PBKDF2-SHA-256 on this device; never shown in chat.</div><form id="vaultForm" class="row"><input id="vaultPass" type="password" autocomplete="off" placeholder="vault passphrase (8+ characters)"><button id="vaultGo">Unlock</button><button type="button" id="vaultLock">Lock</button></form><div id="vaultMsg" class="meta"></div><div id="vaultReset"></div><div id="vaultList"></div></div><div id="vaultExtra"></div></section>
+<section id="echoforge" class="tab" role="tabpanel"><div class="card"><div class="cardhead">Tool Bench <span class="pill ok" data-claim="J-04">no LLM</span></div><div class="small">Deterministic tools. Tool Bench is not EchoForge. RMC Echo is not EchoForge. The tab id <code>echoforge</code> is a storage key. A tool runs only when the kernel selects its frame. Results are <b>evidence</b>, never authority. <code>echoforge-advisory</code> stays excluded.</div>
+  <form id="rsForm" class="row"><input id="rsIn" aria-label="research topic" placeholder="research a topic (tracker-free; results sealed in the vault)"><button class="primary">Research</button></form>
+  <form id="cpForm" class="row"><input id="cpIn" aria-label="page URL to capture" placeholder="https://… page to capture"><button>Capture page</button></form>
+  <form id="fpForm" class="row"><input id="fpIn" aria-label="fetch path URL" placeholder="your own node / proxy URL (https, optional)"><button>Set fetch path</button><button type="button" id="fpClear">Direct only</button></form><div id="benchMsg" class="small"></div></div>
+  <div id="labBody"></div>
+  <div id="benchBody"></div></section>
+<section id="memory" class="tab" role="tabpanel"><div class="bar"><button id="exportBtn">Export JSON</button><button id="refreshMem">Refresh</button></div><div id="memHealth" class="badges"></div><div id="memList"></div></section>
+<section id="dryrun" class="tab" role="tabpanel"><div class="card"><div class="cardhead">RMC Engine Dry-Run · Interactive Scenario Control <span class="pill ok" data-claim="C-08">READ-ONLY</span></div>
+  <div class="small">Runs the Python engine (rmc_core, the same engine as Ask) in dry-run on the memory Ask reads: stages 1–13 are measured, 14–16 are skipped. Nothing is spoken, remembered or written.</div>
+  <form id="drForm"><input id="drIn" placeholder="Deep dry-run scenario input"><button class="primary">Dry-run</button><button type="button" id="drReset">Reset scenario text</button></form></div><div id="drOut"></div></section>
+<section id="library" class="tab" role="tabpanel">
+  <form id="addC" class="card"><div class="cardhead">Admit a concept <span class="pill">Doc 4 · Doc 8 · quarantine → inspect → approve</span></div>
+    <input id="cSurf" aria-label="new word" placeholder="word (one lowercase word)"><input id="cGloss" aria-label="gloss" placeholder="meaning / gloss"><select id="cCat" aria-label="concept category"><option>entity</option><option>attribute</option><option>action</option><option>term</option></select><input id="cEx" placeholder="example sentence (optional)" aria-label="example sentence"><label class="small" for="cLic">Licence</label><select id="cLic"><option>user-owned</option><option>CC0-1.0</option><option>public-domain</option><option>CC-BY-4.0</option><option>CC-BY-SA-4.0</option><option>WordNet-3.0</option></select><input id="cEvd" placeholder="evidence: source, URL or “my own definition”" aria-label="evidence">
+    <label class="small"><input type="checkbox" id="cSup"> supersede my earlier version (creates a new version)</label><button>Quarantine and inspect</button><div id="cMsg" class="small" role="status" aria-live="polite"></div><div id="admQueue"></div></form>
+  <div class="card"><input id="lexFilter" placeholder="look up a word (WordNet 3.0) or filter controlled concepts…"><div id="lexCount" class="small"></div><div id="wnList"></div><div id="lexList"></div></div>
+  <div class="card" id="mathDoc"></div><div class="card" id="gp014Doc"></div></section>
+<section id="ideas" class="tab" role="tabpanel"><div id="ideasList"></div></section>
+<section id="audit" class="tab" role="tabpanel"><div class="bar"><button id="verifyAudit">Verify chain</button><button id="refreshAudit">Refresh</button></div><form id="pktVerify" class="card"><div class="cardhead">Verify packet</div><div class="small">Paste an exported turn packet. This check does not read the turn store.</div><textarea id="pktIn" rows="3" aria-label="exported turn packet" placeholder="FORGE-TURN-PACKET/v1 JSON"></textarea><button type="submit">Verify packet</button><div id="pktOut" class="small" role="status"></div></form><div id="auditHead" class="badges"></div><div id="auditList"></div></section>
+<section id="status" class="tab" role="tabpanel"><div id="statusBody"></div><div id="operatorBody"></div></section>
+</main>
+<script src="src/build-info.js"></script><script src="src/lexicon.js"></script><script src="src/sha256.js"></script><script src="src/knowledge.js"></script><script src="src/phase_codex.js"></script><script src="src/resonance_lexicon.js"></script><script src="src/kmath.js"></script><script src="src/drift_v43.js"></script><script src="src/algebra.js"></script><script src="src/units.js"></script><script src="src/grammar.js"></script><script src="src/world_rules.js"></script><script src="src/reason.js"></script><script src="src/infer.js"></script><script src="src/selfmodel.js"></script><script src="src/privacy.js"></script><script src="src/governance.js"></script><script src="src/hypothesis.js"></script><script src="src/evolve.js"></script><script src="src/containment.js"></script><script src="src/claims.js"></script><script src="src/features.js"></script><script src="src/release.js"></script><script src="src/toolbench.js"></script><script src="src/operator.js"></script><script src="src/crawler.js"></script><script src="src/archives.js"></script><script src="src/provenance.js"></script><script src="src/qcompile.js"></script><script src="src/evidence.js"></script><script src="src/dynamics.js"></script><script src="src/mea.js"></script><script src="src/mea_data.js"></script><script src="src/legal_flags.js"></script><script src="src/consent.js"></script><script src="src/echo_types.js"></script><script src="src/derive.js"></script><script src="src/calculus.js"></script><script src="src/sim.js"></script><script src="src/symbols.js"></script><script src="src/sonify.js"></script><script src="src/render.js"></script><script src="src/protoforge.js"></script><script src="src/drift_194.js"></script><script src="src/ede.js"></script><script src="src/mea_problems_data.js"></script><script src="src/mea_p.js"></script><script src="src/mea_k_data.js"></script><script src="src/mea_k.js"></script><script src="src/justify.js"></script><script src="src/forge_spine.js"></script><script src="src/msm.js"></script><script src="src/turn_packet.js"></script><script src="src/kstore.js"></script><script src="src/kaudit.js"></script><script src="src/kpacks.js"></script><script src="src/kmea_panels.js"></script><script src="src/panini_wording.js"></script><script src="src/kernel.js"></script><script src="src/migrate.js"></script><script src="src/ledger.js"></script><script src="src/genesis_collapse.js"></script><script src="src/phase_coherent_gates.js"></script><script src="src/dpa_195.js"></script><script src="src/tiers_196.js"></script><script src="src/ppe_lexicon_197.js"></script><script src="src/frequency_203.js"></script><script src="src/frequency_204.js"></script><script src="src/band_tuning.js"></script><script src="src/senses.js"></script><script src="src/lexicon_growth_198.js"></script><script src="src/research_hooks.js"></script><script src="src/geometry_199.js"></script><script src="src/relation_echo.js"></script><script src="src/rmc_renderer_200.js"></script><script src="src/gilin_crp_201.js"></script><script src="src/self_seed_202.js"></script><script src="src/sync.js"></script><script src="src/drift_export.js"></script><script src="src/platform.js"></script><script src="src/lifecycle.js"></script><script src="src/stubs.js"></script><script src="src/transitions.js"></script><script src="src/fscript.js"></script><script src="src/shared.js"></script><script src="src/economy.js"></script><script src="src/toolbuilder.js"></script><script src="src/doctor.js"></script><script src="src/sim3d.js"></script><script src="src/nodeclient.js"></script><script src="src/sb_sync.js"></script><script src="src/anchor_cache.js"></script><script src="src/contrib_cache.js"></script><script src="src/speech_acts.js"></script>
+<script src="src/world_facts.js"></script><script src="src/rmc_client.js"></script><script src="src/rmc_core.js"></script><script src="src/next_layer.js"></script><script src="src/forge.js"></script><script src="src/req_packet.js"></script><script src="src/qframe.js"></script><script src="src/app.js"></script><script src="src/app_bench.js"></script><script src="src/pycheck.js"></script><script src="src/sim_device.js"></script><script src="src/app_lab.js"></script><script src="src/app_extra.js"></script><script src="src/app_account.js"></script><script src="src/gilligan_codex.js"></script><script src="src/claim_parse.js"></script><script src="src/athena_doc.js"></script><script src="src/dream_idle.js"></script><script src="src/forge_tools.js"></script><script src="src/pipeline_tools.js"></script><script src="src/curators_208.js"></script><script src="src/neo.js"></script><script src="src/app_curators.js"></script><script src="src/app_custody.js"></script>
+</body></html>
