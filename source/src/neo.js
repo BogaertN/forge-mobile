@@ -5,7 +5,9 @@
   function create(o) {
     o = o || {};
     let answering = false, last = 0, running = false, log = [];
+    const traces = {};
     const now = () => (o.now ? o.now() : Date.now());
+    const qkey = q => String(q || '').replace(/\s+/g, ' ').trim().toLowerCase().replace(/[?.!\s]+$/, '');
     const note = (rule, extra) => {
       log.push(Object.assign({ at: now(), who: 'neo', rule: rule, calls_llm: false }, extra || {}));
       if (log.length > 40) log = log.slice(-40);
@@ -22,7 +24,7 @@
       if (!c || !c.noteHeld) return { ok: false, rule: 'NEO-NO-QUEUE' };
       const r = c.noteHeld(question, row, extra);
       if (r && r.rule === 'CURATE-GAP-KNOWN') note('NEO-DEDUPED', { question: question });
-      else if (r && r.ok) note('NEO-QUEUED', { question: question });
+      else if (r && r.ok) { note('NEO-QUEUED', { question: question }); traces[qkey(question)] = [{ event: 'held', calls_llm: false }]; }
       return r;
     }
     async function tick() {
@@ -34,7 +36,16 @@
       try {
         const out = await c.tick();
         const rule = out && out.rule || 'NEO-TICK';
-        note(rule === 'ATHENA-BACKOFF' ? 'NEO-BACKOFF' : 'NEO-TICK', { result: rule, to: out && out.to, question: out && out.rec && out.rec.question });
+        const question = out && out.rec && out.rec.question;
+        const events = [
+          { event: 'held', calls_llm: false },
+          { event: 'neo', rule: 'NEO-TICK', calls_llm: false },
+          { event: 'athena', rule: out && out.rec && out.rec.athena || null, calls_llm: false },
+          { event: 'gilligan', rule: rule, calls_llm: false }
+        ];
+        if (question) traces[qkey(question)] = events;
+        if (out) out.events = events;
+        note(rule === 'ATHENA-BACKOFF' ? 'NEO-BACKOFF' : 'NEO-TICK', { result: rule, to: out && out.to, question: question });
         return Object.assign({ scheduler: 'neo', calls_llm: false }, out || {});
       } finally { running = false; }
     }
@@ -46,7 +57,12 @@
       last = now();
       return tick();
     }
-    return { step: step, tick: tick, setAnswering: setAnswering, noteHeld: noteHeld, log: () => log.slice(), answering: () => answering };
+    function forQuestion(q) { return (traces[qkey(q)] || []).slice(); }
+    function resumeTrace(events) {
+      const base = (events || []).filter(e => e && e.event !== 'resumed');
+      return base.concat([{ event: 'resumed', calls_llm: false }]);
+    }
+    return { step: step, tick: tick, setAnswering: setAnswering, noteHeld: noteHeld, log: () => log.slice(), forQuestion: forQuestion, resumeTrace: resumeTrace, answering: () => answering };
   }
   const api = { create: create };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KNeoLib = api;
