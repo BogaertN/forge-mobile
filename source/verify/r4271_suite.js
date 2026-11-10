@@ -16,6 +16,19 @@ function register(C, expect) {
     const again = AP.ask(s, 'is a wren an animal?');
     expect(kept.ok && kept.text === 'A wren is an animal.' && s.phone.length === 3, JSON.stringify(kept));
     expect(again.product_reply === true && again.reply === 'A wren is an animal.' && again.calls_llm === false, JSON.stringify({ reply: again.reply, calls: again.calls_llm }));
+    const derive = asked.world_model && asked.world_model.derive;
+    const survivor = derive && derive.survivor;
+    const outward = asked.outward;
+    const roles = outward && (outward.sentences || []).map(x => x.role);
+    const keys = Object.keys(asked.trace || {});
+    const layer = ['input', 'memory', 'world_model', 'admit', 'echo', 'output'];
+    const layerOrder = layer.every((k, i) => keys.indexOf(k) > (i ? keys.indexOf(layer[i - 1]) : -1));
+    expect(derive && derive.status === 'supported_only' && survivor && survivor.how === 'WM-COPULA-CHAIN' && survivor.checker_ok === true, JSON.stringify({ status: derive && derive.status, how: survivor && survivor.how }));
+    expect(roles && roles.join(',') === 'premise,premise,conclusion' && outward.sentences[2].atom.args.join('|') === 'a wren|an animal' && asked.echo && asked.echo.pass === true && asked.admit && asked.admit.disposition === 'admit' && layerOrder, JSON.stringify({ roles, keys }));
+    const next = AP.session();
+    next.phone.push(s.phone[2]);
+    const recalled = AP.ask(next, 'is a wren an animal?');
+    expect(recalled.product_reply === true && recalled.reply === 'A wren is an animal.', JSON.stringify({ reply: recalled.reply }));
   });
 }
 module.exports = register;
