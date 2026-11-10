@@ -230,6 +230,7 @@ function Curators(o) {
       inflight = gap;
       let out;
       try { out = await curate(gap); } catch (e) { out = { to: gap.attempts >= MAX_ATTEMPTS ? 'cold' : 'queue', rec: { key: gap.key, question: gap.question, rule: 'CURATE-ENGINE-ERROR', error: String(e && e.message || e).slice(0, 200), at: now() } }; }
+      if (out && out.rec) out.rec.athena = gap.research && gap.research.rule || null;
       if (out.to === 'queue') st.queue.push(Object.assign(gap, { last: out.rec.rule }));
       else st[out.to].push(out.rec);
       for (const k of ['admitted', 'pending', 'quarantine', 'cold']) if (st[k].length > 200) st[k] = st[k].slice(-200);

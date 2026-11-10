@@ -509,6 +509,10 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
    * The engine's proposal waits for "remember …" or the Remember tap (rememberAnswer). */
   /* 4.9.229's after-the-engine sense ask moved above the engine run (4.9.235): the meaning is asked first, never after an answer. */
   const admitted = !!(row && row.product_reply && row.reply);
+  if (admitted && window.KNeo && KNeo.forQuestion && KNeo.resumeTrace) {
+    const prior = KNeo.forQuestion(qtext);
+    if (prior.some(e => e && e.event === 'held')) row.resume_trace = KNeo.resumeTrace(prior);
+  }
   if (whyReplay) { /* the follow-up does not replace the derivation it explained */ }
   else if (admitted && window.KRMCCore && KRMCCore.whySnapshot) { whyPrior = KRMCCore.whySnapshot(row, qtext); if (whyPrior && whyPrior.rejected) whyPrior = null; lastAdmitted = row; }
   else { whyPrior = null; if (admitted) lastAdmitted = row; }
@@ -537,11 +541,13 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const oc = row && row.outward_compile;
   const ocTag = oc ? '<span class="tag" data-outward="' + esc(oc.applied ? oc.mode : (oc.rule || oc.mode || 'none')) + '">' + (oc.applied ? 'outward ' + esc(oc.mode) : esc(oc.rule || ('outward ' + (oc.mode || 'none')))) + '</span>' : '';
   const ocQuotes = admitted && oc && oc.applied && (oc.quotes || []).length ? '<div class="small" data-source-quotes>' + oc.quotes.map(q => '<q data-source-quote="' + esc(q.id) + '">' + esc(q.text) + '</q> <span class="small">(' + esc(q.source) + ')</span>').join(' ') + '</div>' : '';
+  const resume = row && row.resume_trace;
+  const resumeTag = resume && resume.length ? '<div class="small" data-resume-trace="' + esc(resume.map(e => e.event).join('>')) + '">' + esc(resume.map(e => e.event + (e.rule ? ' ' + e.rule : '')).join(' → ')) + '</div>' : '';
   /* 4.9.216 computed tier: a math question that was not computed says why (or asks which unit), in the engine's words. */
   const comp = row && row.computed;
   const compNote = !admitted && comp && comp.status !== 'ok' ? ' <span data-computed-held="' + esc(comp.status) + '">' + (comp.clarify ? esc(comp.clarify) : 'Math not computed: ' + esc(comp.reason || comp.rule || comp.status) + '.') + (row.libs && row.libs.error ? ' Math libraries did not load (' + esc(row.libs.error) + ').' : '') + '</span>' : '';
   const compTag = admitted && comp && comp.status === 'ok' && comp.receipt && comp.receipt.receipt_id ? '<span class="tag" data-computed-receipt="' + esc(comp.receipt.receipt_id) + '">computed · ' + esc(comp.receipt.receipt_id) + '</span>' : '';
-  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span>' + compTag + relTag + ocTag + (admitted && row.memory_write && row.memory_write.write_gate && !row.memory_write.write_gate.ok ? '<span class="tag" data-write-gate>not storable: ' + esc((row.memory_write.write_gate.failed || []).join(', ')) + '</span>' : '') + '<div data-ask-body data-answer-source="' + (admitted ? (oc && oc.applied ? 'panini_wording.outward' : 'rmc_engine_v1.output_renderer') : 'hold') + '">' + body + compNote + '</div>' + ocQuotes + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
+  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span>' + compTag + relTag + ocTag + (admitted && row.memory_write && row.memory_write.write_gate && !row.memory_write.write_gate.ok ? '<span class="tag" data-write-gate>not storable: ' + esc((row.memory_write.write_gate.failed || []).join(', ')) + '</span>' : '') + '<div data-ask-body data-answer-source="' + (admitted ? (oc && oc.applied ? 'panini_wording.outward' : 'rmc_engine_v1.output_renderer') : 'hold') + '">' + body + compNote + '</div>' + ocQuotes + resumeTag + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
   if (rememberBtn) { const card = log.lastElementChild; const btn = card.querySelector('[data-ask-remember]'); btn.onclick = async () => { btn.disabled = true; const r = await rememberAnswer(row, 'tap'); btn.textContent = r.ok ? 'Remembered' + (r.supabase && r.supabase.ok ? ' · shared' : ' · on this phone') : 'Not remembered'; }; }
   log.lastElementChild.scrollIntoView({ block: 'end' });
   renderRmc(qtext, row);
