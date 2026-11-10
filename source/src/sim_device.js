@@ -77,6 +77,7 @@
         if (!obo) return null;
         const term = await (await fetchT('https://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms?obo_id=' + encodeURIComponent(obo), 4000)).text();
         const agreed = await pyCall({ op: 'chem', name: name, pub: pub, term: term });
+        if (agreed && (agreed.held || []).some(h => h && h.reason === 'publishers_disagree')) return agreed;
         return agreed && agreed.ok && agreed.ok.length ? agreed.ok : null;
       }
       if (kind === 'body' || problem.missing === 'radius') {
@@ -224,13 +225,8 @@
         const cont = await pyCall({ op: 'continue', frame: frame, prior: lastScene });
         if (cont && cont.question) { question = cont.question; frame = frameOf(question); }
       }
+      /* The Ask itself does not fetch. Neo's tick researches a held gap, and the admitted clause comes back as a premise. */
       let pl = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory) });
-      if (pl && pl.problem && !pl.problem.ok) {
-        if (specific) pl.problem.specific = true;
-        const facts = await athenaFacts(pl.problem);
-        if (facts && facts.ask) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'ask', ask: simAsk(q, pl.problem, facts.word), calls_llm: false };
-        else if (facts) pl = await pyCall({ op: 'plan', question: question, frame: frame, facts: facts, memory: memoryRows(memory) });
-      }
       const p = pl && pl.problem;
       if (p && p.ok && p.scene) lastScene = { question: question, scene: p.scene };
       if (out && out.status === 'ask') { /* the follow-up turn owns this question */ }
@@ -292,6 +288,24 @@
     $('homePcTest').onclick = async () => { status('Testing…'); const r = await testConnection($('homePcUrl').value); status(r.ok ? 'Connected. Solvers: ' + ((r.health.solvers || []).map(s => s.name + (s.installed === false ? ' (not installed)' : '')).join(', ') || 'none') : r.status === 'bad_address' ? 'That address is not allowed.' : 'Could not reach it (' + r.status + ').'); };
     $('homePcClear').onclick = () => { try { root.localStorage.removeItem(LS_ROUTER); } catch (e) {} $('homePcUrl').value = ''; status('Cleared. Heavy simulations are held.'); };
   }
-  root.KSimDevice = { simulate, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
+  async function research(gap) {
+    const sim = (gap && gap.gap && gap.gap.sim) || (gap && gap.sim) || {};
+    const frame = gap && gap.gap && gap.gap.qframe;
+    const owned = np => np && (np.user || np.owner === 'user' || owned(np.of) || owned(np.owner));
+    if (owned(frame && frame.kartr) || owned(frame && frame.karma)) return { rule: 'ATHENA-PERSONAL', proposals: [], calls_llm: false, supabase_write: false };
+    const facts = await athenaLookup(sim);
+    const ledger = root.FORGE_LEDGER || null;
+    const question = (gap && gap.question) || '';
+    if (facts && !Array.isArray(facts) && (facts.held || []).some(h => h && h.reason === 'publishers_disagree')) {
+      const booked = await pyCall({ op: 'propose', facts: [], question: question, ledger: ledger, disagreed: true, rule: 'ATHENA-DISAGREEMENT' });
+      if (booked && booked.ledger) root.FORGE_LEDGER = booked.ledger;
+      return { rule: 'ATHENA-DISAGREEMENT', proposals: [], held: facts.held, ledger: booked && booked.ledger, calls_llm: false, supabase_write: false };
+    }
+    if (!facts || !facts.length) return { rule: 'ATHENA-NO-AGREEMENT', proposals: [], calls_llm: false, supabase_write: false };
+    const proposed = await pyCall({ op: 'propose', facts: facts, question: question, ledger: ledger });
+    if (proposed && proposed.ledger) root.FORGE_LEDGER = proposed.ledger;
+    return proposed && proposed.proposals ? proposed : { rule: 'ATHENA-NO-AGREEMENT', proposals: [], ledger: proposed && proposed.ledger, calls_llm: false, supabase_write: false };
+  }
+  root.KSimDevice = { simulate, research, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
   if (root.document) { if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', renderSettings); else renderSettings(); }
 })(typeof self !== 'undefined' ? self : this);

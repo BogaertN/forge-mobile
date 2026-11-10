@@ -124,6 +124,25 @@ async function simulateViaRouter(question) {
   finally { if (timer) clearTimeout(timer); }
 }
 
+function athenaPremises(rows) {
+  const G = window.KGrammar;
+  const out = [];
+  for (const f of rows || []) {
+    if (!f || f.gilligan !== 'GILLIGAN-STRUCTURE-OK' || f.phone_remember === true || !f.frame) continue;
+    const prop = String(f.property || ''), head = String(f.head || ''), value = f.value == null ? '' : String(f.value);
+    if (!prop || !head || !value) continue;
+    const shown = f.unit ? value + ' ' + f.unit : value;
+    let text = 'the ' + prop + ' of ' + head + ' is ' + shown;
+    if (G && G.clauseText) {
+      try { text = G.clauseText({ subj: { det: 'the', head: [prop], of: { head: [head] } }, verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' }, pred: { type: 'np', np: { head: [shown] } } }, 'kernel'); } catch (e) { /* the frame still carries the meaning */ }
+    }
+    const pubs = Array.isArray(f.publishers) ? f.publishers : [];
+    out.push({ id: 'athena:' + head + ':' + prop, text: text, clause: f.frame, contributor: 'athena', phone_remember: false, calls_llm: false,
+      provenance: { method: f.method || 'lookup', publishers: pubs.map(p => (p && (p.id || p.host)) || p), agreement: { k: f.k || null, m: pubs.length, n: (f.lineages || []).length }, hosts: f.hosts || [], trace_id: f.question || null } });
+  }
+  return out;
+}
+window.athenaPremises = athenaPremises;
 async function askMemory(question) {
   const memory = { receipts: [], phone: [], hosted: [], research: [], pools: [] };
   /* 4.9.207 (Nic decision (a)): the hand-written ask_183 test answers are deleted; Ask starts from the phone's own stores.
@@ -139,6 +158,10 @@ async function askMemory(question) {
     memory.pools.push({ name: 'confirmed_shared', into: 'hosted', rows: shared.filter(r => r.id && r.text) });
     /* everything the user asked to remember (newest 64) goes in; the engine's resonance ranking picks */
     memory.phone = memory.phone.concat(rememberedRows().filter(r => r && r.text).slice(-64).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor, clause: row.clause })));
+    if (window.athenaPremises && window.FORGE_RESEARCH && window.FORGE_RESEARCH.length) {
+      const premises = athenaPremises(window.FORGE_RESEARCH);
+      if (premises.length) memory.hosted = (memory.hosted || []).concat(premises);
+    }
     /* 4.9.242 (plan 229 step 11): world_facts — admitted and Remember clause facts with native phase, trust and SPC decay.
      * Derive seeds from them next turn. Personal; no hosted write. */
     try {

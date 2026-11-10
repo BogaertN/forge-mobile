@@ -47,6 +47,7 @@ function simOf(row, extra) {
   const scene = problem.scene && typeof problem.scene === 'object' ? problem.scene : {};
   const facts = Array.isArray(problem.facts) ? problem.facts : [];
   return { schema: problem.schema || 'FORGE-SIM-PROBLEM/v1', ok: false, reason: problem.reason || null, missing: problem.missing == null ? null : problem.missing,
+    substance: problem.substance || problem.molecule || null, body: problem.body || (scene.body && scene.body.noun) || null,
     defaulted: Array.isArray(scene.defaulted) ? scene.defaulted.slice() : [],
     facts: facts.filter(f => f && typeof f === 'object').map(f => ({ property: f.property || null, value: f.value, unit: f.unit == null ? null : f.unit, hosts: Array.isArray(f.hosts) ? f.hosts.slice() : [], source: f.source || (f.average ? 'two_publishers' : null) })),
     calls_llm: false };
@@ -120,7 +121,8 @@ function Curators(o) {
   async function measure(question, anchors, extra) {
     /* 4.9.210: cached anchors (pool: true) go to the engine pool; the engine selects them by packet concepts */
     const pool = anchors.filter(a => a && a.pool === true);
-    const memory = { receipts: [], phone: [], hosted: [], research: [], anchors: anchors.filter(a => !(a && a.pool === true)), pools: pool.length ? [{ name: 'anchors', into: 'anchors', rows: pool }] : [] };
+    const hosted = typeof o.premises === 'function' ? (o.premises() || []) : [];
+    const memory = { receipts: [], phone: [], hosted: hosted, research: [], anchors: anchors.filter(a => !(a && a.pool === true)), pools: pool.length ? [{ name: 'anchors', into: 'anchors', rows: pool }] : [] };
     const row = await o.run(Object.assign({ question, live: true, dry_run: false, memory }, extra || {}));
     const eps = row && typeof row.drift === 'number' ? row.drift : null;
     const region = row && row.admit && row.admit.drift_region;
@@ -143,12 +145,36 @@ function Curators(o) {
     if (typeof m.eps !== 'number' || m.lane !== 'clean') return { ok: false, rule: 'GILLIGAN-DRIFT-NOT-CLEAN' };
     if (!(m.C >= 0.87) || !(m.echo && m.echo.pass === true && m.echo.score >= 0.85)) return { ok: false, rule: 'GILLIGAN-GATE-NOT-MET' };
     const rest = t.rests_on, anchor = rest ? byId.get(rest) : null;
-    if (t.low_trust !== false || t.blocks_admit !== false || t.trusted_anchor !== true || !anchor || anchor.trust !== 'trusted') return { ok: false, rule: 'GILLIGAN-UNTRUSTED-PREMISE', ids: [rest || null] };
-    if (/wikipedia|wikimedia/i.test(String(anchor.contributor || '') + ' ' + String(anchor.source_url || ''))) return { ok: false, rule: 'GILLIGAN-WIKIPEDIA-NEVER-PREMISE' };
+    const researched = rest && typeof o.premises === 'function' ? (o.premises() || []).find(r => r && r.id === rest) : null;
+    if (t.low_trust !== false || t.blocks_admit !== false || t.trusted_anchor !== true || (!anchor && !researched) || (anchor && anchor.trust !== 'trusted')) return { ok: false, rule: 'GILLIGAN-UNTRUSTED-PREMISE', ids: [rest || null] };
+    const who = String((anchor && anchor.contributor) || '') + ' ' + String((anchor && anchor.source_url) || '') + ' ' + JSON.stringify((researched && researched.provenance) || {});
+    if (/wikipedia|wikimedia|wikidata/i.test(who)) return { ok: false, rule: 'GILLIGAN-WIKIPEDIA-NEVER-PREMISE' };
     return { ok: true, rule: 'GILLIGAN-GUARD-OK', premises: [rest] };
   }
-  function pickAnchor(row, anchors) { const rest = row && row.trust && row.trust.rests_on; return anchors.find(a => a.id === rest) || anchors.find(a => a.text === (row && row.reply)) || null; }
+  function pickAnchor(row, anchors) {
+    const rest = row && row.trust && row.trust.rests_on;
+    const researched = rest && typeof o.premises === 'function' ? (o.premises() || []).find(r => r && r.id === rest) : null;
+    return anchors.find(a => a.id === rest) || researched || anchors.find(a => a.text === (row && row.reply)) || null;
+  }
   async function curate(gap) {
+    if (gap.next_at && now() < gap.next_at) return { to: 'queue', rec: { key: gap.key, question: gap.question, rule: 'ATHENA-BACKOFF', at: now(), calls_llm: false } };
+    if (gap.gap && gap.gap.sim && o.research && !gap.researched) {
+      let found = null;
+      try { found = await o.research(gap); } catch (e) { found = { rule: 'ATHENA-LOOKUP-FAILED', error: String(e && e.message || e).slice(0, 160) }; }
+      gap.researched = true;
+      gap.research = found;
+      const rule = found && found.rule;
+      if (rule === 'ATHENA-DISAGREEMENT') { gap.attempts = (gap.attempts || 0) + 1; gap.last_at = now(); return { to: 'quarantine', rec: { key: gap.key, question: gap.question, rule: rule, at: now(), calls_llm: false, gap: gap.gap } }; }
+      if (rule === 'ATHENA-PERSONAL') { gap.attempts = (gap.attempts || 0) + 1; gap.last_at = now(); return { to: 'cold', rec: { key: gap.key, question: gap.question, rule: rule, at: now(), calls_llm: false, gap: gap.gap } }; }
+      if (found && found.ledger) st.ledger = found.ledger;
+      if (!(found && found.proposals && found.proposals.length)) {
+        const wait = [15000, 30000, 120000, 600000][Math.min(gap.attempts || 0, 3)];
+        gap.next_at = now() + wait;
+        gap.attempts = (gap.attempts || 0) + 1; gap.last_at = now();
+        return { to: gap.attempts >= 3 ? 'cold' : 'queue', rec: { key: gap.key, question: gap.question, rule: rule || 'ATHENA-NO-AGREEMENT', at: now(), calls_llm: false, gap: gap.gap } };
+      }
+      if (typeof o.rememberResearch === 'function') o.rememberResearch(found.proposals);
+    }
     gap.attempts += 1; gap.last_at = now();
     const anchors = (await o.anchorsFor(gap.question)) || [];
     /* 4.9.211: the gap's own ε trajectory feeds the trend rule (ε rising over 3 transitions → correct) */
@@ -175,7 +201,8 @@ function Curators(o) {
     if (!echo.ok) return { to: 'quarantine', rec: Object.assign(base, { rule: 'ATHENA-ECHO-REPARSE-FAILED', reply: m.row.reply, echo_reparse: echo }) };
     /* 4.9.209: Ask returns the admitted row as a proposal (no auto-write); Athena's curation write takes it through the locked writer */
     const mw = m.row.memory_write || {}; const prop = mw.proposal || mw.hosted_kb;
-    const body = prop ? Object.assign({}, prop, { provenance: Object.assign({}, prop.provenance || {}, { curated_by: 'athena+gilligan' }) }) : null;
+    const premise = pickAnchor(m.row, anchors);
+    const body = prop ? Object.assign({}, prop, { provenance: Object.assign({}, prop.provenance || {}, (premise && premise.provenance) || {}, { curated_by: 'athena+gilligan' }) }) : null;
     const rec = Object.assign(base, { reply: m.row.reply, premises: g.premises, echo_reparse: echo, contributor: 'athena', curated_by: 'athena+gilligan' });
     /* 4.9.211: the lasting write needs the engine's write gate (Φ6 then Φ7, Echo ≥ 0.97 + classes, C ≥ 0.87, clean at θ_admit) */
     if (mw.write_gate && mw.write_gate.ok !== true) return { to: 'quarantine', rec: Object.assign(rec, { rule: 'GILLIGAN-WRITE-GATE', failed: mw.write_gate.failed || [] }) };

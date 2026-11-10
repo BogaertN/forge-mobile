@@ -115,9 +115,9 @@ elif op == 'resolve':
     out = A.gilligan(a.get('rows') or [])
 elif op == 'chem':
     from rmc_engine_v1 import athena_props as A
-    pub = A.parse_pubchem(a.get('name') or '', a.get('pub') or '')
-    che = A.parse_chebi_term(a.get('term') or '')
-    out = A.gilligan(A.agree_chemical(a.get('name') or '', pub, che)) if pub and che else {'ok': [], 'held': [{'reason': 'publisher_missing'}], 'calls_llm': False, 'supabase_write': False}
+    pub = A.parse_pubchem(a.get('name') or '', a.get('pub') or '') if a.get('pub') else None
+    che = A.parse_chebi_term(a.get('term') or '') if a.get('term') else None
+    out = A.chemical_decision(a.get('name') or '', pub, che)
 elif op == 'objects':
     from rmc_engine_v1 import athena_props as A
     out = A.resolve_objects(a.get('phrase') or a.get('name') or '', a.get('sides') or [], a.get('name'), bool(a.get('specific')))
@@ -143,6 +143,20 @@ elif op == 'resume':
 elif op == 'gaps':
     from rmc_engine_v1.sim_karaka import read
     out = read(a.get('question') or '', a.get('frame'), a.get('facts'))
+elif op == 'propose':
+    from rmc_engine_v1.athena_props import propose_rows, record_outcome
+    out = propose_rows(a.get('facts') or [], a.get('question') or '')
+    out['rule'] = a.get('rule') or ('ATHENA-PROPOSED' if out.get('proposals') else 'ATHENA-NO-AGREEMENT')
+    out['ledger'] = record_outcome(a.get('ledger') if isinstance(a.get('ledger'), dict) else None, a.get('method') or 'lookup', out['rule'], a.get('facts') or [], disagreed=bool(a.get('disagreed')))
+elif op == 'lookup_seal':
+    fact = a.get('fact') or {}
+    problem = dict(a.get('problem') or {})
+    problem['solver'] = 'publisher_lookup'
+    prop = str(fact.get('property') or problem.get('property') or 'value')
+    run = {'outcome': 'lookup', 'measurements': {prop: fact.get('value'), 'value': fact.get('value')}, 'engine': 'publisher agreement', 'calls_llm': False}
+    out = S.seal(problem, run)
+    out['gilligan'] = fact.get('gilligan')
+    out['proposal'] = fact
 elif op == 'solve':
     out = S.seal(a['problem'], S.solve(a['problem']))
 elif op == 'finish':

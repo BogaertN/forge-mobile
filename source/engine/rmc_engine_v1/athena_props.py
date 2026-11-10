@@ -175,6 +175,20 @@ def parse_chebi_term(raw: str) -> dict[str, Any] | None:
             "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=" + str(obo)}
 
 
+def chemical_decision(name: str, pub: dict[str, Any] | None, che: dict[str, Any] | None, err_p: str | None = None, err_c: str | None = None) -> dict[str, Any]:
+    """One decision for a fetched pair: missing, disagreement, or two-publisher agreement."""
+    if not pub or not che:
+        return {"ok": [], "held": [{"head": name.lower(), "property": "formula", "reason": "publisher_missing",
+                                    "pubchem": bool(pub), "chebi": bool(che), "errors": [err_p, err_c]}],
+                "calls_llm": False, "supabase_write": False}
+    if str(pub.get("formula")) != str(che.get("formula")) or (
+            pub.get("mass") is not None and che.get("mass") is not None and not _agree_num(float(pub["mass"]), float(che["mass"]), MASS_REL)):
+        return {"ok": [], "held": [{"head": name.lower(), "property": "formula", "reason": "publishers_disagree",
+                                    "pubchem": pub.get("formula"), "chebi": che.get("formula")}],
+                "calls_llm": False, "supabase_write": False}
+    return gilligan(agree_chemical(name, pub, che))
+
+
 def agree_chemical(name: str, pub: dict[str, Any], che: dict[str, Any]) -> list[dict[str, Any]]:
     if str(pub.get("formula")) != str(che.get("formula")):
         return []
@@ -211,11 +225,7 @@ def fetch_chemical(name: str, http: Http = _http) -> dict[str, Any]:
             che = parse_chebi_term(http(chebi_term_url(obo)))
     except Exception as e:
         err_c = str(e)[:160]
-    if not pub or not che:
-        return {"ok": [], "held": [{"head": name.lower(), "property": "formula", "reason": "publisher_missing",
-                                    "pubchem": bool(pub), "chebi": bool(che), "errors": [err_p, err_c]}],
-                "calls_llm": False, "supabase_write": False}
-    return gilligan(agree_chemical(name, pub, che))
+    return chemical_decision(name, pub, che, err_p, err_c)
 
 
 # ---------------------------------------------------------------- physical objects: two museums, measured records only
@@ -843,6 +853,192 @@ def vehicle_concept(head: str) -> bool:
     except Exception:
         return False
     return str(table.get(str(head or "").lower()) or "") == "N.CAR"
+
+
+def lineage_of(publisher: dict[str, Any]) -> str:
+    """One origin is one lineage. A mirror host of the same publisher does not count twice."""
+    pid = str(publisher.get("id") or "").strip().lower()
+    if pid:
+        return pid
+    host = str(publisher.get("host") or _host(str(publisher.get("url") or ""))).lower()
+    if host.startswith("www."):
+        host = host[4:]
+    return host
+
+
+def independent_lineages(fact: dict[str, Any]) -> list[str]:
+    found: list[str] = []
+    for raw in fact.get("publishers") or []:
+        if not isinstance(raw, dict):
+            continue
+        url = str(raw.get("url") or "")
+        if _blocked(url) or _blocked("https://" + str(raw.get("host") or "")):
+            continue
+        if str(raw.get("id") or "") in ("wikipedia", "wikidata"):
+            continue
+        lin = lineage_of(raw)
+        if lin and lin not in found:
+            found.append(lin)
+    return found
+
+
+def note_sources(ledger: dict[str, Any] | None, facts: list[dict[str, Any]], *, disagreed: bool = False) -> dict[str, Any]:
+    """Persisted trust counts. A new source rises only by agreeing with a different lineage."""
+    book = dict(ledger or {})
+    rows = dict(book.get("sources") or {})
+    for fact in facts:
+        lins = independent_lineages(fact)
+        for raw in fact.get("publishers") or []:
+            if not isinstance(raw, dict):
+                continue
+            lin = lineage_of(raw)
+            if not lin or lin in ("wikipedia", "wikidata"):
+                continue
+            row = dict(rows.get(lin) or {"lineage": lin, "agrees": 0, "conflicts": 0, "trusted": False})
+            if disagreed:
+                row["conflicts"] = int(row.get("conflicts") or 0) + 1
+            elif len(lins) >= 2:
+                row["agrees"] = int(row.get("agrees") or 0) + 1
+                others = [x for x in lins if x != lin]
+                if others and any((rows.get(o) or {}).get("trusted") or int((rows.get(o) or {}).get("agrees") or 0) >= 1 for o in others):
+                    row["trusted"] = True
+                if row["agrees"] >= 1 and len(lins) >= 2:
+                    row["trusted"] = True
+            rows[lin] = row
+    book["sources"] = rows
+    book["calls_llm"] = False
+    book["supabase_write"] = False
+    return book
+
+
+def record_outcome(ledger: dict[str, Any] | None, method: str, rule: str, facts: list[dict[str, Any]] | None = None, *, disagreed: bool = False) -> dict[str, Any]:
+    """The source ledger and the method counts, from one outcome."""
+    book = note_sources(ledger, facts or [], disagreed=disagreed)
+    methods = dict(book.get("methods") or {})
+    row = dict(methods.get(method) or {"method": method, "proposed": 0, "rejected": 0, "simulated": 0})
+    if rule == "ATHENA-PROPOSED":
+        row["proposed"] = int(row.get("proposed") or 0) + 1
+    elif rule == "ATHENA-SIMULATED":
+        row["simulated"] = int(row.get("simulated") or 0) + 1
+    else:
+        row["rejected"] = int(row.get("rejected") or 0) + 1
+    methods[method] = row
+    book["methods"] = methods
+    return book
+
+
+def propose_rows(facts: list[dict[str, Any]], question: str = "") -> dict[str, Any]:
+    """A structured proposal. The clause is the atom's fields, not a sentence that is parsed back."""
+    proposals, rejected = [], []
+    for fact in facts:
+        if not isinstance(fact, dict):
+            continue
+        lins = independent_lineages(fact)
+        atom = {"predicate": fact.get("property"), "args": [fact.get("head"), fact.get("value")], "polarity": "pos", "unit": fact.get("unit")}
+        clause = {"property": fact.get("property"), "head": fact.get("head"), "value": fact.get("value"), "unit": fact.get("unit")}
+        if len(lins) < 2 or clause["value"] != atom["args"][1] or clause["head"] != atom["args"][0]:
+            rejected.append({"head": fact.get("head"), "property": fact.get("property"), "rule": "GILLIGAN-LINEAGE", "lineages": lins})
+            continue
+        prop, head, value = fact.get("property"), fact.get("head"), fact.get("value")
+        shown = str(value) + ((" " + str(fact.get("unit"))) if fact.get("unit") else "")
+        frame = {"kriya": "be", "polarity": "pos",
+                 "kartr": {"text": "the " + str(prop) + " of " + str(head), "head": str(prop), "det": "the",
+                           "of": {"text": str(head), "head": str(head)}},
+                 "pred": {"type": "np", "text": shown, "head": str(value)}}
+        proposals.append({
+            "schema": SCHEMA, "head": head, "property": prop, "value": value,
+            "unit": fact.get("unit"), "hosts": fact.get("hosts") or [], "publishers": fact.get("publishers") or [],
+            "lineages": lins, "k": len(lins), "atom": atom, "clause": clause, "frame": frame, "question": question,
+            "admitted": False, "phone_remember": False, "supabase_write": False, "calls_llm": False,
+            "store": "proposal", "method": "lookup", "gilligan": "GILLIGAN-STRUCTURE-OK",
+        })
+    return {"proposals": proposals, "rejected": rejected, "calls_llm": False, "supabase_write": False}
+
+
+def _personal(question: str) -> bool:
+    return bool(re.search(r"\b(my|our)\b", str(question or ""), re.I))
+
+
+def fill_gap(gap: dict[str, Any], http: Http = _http, ledger: dict[str, Any] | None = None) -> dict[str, Any]:
+    """One generic step. Lookup, on-device simulate, or neither. Nothing is written."""
+    gap = gap if isinstance(gap, dict) else {}
+    question = str(gap.get("question") or "")
+    sim = gap.get("sim") if isinstance(gap.get("sim"), dict) else {}
+    frame = gap.get("qframe") if isinstance(gap.get("qframe"), dict) else None
+    base = {"calls_llm": False, "supabase_write": False, "phone_remember": False, "question": question}
+    if _personal(question):
+        return {**base, "ok": [], "proposals": [], "rule": "ATHENA-PERSONAL", "ledger": ledger or {}}
+    from rmc_engine_v1.sim_device import plan, tip_check
+    if frame or not sim.get("reason"):
+        planned = plan(question, frame)
+    else:
+        planned = {"ok": False, "reason": sim.get("reason"), "substance": sim.get("substance"), "body": sim.get("body")}
+    if planned.get("ok") and planned.get("solver") in ("mujoco_wasm", "sympy_pyodide"):
+        scene = planned.get("scene") if isinstance(planned.get("scene"), dict) else {}
+        chk = tip_check(scene) if scene.get("action") == "push" else None
+        return {**base, "ok": [], "proposals": [], "method": "simulate", "rule": "ATHENA-SIMULATED",
+                "outcome": (chk or {}).get("outcome"), "solver": planned.get("solver"), "ledger": ledger or {}}
+    reason = str(sim.get("reason") or planned.get("reason") or "")
+    head = str(sim.get("substance") or sim.get("body") or planned.get("substance") or planned.get("body") or "").strip()
+    if reason == "unknown_substance" and head:
+        got = fetch_chemical(head, http)
+    elif reason in ("unknown_body", "property_missing") and head:
+        got = fetch_objects(head, http)
+    else:
+        return {**base, "ok": [], "proposals": [], "rule": "ATHENA-NOT-RESEARCHABLE", "reason": reason or "no_gap", "ledger": ledger or {}}
+    held = got.get("held") or []
+    disagree = any(str(h.get("reason") or "") == "publishers_disagree" for h in held if isinstance(h, dict))
+    if disagree or not got.get("ok"):
+        rule = "ATHENA-DISAGREEMENT" if disagree else "ATHENA-NO-AGREEMENT"
+        book = record_outcome(ledger, "lookup", rule, got.get("ok") or [], disagreed=disagree)
+        return {**base, "ok": [], "proposals": [], "held": held, "ledger": book, "rule": rule, "method": "lookup"}
+    proposed = propose_rows(got.get("ok") or [], question)
+    book = record_outcome(ledger, "lookup", "ATHENA-PROPOSED", got.get("ok") or [])
+    return {**base, "ok": got.get("ok") or [], "proposals": proposed["proposals"], "rejected": proposed["rejected"],
+            "held": held, "ledger": book, "rule": "ATHENA-PROPOSED", "method": "lookup"}
+
+
+_BACKOFF = (0, 30, 120, 600)
+_MAX_ATTEMPTS = 4
+
+
+def tick_gaps(gaps: list[dict[str, Any]], *, now: float = 0, http: Http = _http, cancelled: list[str] | None = None,
+              ledger: dict[str, Any] | None = None) -> dict[str, Any]:
+    """One idle pass. Dedupes, backs off, and does not write."""
+    seen: set[str] = set()
+    stop = {str(x) for x in (cancelled or [])}
+    log: list[dict[str, Any]] = []
+    proposals: list[dict[str, Any]] = []
+    book = dict(ledger or {})
+    for gap in gaps or []:
+        if not isinstance(gap, dict):
+            continue
+        key = " ".join(str(gap.get("question") or "").lower().split()).rstrip("?.!")
+        if not key or key in seen:
+            log.append({"key": key, "rule": "ATHENA-DEDUPED", "calls_llm": False})
+            continue
+        seen.add(key)
+        if key in stop:
+            log.append({"key": key, "rule": "ATHENA-CANCELLED", "calls_llm": False})
+            continue
+        attempts = int(gap.get("attempts") or 0)
+        last = float(gap.get("last_at") or 0)
+        wait = _BACKOFF[min(attempts, len(_BACKOFF) - 1)]
+        if attempts and now < last + wait:
+            log.append({"key": key, "rule": "ATHENA-BACKOFF", "calls_llm": False})
+            continue
+        if attempts >= _MAX_ATTEMPTS:
+            log.append({"key": key, "rule": "ATHENA-EXHAUSTED", "calls_llm": False})
+            continue
+        found = fill_gap(gap, http, book)
+        book = found.get("ledger") or book
+        gap["attempts"] = attempts + 1
+        gap["last_at"] = now
+        gap["research_rule"] = found.get("rule")
+        if found.get("proposals"):
+            proposals.extend(found["proposals"])
+        log.append({"key": key, "rule": found.get("rule"), "method": found.get("method"), "n": len(found.get("proposals") or []), "calls_llm": False})
+    return {"log": log, "proposals": proposals, "ledger": book, "calls_llm": False, "supabase_write": False, "phone_remember": False}
 
 
 def facts_for(kind: str, name: str, http: Http = _http) -> dict[str, Any]:

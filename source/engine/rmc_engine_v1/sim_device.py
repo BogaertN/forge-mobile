@@ -1136,6 +1136,12 @@ def _subject_clause(p: dict[str, Any], run: dict[str, Any]) -> tuple[str, str, l
     if s == "chemistry_kinetics":
         return (f"After {_g(p['t'])} seconds the reactant concentration falls to {_g(ms['concentration_left'])} moles per liter.",
                 f"The concentration falls to {_g(ms['concentration_left'])} moles per liter after {_g(p['t'])} seconds.", [])
+    if s == "publisher_lookup":
+        n = str(p.get("substance") or "")
+        prop = str(p.get("property") or "value")
+        value = str((ms.get(prop) if isinstance(ms, dict) else "") or ms.get("value") or "")
+        spoken = f"The {prop} of {n} is {value}."
+        return (spoken, spoken, [])
     if s == "rdkit_wasm":
         n = p["substance"]
         mw = ms["average_mw"]
@@ -1430,6 +1436,11 @@ def _effect_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, An
             _mod("to", f"{_g(ms['concentration_left'])} moles", "sampradana"),
             _mod("per", "liter", "sambandha"),
             _mod("after", f"{_g(problem['t'])} seconds", "kala")])
+    if s == "publisher_lookup":
+        n = str(problem.get("substance") or "")
+        prop = str(problem.get("property") or "value")
+        value = str((ms.get(prop) if isinstance(ms, dict) else "") or "")
+        return _karaka("is", [f"the {prop} of {n}", value])
     if s == "rdkit_wasm":
         n = str(problem.get("substance") or "")
         prop = problem.get("property")
