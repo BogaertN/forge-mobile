@@ -43,7 +43,7 @@ T('custody snapshot follows a real always-on tick, admit, and cold re-curate', (
   const w = D.createIdleDream({ clock: CLOCK, host: k, writeKey: KEY, publishPacks: false });
   const quiet = w.custody({ kb_count: k.sharedKnowledgeView().count });
   expect(quiet.schema === 'FORGE-CUSTODY-MONITOR/v1' && quiet.always_on === true && quiet.idle_gated === false && quiet.publish_packs === false && quiet.athena.research_ticks === 0 && quiet.kb.count === 0 && quiet.kb.phone_db === false && quiet.neo_is_neil === false, JSON.stringify({ ticks: quiet.athena.research_ticks, kb: quiet.kb }));
-  expect(quiet.daemons.map(d => d.role + ':' + d.runs).join(',') === 'gilligan:always_on,athena:always_on,neo:kernel_process', quiet.daemons.map(d => d.runs).join(','));
+  expect(quiet.daemons.map(d => d.role + ':' + d.runs).join(',') === 'gilligan:always_on,athena:always_on,neo:idle_tick', quiet.daemons.map(d => d.runs).join(','));
   w.enqueue([Object.assign({ id: 'gap:quartz' }, quartzGap())]);
   const step = w.schedule({ answering: false });
   expect(step.rule === 'DREAM-ALWAYS-ON' && step.step && step.step.rule === 'DREAM-BACKEND-FILL' && step.step.researcher === 'athena' && step.step.wrote_pack !== true, JSON.stringify({ rule: step.rule, step: step.step && step.step.rule, pack: step.step && step.step.wrote_pack }));

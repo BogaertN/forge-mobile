@@ -171,11 +171,11 @@ print(json.dumps(plan_export({"schema":"FORGE-CURATION/v1","queue":[{"question":
   expect(sock.ok === true && sock.network === false && sock.commit === false, JSON.stringify(sock));
 });
 
-T('steps 14, 15 and 16 stay written down and unbuilt', () => {
+T('step 14 and step 15 are the gap tick, and step 16 stays unbuilt', () => {
   const conf = read('CONFLICTS.md');
   expect(conf.startsWith('## v4.9.249'), 'CONFLICTS');
-  expect(/step 14/i.test(conf) && /reparse/.test(conf) && /step 15/i.test(conf) && /dry-run/.test(conf) && /step 16/i.test(conf) && /Remember/.test(conf), 'next steps');
-  expect(!/def neo_tick|NEO-SCHEDULER/.test(read('tools/athena_runner_229.py')), 'no scheduler in the runner');
+  expect(/step 14/i.test(conf) && /reparse/.test(conf) && /step 15/i.test(conf) && /dry-run/.test(conf) && /step 16/i.test(conf) && /unbuilt/.test(conf), 'steps');
+  expect(!/def neo_tick|NEO-SCHEDULER/.test(read('tools/athena_runner_229.py')), 'the runner does not schedule');
 });
 
 T('laws and version 4.9.249; no model and no secret', () => {

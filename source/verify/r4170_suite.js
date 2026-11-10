@@ -57,12 +57,12 @@ T('null and undefined epsilon are not measured zero and are not projectable as z
 T('admit defaults on and the tick still no-ops while Ask is answering', () => {
   const b = D.boundary();
   expect(b.continuous_admit_default === true && b.always_on === true && b.idle_gated === false && b.one_shot_fill === false && b.calls_llm === false, JSON.stringify({ on: b.continuous_admit_default, always: b.always_on }));
-  expect(b.roles.gilligan === 'gap_fill_within_drift' && b.roles.athena === 'strict_curate_admit' && b.roles.neo === 'ask_surface', JSON.stringify(b.roles));
+  expect(b.roles.gilligan === 'gap_fill_within_drift' && b.roles.athena === 'strict_curate_admit' && b.roles.neo === 'gap_scheduler', JSON.stringify(b.roles));
   const w = D.createIdleDream({ clock: CLOCK });
   expect(w.admitEnabled() === true, 'default on');
   const names = w.daemons().map(d => d.role).sort().join(',');
   expect(names === 'athena,gilligan,neo' && w.daemons().length >= 3, names);
-  expect(w.daemons().find(d => d.role === 'neo').in_this_file === false, 'neo is Ask');
+  expect(w.daemons().find(d => d.role === 'neo').in_this_file === false && w.daemons().find(d => d.role === 'neo').duty === 'schedule_athena_gaps', 'neo schedules outside this mesh');
   expect(w.daemons().find(d => d.role === 'gilligan').spawns_helpers === false, 'gilligan does not spawn');
   expect(w.daemons().find(d => d.role === 'athena').spawns_helpers === true, 'athena spawns');
   w.enqueue([quartz()]);

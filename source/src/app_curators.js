@@ -1,12 +1,12 @@
 /* app_curators.js (4.9.208): the Custody tab, now Athena and Gilligan as curators (curators_208.js). It replaces the old idle mesh
  * on the phone; app_custody.js defers to it. The switch is dream_idle (on since 4.9.208, Nic decision (f)); the tab has a toggle.
- * Ticks only while this page is open and visible, never while Ask is answering, at most one gap every 15 s. No LLM. */
+ * Neo (src/neo.js) ticks one gap while this page is open and visible, never while Ask is answering, at most once every 15 s. No LLM. */
 (function (root) {
   if (typeof document === 'undefined' || !root.document) return;
   const $ = s => document.querySelector(s);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const PREF = 'forge.curators.on';
-  let cur = null, lastTick = 0, lastFlush = 0, running = false, answering = false;
+  let cur = null, lastFlush = 0, answering = false;
   try { const p = root.localStorage && root.localStorage.getItem(PREF); if (p === '0' && root.KNextLayer) root.KNextLayer.set('dream_idle', false); } catch (e) { /* private mode */ }
   const on = () => !root.KNextLayer || root.KNextLayer.enabled('dream_idle') !== false;
   function make() {
@@ -27,14 +27,20 @@
     root.FORGE_CURATORS = cur;
     return cur;
   }
-  function noteHeld(question, row, extra) { const c = make(); return c ? c.noteHeld(question, row, extra) : { ok: false, rule: 'CURATE-NOT-LOADED' }; }
-  function setAnswering(v) { answering = v === true; if (cur) cur.setAnswering(answering); }
+  const neo = root.KNeoLib ? root.KNeoLib.create({
+    curators: () => make(),
+    enabled: on,
+    visible: () => document.visibilityState !== 'hidden',
+    onAnswering: v => { if (cur) cur.setAnswering(v); },
+    intervalMs: 15000
+  }) : null;
+  if (neo) root.KNeo = neo;
+  function noteHeld(question, row, extra) { return neo ? neo.noteHeld(question, row, extra) : { ok: false, rule: 'NEO-NO-QUEUE' }; }
+  function setAnswering(v) { answering = v === true; if (neo) neo.setAnswering(answering); else if (cur) cur.setAnswering(answering); }
   async function step() {
     const c = make();
-    if (c && on() && !running && !answering && document.visibilityState !== 'hidden' && Date.now() - lastTick > 15000) {
-      running = true; lastTick = Date.now();
-      try { await c.tick(); if (c.status().pending && Date.now() - lastFlush > 300000) { lastFlush = Date.now(); await c.flushPending(); } } catch (e) { /* the next tick retries */ } finally { running = false; }
-    }
+    if (neo) { try { await neo.step(); } catch (e) { /* the next tick retries */ } }
+    if (c && c.status().pending && Date.now() - lastFlush > 300000) { lastFlush = Date.now(); try { await c.flushPending(); } catch (e) { /* the writer stays pending */ } }
     paint();
   }
   function rows(list, cols) { return list.slice(-6).reverse().map(r => '<div class="rec" data-curation-row><div>' + esc(r.question) + (r.reply ? ' → ' + esc(r.reply) : '') + '</div><div class="meta">' + cols.map(k => esc(k) + ' ' + esc(r[k] == null ? '—' : r[k])).join(' · ') + '</div></div>').join('') || '<div class="meta">none</div>'; }

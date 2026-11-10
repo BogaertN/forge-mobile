@@ -38,7 +38,7 @@ T('boundary and schedule are always-on continuous work', () => {
   expect(b.docs.dream_drift === '14fVCPgQ0UtRBnSclMfQ-3fazrdwKc-BrknfqYFolJ8g' && b.docs.rpmc_protocol === '1G-Yj323feeMBklm6sENdawfBBTC1VfdL4slIGtoFRxE', 'rpmc dream');
   expect(b.docs.orchestration === '1O5Txx2rLvWehvmHY_8miMtVrFTqmQgo_xLyzA_P5dGA' && b.docs.rmc_10_8 === '1COtSEuXYxfgfomzDBu99jrnaHoLWuIM79WVUy-glq54' && b.docs.coherence === '1q5JcF-v1M2plJ500UcKxRHRM1fRbt1RCzc-AXjuoReE', 'orch rmc coherence');
   const runs = D.DAEMONS.map(d => d.role + ':' + d.runs).join(',');
-  expect(runs === 'gilligan:always_on,athena:always_on,neo:kernel_process', runs);
+  expect(runs === 'gilligan:always_on,athena:always_on,neo:idle_tick', runs);
   expect(D.DAEMONS.find(d => d.role === 'gilligan').spawns_helpers === false && D.DAEMONS.find(d => d.role === 'athena').spawns_helpers === true && D.DAEMONS.find(d => d.role === 'neo').spawns_helpers === false, 'spawn rights');
   const w = D.createIdleDream({ clock: CLOCK });
   const idle = w.schedule();

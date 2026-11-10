@@ -31,7 +31,8 @@ if req.get("mode") == "agree":
     prop = (found.get("proposals") or [{}])[0]
     fact = {"id": "athena:limonene:formula", "text": "the formula of limonene is " + str(prop.get("value")), "clause": prop.get("frame")}
     spoken = run({"question": gap["question"], "live": True, "frame": frame, "memory": {"hosted": [fact], "phone": [], "anchors": [], "research": [], "receipts": []}})
-    print(json.dumps({"rule": found.get("rule"), "value": prop.get("value"), "k": prop.get("k"), "gilligan": prop.get("gilligan"), "phone": found.get("phone_remember"), "write": found.get("supabase_write"), "llm": found.get("calls_llm"), "resumed": again.get("ok"), "formula": again.get("formula"), "calls": len(calls), "spoken": spoken.get("product_reply") is True and prop.get("value") in str(spoken.get("reply") or ""), "echo": (spoken.get("echo") or {}).get("pass"), "C": spoken.get("coherence"), "region": (spoken.get("admit") or {}).get("drift_region")}))
+    gate = ((spoken.get("memory_write") or {}).get("write_gate") or {})
+    print(json.dumps({"rule": found.get("rule"), "value": prop.get("value"), "k": prop.get("k"), "gilligan": prop.get("gilligan"), "phone": found.get("phone_remember"), "write": found.get("supabase_write"), "llm": found.get("calls_llm"), "resumed": again.get("ok"), "formula": again.get("formula"), "calls": len(calls), "spoken": spoken.get("product_reply") is True and prop.get("value") in str(spoken.get("reply") or ""), "echo": (spoken.get("echo") or {}).get("pass"), "C": spoken.get("coherence"), "region": (spoken.get("admit") or {}).get("drift_region"), "gate": gate.get("ok"), "named": gate.get("named"), "eps": (gate.get("drift") or {}).get("eps"), "failed": gate.get("failed")}))
 elif req.get("mode") == "disagree":
     found = fill_gap({"question": "What is the formula of limonene?", "sim": {"reason": "unknown_substance", "substance": "limonene"}}, http)
     print(json.dumps({"rule": found.get("rule"), "n": len(found.get("proposals") or [])}))
@@ -52,7 +53,7 @@ elif req.get("mode") == "dedup":
 function register(C, expect) {
   C('ATHENA', 'two publishers propose the formula and the same question resumes', () => {
     const row = py(RUN, JSON.stringify({ mode: 'agree' }));
-    expect(row.rule === 'ATHENA-PROPOSED' && row.value === 'C10H16' && row.k === 2 && row.gilligan === 'GILLIGAN-STRUCTURE-OK' && row.phone === false && row.write === false && row.llm === false && row.resumed === true && row.formula === 'C10H16' && row.spoken === true && row.echo === true && row.C >= 0.87 && row.region === 'clean', JSON.stringify(row));
+    expect(row.rule === 'ATHENA-PROPOSED' && row.value === 'C10H16' && row.k === 2 && row.gilligan === 'GILLIGAN-STRUCTURE-OK' && row.phone === false && row.write === false && row.llm === false && row.resumed === true && row.formula === 'C10H16' && row.spoken === true && row.echo === true && row.C >= 0.87 && row.region === 'clean' && row.gate === true && row.named && row.named.length > 0 && row.eps <= 0.35 && !(row.failed || []).length, JSON.stringify(row));
   });
   C('ATHENA', 'a disagreement is not given a value', () => {
     const row = py(RUN, JSON.stringify({ mode: 'disagree', pub_formula: 'C10H16', che_formula: 'C9H16' }));
@@ -66,6 +67,25 @@ function register(C, expect) {
     const row = py(RUN, JSON.stringify({ mode: 'sim' }));
     expect(row.rule === 'ATHENA-SIMULATED' && row.method === 'simulate' && (row.outcome === 'topple' || row.outcome === 'slide' || row.outcome === 'stay') && row.calls === 0, JSON.stringify(row));
   });
+  C('ATHENA', 'Neo pauses for Ask, dedupes a repeated gap, and logs a backoff', async () => {
+    const Neo = require('../src/neo.js');
+    const queued = [];
+    let calls = 0;
+    const n = Neo.create({
+      curators: () => ({
+        noteHeld: q => { if (queued.indexOf(q) >= 0) return { ok: false, rule: 'CURATE-GAP-KNOWN' }; queued.push(q); return { ok: true, rule: 'CURATE-GAP-QUEUED' }; },
+        tick: async () => { calls += 1; return { rule: 'ATHENA-BACKOFF', to: 'queue', rec: { question: 'What is the formula of limonene?' } }; }
+      })
+    });
+    const first = n.noteHeld('What is the formula of limonene?');
+    const again = n.noteHeld('What is the formula of limonene?');
+    n.setAnswering(true);
+    const paused = await n.tick();
+    n.setAnswering(false);
+    const ticked = await n.tick();
+    const rules = n.log().map(x => x.rule);
+    expect(first.ok === true && again.rule === 'CURATE-GAP-KNOWN' && paused.rule === 'NEO-PAUSED' && calls === 1 && ticked.scheduler === 'neo' && ticked.rule === 'ATHENA-BACKOFF' && rules.indexOf('NEO-DEDUPED') >= 0 && rules.indexOf('NEO-PAUSED') >= 0 && rules.indexOf('NEO-RESUMED') >= 0 && rules.indexOf('NEO-BACKOFF') >= 0, JSON.stringify({ first, again, paused, ticked, rules, calls }));
+  });
   C('ATHENA', 'one tick dedupes and the next tick backs off', () => {
     const row = py(RUN, JSON.stringify({ mode: 'dedup' }));
     expect(row.rules[0] === 'ATHENA-PROPOSED' && row.rules[1] === 'ATHENA-DEDUPED' && row.second === 'ATHENA-BACKOFF' && row.calls === 3 && row.trusted.indexOf('pubchem') >= 0 && row.trusted.indexOf('chebi') >= 0, JSON.stringify(row));
@@ -73,8 +93,16 @@ function register(C, expect) {
 }
 module.exports = register;
 if (require.main === module) {
-  const results = [];
-  register((cls, name, fn) => { let ok = false, why = ''; try { fn(); ok = true; } catch (e) { why = String(e.message || e).slice(0, 500); } results.push({ cls, name, ok, why }); }, (c, m) => { if (!c) throw new Error(m || 'fail'); });
-  console.log(JSON.stringify(results, null, 1));
-  if (results.some(r => !r.ok)) process.exit(1);
+  const jobs = [];
+  register((cls, name, fn) => { jobs.push({ cls, name, fn }); }, (c, m) => { if (!c) throw new Error(m || 'fail'); });
+  (async () => {
+    const results = [];
+    for (const j of jobs) {
+      let ok = false, why = '';
+      try { await j.fn(); ok = true; } catch (e) { why = String(e.message || e).slice(0, 500); }
+      results.push({ cls: j.cls, name: j.name, ok, why });
+    }
+    console.log(JSON.stringify(results, null, 1));
+    if (results.some(r => !r.ok)) process.exit(1);
+  })();
 }

@@ -224,13 +224,45 @@ def _source_sentence(reply: str, rows: list[dict[str, Any]]) -> tuple[str, str]:
     return "", "question"
 
 
+def _named_concepts(reply: str, packet: dict[str, Any], rows: list[dict[str, Any]]) -> list[str]:
+    """Φ7 names the identity the reply declares.
+
+    A lexicon concept or a proper-name compound in the sentence counts, and so does the
+    kartṛ of the premise clause (or the atom's first argument). That name is the same
+    compound id a definitional subject already uses. A reply with neither stays unnamed.
+    """
+    from rmc_engine_v1.resonance_recall import row_concepts, subject_key
+
+    named = set(row_concepts({"text": reply, "packet": packet})) if reply else set()
+    want = re.sub(r"\s+", " ", str(reply or "")).strip().rstrip(".!?").lower()
+    if not want:
+        return sorted(named)
+    for row in rows or []:
+        if not isinstance(row, dict) or row.get("quarantined") is True:
+            continue
+        text = re.sub(r"\s+", " ", str(row.get("text") or row.get("content") or "")).strip().lower()
+        if want not in text:
+            continue
+        clause = row.get("clause") if isinstance(row.get("clause"), dict) else {}
+        kartr = clause.get("kartr") if isinstance(clause.get("kartr"), dict) else None
+        label = str((kartr or {}).get("text") or (kartr or {}).get("head") or "")
+        if not label and isinstance(row.get("atom"), dict):
+            args = row["atom"].get("args") or []
+            label = str(args[0]) if args else ""
+        key = subject_key(label) if label else None
+        if key:
+            named.add(key)
+        break
+    return sorted(named)
+
+
 def write_gate(question: str, reply: str, measured: dict[str, Any], gate: dict[str, Any], echo: dict[str, Any], packet: dict[str, Any], rows: list[dict[str, Any]], chi_passes: int = 0) -> dict[str, Any]:
     """4.9.211 the lasting-memory write gate (DRIFT-SPEC D12 + D8 + C_min).
 
     The write trace is the RMC stages the row actually passed (scheme phase-scheme/rmc/v1):
     Φ5 drift measured -> Φ6 correction (the ordered drift checks returned clean, or one
-    χ-correct pass made it clean) -> Φ7 naming (the reply names at least one lexicon
-    concept or proper-name compound, resonance_recall.row_concepts) -> Φ8 projection (the reply was rendered and spoken) -> the write is the Φ9
+    χ-correct pass made it clean) -> Φ7 naming (a lexicon concept, a proper-name compound,
+    or the kartṛ of the premise clause) -> Φ8 projection (the reply was rendered and spoken) -> the write is the Φ9
     return. A stage that did not happen is not in the trace, so the gate fails (no
     correction, no naming; no naming, no projection). The server recomputes the trace
     epsilon with app.drift_eps() from drift_input. The candidate epsilon (the engine
@@ -238,9 +270,7 @@ def write_gate(question: str, reply: str, measured: dict[str, Any], gate: dict[s
     """
     from rmc_engine_v1.drift_policy import admit_decision, echo_classes
 
-    from rmc_engine_v1.resonance_recall import row_concepts
-
-    named = sorted(row_concepts({"text": reply, "packet": packet})) if reply else []
+    named = _named_concepts(reply, packet, rows)
     hist = []
     if isinstance(measured.get("epsilon_s"), (int, float)):
         hist.append(5)
