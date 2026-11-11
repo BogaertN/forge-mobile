@@ -75,6 +75,40 @@ function register(C, expect) {
     const tick = await c.tick();
     expect(tick.rule === 'GILLIGAN-DERIVED' && tick.to === 'simulated' && tick.rec && tick.rec.may_store_as_fact === false && tick.rec.athena === 'ATHENA-DERIVED' && inserts === 0 && s.phone.length === before, JSON.stringify({ rule: tick.rule, to: tick.to, athena: tick.rec && tick.rec.athena, reply: tick.rec && tick.rec.reply, inserts, phone: s.phone.length }));
   });
+  C('ATHENA', 'a measure copula of a noun outside the loaded packs parses, and a non-measure does not', () => {
+    const K = require('../src/kernel.js');
+    const FK = require('../src/forge.js');
+    const Q = require('../src/qframe.js');
+    const LEX = require('../data/lexicon.json');
+    const EXT = require('../data/lexicon-ext.json');
+    const PRO = require('../data/lexicon-pro.json');
+    const bare = FK.ForgeKernel({ store: K.MemoryStore(), lexicon: LEX, lexiconExt: EXT, clock: () => '2026-11-07T00:00:00Z' });
+    const full = FK.ForgeKernel({ store: K.MemoryStore(), lexicon: LEX, lexiconExt: EXT, lexiconPro: PRO, clock: () => '2026-11-07T00:00:00Z' });
+    const lectern = Q.clause('A lectern is 0.8 meters high.', bare);
+    const other = Q.clause('A brindlepost is 0.4 meters wide.', bare);
+    const mass = Q.clause('A brindlepost is 4 kilograms.', bare);
+    const hop = Q.clause('A lectern hops quickly.', bare);
+    const named = Q.clause('A lectern is 0.8 meters high.', full);
+    expect(lectern.parsed === true && lectern.lexicon === 'open' && lectern.kriya === 'be' && lectern.pred && lectern.pred.type === 'measure' && lectern.pred.property === 'high' && lectern.kartr && lectern.kartr.head === 'lectern', JSON.stringify({ lectern: lectern && lectern.pred, head: lectern && lectern.kartr }));
+    expect(other.parsed === true && other.lexicon === 'open' && other.pred.property === 'wide' && other.kartr.head === 'brindlepost', JSON.stringify(other && other.pred));
+    expect(mass.parsed === true && mass.pred.type === 'measure' && mass.pred.unit === 'kilograms', JSON.stringify(mass && mass.pred));
+    expect(hop.parsed === false, JSON.stringify(hop && hop.kriya));
+    expect(named.parsed === true && !named.lexicon && named.pred.property === 'high', JSON.stringify({ lexicon: named && named.lexicon, pred: named && named.pred }));
+    const { spawnSync } = require('child_process');
+    const held = spawnSync('python3', ['-c', `
+import json,sys
+from rmc_engine_v1.sim_device import plan
+cl=json.load(sys.stdin)
+rows=[{"clause":c} for c in cl]
+bare={"schema":"forge.qframe/v1","conditional":True,"cond":{"parsed":True,"kriya":"push","voice":"active","karma":{"head":"lectern","text":"a lectern"},"adj":[{"prep":"near","np":{"head":"top","text":"the top"}}]}}
+empty=plan("What happens if you push a lectern near the top?", bare, None, [])
+filled=plan("What happens if you push a lectern near the top?", bare, None, rows)
+print(json.dumps({"held": empty.get("ok") is False, "filled": filled.get("ok") is True and filled.get("solver")=="mujoco_wasm"}))
+`], { cwd: ROOT, encoding: 'utf8', input: JSON.stringify([lectern, Q.clause('A lectern is 4 kilograms.', bare), Q.clause('A lectern is 0.4 meters wide.', bare), Q.clause('A lectern is 0.3 meters deep.', bare)]) , env: Object.assign({}, process.env, { PYTHONPATH: path.join(ROOT, 'engine') }) });
+    if (held.status !== 0) throw new Error((held.stderr || held.stdout || 'plan').slice(-400));
+    const row = JSON.parse(held.stdout.trim().split('\n').pop());
+    expect(row.held === true && row.filled === true, JSON.stringify(row));
+  });
   C('ATHENA', 'a simulated gap is spoken and not inserted', async () => {
     const CU = require('../src/curators_208.js');
     const Neo = require('../src/neo.js');

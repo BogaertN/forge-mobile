@@ -165,11 +165,19 @@
       if (gp) { const r = roles(gp.p.clause, forge); delete r.material;
         return Object.assign(rec, r, { parsed: true, parses: gp.p.parses, adjuncts: [], canonical: [{ rule: 'QF-CANON-GENERIC-PLURAL', surface: text, reading: gp.s }] }); }
     }
-    const p = parse(forge, text);
+    let p = parse(forge, text);
+    let openLex = false;
+    /* A measure copula whose noun is not in the loaded packs uses the same open lexicon the
+     * intervention frame already uses (deriveSource). Any other failed sentence stays unparsed. */
+    if (!p || !p.clause) {
+      const open = parseOpen(forge, text);
+      const trial = open && open.clause ? roles(open.clause, forge) : null;
+      if (trial && trial.kriya === 'be' && trial.pred && trial.pred.type === 'measure') { p = open; openLex = true; }
+    }
     if (!p || !p.clause) return rec;
     const r = roles(p.clause, forge);
     const adj = (p.clause.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np) : null }));
-    delete r.material; return Object.assign(rec, r, { parsed: true, parses: p.parses, adjuncts: adj });
+    delete r.material; return Object.assign(rec, r, { parsed: true, parses: p.parses, adjuncts: adj }, openLex ? { lexicon: 'open' } : {});
   }
   /* 4.9.238 (Nic): a concessive or causal sentence is two or three clauses, not one. "Even though X, Y because Z" is the
    * concessive clause X, the main clause Y and its hetu (cause) Z; each is read by the same parser and kept with its link.
