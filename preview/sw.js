@@ -1,4 +1,4 @@
-const C = 'forge-mobile-preview-581fd82'; /* build.py substitutes VERSION */
+const C = 'forge-mobile-preview-5928b6f'; /* build.py substitutes VERSION */
 const L = 'forge-libs-v1'; /* 4.9.216: the pinned math wheels (forge-libs bucket), SHA-256 checked by the worker; kept across updates */
 const P = 'forge-pyodide-v0.27.7'; /* 4.9.216: the pinned Pyodide runtime files (versioned URL, immutable), cached on first math use for offline */
 const PYO = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/';
