@@ -288,24 +288,50 @@
     $('homePcTest').onclick = async () => { status('Testing…'); const r = await testConnection($('homePcUrl').value); status(r.ok ? 'Connected. Solvers: ' + ((r.health.solvers || []).map(s => s.name + (s.installed === false ? ' (not installed)' : '')).join(', ') || 'none') : r.status === 'bad_address' ? 'That address is not allowed.' : 'Could not reach it (' + r.status + ').'); };
     $('homePcClear').onclick = () => { try { root.localStorage.removeItem(LS_ROUTER); } catch (e) {} $('homePcUrl').value = ''; status('Cleared. Heavy simulations are held.'); };
   }
+  async function book(arg) {
+    const booked = await pyCall(Object.assign({ op: 'ledger', method: 'lookup' }, arg || {}));
+    if (booked && booked.ledger) root.FORGE_LEDGER = booked.ledger;
+    return booked || { ledger: root.FORGE_LEDGER || null, calls_llm: false, supabase_write: false };
+  }
+  function sceneGap(problem) {
+    if (!problem || problem.ok) return false;
+    const reason = String(problem.reason || '');
+    const missing = String(problem.missing || '');
+    return (reason === 'property_missing' || reason === 'unknown_body') && ['mass', 'height', 'width', 'depth', 'radius', 'shape', 'karma', 'scene', 'dimensions'].indexOf(missing) >= 0;
+  }
   async function research(gap) {
     const sim = (gap && gap.gap && gap.gap.sim) || (gap && gap.sim) || {};
     const frame = gap && gap.gap && gap.gap.qframe;
     const owned = np => np && (np.user || np.owner === 'user' || owned(np.of) || owned(np.owner));
     if (owned(frame && frame.kartr) || owned(frame && frame.karma)) return { rule: 'ATHENA-PERSONAL', proposals: [], calls_llm: false, supabase_write: false };
-    const facts = await athenaLookup(sim);
-    const ledger = root.FORGE_LEDGER || null;
+    const phone = (gap && gap.phone) || [];
     const question = (gap && gap.question) || '';
+    const ledger = root.FORGE_LEDGER || null;
+    let planned = null;
+    try { planned = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows({ phone: phone }) }); } catch (e) { planned = null; }
+    const problem = planned && planned.problem;
+    const onDevice = !!(problem && problem.ok && problem.runtime && problem.runtime !== 'home_pc');
+    if (onDevice || sceneGap(problem)) {
+      if (!problem || !problem.ok) return { rule: 'ATHENA-PROPERTY-MISSING', method: 'simulate', proposals: [], calls_llm: false, supabase_write: false };
+      const receipt = await simulate(question, { phone: phone });
+      const rows = receipt && Array.isArray(receipt.rows) ? receipt.rows : [];
+      if (!receipt || !receipt.ok || receipt.may_store_as_fact !== false || !rows.length) return { rule: 'ATHENA-SIMULATED', method: 'simulate', proposals: [], receipt: receipt || null, calls_llm: false, supabase_write: false };
+      return { rule: 'ATHENA-SIMULATED', method: 'simulate', proposals: [], receipt: receipt, simulated: true, phone_remember: false, supabase_write: false, calls_llm: false };
+    }
+    const facts = await athenaLookup(sim);
     if (facts && !Array.isArray(facts) && (facts.held || []).some(h => h && h.reason === 'publishers_disagree')) {
-      const booked = await pyCall({ op: 'propose', facts: [], question: question, ledger: ledger, disagreed: true, rule: 'ATHENA-DISAGREEMENT' });
-      if (booked && booked.ledger) root.FORGE_LEDGER = booked.ledger;
+      const held = (facts.held || []).find(h => h && h.publishers);
+      const booked = await book({ facts: held ? [{ publishers: held.publishers }] : [], question: question, ledger: ledger, disagreed: true, rule: 'ATHENA-DISAGREEMENT', method: 'lookup' });
       return { rule: 'ATHENA-DISAGREEMENT', proposals: [], held: facts.held, ledger: booked && booked.ledger, calls_llm: false, supabase_write: false };
     }
-    if (!facts || !facts.length) return { rule: 'ATHENA-NO-AGREEMENT', proposals: [], calls_llm: false, supabase_write: false };
-    const proposed = await pyCall({ op: 'propose', facts: facts, question: question, ledger: ledger });
+    if (!facts || !facts.length) {
+      const booked = await book({ facts: [], question: question, ledger: ledger, rule: 'ATHENA-NO-AGREEMENT', method: 'lookup' });
+      return { rule: 'ATHENA-NO-AGREEMENT', proposals: [], ledger: booked && booked.ledger, calls_llm: false, supabase_write: false };
+    }
+    const proposed = await pyCall({ op: 'propose', facts: facts, question: question, ledger: ledger, method: 'lookup' });
     if (proposed && proposed.ledger) root.FORGE_LEDGER = proposed.ledger;
     return proposed && proposed.proposals ? proposed : { rule: 'ATHENA-NO-AGREEMENT', proposals: [], ledger: proposed && proposed.ledger, calls_llm: false, supabase_write: false };
   }
-  root.KSimDevice = { simulate, research, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
+  root.KSimDevice = { simulate, research, book, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
   if (root.document) { if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', renderSettings); else renderSettings(); }
 })(typeof self !== 'undefined' ? self : this);

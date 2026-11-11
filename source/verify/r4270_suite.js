@@ -48,7 +48,8 @@ elif req.get("mode") == "dedup":
     gap = {"question": "What is the formula of limonene?", "sim": {"reason": "unknown_substance", "substance": "limonene"}}
     t1 = tick_gaps([gap, dict(gap)], now=0, http=http)
     t2 = tick_gaps([gap], now=0, http=http, ledger=t1.get("ledger"))
-    print(json.dumps({"rules": [x.get("rule") for x in t1["log"]], "second": t2["log"][0]["rule"], "calls": len(calls), "trusted": sorted((t1.get("ledger") or {}).get("sources") or {})}))
+    led = t1.get("ledger") or {}
+    print(json.dumps({"rules": [x.get("rule") for x in t1["log"]], "second": t2["log"][0]["rule"], "calls": len(calls), "trusted": sorted(k for k, v in (led.get("sources") or {}).items() if v.get("trusted")), "proposed": ((led.get("methods") or {}).get("lookup") or {}).get("proposed")}))
 `;
 function register(C, expect) {
   C('ATHENA', 'two publishers propose the formula and the same question resumes', () => {
@@ -88,7 +89,7 @@ function register(C, expect) {
   });
   C('ATHENA', 'one tick dedupes and the next tick backs off', () => {
     const row = py(RUN, JSON.stringify({ mode: 'dedup' }));
-    expect(row.rules[0] === 'ATHENA-PROPOSED' && row.rules[1] === 'ATHENA-DEDUPED' && row.second === 'ATHENA-BACKOFF' && row.calls === 3 && row.trusted.indexOf('pubchem') >= 0 && row.trusted.indexOf('chebi') >= 0, JSON.stringify(row));
+    expect(row.rules[0] === 'ATHENA-PROPOSED' && row.rules[1] === 'ATHENA-DEDUPED' && row.second === 'ATHENA-BACKOFF' && row.calls === 3 && row.trusted.length === 0 && row.proposed === 1, JSON.stringify(row));
   });
 }
 module.exports = register;

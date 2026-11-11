@@ -147,7 +147,10 @@ elif op == 'propose':
     from rmc_engine_v1.athena_props import propose_rows, record_outcome
     out = propose_rows(a.get('facts') or [], a.get('question') or '')
     out['rule'] = a.get('rule') or ('ATHENA-PROPOSED' if out.get('proposals') else 'ATHENA-NO-AGREEMENT')
-    out['ledger'] = record_outcome(a.get('ledger') if isinstance(a.get('ledger'), dict) else None, a.get('method') or 'lookup', out['rule'], a.get('facts') or [], disagreed=bool(a.get('disagreed')))
+    out['ledger'] = record_outcome(a.get('ledger') if isinstance(a.get('ledger'), dict) else None, a.get('method') or 'lookup', out['rule'], a.get('facts') or [], disagreed=bool(a.get('disagreed')), admitted=bool(a.get('admitted')))
+elif op == 'ledger':
+    from rmc_engine_v1.athena_props import record_outcome
+    out = {'ledger': record_outcome(a.get('ledger') if isinstance(a.get('ledger'), dict) else None, a.get('method') or 'lookup', a.get('rule') or '', a.get('facts') or [], disagreed=bool(a.get('disagreed')), admitted=bool(a.get('admitted'))), 'calls_llm': False, 'supabase_write': False}
 elif op == 'lookup_seal':
     fact = a.get('fact') or {}
     problem = dict(a.get('problem') or {})
@@ -176,7 +179,7 @@ async function sim(arg) {
     if (todo.length) { await py.loadPackage(todo, { checkIntegrity: true }); todo.forEach(n => pkgsDone.add(n)); }
     packages = { rule: 'PYODIDE-LOCK-SHA256', lock: 'pyodide 0.27.7', requested: want, loaded_now: todo };
   }
-  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason, frame: arg.frame, facts: arg.facts, rows: arg.rows, name: arg.name, phrase: arg.phrase, specific: arg.specific, pub: arg.pub, term: arg.term, sides: arg.sides, memory: arg.memory, nhtsa: arg.nhtsa, epa: arg.epa, nhtsa_raw: arg.nhtsa_raw, epa_raw: arg.epa_raw, nhtsa_url: arg.nhtsa_url, epa_url: arg.epa_url, card: arg.card, card_url: arg.card_url, quaero: arg.quaero, prior: arg.prior, supplement: arg.supplement }));
+  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason, frame: arg.frame, facts: arg.facts, rows: arg.rows, name: arg.name, phrase: arg.phrase, specific: arg.specific, pub: arg.pub, term: arg.term, sides: arg.sides, memory: arg.memory, nhtsa: arg.nhtsa, epa: arg.epa, nhtsa_raw: arg.nhtsa_raw, epa_raw: arg.epa_raw, nhtsa_url: arg.nhtsa_url, epa_url: arg.epa_url, card: arg.card, card_url: arg.card_url, quaero: arg.quaero, prior: arg.prior, supplement: arg.supplement, ledger: arg.ledger, method: arg.method, disagreed: arg.disagreed, rule: arg.rule, admitted: arg.admitted }));
   const out = JSON.parse(py.runPython(SIM_PY));
   if (packages) out.packages = packages;
   return out;

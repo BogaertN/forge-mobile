@@ -183,8 +183,13 @@ def chemical_decision(name: str, pub: dict[str, Any] | None, che: dict[str, Any]
                 "calls_llm": False, "supabase_write": False}
     if str(pub.get("formula")) != str(che.get("formula")) or (
             pub.get("mass") is not None and che.get("mass") is not None and not _agree_num(float(pub["mass"]), float(che["mass"]), MASS_REL)):
+        pubs = []
+        if pub and pub.get("url"):
+            pubs.append(_pub("pubchem", pub["url"]))
+        if che and che.get("url"):
+            pubs.append(_pub("chebi", che["url"]))
         return {"ok": [], "held": [{"head": name.lower(), "property": "formula", "reason": "publishers_disagree",
-                                    "pubchem": pub.get("formula"), "chebi": che.get("formula")}],
+                                    "pubchem": pub.get("formula"), "chebi": che.get("formula"), "publishers": pubs}],
                 "calls_llm": False, "supabase_write": False}
     return gilligan(agree_chemical(name, pub, che))
 
@@ -882,28 +887,39 @@ def independent_lineages(fact: dict[str, Any]) -> list[str]:
     return found
 
 
-def note_sources(ledger: dict[str, Any] | None, facts: list[dict[str, Any]], *, disagreed: bool = False) -> dict[str, Any]:
-    """Persisted trust counts. A new source rises only by agreeing with a different lineage."""
+def note_sources(ledger: dict[str, Any] | None, facts: list[dict[str, Any]], *, disagreed: bool = False, admitted: bool = False, rejected: bool = False) -> dict[str, Any]:
+    """Persisted trust. A lineage that is not trusted becomes trusted only when an admit
+    also contains a different lineage that is already trusted. The first admit of two
+    independent lineages is that trusted set. A second host of the same lineage is not
+    a new source. A disagreement or a rejection never grants trust."""
     book = dict(ledger or {})
     rows = dict(book.get("sources") or {})
-    for fact in facts:
+    for fact in facts or []:
+        if not isinstance(fact, dict):
+            continue
         lins = independent_lineages(fact)
+        prior = {lin for lin in lins if (rows.get(lin) or {}).get("trusted")}
+        any_trusted = any(bool((row or {}).get("trusted")) for row in rows.values())
+        seed = bool(admitted and len(lins) >= 2 and not any_trusted)
+        seen: set[str] = set()
         for raw in fact.get("publishers") or []:
             if not isinstance(raw, dict):
                 continue
             lin = lineage_of(raw)
-            if not lin or lin in ("wikipedia", "wikidata"):
+            if not lin or lin in ("wikipedia", "wikidata") or lin in seen:
                 continue
-            row = dict(rows.get(lin) or {"lineage": lin, "agrees": 0, "conflicts": 0, "trusted": False})
+            seen.add(lin)
+            row = dict(rows.get(lin) or {"lineage": lin, "agrees": 0, "conflicts": 0, "admits": 0, "rejected": 0, "trusted": False})
             if disagreed:
                 row["conflicts"] = int(row.get("conflicts") or 0) + 1
-            elif len(lins) >= 2:
+            elif admitted and len(lins) >= 2:
                 row["agrees"] = int(row.get("agrees") or 0) + 1
+                row["admits"] = int(row.get("admits") or 0) + 1
                 others = [x for x in lins if x != lin]
-                if others and any((rows.get(o) or {}).get("trusted") or int((rows.get(o) or {}).get("agrees") or 0) >= 1 for o in others):
+                if row.get("trusted") or any(x in prior for x in others) or seed:
                     row["trusted"] = True
-                if row["agrees"] >= 1 and len(lins) >= 2:
-                    row["trusted"] = True
+            elif rejected or (admitted and len(lins) < 2):
+                row["rejected"] = int(row.get("rejected") or 0) + 1
             rows[lin] = row
     book["sources"] = rows
     book["calls_llm"] = False
@@ -911,15 +927,28 @@ def note_sources(ledger: dict[str, Any] | None, facts: list[dict[str, Any]], *, 
     return book
 
 
-def record_outcome(ledger: dict[str, Any] | None, method: str, rule: str, facts: list[dict[str, Any]] | None = None, *, disagreed: bool = False) -> dict[str, Any]:
-    """The source ledger and the method counts, from one outcome."""
-    book = note_sources(ledger, facts or [], disagreed=disagreed)
+def record_outcome(ledger: dict[str, Any] | None, method: str, rule: str, facts: list[dict[str, Any]] | None = None, *, disagreed: bool = False, admitted: bool = False) -> dict[str, Any]:
+    """The source ledger and the method counts. Trust moves on an admit, a rejection, or a disagreement."""
+    rule = str(rule or "")
+    admit = bool(admitted or rule in ("ATHENA-ADMITTED", "GILLIGAN-DERIVED"))
+    disagree = bool(disagreed or rule == "ATHENA-DISAGREEMENT")
+    reject = rule not in ("ATHENA-PROPOSED", "ATHENA-SIMULATED", "GILLIGAN-SIMULATED", "ATHENA-DERIVED") and not admit and not disagree
+    if admit and method == "lookup":
+        book = note_sources(ledger, facts or [], admitted=True)
+    elif disagree:
+        book = note_sources(ledger, facts or [], disagreed=True)
+    elif reject:
+        book = note_sources(ledger, facts or [], rejected=True)
+    else:
+        book = note_sources(ledger, [])
     methods = dict(book.get("methods") or {})
-    row = dict(methods.get(method) or {"method": method, "proposed": 0, "rejected": 0, "simulated": 0})
+    row = dict(methods.get(method) or {"method": method, "proposed": 0, "rejected": 0, "simulated": 0, "admitted": 0})
     if rule == "ATHENA-PROPOSED":
         row["proposed"] = int(row.get("proposed") or 0) + 1
-    elif rule == "ATHENA-SIMULATED":
+    elif rule in ("ATHENA-SIMULATED", "GILLIGAN-SIMULATED"):
         row["simulated"] = int(row.get("simulated") or 0) + 1
+    elif admit or rule == "ATHENA-DERIVED":
+        row["admitted"] = int(row.get("admitted") or 0) + 1
     else:
         row["rejected"] = int(row.get("rejected") or 0) + 1
     methods[method] = row
