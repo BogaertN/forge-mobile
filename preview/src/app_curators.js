@@ -9,6 +9,7 @@
   let cur = null, lastFlush = 0, answering = false;
   try { const p = root.localStorage && root.localStorage.getItem(PREF); if (p === '0' && root.KNextLayer) root.KNextLayer.set('dream_idle', false); } catch (e) { /* private mode */ }
   const on = () => !root.KNextLayer || root.KNextLayer.enabled('dream_idle') !== false;
+  function phoneRows() { try { const v = JSON.parse((root.localStorage && root.localStorage.getItem('forge.remembered.v1')) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
   function make() {
     if (cur || !root.KCuratorsLib) return cur;
     const ls = root.localStorage;
@@ -20,11 +21,17 @@
       digest: async () => { if (!root.KAnchorCache) return null; const s = await root.KAnchorCache.status(); return s && s.digest || null; },
       reparse: t => { const f = root.forge; return f && f.reparseClause ? f.reparseClause(t) : null; },
       insert: body => (root.KSb && root.KSb.insertAdmitted ? root.KSb.insertAdmitted(body, (uid, sha, nonce) => root.forge && root.forge.signer && root.forge.signer.writerProof ? root.forge.signer.writerProof(uid, sha, nonce) : null) : Promise.resolve({ ok: false, pending: true, rule: 'KB-WRITER-UNAVAILABLE' })),
-      research: gap => (root.KSimDevice && root.KSimDevice.research ? root.KSimDevice.research(gap) : Promise.resolve({ rule: 'ATHENA-NO-LOOKUP', proposals: [] })),
+      research: gap => (root.KSimDevice && root.KSimDevice.research ? root.KSimDevice.research(Object.assign({ phone: phoneRows() }, gap)) : Promise.resolve({ rule: 'ATHENA-NO-LOOKUP', proposals: [] })),
       rememberResearch: rows => { root.FORGE_RESEARCH = (root.FORGE_RESEARCH || []).concat(rows || []).slice(-32); },
-      premises: () => (root.athenaPremises ? root.athenaPremises(root.FORGE_RESEARCH || []) : [])
+      rememberSimulation: (q, rows) => { root.FORGE_SIM = rows || []; },
+      phone: phoneRows,
+      simulation: () => root.FORGE_SIM || [],
+      book: arg => (root.KSimDevice && root.KSimDevice.book ? root.KSimDevice.book(arg) : Promise.resolve(null)),
+      publishLedger: led => { root.FORGE_LEDGER = led; },
+      premises: () => (root.athenaPremises ? root.athenaPremises(root.FORGE_RESEARCH || []) : []).concat((root.FORGE_SIM || []).filter(r => r && r.id).map(r => ({ id: r.id, text: r.text, provenance: { method: 'simulate', may_store_as_fact: false } }))).concat(phoneRows().filter(r => r && r.id).map(r => ({ id: r.id, text: r.text, clause: r.clause, provenance: r.provenance || { method: 'remembered', requested_by: 'user' } })))
     });
     root.FORGE_CURATORS = cur;
+    try { const saved = cur.state(); if (saved && saved.ledger) root.FORGE_LEDGER = saved.ledger; } catch (e) { /* the ledger stays empty until a tick */ }
     return cur;
   }
   const neo = root.KNeoLib ? root.KNeoLib.create({

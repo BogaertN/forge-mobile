@@ -100,11 +100,20 @@ function Curators(o) {
   const now = () => (o.now ? o.now() : Date.now());
   const KM = o.kmath || root.KMath || null;
   const load = () => { try { const s = o.store ? o.store.get(KEY) : null; return s && s.schema === SCHEMA ? s : null; } catch (e) { return null; } };
-  let st = load() || { schema: SCHEMA, queue: [], admitted: [], pending: [], quarantine: [], cold: [], log: [], digest: null };
+  let st = load() || { schema: SCHEMA, queue: [], admitted: [], pending: [], quarantine: [], cold: [], simulated: [], log: [], digest: null };
+  if (!Array.isArray(st.simulated)) st.simulated = [];
   let busy = false, answering = false, halted = null, inflight = null;
   const save = () => { try { if (o.store) o.store.set(KEY, st); } catch (e) { /* storage full: keep this session */ } };
   const log = (who, rule, extra) => { st.log.push(Object.assign({ at: now(), who, rule }, extra || {})); if (st.log.length > 60) st.log = st.log.slice(-60); };
-  const known = k => st.queue.concat(st.admitted, st.pending, st.quarantine, st.cold).some(g => g.key === k);
+  const known = k => st.queue.concat(st.admitted, st.pending, st.quarantine, st.cold, st.simulated).some(g => g.key === k);
+  async function book(method, rule, facts, flags) {
+    if (typeof o.book !== 'function') return null;
+    try {
+      const booked = await o.book(Object.assign({ ledger: st.ledger || null, method: method, rule: rule, facts: facts || [] }, flags || {}));
+      if (booked && booked.ledger) { st.ledger = booked.ledger; if (typeof o.publishLedger === 'function') o.publishLedger(st.ledger); }
+      return booked;
+    } catch (e) { return null; }
+  }
   function noteHeld(question, row, extra) {
     const q = norm(question); const k = gapKey(q);
     if (!q || q.length < 6 || q.length > 200 || !(/\?$/.test(q) || QWORD.test(q))) return { ok: false, rule: 'CURATE-NOT-A-QUESTION' };
@@ -122,7 +131,9 @@ function Curators(o) {
     /* 4.9.210: cached anchors (pool: true) go to the engine pool; the engine selects them by packet concepts */
     const pool = anchors.filter(a => a && a.pool === true);
     const hosted = typeof o.premises === 'function' ? (o.premises() || []) : [];
-    const memory = { receipts: [], phone: [], hosted: hosted, research: [], anchors: anchors.filter(a => !(a && a.pool === true)), pools: pool.length ? [{ name: 'anchors', into: 'anchors', rows: pool }] : [] };
+    const phone = typeof o.phone === 'function' ? (o.phone() || []) : [];
+    const simulation = typeof o.simulation === 'function' ? (o.simulation(question) || []) : [];
+    const memory = { receipts: [], phone: phone.filter(r => r && (r.text || r.clause)), hosted: hosted, research: [], simulation: simulation, anchors: anchors.filter(a => !(a && a.pool === true)), pools: pool.length ? [{ name: 'anchors', into: 'anchors', rows: pool }] : [] };
     const row = await o.run(Object.assign({ question, live: true, dry_run: false, memory }, extra || {}));
     const eps = row && typeof row.drift === 'number' ? row.drift : null;
     const region = row && row.admit && row.admit.drift_region;
@@ -161,19 +172,24 @@ function Curators(o) {
     if (gap.gap && gap.gap.sim && o.research && !gap.researched) {
       let found = null;
       try { found = await o.research(gap); } catch (e) { found = { rule: 'ATHENA-LOOKUP-FAILED', error: String(e && e.message || e).slice(0, 160) }; }
+      const rule = found && found.rule;
+      if (found && found.ledger) { st.ledger = found.ledger; if (typeof o.publishLedger === 'function') o.publishLedger(st.ledger); }
+      if (rule === 'ATHENA-PROPERTY-MISSING') {
+        gap.attempts = (gap.attempts || 0) + 1; gap.last_at = now();
+        gap.next_at = now() + [15000, 30000, 120000, 600000][Math.min((gap.attempts || 1) - 1, 3)];
+        return { to: gap.attempts >= 3 ? 'cold' : 'queue', rec: { key: gap.key, question: gap.question, rule: rule, at: now(), calls_llm: false, gap: gap.gap } };
+      }
       gap.researched = true;
       gap.research = found;
-      const rule = found && found.rule;
       if (rule === 'ATHENA-DISAGREEMENT') { gap.attempts = (gap.attempts || 0) + 1; gap.last_at = now(); return { to: 'quarantine', rec: { key: gap.key, question: gap.question, rule: rule, at: now(), calls_llm: false, gap: gap.gap } }; }
       if (rule === 'ATHENA-PERSONAL') { gap.attempts = (gap.attempts || 0) + 1; gap.last_at = now(); return { to: 'cold', rec: { key: gap.key, question: gap.question, rule: rule, at: now(), calls_llm: false, gap: gap.gap } }; }
-      if (found && found.ledger) st.ledger = found.ledger;
-      if (!(found && found.proposals && found.proposals.length)) {
+      if (rule === 'ATHENA-SIMULATED' && found && found.receipt && found.receipt.ok && typeof o.rememberSimulation === 'function') o.rememberSimulation(gap.question, found.receipt.rows || []);
+      else if (!(found && found.proposals && found.proposals.length)) {
         const wait = [15000, 30000, 120000, 600000][Math.min(gap.attempts || 0, 3)];
         gap.next_at = now() + wait;
         gap.attempts = (gap.attempts || 0) + 1; gap.last_at = now();
         return { to: gap.attempts >= 3 ? 'cold' : 'queue', rec: { key: gap.key, question: gap.question, rule: rule || 'ATHENA-NO-AGREEMENT', at: now(), calls_llm: false, gap: gap.gap } };
-      }
-      if (typeof o.rememberResearch === 'function') o.rememberResearch(found.proposals);
+      } else if (typeof o.rememberResearch === 'function') o.rememberResearch(found.proposals);
     }
     gap.attempts += 1; gap.last_at = now();
     const anchors = (await o.anchorsFor(gap.question)) || [];
@@ -195,9 +211,22 @@ function Curators(o) {
     if (m.lane === 'hard') return { to: 'cold', rec: Object.assign(base, { rule: m.region === 'forbidden' ? 'ATHENA-FORBIDDEN-REJECT' : 'ATHENA-HARD-REJECT' }) };
     if (m.lane === 'quarantine' || m.lane === 'correct') return { to: 'quarantine', rec: Object.assign(base, { rule: m.lane === 'correct' ? (chi && fell === false ? 'GILLIGAN-CHI-DID-NOT-FALL' : 'GILLIGAN-STILL-CORRECT-BAND') : 'ATHENA-QUARANTINE', digest: st.digest }) };
     if (!m.row || !m.row.product_reply || !m.row.reply) return { to: gap.attempts >= MAX_ATTEMPTS ? 'cold' : 'queue', rec: Object.assign(base, { rule: anchors.length ? 'ATHENA-NO-ADMIT' : 'ATHENA-NO-TRUSTED-ANCHOR', reply: null }) };
+    const phone = typeof o.phone === 'function' ? (o.phone() || []) : [];
+    const rests = m.row.trust && m.row.trust.rests_on;
+    const looked = gap.research && (gap.research.method === 'lookup' || gap.research.method === 'simulate' || (gap.research.proposals && gap.research.proposals.length));
+    if (!looked && phone.some(r => r && r.id === rests)) gap.research = { rule: 'ATHENA-DERIVED', method: 'derive' };
     const g = guard(m, anchors);
     if (!g.ok) return { to: 'quarantine', rec: Object.assign(base, { rule: g.rule, ids: g.ids || [] }) };
-    const echo = await echoReparse(gap.question, m.row.reply, pickAnchor(m.row, anchors));
+    let echo;
+    if (gap.research && gap.research.method === 'simulate') {
+      const rows = typeof o.simulation === 'function' ? (o.simulation(gap.question) || []) : [];
+      const said = String(m.row.reply || '').toLowerCase();
+      const forms = [];
+      rows.forEach(r => { if (!r) return; if (r.text) forms.push(String(r.text).toLowerCase()); if (r.sim && r.sim.effect_text) forms.push(String(r.sim.effect_text).toLowerCase()); ((r.sim && r.sim.spoken_atoms) || []).forEach(s => { if (s && s.text) forms.push(String(s.text).toLowerCase()); }); });
+      const bare = said.replace(/\.+$/, '');
+      const hit = forms.some(t => { const b = t.replace(/\.+$/, ''); return b && (bare.indexOf(b) >= 0 || b.indexOf(bare) >= 0); });
+      echo = { ok: !!(m.echo && m.echo.pass === true && m.echo.score >= 0.85 && hit), engine_same: hit, echo: m.echo && m.echo.score, grammar_gates: false };
+    } else echo = await echoReparse(gap.question, m.row.reply, pickAnchor(m.row, anchors));
     if (!echo.ok) return { to: 'quarantine', rec: Object.assign(base, { rule: 'ATHENA-ECHO-REPARSE-FAILED', reply: m.row.reply, echo_reparse: echo }) };
     /* 4.9.209: Ask returns the admitted row as a proposal (no auto-write); Athena's curation write takes it through the locked writer */
     const mw = m.row.memory_write || {}; const prop = mw.proposal || mw.hosted_kb;
@@ -205,7 +234,14 @@ function Curators(o) {
     const body = prop ? Object.assign({}, prop, { provenance: Object.assign({}, prop.provenance || {}, (premise && premise.provenance) || {}, { curated_by: 'athena+gilligan' }) }) : null;
     const rec = Object.assign(base, { reply: m.row.reply, premises: g.premises, echo_reparse: echo, contributor: 'athena', curated_by: 'athena+gilligan' });
     /* 4.9.211: the lasting write needs the engine's write gate (Φ6 then Φ7, Echo ≥ 0.97 + classes, C ≥ 0.87, clean at θ_admit) */
-    if (mw.write_gate && mw.write_gate.ok !== true) return { to: 'quarantine', rec: Object.assign(rec, { rule: 'GILLIGAN-WRITE-GATE', failed: mw.write_gate.failed || [] }) };
+    if (gap.research && (gap.research.method === 'simulate' || gap.research.method === 'derive')) {
+      const method = gap.research.method;
+      await book(method, method === 'simulate' ? 'ATHENA-SIMULATED' : 'GILLIGAN-DERIVED', []);
+      return { to: 'simulated', rec: Object.assign(rec, { rule: method === 'simulate' ? 'GILLIGAN-SIMULATED' : 'GILLIGAN-DERIVED', may_store_as_fact: false }) };
+    }
+    if (mw.write_gate && mw.write_gate.ok !== true) { await book('lookup', 'GILLIGAN-WRITE-GATE', []); return { to: 'quarantine', rec: Object.assign(rec, { rule: 'GILLIGAN-WRITE-GATE', failed: mw.write_gate.failed || [] }) }; }
+    const agreed = (gap.research && gap.research.proposals) || [];
+    if (agreed.length) await book('lookup', 'ATHENA-ADMITTED', agreed, { admitted: true });
     if (!body || !o.insert) return { to: 'pending', rec: Object.assign(rec, { rule: 'CURATE-PENDING-NO-WRITER' }) };
     const w = await o.insert(body);
     /* a broken receipt hash chain halts the curators and quarantines the row (DRIFT-SPEC: a chain break halts and quarantines) */
@@ -233,7 +269,7 @@ function Curators(o) {
       if (out && out.rec) out.rec.athena = gap.research && gap.research.rule || null;
       if (out.to === 'queue') st.queue.push(Object.assign(gap, { last: out.rec.rule }));
       else st[out.to].push(out.rec);
-      for (const k of ['admitted', 'pending', 'quarantine', 'cold']) if (st[k].length > 200) st[k] = st[k].slice(-200);
+      for (const k of ['admitted', 'pending', 'quarantine', 'cold', 'simulated']) if (st[k] && st[k].length > 200) st[k] = st[k].slice(-200);
       log(out.to === 'quarantine' || out.to === 'cold' ? 'gilligan' : 'athena', out.rec.rule, { question: gap.question, eps: out.rec.eps });
       save();
       return { ok: true, rule: out.rec.rule, to: out.to, rec: out.rec };
