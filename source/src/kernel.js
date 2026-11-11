@@ -499,7 +499,31 @@ function Kernel(opts) {
 
   function commitHeld(id, userTap) {
     const hw = store.load('held_writes'); const h = hw.find(x => x.id === id && x.status === 'held'); if (!h) return { ok: false, rule: 'HELD-UNKNOWN' };
+    if (h.kind === 'phone_statement' && Array.isArray(h.readings)) {
+      const sig = r => [r && r.kriya, r && r.voice, r && r.kartr && r.kartr.text, r && r.karma && r.karma.text, r && r.karakas && r.karakas.sampradana && r.karakas.sampradana.text, r && r.text].join('|');
+      const chosen = h.selected == null ? null : h.readings[h.selected];
+      if (!chosen || !Array.isArray(h.canon) || h.canon[h.selected] !== sig(chosen) || (h.clause && sig(h.clause) !== h.canon[h.selected])) return { ok: false, rule: chosen ? 'GRAMMAR-FORGED-READING' : 'GRAMMAR-NO-READING', held: true };
+      h.text = chosen.text; h.clause = chosen;
+    }
     const d = perm.authorize('memory.approve_held', { userTap, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
+    if (h.kind === 'phone_forget') {
+      const canon = Array.isArray(h.canon) ? h.canon : [h.text];
+      const asked = Array.isArray(h.texts) ? h.texts : [h.text];
+      if (asked.length !== canon.length || asked.some((t, i) => t !== canon[i])) return { ok: false, rule: 'FORGET-FORGED-TARGET', held: true };
+      const gone = new Set(canon.map(t => String(t || '')));
+      store.save('memory', store.load('memory').filter(r => !gone.has(String(r.text || ''))));
+      h.status = 'committed'; h.decided_at = now(); h.permission = d.id; store.save('held_writes', hw);
+      return { ok: true, id: h.id, kind: 'phone_forget', rule: 'PERM-EXPLICIT-REQUEST', text: h.text, texts: canon.slice(), permission: d, readback: canon.map(() => ({ readback: 'match' })) };
+    }
+    if (h.kind === 'phone_statement') {
+      const mem = store.load('memory');
+      const rec = { id: 'mem:' + h.id, kind: 'statement', text: h.text, clause: h.clause || null, status: 'active', sensitive: !!h.sensitive, provenance: { source: 'user', request: 'remember_command', rule: 'PERM-EXPLICIT-REQUEST', actor: 'user' } };
+      mem.push(rec); store.save('memory', mem);
+      const rb = Gv.readback(store, 'memory', rec.id, rec);
+      if (rb.readback !== 'match') { mem.pop(); store.save('memory', mem); h.status = 'failed (rolled back)'; h.decided_at = now(); store.save('held_writes', hw); return { ok: false, rule: 'RB-READBACK-MISMATCH-ROLLBACK', readback: [rb] }; }
+      h.status = 'approved'; h.decided_at = now(); h.permission = d.id; store.save('held_writes', hw);
+      return { ok: true, readback: [rb], fact: rec };
+    }
     const res = commitWrite({ write: h.write, auth: h.auth, sense: null }, { msm_id: h.msm_id }, h.sfe, h.turn, now(), h.input);
     h.status = res.rollback ? 'failed (rolled back)' : 'approved'; h.decided_at = now(); h.permission = d.id; store.save('held_writes', hw);
     cont.receipt('held.' + (res.rollback ? 'rollback' : 'commit'), { id, readback: res.readback.map(x => x.readback) }); tmsSync({ op: 'held.commit', id }); return { ok: !res.rollback, ops: res.ops, readback: res.readback, rollback: res.rollback || null }; }

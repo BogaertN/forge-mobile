@@ -65,9 +65,9 @@ T('the cold 60 is honest: identical to 4.9.227 offline (Athena pipeline only; no
 });
 
 T('version registry names 4.9.228', () => {
-  expect(read('VERSION').trim() === '4.9.248', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.249', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.248' && reg.features.some(f => f.id === 'R4228-MEANING-AGREE') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.249' && reg.features.some(f => f.id === 'R4228-MEANING-AGREE') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

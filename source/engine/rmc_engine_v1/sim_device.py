@@ -21,7 +21,7 @@ from typing import Any
 
 PROBLEM = "FORGE-SIM-PROBLEM/v1"
 SCHEMA = "FORGE-SIM-RECEIPT/v1"
-VERSION = "forge-sim-device/4.9.248"
+VERSION = "forge-sim-device/4.9.249"
 _DATA: dict[str, Any] | None = None
 
 # solver → (family, runtime, Pyodide packages from the pinned 0.27.7 lock; WASM engines load in the page)
@@ -613,15 +613,17 @@ DT = 0.0005
 SIM_SECONDS = 2.0
 
 
-def push_half(body: dict[str, Any]) -> float:
-    """Half-extent along the push (the x axis). A box uses depth when it was measured.
-    Depth is omitted only for a square footprint, and then width is that extent."""
+def push_half(body: dict[str, Any]) -> float | None:
+    """Half-extent along the push. A box uses its measured depth. A missing depth is not the width."""
     if body.get("shape") == "box":
         depth = body.get("depth")
-        if isinstance(depth, (int, float)) and float(depth) > 0:
+        if isinstance(depth, (int, float)) and not isinstance(depth, bool) and float(depth) > 0:
             return float(depth) / 2.0
-        return float(body["width"]) / 2.0
-    return float(body["radius"])
+        return None
+    radius = body.get("radius")
+    if isinstance(radius, (int, float)) and not isinstance(radius, bool) and float(radius) > 0:
+        return float(radius)
+    return None
 
 
 def _geom(body: dict[str, Any]) -> tuple[str, str, float]:
@@ -630,7 +632,10 @@ def _geom(body: dict[str, Any]) -> tuple[str, str, float]:
         return "cylinder", f'{body["radius"]:.6f} {body["height"] / 2:.6f}', body["height"] / 2
     if s == "box":
         # MuJoCo box size is half-extents x y z. x is the push axis (depth), y is lateral (width).
-        hx, hy, hz = push_half(body), float(body["width"]) / 2.0, float(body["height"]) / 2.0
+        hx = push_half(body)
+        if hx is None:
+            raise ValueError("depth_missing")
+        hy, hz = float(body["width"]) / 2.0, float(body["height"]) / 2.0
         return "box", f"{hx:.6f} {hy:.6f} {hz:.6f}", hz
     return "sphere", f'{body["radius"]:.6f}', body["radius"]
 
@@ -760,8 +765,8 @@ def _body_density(reading: dict[str, Any]) -> tuple[float | None, str]:
     """Bulk density from a stated mass and box, a remembered mass, or a handbook material. No invented noun."""
     props = reading.get("props") if isinstance(reading.get("props"), dict) else {}
     h, w, d, mass = props.get("height"), props.get("width"), props.get("depth"), props.get("mass")
-    if mass and h and w and (d or w):
-        depth = float(d or w)
+    if mass and h and w and d:
+        depth = float(d)
         vol = float(h) * float(w) * depth
         if vol > 0:
             return float(mass) / vol, "stated_mass_and_volume"
@@ -774,7 +779,10 @@ def _body_density(reading: dict[str, Any]) -> tuple[float | None, str]:
             if known.get("radius"):
                 vol = math.pi * float(known["radius"]) ** 2 * float(known["height"])
             else:
-                vol = float(known["height"]) * float(known["width"]) * float(known.get("depth") or known["width"])
+                if known.get("depth") in (None, ""):
+                    vol = 0
+                else:
+                    vol = float(known["height"]) * float(known["width"]) * float(known["depth"])
         else:
             vol = 0
         if vol > 0:
@@ -872,8 +880,8 @@ def solve(problem: dict[str, Any]) -> dict[str, Any]:
 def tip_check(scene: dict[str, Any]) -> dict[str, Any] | None:
     """Quasi-static tip-before-slip cross-check (plain arithmetic, no package).
 
-    The lever arm is the half-extent along the push: depth/2 for a box whose depth was measured,
-    otherwise width/2. Tip first iff h > (that half-extent)/μ.
+    The lever arm is the half-extent along the push: depth/2 for a box, the radius for a round body.
+    A box with no depth has no lever arm. Tip first iff h > (that half-extent)/μ.
     On a slope, the body slides when tan θ > μ and tips when tan θ > depth / (2 height).
     The smaller threshold wins.
     """
@@ -881,6 +889,8 @@ def tip_check(scene: dict[str, Any]) -> dict[str, Any] | None:
     if scene["action"] != "push" or b["shape"] == "sphere":
         return None
     half_w = push_half(b)
+    if half_w is None:
+        return {"solver": "statics_check", "role": "cross_check", "outcome": None, "reason": "depth_missing", "calls_llm": False}
     h = scene["point"]["fraction"] * b["height"]
     mu = float(scene["surface"]["mu"])
     h_crit = half_w / mu
@@ -1067,7 +1077,12 @@ def finish(problem: dict[str, Any], raw: dict[str, Any]) -> dict[str, Any]:
     if s == "mujoco_wasm":
         sc = problem["scene"]
         ms = dict(raw["measurements"])
-        job = mujoco_job(sc)
+        try:
+            job = mujoco_job(sc)
+        except ValueError as exc:
+            if str(exc) == "depth_missing":
+                return {"solver": s, "error": "depth_missing", "outcome": None}
+            raise
         if sc["action"] == "push":
             ms.update(push_force_N=round(job["force"], 3),
                       push_rule=job.get("push_rule") or "1.25 x min(mu_table m g, m g w/2 / h)",
@@ -1121,6 +1136,12 @@ def _subject_clause(p: dict[str, Any], run: dict[str, Any]) -> tuple[str, str, l
     if s == "chemistry_kinetics":
         return (f"After {_g(p['t'])} seconds the reactant concentration falls to {_g(ms['concentration_left'])} moles per liter.",
                 f"The concentration falls to {_g(ms['concentration_left'])} moles per liter after {_g(p['t'])} seconds.", [])
+    if s == "publisher_lookup":
+        n = str(p.get("substance") or "")
+        prop = str(p.get("property") or "value")
+        value = str((ms.get(prop) if isinstance(ms, dict) else "") or ms.get("value") or "")
+        spoken = f"The {prop} of {n} is {value}."
+        return (spoken, spoken, [])
     if s == "rdkit_wasm":
         n = p["substance"]
         mw = ms["average_mw"]
@@ -1415,6 +1436,11 @@ def _effect_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, An
             _mod("to", f"{_g(ms['concentration_left'])} moles", "sampradana"),
             _mod("per", "liter", "sambandha"),
             _mod("after", f"{_g(problem['t'])} seconds", "kala")])
+    if s == "publisher_lookup":
+        n = str(problem.get("substance") or "")
+        prop = str(problem.get("property") or "value")
+        value = str((ms.get(prop) if isinstance(ms, dict) else "") or "")
+        return _karaka("is", [f"the {prop} of {n}", value])
     if s == "rdkit_wasm":
         n = str(problem.get("substance") or "")
         prop = problem.get("property")

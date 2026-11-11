@@ -2,8 +2,11 @@
  * this store keeps explicit Remember facts on the device as clause facts so Derive can chain across turns. Spoken answers are not auto-written (a spoken answer must not become its own evidence).
  * Each row carries its text, clause, native phase (Φ, band, Hz), provenance, trust and SPC charge. Charge decays
  * with the Genesis Node half-life (168 h): C(t) = C0 · e^(−λt), λ = ln2 / 168. Collection drops charge below 0.05.
- * Bound: at most MAX rows by charge. A contradictory write (same kartṛ + kriyā, incompatible polarity or a second
- * referring identity) is refused — nothing is overwritten silently. Personal; no hosted writes. No model. */
+ * Bound: at most MAX rows by charge. A write is refused, never overwritten, when it is the same relation with the
+ * opposite polarity, or a second copular nominal or adjective of one subject. The relation is the kriyā, the kartṛ,
+ * and every complement the clause states (predicate, karma, adjunct role). A different complement is a different
+ * atom: "lives in Paris" does not contradict "does not live in France" until a proof relates them. Personal; no
+ * hosted writes. No model. */
 (function (root) {
   const SCHEMA = 'forge.world_facts/v1';
   const KEY = 'forge.world_facts.v1';
@@ -13,6 +16,7 @@
   const ACTIVE = 0.1;
   const COLLECT = 0.05;
   const isNode = typeof module !== 'undefined' && module.exports;
+  const WR = isNode ? require('./world_rules.js') : root.KWorldRules;
 
   function backend() {
     if (isNode) return null;
@@ -51,41 +55,105 @@
     return Object.assign({}, doc, { facts, as_of: iso });
   }
   function norm(t) { return String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, ''); }
-  function atomKey(row) {
-    const a = row.atom; if (a && a.predicate && Array.isArray(a.args) && a.args.length >= 2)
-      return [String(a.predicate).toLowerCase(), norm(a.args[0]), String(a.polarity || 'pos')].join('|');
-    const c = row.clause; if (c && c.kriya && c.kartr && c.kartr.text)
-      return [String(c.kriya).toLowerCase(), norm(c.kartr.text), String(c.polarity || 'pos')].join('|');
-    return 'text|' + norm(row.text);
-  }
-  function predOf(row) {
-    const a = row.atom; if (a && Array.isArray(a.args) && a.args[1] != null) return norm(a.args[1]);
-    const c = row.clause; if (c && c.pred && c.pred.text) return norm(c.pred.text);
-    if (c && c.karma && c.karma.text) return norm(c.karma.text);
-    return null;
-  }
-  function referringClause(c) {
-    if (!c || !c.kartr) return false;
-    const k = c.kartr;
-    return !!(k.propn || k.owner || k.user || k.kernel || /^(the|this|that|my|your|his|her|its|our|their)\b/i.test(String(k.text || '')));
-  }
-  /* a new fact conflicts with a kept one when they share the atom key (same kriyā, kartṛ, polarity) but name a different
-   * predicate/karma — identity and kind membership of one subject do not silently replace each other; opposite polarity
-   * of the same args is also a conflict (handled by the key's polarity slot matching a flipped write below). */
-  function conflictWith(doc, row) {
-    const key = atomKey(row), pred = predOf(row);
-    const flipPol = k => k.endsWith('|pos') ? k.slice(0, -3) + 'neg' : (k.endsWith('|neg') ? k.slice(0, -3) + 'pos' : null);
-    const flipped = flipPol(key);
-    for (const old of doc.facts || []) {
-      if (norm(old.text) === norm(row.text)) return null; /* same sentence is a no-op keep */
-      const ok = atomKey(old);
-      if (flipped && ok === flipped) return { rule: 'WORLD-FACTS-CONFLICT-POLARITY', existing: old };
-      if (ok === key) {
-        const op = predOf(old);
-        if (pred != null && op != null && pred !== op) return { rule: 'WORLD-FACTS-CONFLICT-PREDICATE', existing: old };
+  function sameText(a, b) { return norm(a) === norm(b); }
+  /* The relation the world model would atomise: kriyā, kartṛ, and every complement role. Polarity is separate,
+   * so the same relation with the opposite polarity is one atom flipped, and a different complement is not. */
+  function identity(row) {
+    const c = row && row.clause;
+    const pol = (c && c.parsed && c.polarity) || (row && row.atom && row.atom.polarity) || 'pos';
+    const polarity = pol === 'neg' ? 'neg' : 'pos';
+    if (c && c.parsed && c.kriya && c.kartr && c.kartr.text) {
+      const slots = [];
+      let copula = null;
+      if (c.pred && (c.pred.text || (c.pred.np && c.pred.np.text))) {
+        if (c.pred.type === 'pp') slots.push('pp:' + norm(c.pred.prep) + ':' + norm((c.pred.np && c.pred.np.text) || c.pred.text));
+        else if (c.pred.type === 'cmp') {
+          /* older and taller are different relations. The than-complement is part of the relation, and neither is a bare copula. */
+          const than = c.pred.than && c.pred.than.text;
+          slots.push('cmp:' + norm(c.pred.predicate || c.pred.text) + ':' + norm(than || ''));
+        } else if (c.pred.type === 'measure') {
+          slots.push('measure:' + norm(c.pred.property) + ':' + norm(c.pred.num) + ':' + norm(c.pred.unit));
+        } else {
+          const nominal = norm((c.pred.np && c.pred.np.text) || c.pred.text);
+          /* an of-phrase is the relation's complement ("part of", "mother of"), not a second name for the subject */
+          if (!c.pred.of && !(c.pred.owner && typeof c.pred.owner === 'object')) copula = nominal;
+          slots.push('pred:' + norm(c.pred.type || 'np') + ':' + nominal);
+        }
       }
+      if (c.karma && c.karma.text) slots.push('karma:' + norm(c.karma.text));
+      for (const a of (Array.isArray(c.adj) ? c.adj : [])) {
+        if (!a) continue;
+        if (a.time) slots.push('kala:' + norm(a.time));
+        else if (a.np && a.np.text) slots.push(norm(a.role || 'adj') + ':' + norm(a.prep || '') + ':' + norm(a.np.text));
+      }
+      slots.sort();
+      return { pred: norm(c.kriya), subj: norm(c.kartr.text), slots: slots.join(';'), polarity, copula: c.kriya === 'be' && copula != null ? copula : null };
+    }
+    const a = row && row.atom;
+    if (a && a.predicate && Array.isArray(a.args) && a.args.length >= 2) {
+      const rest = a.args.slice(1).map(norm).join(';');
+      return { pred: norm(a.predicate), subj: norm(a.args[0]), slots: 'arg:' + rest, polarity, copula: norm(a.predicate) === 'is' ? rest : null };
+    }
+    return { pred: '', subj: '', slots: 'text:' + norm(row && row.text), polarity, copula: null };
+  }
+  function atomKey(row) {
+    const id = identity(row);
+    return [id.pred, id.subj, id.slots, id.polarity].join('|');
+  }
+  /* A declared relation the clause states, in the world-rules atom shape. Only constructions the grammar
+   * already distinguishes: inside/within, born+in, and a nominal head whose "_of" row exists. No phrase list. */
+  function declaredAtom(row) {
+    const c = row && row.clause;
+    if (!c || !c.parsed || !c.kartr || !c.kartr.text || !WR || !WR.relInfo) return null;
+    const pol = c.polarity === 'neg' ? 'neg' : 'pos';
+    const subj = norm(c.kartr.text);
+    if (c.kriya === 'be' && c.pred && c.pred.type === 'pp' && (norm(c.pred.prep) === 'inside' || norm(c.pred.prep) === 'within')) {
+      const obj = (c.pred.np && c.pred.np.text) || c.pred.text;
+      return obj ? { predicate: 'in', args: [subj, norm(obj)], polarity: pol } : null;
+    }
+    if (c.kriya === 'be' && c.pred && c.pred.type === 'adj' && norm(c.pred.text) === 'born') {
+      const loc = (Array.isArray(c.adj) ? c.adj : []).find(a => a && norm(a.prep) === 'in' && a.np && a.np.text);
+      return loc ? { predicate: 'born_in', args: [subj, norm(loc.np.text)], polarity: pol } : null;
+    }
+    if (c.kriya === 'be' && c.pred && c.pred.head) {
+      const whole = (c.pred.of && c.pred.of.text) || (c.pred.owner && c.pred.owner.text);
+      const pred = norm(c.pred.head) + '_of';
+      if (whole && WR.relInfo(pred)) return { predicate: pred, args: [subj, norm(whole)], polarity: pol };
     }
     return null;
+  }
+  /* A second value of a relation the world-rules table marks functional, and only when the two values are
+   * apart (neither contains the other through a declared containment atom, and they are not the same name).
+   * married_to, before, and live are not in that table, so a different spouse, time, or residence is kept. */
+  function functionalConflict(doc, row) {
+    const neu = declaredAtom(row);
+    if (!neu || neu.polarity !== 'pos') return null;
+    const info = WR.relInfo(neu.predicate);
+    if (!info || !info.row.functional) return null;
+    const atoms = [];
+    for (const old of doc.facts || []) { const a = declaredAtom(old); if (a && a.polarity === 'pos') atoms.push(a); }
+    const apart = WR.apartness(atoms.concat([neu]));
+    const slot = info.row.functional === 'object' ? 1 : 0;
+    const other = 1 - slot;
+    const np = WR.canonicalPred(neu.predicate);
+    for (const old of doc.facts || []) {
+      const a = declaredAtom(old);
+      if (!a || a.polarity !== 'pos' || WR.canonicalPred(a.predicate) !== np) continue;
+      if (a.args[slot] === neu.args[slot] && apart(a.args[other], neu.args[other])) return { rule: 'WORLD-FACTS-CONFLICT-FUNCTIONAL', existing: old };
+    }
+    return null;
+  }
+  /* Opposite polarity conflicts only when the complements are the same relation. A second bare copular
+   * nominal or adjective of one subject is still refused, so an identity is not silently replaced. */
+  function conflictWith(doc, row) {
+    const neu = identity(row);
+    for (const old of doc.facts || []) {
+      if (norm(old.text) === norm(row.text)) return null; /* same sentence is a no-op keep */
+      const o = identity(old);
+      if (neu.pred && neu.pred === o.pred && neu.subj === o.subj && neu.slots === o.slots && neu.polarity !== o.polarity) return { rule: 'WORLD-FACTS-CONFLICT-POLARITY', existing: old };
+      if (neu.copula != null && o.copula != null && neu.pred === o.pred && neu.subj === o.subj && neu.polarity === o.polarity && neu.copula !== o.copula) return { rule: 'WORLD-FACTS-CONFLICT-PREDICATE', existing: old };
+    }
+    return functionalConflict(doc, row);
   }
   function placeOf(row, forge) {
     /* native phase from the row's packet/sfe when present; otherwise a stable default recorded as such */
@@ -140,9 +208,25 @@
       remembered_at: r.remembered_at, admitted_at: r.admitted_at, updated_at: r.updated_at,
     }));
   }
-  function clear() { MEM = { schema: SCHEMA, facts: [], updated_at: new Date().toISOString(), calls_llm: false };
+  function clear() { MEM = { schema: SCHEMA, facts: [], receipts: [], updated_at: new Date().toISOString(), calls_llm: false };
     const b = backend(); if (b) { try { b.set(KEY, JSON.stringify(MEM)); } catch (e) {} } return { ok: true }; }
+  /* Explicit forget of one stored premise. Derived answers are not stored, so nothing derived is deleted here;
+   * the next Ask recomputes from what remains. Shared packs and anchors are not this store. */
+  function forget(sel) {
+    const doc = loadRaw();
+    const key = norm(sel);
+    const facts = doc.facts || [];
+    const i = facts.findIndex(f => f && (f.id === sel || norm(f.text) === key));
+    if (i < 0) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Nothing remembered matches that.' };
+    const fact = facts[i];
+    const next = facts.slice(0, i).concat(facts.slice(i + 1));
+    const receipt = { schema: 'forge.world_facts.forget/v1', id: 'fg-' + String(fact.id || i), fact_id: fact.id, text: fact.text, at: new Date().toISOString() };
+    const saved = saveRaw(Object.assign({}, doc, { facts: next, receipts: [receipt].concat(doc.receipts || []).slice(0, 64) }));
+    if (!saved.ok) return saved;
+    return { ok: true, rule: 'WORLD-FACTS-FORGOT', fact: { id: fact.id, text: fact.text }, receipt: receipt, n: next.length, message: 'Forgot on this phone: ' + fact.text + ' · ' + receipt.id };
+  }
+  function receipts() { return ((loadRaw().receipts) || []).slice(); }
   function snapshot() { return decayed(loadRaw()); }
-  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, snapshot, conflictWith, atomKey };
+  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, forget, receipts, snapshot, conflictWith, atomKey, norm, sameText };
   if (isNode) module.exports = api; else root.KWorldFacts = api;
 })(typeof self !== 'undefined' ? self : this);

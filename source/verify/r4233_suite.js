@@ -90,9 +90,9 @@ T('WM-NAME-OF: "my dog\'s name" is the proper-noun predicate of a copula fact on
 });
 
 T('version registry names 4.9.233', () => {
-  expect(read('VERSION').trim() === '4.9.248', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.249', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.248' && reg.features.some(f => f.id === 'R4233-DERIVE-FRAME-PHASE') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.249' && reg.features.some(f => f.id === 'R4233-DERIVE-FRAME-PHASE') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

@@ -170,7 +170,9 @@ def memory_facts(rows: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
             continue
         pred = cl.get("pred") if isinstance(cl.get("pred"), dict) else {}
         stated = None
-        if pred.get("type") == "np" and pred.get("num") is not None:
+        if pred.get("type") == "measure" and pred.get("num") is not None:
+            stated = [{"num": pred.get("num"), "unit": str(pred.get("unit") or "").lower(), "dim": str(pred.get("property") or "").lower()}]
+        elif pred.get("type") == "np" and pred.get("num") is not None:
             stated = [{"num": pred.get("num"), "unit": _head(pred), "dim": "mass"}]
         elif pred.get("text"):
             m = re.search(r"(\d+(?:\.\d+)?)\s+([a-z]+)\s+(tall|high|wide|deep|long|thick)", str(pred.get("text")), re.I)
@@ -303,8 +305,24 @@ let raw = ''; process.stdin.on('data', c => raw += c); process.stdin.on('end', (
     return frames[0] if frames else None
 
 
+_GEOM = {"height", "width", "depth", "radius", "mass", "shape"}
+_BLOCKED_HOST = ("wikipedia.org", "wikidata.org", "wikimedia.org")
+
+
+def _fact_hosts(fact: dict[str, Any]) -> list[str]:
+    hosts: list[str] = []
+    for raw in list(fact.get("hosts") or []) + [p.get("host") for p in (fact.get("publishers") or []) if isinstance(p, dict)]:
+        h = str(raw or "").lower()
+        if not h or any(h == b or h.endswith("." + b) for b in _BLOCKED_HOST):
+            continue
+        if h not in hosts:
+            hosts.append(h)
+    return hosts
+
+
 def _facts_for(head: str, facts: list[dict[str, Any]] | None) -> dict[str, Any]:
     out: dict[str, Any] = {}
+    provenance: dict[str, str] = {}
     h = head.lower()
     phrase = ""
     for f in facts or []:
@@ -312,12 +330,25 @@ def _facts_for(head: str, facts: list[dict[str, Any]] | None) -> dict[str, Any]:
             continue
         if str(f.get("head") or "").lower() != h and str(f.get("phrase") or "").lower() != h:
             continue
-        out[str(f.get("property"))] = f.get("value")
+        prop = str(f.get("property") or "")
+        if not prop:
+            continue
+        if f.get("source") == "remembered":
+            out[prop] = f.get("value")
+            provenance[prop] = "stated"
+            continue
+        if prop in _GEOM:
+            if len(_fact_hosts(f)) < 2:
+                continue
+            provenance[prop] = "two_publishers"
+        out[prop] = f.get("value")
         if f.get("average"):
             out["average"] = True
             phrase = str(f.get("phrase") or phrase)
     if phrase:
         out["phrase"] = phrase
+    if provenance:
+        out["_provenance"] = provenance
     return out
 
 
@@ -501,12 +532,18 @@ def read(question: str, frame: dict[str, Any] | None = None, facts: list[dict[st
         if not ph or ph in ("it", "them", "that", "this", "something") or karma_h in ("it", "them", "that", "this"):
             return {"hold": True, "reason": "unresolved_pronoun", "missing": "karma", "question": q, "frame": fr}
         stated = stated_props(part)
-        props = dict(prop_facts)
+        provenance = dict(prop_facts.get("_provenance") or {})
+        props = {k: v for k, v in prop_facts.items() if k != "_provenance"}
         props.update(stated)
+        for key in stated:
+            provenance[key] = "stated"
+        if provenance:
+            props["_provenance"] = provenance
         out = {"question": q, "frame": fr, "kind": kind, "verb": k, "patient": ph,
                "phrase": _phrase_of(pat), "patient_text": str((pat or {}).get("text") or ph),
                "adjectives": list((pat or {}).get("adjs") or []), "point": _point(part), "surface": _surface(part),
-               "slope_deg": _slope_deg(part), "part": part, "props": props, "stated": bool(stated)}
+               "slope_deg": _slope_deg(part), "part": part, "props": props, "stated": bool(stated),
+               "stated_keys": sorted(stated)}
         if isinstance(fr, dict) and fr.get("derive_missing"):
             out["derive_missing"] = True
         return out

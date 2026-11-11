@@ -1,5 +1,5 @@
 {
-  "version": "4.9.248",
+  "version": "4.9.249",
   "features": [
     {
       "id": "A-01",
@@ -4413,13 +4413,23 @@
         "verify/r4248_suite.js",
         "CONFLICTS.md v4.9.248"
       ]
+    },
+    {
+      "id": "R4249-GAP-PLAN",
+      "name": "Phone gap export and a pure dry-run Athena plan; missing dimensions stay missing",
+      "claim": "Partial",
+      "note": "4.9.249: a held question keeps its kāraka frame and sim hold on the curator row. The user downloads FORGE-GAP-EXPORT/v1. athena_runner_229 --plan lists the same rows and does not research, write, or schedule. A missing depth is not a square, and a one-publisher depth is not admitted. Steps 14–16 are recorded and not built.",
+      "proof": [
+        "verify/r4249_suite.js",
+        "CONFLICTS.md v4.9.249"
+      ]
     }
   ],
-  "count": 401,
+  "count": 402,
   "claims": {
     "Implemented": 112,
     "Not feasible on phone": 28,
-    "Partial": 205,
+    "Partial": 206,
     "Missing": 9,
     "Out of scope / parked": 47
   }

@@ -26,7 +26,7 @@ from typing import Any
 from rmc_engine_v1.mobile_config import THRESHOLDS
 
 ROLES = ("kartr", "karma", "pred")
-GAP_ROLES = {"kartr", "karma", "pred", "polarity", "prakara"}  # 4.9.241: a how-gap (state) too
+GAP_ROLES = {"kartr", "karma", "pred", "polarity", "prakara", "hetu"}  # 4.9.241: a how-gap (state); a why-gap is the stored hetu
 
 
 def _norm(text: Any) -> str:
@@ -58,7 +58,11 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
     from rmc_engine_v1 import derive_frame as DF
     from rmc_engine_v1.world_model_v1 import to_listener
 
-    if not usable(qframe) or not isinstance(claim, dict) or not str(reply or "").strip():
+    how_early = str(claim.get("how") or "") if isinstance(claim, dict) else ""
+    if how_early in ("WM-RECALL", "WM-LEXICON", "WM-WHEN"):
+        if not isinstance(qframe, dict) or not isinstance(claim, dict) or not str(reply or "").strip():
+            return None
+    elif not usable(qframe) or not isinstance(claim, dict) or not str(reply or "").strip():
         return None
     ff = claim.get("fact_frame") if isinstance(claim.get("fact_frame"), dict) else None
     atom = claim.get("atom") if isinstance(claim.get("atom"), dict) else None
@@ -90,6 +94,81 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
             "output_text": str(reply or "")[:400],
             "structure": {"checks": checks, "held": held, "made": len(checks), "rule": how or "WM-SIMULATE",
                           "frame_source": "simulate", "question_rule": q_rule, "uses_token_overlap": False},
+            "calls_llm": False,
+        }
+    if how == "WM-RECALL":
+        from rmc_engine_v1.world_model_v1 import to_listener
+        premises = [p for p in (claim.get("premises") or []) if isinstance(p, dict)]
+        texts = [str(p.get("text") or "") for p in premises]
+        said = all(_norm(to_listener(t)).rstrip(".") in _norm(reply) or _norm(t).rstrip(".") in _norm(reply) for t in texts if t)
+        phone = all(str(p.get("source") or "") == "phone_kb" for p in premises) and len(premises) > 0
+        checks = [
+            {"check": "source", "ok": phone, "reading": "phone facts only"},
+            {"check": "stated", "ok": said, "atom": {"predicate": atom.get("predicate"), "args": atom.get("args")}, "spoken": reply},
+        ]
+        held = sum(1 for c in checks if c["ok"])
+        value = round(held / len(checks), 6) if checks else 0.0
+        return {
+            "score": value, "min": THRESHOLDS["echo_min"], "pass": value >= float(THRESHOLDS["echo_min"]),
+            "method": "structural_frame", "compares": "spoken_clause_frame_to_question_frame",
+            "output_text": str(reply or "")[:400],
+            "structure": {"checks": checks, "held": held, "made": len(checks), "rule": "WM-RECALL",
+                          "frame_source": "phone", "question_rule": q_rule, "uses_token_overlap": False},
+            "calls_llm": False,
+        }
+    if how == "WM-WHEN":
+        times = [str(t) for t in (claim.get("told_at") or [])]
+        premises = [p for p in (claim.get("premises") or []) if isinstance(p, dict)]
+        said = all(t in str(reply or "") for t in times) and all(_norm(to_listener(str(p.get("text") or ""))).rstrip(".") in _norm(reply) or _norm(str(p.get("text") or "")).rstrip(".") in _norm(reply) for p in premises)
+        checks = [
+            {"check": "time", "ok": bool(times) and said, "times": times},
+            {"check": "source", "ok": all(str(p.get("source") or "") == "phone_kb" for p in premises) and len(premises) > 0, "reading": "stored provenance"},
+        ]
+        held = sum(1 for c in checks if c["ok"])
+        value = round(held / len(checks), 6) if checks else 0.0
+        return {
+            "score": value, "min": THRESHOLDS["echo_min"], "pass": value >= float(THRESHOLDS["echo_min"]),
+            "method": "structural_frame", "compares": "spoken_clause_frame_to_question_frame",
+            "output_text": str(reply or "")[:400],
+            "structure": {"checks": checks, "held": held, "made": len(checks), "rule": "WM-WHEN",
+                          "frame_source": "provenance", "question_rule": q_rule, "uses_token_overlap": False},
+            "calls_llm": False,
+        }
+    if how == "WM-LEXICON":
+        gloss = str((atom.get("args") or ["", ""])[1] if atom.get("args") else "")
+        said = _norm(gloss)[:80] in _norm(reply) and str((atom.get("args") or [""])[0]) in _norm(reply)
+        checks = [
+            {"check": "term", "ok": str((atom.get("args") or [""])[0]) in _norm(reply), "term": (atom.get("args") or [""])[0]},
+            {"check": "gloss", "ok": _norm(gloss)[:80] in _norm(reply), "source": "controlled"},
+            {"check": "stated", "ok": said, "atom": {"predicate": atom.get("predicate"), "args": atom.get("args")}},
+        ]
+        held = sum(1 for c in checks if c["ok"])
+        value = round(held / len(checks), 6) if checks else 0.0
+        return {
+            "score": value, "min": THRESHOLDS["echo_min"], "pass": value >= float(THRESHOLDS["echo_min"]),
+            "method": "structural_frame", "compares": "spoken_clause_frame_to_question_frame",
+            "output_text": str(reply or "")[:400],
+            "structure": {"checks": checks, "held": held, "made": len(checks), "rule": "WM-LEXICON",
+                          "frame_source": "lexicon", "question_rule": q_rule, "uses_token_overlap": False},
+            "calls_llm": False,
+        }
+    if str(qframe.get("wh_role") or "") == "hetu" and how == "WM-HETU":
+        filler = str((claim.get("frame_match") or {}).get("filler") or claim.get("text") or "").strip()
+        said = _norm(filler).rstrip(".") in _norm(reply)
+        checks = [
+            {"check": "kriya", "ok": str(qframe.get("kriya") or "").lower() == str(ff.get("kriya") or "").lower(),
+             "question": qframe.get("kriya"), "clause": ff.get("kriya"), "reading": "the asked event"},
+            {"check": "gap:hetu", "ok": said, "filler": filler, "kind": "hetu"},
+            {"check": "stated", "ok": said, "atom": {"predicate": atom.get("predicate"), "args": atom.get("args")}, "spoken": filler},
+        ]
+        held = sum(1 for c in checks if c["ok"])
+        value = round(held / len(checks), 6) if checks else 0.0
+        return {
+            "score": value, "min": THRESHOLDS["echo_min"], "pass": value >= float(THRESHOLDS["echo_min"]),
+            "method": "structural_frame", "compares": "spoken_clause_frame_to_question_frame",
+            "output_text": str(reply or "")[:400],
+            "structure": {"checks": checks, "held": held, "made": len(checks), "rule": "WM-HETU",
+                          "frame_source": "hetu", "question_rule": q_rule, "uses_token_overlap": False},
             "calls_llm": False,
         }
     m = DF.match(qframe, ff)
