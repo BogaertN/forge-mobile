@@ -1,6 +1,6 @@
 {
  "schema": "FORGE-MATH-HONESTY/v1",
- "release": "4.9.250",
+ "release": "4.9.251",
  "product_claim": false,
  "proven_cognition": false,
  "honesty": {
@@ -172,7 +172,8 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "dataset": "no labelled dataset",
+   "note": "Ablation is not executed. There is no labelled dataset, so no delta is fitted. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
   },
   {
    "phase": 2,
@@ -187,7 +188,8 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "dataset": "no labelled dataset",
+   "note": "Ablation is not executed. There is no labelled dataset, so no delta is fitted. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
   },
   {
    "phase": 3,
@@ -202,7 +204,8 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "dataset": "no labelled dataset",
+   "note": "Ablation is not executed. There is no labelled dataset, so no delta is fitted. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
   },
   {
    "phase": 4,
@@ -217,7 +220,8 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "dataset": "no labelled dataset",
+   "note": "Ablation is not executed. There is no labelled dataset, so no delta is fitted. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
   },
   {
    "phase": 5,
@@ -232,7 +236,8 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "dataset": "no labelled dataset",
+   "note": "Ablation is not executed. There is no labelled dataset, so no delta is fitted. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
   },
   {
    "phase": 6,
@@ -247,7 +252,8 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "dataset": "no labelled dataset",
+   "note": "Ablation is not executed. There is no labelled dataset, so no delta is fitted. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
   },
   {
    "phase": 7,
@@ -262,7 +268,8 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "dataset": "no labelled dataset",
+   "note": "Ablation is not executed. There is no labelled dataset, so no delta is fitted. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
   },
   {
    "phase": 8,
@@ -277,7 +284,8 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "dataset": "no labelled dataset",
+   "note": "Ablation is not executed. There is no labelled dataset, so no delta is fitted. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
   },
   {
    "phase": 9,
@@ -292,9 +300,21 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "dataset": "no labelled dataset",
+   "note": "Ablation is not executed. There is no labelled dataset, so no delta is fitted. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
   }
  ],
+ "calibration": {
+  "status": "no labelled dataset",
+  "labelled": 0,
+  "rows": [],
+  "fitted_weights": null,
+  "honesty": "research-only",
+  "manuscript": "SOURCE_NOT_VERIFIED",
+  "proven_cognition": false,
+  "cite": "RMC Implementation Addendum §9",
+  "note": "ede.calibrationRecord keeps human_label null. No label is invented, and no weight is fitted."
+ },
  "echo": {
   "honesty": "research-only",
   "manuscript": "SOURCE_NOT_VERIFIED",

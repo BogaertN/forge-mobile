@@ -180,7 +180,7 @@ const cmpAtom = (m, v) => { const w = clean(m[3]).toLowerCase(), dp = !/^"/.test
 /* 4.9.61: declared comparative words (world_rules.js) name the row's predicate */
 const orderRules = p => [{ body: [atom(p, ['$x', '$y']), atom(p, ['$y', '$z'])], head: atom(p, ['$x', '$z']), form: 'comparative_order' }, { body: [atom(p, ['$x', '$y'])], head: atom(p, ['$y', '$x'], 'neg'), form: 'comparative_order' }];
 /* past tense is a marker on the proposition (§4.1): "was/were", "did", regular "-ed" give a past_ atom, distinct from the present one
-   ("X was in Y" does not answer "is X in Y?"); time intervals stay deferred (§13) */
+   ("X was in Y" does not answer "is X in Y?"). A year the existing adjunct already parsed is a valid-time interval (§13). */
 const IRR_PAST = Object.freeze(Object.fromEntries('went:go ate:eat saw:see ran:run made:make took:take gave:give knew:know found:find got:get came:come said:say told:tell bought:buy thought:think brought:bring caught:catch taught:teach wrote:write drove:drive flew:fly swam:swim sang:sing drank:drink began:begin broke:break chose:choose fell:fall felt:feel held:hold kept:keep left:leave lost:lose met:meet paid:pay sat:sit slept:sleep spoke:speak stood:stand won:win built:build sent:send spent:spend grew:grow threw:throw hid:hide bit:bite led:lead fed:feed had:have sold:sell heard:hear drew:draw wore:wear rode:ride stole:steal forgot:forget understood:understand became:become'.split(' ').map(x => x.split(':'))));
 const IRR_FWD = Object.fromEntries(Object.entries(IRR_PAST).map(([a, b]) => [b, a])), irr = w => !isQuotedSymbol(w) && IRR_PAST[String(w).toLowerCase()];
 const PAST = 'past_', edLemma = w => /[^aeiou]ied$/.test(w) ? w.slice(0, -3) + 'y' : /[bcdfgkptz]led$/.test(w) && w.length > 5 ? w.slice(0, -1) : /[^aeiou]ied$/.test(w) ? w.slice(0, -3) + 'y' : /([b-df-hj-np-tv-z])\1ed$/.test(w) ? w.slice(0, -3) : w.slice(0, -2);
@@ -210,9 +210,47 @@ const TIME_P = 'on|in|at|during|before|after|since|until', ADJ_P = TIME_P + '|to
    unpronounced relation: atom <verb>[__<object>]__tadv(X, T), shown without a preposition; the bare clause is stated beside it */
 const TADV = '(yesterday|today|tomorrow|tonight|now|(?:last|next|this)[\\s_]+(?:week|month|year|night|morning|afternoon|evening|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|may|june|july|august|september|october|november|december))';
 const tadvSplit = t => { const m = clean(t).match(rx('^(.+?)\\s+' + TADV + '$')); return m && [m[1], m[2].toLowerCase().replace(/[\s_]+/g, '_')]; };
-function adjunct(text, v, verbs) { { const b = tadvSplit(text); if (b) { let a = rel0(b[0], v, verbs); if (!a) { const j = adjunct(b[0], v, verbs); a = j && atom(j.predicate.replace(/__[^_]+$/, ''), [j.args[0]].concat(/__/.test(j.predicate.replace(/__[^_]+$/, '').replace(/^past_/, '')) ? ['_'] : []), j.polarity); if (a && a.args[1] === '_') { const q = a.predicate.split('__'); a = atom(q[0], [a.args[0], q[1]], a.polarity); } else if (a) a = atom(a.predicate + '_v', a.args, a.polarity); } if (!a) return null; const ps = !a.predicate.indexOf(PAST), c = ps ? a.predicate.slice(PAST.length) : a.predicate; if (a.args.length === 2 && isPrep(c) || /__/.test(c)) return null; return atom((ps ? PAST : '') + (/_v$/.test(c) ? c.slice(0, -2) : c + '__' + a.args[1]) + '__tadv', [a.args[0], b[1]], a.polarity); } } const m = clean(text).match(rx('^(.+?)\\s+(' + ADJ_P + ')\\s+' + NP + '$')); if (!m) return null; const a = rel0(m[1], v, verbs), T = term(m[3], v); if (!a || !T) return null;
+function adjunct(text, v, verbs) {
+  { const ym = clean(text).match(rx('^(.+?)\\s+(' + TIME_P + '|to)\\s+([1-9]\\d{3})$'));
+    if (ym) { const a = rel0(ym[1], v, verbs); if (a && a.args.length && !/__/.test(a.predicate)) { const ps = a.predicate.indexOf(PAST) === 0, c = ps ? a.predicate.slice(PAST.length) : a.predicate, base = /_v$/.test(c) ? c.slice(0, -2) : (a.args.length === 2 ? c + '__' + a.args[1] : c); return atom((ps ? PAST : '') + base + '__' + ym[2].toLowerCase(), [a.args[0], 'y' + ym[3]], a.polarity); } } }
+  { const b = tadvSplit(text); if (b) { let a = rel0(b[0], v, verbs); if (!a) { const j = adjunct(b[0], v, verbs); a = j && atom(j.predicate.replace(/__[^_]+$/, ''), [j.args[0]].concat(/__/.test(j.predicate.replace(/__[^_]+$/, '').replace(/^past_/, '')) ? ['_'] : []), j.polarity); if (a && a.args[1] === '_') { const q = a.predicate.split('__'); a = atom(q[0], [a.args[0], q[1]], a.polarity); } else if (a) a = atom(a.predicate + '_v', a.args, a.polarity); } if (!a) return null; const ps = !a.predicate.indexOf(PAST), c = ps ? a.predicate.slice(PAST.length) : a.predicate; if (a.args.length === 2 && isPrep(c) || /__/.test(c)) return null; return atom((ps ? PAST : '') + (/_v$/.test(c) ? c.slice(0, -2) : c + '__' + a.args[1]) + '__tadv', [a.args[0], b[1]], a.polarity); } } const m = clean(text).match(rx('^(.+?)\\s+(' + ADJ_P + ')\\s+' + NP + '$')); if (!m) return null; const a = rel0(m[1], v, verbs), T = term(m[3], v); if (!a || !T) return null;
   const ps = !a.predicate.indexOf(PAST), b = ps ? a.predicate.slice(PAST.length) : a.predicate; if (a.args.length === 2 && isPrep(b)) return null; return atom((ps ? PAST : '') + (/_v$/.test(b) ? b.slice(0, -2) : b + '__' + a.args[1]) + '__' + m[2].toLowerCase(), [a.args[0], T], a.polarity); }
 function parseRelation(text, allowVariable, verbs) { return rel0(text, allowVariable, verbs) || adjunct(text, allowVariable, verbs); }
+function yearStamp(token, end) { const y = String(token || ''); if (!/^[1-9]\d{3}$/.test(y)) return null; return end === 'end' ? y + '-12-31T23:59:59Z' : y + '-01-01T00:00:00Z'; }
+/* The adjunct parser already split the preposition from its year. This only files that year as an interval. */
+function intervalFromAtom(atom) {
+  if (!atom || !atom.args || atom.args.length < 2) return null;
+  const prep = String(atom.predicate || '').replace(/^past_/, '').split('__').pop();
+  const raw = String(atom.args[1] || '');
+  const when = /^y([1-9]\d{3})$/.test(raw) ? raw.slice(1) : raw;
+  const start = yearStamp(when, 'start'), end = yearStamp(when, 'end');
+  if (!start) return null;
+  if (prep === 'from' || prep === 'since' || prep === 'after') return { valid_from: start, valid_to: null };
+  if (prep === 'until' || prep === 'before' || prep === 'to') return { valid_from: null, valid_to: end };
+  if (prep === 'in' || prep === 'on' || prep === 'at' || prep === 'during') return { valid_from: start, valid_to: end };
+  return null;
+}
+function mergeInterval(list) {
+  let from = null, to = null, any = false;
+  for (const t of list) { if (!t) continue; any = true; if (t.valid_from && (from == null || t.valid_from < from)) from = t.valid_from; if (t.valid_to && (to == null || t.valid_to > to)) to = t.valid_to; }
+  return any ? { valid_from: from, valid_to: to } : null;
+}
+function intervalsOverlap(factTime, queryTime) {
+  if (!factTime && !queryTime) return true;
+  if (factTime && !queryTime) return false;
+  if (!factTime && queryTime) return true;
+  if (factTime.valid_to && queryTime.valid_from && factTime.valid_to < queryTime.valid_from) return false;
+  if (queryTime.valid_to && factTime.valid_from && queryTime.valid_to < factTime.valid_from) return false;
+  return true;
+}
+function intervalForSource(facts, sourceRef) { return mergeInterval((facts || []).filter(f => f.source_ref === sourceRef).map(f => intervalFromAtom(f.atom))); }
+function factsAt(facts, queryAtom) {
+  const asked = intervalFromAtom(queryAtom);
+  const index = (facts || []).map(f => ({ id: f.id, valid_from: f.time && f.time.valid_from || null, valid_to: f.time && f.time.valid_to || null }));
+  const open = [];
+  for (let i = 0; i < index.length; i++) if (intervalsOverlap(facts[i].time, asked)) open.push(facts[i]);
+  return { facts: open, index: index };
+}
 const MODS = 'can|may|must|might|could|should|will|would', modP = (m, a) => a && !a.predicate.indexOf(PAST) ? null : a && atom('mod' + m.toLowerCase() + '_' + a.predicate, a.args, a.polarity);
 function rel0(text, allowVariable, verbs) {
   { const d = clean(text).match(rx('^(.+?)\\s+(' + MODS + ')\\s+(not\\s+)?(\\S.*)$')); if (d && term(d[1], allowVariable)) { const a = rel0(d[1] + ' does not ' + d[4], allowVariable, dsv(verbs, d[4].split(' ')[0])); return modP(d[2], a && atom(a.predicate, a.args, d[3] ? 'neg' : 'pos')); } }
@@ -344,6 +382,8 @@ function parseQuery0(text, verbs) {
   if (m) { const subject = sub(m[1]), v = symbol(m[3], 'verb', dsv(verbs, m[3])); if (subject && v && !/^(?:be|do|have)$/.test(v)) return atom(v + '_v', [subject], m[2] ? 'neg' : 'pos'); }
   m = t.match(QUERY_PP);
   if (m && isPrep(m[3])) { const subject = sub(m[1]), object = term(m[4], false); return subject && object ? atom(m[3].toLowerCase(), [subject, object], m[2] ? 'neg' : 'pos') : null; }
+  { const ym = t.match(rx('^((?:does|do)\\s+.+?)\\s+(' + TIME_P + '|to)\\s+([1-9]\\d{3})$'));
+    if (ym) { const a = parseQuery0(ym[1], verbs); if (a && !/^any_/.test(a.args[0]) && !/__/.test(a.predicate) && (a.args.length === 1 ? /_v$/.test(a.predicate) : !isPrep(a.predicate))) return atom((a.args.length === 1 ? a.predicate.slice(0, -2) : a.predicate + '__' + a.args[1]) + '__' + ym[2].toLowerCase(), [a.args[0], 'y' + ym[3]], a.polarity); } }
   m = t.match(rx('^((?:does|do)\\s+.+?)\\s+(' + ADJ_P + ')\\s+' + NP + '$'));
   if (m) { const a = parseQuery0(m[1], verbs), T = term(m[3], false); if (a && T && !/^any_/.test(a.args[0]) && (a.args.length === 1 ? /_v$/.test(a.predicate) : !isPrep(a.predicate))) return atom((a.args.length === 1 ? a.predicate.slice(0, -2) : a.predicate + '__' + a.args[1]) + '__' + m[2].toLowerCase(), [a.args[0], T], a.polarity); }
   { const b = /^(?:does|do)\s/i.test(t) && tadvSplit(t); if (b) { const a = parseQuery0(b[0], verbs); if (a && !/^any_/.test(a.args[0]) && !/__/.test(a.predicate) && (a.args.length === 1 ? /_v$/.test(a.predicate) : !isPrep(a.predicate))) return atom((a.args.length === 1 ? a.predicate.slice(0, -2) : a.predicate + '__' + a.args[1]) + '__tadv', [a.args[0], b[1]], a.polarity); } }
@@ -458,7 +498,9 @@ function interpret(raw, opts) {
     for (const it of items) { if (it.r) { const r = it.r; pluralAlts.push([r, r.plural_alternatives || []]); delete r.plural_alternatives;
         const problem = validateRule(r); if (problem) return interpretationFailure(raw, seg, problem, 'unsafe rule');
         rules.push(Object.assign(r, { source_ref: seg.id, source_span: copy(seg.span), sup: supposed(seg.text) })); }
-      else facts.push({ atom: it.a, source_ref: seg.id, source_span: copy(seg.span), sup: supposed(seg.text) }); } }
+      else facts.push({ atom: it.a, source_ref: seg.id, source_span: copy(seg.span), sup: supposed(seg.text), time: intervalFromAtom(it.a) }); }
+    const span = mergeInterval(facts.filter(f => f.source_ref === seg.id).map(f => f.time));
+    if (span) for (const f of facts) if (f.source_ref === seg.id) f.time = span; }
   { const all = facts.map(f => f.atom).concat(rules.flatMap(r => r.body.concat([r.head])), [query]); for (const f of facts) fixQ(f.atom, all.filter(x => x !== f.atom)); fixQ(query, all); }
   { const w = witnessFor(query, facts, rules); if (w) facts.push({ atom: w, source_ref: qseg.id, source_span: copy(qseg.span), sup: true }); }
   if (facts.length > LIMITS.MAX_FACTS || rules.length > LIMITS.MAX_RULES) return interpretationFailure(raw, qseg, 'WORLD_SIZE_LIMIT', 'too many facts or rules');
@@ -605,7 +647,7 @@ function makeWorld(candidate, facts, rules, parentRoot, branchId, seq, overrides
     branch_id: branchId,
     creation_sequence: seq,
     entities: [...new Set(atomsAll.flatMap(a => a.args).filter(x => !/^\$/.test(x)))].sort(),
-    facts: facts.map((f, i) => Object.assign(copy(f), { id: fid(f, i), time: null, evidence_refs: [f.source_ref], provenance_refs: [candidate.candidate_id] })),
+    facts: facts.map((f, i) => Object.assign(copy(f), { id: fid(f, i), time: intervalForSource(facts, f.source_ref), evidence_refs: [f.source_ref], provenance_refs: [candidate.candidate_id] })),
     rules: rules.map((r, i) => Object.assign(copy(r), { id: rid(r, i), variables: [...new Set(r.body.concat([r.head]).flatMap(variables))].sort(), rule_class: r.form, evidence_refs: [r.source_ref], provenance_refs: [candidate.candidate_id] })),
     query,
     source_refs: candidate.sources.map(s => ({ id: s.id, span: copy(s.span) })),
@@ -632,7 +674,7 @@ function worldIntegrity(world) {
   for (let i = 0; i < world.facts.length; i++) {
     const f = world.facts[i]; if (!exactKeys(f, ['id', 'atom', 'source_ref', 'source_span', 'time', 'evidence_refs', 'provenance_refs']) || !validAtom(f.atom)) return false;
     const b = { atom: f.atom, source_ref: f.source_ref, source_span: f.source_span }, k = atomKey(f.atom);
-    if (f.id !== 'fact:' + (i + 1) + ':' + sha256(canon(b)).slice(0, 12) || factAtoms.has(k) || f.atom.args.some(x => /^\$/.test(x)) || !sourceMap.has(f.source_ref) || (f.source_ref === world.query.source_ref && !(world.creation_sequence === 1 && /^any_/.test(world.query.atom.args[0]) && same(f.atom, atom(world.query.atom.args[0].slice(4), [world.query.atom.args[0]])))) || !same(f.source_span, sourceMap.get(f.source_ref).span) || f.time !== null || !same(f.evidence_refs, [f.source_ref]) || !same(f.provenance_refs, [world.candidate_id])) return false; factAtoms.add(k);
+    if (f.id !== 'fact:' + (i + 1) + ':' + sha256(canon(b)).slice(0, 12) || factAtoms.has(k) || f.atom.args.some(x => /^\$/.test(x)) || !sourceMap.has(f.source_ref) || (f.source_ref === world.query.source_ref && !(world.creation_sequence === 1 && /^any_/.test(world.query.atom.args[0]) && same(f.atom, atom(world.query.atom.args[0].slice(4), [world.query.atom.args[0]])))) || !same(f.source_span, sourceMap.get(f.source_ref).span) || !timeOk(f.time) || !same(f.evidence_refs, [f.source_ref]) || !same(f.provenance_refs, [world.candidate_id])) return false; factAtoms.add(k);
   }
   for (let i = 0; i < world.rules.length; i++) {
     const r = world.rules[i], RK = ['id', 'body', 'head', 'form', 'source_ref', 'source_span', 'variables', 'rule_class', 'evidence_refs', 'provenance_refs']; if (!(exactKeys(r, RK) || (r && r.form === 'relation_property' && exactKeys(r, RK.concat(['guard'])) && guardShape(r))) || validateRule(r)) return false;
@@ -731,9 +773,16 @@ function closure(facts, rules, L, indexed) {
   }
   return { entries, steps, budget, rounds, derivations, stable };
 }
+function timeOk(t) {
+  if (t === null) return true;
+  if (!t || typeof t !== 'object' || Array.isArray(t) || !exactKeys(t, ['valid_from', 'valid_to'])) return false;
+  const end = v => v === null || (typeof v === 'string' && /^[1-9]\d{3}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(v));
+  return end(t.valid_from) && end(t.valid_to) && !(t.valid_from && t.valid_to && t.valid_from > t.valid_to);
+}
 function deriveWorld(world) {
   if (!worldIntegrity(world)) return { complete: false, failure: 'WORLD_ROOT_INVALID', work: 0, rounds: 0, derivations: 0, support: null, refutation: null };
-  const { entries, steps, budget, rounds, derivations, stable } = closure(world.facts, world.rules.slice().sort((a, b) => a.id.localeCompare(b.id)), world.limits, false);
+  const visible = factsAt(world.facts, world.query && world.query.atom).facts;
+  const { entries, steps, budget, rounds, derivations, stable } = closure(visible, world.rules.slice().sort((a, b) => a.id.localeCompare(b.id)), world.limits, false);
   const closureComplete = stable && !budget.exhausted;
   const supportEntry = entries.get(atomKey(world.query.atom)), refuteEntry = entries.get(atomKey(opposite(world.query.atom)));
   const support = proofFor(world, supportEntry, steps), refutation = proofFor(world, refuteEntry, steps);
@@ -1139,6 +1188,6 @@ function evaluate0(raw, opts) {
   return { handled: true, outcome: 'UNSUPPORTED_PRESERVED', material: limitationMaterial(raw, f, mergedLimits(opts.limits)), frame: 'FR.WORLD.MODEL', act: 'question', rules: [{ id: 'WM-LANGUAGE-STRUCTURE-LIMIT', doc: DOC + ' I2', note: f.code + '; unknown_word=false' }], uncertainty: 'unsupported_structure', reasoningCandidates: [] };
 }
 
-const api = { specificity, ruleText, SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, supposed, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, IRR_PAST, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, qtyCheck, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
+const api = { specificity, ruleText, SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, supposed, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, IRR_PAST, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, qtyCheck, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA, intervalFromAtom, factsAt };
 if (isNode) module.exports = api; else root.KReason = api;
 })(typeof self !== 'undefined' ? self : this);

@@ -167,8 +167,12 @@ async function askMemory(question) {
      * Derive seeds from them next turn. Personal; no hosted write. */
     try {
       const WF = window.KWorldFacts; if (WF && typeof WF.rows === 'function') {
+        let asked = null;
+        try { const frame = window.KQFrame && KQFrame.compile ? KQFrame.compile(question, forge) : null; asked = WF.intervalFromClause ? WF.intervalFromClause(frame) : null; } catch (e) { asked = null; }
         const seen = new Set(memory.phone.map(r => String(r && r.text || '').toLowerCase()));
-        for (const row of WF.rows()) {
+        const open = r => !r || (!r.valid_from && !r.valid_to) || (WF.covers && WF.covers(r, asked));
+        memory.phone = memory.phone.filter(open);
+        for (const row of WF.rows({ at: asked })) {
           if (!row || !row.text || seen.has(String(row.text).toLowerCase())) continue;
           seen.add(String(row.text).toLowerCase()); memory.phone.push(row);
         }
@@ -344,7 +348,8 @@ async function rememberStatement(text) {
   if (kept.some(x => x && String(x.text).toLowerCase() === sentence.toLowerCase())) return { ok: true, rule: 'REMEMBER-ALREADY-KEPT', text: sentence, message: 'Already remembered on this phone: ' + sentence };
   const id = 'rem-' + (window.KSha && KSha.sha256 ? KSha.sha256(sentence.toLowerCase()).slice(0, 12) : String(kept.length + 1));
   const told = new Date().toISOString();
-  const row = { id, text: sentence, clause, scope: 'phone', sensitive, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', at: told }, remembered_at: told };
+  const when = window.KWorldFacts && KWorldFacts.intervalFromClause ? KWorldFacts.intervalFromClause(clause) : null;
+  const row = { id, text: sentence, clause, scope: 'phone', sensitive, valid_from: when && when.valid_from, valid_to: when && when.valid_to, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', at: told }, remembered_at: told };
   const wf = keepWorldFact(row, 'remember');
   if (wf && wf.ok === false && /^WORLD-FACTS-CONFLICT/.test(wf.rule || '')) return { ok: false, rule: wf.rule, message: wf.message || 'Held: that contradicts a kept fact.', existing: wf.existing };
   kept.push(row);
