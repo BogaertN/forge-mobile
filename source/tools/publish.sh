@@ -9,4 +9,7 @@ sh tools/prepare_clone.sh
 node verify/targeted.js
 python3 build.py
 node tools/verify_release.js
+# The preview/ folder on main is a static copy of another build. It is not part of the
+# 4.9.248 shipset, so it is copied after the release check and does not change the root app.
+if [ -d ../preview ]; then cp -a ../preview ../_release/site/preview; fi
 echo "git status --porcelain:"; git status --porcelain; echo "(end)"
