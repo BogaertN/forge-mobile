@@ -1,0 +1,963 @@
+{
+  "key_id": "forge.harmonic_key",
+  "key_version": "0.1.0",
+  "status": "draft for Nic's review",
+  "root_hz": 144.0,
+  "phase_slots": 9,
+  "slot_spacing_deg": 40,
+  "carrier_rule": "carrier_hz = 144 / 2^k (octave ladder down from the 144 Hz root)",
+  "note": "All frequencies here are LOGICAL coordinates used for addressing and tuning math. They are not played as sound and are not measured brain signals.",
+  "bands": [
+    {
+      "index": 0,
+      "name": "delta",
+      "range_hz": [
+        1,
+        4
+      ],
+      "carrier_hz": 2.25,
+      "carrier_rule": "144 / 64",
+      "geometric_center_hz": 2.0,
+      "q_band_descriptive": 0.75,
+      "q_tune": 6,
+      "kappa": 12,
+      "half_life_s": 31536000,
+      "amp_floor": 0.25,
+      "memory_kind": "consolidated long-term fact (verified, stored)",
+      "column_scheme": "clause_role",
+      "slots": [
+        {
+          "slot": 0,
+          "phase_deg": 0,
+          "triad": 0,
+          "hfield_phase": 1,
+          "role_code": "0x00",
+          "role": "kriya",
+          "meaning": "predicate / relation (the verb or relation of the clause)"
+        },
+        {
+          "slot": 1,
+          "phase_deg": 40,
+          "triad": 0,
+          "hfield_phase": 2,
+          "role_code": "0x01",
+          "role": "karta",
+          "meaning": "agent / subject"
+        },
+        {
+          "slot": 2,
+          "phase_deg": 80,
+          "triad": 0,
+          "hfield_phase": 3,
+          "role_code": "0x02",
+          "role": "karma",
+          "meaning": "object / patient"
+        },
+        {
+          "slot": 3,
+          "phase_deg": 120,
+          "triad": 1,
+          "hfield_phase": 4,
+          "role_code": "0x03",
+          "role": "karana",
+          "meaning": "instrument / means"
+        },
+        {
+          "slot": 4,
+          "phase_deg": 160,
+          "triad": 1,
+          "hfield_phase": 5,
+          "role_code": "0x04",
+          "role": "sampradana",
+          "meaning": "recipient / beneficiary"
+        },
+        {
+          "slot": 5,
+          "phase_deg": 200,
+          "triad": 1,
+          "hfield_phase": 6,
+          "role_code": "0x05",
+          "role": "apadana",
+          "meaning": "source / point of departure ('from')"
+        },
+        {
+          "slot": 6,
+          "phase_deg": 240,
+          "triad": 2,
+          "hfield_phase": 7,
+          "role_code": "0x06",
+          "role": "adhikarana",
+          "meaning": "locus: place, time, medium or context"
+        },
+        {
+          "slot": 7,
+          "phase_deg": 280,
+          "triad": 2,
+          "hfield_phase": 8,
+          "role_code": "0x07",
+          "role": "mana",
+          "meaning": "measure: value with unit"
+        },
+        {
+          "slot": 8,
+          "phase_deg": 320,
+          "triad": 2,
+          "hfield_phase": 9,
+          "role_code": "0x08",
+          "role": "nibandhana",
+          "meaning": "qualifier: condition, scope, negation, statistic (mean, max...)"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "name": "theta",
+      "range_hz": [
+        4,
+        8
+      ],
+      "carrier_hz": 4.5,
+      "carrier_rule": "144 / 32",
+      "geometric_center_hz": 5.657,
+      "q_band_descriptive": 1.125,
+      "q_tune": 3,
+      "kappa": 6,
+      "half_life_s": 2592000,
+      "amp_floor": 0.0,
+      "memory_kind": "sequence / context / trace order",
+      "column_scheme": "sequence_position",
+      "slots": [
+        {
+          "slot": 0,
+          "phase_deg": 0,
+          "triad": 0,
+          "hfield_phase": 1,
+          "role_code": "0x10",
+          "role": "seq_1",
+          "meaning": "position 1 (Forge loop convention: held Ask)"
+        },
+        {
+          "slot": 1,
+          "phase_deg": 40,
+          "triad": 0,
+          "hfield_phase": 2,
+          "role_code": "0x11",
+          "role": "seq_2",
+          "meaning": "position 2 (Neo tick)"
+        },
+        {
+          "slot": 2,
+          "phase_deg": 80,
+          "triad": 0,
+          "hfield_phase": 3,
+          "role_code": "0x12",
+          "role": "seq_3",
+          "meaning": "position 3 (Athena lookup / simulate / derive)"
+        },
+        {
+          "slot": 3,
+          "phase_deg": 120,
+          "triad": 1,
+          "hfield_phase": 4,
+          "role_code": "0x13",
+          "role": "seq_4",
+          "meaning": "position 4 (Gilligan check)"
+        },
+        {
+          "slot": 4,
+          "phase_deg": 160,
+          "triad": 1,
+          "hfield_phase": 5,
+          "role_code": "0x14",
+          "role": "seq_5",
+          "meaning": "position 5 (resumed answer)"
+        },
+        {
+          "slot": 5,
+          "phase_deg": 200,
+          "triad": 1,
+          "hfield_phase": 6,
+          "role_code": "0x15",
+          "role": "seq_6",
+          "meaning": "position 6"
+        },
+        {
+          "slot": 6,
+          "phase_deg": 240,
+          "triad": 2,
+          "hfield_phase": 7,
+          "role_code": "0x16",
+          "role": "seq_7",
+          "meaning": "position 7"
+        },
+        {
+          "slot": 7,
+          "phase_deg": 280,
+          "triad": 2,
+          "hfield_phase": 8,
+          "role_code": "0x17",
+          "role": "seq_8",
+          "meaning": "position 8"
+        },
+        {
+          "slot": 8,
+          "phase_deg": 320,
+          "triad": 2,
+          "hfield_phase": 9,
+          "role_code": "0x18",
+          "role": "seq_9",
+          "meaning": "position 9 (longer sequences continue in a new window, flag CONT)"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "name": "alpha",
+      "range_hz": [
+        8,
+        13
+      ],
+      "carrier_hz": 9.0,
+      "carrier_rule": "144 / 16",
+      "geometric_center_hz": 10.198,
+      "q_band_descriptive": 1.8,
+      "q_tune": 8,
+      "kappa": 16,
+      "half_life_s": 3600,
+      "amp_floor": 0.0,
+      "memory_kind": "gating / suppression of what is irrelevant now",
+      "column_scheme": "gate_state",
+      "slots": [
+        {
+          "slot": 0,
+          "phase_deg": 0,
+          "triad": 0,
+          "hfield_phase": 1,
+          "role_code": "0x20",
+          "role": "pass",
+          "meaning": "open gate: eligible for retrieval"
+        },
+        {
+          "slot": 1,
+          "phase_deg": 40,
+          "triad": 0,
+          "hfield_phase": 2,
+          "role_code": "0x21",
+          "role": "suppress_irrelevant",
+          "meaning": "inhibit: off-topic for the current task"
+        },
+        {
+          "slot": 2,
+          "phase_deg": 80,
+          "triad": 0,
+          "hfield_phase": 3,
+          "role_code": "0x22",
+          "role": "suppress_contradicted",
+          "meaning": "inhibit: contradicted, awaiting Athena re-check"
+        },
+        {
+          "slot": 3,
+          "phase_deg": 120,
+          "triad": 1,
+          "hfield_phase": 4,
+          "role_code": "0x23",
+          "role": "hold_pending",
+          "meaning": "held Ask waiting for Neo/Athena"
+        },
+        {
+          "slot": 4,
+          "phase_deg": 160,
+          "triad": 1,
+          "hfield_phase": 5,
+          "role_code": "0x24",
+          "role": "speculative",
+          "meaning": "speculative bin: NEVER on the speaking path"
+        },
+        {
+          "slot": 5,
+          "phase_deg": 200,
+          "triad": 1,
+          "hfield_phase": 6,
+          "role_code": "0x25",
+          "role": "ghost",
+          "meaning": "failed / rejected attempt store (kept, never spoken)"
+        },
+        {
+          "slot": 6,
+          "phase_deg": 240,
+          "triad": 2,
+          "hfield_phase": 7,
+          "role_code": "0x26",
+          "role": "tier_cold",
+          "meaning": "collapsed to cold tier (kept, not deleted)"
+        },
+        {
+          "slot": 7,
+          "phase_deg": 280,
+          "triad": 2,
+          "hfield_phase": 8,
+          "role_code": "0x27",
+          "role": "tier_deep",
+          "meaning": "collapsed to deep tier (kept, not deleted)"
+        },
+        {
+          "slot": 8,
+          "phase_deg": 320,
+          "triad": 2,
+          "hfield_phase": 9,
+          "role_code": "0x28",
+          "role": "quarantine_peer",
+          "meaning": "received peer claim not yet through Gilligan"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "name": "beta",
+      "range_hz": [
+        13,
+        30
+      ],
+      "carrier_hz": 18.0,
+      "carrier_rule": "144 / 8",
+      "geometric_center_hz": 19.748,
+      "q_band_descriptive": 1.059,
+      "q_tune": 4,
+      "kappa": 12,
+      "half_life_s": 900,
+      "amp_floor": 0.0,
+      "memory_kind": "active task / rule hold (working state)",
+      "column_scheme": "task_slot",
+      "slots": [
+        {
+          "slot": 0,
+          "phase_deg": 0,
+          "triad": 0,
+          "hfield_phase": 1,
+          "role_code": "0x30",
+          "role": "current_question",
+          "meaning": "the Ask being answered"
+        },
+        {
+          "slot": 1,
+          "phase_deg": 40,
+          "triad": 0,
+          "hfield_phase": 2,
+          "role_code": "0x31",
+          "role": "active_rule",
+          "meaning": "rule or law currently applied"
+        },
+        {
+          "slot": 2,
+          "phase_deg": 80,
+          "triad": 0,
+          "hfield_phase": 3,
+          "role_code": "0x32",
+          "role": "active_gap",
+          "meaning": "the gap Athena is filling"
+        },
+        {
+          "slot": 3,
+          "phase_deg": 120,
+          "triad": 1,
+          "hfield_phase": 4,
+          "role_code": "0x33",
+          "role": "constraint",
+          "meaning": "constraint on the answer (units, range, scope)"
+        },
+        {
+          "slot": 4,
+          "phase_deg": 160,
+          "triad": 1,
+          "hfield_phase": 5,
+          "role_code": "0x34",
+          "role": "expected_type",
+          "meaning": "expected answer type (quantity, entity, yes/no...)"
+        },
+        {
+          "slot": 5,
+          "phase_deg": 200,
+          "triad": 1,
+          "hfield_phase": 6,
+          "role_code": "0x35",
+          "role": "unit_frame",
+          "meaning": "unit system in force"
+        },
+        {
+          "slot": 6,
+          "phase_deg": 240,
+          "triad": 2,
+          "hfield_phase": 7,
+          "role_code": "0x36",
+          "role": "peer_session",
+          "meaning": "current Forge-to-Forge session"
+        },
+        {
+          "slot": 7,
+          "phase_deg": 280,
+          "triad": 2,
+          "hfield_phase": 8,
+          "role_code": "0x37",
+          "role": "pending_followup",
+          "meaning": "follow-up question queued"
+        },
+        {
+          "slot": 8,
+          "phase_deg": 320,
+          "triad": 2,
+          "hfield_phase": 9,
+          "role_code": "0x38",
+          "role": "reserved_b8",
+          "meaning": "reserved"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "name": "gamma",
+      "range_hz": [
+        30,
+        80
+      ],
+      "carrier_hz": 36.0,
+      "carrier_rule": "144 / 4",
+      "geometric_center_hz": 48.99,
+      "q_band_descriptive": 0.72,
+      "q_tune": 4,
+      "kappa": 10,
+      "half_life_s": 604800,
+      "amp_floor": 0.0,
+      "memory_kind": "binding: the parts of one item",
+      "column_scheme": "binding_part",
+      "slots": [
+        {
+          "slot": 0,
+          "phase_deg": 0,
+          "triad": 0,
+          "hfield_phase": 1,
+          "role_code": "0x40",
+          "role": "head",
+          "meaning": "head entity of the item"
+        },
+        {
+          "slot": 1,
+          "phase_deg": 40,
+          "triad": 0,
+          "hfield_phase": 2,
+          "role_code": "0x41",
+          "role": "class",
+          "meaning": "type / class"
+        },
+        {
+          "slot": 2,
+          "phase_deg": 80,
+          "triad": 0,
+          "hfield_phase": 3,
+          "role_code": "0x42",
+          "role": "attribute",
+          "meaning": "attribute name"
+        },
+        {
+          "slot": 3,
+          "phase_deg": 120,
+          "triad": 1,
+          "hfield_phase": 4,
+          "role_code": "0x43",
+          "role": "value",
+          "meaning": "value"
+        },
+        {
+          "slot": 4,
+          "phase_deg": 160,
+          "triad": 1,
+          "hfield_phase": 5,
+          "role_code": "0x44",
+          "role": "unit",
+          "meaning": "unit"
+        },
+        {
+          "slot": 5,
+          "phase_deg": 200,
+          "triad": 1,
+          "hfield_phase": 6,
+          "role_code": "0x45",
+          "role": "part_whole",
+          "meaning": "part-of / has-part link"
+        },
+        {
+          "slot": 6,
+          "phase_deg": 240,
+          "triad": 2,
+          "hfield_phase": 7,
+          "role_code": "0x46",
+          "role": "alias",
+          "meaning": "name / alias / surface form"
+        },
+        {
+          "slot": 7,
+          "phase_deg": 280,
+          "triad": 2,
+          "hfield_phase": 8,
+          "role_code": "0x47",
+          "role": "publisher",
+          "meaning": "publisher lineage reference"
+        },
+        {
+          "slot": 8,
+          "phase_deg": 320,
+          "triad": 2,
+          "hfield_phase": 9,
+          "role_code": "0x48",
+          "role": "evidence",
+          "meaning": "evidence hash / timestamp"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "name": "ripple",
+      "range_hz": [
+        80,
+        144
+      ],
+      "carrier_hz": 144.0,
+      "carrier_rule": "144 / 1",
+      "geometric_center_hz": 107.331,
+      "q_band_descriptive": 2.25,
+      "q_tune": 3,
+      "kappa": 6,
+      "half_life_s": 60,
+      "amp_floor": 0.0,
+      "memory_kind": "replay / consolidation (Athena re-check during Neo idle ticks)",
+      "column_scheme": "replay_stage",
+      "slots": [
+        {
+          "slot": 0,
+          "phase_deg": 0,
+          "triad": 0,
+          "hfield_phase": 1,
+          "role_code": "0x50",
+          "role": "replay_request",
+          "meaning": "Neo schedules a replay"
+        },
+        {
+          "slot": 1,
+          "phase_deg": 40,
+          "triad": 0,
+          "hfield_phase": 2,
+          "role_code": "0x51",
+          "role": "re_lookup",
+          "meaning": "Athena re-looks-up sources"
+        },
+        {
+          "slot": 2,
+          "phase_deg": 80,
+          "triad": 0,
+          "hfield_phase": 3,
+          "role_code": "0x52",
+          "role": "re_simulate",
+          "meaning": "Athena re-runs a simulator"
+        },
+        {
+          "slot": 3,
+          "phase_deg": 120,
+          "triad": 1,
+          "hfield_phase": 4,
+          "role_code": "0x53",
+          "role": "re_derive",
+          "meaning": "Athena re-derives"
+        },
+        {
+          "slot": 4,
+          "phase_deg": 160,
+          "triad": 1,
+          "hfield_phase": 5,
+          "role_code": "0x54",
+          "role": "gilligan_recheck",
+          "meaning": "Gilligan re-validates under the same fixed gates"
+        },
+        {
+          "slot": 5,
+          "phase_deg": 200,
+          "triad": 1,
+          "hfield_phase": 6,
+          "role_code": "0x55",
+          "role": "reinforce",
+          "meaning": "passed: amplitude reinforced"
+        },
+        {
+          "slot": 6,
+          "phase_deg": 240,
+          "triad": 2,
+          "hfield_phase": 7,
+          "role_code": "0x56",
+          "role": "demote",
+          "meaning": "failed: collapse one tier"
+        },
+        {
+          "slot": 7,
+          "phase_deg": 280,
+          "triad": 2,
+          "hfield_phase": 8,
+          "role_code": "0x57",
+          "role": "readmit",
+          "meaning": "re-admission attempt (counted, cap 5)"
+        },
+        {
+          "slot": 8,
+          "phase_deg": 320,
+          "triad": 2,
+          "hfield_phase": 9,
+          "role_code": "0x58",
+          "role": "fixed_point",
+          "meaning": "fixed-point check: re-inference gives identical fact set"
+        }
+      ]
+    }
+  ],
+  "reserved_rows": [
+    {
+      "index": 6,
+      "name": "reserved_high_gamma",
+      "divisor": 2,
+      "carrier_hz": 72.0,
+      "note": "72 Hz octave rung (high gamma). Reserved; decoders must reject records using it in key 0.1."
+    },
+    {
+      "index": 7,
+      "name": "none",
+      "note": "'no parent' marker in the parent-band field; never a record band."
+    }
+  ],
+  "tuning": {
+    "match_lit": 0.5,
+    "match_near_miss": 0.05,
+    "pac_modulation_depth": 0.9,
+    "alpha_inhibit_factor": 0.1,
+    "reinforcement_eta": {
+      "gilligan_admit": 0.5,
+      "answer_passed_gates": 0.1,
+      "ripple_replay_passed": 0.2,
+      "peer_reference_resolved": 0.05
+    },
+    "peer_reinforcement_cap_per_peer_per_day": 0.05,
+    "contradiction_amp_multiplier": 0.5,
+    "readmission_cap": 5,
+    "amp_quant_levels": 16,
+    "fact_id_prefix_bytes_acoustic": 8,
+    "absent_atom_floor_eps": 0.05
+  },
+  "structure": {
+    "key_id": "forge.harmonic_key",
+    "key_major": 0,
+    "root_hz": 144.0,
+    "phase_slots": 9,
+    "slot_spacing_deg": 40,
+    "triads": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5
+      ],
+      [
+        6,
+        7,
+        8
+      ]
+    ],
+    "hfield_phase_rule": "hfield_phase = slot + 1",
+    "bands": [
+      {
+        "index": 0,
+        "name": "delta",
+        "carrier_hz": 2.25,
+        "column_scheme": "clause_role",
+        "roles": [
+          [
+            "0x00",
+            "kriya"
+          ],
+          [
+            "0x01",
+            "karta"
+          ],
+          [
+            "0x02",
+            "karma"
+          ],
+          [
+            "0x03",
+            "karana"
+          ],
+          [
+            "0x04",
+            "sampradana"
+          ],
+          [
+            "0x05",
+            "apadana"
+          ],
+          [
+            "0x06",
+            "adhikarana"
+          ],
+          [
+            "0x07",
+            "mana"
+          ],
+          [
+            "0x08",
+            "nibandhana"
+          ]
+        ]
+      },
+      {
+        "index": 1,
+        "name": "theta",
+        "carrier_hz": 4.5,
+        "column_scheme": "sequence_position",
+        "roles": [
+          [
+            "0x10",
+            "seq_1"
+          ],
+          [
+            "0x11",
+            "seq_2"
+          ],
+          [
+            "0x12",
+            "seq_3"
+          ],
+          [
+            "0x13",
+            "seq_4"
+          ],
+          [
+            "0x14",
+            "seq_5"
+          ],
+          [
+            "0x15",
+            "seq_6"
+          ],
+          [
+            "0x16",
+            "seq_7"
+          ],
+          [
+            "0x17",
+            "seq_8"
+          ],
+          [
+            "0x18",
+            "seq_9"
+          ]
+        ]
+      },
+      {
+        "index": 2,
+        "name": "alpha",
+        "carrier_hz": 9.0,
+        "column_scheme": "gate_state",
+        "roles": [
+          [
+            "0x20",
+            "pass"
+          ],
+          [
+            "0x21",
+            "suppress_irrelevant"
+          ],
+          [
+            "0x22",
+            "suppress_contradicted"
+          ],
+          [
+            "0x23",
+            "hold_pending"
+          ],
+          [
+            "0x24",
+            "speculative"
+          ],
+          [
+            "0x25",
+            "ghost"
+          ],
+          [
+            "0x26",
+            "tier_cold"
+          ],
+          [
+            "0x27",
+            "tier_deep"
+          ],
+          [
+            "0x28",
+            "quarantine_peer"
+          ]
+        ]
+      },
+      {
+        "index": 3,
+        "name": "beta",
+        "carrier_hz": 18.0,
+        "column_scheme": "task_slot",
+        "roles": [
+          [
+            "0x30",
+            "current_question"
+          ],
+          [
+            "0x31",
+            "active_rule"
+          ],
+          [
+            "0x32",
+            "active_gap"
+          ],
+          [
+            "0x33",
+            "constraint"
+          ],
+          [
+            "0x34",
+            "expected_type"
+          ],
+          [
+            "0x35",
+            "unit_frame"
+          ],
+          [
+            "0x36",
+            "peer_session"
+          ],
+          [
+            "0x37",
+            "pending_followup"
+          ],
+          [
+            "0x38",
+            "reserved_b8"
+          ]
+        ]
+      },
+      {
+        "index": 4,
+        "name": "gamma",
+        "carrier_hz": 36.0,
+        "column_scheme": "binding_part",
+        "roles": [
+          [
+            "0x40",
+            "head"
+          ],
+          [
+            "0x41",
+            "class"
+          ],
+          [
+            "0x42",
+            "attribute"
+          ],
+          [
+            "0x43",
+            "value"
+          ],
+          [
+            "0x44",
+            "unit"
+          ],
+          [
+            "0x45",
+            "part_whole"
+          ],
+          [
+            "0x46",
+            "alias"
+          ],
+          [
+            "0x47",
+            "publisher"
+          ],
+          [
+            "0x48",
+            "evidence"
+          ]
+        ]
+      },
+      {
+        "index": 5,
+        "name": "ripple",
+        "carrier_hz": 144.0,
+        "column_scheme": "replay_stage",
+        "roles": [
+          [
+            "0x50",
+            "replay_request"
+          ],
+          [
+            "0x51",
+            "re_lookup"
+          ],
+          [
+            "0x52",
+            "re_simulate"
+          ],
+          [
+            "0x53",
+            "re_derive"
+          ],
+          [
+            "0x54",
+            "gilligan_recheck"
+          ],
+          [
+            "0x55",
+            "reinforce"
+          ],
+          [
+            "0x56",
+            "demote"
+          ],
+          [
+            "0x57",
+            "readmit"
+          ],
+          [
+            "0x58",
+            "fixed_point"
+          ]
+        ]
+      }
+    ],
+    "reserved_rows": [
+      {
+        "index": 6,
+        "name": "reserved_high_gamma"
+      },
+      {
+        "index": 7,
+        "name": "none"
+      }
+    ],
+    "address_layout": "band:3|slot:4|amp_q:4|parent_band:3|parent_slot:4|flags:6 (24 bits, big-endian)",
+    "flags": [
+      "VERIFIED_REF",
+      "SPECULATIVE",
+      "CONTRADICTS",
+      "REQUEST",
+      "CONT",
+      "RESERVED"
+    ]
+  },
+  "structure_hash_blake3": "bfae15f75ea4d911c23ea7cb8da2a1b5d7ff22f74027b1c3bda5ea29f67adfcc",
+  "structure_fp": "bfae15f7",
+  "full_hash_blake3": "01813586d0006fcd213e8d2c0adb9b5d25e42138bd32152bbacbedbd1c55dc02"
+}
