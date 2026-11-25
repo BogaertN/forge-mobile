@@ -1,0 +1,10 @@
+[package]
+name = "hfield-music"
+version = "0.1.0"
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+serde.workspace = true
+hfield-domain = { path = "../hfield-domain" }
