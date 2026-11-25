@@ -1,0 +1,380 @@
+{
+ "nums": {
+  "crosstalk": {
+   "delta": {
+    "delta": 1.0,
+    "theta": 0.0471,
+    "alpha": 0.0011,
+    "beta": 0.001,
+    "gamma": 0.0002,
+    "ripple": 0.0
+   },
+   "theta": {
+    "delta": 0.0122,
+    "theta": 1.0,
+    "alpha": 0.0069,
+    "beta": 0.0044,
+    "gamma": 0.001,
+    "ripple": 0.0001
+   },
+   "alpha": {
+    "delta": 0.002,
+    "theta": 0.0471,
+    "alpha": 1.0,
+    "beta": 0.027,
+    "gamma": 0.0044,
+    "ripple": 0.0004
+   },
+   "beta": {
+    "delta": 0.0004,
+    "theta": 0.0078,
+    "alpha": 0.0069,
+    "beta": 1.0,
+    "gamma": 0.027,
+    "ripple": 0.0018
+   },
+   "gamma": {
+    "delta": 0.0001,
+    "theta": 0.0018,
+    "alpha": 0.0011,
+    "beta": 0.027,
+    "gamma": 1.0,
+    "ripple": 0.0078
+   },
+   "ripple": {
+    "delta": 0.0,
+    "theta": 0.0001,
+    "alpha": 0.0001,
+    "beta": 0.001,
+    "gamma": 0.0044,
+    "ripple": 1.0
+   }
+  },
+  "phi": {
+   "delta": {
+    "0": 1.0,
+    "40": 0.06035770410078258,
+    "80": 4.9367321142765596e-05,
+    "120": 1.5229979744712682e-08,
+    "160": 7.784422127022875e-11
+   },
+   "theta": {
+    "0": 1.0,
+    "40": 0.2456780496926467,
+    "80": 0.007026188237071762,
+    "120": 0.00012340980408667978,
+    "160": 8.822937224656466e-06
+   },
+   "alpha": {
+    "0": 1.0,
+    "40": 0.023676106354187668,
+    "80": 1.8110040235645343e-06,
+    "120": 3.775134544279111e-11,
+    "160": 3.323802202453046e-14
+   },
+   "beta": {
+    "0": 1.0,
+    "40": 0.06035770410078258,
+    "80": 4.9367321142765596e-05,
+    "120": 1.5229979744712682e-08,
+    "160": 7.784422127022875e-11
+   },
+   "gamma": {
+    "0": 1.0,
+    "40": 0.09637045875204334,
+    "80": 0.00025775057007571564,
+    "120": 3.059023205018263e-07,
+    "160": 3.767228665261712e-09
+   },
+   "ripple": {
+    "0": 1.0,
+    "40": 0.2456780496926467,
+    "80": 0.007026188237071762,
+    "120": 0.00012340980408667978,
+    "160": 8.822937224656466e-06
+   }
+  },
+  "pac": {
+   "0": 1.0,
+   "40": 0.8892,
+   "80": 0.6086,
+   "120": 0.2895,
+   "180": 0.0526
+  },
+  "decay_delta_180d": 0.7104718111828882,
+  "decay_delta_3y": 0.25,
+  "decay_theta_30d": 0.5,
+  "reinforce_from_0711": 0.7394246300645994,
+  "A2_30d": 0.755697169530452,
+  "M_exact": 1.0,
+  "R_exact": 0.755697169530452,
+  "M_one_adjacent": 0.49565920721060625,
+  "M_role_far": 0.4728708045015879,
+  "M_partial_2of4": 0.223606797749979,
+  "M_theta_query_on_delta": 0.012195121951219513,
+  "M_old_fact_floor": 1.0,
+  "R_old_fact_floor": 0.25,
+  "mac_frame": {
+   "type": "CLAIM",
+   "bytes": 38,
+   "data_bytes": 30,
+   "hex": "f110bfae15f751040b019c20ff7075d6a9e63094e0a4fb2e35bdee04083270024964b1c474a1",
+   "seconds": 3.03
+  },
+  "frames": [
+   {
+    "type": "HELLO",
+    "bytes": 26,
+    "data_bytes": 18,
+    "hex": "f101bfae15f70000070001015a17c0deeb5e0f446ad4e2c38bbd",
+    "seconds": 2.19
+   },
+   {
+    "type": "HELLO_ACK",
+    "bytes": 28,
+    "data_bytes": 20,
+    "hex": "f102bfae15f70000095a17c0de0b5e55ed016b443c1311619bb99571",
+    "seconds": 2.33
+   },
+   {
+    "type": "CLAIM",
+    "bytes": 41,
+    "data_bytes": 33,
+    "hex": "f110bfae15f751011601fc20a6822b68cb50a5ef019c20ff7075d6a9e6309491334054e7b6e124086f",
+    "seconds": 3.24
+   },
+   {
+    "type": "QUERY",
+    "bytes": 74,
+    "data_bytes": 66,
+    "hex": "f111bfae15f751023701fc007f7497471e09bf3603fc00d84eef325a7315710bfc00154e511ecfecd9eb11fc00d2e0db7e230662140ffc0400000000000000003394690fb38cd7c1e210",
+    "seconds": 5.53
+   },
+   {
+    "type": "ACK",
+    "bytes": 20,
+    "data_bytes": 12,
+    "hex": "f120bfae15f751030101ffe5585e8e29d528a492",
+    "seconds": 1.78
+   }
+  ],
+  "raw_bps": 115.19999999999999,
+  "raw_Bps": 14.399999999999999,
+  "tones": [
+   1728,
+   1872,
+   2016,
+   2160,
+   2304,
+   2448,
+   2592,
+   2736,
+   2880,
+   3024,
+   3168,
+   3312,
+   3456,
+   3600,
+   3744,
+   3888
+  ]
+ },
+ "facts": [
+  {
+   "name": "fact1",
+   "clause": {
+    "k": "forge.clause.v1",
+    "roles": {
+     "kriya": {
+      "t": "relation",
+      "v": "speed"
+     },
+     "karta": {
+      "t": "entity",
+      "v": "light"
+     },
+     "adhikarana": {
+      "t": "medium",
+      "v": "vacuum"
+     },
+     "mana": {
+      "t": "quantity",
+      "v": "299792458",
+      "u": "m/s"
+     }
+    }
+   },
+   "canonical": "{\"k\":\"forge.clause.v1\",\"roles\":{\"adhikarana\":{\"t\":\"medium\",\"v\":\"vacuum\"},\"karta\":{\"t\":\"entity\",\"v\":\"light\"},\"kriya\":{\"t\":\"relation\",\"v\":\"speed\"},\"mana\":{\"t\":\"quantity\",\"u\":\"m/s\",\"v\":\"299792458\"}}}",
+   "fact_id": "a6822b68cb50a5ef73554dc74098c660353fec442745146fe9548f830a1da432",
+   "amp": 1.0,
+   "amp_q": 15,
+   "atoms": [
+    {
+     "role": "kriya",
+     "slot": 0,
+     "phase_deg": 0,
+     "atom": {
+      "t": "relation",
+      "v": "speed"
+     },
+     "atom_id": "b02abf4232119ac250205b1061a8454a9605de2b88a11ddf7992e99dd852ded7",
+     "addr_hex": "01fc20"
+    },
+    {
+     "role": "karta",
+     "slot": 1,
+     "phase_deg": 40,
+     "atom": {
+      "t": "entity",
+      "v": "light"
+     },
+     "atom_id": "bdd2a20f751da3dbed23628e336fe1c0a19e5f558973ca4472f715de3a984a50",
+     "addr_hex": "03fc20"
+    },
+    {
+     "role": "adhikarana",
+     "slot": 6,
+     "phase_deg": 240,
+     "atom": {
+      "t": "medium",
+      "v": "vacuum"
+     },
+     "atom_id": "08d3f197234d741fec9bd551ec42d9e8b44058b914e438a57c28fa291ef118f5",
+     "addr_hex": "0dfc20"
+    },
+    {
+     "role": "mana",
+     "slot": 7,
+     "phase_deg": 280,
+     "atom": {
+      "t": "quantity",
+      "v": "299792458",
+      "u": "m/s"
+     },
+     "atom_id": "64dce1cbedf27915095b10e04b540557c7ddfb078d6aaf81177271d989e140d2",
+     "addr_hex": "0ffc20"
+    }
+   ],
+   "fact_addr_hex": "01fc20",
+   "record_hex": "01fc20a6822b68cb50a5ef"
+  },
+  {
+   "name": "fact2",
+   "clause": {
+    "k": "forge.clause.v1",
+    "roles": {
+     "kriya": {
+      "t": "relation",
+      "v": "distance"
+     },
+     "karta": {
+      "t": "entity",
+      "v": "moon"
+     },
+     "apadana": {
+      "t": "entity",
+      "v": "earth"
+     },
+     "mana": {
+      "t": "quantity",
+      "v": "384400000",
+      "u": "m"
+     },
+     "nibandhana": {
+      "t": "qualifier",
+      "v": "mean"
+     }
+    }
+   },
+   "canonical": "{\"k\":\"forge.clause.v1\",\"roles\":{\"apadana\":{\"t\":\"entity\",\"v\":\"earth\"},\"karta\":{\"t\":\"entity\",\"v\":\"moon\"},\"kriya\":{\"t\":\"relation\",\"v\":\"distance\"},\"mana\":{\"t\":\"quantity\",\"u\":\"m\",\"v\":\"384400000\"},\"nibandhana\":{\"t\":\"qualifier\",\"v\":\"mean\"}}}",
+   "fact_id": "ff7075d6a9e63094f2d9580bb37d0db202402f03ceee42f8efada56f00558a55",
+   "amp": 0.8,
+   "amp_q": 12,
+   "atoms": [
+    {
+     "role": "kriya",
+     "slot": 0,
+     "phase_deg": 0,
+     "atom": {
+      "t": "relation",
+      "v": "distance"
+     },
+     "atom_id": "7f7497471e09bf367a6edc35a85b7af29a4c1603511013f971687f0002ed68d3",
+     "addr_hex": "019c20"
+    },
+    {
+     "role": "karta",
+     "slot": 1,
+     "phase_deg": 40,
+     "atom": {
+      "t": "entity",
+      "v": "moon"
+     },
+     "atom_id": "d84eef325a7315717e8f2909ac0500d252d94e91cd2c8925a8a32038179a4ef3",
+     "addr_hex": "039c20"
+    },
+    {
+     "role": "apadana",
+     "slot": 5,
+     "phase_deg": 200,
+     "atom": {
+      "t": "entity",
+      "v": "earth"
+     },
+     "atom_id": "154e511ecfecd9ebe7ceaaec7735dc15fe1d77fc01649174ac039b56a382cc60",
+     "addr_hex": "0b9c20"
+    },
+    {
+     "role": "mana",
+     "slot": 7,
+     "phase_deg": 280,
+     "atom": {
+      "t": "quantity",
+      "v": "384400000",
+      "u": "m"
+     },
+     "atom_id": "4e67dd79830d52520a7afb95815f06c5131399cee01eb9646e20ef17d7ea2299",
+     "addr_hex": "0f9c20"
+    },
+    {
+     "role": "nibandhana",
+     "slot": 8,
+     "phase_deg": 320,
+     "atom": {
+      "t": "qualifier",
+      "v": "mean"
+     },
+     "atom_id": "d2e0db7e23066214c0f2d23a01a61803cc8a9c6d4bcc2abbef52fc24ef205365",
+     "addr_hex": "119c20"
+    }
+   ],
+   "fact_addr_hex": "019c20",
+   "record_hex": "019c20ff7075d6a9e63094",
+   "gamma": [
+    {
+     "part": "value",
+     "slot": 3,
+     "atom": {
+      "t": "value",
+      "v": "384400000"
+     },
+     "atom_id": "9eb69ae478d4b05d09318609390c7e5a16b785ee20fe67757f7de71d67acaafa",
+     "addr_hex": "8781e0"
+    },
+    {
+     "part": "unit",
+     "slot": 4,
+     "atom": {
+      "t": "unit",
+      "v": "m"
+     },
+     "atom_id": "0fb9ca9a82c6f790f015db70e297fba9c1ea308fb245814ceb37886c7aa26027",
+     "addr_hex": "8981e0"
+    }
+   ]
+  }
+ ],
+ "structure_hash": "bfae15f75ea4d911c23ea7cb8da2a1b5d7ff22f74027b1c3bda5ea29f67adfcc",
+ "full_hash": "01813586d0006fcd213e8d2c0adb9b5d25e42138bd32152bbacbedbd1c55dc02",
+ "session": 81
+}
