@@ -65,6 +65,8 @@ def _props_body(noun: str, props: dict[str, Any], D: dict[str, Any]) -> tuple[di
     if noun in D["bodies"] and given:
         base = dict(D["bodies"][noun])
         base.update(given)
+        if base.get("shape") == "box" and base.get("depth") in (None, ""):
+            return None, "depth"
         return base, "stated" if not props.get("average") else "average"
     shape = props.get("shape")
     if shape not in ("box", "cylinder", "sphere"):
@@ -72,6 +74,8 @@ def _props_body(noun: str, props: dict[str, Any], D: dict[str, Any]) -> tuple[di
             shape = "sphere"
         elif props.get("height") and props.get("width"):
             shape = "box"
+        elif props.get("height") not in (None, ""):
+            return None, "width"
         else:
             return None, "shape"
     body: dict[str, Any] = {"shape": shape}
@@ -87,10 +91,11 @@ def _props_body(noun: str, props: dict[str, Any], D: dict[str, Any]) -> tuple[di
             if props.get("width") is None:
                 return None, "width"
             body["width"] = float(props["width"])
-            # Depth is the horizontal extent along a push. It is kept when a publisher or the
-            # question measured it. A missing depth is a square footprint and the solver uses width.
-            if props.get("depth") not in (None, ""):
-                body["depth"] = float(props["depth"])
+            # Depth is the extent along a push. It stays missing until the question or two
+            # publishers measured it. Width is the lateral extent and is not a stand-in.
+            if props.get("depth") in (None, ""):
+                return None, "depth"
+            body["depth"] = float(props["depth"])
         else:
             body["radius"] = float(props.get("radius") or (float(props["width"]) / 2.0 if props.get("width") else 0))
             if not body["radius"]:
@@ -99,6 +104,20 @@ def _props_body(noun: str, props: dict[str, Any], D: dict[str, Any]) -> tuple[di
         return None, "mass"
     body["mass"] = float(props["mass"])
     return body, None
+
+
+def _provenance(body: dict[str, Any], stated: dict[str, str], documented: Any) -> dict[str, str]:
+    """Where each axis came from. A documented default is named. An inferred shape is not a publisher."""
+    out = dict(stated)
+    doc = documented if isinstance(documented, dict) else {}
+    for key in ("shape", "height", "width", "depth", "radius", "mass"):
+        if key not in body or key in out:
+            continue
+        if doc.get(key) not in (None, ""):
+            out[key] = "documented_default"
+        elif key == "shape":
+            out[key] = "inferred"
+    return out
 
 
 def scene_from_reading(reading: dict[str, Any]) -> dict[str, Any]:
@@ -113,18 +132,11 @@ def scene_from_reading(reading: dict[str, Any]) -> dict[str, Any]:
     body_noun = str(reading.get("patient") or "")
     adjs = [a for a in (reading.get("adjectives") or []) if a in defaults()["adjectives"]]
     D = defaults()
-    props = reading.get("props") if isinstance(reading.get("props"), dict) else {}
-    footprint_derived = False
-    # A reply that stated a height and a mass, but not the footprint, uses a square of that height.
-    # A known body keeps its own width and depth. The receipt names the derived footprint.
-    if reading.get("derive_missing") and props.get("height") and props.get("mass") is not None and not props.get("width"):
-        known = (D["bodies"] or {}).get(body_noun) if isinstance(D.get("bodies"), dict) else None
-        if not (isinstance(known, dict) and known.get("width")):
-            props = dict(props)
-            props["width"] = float(props["height"])
-            if not props.get("depth"):
-                props["depth"] = float(props["height"])
-            footprint_derived = True
+    props = dict(reading.get("props") or {}) if isinstance(reading.get("props"), dict) else {}
+    provenance = dict(props.pop("_provenance", {}) or {})
+    for key in reading.get("stated_keys") or []:
+        provenance[str(key)] = "stated"
+    # A stated height and mass do not invent a footprint. A missing width or depth stays missing.
     base, missing = _props_body(body_noun, props, D)
     if base is None:
         if body_noun in ("it", "them", "that", "this"):
@@ -135,8 +147,6 @@ def scene_from_reading(reading: dict[str, Any]) -> dict[str, Any]:
     defaulted = [] if props else ["shape", "dimensions", "mass"]
     if props:
         defaulted = [k for k in ("shape", "dimensions", "mass") if k == "mass" and "mass" not in props or k == "shape" and "shape" not in props]
-    if footprint_derived:
-        defaulted.append("footprint")
     for a in adjs:
         for k, f in D["adjectives"][a].items():
             if k == "width" and base["shape"] == "cylinder":
@@ -183,7 +193,8 @@ def scene_from_reading(reading: dict[str, Any]) -> dict[str, Any]:
         "schema": SCHEMA, "ok": True, "status": "compiled", "question": q, "intervention_raw": raw,
         "intervention_key": karaka_key(reading), "action": kind, "verb": verb, "body": body,
         "surface": {"name": surface, "mu": mu, "mu_source": mu_src}, "gravity": D["gravity"],
-        "defaulted": defaulted, "sources": D["sources"], "calls_llm": False,
+        "defaulted": defaulted, "measure_provenance": _provenance(body, provenance, (D.get("bodies") or {}).get(body_noun)),
+        "sources": D["sources"], "calls_llm": False,
         "karaka": {"kriya": verb, "karma": body_noun, "adhikarana": surface, "voice": part.get("voice") or "active"},
         "via": "karaka_frame",
     }

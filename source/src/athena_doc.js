@@ -163,7 +163,7 @@
     function roleMap() {
       return {
         ref: '1.8',
-        neo: 'Ask surface. Neo does not spawn.',
+        neo: 'Schedules Athena\'s gap queue. Neo does not spawn.',
         athena: 'Admit and coherence. Research is measured, then admitted or quarantined.',
         gilligan: 'Cold re-curate and ChristPing. Only Gilligan initiates χ.',
         protoforge: 'Separate desktop runtime. Not this phone app.',

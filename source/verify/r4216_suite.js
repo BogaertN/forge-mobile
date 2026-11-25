@@ -42,7 +42,7 @@ T('more forms: minus, percent-of, two roots, units, parentheses; exact values wi
   const o = withLibs(); const want = {
     'What is 5 minus 8?': '5 minus 8 is -3.', 'What percent of 80 is 12?': '12 is 15% of 80.', 'solve x^2 = 9': 'Solving x^2 = 9 gives x = -3 or x = 3.',
     'How many feet are in 3 miles?': '3 miles is 15840 feet.', 'What is the square root of 2?': 'The square root of 2 is √(2) ≈ 1.414213562.',
-    'Convert 100 fahrenheit to celsius': '100 degrees Fahrenheit is ≈ 37.77777778 degrees Celsius.', 'What is 3 times (4 plus 5)?': '3 times (4 plus 5) is 27.' };
+    'Convert 100 fahrenheit to celsius': '100 degrees Fahrenheit is 340/9 (≈ 37.77777778) degrees Celsius.', 'What is 3 times (4 plus 5)?': '3 times (4 plus 5) is 27.' };
   for (const [q, w] of Object.entries(want)) { const r = byQ(o, q); expect(r.reply === w && r.disposition === 'admit' && r.computed === 'ok', q + ' ' + JSON.stringify(r)); }
 });
 T('nonsense, ambiguous units, division by zero and oversized results are held with the reason; nothing else answers them', () => {

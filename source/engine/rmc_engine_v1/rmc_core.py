@@ -167,6 +167,7 @@ def _write_receipts(root: Path, rows: list[dict[str, Any]], question: str | None
             "verification_ok": row.get("source") != "research_quarantine",
             "rpmc_phase_tags": _phase_tags(row, question),
             "quarantined": row.get("source") == "research_quarantine" or row.get("quarantined") is True,
+            "sensitive": row.get("sensitive") is True,
             "sfe": row.get("sfe") if isinstance(row.get("sfe"), dict) else None,
             "anchor_placed": row.get("anchor_placed") is True,
             "anchor_ancestor_text": row.get("anchor_ancestor_text") or "",
@@ -223,13 +224,45 @@ def _source_sentence(reply: str, rows: list[dict[str, Any]]) -> tuple[str, str]:
     return "", "question"
 
 
+def _named_concepts(reply: str, packet: dict[str, Any], rows: list[dict[str, Any]]) -> list[str]:
+    """Φ7 names the identity the reply declares.
+
+    A lexicon concept or a proper-name compound in the sentence counts, and so does the
+    kartṛ of the premise clause (or the atom's first argument). That name is the same
+    compound id a definitional subject already uses. A reply with neither stays unnamed.
+    """
+    from rmc_engine_v1.resonance_recall import row_concepts, subject_key
+
+    named = set(row_concepts({"text": reply, "packet": packet})) if reply else set()
+    want = re.sub(r"\s+", " ", str(reply or "")).strip().rstrip(".!?").lower()
+    if not want:
+        return sorted(named)
+    for row in rows or []:
+        if not isinstance(row, dict) or row.get("quarantined") is True:
+            continue
+        text = re.sub(r"\s+", " ", str(row.get("text") or row.get("content") or "")).strip().lower()
+        if want not in text:
+            continue
+        clause = row.get("clause") if isinstance(row.get("clause"), dict) else {}
+        kartr = clause.get("kartr") if isinstance(clause.get("kartr"), dict) else None
+        label = str((kartr or {}).get("text") or (kartr or {}).get("head") or "")
+        if not label and isinstance(row.get("atom"), dict):
+            args = row["atom"].get("args") or []
+            label = str(args[0]) if args else ""
+        key = subject_key(label) if label else None
+        if key:
+            named.add(key)
+        break
+    return sorted(named)
+
+
 def write_gate(question: str, reply: str, measured: dict[str, Any], gate: dict[str, Any], echo: dict[str, Any], packet: dict[str, Any], rows: list[dict[str, Any]], chi_passes: int = 0) -> dict[str, Any]:
     """4.9.211 the lasting-memory write gate (DRIFT-SPEC D12 + D8 + C_min).
 
     The write trace is the RMC stages the row actually passed (scheme phase-scheme/rmc/v1):
     Φ5 drift measured -> Φ6 correction (the ordered drift checks returned clean, or one
-    χ-correct pass made it clean) -> Φ7 naming (the reply names at least one lexicon
-    concept or proper-name compound, resonance_recall.row_concepts) -> Φ8 projection (the reply was rendered and spoken) -> the write is the Φ9
+    χ-correct pass made it clean) -> Φ7 naming (a lexicon concept, a proper-name compound,
+    or the kartṛ of the premise clause) -> Φ8 projection (the reply was rendered and spoken) -> the write is the Φ9
     return. A stage that did not happen is not in the trace, so the gate fails (no
     correction, no naming; no naming, no projection). The server recomputes the trace
     epsilon with app.drift_eps() from drift_input. The candidate epsilon (the engine
@@ -237,9 +270,7 @@ def write_gate(question: str, reply: str, measured: dict[str, Any], gate: dict[s
     """
     from rmc_engine_v1.drift_policy import admit_decision, echo_classes
 
-    from rmc_engine_v1.resonance_recall import row_concepts
-
-    named = sorted(row_concepts({"text": reply, "packet": packet})) if reply else []
+    named = _named_concepts(reply, packet, rows)
     hist = []
     if isinstance(measured.get("epsilon_s"), (int, float)):
         hist.append(5)
@@ -492,6 +523,9 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     question = str(payload.get("question") or payload.get("text") or "").strip()
     if not question:
         return {"ok": False, "engine": "rmc_engine_v1", "error": "empty_question", "calls_llm": False, "product_reply": False}
+    _payload_memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
+    from rmc_engine_v1.world_model_v1 import set_relation_overlay
+    set_relation_overlay(_payload_memory.get("relation_overlay") if isinstance(_payload_memory.get("relation_overlay"), dict) else None)
     rows = _rows(payload)
     # 4.9.216 computed tier: only the engine's own computation receipt for this question is a computed premise.
     # A row that merely claims tier "computed" from the phone's memory is not.
@@ -549,9 +583,21 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         # spoken in another person (a self-fact in the kernel's person, a personal memory in the listener's), is not
         # spoken as stored: the survivor's spoken form is that same fact, said in the right person
         _surv = (world.get("derive") or {}).get("survivor") if isinstance(world.get("derive"), dict) else None
+        _match = (_surv.get("frame_match") or {}) if isinstance(_surv, dict) else {}
         _restated = isinstance(_surv, dict) and _surv.get("perspective") in ("speaker", "listener") and _norm_sentence(scored) in {
             _norm_sentence(p.get("text")) for p in (_surv.get("premises") or []) if isinstance(p, dict)} | {_norm_sentence(_surv.get("text"))}
-        if live and derive_status != "conflicted" and scored and not _restated and ("memory" in scored_kind or meaning_preview.get("language_core")):
+        # A kind-inclusion converse is "not necessarily", not the stored sentence read backwards.
+        # A framed question that Derive did not support is not answered by token coverage of some other memory sentence.
+        _converse = _match.get("rule") == "polar_converse"
+        from rmc_engine_v1 import question_frame as _qf_cov
+        _framed_hold = _qf_cov.valid(_qf_cov.current(), question) and derive_status != "supported_only"
+        # A symmetric derivation already speaks the premise and the reverse. Token coverage of the premise
+        # ("the blue boat is next to the dock") would replace the reverse ("the dock is next to the blue boat").
+        _how = str((_surv or {}).get("how") or "") if isinstance(_surv, dict) else ""
+        _derived_speech = isinstance(_surv, dict) and derive_status == "supported_only" and bool(str(_surv.get("spoken") or "").strip()) and (
+            _how in ("WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-RECALL", "WM-LEXICON", "WM-WHEN")
+            or _how.endswith("-ASYM") or _how.endswith("-EXCLUDES") or "_THAN-" in _how or _how == "WM-MEASURE-COMPARE")
+        if live and derive_status != "conflicted" and scored and not _restated and not _converse and not _framed_hold and not _derived_speech and ("memory" in scored_kind or meaning_preview.get("language_core")):
             if echo_against_question(question, scored, rendered=True).get("pass"):
                 rendered = scored
         # 4.9.241 (Nic: natural conversation): a turn that is only conversational acts the speech-act lexicon answers is
@@ -565,6 +611,7 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         if (
             live
             and not greeting
+            and not _derived_speech
             and derive_status != "conflicted"
             and language_core.get("admitted_candidate")
             and language_core.get("claim")
@@ -587,6 +634,8 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             from rmc_engine_v1 import question_frame as _qf
             from rmc_engine_v1.structural_echo import score as _structural_echo
             _q = _qf.current() if _qf.valid(_qf.current(), question) else None
+            if _q is None and _how in ("WM-RECALL", "WM-LEXICON", "WM-WHEN"):
+                _q = _qf.current()
             structural = _structural_echo(_q, (world.get("derive") or {}).get("survivor"), rendered) if _q else None
             if structural is not None:
                 structural["replaced"] = {"method": echo.get("method"), "score": echo.get("score"), "note": "4.9.217 re-parse with token coverage; logged, not used"}

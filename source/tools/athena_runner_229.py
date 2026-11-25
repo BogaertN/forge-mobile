@@ -34,6 +34,12 @@ never loaded by the phone page, so it cannot block Ask and nothing is written on
 usage:
   FORGE_OEWN_DIR=... python3 tools/athena_runner_229.py [--commit] [--cycles=10] [--max-items=5] [--max-depth=3]
       [--loop --interval=600 --passes=N] [--state=state.json] [--log=log.jsonl] [--anchors=kb.json] [--out=report.json] WORKLIST.json ...
+
+  python3 tools/athena_runner_229.py --plan EXPORT.json
+
+--plan is step 13 only. It prints a dry-run plan of the phone export and returns. It does not research,
+discover, loop, open a socket, or write. The canonical hash detects corruption. It does not admit a row
+and it does not authorize a write. Steps 14, 15 and 16 are not this command.
 """
 from __future__ import annotations
 
@@ -488,7 +494,230 @@ def _tiers(state: dict[str, Any]) -> dict[str, int]:
     return out
 
 
+PLAN_SCHEMA = "FORGE-GAP-PLAN/v1"
+EXPORT_SCHEMA = "FORGE-GAP-EXPORT/v1"
+ENVELOPE_SCHEMA = "FORGE-GAP-ENVELOPE/v1"
+CURATION_SCHEMA = "FORGE-CURATION/v1"
+
+
+def js_number(n: float) -> str:
+    """JSON.stringify's number form for the values this export carries."""
+    import math
+    if not math.isfinite(n):
+        raise ValueError("nonfinite")
+    if n == 0.0:
+        return "0"
+    sign = "-" if n < 0 else ""
+    a = abs(n)
+    if a < 1e21 and float(a).is_integer():
+        return sign + str(int(a))
+    exp = int(math.floor(math.log10(a)))
+    if exp < -6 or exp >= 21:
+        mant = a / (10 ** exp)
+        ms = format(mant, ".16g")
+        if "e" in ms:
+            mant = float(ms)
+            exp += int(math.floor(math.log10(abs(mant))))
+            ms = format(a / (10 ** exp), ".16g")
+        return "%s%se%+d" % (sign, ms, exp)
+    text = format(a, ".16f").rstrip("0").rstrip(".")
+    return sign + (text or "0")
+
+
+def _js_string(s: str) -> str:
+    out = ['"']
+    for ch in s:
+        o = ord(ch)
+        if ch == '"':
+            out.append('\\"')
+        elif ch == "\\":
+            out.append("\\\\")
+        elif ch == "\b":
+            out.append("\\b")
+        elif ch == "\f":
+            out.append("\\f")
+        elif ch == "\n":
+            out.append("\\n")
+        elif ch == "\r":
+            out.append("\\r")
+        elif ch == "\t":
+            out.append("\\t")
+        elif o < 0x20 or o in (0x2028, 0x2029):
+            out.append("\\u%04x" % o)
+        else:
+            out.append(ch)
+    out.append('"')
+    return "".join(out)
+
+
+def canon(value: Any) -> str:
+    """The phone's kstore canon: sorted keys, JSON primitives. Shared with src/kstore.js."""
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, int) and not isinstance(value, bool):
+        return str(value)
+    if isinstance(value, float):
+        return js_number(value)
+    if isinstance(value, str):
+        return _js_string(value)
+    if isinstance(value, list):
+        return "[" + ",".join(canon(x) for x in value) + "]"
+    if isinstance(value, dict):
+        parts = [_js_string(str(k)) + ":" + canon(value[k]) for k in sorted(value.keys())]
+        return "{" + ",".join(parts) + "}"
+    raise ValueError("uncanonical")
+
+
+def canonical_sha256(value: Any) -> str:
+    return hashlib.sha256(canon(value).encode("utf-8")).hexdigest()
+
+
+def _plan_base(**extra: Any) -> dict[str, Any]:
+    body = {
+        "schema": PLAN_SCHEMA, "ok": True, "dry_run": True, "commit": False, "write_authority": False,
+        "network": False, "writes": False, "scheduler": False, "hash_means": "corruption_check_only",
+        "calls_llm": False, "rows": [], "rejected": [],
+    }
+    body.update(extra)
+    return body
+
+
+def _reject_file(rule: str) -> dict[str, Any]:
+    return _plan_base(ok=False, rule=rule)
+
+
+def _row_key(row: dict[str, Any]) -> str:
+    if row.get("key"):
+        return str(row["key"])
+    return gap_key(str(row.get("question") or ""))
+
+
+def _check_row(row: dict[str, Any], lane: str) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    question = " ".join(str(row.get("question") or "").split())
+    gap = row.get("gap") if isinstance(row.get("gap"), dict) else None
+    if gap is not None and gap.get("schema") not in (None, ENVELOPE_SCHEMA):
+        return None, {"key": _row_key(row), "rule": "GAP-PLAN-SCHEMA-ROW", "lane": lane}
+    frame = (gap or {}).get("qframe") if isinstance((gap or {}).get("qframe"), dict) else None
+    if frame is not None and " ".join(str(frame.get("text") or "").split()) != question:
+        return None, {"key": _row_key(row), "rule": "GAP-PLAN-FRAME", "lane": lane}
+    body = row.get("body") if isinstance(row.get("body"), dict) else None
+    if body is not None and row.get("reply") is not None and body.get("text") != row.get("reply"):
+        return None, {"key": _row_key(row), "rule": "GAP-PLAN-STALE-REPLY", "lane": lane}
+    cont = row.get("continuation") if isinstance(row.get("continuation"), dict) else None
+    if cont is None and gap is not None and isinstance(gap.get("continuation"), dict):
+        cont = gap.get("continuation")
+    if cont is not None and " ".join(str(cont.get("question") or "").split()) != question:
+        return None, {"key": _row_key(row), "rule": "GAP-PLAN-STALE-CONTINUATION", "lane": lane}
+    structured = bool(gap and (gap.get("qframe") or gap.get("sim"))) or lane == "awaiting_user"
+    if lane == "awaiting_user" or (row.get("awaiting_user") and lane != "pending"):
+        disposition = "awaiting_user"
+    elif lane == "pending" and body:
+        disposition = "list"
+    elif lane == "admitted":
+        disposition = "already_recorded"
+    else:
+        disposition = "hold"
+    return {
+        "key": _row_key(row), "lane": lane, "disposition": disposition,
+        "structure": "envelope" if structured else "unsupported",
+        "write_authority": False, "row": row,
+    }, None
+
+
+def _walk(rows: Any, lane: str, seen: set[str], plan: list[dict[str, Any]], rejected: list[dict[str, Any]]) -> str | None:
+    if rows is None:
+        return None
+    if not isinstance(rows, list):
+        return "GAP-PLAN-SHAPE"
+    for row in rows:
+        if not isinstance(row, dict):
+            return "GAP-PLAN-SHAPE"
+        key = _row_key(row)
+        if key in seen:
+            return "GAP-PLAN-DUPLICATE"
+        if key:
+            seen.add(key)
+        kept, bad = _check_row(row, lane)
+        if bad:
+            rejected.append(bad)
+        elif kept:
+            plan.append(kept)
+    return None
+
+
+def plan_export(data: Any) -> dict[str, Any]:
+    """Pure dry-run plan. No clock, no socket, no runner state, no write authority."""
+    if isinstance(data, list):
+        rows = []
+        for i, item in enumerate(data):
+            question = item if isinstance(item, str) else (item or {}).get("question") if isinstance(item, dict) else None
+            rows.append({
+                "key": gap_key(str(question or "")) or ("row-%s" % i), "lane": "legacy", "disposition": "hold",
+                "structure": "unsupported", "write_authority": False,
+                "row": item if isinstance(item, (str, dict)) else {"question": None},
+            })
+        return _plan_base(rows=rows, integrity="unchecked", source_schema="list")
+    if not isinstance(data, dict):
+        return _reject_file("GAP-PLAN-SCHEMA")
+    schema = str(data.get("schema") or "")
+    if schema == EXPORT_SCHEMA:
+        claimed = data.get("canonical_sha256")
+        body = {k: v for k, v in data.items() if k != "canonical_sha256"}
+        try:
+            got = canonical_sha256(body)
+        except ValueError:
+            return _reject_file("GAP-PLAN-SCHEMA")
+        if not isinstance(claimed, str) or claimed != got:
+            return _reject_file("GAP-PLAN-HASH")
+        curation = data.get("curation")
+        if not isinstance(curation, dict) or curation.get("schema") != CURATION_SCHEMA:
+            return _reject_file("GAP-PLAN-SHAPE")
+        integrity = "checked"
+        source = curation
+        opens = data.get("open_turns") or []
+    elif schema == CURATION_SCHEMA:
+        integrity = "unchecked"
+        source = data
+        opens = []
+    else:
+        return _reject_file("GAP-PLAN-SCHEMA")
+    plan: list[dict[str, Any]] = []
+    rejected: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for lane in ("queue", "pending", "quarantine", "cold", "admitted"):
+        err = _walk(source.get(lane) or [], lane, seen, plan, rejected)
+        if err:
+            return _reject_file(err)
+    err = _walk(opens, "awaiting_user", seen, plan, rejected)
+    if err:
+        return _reject_file(err)
+    return _plan_base(rows=plan, rejected=rejected, integrity=integrity, source_schema=schema)
+
+
+def plan_main(argv: list[str]) -> int:
+    path = None
+    for a in argv:
+        if a == "--plan" or a.startswith("--"):
+            continue
+        path = a
+    if not path:
+        print(json.dumps(_reject_file("GAP-PLAN-NO-FILE"), sort_keys=True))
+        return 2
+    try:
+        data = json.load(open(path, encoding="utf-8"))
+    except (OSError, ValueError):
+        print(json.dumps(_reject_file("GAP-PLAN-SCHEMA"), sort_keys=True))
+        return 2
+    rep = plan_export(data)
+    print(json.dumps(rep, ensure_ascii=False, sort_keys=True, separators=(",", ":")))
+    return 0 if rep.get("ok") else 2
+
+
 def main(argv: list[str]) -> int:
+    if "--plan" in argv:
+        return plan_main(argv)
     commit = loop = False
     interval, passes, max_items, cycles = 600.0, 0, 5, 10
     state_path = log_path = anchors_path = out_path = None

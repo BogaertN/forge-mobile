@@ -7,7 +7,7 @@
  * Phone letter-pack publish stays gated (publishPacks true). Pages still ships packs only via publish.sh on main.
  * ChristPing is first-class. Only Gilligan initiates it. Hard drift (≥0.80) runs χ grace recenter, aborts that claim,
  * and opens a different research path. The noisy claim is not admitted.
- * Neo is the Ask surface. Neo does not spawn. Neo is not Neil. This file does not run Ask.
+ * Neo schedules Athena's gap queue (src/neo.js). Neo does not spawn. Neo is not Neil. This file does not run that tick.
  * Lifecycle is Spawn → Run → Hibernate → Retire → Resurrect. Quarantine custody does not spend the spawn window.
  * Doc law: Gilligan Core 1HSjAk6UY (ChristPing / χ(t), only Gilligan initiates); Gilligan Codex 1hbLsNhrE;
  * RPMC Blueprint §14 1L_f5I2In; RPMC protocol 1G-Yj323fee; Dream Drift 14fVCPgQ0; Orchestration 1O5Txx2rL;
@@ -37,7 +37,7 @@
   const DAEMONS = [
     { id: 'daemon:gilligan', role: 'gilligan', duty: 'cold_revisit_re_curate', runs: 'always_on', writes_confirmed_shared: false, spawns_helpers: false },
     { id: 'daemon:athena', role: 'athena', duty: 'continuous_research_and_admit', runs: 'always_on', writes_confirmed_shared: true, spawns_helpers: true },
-    { id: 'daemon:neo', role: 'neo', duty: 'ask_surface', runs: 'kernel_process', writes_confirmed_shared: false, spawns_helpers: false, in_this_file: false }
+    { id: 'daemon:neo', role: 'neo', duty: 'schedule_athena_gaps', runs: 'idle_tick', writes_confirmed_shared: false, spawns_helpers: false, in_this_file: false }
   ];
   const CURATOR_TASKS = ['resonance_place', 'pack_append'];
   const RESEARCH_TASKS = ['research', 'extract', 'letter_fill', 'ancestor_probe'];
@@ -75,7 +75,7 @@
       schedule_law: 'DREAM-ALWAYS-ON', christ_rules: CHRIST_RULES.slice(),
       gilligan_codex_ported: true, pattern_reflection_is_gilligan: false, open_crawl: false,
       research: 'allow-listed-or-curated', os_process_pool: false, spawn_pool: 'in_process_mesh',
-      roles: { neo: 'ask_surface', gilligan: 'gap_fill_within_drift', athena: 'strict_curate_admit' },
+      roles: { neo: 'gap_scheduler', gilligan: 'gap_fill_within_drift', athena: 'strict_curate_admit' },
       daemons: DAEMONS.map(d => d.role), helper_tasks: HELPER_TASKS.slice(),
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
@@ -1104,7 +1104,7 @@
         schedule_law: b.schedule_law, phone_pack_publish: b.phone_pack_publish, pages_pack_ship: b.pages_pack_ship,
         publish_packs: opts.publishPacks === true, continuous_fill: b.continuous_fill, automatic_curation: true,
         write_key_held: writeKey.length >= 12, learning_loop: 'research → measure → admit/quarantine → cold → KB → Ask',
-        researcher: 'athena', cold_curator: 'gilligan', ask: 'neo', neo_is_neil: false, answering: answering,
+        researcher: 'athena', cold_curator: 'gilligan', scheduler: 'neo', neo_is_neil: false, answering: answering,
         daemons: DAEMONS.map(d => ({ role: d.role, duty: d.duty, runs: d.runs })),
         queued: queue.length, novel_open: novelOpen, cold_rows: athena.coldBank().length, christ_pings: pulse.christ,
         athena: { role: 'athena', duty: 'continuous_research_and_admit', runs: 'always_on', research_ticks: pulse.research, admits: pulse.athena_admits, staged: pulse.staged, quarantine: pulse.quarantine, hard_reject: pulse.hard, last: pulse.last_athena },

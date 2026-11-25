@@ -74,7 +74,7 @@ T('the quarantine reopens once when the anchor set changes, not before', async (
 });
 T('the phone wiring: Ask queues held questions, the curators replace the old mesh, no Wikipedia enrichment, truthful Custody text', () => {
   const app = read('src/app.js'), cust = read('src/app_custody.js'), ui = read('src/app_curators.js'), html = read('index.html'), sw = read('sw.js');
-  expect(/KCurators\.noteHeld\(q?text, row\)/.test(app) && /window\.KAskAnchors = async function/.test(app), 'Ask bridge');
+  expect(/KCurators\.noteHeld\(qtext, row,/.test(app) && /window\.KAskAnchors = async function/.test(app), 'Ask bridge');
   expect(/if \(root\.KCurators\) return null;/.test(cust) && /if \(root\.KCurators\) return root\.KCurators\.step\(\);/.test(cust) && /!root\.KCurators && root\.KPipeline/.test(cust), 'old mesh not booted');
   expect(html.indexOf('src/curators_208.js') < html.indexOf('src/app_curators.js') && html.indexOf('src/app_curators.js') < html.indexOf('src/app_custody.js'), 'script order');
   expect(/\.\/src\/curators_208\.js/.test(sw) && /\.\/src\/app_curators\.js/.test(sw), 'precached');

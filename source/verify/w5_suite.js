@@ -16,12 +16,57 @@ const ids = r => r.trace.rules.map(x => x.id);
 const derived = r => { expect(r.reply, 'no reply: ' + (r.trace.block_reason || '')); expect(r.trace.derivation && (r.trace.derivation.rules || r.trace.derivation.rule_count), 'no derivation trace'); expect(r.trace.echo && r.trace.echo.pass, 'echo not passed'); return r.reply; };
 
 /* ---------- INFERENCE (W3) ---------- */
-T('INFERENCE', 'comparative transitivity with pronoun “me”: brother > sister > me ⇒ brother older than me (2 cited facts)', () => { const k = K(); say(k, 'remember that my sister is older than me', 'remember that my brother is older than my sister'); const r = k.process('is my brother older than me?'); expect(/^Yes, I infer/.test(derived(r)) && ids(r).includes('INF-REL-TRANSITIVE-COMPARATIVE')); });
-T('INFERENCE', 'antonym normalisation: “older” fact answers a “younger” question', () => { const k = K(); say(k, 'remember that my brother is older than my sister'); const r = k.process('is my sister younger than my brother?'); expect(/^Yes/.test(derived(r))); });
-T('INFERENCE', 'comparative is not symmetric: brother older than sister ⇏ sister older than brother', () => { const k = K(); say(k, 'remember that my brother is older than my sister'); const r = k.process('is my sister older than my brother?'); expect(!/^Yes/.test(derived(r))); });
-T('INFERENCE', 'temporal order: before + after(inverse) chain', () => { const k = K(); say(k, 'remember that the meeting is before lunch', 'remember that dinner is after lunch'); const r = k.process('is the meeting before dinner?'); expect(/^Yes, I infer/.test(derived(r)) && ids(r).includes('INF-REL-TRANSITIVE-BEFORE')); });
-T('INFERENCE', 'temporal order is not reversed: meeting before dinner ⇏ dinner before meeting', () => { const k = K(); say(k, 'remember that the meeting is before lunch', 'remember that lunch is before dinner'); const r = k.process('is dinner before the meeting?'); expect(!/^Yes/.test(derived(r))); });
-T('INFERENCE', 'part-of transitivity: wheel ⊂ engine ⊂ car; “of”-predicate reading removed by apavāda', () => { const k = K(); say(k, 'remember that the wheel is part of the engine', 'remember that the engine is part of the car'); const r = k.process('is the wheel part of the car?'); expect(/^Yes, I infer/.test(derived(r)) && ids(r).includes('LL-COPULA-OF-APAVADA') && ids(r).includes('INF-REL-TRANSITIVE-PARTOF')); });
+T('INFERENCE', 'comparative transitivity with pronoun “me”: brother > sister > me ⇒ brother older than me (2 cited facts)', () => {
+  /* Old: Kernel.process, /^Yes, I infer/, INF-REL-TRANSITIVE-COMPARATIVE.
+   * Live: older_than chains inside age. Both premises are cited. No age number is invented. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my sister is older than me').ok && Ask.remember(s, 'remember that my brother is older than my sister').ok);
+  const row = Ask.ask(s, 'is my brother older than me?');
+  expect(row.product_reply === true && row.echo && row.echo.pass === true && row.reply === 'Your brother is older than your sister. Your sister is older than you. Your brother is older than you.', row.reply);
+  expect(row.world_model.derive.survivor.how === 'WM-OLDER_THAN-CHAIN' && row.calls_llm !== true && !(row.memory_write && row.memory_write.committed));
+});
+T('INFERENCE', 'antonym normalisation: “older” fact answers a “younger” question', () => {
+  /* Old: Kernel.process, /^Yes/. Live: younger_than is the inverse of older_than, same two people. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my brother is older than my sister').ok);
+  const row = Ask.ask(s, 'is my sister younger than my brother?');
+  expect(row.product_reply === true && row.reply === 'Your brother is older than your sister. Your sister is younger than your brother.' && row.world_model.derive.survivor.how === 'WM-OLDER_THAN-INVERSE', row.reply);
+});
+T('INFERENCE', 'comparative is not symmetric: brother older than sister ⇏ sister older than brother', () => {
+  /* Old: Kernel.process, the reply was not /^Yes/. Live: the forward comparison admits, and the swap is the asymmetric negation. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that my brother is older than my sister').ok);
+  const fwd = Ask.ask(s, 'is my brother older than my sister?');
+  const row = Ask.ask(s, 'is my sister older than my brother?');
+  expect(fwd.product_reply === true && /older than your sister/.test(fwd.reply) && !/not older/.test(fwd.reply), fwd.reply);
+  expect(row.product_reply === true && row.reply === 'Your brother is older than your sister. Your sister is not older than your brother.' && row.world_model.derive.survivor.how === 'WM-OLDER_THAN-ASYM', row.reply);
+});
+T('INFERENCE', 'temporal order: before + after(inverse) chain', () => {
+  /* Old: Kernel.process, reply /^Yes, I infer/, rule INF-REL-TRANSITIVE-BEFORE.
+   * Live: after(dinner, lunch) is before(lunch, dinner); WM-BEFORE-CHAIN cites both premises. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that the meeting is before lunch').ok && Ask.remember(s, 'remember that dinner is after lunch').ok);
+  const row = Ask.ask(s, 'is the meeting before dinner?');
+  expect(row.product_reply === true && row.echo && row.echo.pass === true && row.reply === 'The meeting is before lunch. Dinner is after lunch. The meeting is before dinner.', row.reply);
+  expect(row.world_model.derive.survivor.how === 'WM-BEFORE-CHAIN' && row.calls_llm !== true && !(row.memory_write && row.memory_write.committed), row.world_model.derive.survivor && row.world_model.derive.survivor.how);
+});
+T('INFERENCE', 'temporal order is not reversed: meeting before dinner ⇏ dinner before meeting', () => {
+  /* Old: Kernel.process, the reply was not /^Yes/. Live: the opposite direction is a hold, and Ask stores nothing. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that the meeting is before lunch').ok && Ask.remember(s, 'remember that lunch is before dinner').ok);
+  const n = s.phone.length;
+  const row = Ask.ask(s, 'is dinner before the meeting?');
+  expect(row.product_reply !== true && s.phone.length === n, row.reply || row.route);
+});
+T('INFERENCE', 'part-of transitivity: wheel ⊂ engine ⊂ car; “of”-predicate reading removed by apavāda', () => {
+  /* Old: Kernel.process, reply /^Yes, I infer/, rules LL-COPULA-OF-APAVADA and INF-REL-TRANSITIVE-PARTOF.
+   * Live: the question frame keeps "part of" (of is not a predicate PP) and WM-PART-CHAIN cites both premises. */
+  const Ask = require('./ask_path.js'); const s = Ask.session();
+  expect(Ask.remember(s, 'remember that the wheel is part of the engine').ok && Ask.remember(s, 'remember that the engine is part of the car').ok);
+  const row = Ask.ask(s, 'is the wheel part of the car?');
+  expect(row.product_reply === true && row.echo && row.echo.pass === true && row.reply === 'The wheel is part of the engine. The engine is part of the car. The wheel is part of the car.', row.reply);
+  expect(row.world_model.derive.survivor.how === 'WM-PART-CHAIN' && row.calls_llm !== true && !(row.memory_write && row.memory_write.committed), row.world_model.derive.survivor.how);
+});
 T('INFERENCE', 'possession: “I have a dog” stored and answered; “what does my sister have?” recalls', () => { const k = K(); say(k, 'remember that I have a dog', 'remember that my sister has a cat'); expect(/^Yes/.test(derived(k.process('do I have a dog?')))); expect(/has a cat/.test(derived(k.process('what does my sister have?')))); });
 T('INFERENCE', 'perfect aspect still wins over possessive “have” before a participle', () => { const k = K(); const r = k.process('remember that I have eaten'); expect(/have eaten/.test(derived(r)) && !ids(r).includes('V-FINITE-HAVE-POSSESSIVE')); });
 T('INFERENCE', 'negative universal: “no dog is a cat” + “Rex is a dog” ⇒ No (was a false Yes before v4.3)', () => { const k = K(); say(k, 'remember that no dog is a cat', 'remember that Rex is a dog'); const r = k.process('is Rex a cat?'); expect(/^No\./.test(derived(r)) && ids(r).includes('INF-ISA-DISJOINT')); });
@@ -42,15 +87,68 @@ const DER = [['sin(x)*x^2', 'cos(x)·x^2 + sin(x)·(2x)'], ['e^x', 'e^x'], ['exp
 for (const [i, o] of DER) T('CALCULUS', 'd/dx ' + i + ' = ' + o + ' (rule-tagged, numerically cross-checked)', () => { const r = CA.derivative(i); expect(r.ok && r.result === o, JSON.stringify(r)); expect(r.rules.every(x => /^D-\d\d-/.test(x))); });
 const INT = [['sin(x)', 0, 'pi', '2'], ['exp(x)', 0, 1, 'e - 1'], ['1/x', 1, 'e', '1'], ['cos(2x)', 0, 'pi/4', '1/2'], ['x*sin(x)', 0, 'pi', 'π'], ['x^2*exp(x)', 0, 1, 'e - 2']];
 for (const [f, a, b, v] of INT) T('CALCULUS', '∫_' + a + '^' + b + ' ' + f + ' dx = ' + v + ' (FTC, Simpson cross-check)', () => { const r = CA.integral(f, null, a, b); expect(r.ok && r.definite.value === v, JSON.stringify(r)); expect(r.rules.includes('I-09-FTC')); });
-T('CALCULUS', 'outside the antiderivative table → refused, never guessed (∫ sin(x²))', () => { const r = CA.integral('sin(x^2)'); expect(!r.ok && r.error === 'CALC_NOT_IN_TABLE'); const k = K(); expect(/cannot integrate/.test(derived(k.process('integrate sin(x^2)')))); });
-T('CALCULUS', 'kernel replies for trig/exp/log calculus are derived and re-verified', () => { const k = K(); for (const q of ['differentiate sin(x)*x^2', 'derivative of ln(x)', 'integrate sin(x) from 0 to pi', 'integrate x*sin(x) dx']) { const r = k.process(q); derived(r); expect(ids(r).includes('CALC-NUMERIC-CROSSCHECK'), q); } });
-T('CALCULUS', 'polynomial calculus path unchanged (GP-014)', () => { const k = K(); expect(derived(k.process('derivative of x^3')) === 'd/dx (x^3) = 3x^2.'); expect(/= 9\.$/.test(derived(k.process('integrate x^2 from 0 to 3')))); });
-T('ALGEBRA', 'rational function: GCD cancelled and the excluded point kept (x ≠ 1)', () => { const r = A.ratSimplify('(x^2-1)/(x-1)'); expect(r.ok && r.result === 'x + 1' && r.excluded.join() === '1'); const k = K(); const t = k.process('simplify (x^2-1)/(x-1)'); expect(derived(t) === 'The simplified form is x + 1. x ≠ 1.'); });
+function askCalc(q) {
+  const Ask = require('./ask_path.js'); const WF = require('../src/world_facts.js');
+  const n = WF.rows().length; const s = Ask.session(); const row = Ask.ask(s, q);
+  expect(s.phone.length === 0 && WF.rows().length === n, 'a math question stored a premise');
+  return row;
+}
+const calcOk = row => row && row.product_reply === true && row.echo && row.echo.pass === true && row.echo.method === 'computed_quantity_reparse' && row.calls_llm !== true && row.computed && row.computed.status === 'ok' && !(row.memory_write && row.memory_write.committed);
+T('CALCULUS', 'outside the antiderivative table → refused, never guessed (∫ sin(x²))', () => {
+  /* The elementary table still refuses this. The live integral does not invent an elementary formula.
+   * Fresnel S is the exact special function, and differentiating it recovers sin(x^2). The old reply was "cannot integrate". */
+  const r = CA.integral('sin(x^2)'); expect(!r.ok && r.error === 'CALC_NOT_IN_TABLE');
+  const row = askCalc('integrate sin(x^2)');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(calcOk(row) && res && res.elementary === false && res.recovery === 'derivative' && res.domain.join() === 'all real x' && res.special.join() === 'fresnels' && res.text === '√(π/2)·fresnels(√(2/π)·x) + C' && /not an elementary function/.test(row.reply) && row.reply.includes('+ C'), row.reply || row.route);
+});
+T('CALCULUS', 'kernel replies for trig/exp/log calculus are derived and re-verified', () => {
+  /* CALC-NUMERIC-CROSSCHECK was the old numeric cross-check id. The live re-verification is Echo recomputing the same tree.
+   * ln is stated for x > 0. The check is not a claim that the formula holds on the whole real line. */
+  const d = askCalc('differentiate sin(x)*x^2');
+  const ln = askCalc('derivative of ln(x)');
+  const def = askCalc('integrate sin(x) from 0 to pi');
+  const parts = askCalc('integrate x*sin(x) dx');
+  expect(calcOk(d) && d.computed.receipt.result.text === 'x^2·cos(x) + 2x·sin(x)' && d.computed.receipt.result.variable === 'x', d.reply);
+  expect(calcOk(ln) && ln.computed.receipt.result.text === '1/x' && ln.computed.receipt.result.domain.join() === 'x > 0' && ln.reply.includes('for x > 0'), ln.reply);
+  expect(calcOk(def) && def.reply === 'The definite integral of sin(x) from 0 to π is 2.' && def.computed.receipt.result.definite === true && !/\+ C/.test(def.reply), def.reply);
+  expect(calcOk(parts) && parts.computed.receipt.result.text === '-x·cos(x) + sin(x) + C' && parts.computed.receipt.result.elementary === true, parts.reply);
+});
+T('CALCULUS', 'polynomial calculus path unchanged (GP-014)', () => {
+  /* GP-014 locks the meaning atoms and severs an overclaim. The old phrase was "d/dx (x^3) = 3x^2." That template is not the guarantee.
+   * The derivative is 3x^2 and the definite integral is 9. */
+  const d = askCalc('derivative of x^3');
+  const n = askCalc('integrate x^2 from 0 to 3');
+  const banned = /proven scientifically|empirically confirmed|proves that reality|law of nature/;
+  expect(calcOk(d) && d.computed.receipt.result.text === '3x^2' && d.reply.includes('3x^2') && !banned.test(d.reply), d.reply);
+  expect(calcOk(n) && n.reply === 'The definite integral of x squared from 0 to 3 is 9.' && !/\+ C/.test(n.reply) && !banned.test(n.reply), n.reply);
+});
+T('ALGEBRA', 'rational function: GCD cancelled and the excluded point kept (x ≠ 1)', () => {
+  const r = A.ratSimplify('(x^2-1)/(x-1)'); expect(r.ok && r.result === 'x + 1' && r.excluded.join() === '1');
+  const row = askCalc('simplify (x^2-1)/(x-1)');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(calcOk(row) && res && res.text === 'x + 1' && res.excluded.length === 1 && res.excluded[0].value === '1' && res.excluded[0].multiplicity === 1 && row.reply.includes('x ≠ 1'), row.reply || row.route);
+});
 T('ALGEBRA', 'rational function already in lowest terms is left unchanged', () => { const r = A.ratSimplify('(x+1)/(x-1)'); expect(r.ok && r.result === '(x + 1)/(x - 1)' && !r.excluded.length); });
-T('ALGEBRA', 'exact cubic, one real root: Cardano closed form agrees with the numeric root', () => { const k = K(); const r = k.process('solve x^3 + x + 1 = 0'); expect(/x = ∛\(-1\/2 \+ √\(31\/108\)\) \+ ∛\(-1\/2 - √\(31\/108\)\)\./.test(derived(r)) && ids(r).includes('ALG-CUBIC-CARDANO')); });
-T('ALGEBRA', 'exact cubic, three real roots: trigonometric form (casus irreducibilis)', () => { const k = K(); const r = k.process('solve x^3 - 3x + 1 = 0'); expect(/2·cos\(⅓·arccos\(-1\/2\)\)/.test(derived(r)) && ids(r).includes('ALG-CUBIC-TRIGONOMETRIC')); });
+T('ALGEBRA', 'exact cubic, one real root: Cardano closed form agrees with the numeric root', () => {
+  /* ALG-CUBIC-CARDANO named this real cube-root form. The reply is that form, and Echo substitutes it back into the polynomial. */
+  const row = askCalc('solve x^3 + x + 1 = 0');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(calcOk(row) && /x = ∛\(-1\/2 \+ √\(31\/108\)\) \+ ∛\(-1\/2 - √\(31\/108\)\)\./.test(row.reply) && res && res.method === 'cardano' && res.multiplicities.join() === '1', row.reply || row.route);
+});
+T('ALGEBRA', 'exact cubic, three real roots: trigonometric form (casus irreducibilis)', () => {
+  /* ALG-CUBIC-TRIGONOMETRIC named this three-real-root form. All three roots are stated. */
+  const row = askCalc('solve x^3 - 3x + 1 = 0');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(calcOk(row) && /2·cos\(⅓·arccos\(-1\/2\)\)/.test(row.reply) && res && res.method === 'trigonometric' && res.multiplicities.length === 3 && res.solutions.length === 3, row.reply || row.route);
+});
 T('ALGEBRA', 'cubic closed forms evaluate back to the roots (1e-9)', () => { for (const c of [[1, 0, 1, 1], [1, 0, -3, 1], [1, -2, 0, -2], [2, -3, -3, 1]]) { const z = CA.cubicExact(...c); if (!z) continue; for (const r of z.roots) expect(Math.abs(c[0] * r.approx ** 3 + c[1] * r.approx ** 2 + c[2] * r.approx + c[3]) < 1e-9); } });
-T('ALGEBRA', 'rational-root cubic keeps exact integer roots (no closed-form clutter)', () => { const k = K(); const r = k.process('solve x^3 - 6x^2 + 11x - 6 = 0'); expect(derived(r) === 'x^3 - 6x^2 + 11x - 6 = 0 ⇒ x = 1 or x = 2 or x = 3.'); });
+T('ALGEBRA', 'rational-root cubic keeps exact integer roots (no closed-form clutter)', () => {
+  /* The old sentence used ⇒. The guarantee is the three simple integer roots, not a Cardano wrapping. */
+  const row = askCalc('solve x^3 - 6x^2 + 11x - 6 = 0');
+  const res = row.computed && row.computed.receipt && row.computed.receipt.result;
+  expect(calcOk(row) && ['x = 1', 'x = 2', 'x = 3'].every(t => row.reply.includes(t)) && !/[∛√]/.test(row.reply) && res && res.method === 'rational' && res.multiplicities.join() === '1,1,1', row.reply || row.route);
+});
 T('ALGEBRA', 'no eval / new Function anywhere in shipped sources', () => { for (const f of fs.readdirSync(ROOT + '/src').filter(f => /\.js$/.test(f))) { const s = fs.readFileSync(ROOT + '/src/' + f, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, ''); expect(!/\beval\s*\(|new\s+Function\s*\(|set(?:Timeout|Interval)\s*\(\s*['"`]/.test(s), f); } });
 /* ---------- LIFECYCLE / BRIDGES / MEA ---------- */
 T('LIFECYCLE', 'every forge turn carries MSM lifecycle states captured → … → delivered|blocked', () => { const f = FF(); for (const q of ['remember that my car is red', 'is my car blue?', 'what is 2+2', 'zzqx']) { const r = f.process(q); const L = r.forge.w3.lifecycle.map(s => s.state); expect(L[0] === 'captured' && /delivered|blocked/.test(L.join()), q + ' ' + L); } });

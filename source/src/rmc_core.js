@@ -17,8 +17,11 @@ function withFrame(payload) {
   return withClauses(out, QF, F);
 }
 /* 4.9.231 (Nic plan 229, step 3): every memory row the Ask sends carries its kāraka clause beside its text. A row that already
- * has one (a remembered statement keeps the clause it was parsed into) is left as it is; the others are parsed once per text
- * (KQFrame.clauseCached) and the rows are copied, never changed in place. A sentence that does not parse is sent without one. */
+ * has one (a remembered statement keeps the clause it was parsed into) is left as it is. A stored record
+ * that did not parse is not a clause: Ask reads it again with the grammar that is loaded now (the extended
+ * lexicon attaches after the core, and a remember in that window used to freeze parsed:false). The others
+ * are parsed once per text (KQFrame.clauseCached) and the rows are copied, never changed in place. A sentence
+ * that still does not parse is sent without a clause. */
 const CLAUSE_KEYS = ['receipts', 'phone', 'hosted', 'anchors', 'self'];
 /* 4.9.241 (Nic plan 229 step 10): SELF-FACTS FROM CLAUSES. The kernel's facts about itself are the kāraka clauses of
  * src/selfmodel.js FACTS (true facts: a computer program that derives sentences by fixed rules, has no body, …). Each is
@@ -73,13 +76,24 @@ function stateRows(QF, F) {
   return [{ id: 'state:live', memory_id: 'state:live', text, tier: 'self', trust: 'trusted', clause: cl,
     provenance: { source: 'measured live state (the previous Ask turn)', kind: 'self_state', perspective: 'asker_to_kernel', measured: Object.assign({}, LAST_STATE), coherent } }];
 }
+function clauseParsed(c) {
+  if (!c || typeof c !== 'object') return false;
+  if (c.parsed) return true;
+  if ((c.clauses || []).some(clauseParsed)) return true; /* 4.9.238: a concessive or causal sentence */
+  if ((c.sentences || []).some(clauseParsed)) return true;
+  return false;
+}
 function clauseRow(row, QF, F, stat) {
   if (!row || typeof row !== 'object' || !row.text) return row;
   stat.rows++;
-  if (row.clause && row.clause.schema === QF.CLAUSE) { stat.kept++; return row; }
+  if (row.clause && row.clause.schema === QF.CLAUSE && clauseParsed(row.clause)) { stat.kept++; return row; }
   const c = QF.clauseCached(row.text, F); stat.parsed++;
-  const anyParsed = x => !!x && (x.parsed || (x.clauses || []).some(y => y && y.parsed)); /* 4.9.238: a split sentence counts by its clauses */
-  if (!c || !(anyParsed(c) || (c.sentences || []).some(anyParsed))) { stat.unparsed++; return row; }
+  if (!c || !clauseParsed(c)) {
+    stat.unparsed++;
+    /* a frozen parsed:false record is not sent on; Observe would keep it and skip a real reading */
+    if (row.clause && row.clause.schema === QF.CLAUSE) { const copy = Object.assign({}, row); delete copy.clause; return copy; }
+    return row;
+  }
   // the row's meaning id rides on its clause; phase, band and Hz are placed by the engine's resonance placement each turn
   return Object.assign({}, row, { clause: row.meaning_id ? Object.assign({}, c, { meaning_id: row.meaning_id }) : c });
 }
@@ -169,6 +183,40 @@ function run(payload, opts) {
   return RMC.ask(payload, opts).then(compileOut(payload));
 }
 function runSync(payload) { payload = withFrame(payload); return RMC && RMC.askSync ? RMC.askSync(payload) : { ok: false, foundations: true, product_reply: false, calls_llm: false, error: 'no_sync' }; }
-const api = { run, runSync, withFrame, withClauses, outwardCompile, selfRows, stateRows, noteState };
+/* A bare "why?" is the question frame's hetu follow-up. It explains only the prior admitted derivation,
+ * by re-checking that derivation. It is not a command and it does not store a sentence. */
+function bareWhy(frame) {
+  return !!(frame && frame.wh === 'why' && frame.wh_role === 'hetu' && frame.parsed !== true && !frame.declarative);
+}
+function hiddenPremise(p) {
+  if (!p || p.quarantined === true) return true;
+  const src = String(p.source || '');
+  if (src === 'research' || src === 'wikipedia') return true;
+  return /password|secret|api[_-]?key|credential/i.test(String(p.text || ''));
+}
+function whySnapshot(row, question) {
+  if (!row || row.product_reply !== true || !row.reply || !question) return null;
+  const d = row.world_model && row.world_model.derive;
+  const s = d && d.survivor;
+  if (!s || !s.how || !s.atom) return null;
+  const premises = (s.premises || []).map(p => ({ id: p.id, text: p.text, source: p.source || '', provenance: p.provenance || null, quarantined: p.quarantined === true }));
+  if (!premises.length || premises.some(hiddenPremise)) return { rejected: true };
+  return { question: question, reply: row.reply, how: s.how, atom: { predicate: s.atom.predicate, args: (s.atom.args || []).slice(), polarity: s.atom.polarity || 'pos' }, premises: premises, proof_id: s.proof_id || null };
+}
+function sameWhy(prior, row) {
+  if (!prior || prior.rejected || !row || row.product_reply !== true || row.reply !== prior.reply || !(row.echo && row.echo.pass === true)) return false;
+  const s = row.world_model && row.world_model.derive && row.world_model.derive.survivor;
+  if (!s || s.how !== prior.how || !s.atom) return false;
+  const args = a => (a || []).map(x => String(x).toLowerCase()).join('|');
+  if (s.atom.predicate !== prior.atom.predicate || (s.atom.polarity || 'pos') !== prior.atom.polarity || args(s.atom.args) !== args(prior.atom.args)) return false;
+  const texts = list => (list || []).map(p => p.text).sort().join('|');
+  if (texts(s.premises) !== texts(prior.premises)) return false;
+  if ((s.premises || []).some(hiddenPremise) || prior.premises.some(hiddenPremise)) return false;
+  return true;
+}
+function whyHold(reason) {
+  return { ok: false, product_reply: false, reply: null, held: true, route: 'why_no_derivation', calls_llm: false, model_invoked: false, echo: { pass: false, score: 0 }, memory_write: { committed: false }, followup: { kind: 'why', reason: reason } };
+}
+const api = { run, runSync, withFrame, withClauses, outwardCompile, selfRows, stateRows, noteState, bareWhy, whySnapshot, sameWhy, whyHold };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KRMCCore = api;
 })(typeof self !== 'undefined' ? self : this);

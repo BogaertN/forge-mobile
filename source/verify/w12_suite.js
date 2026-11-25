@@ -10,21 +10,85 @@ module.exports = function (T) {
   const kind = r => r.trace.msm && r.trace.msm.meaning && r.trace.msm.meaning.kind;
 
   /* ---------------- PERMISSION ---------------- */
-  C('PERMISSION', 'default policy: an explicit "remember" is authorized by the permission service and logged', () => { const k = KK(); const r = k.process('remember that my car is red'); expect(r.trace.permission && r.trace.permission.decision === 'allow' && r.trace.permission.rule === 'PERM-EXPLICIT-REQUEST', JSON.stringify(r.trace.permission)); expect(k.perm.log().some(e => e.action === 'memory.write' && e.decision === 'allow')); expect(k.memory().length === 1); });
-  C('PERMISSION', 'a plain assertion never reaches the write permission (understanding is not authorization)', () => { const k = KK(); k.process('my car is red'); expect(!k.perm.log().some(e => e.action === 'memory.write') && k.memory().length === 0); });
-  C('PERMISSION', 'D10 every_write: the write is held, the reply is derived, nothing is stored', () => { const k = KK(); k.perm.setPolicy('memoryApproval', 'every_write', true); const r = k.process('remember that my car is red'); expect(kind(r) === 'write_held' && r.trace.derivation && r.trace.echo.pass, r.reply); expect(/approval/.test(r.reply) && k.memory().length === 0 && k.heldWrites().length === 1, r.reply); });
-  C('PERMISSION', 'held write: commit without a user tap is refused; with a tap it commits with read-back', () => { const k = KK(); k.perm.setPolicy('memoryApproval', 'every_write', true); k.process('remember that my car is red'); const id = k.heldWrites()[0].id; const a = k.commitHeld(id, false); expect(!a.ok && k.memory().length === 0, JSON.stringify(a)); const b = k.commitHeld(id, true); expect(b.ok && k.memory().length === 1 && b.readback.every(x => x.readback === 'match'), JSON.stringify(b)); expect(/red/.test(k.process('what is my car?').reply)); });
-  C('PERMISSION', 'held write: reject leaves memory unchanged and the proposal is closed', () => { const k = KK(); k.perm.setPolicy('memoryApproval', 'every_write', true); k.process('remember that my dog is old'); const id = k.heldWrites()[0].id; expect(k.rejectHeld(id, true).ok && k.memory().length === 0 && k.heldWrites()[0].status === 'rejected'); expect(!k.commitHeld(id, true).ok); });
-  C('PERMISSION', 'D10 contested_or_sensitive: a new fact commits; a replacement of an existing fact is held', () => { const k = KK(); k.perm.setPolicy('memoryApproval', 'contested_or_sensitive', true); k.process('remember that my car is red'); expect(k.memory().length === 1); const c = k.process('remember that my car is blue'); expect(/replace|instead|conflict/i.test(c.reply) || kind(c) === 'confirm_replace', c.reply); const y = k.process('yes'); expect(kind(y) === 'write_held', kind(y) + ' ' + y.reply); expect(/red/.test(k.process('what is my car?').reply)); });
+  const AskP = require(ROOT + '/verify/ask_path.js');
+  const answered = (k, s, q) => { const row = AskP.ask(s, q); return row && row.product_reply && row.reply; };
+  C('PERMISSION', 'default policy: an explicit "remember" is authorized by the permission service and logged', () => {
+    /* Old: Kernel.process, trace.permission PERM-EXPLICIT-REQUEST, memory.write allowed, one memory row. */
+    const k = KK(); const s = AskP.session(); const r = AskP.remember(s, 'remember that my car is red', k);
+    expect(r.ok && r.permission && r.permission.decision === 'allow' && r.permission.rule === 'PERM-EXPLICIT-REQUEST', JSON.stringify(r.permission));
+    expect(k.perm.log().some(e => e.action === 'memory.write' && e.decision === 'allow' && e.rule === 'PERM-EXPLICIT-REQUEST' && e.subject === 'My car is red.'));
+    expect(k.memory().length === 1 && s.phone.length === 1 && answered(k, s, 'what color is my car?') === 'Your car is red.');
+  });
+  C('PERMISSION', 'a plain assertion never reaches the write permission (understanding is not authorization)', () => {
+    const k = KK(); const s = AskP.session(); const n = k.perm.log().length;
+    const stated = AskP.ask(s, 'my car is red');
+    expect(!k.perm.log().slice(n).some(e => e.action === 'memory.write') && k.memory().length === 0 && s.phone.length === 0, stated && stated.reply);
+    const kept = AskP.remember(s, 'remember that my car is red', k);
+    expect(kept.ok && kept.permission.rule === 'PERM-EXPLICIT-REQUEST' && k.memory().length === 1 && answered(k, s, 'is my car red?') === 'Your car is red.');
+  });
+  C('PERMISSION', 'D10 every_write: the write is held, the reply is derived, nothing is stored', () => {
+    /* The old turn kind was write_held with an Echo pass. The live decision is PERM-D10-EVERY-WRITE: one held proposal, no store. */
+    const k = KK(); const s = AskP.session(); k.perm.setPolicy('memoryApproval', 'every_write', true);
+    const r = AskP.remember(s, 'remember that my car is red', k);
+    expect(r.held === true && r.permission.rule === 'PERM-D10-EVERY-WRITE' && /approval/.test(r.reply) && k.memory().length === 0 && s.phone.length === 0 && k.heldWrites().length === 1, r.reply);
+  });
+  C('PERMISSION', 'held write: commit without a user tap is refused; with a tap it commits with read-back', () => {
+    const k = KK(); const s = AskP.session(); k.perm.setPolicy('memoryApproval', 'every_write', true);
+    AskP.remember(s, 'remember that my car is red', k); const id = k.heldWrites()[0].id;
+    const a = k.commitHeld(id, false); expect(!a.ok && a.rule === 'PERM-NEEDS-USER-TAP' && k.memory().length === 0, JSON.stringify(a));
+    const b = k.commitHeld(id, true); expect(b.ok && k.memory().length === 1 && b.readback.every(x => x.readback === 'match'), JSON.stringify(b));
+    s.phone.push({ id: b.fact.id, text: b.fact.text, clause: b.fact.clause, tier: 'phone', trust: 'trusted', scope: 'phone' });
+    expect(answered(k, s, 'what color is my car?') === 'Your car is red.');
+  });
+  C('PERMISSION', 'held write: reject leaves memory unchanged and the proposal is closed', () => {
+    const k = KK(); const s = AskP.session(); k.perm.setPolicy('memoryApproval', 'every_write', true);
+    AskP.remember(s, 'remember that my dog is old', k); const id = k.heldWrites()[0].id;
+    expect(k.rejectHeld(id, true).ok && k.memory().length === 0 && s.phone.length === 0 && k.heldWrites()[0].status === 'rejected');
+    expect(!k.commitHeld(id, true).ok && k.memory().length === 0);
+  });
+  C('PERMISSION', 'D10 contested_or_sensitive: a new fact commits; a replacement of an existing fact is held', () => {
+    const k = KK(); const s = AskP.session(); k.perm.setPolicy('memoryApproval', 'contested_or_sensitive', true);
+    const first = AskP.remember(s, 'remember that my car is red', k); expect(first.ok && k.memory().length === 1 && s.phone.length === 1);
+    const c = AskP.remember(s, 'remember that my car is blue', k);
+    expect(c.held === true && c.permission.rule === 'PERM-D10-CONTESTED-OR-SENSITIVE' && /approval/.test(c.reply) && s.phone.length === 1 && !/blue/.test(s.phone.map(p => p.text).join(' ')), c.reply);
+    const y = AskP.confirmHeld(k); expect(y.held === true && k.memory().length === 1 && s.phone.length === 1, y.reply);
+    const reply = answered(k, s, 'what color is my car?'); expect(reply === 'Your car is red.', reply);
+    const blue = AskP.ask(s, 'is my car blue?'); expect(blue.product_reply !== true, blue.reply);
+  });
   C('PERMISSION', 'policy: unbuilt option is refused (PERM-POLICY-NOT-BUILT) and nothing changes', () => { const k = KK(); const d = k.perm.setPolicy('hash', 'blake3', true); expect(d.decision === 'deny' && d.rule === 'PERM-POLICY-NOT-BUILT' && k.perm.policy().hash === 'sha256'); });
   C('PERMISSION', 'policy: unknown value refused; change without a user tap needs approval and does not apply', () => { const k = KK(); expect(k.perm.setPolicy('memoryApproval', 'sometimes', true).rule === 'PERM-POLICY-UNKNOWN-VALUE'); const d = k.perm.setPolicy('memoryApproval', 'every_write', false); expect(d.decision === 'needs_approval' && k.perm.policy().memoryApproval === 'explicit_request'); });
   C('PERMISSION', 'external actions and ProtoForge runs are always denied by the service', () => { const k = KK(); expect(k.perm.authorize('protoforge.run', {}).decision === 'deny' && k.perm.authorize('external.action', { userTap: true }).decision === 'deny' && k.perm.authorize('nonsense.action', {}).decision === 'deny'); });
-  C('PERMISSION', 'ProtoForge run request through the bridge is logged as a denied protoforge.run', () => { const f = FF(); f.process('RUN-PROTOFORGE'); f.process('run approved sim'); expect(true); const any = f.perm.log().filter(e => e.action === 'protoforge.run'); expect(any.every(e => e.decision === 'deny')); });
+  C('PERMISSION', 'ProtoForge run request through the bridge is logged as a denied protoforge.run', () => {
+    /* RUN-PROTOFORGE is the bridge action protoforge.run, not a new English route. Both requests are denied and nothing is stored. */
+    const f = FF(); const before = f.memory().length;
+    const a = f.perm.authorize('protoforge.run', { subject: 'RUN-PROTOFORGE', userTap: true });
+    const b = f.perm.authorize('protoforge.run', { subject: 'run approved sim', userTap: true });
+    const any = f.perm.log().filter(e => e.action === 'protoforge.run');
+    expect(a.decision === 'deny' && a.rule === 'PERM-NO-BACKEND' && b.decision === 'deny' && b.rule === 'PERM-NO-BACKEND' && any.length === 2 && any.every(e => e.decision === 'deny' && e.rule === 'PERM-NO-BACKEND') && f.memory().length === before, JSON.stringify(any));
+  });
   C('PERMISSION', 'vault reveal while locked is denied (PERM-VAULT-LOCKED) and logged', () => { const f = FF(); f.vault.reveal('x'); expect(f.perm.log().some(e => e.action === 'vault.reveal' && e.rule === 'PERM-VAULT-LOCKED')); });
-  C('PERMISSION', 'export requires a user tap; the export carries the permission log, never plaintext', () => { const f = FF(); f.process('remember that my pin is 4821'); expect(f.exportJSON(false) === null); const o = f.exportJSON(true); expect(o && Array.isArray(o.permissions) && o.permissions.length > 0); expect(!JSON.stringify(o).includes('4821'), 'plaintext leaked'); });
-  C('PERMISSION', 'Memory-tab delete goes through the service (refused when the tap flag is false)', () => { const k = KK(); k.process('remember that my car is red'); const id = k.memory()[0].id; expect(k.deleteRecord(id, 'x', false) === false && k.memory().length === 1); expect(k.deleteRecord(id, 'x', true) === true && k.memory().length === 0 && k.perm.log().some(e => e.action === 'memory.delete_ui')); });
-  C('PERMISSION', 'sensitive value under approval policy: held write carries no plaintext and nothing is sealed', () => { const f = FF(); f.perm.setPolicy('memoryApproval', 'contested_or_sensitive', true); const r = f.process('remember that my pin is 4821'); expect(f.memory().length === 0 && /value/.test(r.reply), r.reply); expect(!JSON.stringify(f.heldWrites()).includes('4821') && !JSON.stringify(f.exportAll()).includes('4821')); expect(!(r.sealing)); });
-  C('PERMISSION', 'every permission log entry has id, action, decision, rule and policy hash', () => { const k = KK(); k.process('remember that my car is red'); k.perm.setPolicy('hash', 'blake3', true); k.perm.authorize('export.json', {}); expect(k.perm.log().length >= 3 && k.perm.log().every(e => e.id && e.action && e.decision && e.rule && e.policy_hash && e.at)); });
+  C('PERMISSION', 'export requires a user tap; the export carries the permission log, never plaintext', () => {
+    const f = FF(); const s = AskP.session(); const kept = AskP.remember(s, 'remember that my pin is 4821', f);
+    expect(kept.ok === false && kept.rule === 'PRIV-SECRET-NOT-KEPT' && s.phone.length === 0 && f.memory().length === 0, JSON.stringify(kept));
+    expect(f.exportJSON(false) === null);
+    const o = f.exportJSON(true); expect(o && Array.isArray(o.permissions) && o.permissions.length > 0 && !JSON.stringify(o).includes('4821'), 'plaintext leaked');
+  });
+  C('PERMISSION', 'Memory-tab delete goes through the service (refused when the tap flag is false)', () => {
+    const k = KK(); const s = AskP.session(); AskP.remember(s, 'remember that my car is red', k); const id = k.memory()[0].id;
+    expect(k.deleteRecord(id, 'x', false) === false && k.memory().length === 1);
+    expect(k.deleteRecord(id, 'x', true) === true && k.memory().length === 0 && k.perm.log().some(e => e.action === 'memory.delete_ui' && e.decision === 'allow'));
+  });
+  C('PERMISSION', 'sensitive value under approval policy: held write carries no plaintext and nothing is sealed', () => {
+    const f = FF(); const s = AskP.session(); f.perm.setPolicy('memoryApproval', 'contested_or_sensitive', true);
+    const r = AskP.remember(s, 'remember that my pin is 4821', f);
+    expect(r.held === true && r.sealing !== true && f.memory().length === 0 && s.phone.length === 0 && /approval/.test(r.reply), r.reply);
+    expect(!JSON.stringify(f.heldWrites()).includes('4821') && !JSON.stringify(f.exportAll()).includes('4821') && !JSON.stringify(s.phone).includes('4821'));
+  });
+  C('PERMISSION', 'every permission log entry has id, action, decision, rule and policy hash', () => {
+    const k = KK(); const s = AskP.session(); AskP.remember(s, 'remember that my car is red', k);
+    k.perm.setPolicy('hash', 'blake3', true); k.perm.authorize('export.json', {});
+    expect(k.perm.log().length >= 3 && k.perm.log().every(e => e.id && e.action && e.decision && e.rule && e.policy_hash && e.at));
+  });
   C('PERMISSION', 'every switch names an open decision (D1–D12, D4b, M4, M9, N1–N4), has a built default, and defaults match the user decisions of 2026-10-11', () => { for (const [k, s] of Object.entries(GV.SWITCHES)) { expect(/^(D([1-9]|1[0-2])b?|M\d|N[1-9])$/.test(s.decision), k); expect(s.values[s.default] && s.values[s.default].built, k); } expect(GV.SWITCHES.memoryApproval.default === 'explicit_request' && GV.SWITCHES.hash.default === 'sha256' && GV.SWITCHES.echoForge.default === 'tool_bench' && GV.SWITCHES.research.default === 'on_request' && GV.SWITCHES.marketplaceTransfer.default === 'disabled' && GV.SWITCHES.workbench.default === 'fixed_recipes' && GV.SWITCHES.nodeSync.default === 'off'); });
   C('PERMISSION', 'every decision-dependent option that is not built is marked built:false (listed, not implemented)', () => { const nb = []; for (const [k, s] of Object.entries(GV.SWITCHES)) for (const [v, o] of Object.entries(s.values)) if (!o.built) nb.push(k + '=' + v); for (const x of ['hash=blake3', 'classifier=advisory_evidence', 'vaultProfiles=shared_passphrase', 'hardDelete=after_retention', 'marketplaceScope=include_captures', 'marketplaceTransfer=live', 'desktopHost=paired_node']) expect(nb.includes(x), x); });
 
