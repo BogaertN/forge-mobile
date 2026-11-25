@@ -18,6 +18,8 @@ engine at ask time, each sealed as a FORGE-SIM-RECEIPT/v1 with a sha256:
 | Circuits | `circuits_wasm` | ngspice 45.2 via `eecircuit-engine@1.9.0` WASM | `src/sim_wasm_worker.js` |
 | CFD | `openfoam_cfd` | OpenFOAM simpleFoam | **Home PC only** |
 | Ab initio (Hartree-Fock / DFT) | `pyscf_abinitio` | PySCF | **Home PC only** |
+| Falling cube (fixed) | `pybullet_falling_cube` | PyBullet DIRECT, no GUI | **Home PC only** |
+| Biochemical network (fixed) | `copasi_network` | COPASI | **Home PC only** |
 
 Spatial reaction-diffusion (dune-copasi) is a future Home PC slot; the phone integrates the well-mixed ODE.
 

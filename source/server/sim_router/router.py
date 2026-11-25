@@ -20,7 +20,7 @@ SCHEMA = S.SCHEMA
 VERSION = "forge-sim-router/4.9.245"
 _ERR: dict[str, str] = {}
 SOLVERS: dict[str, Any] = {}
-for _name in ("mujoco_rigid", "sympy_math", "openfoam_cfd", "pyscf_abinitio"):
+for _name in ("mujoco_rigid", "sympy_math", "openfoam_cfd", "pyscf_abinitio", "pybullet_falling_cube", "copasi_network"):
     try:
         SOLVERS[_name] = __import__(f"server.sim_router.solvers.{_name}", fromlist=["solve"]) if __package__ else __import__(f"solvers.{_name}", fromlist=["solve"])
     except Exception as e:  # pragma: no cover - a missing optional package
@@ -36,7 +36,7 @@ def _installed(name: str) -> bool:
 
 
 def health() -> dict[str, Any]:
-    rows = [{"name": n, "installed": _installed(n)} for n in ("mujoco_rigid", "sympy_math", "openfoam_cfd", "pyscf_abinitio")]
+    rows = [{"name": n, "installed": _installed(n)} for n in ("mujoco_rigid", "sympy_math", "openfoam_cfd", "pyscf_abinitio", "pybullet_falling_cube", "copasi_network")]
     return {"schema": SCHEMA, "ok": True, "router": VERSION, "solvers": rows, "errors": _ERR, "calls_llm": False,
             "families_on_phone": sorted(k for k, v in S.SOLVERS.items() if v["runtime"] != "home_pc")}
 

@@ -163,6 +163,31 @@
     return { Phi, phase: Phi, band: row.band || (pkt.band && pkt.band.name) || null, hz: row.hz != null ? row.hz : (pkt.hz != null ? pkt.hz : null),
       phi_basis: row.phi_basis || (pkt.Phi != null ? 'row_packet' : 'default_world_fact') };
   }
+  function yearStamp(token, end) { const y = String(token || ''); if (!/^[1-9]\d{3}$/.test(y)) return null; return end === 'end' ? y + '-12-31T23:59:59Z' : y + '-01-01T00:00:00Z'; }
+  /* The grammar already filed a year under kala. This records that year as valid_from / valid_to. */
+  function intervalFromClause(clause) {
+    const adj = (clause && (clause.adj || clause.adjuncts)) || [];
+    let from = null, to = null, any = false;
+    for (const a of adj) {
+      if (!a || a.role !== 'kala') continue;
+      const year = a.np && a.np.num != null && /^[1-9]\d{3}$/.test(String(a.np.num)) ? String(a.np.num) : null;
+      if (!year) continue;
+      any = true;
+      const prep = a.prep;
+      if (prep === 'from' || prep === 'since' || prep === 'after') from = yearStamp(year, 'start');
+      else if (prep === 'to' || prep === 'until' || prep === 'before') to = yearStamp(year, 'end');
+      else if (prep === 'in' || prep === 'on' || prep === 'at' || prep === 'during') { from = yearStamp(year, 'start'); to = yearStamp(year, 'end'); }
+    }
+    return any ? { valid_from: from, valid_to: to } : null;
+  }
+  function covers(row, asked) {
+    const from = row && row.valid_from || null, to = row && row.valid_to || null;
+    if (!from && !to) return true;
+    if (!asked) return false;
+    if (to && asked.valid_from && to < asked.valid_from) return false;
+    if (asked.valid_to && from && asked.valid_to < from) return false;
+    return true;
+  }
   function upsert(input, opts) {
     opts = opts || {};
     const now = opts.now || new Date().toISOString();
@@ -174,6 +199,8 @@
       provenance: Object.assign({}, input.provenance || {}, { kind: input.kind || (input.provenance && input.provenance.kind) || 'world_fact' }),
       trust: input.trust || 'trusted', source: input.source || 'phone_kb', scope: 'phone',
       remembered_at: input.remembered_at || null, admitted_at: input.admitted_at || null,
+      valid_from: (input.valid_from !== undefined ? input.valid_from : (intervalFromClause(input.clause) || {}).valid_from) || null,
+      valid_to: (input.valid_to !== undefined ? input.valid_to : (intervalFromClause(input.clause) || {}).valid_to) || null,
       charged_at: now, charge0: typeof input.charge0 === 'number' ? input.charge0 : 1,
       updated_at: now, kind: input.kind || 'remember',
     };
@@ -184,6 +211,8 @@
       hit.charged_at = now; hit.charge0 = Math.min(1, (hit.charge0 || 1) + 0.05); hit.updated_at = now;
       hit.last_access = now;
       if (input.clause && !hit.clause) hit.clause = input.clause;
+      if (row.valid_from) hit.valid_from = row.valid_from;
+      if (row.valid_to) hit.valid_to = row.valid_to;
       const saved = saveRaw(Object.assign({}, doc, { facts: doc.facts }));
       if (!saved.ok) return saved;
       return { ok: true, rule: 'WORLD-FACTS-REFRESHED', fact: hit, n: saved.n };
@@ -199,13 +228,15 @@
   function rows(opts) {
     const now = (opts && opts.now) || new Date().toISOString();
     const doc = decayed(loadRaw(), now);
-    return (doc.facts || []).filter(r => r.charge >= ACTIVE).map(r => ({
+    const asked = opts && Object.prototype.hasOwnProperty.call(opts, 'at') ? (opts.at || null) : undefined;
+    return (doc.facts || []).filter(r => r.charge >= ACTIVE && (asked === undefined || covers(r, asked))).map(r => ({
       id: r.id, memory_id: r.id, text: r.text, clause: r.clause, atom: r.atom,
       tier: 'world_fact', trust: r.trust || 'trusted', source: 'world_facts',
       scope: 'phone', provenance: Object.assign({}, r.provenance || {}, { store: 'world_facts', kind: r.kind || 'world_fact' }),
       phase: r.Phi, packet: { Phi: r.Phi, eps: 0, mu: r.charge, band: r.band, hz: r.hz },
       sfe: { Phi: r.Phi, eps: 0, mu: r.charge }, charge: r.charge, charge_half_life_h: HALF_LIFE_H,
       remembered_at: r.remembered_at, admitted_at: r.admitted_at, updated_at: r.updated_at,
+      valid_from: r.valid_from || null, valid_to: r.valid_to || null,
     }));
   }
   function clear() { MEM = { schema: SCHEMA, facts: [], receipts: [], updated_at: new Date().toISOString(), calls_llm: false };
@@ -227,6 +258,6 @@
   }
   function receipts() { return ((loadRaw().receipts) || []).slice(); }
   function snapshot() { return decayed(loadRaw()); }
-  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, forget, receipts, snapshot, conflictWith, atomKey, norm, sameText };
+  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, forget, receipts, snapshot, conflictWith, atomKey, norm, sameText, intervalFromClause, covers };
   if (isNode) module.exports = api; else root.KWorldFacts = api;
 })(typeof self !== 'undefined' ? self : this);

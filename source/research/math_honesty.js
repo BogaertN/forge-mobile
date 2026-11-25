@@ -127,7 +127,8 @@ function phaseAblation() {
       manuscript_equivalence: 'SOURCE_NOT_VERIFIED',
       honesty: 'research-only',
       proven_cognition: false,
-      note: 'Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition.'
+      dataset: 'no labelled dataset',
+      note: 'Ablation is not executed. There is no labelled dataset, so no delta is fitted. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition.'
     };
   });
 }
@@ -162,6 +163,17 @@ function run() {
     mobile_write_law: mobileLaw(),
     drift: driftSection(),
     phase_ablation: phaseAblation(),
+    calibration: {
+      status: 'no labelled dataset',
+      labelled: 0,
+      rows: [],
+      fitted_weights: null,
+      honesty: 'research-only',
+      manuscript: 'SOURCE_NOT_VERIFIED',
+      proven_cognition: false,
+      cite: 'RMC Implementation Addendum §9',
+      note: 'ede.calibrationRecord keeps human_label null. No label is invented, and no weight is fitted.'
+    },
     echo: echoSection(),
     answer_path_grace: {
       status: 'wired',

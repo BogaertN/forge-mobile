@@ -86,9 +86,40 @@ const SCOPE = Object.freeze({
  *   waveform, spectrum, syllables, the cymatic model and .hfield. HCS -> Forge (later): an approved score/render receipt.
  * Forge verifies: packet contract, custody ref, render hashes, privacy, authority, MEA/Echo authorization. Identity Vault supplies custody refs
  * without exposing identity. No live adapter is claimed until the HCS canonical schema and adapter are independently verified. */
-const HCS_BOUNDARY = Object.freeze({ adapter: 'none (not live)', status: 'boundary documented; awaiting independently verified HCS canonical schema and adapter', forge_sends: ['trace_event', 'authorized_phrase', 'posture', 'receipt_id'],
+const HCS_BOUNDARY = Object.freeze({ adapter: 'reference-only (not live)', contract_id: 'aiweb.hfield.forge_packet_bridge_stub.v1', execution_mode: 'reference_only_no_live_forge_execution', status: 'HCS packet contract bound as a reference adapter; live execution stays unauthorized', forge_sends: ['trace_event', 'authorized_phrase', 'posture', 'receipt_id'],
   hcs_owns: ['field score', 'music/notation', 'nine-gesture conductor', 'tracks', 'timed gestures', 'motifs', 'coupling profiles', 'render settings', 'audio', '3D', 'waveform', 'spectrum', 'syllables', 'cymatic model', '.hfield'],
-  hcs_returns: 'approved score/render receipt (future)', forge_verifies: ['packet contract', 'custody ref', 'render hashes', 'privacy', 'authority', 'MEA/Echo authorization'], identity_vault: 'custody refs without exposing identity', emits_hfield: false });
+  hcs_returns: 'approved score/render receipt (future)', forge_verifies: ['packet contract', 'custody ref', 'render hashes', 'privacy', 'authority', 'MEA/Echo authorization'], identity_vault: 'custody refs without exposing identity', emits_hfield: false, live_execution_authorized: false });
+/* Forge -> HCS reference adapter. It builds the stub report the HCS crate names
+ * (aiweb.hfield.forge_packet_bridge_stub.v1). It does not render a score, play audio, or write memory.
+ * forge_memory, when the caller already has an RKM packet, is copied through and stays a claim. */
+function bridgeReport(tr, memory) {
+  const trace = tr || {};
+  const phrase = typeof trace.authorized_phrase === 'string' ? trace.authorized_phrase : (typeof trace.reply === 'string' ? trace.reply : null);
+  const posture = trace.posture || (trace.outcome && trace.outcome.category) || null;
+  const receipt = trace.receipt_id || trace.psi_id || null;
+  const event = trace.trace_event || (trace.rules && trace.rules[0] && trace.rules[0].id) || null;
+  const mem = memory && memory.schema === 'forge.hfield.memory.v1' ? memory : (memory && memory.forge_memory && memory.forge_memory.schema === 'forge.hfield.memory.v1' ? memory.forge_memory : null);
+  const fatal = [];
+  if (mem && mem.receiver_policy && mem.receiver_policy.peer_is_publisher === true) fatal.push('a peer is not a publisher');
+  if (mem && mem.receiver_policy && mem.receiver_policy.auto_persist === true) fatal.push('Ask and a peer packet do not auto-persist');
+  return {
+    schema: HCS_BOUNDARY.contract_id,
+    bridge_contract_id: HCS_BOUNDARY.contract_id,
+    execution_mode: HCS_BOUNDARY.execution_mode,
+    status: fatal.length ? 'error' : 'ok',
+    source_system: 'Forge',
+    target_system: 'HCS',
+    live_execution_authorized: false,
+    emits_hfield: false,
+    calls_llm: false,
+    forge_sends: { trace_event: event, authorized_phrase: phrase, posture: posture, receipt_id: receipt },
+    payload_layers: ['score', 'frequency_phase', 'gesture', 'field', 'render', 'forge_bridge'].concat(mem ? ['forge_memory'] : []),
+    forge_bridge: { status: 'bound', bridge_profile: 'forge_packet_bridge_v0_reserved', validation_ref: receipt },
+    forge_memory: mem,
+    export_policy: { live_execution_authorized: false, private_identity_exported: false, safe_for_reference_export: fatal.length === 0 },
+    fatal_errors: fatal
+  };
+}
 /* ---------- common versioned RMC output envelope ---------- */
 const ENVELOPE_SCHEMA = 'forge-rmc-output-envelope/v1';
 function envelope(form, tr, reply, art) { const m = tr.msm && tr.msm.meaning; const core = { psi_id: tr.psi_id, turn: tr.turn, at: tr.at, meaning: m || null, rules: (tr.rules || []).map(r => r.id) };
@@ -122,6 +153,6 @@ function parseRequest(s) { const w = String(s).trim().toLowerCase().replace(/[.!
 /* code.run (permission-gated by the caller): evaluate the generated functions with the kernel's own evaluator — never eval/Function */
 function runCode(art) { if (!art || !/^code\./.test(art.form) || !art.echo || !art.echo.pass) return { ok: false, rule: 'CODE-RUN-NOT-VALIDATED' }; const lang = art.form.slice(5); const m = JSON.parse(JSON.parse((art.content.match(lang === 'js' ? /JSON\.parse\(("(?:[^"\\]|\\.)*")\)/ : /json\.loads\(("(?:[^"\\]|\\.)*")\)/) || [])[1] || '"null"')); const ex = m && exprOf(m); if (!ex) return { ok: true, outputs: [], note: 'manifest only; nothing to evaluate' };
   const rm = art.content.match(/ROOTS = \[([^\]]*)\]/); const pts = rm && rm[1].trim() ? rm[1].split(',').map(Number) : [0, 0.5, 1, 2]; return { ok: true, outputs: pts.map(x => ({ [ex.x]: x, [ex.name]: +CA.num(ex.e, { [ex.x]: x }).toPrecision(12) })) }; }
-const api_ = { runCode, FORMS, SCOPE, HCS_BOUNDARY, ENVELOPE_SCHEMA, envelope, render, parseRequest, drawField, fieldParams, fieldGrid, symmetry, scanSafe, glyphMarks, cls };
+const api_ = { runCode, FORMS, SCOPE, HCS_BOUNDARY, bridgeReport, ENVELOPE_SCHEMA, envelope, render, parseRequest, drawField, fieldParams, fieldGrid, symmetry, scanSafe, glyphMarks, cls };
 if (isNode) module.exports = api_; else root.KRender = api_;
 })(typeof self !== 'undefined' ? self : this);

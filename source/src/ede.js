@@ -77,6 +77,12 @@ function explore(edges, o) { o = Object.assign({}, DEFAULTS, o || {}); const anc
   return { ok: true, route: 'algorithm_3', anchors: anchors.length, explored: frontier.length, candidates_available: uniq.length, retained, archived, rejected, params: o, cite: 'RMC §5.6, §6.3, §6.4, §7.3, §8.3' }; }
 /* shadow-calibration record (no fitting here; export feeds future held-out / ablation weight fitting). */
 function calibrationRecord(c, outcome) { return { branch_id: c.branch_id, claim: c.claim, outcome, simple_score: c.novelty.simple_score, N_base: c.N_base.value, N_vector: c.N_vector, task_mode: c.task_mode, budget_shadow: c.shadow, drift: { eps_s: c.drift.eps_s, theta: c.drift.theta, status: c.drift.status }, hard_gates: c.hard_gates, memory_anchors: c.memory_anchors, novelty_formula_version: c.novelty_formula_version, human_label: null }; }
-const api = { explore, DEFAULTS, PHI, TASK_BUDGETS, LABELS, FORMULA_VERSION, THRESHOLD_STATUS, calibrationRecord, fitted_weights: null };
+/* Addendum §9 calibration harness. A record with no human label is not a dataset, and no weight is fitted. */
+function calibrationHarness(records) {
+  const rows = (records || []).map(r => Object.assign({}, r, { human_label: r && r.human_label != null ? r.human_label : null }));
+  const labelled = rows.filter(r => r.human_label != null).length;
+  return { status: labelled ? 'labelled' : 'no labelled dataset', labelled: labelled, rows: rows, fitted_weights: null, cite: 'RMC Implementation Addendum §9' };
+}
+const api = { explore, DEFAULTS, PHI, TASK_BUDGETS, LABELS, FORMULA_VERSION, THRESHOLD_STATUS, calibrationRecord, calibrationHarness, fitted_weights: null };
 if (isNode) module.exports = api; else root.KEDE = api;
 })(typeof self !== 'undefined' ? self : this);

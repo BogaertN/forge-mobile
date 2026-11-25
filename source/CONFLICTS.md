@@ -1,3 +1,13 @@
+## v4.9.251 — The named stubs are built; the gates stay where they are (Nic)
+
+**Conflict:** The HCS boundary was a comment. The Home PC had no PyBullet or COPASI slot. Phase ablation reported a stub with no dataset sentence. A stated year was not a valid time. The forge2 codec and the symbolic grammar-operator registry were not in this tree.
+
+**Where:** `src/render.js` builds the reference packet `aiweb.hfield.forge_packet_bridge_stub.v1` and does not authorize live execution. `server/sim_router/solvers/pybullet_falling_cube.py` is the fixed DIRECT falling cube, and `copasi_network.py` is the fixed one-reaction network; a missing import is a hold with the install command. `research/math_honesty.js` and `src/ede.js` report `no labelled dataset` and fit no weight. `src/reason.js` and `src/world_facts.js` keep `valid_from` / `valid_to` when a year is already a kāla adjunct, and a query outside that interval does not use the fact. `engine/forge2_contract` is the forge2 codec. `engine/aiweb_language_core_bootstrap/symbolic_grammar_operator_registry` is the closed registry (25 operators, runtime off). The source-field projection engine stays in BogaertN/forge.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. Ask does not store. A peer is not a publisher.
+
+Proof: `verify/r4274_suite.js`.
+
 ## v4.9.250 — Resonant Key Memory is the root app (Nic)
 
 **Conflict:** The 4.9.249 work, including Resonant Key Memory, lived on the pull request and on the preview. The live root still served 4.9.248, so the address, the recall, and the Athena lead were not what the installed app ran.
