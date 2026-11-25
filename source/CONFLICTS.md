@@ -1,3 +1,13 @@
+## v4.9.250 — Resonant Key Memory is the root app (Nic)
+
+**Conflict:** The 4.9.249 work, including Resonant Key Memory, lived on the pull request and on the preview. The live root still served 4.9.248, so the address, the recall, and the Athena lead were not what the installed app ran.
+
+**Where:** `VERSION` and the feature registry are 4.9.250. Remember still writes the band address only after an explicit remember. Ask recalls by tuning. A lit memory can be reinforced later. A near miss stays an Athena lead and is not spoken. A peer packet is a quarantined claim, not a publisher. The preview folder serves this same version. The Pages workflow stays the two-job form: `upload-pages-artifact` v4, then `deploy-pages` v4, with `pages: write`, `id-token: write`, environment `github-pages`, and concurrency group `pages`.
+
+**Resolution:** Nic authorized this merge. C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. Ask does not store a derived or simulated result. The two derived-ledger expectations stay unmet.
+
+Proof: `verify/r4273_suite.js`.
+
 ## v4.9.249 — The phone gap file round-trips into a dry-run plan; a missing depth stays missing (Nic)
 
 **Conflict:** Step 13 of the 4.9.229 layer chain was still open. A held question was stored as a string, the runner read that queue and researched it, and `pending` writer-blocked rows were never exported. A box with no depth was given a square footprint, and a depth measured by one publisher was stamped with the other publisher's name. A stated height and mass was turned into a cube.
