@@ -1,0 +1,16 @@
+{
+  "key_id": "forge.harmonic_key",
+  "key_version": "0.2.0",
+  "hash": "sha256",
+  "root_hz": 144,
+  "structure_fp": "4d1db5d2",
+  "structure_hash_sha256": "4d1db5d2a3b76f025b89c87187348e83bda65233ffdfdd01c09e435a51aedc68",
+  "full_hash_sha256": "b89705e0b83e6f68e4e7644d3c10724ddbb49670c9d50c4ac7cf20848b82894c",
+  "anchors": [1, 0.5, 3],
+  "ripple_hz": [80, 220],
+  "high_gamma_hz": 72,
+  "delta_roles": ["kriya", "kartr", "karma", "karana", "sampradana", "apadana", "adhikarana", "vidheya", "hetu"],
+  "match_lit": 0.5,
+  "match_near": 0.05,
+  "note": "Runtime key. Spec 0.1's BLAKE3 fingerprint is not used. Recompute from src/rkm.js before trusting a copied hash."
+}

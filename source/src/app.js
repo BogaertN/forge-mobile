@@ -4,6 +4,7 @@ const $ = s => document.querySelector(s); const $$ = s => document.querySelector
 let backend; try { localStorage.setItem('kernel.probe', '1'); backend = { get: k => localStorage.getItem(k), set: (k, v) => localStorage.setItem(k, v), del: k => localStorage.removeItem(k), keys: () => Object.keys(localStorage) }; } catch (e) { backend = null; }
 const fmt = iso => { try { return new Date(iso).toLocaleString([], { dateStyle: 'short', timeStyle: 'short', timeZoneName: 'short' }); } catch (e) { return iso; } };
 const forge = KForge.ForgeKernel({ store: KKernel.MemoryStore(backend), formatTime: fmt }); window.forge = forge; window.kernel = forge;
+window.KRKMLive = window.KRKM ? KRKM.create({ store: { get: k => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }, set: (k, v) => localStorage.setItem(k, JSON.stringify(v)) }, now: () => Date.now(), forge: forge }) : null;
 const BUILD = window.FORGE_BUILD || { version: 'dev', built: '', tests: null };
 $('#buildNote').textContent = 'build ' + BUILD.version + ' · no LLM · forge2 contract spine · reconstructed Doc 2 / MSM-v1';
 const lexState = { core: 'loading', ext: 'pending' }; const queue = []; const lexData = {};
@@ -348,7 +349,9 @@ async function rememberStatement(text) {
   if (wf && wf.ok === false && /^WORLD-FACTS-CONFLICT/.test(wf.rule || '')) return { ok: false, rule: wf.rule, message: wf.message || 'Held: that contradicts a kept fact.', existing: wf.existing };
   kept.push(row);
   try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { return { ok: false, rule: 'REMEMBER-STORAGE-FULL', message: 'Phone storage is full; nothing was kept.' }; }
-  return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: sentence, message: 'Remembered on this phone: ' + sentence, world_facts: wf && wf.rule };
+  let rkm = null;
+  try { if (window.KRKMLive) rkm = window.KRKMLive.noteRemember(row, forge); } catch (e) { rkm = null; }
+  return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: sentence, message: 'Remembered on this phone: ' + sentence, world_facts: wf && wf.rule, rkm: rkm };
 }
 const REMEMBER_LAST = /^\s*remember\s*(this|that|it|the answer|that answer)?\s*[.!]?\s*$/i;
 /* 4.9.226 (Nic pt141u): meaning follow-up. Forge asks which meaning; the next message picks one and the ORIGINAL question is asked again under it.
@@ -509,6 +512,15 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
    * The engine's proposal waits for "remember …" or the Remember tap (rememberAnswer). */
   /* 4.9.229's after-the-engine sense ask moved above the engine run (4.9.235): the meaning is asked first, never after an answer. */
   const admitted = !!(row && row.product_reply && row.reply);
+  if (window.KRKMLive && window.KQFrame) {
+    let qclause = null;
+    try { qclause = KQFrame.clause(qtext, forge); } catch (e) { qclause = null; }
+    if (!qclause || !qclause.parsed) { try { const frame = KQFrame.compile(qtext, forge); if (frame && frame.parsed) qclause = frame; } catch (e) { /* the question stays untuned */ } }
+    const tuned = KRKMLive.recall(qclause, forge);
+    if (tuned.lead && !admitted) KRKMLive.commitLead(tuned.lead);
+    if (admitted && tuned.lit[0]) KRKMLive.reinforce(tuned.lit[0].fact_id, 0.1);
+    row.rkm = { address: tuned.lit[0] ? tuned.lit[0].address : '', M: tuned.lit[0] ? tuned.lit[0].M : (tuned.near[0] ? tuned.near[0].M : 0), chain: (tuned.chain || []).map(c => c.address), lead: tuned.lead ? tuned.lead.rule : '', calls_llm: false };
+  }
   if (admitted && window.KNeo && KNeo.forQuestion && KNeo.resumeTrace) {
     const prior = KNeo.forQuestion(qtext);
     if (prior.some(e => e && e.event === 'held')) row.resume_trace = KNeo.resumeTrace(prior);
@@ -543,13 +555,15 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const ocQuotes = admitted && oc && oc.applied && (oc.quotes || []).length ? '<div class="small" data-source-quotes>' + oc.quotes.map(q => '<q data-source-quote="' + esc(q.id) + '">' + esc(q.text) + '</q> <span class="small">(' + esc(q.source) + ')</span>').join(' ') + '</div>' : '';
   const resume = row && row.resume_trace;
   const resumeTag = resume && resume.length ? '<div class="small" data-resume-trace="' + esc(resume.map(e => e.event).join('>')) + '">' + esc(resume.map(e => e.event + (e.rule ? ' ' + e.rule : '')).join(' → ')) + '</div>' : '';
+  const rkmView = row && row.rkm;
+  const rkmTag = rkmView && (rkmView.address || rkmView.lead) ? '<div class="small" data-rkm="' + esc(rkmView.address || '') + '" data-rkm-m="' + esc(rkmView.M) + '" data-rkm-chain="' + esc((rkmView.chain || []).join(',')) + '" data-rkm-lead="' + esc(rkmView.lead || '') + '"></div>' : '';
   const led = window.FORGE_LEDGER && window.FORGE_LEDGER.sources;
   const ledgerTag = led ? '<div class="small" data-source-ledger="' + esc(Object.keys(led).sort().map(k => k + ':' + (led[k] && led[k].trusted ? 'trusted' : 'untrusted') + ':a' + (led[k] && led[k].admits || 0) + ':c' + (led[k] && led[k].conflicts || 0) + ':r' + (led[k] && led[k].rejected || 0)).join(',')) + '"></div>' : '';
   /* 4.9.216 computed tier: a math question that was not computed says why (or asks which unit), in the engine's words. */
   const comp = row && row.computed;
   const compNote = !admitted && comp && comp.status !== 'ok' ? ' <span data-computed-held="' + esc(comp.status) + '">' + (comp.clarify ? esc(comp.clarify) : 'Math not computed: ' + esc(comp.reason || comp.rule || comp.status) + '.') + (row.libs && row.libs.error ? ' Math libraries did not load (' + esc(row.libs.error) + ').' : '') + '</span>' : '';
   const compTag = admitted && comp && comp.status === 'ok' && comp.receipt && comp.receipt.receipt_id ? '<span class="tag" data-computed-receipt="' + esc(comp.receipt.receipt_id) + '">computed · ' + esc(comp.receipt.receipt_id) + '</span>' : '';
-  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span>' + compTag + relTag + ocTag + (admitted && row.memory_write && row.memory_write.write_gate && !row.memory_write.write_gate.ok ? '<span class="tag" data-write-gate>not storable: ' + esc((row.memory_write.write_gate.failed || []).join(', ')) + '</span>' : '') + '<div data-ask-body data-answer-source="' + (admitted ? (oc && oc.applied ? 'panini_wording.outward' : 'rmc_engine_v1.output_renderer') : 'hold') + '">' + body + compNote + '</div>' + ocQuotes + resumeTag + ledgerTag + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
+  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span>' + compTag + relTag + ocTag + (admitted && row.memory_write && row.memory_write.write_gate && !row.memory_write.write_gate.ok ? '<span class="tag" data-write-gate>not storable: ' + esc((row.memory_write.write_gate.failed || []).join(', ')) + '</span>' : '') + '<div data-ask-body data-answer-source="' + (admitted ? (oc && oc.applied ? 'panini_wording.outward' : 'rmc_engine_v1.output_renderer') : 'hold') + '">' + body + compNote + '</div>' + ocQuotes + resumeTag + rkmTag + ledgerTag + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
   if (rememberBtn) { const card = log.lastElementChild; const btn = card.querySelector('[data-ask-remember]'); btn.onclick = async () => { btn.disabled = true; const r = await rememberAnswer(row, 'tap'); btn.textContent = r.ok ? 'Remembered' + (r.supabase && r.supabase.ok ? ' · shared' : ' · on this phone') : 'Not remembered'; }; }
   log.lastElementChild.scrollIntoView({ block: 'end' });
   renderRmc(qtext, row);
