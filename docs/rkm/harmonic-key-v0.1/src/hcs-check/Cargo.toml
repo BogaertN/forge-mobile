@@ -1,0 +1,35 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/hfield-domain",
+  "crates/hfield-conductor",
+  "crates/hfield-dsp",
+  "crates/hfield-analysis",
+  "crates/hfield-storage",
+  "crates/hfield-resonance",
+  "crates/hfield-music",
+  "crates/hfield-mapping",
+  "crates/hfield-visual",
+  "crates/hfield-project",
+  "crates/hfield-notation",
+  "crates/hfield-packet",
+  "crates/hfield-forge-bridge",
+  "crates/hfield-field",
+  "crates/hfield-cymatics",
+  "crates/hfield-carrier",
+  "crates/hfield-playhead",
+  "crates/hfield-loop",
+  "crates/hfield-coordinate",
+]
+
+[workspace.package]
+edition = "2021"
+authors = ["AI.Web Inc."]
+license = "PROPRIETARY"
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+blake3 = "1"
+hound = "3"
+cpal = "0.16"
