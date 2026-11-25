@@ -1,0 +1,12 @@
+[package]
+name = "hfield-storage"
+version = "0.1.0"
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+blake3.workspace = true
+hfield-domain = { path = "../hfield-domain" }
