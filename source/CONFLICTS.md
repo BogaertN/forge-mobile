@@ -1,3 +1,13 @@
+## v4.9.258 — Learning loop on the existing stages (Nic)
+
+**Conflict:** Repeated verified cases did not become a proposal. A failed parse did not learn a frame from a correction. Admitted answers were not labelled when later confirmed or refuted. A fact that stopped being true was not closed, and an aged row could leave the store. Held-out results were not a per-version scoreboard.
+
+**Where:** Induction runs after recall (`learning_loop.py`). Gilligan searches the facts and the refuted ledger. The proposal is not spoken. Derive speaks it only after the phone admits the validated rule, and the premises are the instances. A failed utterance plus a correction is a frame proposal (`src/learning.js`); `qframe.js` uses it only after a held-out replay and an admit. Calibration records the later label and may propose a stricter floor. It does not change the floors. Two agreeing newer sources set `valid_to` on the older row. The row stays, including aged rows in `archive`. Hosted rows are marked, not deleted. Mirror's idle replay reads the calibration report and does not move a gate.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. Ask does not store a proposal or a simulation.
+
+Proof: `verify/r4281_suite.js`. Scoreboard: `docs/HELD_OUT.md`.
+
 ## v4.9.257 — Coherence of two-premise derivations, realized sim sentences (Nic)
 
 **Conflict:** A sound two-premise derivation was measured as if the derived sentence were its own premise, so coherence stayed at 0.838 while a copula chain of two remembered sentences cleared 0.87. Rigid-body wording was a verb table. Biology and quantum were not installed in this process. A WASM push was reported as not a Python family. Thirst and dream were not derived from the self-model.

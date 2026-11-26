@@ -2926,6 +2926,54 @@ def _expand_sound_facts(world: dict[str, Any], topical: list[dict[str, Any]]) ->
         world["facts"] = list(world.get("facts") or []) + added
 
 
+def _induced_claims(world: dict[str, Any], question: str, qframe: dict[str, Any] | None, phase_path: list[Any], topical: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """A validated, admitted kind-property rule. The proposal itself is not a claim."""
+    from rmc_engine_v1 import derive_frame as DF
+    from rmc_engine_v1.learning_loop import review
+    from rmc_engine_v1.sim_device import _karaka, _realize
+    admitted = list((qframe or {}).get("learning_admitted") or [])
+    ledger = list((qframe or {}).get("learning_ledger") or [])
+    try:
+        report = review([f for f in topical if isinstance(f, dict)], admitted, ledger, qframe)
+    except Exception:
+        return [], {"proposals": [], "applied": None, "spoken_as_fact": False, "calls_llm": False}
+    applied = report.get("applied") if isinstance(report.get("applied"), dict) else None
+    if not applied:
+        return [], report
+    rule = applied["rule"]
+    subject_fact = applied["subject_fact"]
+    premises = [subject_fact]
+    for inst in rule.get("instances") or []:
+        have = next((f for f in topical if isinstance(f, dict) and f.get("id") == inst.get("have_id")), None)
+        if have and have not in premises:
+            premises.append(have)
+        if len(premises) >= 3:
+            break
+    text = _realize(_karaka("have", ["the " + str(applied.get("subject") or ""), str(rule.get("property") or "")]))
+    if not text:
+        return [], report
+    atom = {"predicate": "have", "args": [str(applied.get("subject") or ""), str(rule.get("property") or "")], "polarity": "pos"}
+    proof = _direct_proof(world, subject_fact)
+    checked = {"ok": True, "reason": "gilligan_validated", "cite": "learning_loop.gilligan"}
+    claim = _finish_claim(world, text, atom, premises, proof, checked, "supported_only", "WM-INDUCED", phase_path)
+    claim["rule_licensed"] = sorted({str(rule.get("property") or "").lower(), str(rule.get("kind") or "").lower()} - {""})
+    claim["debate"] = run_debate(claim, content_tokens=content_tokens)
+    hops = []
+    for fact in premises:
+        hops.append(_hop_row(str(fact.get("text") or ""), [fact.get("id")], _drift_for(str(fact.get("text") or ""), [fact], phase_path), len(hops) + 1))
+    hops.append(_hop_row(text, [p.get("id") for p in premises], claim["drift"], len(hops) + 1))
+    claim["hops"] = hops
+    claim["induced"] = {"id": rule.get("id"), "support": rule.get("support"), "confidence": rule.get("confidence"), "instances": rule.get("instances"), "spoken_as_fact": False}
+    ff = {"kriya": "have", "polarity": "pos", "kartr": {"text": "the " + str(applied.get("subject") or ""), "head": applied.get("subject")}, "karma": {"text": rule.get("property"), "head": rule.get("property")}}
+    matched = DF.match(qframe, ff)
+    if not matched:
+        return [], report
+    _frame_claim(claim, ff, "induced", matched, {"aligned": True}, question)
+    claim["_premise_rows"] = premises
+    claim["_place"] = {}
+    return [claim], report
+
+
 def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any], qframe: dict[str, Any], topical: list[dict[str, Any]]) -> dict[str, Any]:
     """4.9.233: a fact answers only when its frame unifies with the question frame AND its placement is phase-aligned
     with the question (grace = rpm·cos²δ, δ ≤ π/4); band relation and the 4.9.204 attraction rank the aligned matches;
@@ -3244,6 +3292,8 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
                 claim["status"] = "conflicted"
                 claim["debate"] = run_debate(claim, content_tokens=content_tokens)
 
+    induced_claims, learning_report = _induced_claims(world, question, qframe, phase_path, topical)
+    claims.extend(induced_claims)
     # 4.9.236 gate G = f(ΔΦ, S, C): S (frame) and C (context) decide; ΔΦ weights. Nothing is written back to a memory.
     for claim in claims:
         claim["gate"] = DF.gate(qframe, claim.get("frame_match"), claim, claim.pop("_premise_rows", None) or [], claim.pop("_place", None))
@@ -3284,7 +3334,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     if measure_gap:
         reason = str(measure_gap["reason"])
     for claim in answers:
-        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-COPULA-NEG-CHAIN", "WM-CONTAIN-CHAIN", "WM-CONTAIN-CONTRA", "WM-KIN-INVERSE", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or "_THAN-" in str(claim.get("how") or "") or str(claim.get("how") or "") == "WM-MEASURE-COMPARE":
+        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-COPULA-NEG-CHAIN", "WM-CONTAIN-CHAIN", "WM-CONTAIN-CONTRA", "WM-KIN-INVERSE", "WM-INDUCED", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or "_THAN-" in str(claim.get("how") or "") or str(claim.get("how") or "") == "WM-MEASURE-COMPARE":
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
         elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]
@@ -3338,6 +3388,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     _speak_survivors(qframe, answers)
     report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers, measure_gap=measure_gap)
     report["omitted"] = omitted_matches + int(report.get("omitted") or 0)
+    report["learning"] = learning_report
     report["match_mode"] = "frame_gate"
     report["frame_trace"] = {
         "rule": "4.9.236 G = f(ΔΦ, S, C): frame unification (S) x context coherence (C), ΔΦ to the operation phase weighted",
@@ -3891,7 +3942,7 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         },
         "observe": observed,
         "self_facts": {"seed": seed_trace, "evolvable": True, "cite": "spec 1vBx_Q9K §4.7 supersession keeps the parent root"},
-        "derive": {k: derived[k] for k in ("operation", "cite", "status", "reason", "incomplete", "claims", "survivor", "derived_text", "calls_llm", "measure_gap") if k in derived},
+        "derive": {k: derived[k] for k in ("operation", "cite", "status", "reason", "incomplete", "claims", "survivor", "derived_text", "calls_llm", "measure_gap", "learning") if k in derived},
         "debate": (survivor or {}).get("debate") if survivor else {"survived": False, "calls_llm": False, "order": ["proponent", "opponent"]},
         "proofs": derived.get("proofs") or {},
         "checker": {"ok": bool(survivor and survivor.get("checker_ok")), "cite": "contract 1g2034-K §6 step 7"},

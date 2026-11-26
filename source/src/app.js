@@ -156,7 +156,9 @@ async function askMemory(question) {
     const phone = forge.store.load('confirmed_shared');
     const shared = ((view && view.admitted) || []).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), tier: 'confirmed_shared', contributor: 'product_curator' }))
       .concat(((phone && phone.facts) || []).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), tier: 'confirmed_shared' })));
-    memory.pools.push({ name: 'confirmed_shared', into: 'hosted', rows: shared.filter(r => r.id && r.text) });
+    const hosted = shared.filter(r => r.id && r.text);
+    const aged = window.KLearning && KLearning.ageHosted ? KLearning.ageHosted(hosted) : hosted;
+    memory.pools.push({ name: 'confirmed_shared', into: 'hosted', rows: aged.filter(r => r.status !== 'superseded' && r.status !== 'expired'), retained: aged.filter(r => r.status === 'superseded' || r.status === 'expired') });
     /* everything the user asked to remember (newest 64) goes in; the engine's resonance ranking picks */
     memory.phone = memory.phone.concat(rememberedRows().filter(r => r && r.text).slice(-64).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor, clause: row.clause })));
     if (window.athenaPremises && window.FORGE_RESEARCH && window.FORGE_RESEARCH.length) {

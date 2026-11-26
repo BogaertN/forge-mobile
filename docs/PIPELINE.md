@@ -9,6 +9,8 @@ One path from the question to a spoken reply. A stage that does not apply is rec
 3. Reason. `engine/rmc_engine_v1/world_model_v1.py` `derive` unifies frames, chains, polarity, and recall. Symbolic math is `computed_math.py` when the frame is an operation. A simulator receipt is evidence on `memory.simulation` (`src/sim_device.js` plans, `sim_device.py` solves). It is not a publisher.
 4. Gate. `rmc_core.py` `admit_gate` uses the fixed floors in `mobile_config.py` (C 0.87, Echo 0.85 to speak, drift 0.35, hard stop 0.80). This file does not change them.
 5. Compile. `src/rmc_core.js` `outwardCompile` realizes each atom. The UI card (`src/app.js` `renderRmc`) shows the path label.
+6. Learn. After recall, `engine/rmc_engine_v1/learning_loop.py` counts repeated kind/property clauses and emits proposals. Gilligan (`gilligan`) searches those facts and the refuted ledger. A proposal is not spoken. Derive uses it only after the phone admits that validated rule (`WM-INDUCED`), and the reply's premises are the supporting instances. A failed parse plus a later correction is a frame proposal in `src/learning.js`; it is used by `qframe.js` `compile` only after a held-out replay and an explicit admit. Calibration records a later confirm or refutation and may propose a stricter floor. It does not change `mobile_config.py`.
+7. Idle. `src/mirror.js` `closeLoop` reads verified receipts and the calibration report. `src/dream_idle.js` is the idle tick. Mirror's suggestion stays `needs_approval`. It does not write code or a gate. A refutation returns to the ledger Mirror already counts, which is the close of the loop.
 
 A held question has parse, recall, derive, and gate, and no compile. The card says Athena gap. It does not repeat a stored sentence.
 
@@ -23,6 +25,10 @@ A held question has parse, recall, derive, and gate, and no compile. The card sa
 | Sim | `sim_device.js` then `sim_device.py` | Browser Ask, evidence only |
 | Gate | `rmc_core.py` `admit_gate` | After derive |
 | Compile | `src/rmc_core.js` `outwardCompile` | After a spoken derive or speech act |
+| Learn | `learning_loop.py`, `src/learning.js` | Proposals after recall; admitted rules in Derive; learned frames in Parse |
+| Calibrate | `src/learning.js` | After an admitted reply is confirmed or refuted |
+| Supersede | `src/world_facts.js` `supersede`, `learning.js` `ageHosted` | Recall skips a closed `valid_to`; the row stays |
+| Idle | `src/mirror.js` `closeLoop` | Reads receipts and calibration; changes no gate |
 | Gap | route `correction_queue`, card `Athena gap` | When nothing is spoken |
 
 ## Bypasses removed in 4.9.254
@@ -37,8 +43,9 @@ A held question has parse, recall, derive, and gate, and no compile. The card sa
 
 ## Still not one process
 
-- MuJoCo, RDKit, and ngspice run in the browser worker. The node Ask path records the plan and does not run those workers.
+- MuJoCo, RDKit, and ngspice run in the browser worker and, on the node harness, through `src/sim_wasm_node.js`. Python classifies the measurements.
 - Heavy CFD and Hartree-Fock stay on the home PC and hold when it is unset.
 - Speech-act replies (`Hello.`) are realized from `speech_acts.json`, not from a world-model fact. A yes or no particle is quoted the same way. Both are fixed system forms.
-- `sim_device.py` still builds the rigid-body clause and the causal reason from outcome tables (`VERB_3SG`, `GERUND`, and the per-outcome sentences). The receipt hash includes that text. Those sentences are not yet realized by the grammar. This is the remaining template.
+- Effect sentences are realizations of kāraka atoms by `grammar.js`. A simulation receipt is evidence for the turn. It is not stored as a fact.
 - Fixed system messages (Held…, approval prompts, vault copy) are not answers. They are listed in the 4.9.254 report.
+- An induced rule and a learned frame stay proposals until Gilligan's check and an explicit admit. Ask does not store them.
