@@ -1,3 +1,13 @@
+## v4.9.253 — Several capabilities, the HCS bridge, Mirror counts, nominal Proposal v1 (Nic)
+
+**Conflict:** "What can you do?" spoke one action clause. The home PC could not exchange a packet with Harmonic Conductor Studio. Starter simulation cases were not listed. Nothing read verified receipts into a next-turn expectation. Proposal v1 numbers were still labeled as if they were waiting, and nobody had scaled them.
+
+**Where:** A pro-verb question speaks every gate-passing action clause, best rank first, through the same compiler. "Can you run simulations?" speaks yes and the matching clause. `server/home_pc/hcs_bridge.py` holds an `.hfield` packet as a claim and refuses a publisher or a service key. `server/home_pc/cases.py` lists the starter cases; a measurement is evidence and ozone holds. `src/mirror.js` predicts from verified counts, caps recursion at 27, and does not move a gate. Proposal v1 nominals are labeled approved nominal, not validated. A ±50% scale reports collisions and recall precision. The floors stay 0.87 / 0.85 / 0.35 / 0.80.
+
+**Resolution:** No model. Ask does not store. HCS remains a separate desktop app. A packet from HCS is not a publisher.
+
+Proof: `verify/r4276_suite.js`.
+
 ## v4.9.252 — The manual is a source, a forget is a tombstone, the home PC is installable (Nic)
 
 **Conflict:** Capability questions still rested on a placeholder self-fact. Forget spliced the row. A claim Gilligan had already rejected could be admitted again. The home computer had no installable node. RSOC's BLAKE3 psi_id was still easy to read as the live id. An hfield packet had no picture of its carriers.

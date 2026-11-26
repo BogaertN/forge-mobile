@@ -63,7 +63,7 @@ import math
 
 PROPOSAL = "proposal v1"
 AWAITING = "Nic"
-STATUS = "proposal"
+STATUS = "approved nominal, not validated"
 
 # Appendix A master and the integer 144/n ladder plus the two overtones.
 MASTER_HZ = 144.0

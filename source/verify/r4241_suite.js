@@ -71,7 +71,7 @@ T('the self-facts are selfmodel clauses re-read as clauses about the kernel, not
 });
 
 T('self questions are answered from self-facts through frame, Derive, compile and structural Echo, in the kernel\'s person', () => {
-  const want = { 'Who are you?': /^I am a computer program\.$/, 'What is your name?': /^My name is Forge\.$/, 'What can you do?': /^I send a heavy simulation to a home computer\.$/,
+  const want = { 'Who are you?': /^I am a computer program\.$/, 'What is your name?': /^My name is Forge\.$/,
     'Do you have a body?': /^I have no body\.$/, 'Are you a person?': /^I am not a person\.$/ };
   for (const [q, re] of Object.entries(want)) {
     const r = ask(q);
@@ -80,6 +80,13 @@ T('self questions are answered from self-facts through frame, Derive, compile an
     expect(r.echo && r.echo.method === 'structural_frame' && r.echo.score >= 0.85, q + ' echo ' + JSON.stringify(r.echo).slice(0, 300));
     expect(sv.perspective === 'speaker' && (sv.premises || []).every(p => p.source === 'self_model'), q + ' premises ' + JSON.stringify(sv.premises).slice(0, 300));
     expect(r.coherence >= 0.87, q + ' C ' + r.coherence);
+  }
+  for (const q of ['What can you do?', 'Help']) {
+    const r = ask(q);
+    const bits = String(r.reply || '').split(/(?<=\.)\s+/).filter(Boolean);
+    expect(r.product_reply === true && bits.length >= 5, q + ' → ' + r.reply);
+    for (const part of ['remember a sentence', 'simulation', 'derivation', 'packet', 'Athena']) expect(r.reply.includes(part), q + ' missing ' + part);
+    expect(r.echo && r.echo.method === 'structural_frame' && r.echo.score >= 0.85 && r.coherence >= 0.87, q + ' echo ' + r.coherence);
   }
 });
 
@@ -204,7 +211,7 @@ T('How are you? is answered from a self-state built from the measured live state
   const sv = ((h.world_model || {}).derive || {}).survivor || {};
   expect(h.product_reply && h.reply === 'I am awake and coherent.' && h.echo.method === 'structural_frame' && h.echo.pass && sv.perspective === 'speaker' && h.coherence >= 0.87, JSON.stringify([h.reply, h.echo && h.echo.method, h.coherence]));
   const w = ask('Who are you?'); expect(w.reply === 'I am a computer program.', 'a state adjective does not answer who: ' + w.reply);
-  const hp = ask('Help'); expect(hp.product_reply && hp.reply === 'I send a heavy simulation to a home computer.' && hp.echo.method === 'structural_frame', JSON.stringify([hp.reply, hp.route]));
+  const hp = ask('Help'); expect(hp.product_reply && /remember a sentence/.test(hp.reply) && /simulation/.test(hp.reply) && hp.echo.method === 'structural_frame', JSON.stringify([hp.reply, hp.route]));
   const hh = ask('Hello, how are you?'); expect(hh.reply === 'Hello. I am awake and coherent.' && hh.admit.scored === 'speech_act_lexicon+world_model' && hh.echo.parts.acts.pass, JSON.stringify([hh.reply, hh.admit && hh.admit.scored]));
 });
 
@@ -228,9 +235,9 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 });
 
 T('version registry names 4.9.242', () => {
-  expect(read('VERSION').trim() === '4.9.252', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.253', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.252' && reg.features.some(x => x.id === 'R4241-SELF-FACTS-FROM-CLAUSES') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.253' && reg.features.some(x => x.id === 'R4241-SELF-FACTS-FROM-CLAUSES') && reg.count === reg.features.length, 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.242'), 'CONFLICTS entry at the top');
 });
 
