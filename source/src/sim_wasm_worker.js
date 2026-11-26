@@ -33,8 +33,16 @@ async function asset(name, local) {
 async function importBuf(buf, suffix, url) {
   /* Emscripten resolves its side files against import.meta.url; a Blob URL is not a valid base, so the verified text is
    * given its real asset URL (the bytes were already checked against the pin). */
-  let src = new TextDecoder().decode(buf); if (url) src = src.split('import.meta.url').join(JSON.stringify(url));
+  let src = new TextDecoder().decode(buf);
+  const onNode = typeof process !== 'undefined' && process.versions && process.versions.node;
+  if (url && !onNode) src = src.split('import.meta.url').join(JSON.stringify(url));
   const parts = [src]; if (suffix) parts.push('\n' + suffix + '\n');
+  if (typeof process !== 'undefined' && process.versions && process.versions.node && typeof require === 'function') {
+    const fs = require('fs'), os = require('os'), path = require('path'), { pathToFileURL } = require('url');
+    const file = path.join(os.tmpdir(), 'forge-wasm-' + process.pid + '-' + Date.now() + '.mjs');
+    fs.writeFileSync(file, src);
+    try { return await import(pathToFileURL(file).href); } finally { try { fs.unlinkSync(file); } catch (e) {} }
+  }
   const u = URL.createObjectURL(new Blob(parts, { type: 'text/javascript' }));
   try { return await import(u); } finally { URL.revokeObjectURL(u); }
 }
@@ -94,12 +102,19 @@ async function runSpice(arg, local) {
   return { result: { header: res.header, numVariables: res.numVariables, variableNames: res.variableNames, numPoints: res.numPoints, dataType: res.dataType,
     data: (res.data || []).map(c => ({ name: c.name, type: c.type, values: Array.from(c.values || []).map(v => typeof v === 'number' ? v : (v && v.real != null ? v.real : Number(v))) })) } };
 }
+async function dispatch(cmd, arg, local) {
+  if (cmd === 'mujoco') return runMujoco(arg, local);
+  if (cmd === 'rdkit') return runRdkit(arg, local);
+  if (cmd === 'spice') return runSpice(arg, local);
+  if (cmd === 'assets') return { assets: ASSETS, cdn: CDN, cache: CACHE };
+  throw new Error('unknown_cmd');
+}
 self.onmessage = async e => {
   const { id, cmd, arg, local } = e.data || {}; const n0 = log.length; const t0 = performance.now();
   try {
-    let out;
-    if (cmd === 'mujoco') out = await runMujoco(arg, local); else if (cmd === 'rdkit') out = await runRdkit(arg, local); else if (cmd === 'spice') out = await runSpice(arg, local); else if (cmd === 'assets') out = { assets: ASSETS, cdn: CDN, cache: CACHE }; else throw new Error('unknown_cmd');
+    let out = await dispatch(cmd, arg, local);
     out.assets_loaded = log.slice(n0); out.ms = Math.round(performance.now() - t0);
     self.postMessage({ id, ok: true, out });
   } catch (err) { self.postMessage({ id, ok: false, error: String(err && err.message || err).slice(0, 300) }); }
 };
+if (typeof module !== 'undefined' && module.exports) module.exports = { dispatch };

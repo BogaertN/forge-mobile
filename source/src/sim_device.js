@@ -21,7 +21,15 @@
     const local = assetsBase(); if (local) o.base = new URL(local + '/pyodide/v0.27.7/full/', root.location.href).href;
     return o;
   }
-  function pyCall(arg) { if (!root.KPyCheck || !root.KPyCheck.Client) return Promise.reject(new Error('pyodide_client_missing')); pyc = pyc || root.KPyCheck.Client({ workerUrl: 'src/py_worker.js' }); return pyc.sim(arg, bundle()); }
+  function pyCall(arg) {
+    if (!root.KPyCheck || !root.KPyCheck.Client) return Promise.reject(new Error('pyodide_client_missing'));
+    pyc = pyc || root.KPyCheck.Client({ workerUrl: 'src/py_worker.js' });
+    const call = Object.assign({}, arg, {
+      grammarUrl: new URL('src/grammar.js', root.location.href).href,
+      realizeUrl: new URL('src/realize_atom.js', root.location.href).href,
+    });
+    return pyc.sim(call, bundle());
+  }
   function wasmCall(cmd, arg) {
     if (!ww) {
       if (root.location.protocol === 'file:' || root.KSIM_NO_WASM_WORKER) return Promise.reject(new Error('wasm_needs_installed_site'));

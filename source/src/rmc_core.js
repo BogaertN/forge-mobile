@@ -81,6 +81,21 @@ function stateRows(QF, F) {
   return [{ id: 'state:live', memory_id: 'state:live', text, tier: 'self', trust: 'trusted', clause: cl,
     provenance: { source: 'measured live state (the previous Ask turn)', kind: 'self_state', perspective: 'asker_to_kernel', measured: Object.assign({}, LAST_STATE), coherent } }];
 }
+const LACK_OF = { 'verb.emotion': 'emotion', 'verb.perception': 'sensation', 'verb.body': 'body', 'verb.consumption': 'sensation' };
+const LACK_WORD = ['sensation', 'emotion', 'experience', 'body', 'sleep', 'asleep'];
+function experienceLack(F, lemma) {
+  /* The self-model's verb-class rule: the first sense, or an experience class among the first two.
+   * It licenses a denial only when that sense's gloss names a lack the self-model already states. */
+  if (!F || !F.lexicon || !lemma) return null;
+  let senses = [];
+  try { senses = F.lexicon.senses(String(lemma)).filter(s => s && s.pos === 'v').slice(0, 2); } catch (e) { return null; }
+  if (!senses.length) return null;
+  let hit = LACK_OF[senses[0].lexname] ? senses[0] : senses.slice(1).find(s => LACK_OF[s.lexname]);
+  if (!hit) return null;
+  const gloss = String(hit.gloss || '').toLowerCase();
+  if (hit.lexname !== 'verb.body' && !LACK_WORD.some(w => gloss.indexOf(w) >= 0)) return null;
+  return LACK_OF[hit.lexname];
+}
 function bodilyNoun(F, word) {
   const head = Array.isArray(word) ? word[word.length - 1] : word;
   if (!F || !F.lexicon || !head) return false;
@@ -130,6 +145,18 @@ function withClauses(payload, QF, F) {
       const text = 'You have no ' + head + '.';
       const cl = QF.clause(text, F);
       if (cl && cl.parsed) m.self = m.self.concat([{ id: 'self:no-' + head, text: text, tier: 'self', trust: 'trusted', clause: cl, source: 'self_model' }]);
+    }
+    const lack = fr && fr.kartr && (fr.kartr.kernel || fr.kartr.head === 'you' || fr.kartr.head === 'kernel') && fr.kriya && fr.kriya !== 'have' && fr.kriya !== 'be' && experienceLack(F, fr.kriya);
+    if (lack) {
+      const G = typeof module !== 'undefined' && module.exports ? require('./grammar.js') : root.KGrammar;
+      const karma = fr.karma && fr.karma.head ? { head: [].concat(fr.karma.head), surface: [String(fr.karma.head)], det: fr.karma.det } : null;
+      const adj = (fr.adj || []).filter(a => a && a.prep && a.np).map(a => ({ prep: a.prep, role: a.role || 'adhikarana', np: { head: [].concat(a.np.head || []), surface: [String(a.np.head || a.np.text || '')] } }));
+      const spoken = G && G.clauseText({ subj: { pron: 'kernel' }, verb: { lemma: fr.kriya, tense: 'present', pol: 'neg', mod: fr.modality === 'able' ? 'able' : 'asserted' }, roles: karma ? { karma: karma } : {}, adj: adj }, 'user');
+      if (spoken) {
+        const text = spoken.charAt(0).toUpperCase() + spoken.slice(1) + '.';
+        const cl = QF.clause(text, F);
+        if (cl && cl.parsed) m.self = m.self.concat([{ id: 'self:no-' + fr.kriya, text: text, tier: 'self', trust: 'trusted', clause: cl, source: 'self_model', lack: lack }]);
+      }
     }
   } catch (e) {}
   for (const k of CLAUSE_KEYS) if (Array.isArray(m[k])) m[k] = m[k].map(r => clauseRow(r, QF, F, stat));

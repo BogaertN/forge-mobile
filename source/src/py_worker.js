@@ -181,9 +181,15 @@ else:
 json.dumps(out, default=str)
 `;
 const pkgsDone = new Set();
+let realizerOn = false;
+function ensureRealizer(arg) {
+  if (realizerOn || self.forgeRealizeAtom) { realizerOn = true; return; }
+  if (arg && arg.grammarUrl && arg.realizeUrl) { importScripts(arg.grammarUrl, arg.realizeUrl); realizerOn = !!self.forgeRealizeAtom; }
+}
 async function sim(arg) {
   if (!py) await init({ base: arg.base, sri: arg.sri, pint: false, sympy: false, rmc: null, libs: arg.libs });
   await mountEngine(arg);
+  ensureRealizer(arg);
   let packages = null;
   if (arg.op === 'solve') {
     const want = ((arg.problem && arg.problem.packages) || []).filter(n => /^[a-z0-9_-]+$/.test(n));

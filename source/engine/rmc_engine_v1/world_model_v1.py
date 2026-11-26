@@ -233,6 +233,14 @@ CONTAIN_CONTRA = {
 }
 # Possessive kinship inverses. "Sera's aunt is Nima" is the same fact as "Nima's niece is Sera".
 KIN_INVERSE = {"aunt": "niece", "niece": "aunt", "uncle": "nephew", "nephew": "uncle"}
+KIN_RULE = {
+    "id": "WM-KIN-INVERSE",
+    "class": "relational",
+    "cite": "4.9.257: a possessive kinship noun and its declared inverse name one fact.",
+    "body": [{"predicate": "is", "args": ["$holder's $rel", "$person"], "polarity": "pos"}],
+    "head": {"predicate": "is", "args": ["$person's $inv", "$holder"], "polarity": "pos"},
+    "guard": "KIN_INVERSE[$rel] = $inv",
+}
 # The relation table marks these four symmetric and not transitive. A shared spouse or sibling licenses nothing further.
 def _symmetric_rule(pred: str, cite: str) -> dict[str, Any]:
     return {
@@ -791,7 +799,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE), dict(COPULA_NEG_RULE), dict(CONTAIN_RULE), dict(CONTAIN_CONTRA), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(MARRIED_SYMMETRIC), dict(NEXT_SYMMETRIC), dict(ADJACENT_SYMMETRIC), dict(SIBLING_SYMMETRIC), dict(NEXT_CHAIN), dict(MEASURE_RULE)] + [dict(r) for r in ORDER_RULES] + [dict(r) for r in CMP_RULES] + [dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
+        "rules": [dict(COPULA_RULE), dict(COPULA_NEG_RULE), dict(CONTAIN_RULE), dict(CONTAIN_CONTRA), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(MARRIED_SYMMETRIC), dict(NEXT_SYMMETRIC), dict(ADJACENT_SYMMETRIC), dict(SIBLING_SYMMETRIC), dict(NEXT_CHAIN), dict(MEASURE_RULE)] + [dict(r) for r in ORDER_RULES] + [dict(r) for r in CMP_RULES] + [dict(OWNER_RULE), dict(NAME_RULE), dict(KIN_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -1125,10 +1133,11 @@ def check_proof(world: dict[str, Any], proof: dict[str, Any]) -> dict[str, Any]:
                     return {"ok": False, "reason": "guard_distinct", "cite": MEASURE_RULE["cite"]}
                 derived[n] = atom
                 continue
-            if rule["id"] in ("WM-OWNER-OF", "WM-NAME-OF"):
-                bad = (_replay_owner if rule["id"] == "WM-OWNER-OF" else _replay_name)(step, derived)
+            if rule["id"] in ("WM-OWNER-OF", "WM-NAME-OF", "WM-KIN-INVERSE"):
+                replay = {"WM-OWNER-OF": _replay_owner, "WM-NAME-OF": _replay_name, "WM-KIN-INVERSE": _replay_kin}[rule["id"]]
+                bad = replay(step, derived)
                 if bad:
-                    return {"ok": False, "reason": bad, "cite": OWNER_RULE["cite"]}
+                    return {"ok": False, "reason": bad, "cite": rule.get("cite") or OWNER_RULE["cite"]}
                 derived[n] = atom
                 continue
             if rule["id"] in CAUSAL_RULE_IDS or rule.get("class") == "causal_forward":
@@ -1200,6 +1209,32 @@ def _replay_owner(step: dict[str, Any], derived: dict[int, dict[str, Any]]) -> s
     atom = step.get("atom") or {}
     if atom.get("predicate") != "owns" or atom.get("polarity") != "pos" or \
             [_norm(a) for a in atom.get("args") or []] != [_norm(str(sub["$o"])), _norm(n)]:
+        return "head_mismatch"
+    return None
+
+
+def _replay_kin(step: dict[str, Any], derived: dict[int, dict[str, Any]]) -> str | None:
+    """Replay WM-KIN-INVERSE: is(holder's rel, person) or is(person, holder's rel) is is(person's inv, holder)."""
+    sub = step.get("substitution") if isinstance(step.get("substitution"), dict) else {}
+    ns = step.get("premises") or []
+    if len(ns) != 1 or not derived.get(int(ns[0])):
+        return "premise_missing"
+    prev = derived[int(ns[0])]
+    holder, rel = str(sub.get("$holder") or ""), str(sub.get("$rel") or "")
+    person, inv = str(sub.get("$person") or ""), str(sub.get("$inv") or "")
+    if KIN_INVERSE.get(rel) != inv or not holder or not person:
+        return "guard_inverse"
+    if _norm(holder) == _norm(person):
+        return "guard_distinct"
+    owned = _norm(holder + "'s " + rel)
+    if prev.get("predicate") != "is" or prev.get("polarity") != "pos":
+        return "premise_mismatch"
+    args = [_norm(a) for a in prev.get("args") or []]
+    if args not in ([owned, _norm(person)], [_norm(person), owned]):
+        return "premise_mismatch"
+    atom = step.get("atom") or {}
+    want = [_norm(person + "'s " + inv), _norm(holder)]
+    if atom.get("predicate") != "is" or atom.get("polarity") != "pos" or [_norm(a) for a in atom.get("args") or []] != want:
         return "head_mismatch"
     return None
 
@@ -2846,10 +2881,10 @@ def _expand_sound_facts(world: dict[str, Any], topical: list[dict[str, Any]]) ->
             frame = DF.contain_frame(conclusion)
             row = _fact_row("hop-" + _digest(text)[:12], {"text": text, "atom": conclusion, "parsed": True, "frame": frame, "atom_source": "derive"},
                             source="derive", provenance=[xn.get("id"), yp.get("id")], quarantined=False, cite=CONTAIN_CONTRA["cite"])
+            row["source_facts"] = [yp, xn]
+            row["rule_id"] = CONTAIN_CONTRA["id"]
+            row["rule_sub"] = {"$x": str(x_args[0]), "$y": str(y_args[0]), "$z": str(y_args[1])}
             row["place"] = xn.get("place") or yp.get("place")
-            row["packet"] = xn.get("packet") or yp.get("packet")
-            row["confidence"] = xn.get("confidence") or yp.get("confidence") or "medium"
-            row["retrieval_weight"] = xn.get("retrieval_weight") if xn.get("retrieval_weight") is not None else yp.get("retrieval_weight")
             added.append(row)
             have.add(key)
     for fact in topical:
@@ -2880,10 +2915,10 @@ def _expand_sound_facts(world: dict[str, Any], topical: list[dict[str, Any]]) ->
         atom = _atom("is", [niece["text"], kin], "pos")
         row = _fact_row("hop-" + _digest(text)[:12], {"text": text, "atom": atom, "parsed": True, "frame": frame, "atom_source": "derive"},
                         source="derive", provenance=[fact.get("id")], quarantined=False, cite="4.9.256: a possessive kinship noun and its inverse name one fact.")
+        row["source_facts"] = [fact]
+        row["rule_id"] = KIN_RULE["id"]
+        row["rule_sub"] = {"$holder": str(holder.get("text") or "").strip(), "$rel": rel, "$person": str(relative.get("text") or "").strip(), "$inv": inv}
         row["place"] = fact.get("place")
-        row["packet"] = fact.get("packet")
-        row["confidence"] = fact.get("confidence") or "medium"
-        row["retrieval_weight"] = fact.get("retrieval_weight")
         added.append(row)
         have.add(key)
     topical.extend(added)
@@ -2948,11 +2983,41 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
             claim["hops"] = [_hop_row(fact["text"], list(fact.get("provenance") or [fact.get("id")]), measured, 1),
                              _hop_row(text, [fact.get("id")], claim["drift"], 2)]
         else:
-            proof = _direct_proof(world, fact)
-            checked = check_proof(world, proof)
-            claim = _finish_claim(world, fact["text"], fact["atom"], [fact], proof, checked, "supported_only", "direct", phase_path)
+            sources = [s for s in (fact.get("source_facts") or []) if isinstance(s, dict) and s.get("id")]
+            if fact.get("source") == "derive" and sources and fact.get("rule_id"):
+                # The conclusion is measured on the facts that produced it, the same way a copula hop is.
+                rule_id = str(fact.get("rule_id"))
+                sub = {k: str(v) for k, v in (fact.get("rule_sub") or {}).items()} if isinstance(fact.get("rule_sub"), dict) else {}
+                if rule_id == CONTAIN_CONTRA["id"] and len(sources) == 2:
+                    proof = _chain_proof(world, sources[0], sources[1], sub, fact["atom"], rule_id)
+                elif rule_id == KIN_RULE["id"] and len(sources) == 1:
+                    proof = _proof_shell(world, fact["atom"], [
+                        {"n": 1, "kind": "fact", "fact_id": sources[0]["id"], "premises": [], "substitution": {}, "atom": sources[0].get("atom")},
+                        {"n": 2, "kind": "rule", "rule_id": rule_id, "premises": [1], "substitution": sub, "atom": fact["atom"]},
+                    ])
+                else:
+                    proof = _direct_proof(world, fact)
+                checked = check_proof(world, proof)
+                claim = _finish_claim(world, fact["text"], fact["atom"], sources, proof, checked, "supported_only", rule_id, phase_path)
+                if checked.get("ok") is True and rule_id == KIN_RULE["id"]:
+                    inv = sub.get("$inv") or ""
+                    claim["rule_licensed"] = sorted(set(_rule_words(KIN_RULE) + ([inv.lower()] if inv else [])))
+                    claim["debate"] = run_debate(claim, content_tokens=content_tokens)
+                elif checked.get("ok") is True and rule_id == CONTAIN_CONTRA["id"]:
+                    _licensed(world, claim, CONTAIN_CONTRA)
+                hop_rows = []
+                for src_fact in sources:
+                    measured = _drift_for(str(src_fact.get("text") or ""), [src_fact], phase_path)
+                    hop_rows.append(_hop_row(str(src_fact.get("text") or ""), [src_fact.get("id")], measured, len(hop_rows) + 1))
+                hop_rows.append(_hop_row(fact["text"], [s.get("id") for s in sources], claim["drift"], len(hop_rows) + 1))
+                claim["hops"] = hop_rows
+            else:
+                proof = _direct_proof(world, fact)
+                checked = check_proof(world, proof)
+                claim = _finish_claim(world, fact["text"], fact["atom"], [fact], proof, checked, "supported_only", "direct", phase_path)
         claim["_place"] = placed(fact)
-        claim["_premise_rows"] = [fact]
+        measured_rows = [s for s in (fact.get("source_facts") or []) if isinstance(s, dict) and s.get("id")]
+        claim["_premise_rows"] = measured_rows if fact.get("source") == "derive" and measured_rows else [fact]
         claims.append(_frame_claim(claim, ff, src, m, al, question))
 
     # A why-question is the hetu of the asked event, the clause the sentence already called its cause. It is not a new explanation.
@@ -3219,7 +3284,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     if measure_gap:
         reason = str(measure_gap["reason"])
     for claim in answers:
-        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-COPULA-NEG-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or "_THAN-" in str(claim.get("how") or "") or str(claim.get("how") or "") == "WM-MEASURE-COMPARE":
+        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-COPULA-NEG-CHAIN", "WM-CONTAIN-CHAIN", "WM-CONTAIN-CONTRA", "WM-KIN-INVERSE", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or "_THAN-" in str(claim.get("how") or "") or str(claim.get("how") or "") == "WM-MEASURE-COMPARE":
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
         elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]

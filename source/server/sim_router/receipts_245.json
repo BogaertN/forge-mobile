@@ -125,20 +125,21 @@
    },
    "outcome": "topple",
    "primary_solver": "mujoco_wasm",
-   "clause": "Pushing the bottle near the top makes it topple.",
+   "clause": "You push the bottle near the top.",
    "effect_text": "The bottle topples.",
-   "receipt_id": "sim-fb7dc796dfea7053",
-   "sha256": "fb7dc796dfea7053fd4ba7b33b227ca1723c4f7b46fe78f903d07faf3d10d495",
+   "receipt_id": "sim-99098526a76466c2",
+   "sha256": "99098526a76466c29dacc3f2b6d4ff97c133ff9f4a38ab22110d92c19b642d8f",
    "rows": [
     {
-     "id": "sim-fb7dc796dfea7053",
-     "text": "Pushing the bottle near the top makes it topple.",
+     "id": "sim-99098526a76466c2",
+     "text": "You push the bottle near the top.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-fb7dc796dfea7053",
-      "sha256": "fb7dc796dfea7053fd4ba7b33b227ca1723c4f7b46fe78f903d07faf3d10d495",
+      "receipt_id": "sim-99098526a76466c2",
+      "sha256": "99098526a76466c29dacc3f2b6d4ff97c133ff9f4a38ab22110d92c19b642d8f",
       "intervention_key": "bottle near push top",
+      "question": null,
       "effect_text": "The bottle topples.",
       "outcome": "topple",
       "solver": "mujoco_wasm",
@@ -176,6 +177,22 @@
         ]
        }
       ],
+      "causal_reason": "The push height exceeds the critical height.",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "table"
+      },
+      "state_after": {
+       "motion": "topple",
+       "tilt_deg": 90,
+       "support": "side",
+       "patient": "bottle",
+       "surface": "table"
+      },
+      "patient": "bottle",
       "spoken_atoms": [
        {
         "text": "The bottle topples.",
@@ -233,23 +250,9 @@
         }
        }
       ],
-      "patient": "bottle",
-      "state_before": {
-       "motion": "rest",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "bottle",
-       "surface": "table"
-      },
-      "state_after": {
-       "motion": "topple",
-       "tilt_deg": 90,
-       "support": "side",
-       "patient": "bottle",
-       "surface": "table"
-      },
-      "causal_reason": "The push height exceeds the critical height."
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -398,20 +401,21 @@
    },
    "outcome": "slide",
    "primary_solver": "mujoco_wasm",
-   "clause": "Pushing the bottle near the bottom makes it slide.",
+   "clause": "You push the bottle near the bottom.",
    "effect_text": "The bottle slides.",
-   "receipt_id": "sim-4a82b7e31ab085ef",
-   "sha256": "4a82b7e31ab085ef8248674bba5dd325cf28c1cdf2668069b6a42c58854ffeb8",
+   "receipt_id": "sim-f10a151cce15b22e",
+   "sha256": "f10a151cce15b22ec1e907facf62edbc2cdcda3b4bca5f49f80c7a92abfb5c47",
    "rows": [
     {
-     "id": "sim-4a82b7e31ab085ef",
-     "text": "Pushing the bottle near the bottom makes it slide.",
+     "id": "sim-f10a151cce15b22e",
+     "text": "You push the bottle near the bottom.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-4a82b7e31ab085ef",
-      "sha256": "4a82b7e31ab085ef8248674bba5dd325cf28c1cdf2668069b6a42c58854ffeb8",
+      "receipt_id": "sim-f10a151cce15b22e",
+      "sha256": "f10a151cce15b22ec1e907facf62edbc2cdcda3b4bca5f49f80c7a92abfb5c47",
       "intervention_key": "bottle bottom near push",
+      "question": null,
       "effect_text": "The bottle slides.",
       "outcome": "slide",
       "solver": "mujoco_wasm",
@@ -449,6 +453,22 @@
         ]
        }
       ],
+      "causal_reason": "The critical height exceeds the push height.",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "table"
+      },
+      "state_after": {
+       "motion": "slide",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "table"
+      },
+      "patient": "bottle",
       "spoken_atoms": [
        {
         "text": "The bottle slides.",
@@ -506,23 +526,9 @@
         }
        }
       ],
-      "patient": "bottle",
-      "state_before": {
-       "motion": "rest",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "bottle",
-       "surface": "table"
-      },
-      "state_after": {
-       "motion": "slide",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "bottle",
-       "surface": "table"
-      },
-      "causal_reason": "The critical height exceeds the push height."
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -654,20 +660,21 @@
    },
    "outcome": "slide",
    "primary_solver": "mujoco_wasm",
-   "clause": "Pushing the bottle near the top on ice makes it slide.",
+   "clause": "You push the bottle near the top on ice.",
    "effect_text": "The bottle slides.",
-   "receipt_id": "sim-893b5013c108049c",
-   "sha256": "893b5013c108049c8181a65ea169e5e11a647c832cc50d4fa965917eef799f95",
+   "receipt_id": "sim-72bad070df8a4449",
+   "sha256": "72bad070df8a4449bb30e3498877b7fc977278b2cf01a93ee501d9c70d1ffaef",
    "rows": [
     {
-     "id": "sim-893b5013c108049c",
-     "text": "Pushing the bottle near the top on ice makes it slide.",
+     "id": "sim-72bad070df8a4449",
+     "text": "You push the bottle near the top on ice.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-893b5013c108049c",
-      "sha256": "893b5013c108049c8181a65ea169e5e11a647c832cc50d4fa965917eef799f95",
+      "receipt_id": "sim-72bad070df8a4449",
+      "sha256": "72bad070df8a4449bb30e3498877b7fc977278b2cf01a93ee501d9c70d1ffaef",
       "intervention_key": "bottle ice near on push top",
+      "question": null,
       "effect_text": "The bottle slides.",
       "outcome": "slide",
       "solver": "mujoco_wasm",
@@ -705,6 +712,22 @@
         ]
        }
       ],
+      "causal_reason": "The critical height exceeds the push height.",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "ice"
+      },
+      "state_after": {
+       "motion": "slide",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "ice"
+      },
+      "patient": "bottle",
       "spoken_atoms": [
        {
         "text": "The bottle slides.",
@@ -762,23 +785,9 @@
         }
        }
       ],
-      "patient": "bottle",
-      "state_before": {
-       "motion": "rest",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "bottle",
-       "surface": "ice"
-      },
-      "state_after": {
-       "motion": "slide",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "bottle",
-       "surface": "ice"
-      },
-      "causal_reason": "The critical height exceeds the push height."
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -910,20 +919,21 @@
    },
    "outcome": "stay",
    "primary_solver": "mujoco_wasm",
-   "clause": "Pushing the bottle near the bottom on rubber makes it stay.",
+   "clause": "You push the bottle near the bottom on rubber.",
    "effect_text": "The bottle stays.",
-   "receipt_id": "sim-04353c88445899bb",
-   "sha256": "04353c88445899bb532d8bfca79e49fd755c72ee43b4d499be1311e33775c27a",
+   "receipt_id": "sim-e16a759d208b503c",
+   "sha256": "e16a759d208b503c76853f0ee50b3138e5d0e1bc4984d1ed31ab55a68a969648",
    "rows": [
     {
-     "id": "sim-04353c88445899bb",
-     "text": "Pushing the bottle near the bottom on rubber makes it stay.",
+     "id": "sim-e16a759d208b503c",
+     "text": "You push the bottle near the bottom on rubber.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-04353c88445899bb",
-      "sha256": "04353c88445899bb532d8bfca79e49fd755c72ee43b4d499be1311e33775c27a",
+      "receipt_id": "sim-e16a759d208b503c",
+      "sha256": "e16a759d208b503c76853f0ee50b3138e5d0e1bc4984d1ed31ab55a68a969648",
       "intervention_key": "bottle bottom near on push rubber",
+      "question": null,
       "effect_text": "The bottle stays.",
       "outcome": "stay",
       "solver": "mujoco_wasm",
@@ -961,6 +971,22 @@
         ]
        }
       ],
+      "causal_reason": "The static friction exceeds the push force.",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "rubber"
+      },
+      "state_after": {
+       "motion": "stay",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "bottle",
+       "surface": "rubber"
+      },
+      "patient": "bottle",
       "spoken_atoms": [
        {
         "text": "The bottle stays.",
@@ -988,25 +1014,39 @@
          "patient": "bottle",
          "surface": "rubber"
         }
+       },
+       {
+        "text": "The static friction exceeds the push force.",
+        "atom": {
+         "predicate": "exceed",
+         "args": [
+          "the static friction",
+          "the push force"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "reason",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "rubber"
+        },
+        "state_after": {
+         "motion": "stay",
+         "tilt_deg": 0,
+         "support": "contact",
+         "patient": "bottle",
+         "surface": "rubber"
+        }
        }
       ],
-      "patient": "bottle",
-      "state_before": {
-       "motion": "rest",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "bottle",
-       "surface": "rubber"
-      },
-      "state_after": {
-       "motion": "stay",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "bottle",
-       "surface": "rubber"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -1141,20 +1181,21 @@
    },
    "outcome": "slide",
    "primary_solver": "mujoco_wasm",
-   "clause": "Pushing the wide flat block near the top makes it slide.",
+   "clause": "You push the wide flat block near the top.",
    "effect_text": "The wide flat block slides.",
-   "receipt_id": "sim-0748e9233a8e8704",
-   "sha256": "0748e9233a8e8704142a14df4ca925fb211d5b0fdf81789029ba620cd8c0577c",
+   "receipt_id": "sim-50f28a542ee0e84e",
+   "sha256": "50f28a542ee0e84ea55aaa1930547ba829f5f350eaa7136e88fd64e2023eaca4",
    "rows": [
     {
-     "id": "sim-0748e9233a8e8704",
-     "text": "Pushing the wide flat block near the top makes it slide.",
+     "id": "sim-50f28a542ee0e84e",
+     "text": "You push the wide flat block near the top.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-0748e9233a8e8704",
-      "sha256": "0748e9233a8e8704142a14df4ca925fb211d5b0fdf81789029ba620cd8c0577c",
+      "receipt_id": "sim-50f28a542ee0e84e",
+      "sha256": "50f28a542ee0e84ea55aaa1930547ba829f5f350eaa7136e88fd64e2023eaca4",
       "intervention_key": "block flat near push top wide",
+      "question": null,
       "effect_text": "The wide flat block slides.",
       "outcome": "slide",
       "solver": "mujoco_wasm",
@@ -1192,6 +1233,22 @@
         ]
        }
       ],
+      "causal_reason": "The critical height exceeds the push height.",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "block",
+       "surface": "table"
+      },
+      "state_after": {
+       "motion": "slide",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "block",
+       "surface": "table"
+      },
+      "patient": "block",
       "spoken_atoms": [
        {
         "text": "The wide flat block slides.",
@@ -1249,23 +1306,9 @@
         }
        }
       ],
-      "patient": "block",
-      "state_before": {
-       "motion": "rest",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "block",
-       "surface": "table"
-      },
-      "state_after": {
-       "motion": "slide",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "block",
-       "surface": "table"
-      },
-      "causal_reason": "The critical height exceeds the push height."
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -1360,20 +1403,21 @@
    "raw": null,
    "outcome": "land",
    "primary_solver": "sympy_pyodide",
-   "clause": "Throwing the ball at 30 degrees at 20 m/s makes it land.",
+   "clause": "You throw the ball at 30 degrees at 20 meters per second.",
    "effect_text": "The ball lands 35.324 meters away after 2.039 seconds.",
-   "receipt_id": "sim-e79a0be67f656f1e",
-   "sha256": "e79a0be67f656f1e5c22ac71e1e6d6a45a3312cffe48b21b3928f1e3ba02b44b",
+   "receipt_id": "sim-f334d71bd7932167",
+   "sha256": "f334d71bd79321676df26a43a352ce710dfbd24a10b591a099cbbe85f13ab17a",
    "rows": [
     {
-     "id": "sim-e79a0be67f656f1e",
-     "text": "Throwing the ball at 30 degrees at 20 m/s makes it land.",
+     "id": "sim-f334d71bd7932167",
+     "text": "You throw the ball at 30 degrees at 20 meters per second.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-e79a0be67f656f1e",
-      "sha256": "e79a0be67f656f1e5c22ac71e1e6d6a45a3312cffe48b21b3928f1e3ba02b44b",
+      "receipt_id": "sim-f334d71bd7932167",
+      "sha256": "f334d71bd79321676df26a43a352ce710dfbd24a10b591a099cbbe85f13ab17a",
       "intervention_key": "20 30 at at ball degre m s throw",
+      "question": null,
       "effect_text": "The ball lands 35.324 meters away after 2.039 seconds.",
       "outcome": "land",
       "solver": "sympy_pyodide",
@@ -1386,6 +1430,14 @@
        "max_height_m": 5.099
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "land"
+      },
+      "patient": "ball",
       "spoken_atoms": [
        {
         "text": "The ball lands 35.324 meters away after 2.039 seconds.",
@@ -1416,15 +1468,9 @@
         }
        }
       ],
-      "patient": "ball",
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "land"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -1495,20 +1541,21 @@
    "raw": null,
    "outcome": "react",
    "primary_solver": "chemistry_ondevice",
-   "clause": "Reacting hydrogen with oxygen balances as 2 H2 + O2 -> 2 H2O.",
+   "clause": "The reaction balances as 2 H2 + O2 -> 2 H2O.",
    "effect_text": "The reaction balances as 2 H2 + O2 -> 2 H2O.",
-   "receipt_id": "sim-83ffb56577dd6aaa",
-   "sha256": "83ffb56577dd6aaa5a16061eb30d15f2428423602e6a41cf250a5fe21438907b",
+   "receipt_id": "sim-22880c46b1cd9f4f",
+   "sha256": "22880c46b1cd9f4f11b475c6068400908c64c2d983576eeb0070542b67585747",
    "rows": [
     {
-     "id": "sim-83ffb56577dd6aaa",
-     "text": "Reacting hydrogen with oxygen balances as 2 H2 + O2 -> 2 H2O.",
+     "id": "sim-22880c46b1cd9f4f",
+     "text": "The reaction balances as 2 H2 + O2 -> 2 H2O.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-83ffb56577dd6aaa",
-      "sha256": "83ffb56577dd6aaa5a16061eb30d15f2428423602e6a41cf250a5fe21438907b",
+      "receipt_id": "sim-22880c46b1cd9f4f",
+      "sha256": "22880c46b1cd9f4f11b475c6068400908c64c2d983576eeb0070542b67585747",
       "intervention_key": "hydrogen oxygen react with",
+      "question": null,
       "effect_text": "The reaction balances as 2 H2 + O2 -> 2 H2O.",
       "outcome": "react",
       "solver": "chemistry_ondevice",
@@ -1525,6 +1572,14 @@
        "reaction_class": "synthesis"
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "react"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
         "text": "The reaction balances as 2 H2 + O2 -> 2 H2O.",
@@ -1553,15 +1608,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "react"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -1631,20 +1680,21 @@
    "raw": null,
    "outcome": "react",
    "primary_solver": "chemistry_ondevice",
-   "clause": "Reacting methane with oxygen balances as CH4 + 2 O2 -> CO2 + 2 H2O.",
+   "clause": "The reaction balances as CH4 + 2 O2 -> CO2 + 2 H2O.",
    "effect_text": "The reaction balances as CH4 + 2 O2 -> CO2 + 2 H2O.",
-   "receipt_id": "sim-cc75b5719be6a4f6",
-   "sha256": "cc75b5719be6a4f61918c8291100133639bcf805d0be91f3ea520268167789df",
+   "receipt_id": "sim-c4b76560478053f7",
+   "sha256": "c4b76560478053f7fc833ff7bb9d05a59a02682c00728a8f20b379006583ea3a",
    "rows": [
     {
-     "id": "sim-cc75b5719be6a4f6",
-     "text": "Reacting methane with oxygen balances as CH4 + 2 O2 -> CO2 + 2 H2O.",
+     "id": "sim-c4b76560478053f7",
+     "text": "The reaction balances as CH4 + 2 O2 -> CO2 + 2 H2O.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-cc75b5719be6a4f6",
-      "sha256": "cc75b5719be6a4f61918c8291100133639bcf805d0be91f3ea520268167789df",
+      "receipt_id": "sim-c4b76560478053f7",
+      "sha256": "c4b76560478053f7fc833ff7bb9d05a59a02682c00728a8f20b379006583ea3a",
       "intervention_key": "burn methane",
+      "question": null,
       "effect_text": "The reaction balances as CH4 + 2 O2 -> CO2 + 2 H2O.",
       "outcome": "react",
       "solver": "chemistry_ondevice",
@@ -1662,6 +1712,14 @@
        "reaction_class": "combustion"
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "react"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
         "text": "The reaction balances as CH4 + 2 O2 -> CO2 + 2 H2O.",
@@ -1690,15 +1748,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "react"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -1774,6 +1826,7 @@
       "receipt_id": "sim-0c1dd062c2ea4cfe",
       "sha256": "0c1dd062c2ea4cfedb33ad7d1b6c6ddca39724673d63d8eaa9b967ff2393ebde",
       "intervention_key": null,
+      "question": null,
       "effect_text": "The molecular weight of caffeine is 194.194 daltons.",
       "outcome": "describe",
       "solver": "rdkit_wasm",
@@ -1791,6 +1844,14 @@
        "table_formula_agrees": true
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "describe"
+      },
+      "patient": "caffeine",
       "spoken_atoms": [
        {
         "text": "The molecular weight of caffeine is 194.194 daltons.",
@@ -1813,25 +1874,21 @@
         }
        }
       ],
-      "patient": "caffeine",
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "describe"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     },
     {
      "id": "sim-0c1dd062c2ea4cfe-1",
      "text": "The molecular formula of caffeine is C8H10N4O2.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
+     "may_store_as_fact": false,
      "sim": {
       "receipt_id": "sim-0c1dd062c2ea4cfe",
       "sha256": "0c1dd062c2ea4cfedb33ad7d1b6c6ddca39724673d63d8eaa9b967ff2393ebde",
       "intervention_key": null,
+      "question": null,
       "effect_text": "The molecular weight of caffeine is 194.194 daltons.",
       "outcome": "describe",
       "solver": "rdkit_wasm",
@@ -1849,6 +1906,37 @@
        "table_formula_agrees": true
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "describe"
+      },
+      "patient": "caffeine",
+      "spoken_atoms": [
+       {
+        "text": "The molecular weight of caffeine is 194.194 daltons.",
+        "atom": {
+         "predicate": "is",
+         "args": [
+          "the molecular weight of caffeine",
+          "194.194 daltons"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "describe"
+        }
+       }
+      ],
+      "may_store_as_fact": false,
       "fact_of": "sim-0c1dd062c2ea4cfe"
      }
     },
@@ -1857,10 +1945,12 @@
      "text": "The molecular mass of caffeine is 194.194 daltons.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
+     "may_store_as_fact": false,
      "sim": {
       "receipt_id": "sim-0c1dd062c2ea4cfe",
       "sha256": "0c1dd062c2ea4cfedb33ad7d1b6c6ddca39724673d63d8eaa9b967ff2393ebde",
       "intervention_key": null,
+      "question": null,
       "effect_text": "The molecular weight of caffeine is 194.194 daltons.",
       "outcome": "describe",
       "solver": "rdkit_wasm",
@@ -1878,35 +1968,37 @@
        "table_formula_agrees": true
       },
       "cross_check": [],
-      "fact_of": "sim-0c1dd062c2ea4cfe"
-     }
-    },
-    {
-     "id": "sim-0c1dd062c2ea4cfe-3",
-     "text": "The molecular structure of caffeine has 14 heavy atoms and 2 aromatic rings.",
-     "source": "sim_receipt",
-     "trust": "solver_receipt",
-     "sim": {
-      "receipt_id": "sim-0c1dd062c2ea4cfe",
-      "sha256": "0c1dd062c2ea4cfedb33ad7d1b6c6ddca39724673d63d8eaa9b967ff2393ebde",
-      "intervention_key": null,
-      "effect_text": "The molecular weight of caffeine is 194.194 daltons.",
-      "outcome": "describe",
-      "solver": "rdkit_wasm",
-      "engine": "rdkit 2026.09.2 (WASM, on device)",
-      "family": "chemistry",
-      "where": "on_device",
-      "measurements": {
-       "formula": "C8H10N4O2",
-       "exact_mw": 194.0804,
-       "average_mw": 194.194,
-       "heavy_atoms": 14,
-       "bonds": 15,
-       "aromatic_rings": 2,
-       "rings": 2,
-       "table_formula_agrees": true
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
       },
-      "cross_check": [],
+      "state_after": {
+       "motion": "describe"
+      },
+      "patient": "caffeine",
+      "spoken_atoms": [
+       {
+        "text": "The molecular weight of caffeine is 194.194 daltons.",
+        "atom": {
+         "predicate": "is",
+         "args": [
+          "the molecular weight of caffeine",
+          "194.194 daltons"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "describe"
+        }
+       }
+      ],
+      "may_store_as_fact": false,
       "fact_of": "sim-0c1dd062c2ea4cfe"
      }
     }
@@ -1993,6 +2085,7 @@
       "receipt_id": "sim-b8077073c50e72c8",
       "sha256": "b8077073c50e72c82146697127590c07b8e6794d732a751712f4c1352520f822",
       "intervention_key": null,
+      "question": null,
       "effect_text": "The molecular formula of aspirin is C9H8O4.",
       "outcome": "describe",
       "solver": "rdkit_wasm",
@@ -2010,6 +2103,14 @@
        "table_formula_agrees": true
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "describe"
+      },
+      "patient": "aspirin",
       "spoken_atoms": [
        {
         "text": "The molecular formula of aspirin is C9H8O4.",
@@ -2032,25 +2133,21 @@
         }
        }
       ],
-      "patient": "aspirin",
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "describe"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     },
     {
      "id": "sim-b8077073c50e72c8-1",
      "text": "The molecular weight of aspirin is 180.159 daltons.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
+     "may_store_as_fact": false,
      "sim": {
       "receipt_id": "sim-b8077073c50e72c8",
       "sha256": "b8077073c50e72c82146697127590c07b8e6794d732a751712f4c1352520f822",
       "intervention_key": null,
+      "question": null,
       "effect_text": "The molecular formula of aspirin is C9H8O4.",
       "outcome": "describe",
       "solver": "rdkit_wasm",
@@ -2068,6 +2165,37 @@
        "table_formula_agrees": true
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "describe"
+      },
+      "patient": "aspirin",
+      "spoken_atoms": [
+       {
+        "text": "The molecular formula of aspirin is C9H8O4.",
+        "atom": {
+         "predicate": "is",
+         "args": [
+          "the molecular formula of aspirin",
+          "C9H8O4"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "describe"
+        }
+       }
+      ],
+      "may_store_as_fact": false,
       "fact_of": "sim-b8077073c50e72c8"
      }
     },
@@ -2076,10 +2204,12 @@
      "text": "The molecular mass of aspirin is 180.159 daltons.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
+     "may_store_as_fact": false,
      "sim": {
       "receipt_id": "sim-b8077073c50e72c8",
       "sha256": "b8077073c50e72c82146697127590c07b8e6794d732a751712f4c1352520f822",
       "intervention_key": null,
+      "question": null,
       "effect_text": "The molecular formula of aspirin is C9H8O4.",
       "outcome": "describe",
       "solver": "rdkit_wasm",
@@ -2097,35 +2227,37 @@
        "table_formula_agrees": true
       },
       "cross_check": [],
-      "fact_of": "sim-b8077073c50e72c8"
-     }
-    },
-    {
-     "id": "sim-b8077073c50e72c8-3",
-     "text": "The molecular structure of aspirin has 13 heavy atoms and 1 aromatic rings.",
-     "source": "sim_receipt",
-     "trust": "solver_receipt",
-     "sim": {
-      "receipt_id": "sim-b8077073c50e72c8",
-      "sha256": "b8077073c50e72c82146697127590c07b8e6794d732a751712f4c1352520f822",
-      "intervention_key": null,
-      "effect_text": "The molecular formula of aspirin is C9H8O4.",
-      "outcome": "describe",
-      "solver": "rdkit_wasm",
-      "engine": "rdkit 2026.09.2 (WASM, on device)",
-      "family": "chemistry",
-      "where": "on_device",
-      "measurements": {
-       "formula": "C9H8O4",
-       "exact_mw": 180.0423,
-       "average_mw": 180.159,
-       "heavy_atoms": 13,
-       "bonds": 13,
-       "aromatic_rings": 1,
-       "rings": 1,
-       "table_formula_agrees": true
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
       },
-      "cross_check": [],
+      "state_after": {
+       "motion": "describe"
+      },
+      "patient": "aspirin",
+      "spoken_atoms": [
+       {
+        "text": "The molecular formula of aspirin is C9H8O4.",
+        "atom": {
+         "predicate": "is",
+         "args": [
+          "the molecular formula of aspirin",
+          "C9H8O4"
+         ],
+         "polarity": "pos",
+         "tense": "present"
+        },
+        "role": "effect",
+        "verbatim": false,
+        "state_before": {
+         "motion": "rest"
+        },
+        "state_after": {
+         "motion": "describe"
+        }
+       }
+      ],
+      "may_store_as_fact": false,
       "fact_of": "sim-b8077073c50e72c8"
      }
     }
@@ -2173,21 +2305,22 @@
    "raw": null,
    "outcome": "translate",
    "primary_solver": "biology_ondevice",
-   "clause": "Translating the DNA ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG gives the protein MAIVMGR.",
-   "effect_text": "The ribosome makes the protein MAIVMGR and then stops.",
-   "receipt_id": "sim-728832836fc2889f",
-   "sha256": "728832836fc2889fb8313667c20e9dfa4ecc8e17115a0c022f5e86ff64594358",
+   "clause": "The ribosome makes the protein MAIVMGR and then the ribosome stops.",
+   "effect_text": "The ribosome makes the protein MAIVMGR and then the ribosome stops.",
+   "receipt_id": "sim-bda8a1502c63d001",
+   "sha256": "bda8a1502c63d001c9dce07df511d202749b255eea1ff38717a3163f17ae7000",
    "rows": [
     {
-     "id": "sim-728832836fc2889f",
-     "text": "Translating the DNA ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG gives the protein MAIVMGR.",
+     "id": "sim-bda8a1502c63d001",
+     "text": "The ribosome makes the protein MAIVMGR and then the ribosome stops.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-728832836fc2889f",
-      "sha256": "728832836fc2889fb8313667c20e9dfa4ecc8e17115a0c022f5e86ff64594358",
+      "receipt_id": "sim-bda8a1502c63d001",
+      "sha256": "bda8a1502c63d001c9dce07df511d202749b255eea1ff38717a3163f17ae7000",
       "intervention_key": "atggccattgtaatgggccgctgaaagggtgcccgatag dna ribosome translat",
-      "effect_text": "The ribosome makes the protein MAIVMGR and then stops.",
+      "question": null,
+      "effect_text": "The ribosome makes the protein MAIVMGR and then the ribosome stops.",
       "outcome": "translate",
       "solver": "biology_ondevice",
       "engine": "biopython 1.84 Bio.Seq (standard table 1)",
@@ -2201,9 +2334,17 @@
        "codons": 13
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "translate"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
-        "text": "The ribosome makes the protein MAIVMGR and then stops.",
+        "text": "The ribosome makes the protein MAIVMGR and then the ribosome stops.",
         "atom": {
          "predicate": "coord",
          "args": [],
@@ -2240,15 +2381,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "translate"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -2306,20 +2441,21 @@
    "raw": null,
    "outcome": "consume",
    "primary_solver": "biology_kinetics",
-   "clause": "After 60 seconds the enzyme leaves 6.306 millimolar of substrate.",
+   "clause": "The enzyme leaves 6.306 millimolar of substrate after 60 seconds.",
    "effect_text": "The enzyme leaves 6.306 millimolar of substrate after 60 seconds.",
-   "receipt_id": "sim-26bf1555a8621f90",
-   "sha256": "26bf1555a8621f90759be6083797154a1c51c568e1ca7fd9e0e06d565a23f5a0",
+   "receipt_id": "sim-bf0cb3ac741049f4",
+   "sha256": "bf0cb3ac741049f4333c0e8dcecbe882c4fef43c0a8666f4c912a3ab7bc820e9",
    "rows": [
     {
-     "id": "sim-26bf1555a8621f90",
-     "text": "After 60 seconds the enzyme leaves 6.306 millimolar of substrate.",
+     "id": "sim-bf0cb3ac741049f4",
+     "text": "The enzyme leaves 6.306 millimolar of substrate after 60 seconds.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-26bf1555a8621f90",
-      "sha256": "26bf1555a8621f90759be6083797154a1c51c568e1ca7fd9e0e06d565a23f5a0",
+      "receipt_id": "sim-bf0cb3ac741049f4",
+      "sha256": "bf0cb3ac741049f4333c0e8dcecbe882c4fef43c0a8666f4c912a3ab7bc820e9",
       "intervention_key": "0.1 10 5 60 act and enzyme for km mm on second substrate vmax with",
+      "question": null,
       "effect_text": "The enzyme leaves 6.306 millimolar of substrate after 60 seconds.",
       "outcome": "consume",
       "solver": "biology_kinetics",
@@ -2332,6 +2468,14 @@
        "initial_rate_mM_s": 0.0667
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "consume"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
         "text": "The enzyme leaves 6.306 millimolar of substrate after 60 seconds.",
@@ -2361,15 +2505,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "consume"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -2434,20 +2572,21 @@
    "raw": null,
    "outcome": "orbit",
    "primary_solver": "astronomy_ondevice",
-   "clause": "An orbit 400 kilometers above Earth takes 92.56 minutes at 7.669 kilometers per second.",
+   "clause": "The satellite circles Earth every 92.56 minutes at 7.669 kilometers per second.",
    "effect_text": "The satellite circles Earth every 92.56 minutes at 7.669 kilometers per second.",
-   "receipt_id": "sim-dfe8165ea9b6ebf7",
-   "sha256": "dfe8165ea9b6ebf79c3d5180cd43a244cbf1a53cf72a6b9e2995e18cd8453d1e",
+   "receipt_id": "sim-34173cddc966d9a4",
+   "sha256": "34173cddc966d9a4cbf02959f26bfae1c31aa4825691335523a7efc1a66b3571",
    "rows": [
     {
-     "id": "sim-dfe8165ea9b6ebf7",
-     "text": "An orbit 400 kilometers above Earth takes 92.56 minutes at 7.669 kilometers per second.",
+     "id": "sim-34173cddc966d9a4",
+     "text": "The satellite circles Earth every 92.56 minutes at 7.669 kilometers per second.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-dfe8165ea9b6ebf7",
-      "sha256": "dfe8165ea9b6ebf79c3d5180cd43a244cbf1a53cf72a6b9e2995e18cd8453d1e",
+      "receipt_id": "sim-34173cddc966d9a4",
+      "sha256": "34173cddc966d9a4cbf02959f26bfae1c31aa4825691335523a7efc1a66b3571",
       "intervention_key": "400 at earth km orbit satellite",
+      "question": null,
       "effect_text": "The satellite circles Earth every 92.56 minutes at 7.669 kilometers per second.",
       "outcome": "orbit",
       "solver": "astronomy_ondevice",
@@ -2463,6 +2602,14 @@
        "gravity_m_s2": 8.676
       },
       "cross_check": [],
+      "causal_reason": "Gravity balances the centripetal acceleration.",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "orbit"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
         "text": "The satellite circles Earth every 92.56 minutes at 7.669 kilometers per second.",
@@ -2521,15 +2668,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "orbit"
-      },
-      "causal_reason": "Gravity balances the centripetal acceleration."
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -2593,20 +2734,21 @@
    "raw": null,
    "outcome": "measure",
    "primary_solver": "quantum_ondevice",
-   "clause": "Applying the Pauli X gate to the state 0 gives probability 0 for 0 and 1 for 1.",
+   "clause": "The qubit ends with probability 0 for 0 and 1 for 1.",
    "effect_text": "The qubit ends with probability 0 for 0 and 1 for 1.",
-   "receipt_id": "sim-d4625eca42525f2d",
-   "sha256": "d4625eca42525f2d9dc4d920abc12ef2ae526cbd4c57e0a81a1724206ebd2fed",
+   "receipt_id": "sim-49aad16706e774e7",
+   "sha256": "49aad16706e774e73ebfbdfd4c8fcdde55370e5b735a473096c9618c39df80c8",
    "rows": [
     {
-     "id": "sim-d4625eca42525f2d",
-     "text": "Applying the Pauli X gate to the state 0 gives probability 0 for 0 and 1 for 1.",
+     "id": "sim-49aad16706e774e7",
+     "text": "The qubit ends with probability 0 for 0 and 1 for 1.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-d4625eca42525f2d",
-      "sha256": "d4625eca42525f2d9dc4d920abc12ef2ae526cbd4c57e0a81a1724206ebd2fed",
+      "receipt_id": "sim-49aad16706e774e7",
+      "sha256": "49aad16706e774e73ebfbdfd4c8fcdde55370e5b735a473096c9618c39df80c8",
       "intervention_key": "0 apply gate in pauli qubit state to x",
+      "question": null,
       "effect_text": "The qubit ends with probability 0 for 0 and 1 for 1.",
       "outcome": "measure",
       "solver": "quantum_ondevice",
@@ -2628,6 +2770,14 @@
        ]
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "measure"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
         "text": "The qubit ends with probability 0 for 0 and 1 for 1.",
@@ -2666,15 +2816,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "measure"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -2736,21 +2880,22 @@
    "raw": null,
    "outcome": "measure",
    "primary_solver": "quantum_ondevice",
-   "clause": "Applying the Hadamard gate to the state 0 gives probability 0.5 for 0 and 0.5 for 1.",
-   "effect_text": "The qubit ends in an equal superposition, with probability 0.5 for 0 and 0.5 for 1.",
-   "receipt_id": "sim-026e345ab1123139",
-   "sha256": "026e345ab11231391b39387dff2a4d488e32797ba3d8353692b41c5838fc7bbc",
+   "clause": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
+   "effect_text": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
+   "receipt_id": "sim-a2c53a5b4dc1d799",
+   "sha256": "a2c53a5b4dc1d799b595d9000cc97088d2b056710c4169cac84ee834e7648887",
    "rows": [
     {
-     "id": "sim-026e345ab1123139",
-     "text": "Applying the Hadamard gate to the state 0 gives probability 0.5 for 0 and 0.5 for 1.",
+     "id": "sim-a2c53a5b4dc1d799",
+     "text": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-026e345ab1123139",
-      "sha256": "026e345ab11231391b39387dff2a4d488e32797ba3d8353692b41c5838fc7bbc",
+      "receipt_id": "sim-a2c53a5b4dc1d799",
+      "sha256": "a2c53a5b4dc1d799b595d9000cc97088d2b056710c4169cac84ee834e7648887",
       "intervention_key": "0 apply gate hadamard in qubit state to",
-      "effect_text": "The qubit ends in an equal superposition, with probability 0.5 for 0 and 0.5 for 1.",
+      "question": null,
+      "effect_text": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
       "outcome": "measure",
       "solver": "quantum_ondevice",
       "engine": "scipy 1.14.1 linalg.expm",
@@ -2771,9 +2916,17 @@
        ]
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "measure"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
-        "text": "The qubit ends in an equal superposition, with probability 0.5 for 0 and 0.5 for 1.",
+        "text": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
         "atom": {
          "predicate": "end",
          "args": [
@@ -2814,15 +2967,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "measure"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -2885,21 +3032,22 @@
    "raw": null,
    "outcome": "measure",
    "primary_solver": "quantum_ondevice",
-   "clause": "Applying a 0.5 pi Rabi pulse to the state 0 gives probability 0.5 for 0 and 0.5 for 1.",
-   "effect_text": "The qubit ends in an equal superposition, with probability 0.5 for 0 and 0.5 for 1.",
-   "receipt_id": "sim-9b77dd793ce82d61",
-   "sha256": "9b77dd793ce82d617393fbc5300c6a13e5e2459ee4af19299e5884f9dc966699",
+   "clause": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
+   "effect_text": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
+   "receipt_id": "sim-28bcc5fab052e0db",
+   "sha256": "28bcc5fab052e0dbcfe71e87c15f72afcd73ab90506579840e1daf63af962f0e",
    "rows": [
     {
-     "id": "sim-9b77dd793ce82d61",
-     "text": "Applying a 0.5 pi Rabi pulse to the state 0 gives probability 0.5 for 0 and 0.5 for 1.",
+     "id": "sim-28bcc5fab052e0db",
+     "text": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-9b77dd793ce82d61",
-      "sha256": "9b77dd793ce82d617393fbc5300c6a13e5e2459ee4af19299e5884f9dc966699",
+      "receipt_id": "sim-28bcc5fab052e0db",
+      "sha256": "28bcc5fab052e0dbcfe71e87c15f72afcd73ab90506579840e1daf63af962f0e",
       "intervention_key": "0 2 apply in pi pulse qubit rabi state to",
-      "effect_text": "The qubit ends in an equal superposition, with probability 0.5 for 0 and 0.5 for 1.",
+      "question": null,
+      "effect_text": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
       "outcome": "measure",
       "solver": "quantum_ondevice",
       "engine": "scipy 1.14.1 linalg.expm",
@@ -2920,9 +3068,17 @@
        ]
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "measure"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
-        "text": "The qubit ends in an equal superposition, with probability 0.5 for 0 and 0.5 for 1.",
+        "text": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
         "atom": {
          "predicate": "end",
          "args": [
@@ -2963,15 +3119,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "measure"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -3068,20 +3218,21 @@
    },
    "outcome": "solve",
    "primary_solver": "circuits_wasm",
-   "clause": "Putting 10 volts across the divider gives 5 volts at the output.",
+   "clause": "The output is 5 volts and the current is 5 milliamps.",
    "effect_text": "The output is 5 volts and the current is 5 milliamps.",
-   "receipt_id": "sim-3ce3d59d0aed128f",
-   "sha256": "3ce3d59d0aed128f8569e81aa822fb3fe4b66469c18f1d62f3a7df888a08dd2b",
+   "receipt_id": "sim-d7e66c16eb45dd0d",
+   "sha256": "d7e66c16eb45dd0d43f532a9a9f843f27169fe60292bf7ed244b23dea1152221",
    "rows": [
     {
-     "id": "sim-3ce3d59d0aed128f",
-     "text": "Putting 10 volts across the divider gives 5 volts at the output.",
+     "id": "sim-d7e66c16eb45dd0d",
+     "text": "The output is 5 volts and the current is 5 milliamps.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-3ce3d59d0aed128f",
-      "sha256": "3ce3d59d0aed128f8569e81aa822fb3fe4b66469c18f1d62f3a7df888a08dd2b",
+      "receipt_id": "sim-d7e66c16eb45dd0d",
+      "sha256": "d7e66c16eb45dd0d43f532a9a9f843f27169fe60292bf7ed244b23dea1152221",
       "intervention_key": "10 1k 1k acros and divider put volt voltage",
+      "question": null,
       "effect_text": "The output is 5 volts and the current is 5 milliamps.",
       "outcome": "solve",
       "solver": "circuits_wasm",
@@ -3100,6 +3251,14 @@
        "v_out": 5
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "solve"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
         "text": "The output is 5 volts and the current is 5 milliamps.",
@@ -3140,15 +3299,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "solve"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -5367,20 +5520,21 @@
    },
    "outcome": "solve",
    "primary_solver": "circuits_wasm",
-   "clause": "Charging the 1 microfarad capacitor through 1000 ohms for 5 milliseconds brings it to 4.966 volts.",
+   "clause": "The capacitor charges to 4.966 volts.",
    "effect_text": "The capacitor charges to 4.966 volts.",
-   "receipt_id": "sim-7e7b58595445b8d3",
-   "sha256": "7e7b58595445b8d3c7d99f09a5a667c8a7a5317f45ca86e59fa44b7566c473f6",
+   "receipt_id": "sim-b253b4daeac4326b",
+   "sha256": "b253b4daeac4326b36a4881bb0804f65035d4ff8956bc13b544e203b29c00c17",
    "rows": [
     {
-     "id": "sim-7e7b58595445b8d3",
-     "text": "Charging the 1 microfarad capacitor through 1000 ohms for 5 milliseconds brings it to 4.966 volts.",
+     "id": "sim-b253b4daeac4326b",
+     "text": "The capacitor charges to 4.966 volts.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-7e7b58595445b8d3",
-      "sha256": "7e7b58595445b8d3c7d99f09a5a667c8a7a5317f45ca86e59fa44b7566c473f6",
+      "receipt_id": "sim-b253b4daeac4326b",
+      "sha256": "b253b4daeac4326b36a4881bb0804f65035d4ff8956bc13b544e203b29c00c17",
       "intervention_key": "1 1k 5 5 capacitor charge for from ms resistor through uf volt",
+      "question": null,
       "effect_text": "The capacitor charges to 4.966 volts.",
       "outcome": "solve",
       "solver": "circuits_wasm",
@@ -5401,6 +5555,14 @@
        "v_out_at_tau": 3.1665
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "solve"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
         "text": "The capacitor charges to 4.966 volts.",
@@ -5429,15 +5591,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "solve"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -5613,20 +5769,21 @@
    },
    "outcome": "fall",
    "primary_solver": "mujoco_wasm",
-   "clause": "Dropping the ball from 20 meters makes it fall.",
+   "clause": "You drop the ball from 20 meters.",
    "effect_text": "The ball falls.",
-   "receipt_id": "sim-2b6c1512b332d2af",
-   "sha256": "2b6c1512b332d2af98b151e1136e18e63a2c45e1db0559fe3eefb5edb16728a6",
+   "receipt_id": "sim-98d7a1963a4e151e",
+   "sha256": "98d7a1963a4e151e715cbaf0a9a99d81a5fc29485c6dc30965ea76114719c4d8",
    "rows": [
     {
-     "id": "sim-2b6c1512b332d2af",
-     "text": "Dropping the ball from 20 meters makes it fall.",
+     "id": "sim-98d7a1963a4e151e",
+     "text": "You drop the ball from 20 meters.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-2b6c1512b332d2af",
-      "sha256": "2b6c1512b332d2af98b151e1136e18e63a2c45e1db0559fe3eefb5edb16728a6",
+      "receipt_id": "sim-98d7a1963a4e151e",
+      "sha256": "98d7a1963a4e151e715cbaf0a9a99d81a5fc29485c6dc30965ea76114719c4d8",
       "intervention_key": "20 ball drop from meter",
+      "question": null,
       "effect_text": "The ball falls.",
       "outcome": "fall",
       "solver": "mujoco_wasm",
@@ -5646,6 +5803,22 @@
        "first_contact_s": 2.02
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "ball",
+       "surface": "table"
+      },
+      "state_after": {
+       "motion": "fall",
+       "tilt_deg": 0,
+       "support": "contact",
+       "patient": "ball",
+       "surface": "table"
+      },
+      "patient": "ball",
       "spoken_atoms": [
        {
         "text": "The ball falls.",
@@ -5675,23 +5848,9 @@
         }
        }
       ],
-      "patient": "ball",
-      "state_before": {
-       "motion": "rest",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "ball",
-       "surface": "table"
-      },
-      "state_after": {
-       "motion": "fall",
-       "tilt_deg": 0,
-       "support": "contact",
-       "patient": "ball",
-       "surface": "table"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -5739,20 +5898,21 @@
    "raw": null,
    "outcome": "decay",
    "primary_solver": "chemistry_kinetics",
-   "clause": "After 10 seconds the reactant concentration falls to 0.3679 moles per liter.",
+   "clause": "The concentration falls to 0.3679 moles per liter after 10 seconds.",
    "effect_text": "The concentration falls to 0.3679 moles per liter after 10 seconds.",
-   "receipt_id": "sim-e8dd1a58a3756ecd",
-   "sha256": "e8dd1a58a3756ecdd069f83c250dfbee66980fd6c947a566c7671d7d6ee7e628",
+   "receipt_id": "sim-b127548d15340a1d",
+   "sha256": "b127548d15340a1d94f9584267e5b957fe1d7c681537b0c680df3be39f8fe293",
    "rows": [
     {
-     "id": "sim-e8dd1a58a3756ecd",
-     "text": "After 10 seconds the reactant concentration falls to 0.3679 moles per liter.",
+     "id": "sim-b127548d15340a1d",
+     "text": "The concentration falls to 0.3679 moles per liter after 10 seconds.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-e8dd1a58a3756ecd",
-      "sha256": "e8dd1a58a3756ecdd069f83c250dfbee66980fd6c947a566c7671d7d6ee7e628",
+      "receipt_id": "sim-b127548d15340a1d",
+      "sha256": "b127548d15340a1d94f9584267e5b957fe1d7c681537b0c680df3be39f8fe293",
       "intervention_key": "0.1 1 10 at constant for l mol rate reactant second wait with",
+      "question": null,
       "effect_text": "The concentration falls to 0.3679 moles per liter after 10 seconds.",
       "outcome": "decay",
       "solver": "chemistry_kinetics",
@@ -5767,6 +5927,14 @@
        "steps": 30
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "decay"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
         "text": "The concentration falls to 0.3679 moles per liter after 10 seconds.",
@@ -5805,15 +5973,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "decay"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
@@ -5909,21 +6071,22 @@
    },
    "outcome": "solve",
    "primary_solver": "circuits_wasm",
-   "clause": "Putting 12 volts across the resistors draws 2 milliamps.",
-   "effect_text": "The current is 2 milliamps through 6000 ohms in total.",
-   "receipt_id": "sim-527aa64c610be57b",
-   "sha256": "527aa64c610be57bd074a8e18a5ae443936331a9d0576141c0400127db50a11f",
+   "clause": "The current is 2 milliamps through 6000 ohms.",
+   "effect_text": "The current is 2 milliamps through 6000 ohms.",
+   "receipt_id": "sim-f8e116051aceed44",
+   "sha256": "f8e116051aceed4459c469b65512fe8619bb2b704c1c82ce50c96048536b6235",
    "rows": [
     {
-     "id": "sim-527aa64c610be57b",
-     "text": "Putting 12 volts across the resistors draws 2 milliamps.",
+     "id": "sim-f8e116051aceed44",
+     "text": "The current is 2 milliamps through 6000 ohms.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-527aa64c610be57b",
-      "sha256": "527aa64c610be57bd074a8e18a5ae443936331a9d0576141c0400127db50a11f",
+      "receipt_id": "sim-f8e116051aceed44",
+      "sha256": "f8e116051aceed4459c469b65512fe8619bb2b704c1c82ce50c96048536b6235",
       "intervention_key": "12 2k 4k acros and in put resistor seri volt",
-      "effect_text": "The current is 2 milliamps through 6000 ohms in total.",
+      "question": null,
+      "effect_text": "The current is 2 milliamps through 6000 ohms.",
       "outcome": "solve",
       "solver": "circuits_wasm",
       "engine": "ngspice via eecircuit-engine 1.9.0 (WASM, on device)",
@@ -5940,9 +6103,17 @@
        "total_resistance_ohm": 6000
       },
       "cross_check": [],
+      "causal_reason": "",
+      "state_before": {
+       "motion": "rest"
+      },
+      "state_after": {
+       "motion": "solve"
+      },
+      "patient": null,
       "spoken_atoms": [
        {
-        "text": "The current is 2 milliamps through 6000 ohms in total.",
+        "text": "The current is 2 milliamps through 6000 ohms.",
         "atom": {
          "predicate": "is",
          "args": [
@@ -5950,7 +6121,14 @@
           "2 milliamps"
          ],
          "polarity": "pos",
-         "tense": "present"
+         "tense": "present",
+         "modifiers": [
+          {
+           "role": "karana",
+           "prep": "through",
+           "text": "6000 ohms"
+          }
+         ]
         },
         "role": "effect",
         "verbatim": false,
@@ -5962,15 +6140,9 @@
         }
        }
       ],
-      "patient": null,
-      "state_before": {
-       "motion": "rest"
-      },
-      "state_after": {
-       "motion": "solve"
-      },
-      "causal_reason": ""
-     }
+      "may_store_as_fact": false
+     },
+     "may_store_as_fact": false
     }
    ],
    "where": "on_device",
