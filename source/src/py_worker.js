@@ -61,7 +61,7 @@ async function fetchWheel(url, w, cache) {
 }
 async function wheelBytes(w, cacheName) {
   let cache = null; try { cache = await caches.open(cacheName); } catch (e) { cache = null; }
-  const urls = [w.url].concat(w.remote && w.remote !== w.url ? [w.remote] : []);
+  const urls = [w.url].concat(w.remote && w.remote !== w.url ? [w.remote] : []).concat(w.mirror && w.mirror !== w.url && w.mirror !== w.remote ? [w.mirror] : []);
   let last = new Error('forge_libs_unreachable_' + w.name);
   for (const url of urls) {
     try { return await fetchWheel(url, w, cache); } catch (e) { last = e; }
