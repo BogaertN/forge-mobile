@@ -92,6 +92,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. A push ramps with weight. The reason is the first measured limit, friction or restoring torque."
+    },
+    {
+      "version": "4.9.271",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. Admitted group (fraction*height*mu)/radius, threshold 1.000. Twenty new scenes: 19 agree with the measurement."
     }
   ]
 }

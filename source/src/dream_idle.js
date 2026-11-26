@@ -1136,7 +1136,7 @@
         const Rec = isNode ? require('./sim_receipts.js') : root.KSimReceipts;
         if (Mech && Rec && Mech.induce) {
           const found = Mech.induce(Rec.list());
-          mechanisms = { proposals: (found.proposals || []).map(p => ({ id: p.id, expression: p.expression, status: p.status, fact: false })), calls_llm: false, changes_gates: false };
+          mechanisms = { proposals: (found.proposals || []).map(p => ({ id: p.id, expression: p.expression, status: p.status, fact: false })), next: Mech.nextScenes ? Mech.nextScenes(found.proposals) : [], calls_llm: false, changes_gates: false };
         }
       } catch (e) { mechanisms = null; }
       const cold = revisitCold(o);
