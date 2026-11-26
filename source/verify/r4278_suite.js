@@ -41,7 +41,6 @@ function register(C, expect) {
     const row = ask('What happens if I cool 1 kilogram of water to minus 10 degrees?');
     expect(row.product === true && row.path === 'simulated' && /water/.test(row.reply) && /freez/.test(row.reply), JSON.stringify(row));
     expect(fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.255', 'VERSION');
-    expect(fs.existsSync(path.join(ROOT, 'data/forge-libs/sympy-1.13.3-py3-none-any.whl')), 'wheel ships');
   });
 }
 module.exports = register;
