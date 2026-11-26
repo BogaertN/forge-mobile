@@ -1,0 +1,252 @@
+{
+ "schema": "forge.creative_heldout/v1",
+ "not_a_golden": true,
+ "version": "4.9.265",
+ "n": 6,
+ "rows": [
+  {
+   "q": "Tell a story about a badger.",
+   "before": "I do not have a fact about the badger.",
+   "after": "After the badger burrowed, the badger that is a mammal had strong claws.",
+   "admitted": 1,
+   "single": 2,
+   "queried": 21,
+   "lexname": "noun.animal",
+   "gloss": "sturdy carnivorous burrowing mammal with strong claws",
+   "clauses": [
+    {
+     "n": 2,
+     "admitted": true,
+     "single": false,
+     "fact": true,
+     "publishers": [
+      "oewn",
+      "wikimedia"
+     ],
+     "text": "A badger is a mammal."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "A badger is a superfamily."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "Badger is family name."
+    }
+   ]
+  },
+  {
+   "q": "Tell a story about a heron.",
+   "before": "I do not have a fact about the heron.",
+   "after": "After the heron waded, the heron that is a bird had a long neck. The heron had long legs. The heron had a long bill.",
+   "admitted": 1,
+   "single": 1,
+   "queried": 21,
+   "lexname": "noun.animal",
+   "gloss": "grey or white wading bird with long neck and long legs and (usually) long bill",
+   "clauses": [
+    {
+     "n": 2,
+     "admitted": true,
+     "single": false,
+     "fact": true,
+     "publishers": [
+      "oewn",
+      "wikimedia"
+     ],
+     "text": "A heron is a bird."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "Heron is family name."
+    }
+   ]
+  },
+  {
+   "q": "Write a poem about a harbor.",
+   "before": "I do not have a fact about the harbor.",
+   "after": "The harbor is a port.",
+   "admitted": 0,
+   "single": 4,
+   "queried": 21,
+   "lexname": "noun.location",
+   "gloss": "a sheltered port where ships can take on or discharge cargo",
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "A harbor is a body."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "A harbor is a can."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "A harbor is a place."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "oewn"
+     ],
+     "text": "A harbor is a port."
+    }
+   ]
+  },
+  {
+   "q": "Write a poem about a lute.",
+   "before": "I do not have a fact about the lute.",
+   "after": "The lute is a bent.",
+   "admitted": 0,
+   "single": 3,
+   "queried": 21,
+   "lexname": "noun.artifact",
+   "gloss": "chordophone consisting of a plucked instrument having a pear-shaped body, a usually bent n",
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "oewn"
+     ],
+     "text": "A lute is a chordophone."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "A lute is a soundbox."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "A lute is an instrument."
+    }
+   ]
+  },
+  {
+   "q": "Write a poem about a cistern.",
+   "before": "I do not have a fact about the cistern.",
+   "after": "The cistern is a tank.",
+   "admitted": 0,
+   "single": 3,
+   "queried": 21,
+   "lexname": "noun.artifact",
+   "gloss": "a tank that holds the water used to flush a toilet",
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "A cistern is a receptacle."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "A cistern is a reservoir."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "oewn"
+     ],
+     "text": "A cistern is a tank."
+    }
+   ]
+  },
+  {
+   "q": "Tell a story about an otter.",
+   "before": "I do not have a fact about the otter.",
+   "after": "The otter was a mammal.",
+   "admitted": 0,
+   "single": 2,
+   "queried": 21,
+   "lexname": "noun.substance",
+   "gloss": "the fur of an otter",
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "oewn"
+     ],
+     "text": "An otter is a fur."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "wikimedia"
+     ],
+     "text": "An otter is a mammal."
+    }
+   ]
+  }
+ ]
+}

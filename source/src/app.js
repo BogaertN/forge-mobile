@@ -499,7 +499,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       const creativeFrame = window.KQFrame && KQFrame.compile ? KQFrame.compile(qtext, forge) : null;
       if (creativeFrame && creativeFrame.expressive && window.KSimDevice && KSimDevice.prepareCreative) {
         if (KSimDevice.gatherCreative) {
-          const gathered = await KSimDevice.gatherCreative(creativeFrame);
+          const gathered = await KSimDevice.gatherCreative(creativeFrame, qtext);
           if (gathered && Array.isArray(gathered.clauses)) {
             gathered.clauses.forEach(c => {
               if (c && window.KQFrame && KQFrame.clause) { try { c.clause = KQFrame.clause(c.text, forge); } catch (e) { /* the text still carries the clause */ } }

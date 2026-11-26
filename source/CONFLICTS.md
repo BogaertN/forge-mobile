@@ -1,3 +1,13 @@
+## v4.9.265 — Open sources, and a gloss split into clauses (Nic, 26 Nov 2026)
+
+**Conflict:** The phone gather never reached the network. Pyodide's HTTP is the browser, and those hosts do not send CORS headers to the page, so the worker returned nothing and the poem recited one unparsed gloss. On the node, the older connectors were asked "what is a badger?", a question most of them only answer for a planet, a chemical, or a capital. Wikipedia, Wikidata, Wiktionary, GBIF and the other open references were not connectors. A lute poem took the packing-substance sense because that sense is listed first in the extended lexicon.
+
+**Where:** The phone fetches the open sources itself and, when the browser cannot read a host, uses the user's own node or proxy (`fetchPath`). `athena_open` adds Wikidata, Wikipedia, Wiktionary, DBpedia, GBIF, the Encyclopedia of Life, PubChem descriptions and OpenStax. Wikimedia is one low-trust lineage. NASA's hosts are one publisher. A sentence is kept only when its subject is the asked name. A gloss is split into kind, property, behavior and possession clauses and realized by `grammar.js`. The sense is the one whose own words the prompt or another source actually uses.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A single source is imagery, not a fact. The creative text is not stored.
+
+Proof: `verify/r4284_suite.js`. Trace: `verify/novel_heldout/creative_265.json`.
+
 ## v4.9.264 — Athena gathers the topic before a poem (Nic, 26 Nov 2026)
 
 **Conflict:** A creative prompt composed only from facts already on the phone. Athena was asked only when nothing was stored, and only for a measured body. The seed fetch stopped after two allowlisted pages.

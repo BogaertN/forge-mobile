@@ -1015,6 +1015,86 @@
     if (frame.karma && frame.karma.clause && frame.karma.text) return { ok: true, kind: 'sentence', text: frame.karma.text };
     return { ok: false, rule: 'FORGET-NOT-A-CLAUSE' };
   }
-  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, readings, splitClauses, supplement, forgetTarget, FILLER, ADJUNCT };
+  /* A dictionary gloss is not a sentence to recite. Split it into the clauses the grammar can say:
+   * the head noun is the kind, an -ing verb is a behavior, another adjective is a property,
+   * and a with-phrase is something the noun has. */
+  function glossClauses(topic, gloss, forge) {
+    const G = (typeof module !== 'undefined' && module.exports) ? require('./grammar.js') : root.KGrammar;
+    const lex = forge && forge.lexicon;
+    const headWord = String(topic || '').trim().toLowerCase();
+    const raw = String(gloss || '').replace(/[;.].*$/, '').trim();
+    if (!G || !headWord || !raw) return [];
+    const has = (w, pos) => !!(lex && lex.hasPos && lex.hasPos(w, pos));
+    const bits = raw.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+    const relAt = bits.findIndex(w => /^(that|which|where|who|of|in)$/.test(w));
+    const withAt = bits.findIndex(w => w === 'with');
+    const cut = [relAt, withAt].filter(i => i >= 0).sort((a, b) => a - b)[0];
+    const pre = cut >= 0 ? bits.slice(0, cut) : bits.slice();
+    const after = withAt >= 0 && (relAt < 0 || withAt < relAt) ? bits.slice(withAt + 1, relAt > withAt ? relAt : undefined) : [];
+    let nounAt = -1;
+    for (let i = pre.length - 1; i >= 0; i--) if (has(pre[i], 'n') || has(pre[i].replace(/s$/, ''), 'n')) { nounAt = i; break; }
+    const kind = nounAt >= 0 ? pre[nounAt].replace(/s$/, '') : '';
+    const mods = nounAt >= 0 ? pre.slice(0, nounAt) : pre;
+    const subj = { det: 'a', head: [headWord], surface: [headWord] };
+    const be = { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' };
+    function say(clause) {
+      let text = '';
+      try { text = String(G.clauseText(clause, 'kernel') || ''); } catch (e) { text = ''; }
+      if (!text) return '';
+      const cap = text.charAt(0).toUpperCase() + text.slice(1);
+      return /[.!?]$/.test(cap) ? cap : cap + '.';
+    }
+    const out = [];
+    if (kind && kind !== headWord) out.push(say({ subj: subj, verb: be, pred: { type: 'np', np: { det: 'a', head: [kind], surface: [kind] } } }));
+    const light = { consist: 1, have: 1, use: 1, include: 1, be: 1 };
+    function ingStem(w) {
+      if (!w.endsWith('ing') || w.length < 6) return '';
+      const base = w.slice(0, -3);
+      const restored = base + 'e';
+      if (has(restored, 'v') && restored.slice(0, -1) + 'ing' === w) return restored;
+      return has(base, 'v') ? base : '';
+    }
+    mods.forEach(w => {
+      const stem = ingStem(w);
+      if (stem && !light[stem]) out.push(say({ subj: subj, verb: { lemma: stem, tense: 'present', pol: 'pos', mod: 'asserted' }, roles: {} }));
+      else if (has(w, 'a') || has(w, 's')) out.push(say({ subj: subj, verb: be, pred: { type: 'adj', words: [w] } }));
+    });
+    const parts = [];
+    let cur = [];
+    after.forEach(w => { if (w === 'and' || w === 'or') { if (cur.length) parts.push(cur); cur = []; } else cur.push(w); });
+    if (cur.length) parts.push(cur);
+    parts.forEach(part => {
+      const noun = part.filter(w => has(w, 'n') || has(w.replace(/s$/, ''), 'n')).pop();
+      if (!noun || noun.length < 3) return;
+      const adjs = [];
+      part.forEach(w => { if (w !== noun && (has(w, 'a') || has(w, 's')) && adjs.indexOf(w) < 0) adjs.push(w); });
+      const det = /s$/.test(noun) ? null : 'a';
+      out.push(say({ subj: subj, verb: { lemma: 'have', tense: 'present', pol: 'pos', mod: 'asserted' }, roles: { karma: { det: det, adjs: adjs, head: [noun], surface: [noun] } } }));
+    });
+    return out.filter(Boolean);
+  }
+  /* The head noun of a definition, as its own sentence, so two sources that both call it a bird agree. */
+  function kindSentence(topic, text, forge) {
+    const lex = forge && forge.lexicon;
+    const headWord = String(topic || '').trim().toLowerCase();
+    if (!lex || !lex.hasPos || !headWord) return '';
+    const boundary = { in: 1, of: 1, with: 1, on: 1, for: 1, from: 1, by: 1, at: 1, that: 1, which: 1, where: 1, who: 1 };
+    const meta = { member: 1, family: 1, species: 1, genus: 1, genera: 1, part: 1, kind: 1, form: 1, name: 1, group: 1, type: 1, order: 1, class: 1 };
+    const words = String(text || '').toLowerCase().match(/[a-z]+/g) || [];
+    const before = [], after = [];
+    let hit = false;
+    words.forEach(w => {
+      if (boundary[w]) { hit = true; return; }
+      let lemma = w.endsWith('s') && w.length > 4 && !w.endsWith('ss') ? w.slice(0, -1) : w;
+      if (lemma === headWord || meta[lemma] || !lex.hasPos(lemma, 'n') || lex.hasPos(lemma, 'a')) return;
+      (hit ? after : before).push(lemma);
+    });
+    const noun = (before.length ? before : after).slice(-1)[0];
+    if (!noun) return '';
+    const det = 'aeiou'.indexOf(noun.charAt(0)) >= 0 ? 'an' : 'a';
+    const sub = 'aeiou'.indexOf(headWord.charAt(0)) >= 0 ? 'An' : 'A';
+    return sub + ' ' + headWord + ' is ' + det + ' ' + noun + '.';
+  }
+  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, readings, splitClauses, supplement, forgetTarget, glossClauses, kindSentence, FILLER, ADJUNCT };
   if (isNode) module.exports = api; else root.KQFrame = api;
 })(typeof self !== 'undefined' ? self : this);
