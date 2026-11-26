@@ -192,27 +192,60 @@ def _sim_line(question: str, memory: list[dict[str, Any]]) -> dict[str, Any] | N
     text = _realize(atom) if atom else ""
     if not text:
         return None
+    from rmc_engine_v1.sim_device import _reason_struct
+    reason = _reason_struct(problem, run)
     before, after = _state_pair(problem, run)
     return {
         "id": problem.get("solver"), "text": text, "source": problem.get("solver"), "kind": "sim",
-        "outcome": run.get("outcome"), "atom": atom, "before": before, "after": after, "question": question,
+        "outcome": run.get("outcome"), "atom": atom, "reason_atom": reason,
+        "reason_text": _realize(reason) if reason else "",
+        "before": before, "after": after, "question": question,
     }
 
 
-def _math_lines(question: str) -> list[dict[str, Any]]:
+def _sim_from_receipt(sim: dict[str, Any]) -> dict[str, Any] | None:
+    """A receipt the phone already measured on its own sim path."""
+    if not isinstance(sim, dict):
+        return None
+    spoken = [x for x in (sim.get("spoken_atoms") or []) if isinstance(x, dict)]
+    effect = next((x for x in spoken if x.get("role") == "effect"), None)
+    reason = next((x for x in spoken if x.get("role") == "reason"), None)
+    text = str((effect or {}).get("text") or sim.get("effect_text") or "").strip()
+    if not text:
+        return None
+    solver = str(sim.get("solver") or "")
+    return {
+        "id": solver, "text": text, "source": solver, "kind": "sim",
+        "outcome": sim.get("outcome"), "atom": (effect or {}).get("atom"),
+        "reason_atom": (reason or {}).get("atom"),
+        "reason_text": str((reason or {}).get("text") or sim.get("causal_reason") or ""),
+        "before": sim.get("state_before"), "after": sim.get("state_after"),
+        "question": sim.get("question"),
+    }
+
+
+def _math_lines(question: str) -> tuple[list[dict[str, Any]], list[str]]:
     from rmc_engine_v1.computed_math import compute
     lines = []
+    needs: list[str] = []
     parts = re.split(r"(?<=[.!?])\s+", question)
     for part in parts:
         try:
             row = compute(part.strip())
         except Exception:
             row = None
-        if isinstance(row, dict) and row.get("status") == "ok" and row.get("sentence"):
+        if not isinstance(row, dict):
+            continue
+        if row.get("status") == "needs_libs":
+            for name in row.get("needs_libs") or []:
+                if name not in needs:
+                    needs.append(str(name))
+            continue
+        if row.get("status") == "ok" and row.get("sentence"):
             sentence = str(row["sentence"])
             if all(sentence != line["text"] for line in lines):
                 lines.append({"id": "compute", "text": sentence, "source": "computation", "kind": "math", "atom": None})
-    return lines
+    return lines, needs
 
 
 def _members(facts: list[dict[str, Any]], heads: list[str]) -> list[str]:
@@ -310,61 +343,69 @@ def _gap_line(topic: str, athena: dict[str, Any]) -> dict[str, Any]:
     return _beat(text, atom if text and atom else None, "gap", "athena", athena.get("rule"))
 
 
+def _walk_clauses(cl: Any):
+    if not isinstance(cl, dict):
+        return
+    nested = cl.get("clauses") if isinstance(cl.get("clauses"), list) and cl.get("clauses") else None
+    if nested is None and isinstance(cl.get("sentences"), list) and cl.get("sentences"):
+        nested = cl.get("sentences")
+    if nested:
+        for child in nested:
+            yield from _walk_clauses(child)
+        return
+    yield cl
+
+
 def _arc(form: str, tense: str, facts: list[dict[str, Any]], sims: list[dict[str, Any]], maths: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    from rmc_engine_v1.sim_device import _karaka
+    """Setting from the facts' own clauses, then each sim's before state and its effect.
+    'because' attaches only the solver's mechanism atom, never the before state. Repeated lines are dropped.
+    """
     beats: list[dict[str, Any]] = []
+    seen: set[str] = set()
+
+    def add(beat: dict[str, Any] | None) -> None:
+        if not beat or not beat.get("text"):
+            return
+        key = re.sub(r"\s+", " ", str(beat["text"]).strip().lower())
+        if key in seen:
+            return
+        seen.add(key)
+        beats.append(beat)
+
     for fact in facts:
-        atom = _imagery_atom(fact, tense)
-        beat = _speak_beat(atom, fact.get("text") or "", "setting", str(fact.get("source") or "fact"), fact.get("id"))
-        if beat:
-            beats.append(beat)
-    for sim in sims:
-        before = _state_atom(sim.get("before"), tense)
-        after = dict(sim["atom"]) if isinstance(sim.get("atom"), dict) else None
-        if after is not None and tense != "past":
-            after["tense"] = tense
-        if form == "lines":
-            b1 = _speak_beat(before, "", "before", str(sim.get("source") or "sim"), sim.get("id"))
-            b2 = _speak_beat(after, sim.get("text") or "", "after", str(sim.get("source") or "sim"), sim.get("id"))
-            if b1:
-                beats.append(b1)
-            if b2:
-                beats.append(b2)
-            if before and after:
-                linked = dict(after)
-                linked["sub"] = {"conj": _CONJ["transition"], "atom": before}
-                b3 = _speak_beat(linked, "", "consequence", str(sim.get("source") or "sim"), sim.get("id"))
-                if b3 and b3["text"] not in (b1["text"] if b1 else "", b2["text"] if b2 else ""):
-                    beats.append(b3)
-        else:
-            # The solver's atom keeps the tense it was measured in. Forcing a past on an
-            # irregular verb ("slide") realizes a form the grammar will not read back.
-            if before and after:
-                linked = dict(after)
-                linked["sub"] = {"conj": _CONJ["transition"], "atom": before}
-                beat = _speak_beat(linked, sim.get("text") or "", "transition", str(sim.get("source") or "sim"), sim.get("id"))
-            else:
-                beat = _speak_beat(after, sim.get("text") or "", "after", str(sim.get("source") or "sim"), sim.get("id"))
+        produced = False
+        for node in _walk_clauses(fact.get("clause") or {}):
+            if not isinstance(node, dict) or not (node.get("parsed") or node.get("kriya")):
+                continue
+            atom = _imagery_atom({"clause": node}, tense)
+            beat = _speak_beat(atom, "", "setting", str(fact.get("source") or "fact"), fact.get("id"))
             if beat:
-                beats.append(beat)
+                add(beat)
+                produced = True
+        if not produced and not sims:
+            text = str(fact.get("text") or "").strip()
+            if text and not text.lower().startswith("what "):
+                add(_beat(text, None, "setting", str(fact.get("source") or "fact"), fact.get("id")))
+    for sim in sims:
+        src = str(sim.get("source") or "sim")
+        before = _state_atom(sim.get("before"), "present")
+        effect = sim.get("atom") if isinstance(sim.get("atom"), dict) else None
+        reason = sim.get("reason_atom") if isinstance(sim.get("reason_atom"), dict) else None
+        add(_speak_beat(before, "", "before", src, sim.get("id")))
+        if effect and reason:
+            linked = dict(effect)
+            linked["sub"] = {"conj": "because", "atom": reason}
+            spoken = _speak_beat(linked, "", "transition", src, sim.get("id"))
+            if spoken:
+                add(spoken)
+            else:
+                add(_speak_beat(effect, sim.get("text") or "", "after", src, sim.get("id")))
+                add(_speak_beat(reason, sim.get("reason_text") or "", "reason", src, sim.get("id")))
+        else:
+            add(_speak_beat(effect, sim.get("text") or "", "after", src, sim.get("id")))
     for row in maths:
-        beats.append(_beat(row["text"], None, "math", "computation", "compute"))
-    if sims and form == "lines":
-        last = sims[-1]
-        patient = (last.get("before") or {}).get("patient") or (last.get("after") or {}).get("patient")
-        if patient:
-            name = str(patient)
-            if not name.lower().startswith("the "):
-                name = "the " + name
-            reason = _state_atom(last.get("before"), tense)
-            atom = _karaka(str((last.get("atom") or {}).get("predicate") or "change"), [name], tense=tense)
-            if reason:
-                atom = dict(atom)
-                atom["sub"] = {"conj": _CONJ["reason"], "atom": reason}
-            beat = _speak_beat(atom, "", "consequence", str(last.get("source") or "sim"), last.get("id"))
-            if beat and all(beat["text"] != b["text"] for b in beats):
-                beats.append(beat)
-    return [b for b in beats if b.get("text")]
+        add(_beat(row["text"], None, "math", "computation", "compute"))
+    return beats
 
 
 def _format(form: str, beats: list[dict[str, Any]]) -> str:
@@ -394,6 +435,18 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
     phone = []
     for key in ("phone", "hosted", "self"):
         phone.extend(r for r in (memory.get(key) or []) if isinstance(r, dict))
+    # A later sentence of the same question can name another remembered head ("… The methanol …").
+    qwords = set(re.findall(r"[a-z]{4,}", str(frame.get("text") or "").lower())) - {"write", "poem", "about", "what", "times", "with", "from", "that", "this", "your", "have", "does"}
+    for row in phone:
+        words = set(re.findall(r"[a-z]{4,}", str(row.get("text") or "").lower()))
+        if not (words & qwords):
+            continue
+        key = str(row.get("text") or "").strip().lower()
+        if key and all(key != str(f.get("text") or "").strip().lower() for f in facts):
+            facts.append({
+                "id": row.get("id"), "text": str(row.get("text")), "source": row.get("source") or "phone",
+                "kind": "fact", "clause": row.get("clause") if isinstance(row.get("clause"), dict) else {},
+            })
     cited = {row["text"].strip().lower() for row in facts}
     scene_rows = [r for r in phone if str(r.get("text") or "").strip().lower() in cited]
     have = {str(r.get("text") or "").strip().lower() for r in scene_rows}
@@ -405,15 +458,25 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
     from rmc_engine_v1.sim_karaka import questions_for_rows
     sims = []
     seen_solvers = set()
-    for scene in questions_for_rows(scene_rows):
-        line = _sim_line(scene, phone)
-        if not line or line.get("source") in seen_solvers:
-            continue
-        seen_solvers.add(line.get("source"))
-        sims.append(line)
-        if len(sims) >= 4:
-            break
-    maths = _math_lines(question)
+    supplied = memory.get("creative_sims") if isinstance(memory.get("creative_sims"), list) else None
+    if supplied is not None:
+        # The phone already measured these on its sim path. Do not plan again (that would need Node).
+        for row in supplied:
+            line = _sim_from_receipt(row if isinstance(row, dict) and row.get("spoken_atoms") else (row.get("sim") if isinstance(row, dict) else None))
+            if not line or not line.get("source") or line["source"] in seen_solvers:
+                continue
+            seen_solvers.add(line["source"])
+            sims.append(line)
+    elif frame.get("speech_act") != "prefer":
+        for scene in questions_for_rows(scene_rows):
+            line = _sim_line(scene, phone)
+            if not line or line.get("source") in seen_solvers:
+                continue
+            seen_solvers.add(line.get("source"))
+            sims.append(line)
+            if len(sims) >= 4:
+                break
+    maths, needs_libs = _math_lines(question)
     act = frame.get("speech_act")
     form = "lines" if act == "compose" else "prose"
     tense = "past" if act == "narrate" else "present"
@@ -433,7 +496,7 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
             return {
                 "text": gap["text"], "form": "prose", "persisted": False, "calls_llm": False,
                 "facts": facts, "sims": [], "math": [], "lines": [gap], "beats": [gap],
-                "well_formed": bool(gap.get("text")), "athena": athena,
+                "well_formed": bool(gap.get("text")), "athena": athena, "needs_libs": needs_libs,
             }
         derived = None
         if opinion.get("choice"):
@@ -445,7 +508,7 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
         return {
             "text": text, "form": "prose", "persisted": False, "calls_llm": False,
             "facts": facts, "sims": [], "math": [], "lines": lines, "beats": lines,
-            "why": opinion.get("why"), "well_formed": bool(text), "athena": athena,
+            "why": opinion.get("why"), "well_formed": bool(text), "athena": athena, "needs_libs": needs_libs,
         }
     if not facts and not sims and not maths:
         topic = heads[0] if heads else "that"
@@ -457,14 +520,20 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
             return {
                 "text": gap["text"], "form": form, "persisted": False, "calls_llm": False,
                 "facts": [], "sims": [], "math": [], "lines": [gap], "beats": [gap],
-                "well_formed": bool(gap.get("text")), "athena": athena,
+                "well_formed": bool(gap.get("text")), "athena": athena, "needs_libs": needs_libs,
             }
     beats = _arc(form, tense, facts, sims, maths)
     if not beats:
-        return None
+        topic = heads[0] if heads else "that"
+        gap = _gap_line(topic, athena or {})
+        return {
+            "text": gap["text"], "form": form, "persisted": False, "calls_llm": False,
+            "facts": facts, "sims": sims, "math": maths, "lines": [gap], "beats": [gap],
+            "well_formed": bool(gap.get("text")), "athena": athena, "needs_libs": needs_libs,
+        }
     text = _format(form, beats)
     return {
         "text": text, "form": form, "persisted": False, "calls_llm": False,
         "facts": facts, "sims": sims, "math": maths, "lines": beats, "beats": beats,
-        "well_formed": bool(text), "athena": athena,
+        "well_formed": bool(text), "athena": athena, "needs_libs": needs_libs,
     }

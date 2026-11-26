@@ -591,6 +591,7 @@ def _creative_result(question: str, piece: dict[str, Any]) -> dict[str, Any]:
         "outward": {"schema": "forge.outward/v1", "measured_text": text, "form": piece.get("form") or "prose", "sentences": sentences, "quotes": quotes[:8]},
         "world_model": {"derive": {"status": "creative", "reason": "composed from cited facts and sims", "survivor": {"how": "WM-CREATIVE", "text": text, "spoken": text}}},
         "question": question,
+        "needs_libs": piece.get("needs_libs") or None,
     }
 
 

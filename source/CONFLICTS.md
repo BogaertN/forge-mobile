@@ -1,3 +1,13 @@
+## v4.9.262 — Creative replies use the phone's sim path (Nic, 26 Nov 2026)
+
+**Conflict:** On the phone, compose() planned scene questions by starting Node and solved WASM inside the worker, so a creative reply had no simulation and no math. "Because" was attached to the before-state ("the boat slides because the boat rests") and the same clause was repeated. A library poem spoke "The height of the library is 0.758 m." "Can you integrate a function?" held, although the math grammar computes integrals.
+
+**Where:** Ask runs the phone's existing plan/WASM/Pyodide path (`KSimDevice.prepareCreative`) and passes the receipts in. SymPy is requested with `needs_libs` and loaded before the reply is shown. "Because" joins only the solver's mechanism atom (`_reason_struct`). A bare noun with both a structure sense and a collection sense, or a structure sense whose specimen is shorter than that kind, is not one measured object (`kind_accepts`). Capability verbs are `operation_lemmas()`, the arithmetic render() speaks plus the question frame's MATH_OP keys.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A creative reply is not a fact. The 0.758 m figure was the median of museum records whose titles merely contain "library" (a room and a building in WordNet, and also a collection). Two publishers agreed with each other and nothing checked the kind.
+
+Proof: `verify/r4283_suite.js`. Trace: `verify/novel_heldout/creative_262.json`.
+
 ## v4.9.261 — Creative composition from fact atoms and every solver (Nic, 26 Nov 2026)
 
 **Conflict:** Creative mode recited cited facts. The scene trigger was a word list (water, sea, tide, harbor, boat) plus "a measured height means push near the top." The arithmetic capability clause named add, subtract, multiply, and divide by hand. "Which is the better" and "would you rather" and "favorite" were not opinions. A topic with no fact stopped at a canned sentence instead of a gap.

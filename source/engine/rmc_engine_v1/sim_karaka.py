@@ -804,28 +804,22 @@ def questions_for_rows(rows: list[dict[str, Any]] | None) -> list[str]:
             continue
         text = str(row.get("text") or "").strip()
         bare = text.rstrip(".!?").strip()
+        # Emitted without compiling here. The phone's own frame compiler accepts or holds each one.
+        # Compiling inside this function would need Node, which the browser worker does not have.
         if bare.lower().startswith("what "):
-            candidate = bare if bare.endswith("?") else bare + "?"
-            reading = read(candidate, facts=props)
-            if not reading.get("hold") and reading.get("kind"):
-                add(candidate)
+            add(bare if bare.endswith("?") else bare + "?")
         elif bare:
             first = bare.split()[0].lower()
             if first in _INTERVENTION:
-                candidate = "What happens if you " + bare[0].lower() + bare[1:] + "?"
-                reading = read(candidate, facts=props)
-                if not reading.get("hold") and reading.get("kind"):
-                    add(candidate)
-            else:
-                candidate = "What happens if " + bare[0].lower() + bare[1:] + "?"
-                reading = read(candidate, facts=props)
-                if not reading.get("hold") and reading.get("kind"):
-                    add(candidate)
+                add("What happens if you " + bare[0].lower() + bare[1:] + "?")
         top = row.get("clause") if isinstance(row.get("clause"), dict) else {}
         for cl in _clause_list(top):
             if not isinstance(cl, dict):
                 continue
             head = _head(cl.get("kartr"))
+            verb = str(cl.get("kriya") or "")
+            if verb in _INTERVENTION and bare and not bare.lower().startswith("what "):
+                add("What happens if " + bare[0].lower() + bare[1:] + "?")
             if not head:
                 continue
             point = None

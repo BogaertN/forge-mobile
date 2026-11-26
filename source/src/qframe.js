@@ -485,6 +485,16 @@
     if (cur.length) pieces.push(cur.join(' '));
     return pieces.map(s => s.trim()).filter(s => s.indexOf('=') >= 0);
   }
+  function computableExpr(op, expr) {
+    const s = String(expr || '');
+    if (!s.trim()) return false;
+    if (op === 'solve' && s.indexOf('=') >= 0) return true;
+    if (/\d/.test(s)) return true;
+    if (/\b[xyzn]\b/i.test(s)) return true;
+    if (/[()^=+\-*/]/.test(s)) return true;
+    if (/\b(sin|cos|tan|ln|log|exp|sqrt)\b/i.test(s)) return true;
+    return false;
+  }
   function mathOperation(ws, lw, f) {
     const head = operationHead(lw);
     if (!head) return null;
@@ -523,11 +533,12 @@
       }
       const expr = rest.join(' ').trim();
       if (!expr) malformed = true;
+      if (!computableExpr(op, expr)) return null;
       return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: op, expr: expr, order: order, variable: variable, bounds: bounds, malformed: malformed, modality: head.modality, rule: 'QF-MATH-CALC' });
     }
     if (op === 'factor' || op === 'simplify') {
       const expr = ws.slice(k + 1).map(w => w.replace(/[?!.]+$/, '')).join(' ').trim();
-      if (!expr) return null;
+      if (!computableExpr(op, expr)) return null;
       return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: op, expr: expr, modality: head.modality, rule: op === 'factor' ? 'QF-MATH-FACTOR' : 'QF-MATH-SIMPLIFY' });
     }
     if (op === 'solve') {
@@ -539,6 +550,7 @@
       const equations = equationPieces(rest);
       if (!system && equations.length >= 2) system = true;
       const malformed = system ? equations.length < 2 : equations.length !== 1;
+      if (!computableExpr('solve', equations.join(' '))) return null;
       return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'solve', kind: system ? 'system' : 'equation', equations: equations, malformed: malformed, modality: head.modality, rule: 'QF-MATH-SOLVE' });
     }
     const expr = ws.slice(k + 1).map(w => w.replace(/[?!.]+$/, '')).join(' ').trim();

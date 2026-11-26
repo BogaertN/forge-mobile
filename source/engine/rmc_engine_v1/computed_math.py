@@ -1342,9 +1342,23 @@ _OP_LEMMA = {"add": "add", "sub": "subtract", "mul": "multiply", "div": "divide"
 
 
 def operation_lemmas() -> list[str]:
-    """Verb lemmas of the operations this grammar compiles. Not a second list in the ask path."""
+    """Verb lemmas of the operations this grammar compiles.
+
+    Arithmetic lemmas are the ones render() speaks. The rest are the keys of the question
+    frame's MATH_OP table, which is what understand() accepts as a calculus, solve, factor,
+    simplify, or convert frame. Not a second list in the ask path.
+    """
+    from pathlib import Path
     lemmas = {_OP_LEMMA[k] for k in ("add", "sub", "mul", "div")}
     lemmas.update(("square", "cube"))
+    src = Path(__file__).resolve().parents[2] / "src" / "qframe.js"
+    try:
+        text = src.read_text(encoding="utf-8")
+    except OSError:
+        text = ""
+    found = re.search(r"const MATH_OP = \{([^}]+)\}", text)
+    if found:
+        lemmas.update(re.findall(r"([A-Za-z]+)\s*:", found.group(1)))
     return sorted(lemmas)
 
 

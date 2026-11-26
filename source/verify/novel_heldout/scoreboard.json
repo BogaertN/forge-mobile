@@ -33,6 +33,13 @@
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "creative": { "n": 15, "file": "creative_261.json" },
       "note": "Standing counts are unchanged. Creative traces are separate. Nine solvers appear across those traces."
+    },
+    {
+      "version": "4.9.262",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "creative": { "n": 10, "file": "creative_262.json" },
+      "note": "Standing counts are unchanged. One poem cites four solvers and a product. A library poem is not given a tabletop height."
     }
   ]
 }
