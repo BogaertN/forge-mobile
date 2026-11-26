@@ -22,6 +22,10 @@ Older release notes say creative writing was not started (`source/CONFLICTS.md` 
 
 No generator of poems or stories. No opinion or preference reasoner. No speech act for compose, narrate, describe-as-a-scene, or prefer. No path that feeds a simulator result and a computed number into one labelled creative reply. No UI label `creative` on an ask card. A creative or opinion prompt at `53840a4` fell through Derive and was held with Echo 0.
 
+## What 4.9.266 changes
+
+A story or a poem speaks every gathered clause. The setting still uses one picture. Each remaining admitted or single-source clause is another sentence, realized by the grammar, and a clause the setting already said is not repeated. An admitted learned rule is written to local storage. Reloading the page reads it back. A counterexample still archives the rule, and the archive is what comes back.
+
 ## What 4.9.265 changes
 
 The phone fetches open reference sources in the browser. A host the browser cannot read goes through the user's own node or proxy. Wikimedia counts as one low-trust lineage, and NASA's sites count as one publisher. A gloss is split into clauses the grammar can say. The sense is chosen from list order, the prompt's words, and words that appear in another source.

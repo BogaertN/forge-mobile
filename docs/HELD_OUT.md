@@ -13,6 +13,7 @@
 | 4.9.263 | 31 | 17 | 16 | 6 |
 | 4.9.264 | 31 | 17 | 16 | 6 |
 | 4.9.265 | 31 | 17 | 16 | 6 |
+| 4.9.266 | 31 | 17 | 16 | 6 |
 
 4.9.259 auto-admits a Gilligan-clean rule. The standing set has no three-case induction, so its counts stay the same. Holds are missing physical slots, unknown substances, and unknown nouns.
 
@@ -27,6 +28,8 @@
 4.9.264 leaves this count unchanged. The gather traces are in `source/verify/novel_heldout/creative_264.json`. Thirteen connectors are queried. A clause is admitted only when two publishers agree.
 
 4.9.265 leaves this count unchanged. Fresh topics are in `source/verify/novel_heldout/creative_265.json`. Open references are fetched in the browser. A gloss is split into clauses.
+
+4.9.266 leaves this count unchanged. A creative reply speaks every gathered clause. An admitted learned rule is still there after reload.
 
 Fresh composites in `source/verify/novel_heldout/composites_259.js` (not imported by product code): 5 spoke, 1 held, n 6. The held item is the last turn of the handoff, after a new counterexample archived the rule. The earlier turns of that item spoke: induced whiskers (C 0.910, Echo 1), the stored kind sentence, the quillon push (topples), and 17% of 640 = 108.8.
 

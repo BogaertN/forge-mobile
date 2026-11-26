@@ -148,8 +148,9 @@ def _imagery_atom(fact: dict[str, Any], tense: str) -> dict[str, Any] | None:
         pol = "neg" if cl.get("polarity") == "neg" else "pos"
         args = [subject, karma_text] if karma_text else [subject]
         return _karaka(verb, args, polarity=pol, tense=tense, modifiers=mods or None)
-    if pred.get("text"):
-        return _karaka("be", [subject, str(pred.get("text"))], tense=tense)
+    if pred.get("text") or pred.get("head") or pred.get("words"):
+        right = pred.get("text") or pred.get("head") or " ".join(pred.get("words") or [])
+        return _karaka("be", [subject, str(right)], tense=tense)
     return None
 
 
@@ -588,6 +589,26 @@ def _arc(form: str, tense: str, facts: list[dict[str, Any]], sims: list[dict[str
         args = [who, ev["karma"]] if ev.get("karma") else [who]
         from rmc_engine_v1.sim_device import _karaka
         add(_speak_beat(_karaka(ev["verb"], args, polarity=ev["pol"], tense=tense), "", "setting", "fact", None))
+    # Every admitted and single-source clause is a line. The setting used one of them; the rest stay.
+    spoken = " ".join(b.get("text") or "" for b in beats).lower()
+
+    def already(text: str) -> bool:
+        words = [w for w in re.findall(r"[a-z]{4,}", text.lower()) if w != (topic or "")]
+        if not words:
+            return text.lower() in spoken
+        return all(any(w[:4] == got[:4] or got.startswith(w[:4]) for got in spoken.split()) for w in words)
+
+    for fact in facts:
+        if fact.get("source") != "athena":
+            continue
+        if not (fact.get("admitted") or fact.get("single_source") or fact.get("kind") == "imagery"):
+            continue
+        text = str(fact.get("text") or "").strip()
+        if not text or already(text):
+            continue
+        atom = _imagery_atom(fact, tense)
+        add(_speak_beat(atom, text, "imagery", "athena", fact.get("id")))
+        spoken = " ".join(b.get("text") or "" for b in beats).lower()
     for sim in sims:
         src = str(sim.get("source") or "sim")
         before = _state_atom(sim.get("before"), "present")

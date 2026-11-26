@@ -61,6 +61,13 @@
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "creative": { "n": 6, "file": "creative_265.json" },
       "note": "Standing counts are unchanged. Open references are fetched in the browser. A gloss is split into clauses. Wikimedia is one lineage."
+    },
+    {
+      "version": "4.9.266",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "creative": { "n": 1, "file": "creative_266.json" },
+      "note": "Standing counts are unchanged. A creative reply speaks every gathered clause. An admitted learned rule survives reload, and a retraction still archives it."
     }
   ]
 }

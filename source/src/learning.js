@@ -5,13 +5,47 @@
   'use strict';
   const isNode = typeof module !== 'undefined' && module.exports;
   const SCHEMA = 'forge.learning/v1';
+  const KEY = 'forge.learning.v1';
   const MIN_SUPPORT = 3;
   const CLOSED = { the: 1, a: 1, an: 1, is: 1, are: 1, was: 1, were: 1, do: 1, does: 1, did: 1, you: 1, i: 1, we: 1, to: 1, of: 1, in: 1, on: 1, at: 1, before: 1, after: 1, and: 1, or: 1, not: 1, no: 1, have: 1, has: 1, had: 1 };
   let MEM = null;
+  let DISK = null;
   function blank() { return { schema: SCHEMA, frames: [], rules: [], ledger: [], calibration: [], hosted: [], calls_llm: false, changes_gates: false }; }
-  function load() { return MEM && MEM.schema === SCHEMA ? MEM : (MEM = blank()); }
-  function save(doc) { MEM = Object.assign(blank(), doc, { schema: SCHEMA, calls_llm: false, changes_gates: false }); return MEM; }
-  function clear() { MEM = blank(); return { ok: true }; }
+  function backend() {
+    if (!isNode) {
+      try {
+        localStorage.setItem(KEY + '.probe', '1');
+        localStorage.removeItem(KEY + '.probe');
+        return { get: k => localStorage.getItem(k), set: (k, v) => localStorage.setItem(k, v), del: k => localStorage.removeItem(k) };
+      } catch (e) { return null; }
+    }
+    if (!DISK) DISK = {};
+    return { get: k => (Object.prototype.hasOwnProperty.call(DISK, k) ? DISK[k] : null), set: (k, v) => { DISK[k] = String(v); }, del: k => { delete DISK[k]; } };
+  }
+  function load() {
+    if (MEM && MEM.schema === SCHEMA) return MEM;
+    const b = backend();
+    if (b) {
+      try {
+        const v = JSON.parse(b.get(KEY) || 'null');
+        if (v && v.schema === SCHEMA) return (MEM = v);
+      } catch (e) { /* a torn record starts empty; the next save replaces it */ }
+    }
+    return (MEM = blank());
+  }
+  function save(doc) {
+    MEM = Object.assign(blank(), doc, { schema: SCHEMA, calls_llm: false, changes_gates: false });
+    const b = backend();
+    if (b) { try { b.set(KEY, JSON.stringify(MEM)); } catch (e) { /* the in-memory copy still holds this turn */ } }
+    return MEM;
+  }
+  function clear() {
+    MEM = blank();
+    const b = backend();
+    if (b) { try { b.del(KEY); } catch (e) { /* an empty memory is the cleared store */ } }
+    return { ok: true };
+  }
+  function reload() { MEM = null; return load(); }
   function norm(t) { return String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, ''); }
   function head(np) {
     if (!np) return '';
@@ -268,7 +302,7 @@
     };
   }
   const api = {
-    SCHEMA, MIN_SUPPORT, clear, induce, gilligan, settle, admittedIds, ledger, list, noteCorrection, noteTurn, validateReplay, admitFrame, retractFrame, applyFrame,
+    SCHEMA, MIN_SUPPORT, clear, reload, induce, gilligan, settle, admittedIds, ledger, list, noteCorrection, noteTurn, validateReplay, admitFrame, retractFrame, applyFrame,
     noteAdmitted, label, calibrationReport, proposeStricter, supersedeHosted, ageHosted, admittedIds, closeLoop, load
   };
   if (isNode) module.exports = api; else root.KLearning = api;

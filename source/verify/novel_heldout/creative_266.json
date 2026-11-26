@@ -1,0 +1,21 @@
+{
+  "version": "4.9.266",
+  "note": "A fresh topic. Before, the phone spoke one gathered sentence. After, every admitted and single-source clause is in the story. The creative text is not stored.",
+  "topics": [
+    {
+      "topic": "ibis",
+      "prompt": "Tell a story about an ibis.",
+      "before": "The ibis was a bird.",
+      "after": "After the ibis waded, the ibis that is a bird had a long bill. The ibis was white.",
+      "clauses": [
+        "An ibis is a bird.",
+        "An ibis wades.",
+        "An ibis has a long bill.",
+        "An ibis is white."
+      ],
+      "admitted": 1,
+      "single_source": 3,
+      "write": false
+    }
+  ]
+}

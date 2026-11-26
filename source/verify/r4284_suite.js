@@ -1,4 +1,4 @@
-/* 4.9.265: a creative topic gathers every Athena source before it is composed. */
+/* 4.9.266: a creative topic gathers every Athena source before it is composed. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
@@ -78,6 +78,20 @@ print(json.dumps(gather("heron", documents=docs, lexicon=False)))
     const admitted = (poem.facts || []).find(f => f.fact === true);
     expect(admitted && admitted.n === 2 && single && single.fact === false, JSON.stringify(poem.facts));
     expect(poem.gather && poem.gather.admitted >= 1 && poem.gather.single >= 1 && poem.gather.creative_persisted === false, JSON.stringify(poem.gather));
+  });
+  C('R4284', 'a story speaks every gathered clause, admitted and single-source', () => {
+    const gathered = {
+      topic: 'badger', admitted: 1, single: 3, queried: ['oewn', 'wikipedia'], creative_persisted: false,
+      clauses: [
+        { text: 'A badger is a mammal.', admitted: true, fact: true, single_source: false, source_count: 2, publishers: ['oewn', 'wikimedia'] },
+        { text: 'A badger burrows.', admitted: false, fact: false, single_source: true, source_count: 1, publishers: ['oewn'] },
+        { text: 'A badger has strong claws.', admitted: false, fact: false, single_source: true, source_count: 1, publishers: ['oewn'] },
+        { text: 'A badger is carnivorous.', admitted: false, fact: false, single_source: true, source_count: 1, publishers: ['oewn'] }
+      ]
+    };
+    const story = ask('Tell a story about a badger.', [], gathered);
+    expect(story.route === 'creative' && story.write === false, JSON.stringify(story));
+    expect(/mammal/.test(story.reply || '') && /burrow/.test(story.reply || '') && /claw/.test(story.reply || '') && /carnivorous/.test(story.reply || ''), story.reply);
   });
   C('R4284', 'a gloss becomes separate clauses and a later sense wins when a source uses its words', () => {
     const f = forge();
