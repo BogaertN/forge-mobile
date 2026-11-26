@@ -8,6 +8,7 @@ That clause is marked single-source and is not a fact. The creative text is not 
 from __future__ import annotations
 
 import json
+import re
 import threading
 import time
 import urllib.error
@@ -16,6 +17,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError
 from pathlib import Path
 from typing import Any, Callable
 
+from rmc_engine_v1.athena_open import OPEN, fetch_one, lineage_of, low_trust
 from rmc_engine_v1.athena_props import kind_accepts
 from rmc_engine_v1.athena_sources_222 import FetchMiss, UA
 from rmc_engine_v1.athena_sources_223 import FETCHERS, render_gloss, source_rows
@@ -162,6 +164,30 @@ def topic_atoms(topic: str) -> list[dict[str, str]]:
     return found[:6]
 
 
+def _atoms_from_gloss(head: str, gloss: str) -> list[dict[str, str]]:
+    found: list[dict[str, str]] = []
+    seen = {head}
+
+    def add(role: str, word: str) -> None:
+        w = str(word or "").strip().lower()
+        if not w or w in seen or w in _STOP or " " in w:
+            return
+        seen.add(w)
+        found.append({"role": role, "head": w})
+
+    for raw in str(gloss or "").lower().replace(";", " ").replace(",", " ").split():
+        word = "".join(ch for ch in raw if ch.isalpha())
+        if len(word) < 3 or word in _STOP or word == head:
+            continue
+        if _verb(word) and not any(entry and entry[0] in {"a", "s"} for entry in _entries(word)):
+            add("behavior", word)
+            continue
+        other = _noun(word)
+        if other and _ROLE.get(other[1]):
+            add(_ROLE[other[1]], word)
+    return found[:6]
+
+
 def _local_docs(topic: str, atoms: list[dict[str, str]]) -> list[dict[str, Any]]:
     docs = []
     heads = [topic]
@@ -289,27 +315,95 @@ def fan_out(questions: list[str], http: Http | None = None, timeout: float = 2.5
     return {"documents": kept, "errors": errors[:24], "queried": [sid for sid, _row in rows], "calls_llm": False}
 
 
+def _lineage(doc: dict[str, Any]) -> str:
+    if doc.get("lineage"):
+        return str(doc["lineage"])
+    return lineage_of(str(doc.get("source_id") or ""), str(doc.get("publisher") or ""))
+
+
 def _publishers(cluster: list[dict[str, Any]]) -> tuple[int, list[str]]:
+    """One lineage is one publisher. A low-trust lineage counts only beside a trusted one."""
     trusted: list[str] = []
-    candidate: list[str] = []
+    low: list[str] = []
     for doc in cluster:
-        pub = str(doc.get("publisher") or "").strip()
-        if not pub or pub.lower() in {"wikipedia", "wikidata"}:
+        lin = _lineage(doc)
+        if not lin:
             continue
-        if doc.get("counts", True):
-            if pub not in trusted:
-                trusted.append(pub)
-        elif pub not in candidate:
-            candidate.append(pub)
+        trusted_doc = doc.get("counts", True) and not low_trust(lin)
+        bucket = trusted if trusted_doc else low
+        if lin not in bucket and lin not in trusted:
+            bucket.append(lin)
     names = list(trusted)
-    # A source that does not count on its own still counts once a trusted publisher agrees.
     if trusted:
-        for pub in candidate:
-            if pub not in names:
-                names.append(pub)
-    elif candidate:
-        names = candidate[:1]
+        for lin in low:
+            if lin not in names:
+                names.append(lin)
+    elif low:
+        names = low[:1]
     return len(names), names
+
+
+_META_NOUNS = {"member", "family", "species", "genus", "genera", "part", "kind", "form", "name", "group", "type", "order", "class", "one"}
+
+
+def _pred_nouns(sentence: str, topic: str) -> list[str]:
+    """Nouns in the predicate. Two definitions agree when they share one that is not the topic."""
+    trial = sentence
+    plural = topic.lower() + "s"
+    if re.search(r"\b" + re.escape(plural) + r"\b", sentence, flags=re.I) and re.search(r"\bare\b", sentence, flags=re.I):
+        trial = re.sub(r"\b" + re.escape(plural) + r"\b", topic, sentence, count=1, flags=re.I)
+        trial = re.sub(r"\bare\b", "is", trial, count=1, flags=re.I)
+    fit = claim_of("What is a " + topic + "?", trial)
+    if not fit or not fit.get("ok") or fit.get("slot") != "identity":
+        return []
+    karma = str(fit.get("claim") or "").split("|", 2)[-1]
+    boundary = {"in", "of", "with", "on", "for", "from", "by", "at", "that", "which", "where", "who"}
+
+    def lemma_of(word: str) -> str:
+        if word.endswith("s") and len(word) > 4 and not word.endswith("ss"):
+            return word[:-1]
+        return word
+
+    def usable(word: str) -> str:
+        lemma = lemma_of(word)
+        if lemma in _STOP or lemma == topic.lower() or lemma in _META_NOUNS or not _noun(lemma):
+            return ""
+        if any(entry and entry[0] in {"a", "s"} for entry in _entries(lemma)):
+            return ""
+        return lemma
+
+    before, after = [], []
+    hit = False
+    for word in re.findall(r"[a-z]+", karma.lower()):
+        if word in boundary:
+            hit = True
+            continue
+        lemma = usable(word)
+        if not lemma:
+            continue
+        (after if hit else before).append(lemma)
+    return (before or after)[-1:]
+
+
+def _pred_head(sentence: str, topic: str) -> str:
+    """The predicate's head noun, so 'a mammal' and 'a burrowing mammal' are one claim."""
+    trial = sentence
+    plural = topic.lower() + "s"
+    if plural in sentence.lower() and " are " in sentence.lower():
+        trial = re.sub(r"\b" + re.escape(plural) + r"\b", topic, sentence, count=1, flags=re.I)
+        trial = re.sub(r"\bare\b", "is", trial, count=1, flags=re.I)
+    fit = claim_of("What is a " + topic + "?", trial)
+    if not fit or not fit.get("ok") or fit.get("slot") != "identity":
+        return ""
+    karma = str(fit.get("claim") or "").split("|", 2)[-1]
+    words = re.findall(r"[a-z]+", karma.lower())
+    kept = [word for word in words if word not in _STOP and word not in {"in", "of", "with", "on", "for", "from", "by", "at"} and word != topic.lower()]
+    if not kept:
+        return ""
+    head = kept[-1]
+    if head.endswith("s") and len(head) > 4 and not head.endswith("ss"):
+        head = head[:-1]
+    return head
 
 
 def _height(sentence: str) -> float | None:
@@ -342,21 +436,41 @@ def admit_documents(topic: str, documents: list[dict[str, Any]]) -> list[dict[st
         if not isinstance(doc, dict) or not doc.get("text"):
             continue
         question = str(doc.get("asked") or ("What is a " + topic + "?"))
+        named = re.match(r"(?i)^what is an?\s+(.+?)\??$", question.strip())
+        subject = named.group(1).strip().lower() if named else topic
         for sentence in [s.strip() for s in str(doc["text"]).split(". ") if s.strip()][:4]:
             if not sentence.endswith("."):
                 sentence += "."
-            fit = claim_of(question, sentence)
-            if not fit or not fit.get("ok") or not fit.get("claim"):
+            if subject and not re.search(r"\b" + re.escape(subject) + r"(es|s)?\b", sentence.lower()):
+                continue
+            asked = "What is a " + subject + "?"
+            fit = claim_of(asked, sentence)
+            if _height(sentence) is not None:
+                keys = [str(fit["claim"])] if fit and fit.get("ok") and fit.get("claim") else []
+            else:
+                nouns = _pred_nouns(sentence, subject)
+                keys = ["kind|" + subject + "|" + nouns[0]] if nouns else []
+                if not keys and fit and fit.get("ok") and fit.get("claim"):
+                    keys = [str(fit["claim"])]
+            if not keys:
                 continue
             row = dict(doc)
             row["text"] = sentence
-            clusters.setdefault(str(fit["claim"]), []).append(row)
+            for key in keys:
+                clusters.setdefault(key, []).append(row)
     clauses = []
     for claim, cluster in clusters.items():
         k, names = _publishers(cluster)
         if k < 1:
             continue
-        text = cluster[0]["text"]
+        if claim.startswith("kind|"):
+            noun = claim.split("|")[-1]
+            subject = claim.split("|")[1]
+            det = "an" if noun[:1] in "aeiou" else "a"
+            sub = "An" if subject[:1] in "aeiou" else "A"
+            text = sub + " " + subject + " is " + det + " " + noun + "."
+        else:
+            text = cluster[0]["text"]
         head = topic
         asked = str(cluster[0].get("asked") or "")
         if asked.lower().startswith("what is a "):
@@ -385,35 +499,146 @@ def admit_documents(topic: str, documents: list[dict[str, Any]]) -> list[dict[st
             "calls_llm": False,
         })
     clauses.sort(key=lambda c: (not c["admitted"], -c["source_count"], c["text"]))
-    return clauses
+    seen_text: set[str] = set()
+    unique = []
+    for row in clauses:
+        key = row["text"].strip().lower()
+        if key in seen_text:
+            continue
+        seen_text.add(key)
+        unique.append(row)
+    return unique
+
+
+def noun_senses(word: str) -> list[dict[str, str]]:
+    names = (_lex().get("meta") or {}).get("lexnames") or []
+    out = []
+    for entry in _entries(word):
+        if not entry or entry[0] != "n" or not entry[1]:
+            continue
+        for item in entry[1]:
+            if not item:
+                continue
+            kind = names[item[1]] if isinstance(item[1], int) and item[1] < len(names) else ""
+            out.append({"sid": str(item[0]), "lexname": str(kind), "gloss": str(item[2] or "")})
+    return out
+
+
+def choose_sense(word: str, prompt: str = "", texts: list[str] | None = None) -> dict[str, str] | None:
+    """Frequency is list order. A later sense wins when the prompt or another source uses its own words."""
+    senses = noun_senses(word)
+    if not senses:
+        return None
+    prompt_words = {w for w in re.findall(r"[a-z]{4,}", str(prompt or "").lower()) if w not in _STOP and w != word}
+    person_cue = bool(prompt_words & {"born", "mathematician", "resident", "inventor", "native", "professor"})
+    blobs = [str(t or "").lower() for t in (texts or [])]
+    best = None
+    best_score = -1
+    for index, sense in enumerate(senses):
+        words = {w for w in re.findall(r"[a-z]{4,}", sense["gloss"].lower()) if w not in _STOP}
+        others: set[str] = set()
+        for j, other in enumerate(senses):
+            if j != index:
+                others.update(re.findall(r"[a-z]{4,}", other["gloss"].lower()))
+        distinctive = words - others - _STOP
+        votes = sum(1 for blob in blobs if any(w in blob for w in distinctive))
+        context = sum(1 for w in prompt_words if w in words)
+        frequency = len(senses) - index
+        if sense["lexname"] == "noun.person" and not person_cue and len(senses) > 1:
+            frequency = 0
+        score = frequency + context * 3 + votes * 5
+        if score > best_score:
+            best, best_score = sense, score
+    return best
+
+
+def _open_fan(topic: str, http: Http | None, timeout: float, budget: float) -> dict[str, Any]:
+    getter = http or (lambda url: _http_once(url, timeout))
+    docs: list[dict[str, Any]] = []
+    errors: list[dict[str, str]] = []
+
+    def run(sid: str) -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
+        try:
+            got = fetch_one(sid, topic, getter)
+        except Exception as exc:
+            return [], [{"source": sid, "error": type(exc).__name__}]
+        rows = []
+        for doc in got or []:
+            doc = dict(doc)
+            doc["asked"] = "What is a " + topic + "?"
+            rows.append(doc)
+        return rows, []
+
+    try:
+        pool = ThreadPoolExecutor(max_workers=min(6, len(OPEN)))
+    except Exception:
+        pool = None
+    if pool is None:
+        for sid in OPEN:
+            got, err = run(sid)
+            docs.extend(got)
+            errors.extend(err)
+    else:
+        futs = [pool.submit(run, sid) for sid in OPEN]
+        try:
+            for fut in as_completed(futs, timeout=budget):
+                try:
+                    got, err = fut.result()
+                    docs.extend(got)
+                    errors.extend(err)
+                except Exception as exc:
+                    errors.append({"source": "open", "error": type(exc).__name__})
+        except TimeoutError:
+            for fut in futs:
+                fut.cancel()
+        try:
+            pool.shutdown(wait=False, cancel_futures=True)
+        except TypeError:
+            pool.shutdown(wait=False)
+    return {"documents": docs, "errors": errors, "queried": list(OPEN)}
 
 
 def gather(topic: str, http: Http | None = None, documents: list[dict[str, Any]] | None = None,
-           timeout: float = 2.5, budget: float = 12.0, lexicon: bool = True, network: bool | None = None) -> dict[str, Any]:
+           timeout: float = 2.5, budget: float = 12.0, lexicon: bool = True, network: bool | None = None,
+           prompt: str = "") -> dict[str, Any]:
     head = str(topic or "").strip().lower()
-    try:
-        atoms = topic_atoms(head)
-    except Exception:
-        atoms = []
-    questions = []
-    for word in [head] + [a["head"] for a in atoms if a.get("role") != "behavior"]:
-        q = "What is a " + word + "?"
-        if word and q not in questions:
-            questions.append(q)
+    # One question, the topic's name. The old connectors do not answer "what is" for every atom.
+    questions = ["What is a " + head + "?"] if head else []
     do_net = (documents is None) if network is None else bool(network)
     remote = {"documents": [], "errors": [], "queried": []}
     if do_net:
         try:
-            remote = fan_out(questions, http=http, timeout=timeout, budget=budget)
+            remote = fan_out(questions, http=http, timeout=timeout, budget=max(4.0, budget / 2))
         except Exception as exc:
             remote = {"documents": [], "errors": [{"source": "gather", "error": type(exc).__name__ + ": " + str(exc)[:80]}], "queried": []}
+        try:
+            opened = _open_fan(head, http, timeout, budget)
+        except Exception as exc:
+            opened = {"documents": [], "errors": [{"source": "open", "error": type(exc).__name__}], "queried": list(OPEN)}
+        remote["documents"] = list(remote.get("documents") or []) + list(opened.get("documents") or [])
+        remote["errors"] = list(remote.get("errors") or []) + list(opened.get("errors") or [])
+        remote["queried"] = list(remote.get("queried") or []) + [s for s in opened.get("queried") or [] if s not in (remote.get("queried") or [])]
     docs = [dict(d) for d in (remote.get("documents") or []) if isinstance(d, dict)]
     for extra in documents or []:
         if isinstance(extra, dict) and extra.get("text"):
-            docs.append(dict(extra))
-    if lexicon:
+            row = dict(extra)
+            row.setdefault("asked", "What is a " + head + "?")
+            docs.append(row)
+    sense = choose_sense(head, prompt, [str(d.get("text") or "") for d in docs])
+    try:
+        atoms = topic_atoms(head) if not sense else _atoms_from_gloss(head, sense.get("gloss") or "")
+    except Exception:
+        atoms = []
+    if lexicon and sense and sense.get("gloss"):
         try:
-            docs.extend(_local_docs(head, atoms))
+            label = head[:1].upper() + head[1:]
+            text = render_gloss(label, sense["gloss"])
+            if text:
+                docs.append({
+                    "url": "https://en-word.net/id/oewn-" + str(sense.get("sid") or ""),
+                    "text": text, "source_id": "oewn", "publisher": "Open English WordNet",
+                    "lineage": "oewn", "counts": True, "asked": "What is a " + head + "?", "gloss": sense["gloss"],
+                })
         except Exception:
             pass
     clauses = admit_documents(head, docs)
@@ -425,6 +650,8 @@ def gather(topic: str, http: Http | None = None, documents: list[dict[str, Any]]
     return {
         "topic": head,
         "atoms": atoms,
+        "gloss": (sense or {}).get("gloss") or "",
+        "lexname": (sense or {}).get("lexname") or "",
         "questions": questions,
         "queried": queried,
         "errors": remote.get("errors") or [],

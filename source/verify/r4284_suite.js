@@ -1,4 +1,4 @@
-/* 4.9.264: a creative topic gathers every Athena source before it is composed. */
+/* 4.9.265: a creative topic gathers every Athena source before it is composed. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
@@ -78,6 +78,24 @@ print(json.dumps(gather("heron", documents=docs, lexicon=False)))
     const admitted = (poem.facts || []).find(f => f.fact === true);
     expect(admitted && admitted.n === 2 && single && single.fact === false, JSON.stringify(poem.facts));
     expect(poem.gather && poem.gather.admitted >= 1 && poem.gather.single >= 1 && poem.gather.creative_persisted === false, JSON.stringify(poem.gather));
+  });
+  C('R4284', 'a gloss becomes separate clauses and a later sense wins when a source uses its words', () => {
+    const f = forge();
+    const lines = Q.glossClauses('badger', 'sturdy carnivorous burrowing mammal with strong claws', f);
+    expect(lines.indexOf('A badger is a mammal.') >= 0 && lines.indexOf('A badger burrows.') >= 0 && lines.indexOf('A badger has strong claws.') >= 0 && lines.indexOf('A badger is carnivorous.') >= 0, JSON.stringify(lines));
+    const code = `
+import json
+from rmc_engine_v1.athena_gather import choose_sense
+print(json.dumps({
+  "lute": choose_sense("lute", "Write a poem about a lute.", ["A lute is a plucked string instrument with a pear-shaped body."]),
+  "bare": choose_sense("lute", "Write a poem about a lute.", []),
+  "badger": choose_sense("badger", "Tell a story about a badger.", ["Badgers are mammals with strong claws."])
+}))
+`;
+    const row = py(code);
+    expect(/plucked|instrument|pear/.test(row.lute.gloss) && row.lute.lexname === 'noun.artifact', JSON.stringify(row.lute));
+    expect(row.badger.lexname === 'noun.animal', JSON.stringify(row.badger));
+    expect(row.bare.gloss !== row.lute.gloss, 'sources moved the sense');
   });
   C('R4284', 'lexicon atoms name a kind, a part, and a behavior', () => {
     const code = 'import json\nfrom rmc_engine_v1.athena_gather import topic_atoms\nprint(json.dumps({"heron": topic_atoms("heron"), "cask": topic_atoms("cask"), "badger": topic_atoms("badger")}))';

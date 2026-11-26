@@ -22,6 +22,10 @@ Older release notes say creative writing was not started (`source/CONFLICTS.md` 
 
 No generator of poems or stories. No opinion or preference reasoner. No speech act for compose, narrate, describe-as-a-scene, or prefer. No path that feeds a simulator result and a computed number into one labelled creative reply. No UI label `creative` on an ask card. A creative or opinion prompt at `53840a4` fell through Derive and was held with Echo 0.
 
+## What 4.9.265 changes
+
+The phone fetches open reference sources in the browser. A host the browser cannot read goes through the user's own node or proxy. Wikimedia counts as one low-trust lineage, and NASA's sites count as one publisher. A gloss is split into clauses the grammar can say. The sense is chosen from list order, the prompt's words, and words that appear in another source.
+
 ## What 4.9.264 changes
 
 A creative prompt gathers before it composes. `athena_gather.gather` asks every enabled Athena connector, in parallel, about the topic and the atoms the lexicon gives that topic. Two independent publishers, a readable clause, a clean drift measure, and the scale check admit a clause into the phone's world-facts store. A single publisher can still be imagery. It is marked single-source, it is not a fact, and the creative text itself is not stored. The source count is kept on each clause.

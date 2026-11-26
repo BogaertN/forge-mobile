@@ -391,30 +391,120 @@
     }
     return found;
   }
-  function localGloss(topic) {
+  function contentWords(text) {
+    const stop = { write: 1, poem: 1, story: 1, about: 1, tell: 1, describe: 1, with: 1, from: 1, that: 1, this: 1, have: 1, your: 1 };
+    return (String(text || '').toLowerCase().match(/[a-z]{4,}/g) || []).filter(w => !stop[w]);
+  }
+  function chooseSense(topic, prompt, texts) {
     const lex = root.forge && root.forge.lexicon;
     if (!lex || typeof lex.senses !== 'function') return null;
     const senses = (lex.senses(topic) || []).filter(s => s && s.pos === 'n' && s.gloss);
-    const physical = { 'noun.animal': 1, 'noun.artifact': 1, 'noun.object': 1, 'noun.location': 1, 'noun.plant': 1, 'noun.substance': 1, 'noun.body': 1, 'noun.food': 1 };
-    const sense = senses.filter(s => physical[s.lexname])[0] || senses[0];
-    if (!sense) return null;
-    let gloss = String(sense.gloss).split(';')[0].trim().replace(/\.+$/, '');
-    if (!gloss) return null;
-    if (/^[A-Z]/.test(gloss) && gloss.slice(1) === gloss.slice(1).toLowerCase()) gloss = gloss.charAt(0).toLowerCase() + gloss.slice(1);
-    const label = topic.charAt(0).toUpperCase() + topic.slice(1);
-    return { text: label + ' is ' + gloss + '.', publisher: 'Open English WordNet', source_id: 'oewn', counts: true, asked: 'What is a ' + topic + '?' };
+    if (!senses.length) return null;
+    const promptWords = contentWords(prompt).filter(w => w !== topic);
+    const personCue = promptWords.some(w => ({ born: 1, mathematician: 1, resident: 1, inventor: 1, native: 1, professor: 1 })[w]);
+    const blobs = (texts || []).map(t => String(t || '').toLowerCase());
+    let best = null, bestScore = -1;
+    senses.forEach((sense, index) => {
+      const words = contentWords(sense.gloss);
+      const others = {};
+      senses.forEach((other, j) => { if (j !== index) contentWords(other.gloss).forEach(w => { others[w] = 1; }); });
+      const distinctive = words.filter(w => !others[w]);
+      const votes = blobs.filter(blob => distinctive.some(w => blob.indexOf(w) >= 0)).length;
+      const context = promptWords.filter(w => words.indexOf(w) >= 0).length;
+      let frequency = senses.length - index;
+      if (sense.lexname === 'noun.person' && !personCue && senses.length > 1) frequency = 0;
+      const score = frequency + context * 3 + votes * 5;
+      if (score > bestScore) { best = sense; bestScore = score; }
+    });
+    return best;
   }
-  async function gatherCreative(frame) {
+  async function fetchText(url) {
+    const ctl = root.AbortController ? new AbortController() : null;
+    const timer = ctl ? setTimeout(() => ctl.abort(), 6000) : null;
+    try {
+      const r = await root.fetch(url, { credentials: 'omit', signal: ctl ? ctl.signal : undefined });
+      if (!r.ok) throw new Error('http');
+      return await r.text();
+    } catch (e) {
+      const fp = root.forge && root.forge.fetchPath && root.forge.fetchPath();
+      if (!fp || !fp.url) throw e;
+      const via = String(fp.url).replace(/\/$/, '') + '/fetch?url=' + encodeURIComponent(url);
+      if (fp.kind === 'node' && fp.rpc) {
+        const o = await fp.rpc('fetch', { url: url });
+        if (!o || !o.ok) throw e;
+        return o.text;
+      }
+      const r2 = await root.fetch(via, { credentials: 'omit' });
+      if (!r2.ok) throw e;
+      return await r2.text();
+    } finally { if (timer) clearTimeout(timer); }
+  }
+  function stripTags(s) { return String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(); }
+  async function openDocuments(topic) {
+    const label = topic.charAt(0).toUpperCase() + topic.slice(1);
+    const jobs = [
+      ['wikipedia', 'Wikimedia', 'wikimedia', false, 'https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(label), raw => {
+        const data = JSON.parse(raw);
+        if (!data || data.type === 'disambiguation' || !data.extract) return '';
+        return String(data.extract).split(/(?<=[.!?])\s+/)[0];
+      }],
+      ['wikidata', 'Wikimedia', 'wikimedia', false, 'https://www.wikidata.org/w/api.php?action=wbsearchentities&language=en&format=json&limit=5&type=item&search=' + encodeURIComponent(topic), raw => {
+        const hit = ((JSON.parse(raw).search) || []).find(h => h && String(h.label || '').toLowerCase() === topic && h.description);
+        return hit ? label + ' is ' + hit.description + '.' : '';
+      }],
+      ['wiktionary', 'Wikimedia', 'wikimedia', false, 'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(topic), raw => {
+        const block = ((JSON.parse(raw).en) || [])[0] || {};
+        const def = (block.definitions || []).map(d => stripTags(d && d.definition)).find(t => t && !/^plural of/i.test(t));
+        return def ? label + ' is ' + def.charAt(0).toLowerCase() + def.slice(1) : '';
+      }],
+      ['gbif', 'GBIF', 'gbif', true, 'https://api.gbif.org/v1/species/match?verbose=false&name=' + encodeURIComponent(topic), raw => {
+        const data = JSON.parse(raw);
+        if (!data || !data.canonicalName || data.confidence < 80) return '';
+        if (String(data.canonicalName).toLowerCase() === topic) return '';
+        return label + ' is a ' + String(data.rank || 'species').toLowerCase() + ', ' + data.canonicalName + '.';
+      }],
+      ['eol', 'Encyclopedia of Life', 'eol', true, 'https://eol.org/api/search/1.0.json?page=1&exact=true&q=' + encodeURIComponent(topic), raw => {
+        const hit = ((JSON.parse(raw).results) || []).find(r => r && (String(r.content || '').toLowerCase().indexOf(topic) >= 0 || String(r.title || '').toLowerCase().indexOf(topic) >= 0));
+        return hit ? label + ' is ' + stripTags(hit.content || hit.title) + '.' : '';
+      }],
+      ['pubchem_desc', 'NLM', 'nlm', true, 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(topic) + '/description/JSON', raw => {
+        const info = ((((JSON.parse(raw).InformationList) || {}).Information) || [])[0];
+        return info && info.Description ? String(info.Description).split(/(?<=[.!?])\s+/)[0] : '';
+      }]
+    ];
+    const docs = [];
+    const queried = [];
+    await Promise.all(jobs.map(async job => {
+      const [sid, publisher, lineage, counts, url, read] = job;
+      queried.push(sid);
+      try {
+        const text = read(await fetchText(url));
+        const kind = root.KQFrame && KQFrame.kindSentence ? KQFrame.kindSentence(topic, text, root.forge) : '';
+        const spoken = kind || text;
+        if (spoken && spoken.toLowerCase().indexOf(topic) >= 0) docs.push({ text: spoken, publisher: publisher, source_id: sid, lineage: lineage, counts: counts, asked: 'What is a ' + topic + '?', url: url });
+      } catch (e) { /* a source the browser cannot reach is recorded by its absence; the user's proxy is tried inside fetchText */ }
+    }));
+    return { docs: docs, queried: queried };
+  }
+  async function gatherCreative(frame, question) {
     const heads = topicHeads(frame);
     const topic = heads[0] || '';
     if (!topic) return null;
-    const seed = localGloss(topic);
+    const fetched = await openDocuments(topic);
+    const sense = chooseSense(topic, question || (frame && frame.text) || '', (fetched.docs || []).map(d => d.text));
+    const glosses = sense && root.KQFrame && KQFrame.glossClauses ? KQFrame.glossClauses(topic, sense.gloss, root.forge) : [];
+    const docs = (fetched.docs || []).slice();
+    glosses.forEach(text => docs.push({ text: text, publisher: 'Open English WordNet', source_id: 'oewn', lineage: 'oewn', counts: true, asked: 'What is a ' + topic + '?' }));
     try {
-      const got = await pyCall({ op: 'gather', topic: topic, budget: 8, timeout: 2, network: true, documents: seed ? [seed] : [] });
-      if (got && Array.isArray(got.clauses) && got.clauses.length) return got;
-    } catch (e) { /* the lexicon gloss still feeds the poem */ }
-    if (!seed) return null;
-    return { topic: topic, atoms: [], queried: ['oewn'], admitted: 0, single: 1, clauses: [Object.assign({}, seed, { source_count: 1, publishers: [seed.publisher], admitted: false, single_source: true, fact: false, gilligan: 'GILLIGAN-STRUCTURE-OK', scale: 'ok', drift: 'clean', store: null, hosted_eligible: false })], calls_llm: false, supabase_write: false, creative_persisted: false };
+      const got = await pyCall({ op: 'gather', topic: topic, prompt: question || '', budget: 4, timeout: 2, network: false, lexicon: false, documents: docs });
+      if (got && Array.isArray(got.clauses)) {
+        got.queried = (fetched.queried || []).concat(got.queried || []).filter((s, i, a) => a.indexOf(s) === i);
+        got.gloss = sense && sense.gloss || got.gloss;
+        if (!got.clauses.length && glosses.length) got.clauses = glosses.map(text => ({ text: text, source_count: 1, publishers: ['oewn'], admitted: false, single_source: true, fact: false, gilligan: 'GILLIGAN-STRUCTURE-OK', scale: 'ok', drift: 'clean' }));
+        return got;
+      }
+    } catch (e) { /* the split gloss is still imagery */ }
+    return { topic: topic, atoms: [], queried: fetched.queried || ['oewn'], admitted: 0, single: glosses.length, clauses: glosses.map(text => ({ text: text, source_count: 1, publishers: ['oewn'], admitted: false, single_source: true, fact: false, gilligan: 'GILLIGAN-STRUCTURE-OK', scale: 'ok', drift: 'clean', store: null, hosted_eligible: false })), calls_llm: false, supabase_write: false, creative_persisted: false };
   }
   async function prepareCreative(memory, question, frame) {
     /* Scene questions from the cited clauses, then the same on-page plan/solve/WASM path a factual sim uses.
