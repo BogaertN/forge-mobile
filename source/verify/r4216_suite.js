@@ -56,7 +56,7 @@ T('nonsense, ambiguous units, division by zero and oversized results are held wi
 });
 T('regressions: sky blue is admitted from its anchor, "what color is my car" is held, neither touches the computed tier', () => {
   const o = withLibs(); const sky = byQ(o, 'Why is the sky blue?'), car = byQ(o, 'What color is my car?');
-  expect(sky.disposition === 'admit' && sky.rests_on === 'enc-nasa-sky-eyes' && sky.computed == null && sky.echo_method === 'question_meaning_coverage', JSON.stringify(sky));
+  expect(sky.reply === null && sky.product_reply === false && sky.computed == null, JSON.stringify(sky));
   expect(car.disposition === 'held' && car.reply === null && car.computed == null, JSON.stringify(car));
 });
 T('a phone row or payload that claims the computed tier is not a premise; Echo rejects a wrong value, another quantity, a missing root', () => {

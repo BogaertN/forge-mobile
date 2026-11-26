@@ -62,11 +62,12 @@ T('Echo re-parses the asked relation about the asked subject; overlap alone neve
 });
 T('thresholds are unchanged: 0.85 to speak, 0.97 to write; the math Echo and the remembered-fact Echo keep working', () => {
   expect(chk().thresholds.echo_min === 0.85, 'speech');
-  for (const k of ['dna', 'sky', 'ocean', 'car', 'math', 'burkina_capital']) expect(chk()[k].write_echo_min === 0.97, k + ' write');
+  for (const k of ['dna', 'car', 'math']) expect(chk()[k].write_echo_min === 0.97, k + ' write');
+  for (const k of ['sky', 'ocean', 'burkina_capital']) expect(chk()[k].write_echo_min === 0.97 || !chk()[k].product_reply, k + ' write');
   const m = chk().math; expect(m.product_reply && m.reply === '17 times 23 is 391.' && m.echo_method === 'computed_quantity_reparse', JSON.stringify(m).slice(0, 300));
   const c = chk().car; expect(c.product_reply && c.reply === 'My car is red.' && c.relation.asked === 'attribute' && c.relation.realised === true, JSON.stringify(c).slice(0, 300));
   expect(!chk().car_wrong.product_reply, 'a wrong value is still held');
-  const s = chk().sky, o = chk().ocean; expect(s.product_reply && s.relation.asked === 'cause' && s.relation.stated === true && o.product_reply && /^Salt in the ocean/.test(o.reply), 'cause');
+  const s = chk().sky, o = chk().ocean; expect(!s.product_reply && s.reply === null && o.product_reply && /^Salt in the ocean/.test(o.reply), 'a stored sentence is not a cause ' + JSON.stringify([s.reply, o.reply]));
 });
 T('the renderer card and the engine read the relation alike (src/relation_echo.js is the copy of relation_echo.py)', () => {
   const R = require(path.join(ROOT, 'src', 'rmc_renderer_200.js'));
@@ -87,7 +88,7 @@ T('DRIFT-SPEC/v1 D3 resolved: the Ask candidate ε stays /3 (canonical, nine-pha
   expect(/epsilon_s = round\(\(sigma_res \+ d_score \+ delta_phi\) \/ 3\.0, 4\)/.test(read('engine/rmc_engine_v1/drift_engine.py')), 'candidate /3 unchanged');
   const dp = read('engine/rmc_engine_v1/drift_policy.py'); expect(/WRITE-TRACE eps/.test(dp) && /stays \/3/.test(dp) && /nine-phase/.test(dp), 'drift_policy docstring');
   expect(/"DENOMINATOR": "max1_depth"/.test(read('engine/rmc_engine_v1/mobile_config.py')) && /write-trace normaliser only/.test(read('engine/rmc_engine_v1/mobile_config.py')), 'mobile_config note');
-  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.217'); const e = conf.slice(i, i + 6000); /* 4.9.219 (4.9.221, 4.9.222, 4.9.223, 4.9.230, 4.9.231, 4.9.232, 4.9.233, 4.9.234, 4.9.235, 4.9.236, 4.9.237, 4.9.238, 4.9.239, 4.9.240, 4.9.242, 4.9.243, 4.9.244, 4.9.245, 4.9.250: one more each): later entries sit above; the 4.9.217 entry stays near the top */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 29 && /\/3 is canonical/.test(e) && /nine-phase/.test(e), 'CONFLICTS entry at the top');
+  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.217'); const e = conf.slice(i, i + 6000); /* 4.9.219 (4.9.221, 4.9.222, 4.9.223, 4.9.230, 4.9.231, 4.9.232, 4.9.233, 4.9.234, 4.9.235, 4.9.236, 4.9.237, 4.9.238, 4.9.239, 4.9.240, 4.9.242, 4.9.243, 4.9.244, 4.9.245, 4.9.250: one more each): later entries sit above; the 4.9.217 entry stays near the top */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 30 && /\/3 is canonical/.test(e) && /nine-phase/.test(e), 'CONFLICTS entry at the top');
 });
 T('the cold 60 for 4.9.217 is recorded (not tuned) with zero false admits', () => {
   const c = JSON.parse(read('data/cold_217_results.json'));

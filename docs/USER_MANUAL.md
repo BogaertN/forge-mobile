@@ -1,6 +1,10 @@
 # Forge user manual
 
-These sentences are the shipped behavior. Forge reads them as clauses. It does not quote this page back as a script.
+These sentences are the shipped behavior.
+
+Forge reads them as clauses.
+
+Forge does not quote this page.
 
 You answer a question from a remembered fact.
 

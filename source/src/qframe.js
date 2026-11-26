@@ -138,13 +138,23 @@
     const v = cl.verb || {}; let material = null; try { material = G.material(cl); } catch (e) {}
     const karakas = {}; for (const [k, x] of Object.entries(cl.roles || {})) karakas[k] = x && typeof x === 'object' && !Array.isArray(x) ? np(x, forge) : x;
     const pr = cl.pred || null;
+    const passive = v.voice === 'passive';
+    const karta = cl.roles && cl.roles.karta;
+    const retained = cl.roles && cl.roles.karma;
+    let kartr = np(cl.subj, forge);
+    let karma = objectRole(retained, forge);
+    if (passive && karta) { kartr = np(karta, forge); karma = np(cl.subj, forge); }
+    else if (passive && retained) { kartr = np(cl.subj, forge); karma = objectRole(retained, forge); }
+    const vid = cl.roles && cl.roles.vidheya;
+    if (karma && karma.text && vid && vid.of === 'karma' && Array.isArray(vid.adjp) && vid.adjp.length)
+      karma = Object.assign({}, karma, { text: (karma.text + ' ' + vid.adjp.join(' ')).trim(), vidheya: vid.adjp.slice() });
     return {
       kriya: v.lemma || null, tense: v.tense || null, polarity: v.pol || null, modality: v.mod || null,
       voice: v.voice || 'active',
-      kartr: (v.voice === 'passive' && cl.roles && cl.roles.karta ? np(cl.roles.karta, forge) : np(cl.subj, forge)),
-      karma: (v.voice === 'passive' ? np(cl.subj, forge) : objectRole(cl.roles && cl.roles.karma, forge)), karakas,
+      kartr, karma, karakas,
       pred: pr ? (measurePred(pr) || (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np, forge)) : pr.type === 'pp' ? (n => ({ type: 'pp', prep: pr.prep || null, text: (n && n.text) || str((pr.np && (pr.np.head || pr.np.text)) || pr.words || null), np: n }))(pr.np ? np(pr.np, forge) : null) : pr.type === 'cmp' ? cmpPred(pr, forge) : { type: pr.type || null, text: str(pr.words || pr.text || null) })) : null,
       adj: (cl.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np, forge) : null })),
+      sub: cl.sub && cl.sub.clause ? { conj: cl.sub.conj || null, text: (function () { try { return G.clauseText(cl.sub.clause, 'user'); } catch (e) { return null; } })() } : null,
       adjuncts: (cl.adj || []).length, material,
     };
   }
@@ -683,7 +693,8 @@
     if (p && p.clause) { Object.assign(f, roles(p.clause, forge)); f.parsed = true; f.declarative = join(ws); f.parses = p.parses; f.rule = 'QF-DECL'; return f; }
     /* imperative: the addressee is kartṛ. A leading please is the closed-class request, then the same imperative. */
     const asImperative = (words0) => {
-      const imps = ['you ' + join(words0)]; if (words0.length > 2) imps.push('you ' + join([words0[0], 'that'].concat(words0.slice(1))));
+      const lowered = words0.map((w, i) => i === 0 ? w.toLowerCase() : w);
+      const imps = ['you ' + join(lowered)]; if (lowered.length > 2) imps.push('you ' + join([lowered[0], 'that'].concat(lowered.slice(1))));
       for (const s of imps) { const pi = parse(forge, s);
         if (pi && pi.clause) { Object.assign(f, roles(pi.clause, forge)); f.parsed = true; f.mood = 'imperative'; f.speech_act = 'command'; f.declarative = s; f.parses = pi.parses; f.rule = 'QF-IMP'; return f; } }
       return null;

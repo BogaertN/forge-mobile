@@ -59,7 +59,7 @@ T('a cycle does not conclude that something is inside itself', () => {
 });
 T('a stated negative is spoken, and together with the chain it holds', () => {
   const lone = turn(['remember that Aster is not inside Cobalt'], 'is Aster inside Cobalt?');
-  expect(lone.product_reply === true && lone.reply === 'Aster is not inside Cobalt.' && lone.echo.pass === true, lone.reply);
+  expect(lone.product_reply === true && lone.reply === 'No. Aster is not inside Cobalt.' && lone.echo.pass === true, lone.reply);
   const both = turn(chain.concat(['remember that Aster is not inside Cobalt']), 'is Aster inside Cobalt?');
   expect(both.product_reply !== true, both.reply);
 });

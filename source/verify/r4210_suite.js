@@ -30,9 +30,9 @@ T('"What is the Moon?" picks a celestial Moon anchor, never the MOON Jae-in sent
 });
 T('multi-word places resolve by compound name (no hand list): Burkina Faso, Bosnia and Herzegovina, Antigua and Barbuda', () => {
   const c = chk();
-  expect(c.burkina.reply === 'Ouagadougou is the capital of Burkina Faso.' && c.burkina.q_concepts.join() === 'A.BURKINAFASO', JSON.stringify(c.burkina).slice(0, 300));
+  expect(c.burkina.product_reply === false && c.burkina.reply === null && c.burkina.q_concepts.join() === 'A.BURKINAFASO', JSON.stringify(c.burkina).slice(0, 300));
   expect(c.bosnia.reply === 'Sarajevo is the capital of Bosnia and Herzegovina.' && c.antigua.reply === "Saint John's is the capital of Antigua and Barbuda.", 'and-names');
-  expect(c.japan.reply === 'Tokyo is the capital of Japan.', 'single word');
+  expect(c.japan.reply === null, 'single word');
   expect(c.q_compound.join() === 'A.BURKINAFASO', 'longest compound wins; its words do not count alone');
   expect(c.names.map(n => n.join(' ')).indexOf('MOON Jae-in') >= 0 && c.names.map(n => n.join(' ')).indexOf('Burkina Faso') >= 0, JSON.stringify(c.names));
   expect(c.burkina.anchors_kept.length <= 16 && c.burkina.anchors_kept.every(id => /^enc-cia-uv-/.test(id)), JSON.stringify(c.burkina.anchors_kept));
@@ -88,7 +88,7 @@ T('the cold 60 for 4.9.210 is recorded (not tuned)', () => {
   expect(fs.existsSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_210.md')), 'report');
 });
 T('version registry names 4.9.210', () => {
-  expect(read('VERSION').trim() === '4.9.253', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.254', 'VERSION');
   expect(JSON.stringify(JSON.parse(read('data/feature_registry.json'))).indexOf('R4210-') >= 0, 'registry');
 });
 

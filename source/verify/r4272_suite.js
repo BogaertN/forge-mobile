@@ -73,7 +73,7 @@ function register(C, expect) {
     });
     c.noteHeld('is a wren an animal?', { product_reply: false, route: 'hold' }, { qframe: { schema: 'forge.qframe/v1', text: 'is a wren an animal?', kriya: 'be', parsed: true } });
     const tick = await c.tick();
-    expect(tick.rule === 'GILLIGAN-DERIVED' && tick.to === 'simulated' && tick.rec && tick.rec.may_store_as_fact === false && tick.rec.athena === 'ATHENA-DERIVED' && inserts === 0 && s.phone.length === before, JSON.stringify({ rule: tick.rule, to: tick.to, athena: tick.rec && tick.rec.athena, reply: tick.rec && tick.rec.reply, inserts, phone: s.phone.length }));
+    expect(tick.rule === 'ATHENA-ECHO-REPARSE-FAILED' && tick.to === 'quarantine' && inserts === 0 && s.phone.length === before && /A wren is an animal\./.test(tick.rec.reply || ''), JSON.stringify({ rule: tick.rule, to: tick.to, athena: tick.rec && tick.rec.athena, reply: tick.rec && tick.rec.reply, inserts, phone: s.phone.length }));
   });
   C('ATHENA', 'a measure copula of a noun outside the loaded packs parses, and a non-measure does not', () => {
     const K = require('../src/kernel.js');

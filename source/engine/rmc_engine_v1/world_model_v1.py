@@ -655,6 +655,9 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
     for adj in (rec.get("adj") if isinstance(rec.get("adj"), list) else []):
         if isinstance(adj, dict):
             covered |= _clause_words(str(adj.get("prep") or "") + " " + str((adj.get("np") or {}).get("text") or ""))
+    sub = rec.get("sub") if isinstance(rec.get("sub"), dict) else None
+    if sub:
+        covered |= _clause_words(str(sub.get("conj") or "") + " " + str(sub.get("text") or ""))
     missing = sorted(w for w in _clause_words(sentence) if w not in covered and not any(w.startswith(c[:4]) for c in covered if len(c) >= 4))
     if missing and verb == "live" and set(missing) <= {"live", "lives", "lived"}:
         missing = []
@@ -1700,6 +1703,18 @@ def _cap(sentence: str) -> str:
     return t if not t or t[-1] in ".!?" else t + "."
 
 
+def _cap_sentences(text: str) -> str:
+    starters = {"a", "an", "the", "i", "you", "we", "they", "he", "she", "it", "my", "your", "his", "her", "our", "their", "no", "yes", "not", "this", "that"}
+    parts = [p for p in re.split(r"(?<=[.!?])\s+", str(text or "").strip()) if p]
+    out = []
+    for p in parts:
+        first = p.split(" ", 1)[0].strip(".,").lower()
+        if first in starters and p[:1].islower():
+            p = p[:1].upper() + p[1:]
+        out.append(p)
+    return " ".join(out)
+
+
 def _contain_text(chosen: list[dict[str, Any]], conclusion: dict[str, Any]) -> str:
     """Say the chain in the preposition or verb the premises already used. inside, within and contain are one atom."""
     from rmc_engine_v1 import derive_frame as DF
@@ -2721,14 +2736,10 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     phi_q = DF.OPERATION_PHASE[DF.operation(qframe)]
     direct.sort(key=lambda d: (-int(bool(d[2] == "clause")), -float(DF.phase_factor(placed(d[0]).get("Phi"), phi_q).get("A") or 0.0),
                                -int(d[4].get("band_key") or 0), -float(d[4].get("coupling") or 0.0), str(d[0].get("text") or ""), str(d[0]["id"])))
-    # 4.9.236: ranked by the operation-phase factor A. A capability question asks for the set of actions, so the
-    # bound is the manual's own clauses, not one arbitrary match. Other questions stay at four.
-    cap = 4
-    if str(qframe.get("kriya") or "") == "do" and str(qframe.get("wh_role") or "") == "karma":
-        cap = 12
-    elif str(qframe.get("modality") or "") == "able" and str(qframe.get("wh_role") or "") == "polarity":
-        cap = 8
-    for fact, ff, src, m, al in direct[:cap]:
+    # One bound for every question: the phone's sentence limit. Matches past that bound are omitted and counted.
+    speak_bound = int(LIMITS["MAX_SENTENCES"])
+    omitted_matches = max(0, len(direct) - speak_bound)
+    for fact, ff, src, m, al in direct[:speak_bound]:
         if m.get("rule") == DF.RULE_NAME_OF and len((fact.get("atom") or {}).get("args") or []) == 2:
             x, n = [str(a) for a in fact["atom"]["args"]]
             sub = {"$x": x, "$n": n}
@@ -3064,7 +3075,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         instruct = (bool(_kar.get("user")) or bool(re.match(r"(?i)^\s*i\b", str(_kar.get("text") or "")))) and bool(claim.get("premises")) and all(
             str(p.get("source") or "") in DF.SELF_SOURCES for p in claim.get("premises") or [])
         voice = to_listener if instruct else (to_speaker if selfvoice else (to_listener if personal else None))
-        claim["spoken"] = " ".join(dict.fromkeys(_cap(voice(p) if voice else p) for p in parts if p.strip()))
+        claim["spoken"] = _cap_sentences(" ".join(dict.fromkeys(_cap(voice(p) if voice else p) for p in parts if p.strip())))
         claim["perspective"] = "listener" if instruct else ("speaker" if selfvoice else ("listener" if personal else "as_stored"))
         # 4.9.237 (plan 229 step 8): each spoken sentence with the atom it states, for the outward compile (panini_wording)
         if claim.get("how") in ("WM-RECALL", "WM-WHEN"):
@@ -3079,8 +3090,9 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
             claim["spoken"] = " ".join(a["text"] for a in atoms if a["text"])
         else:
             claim["spoken_atoms"] = _spoken_atoms(world, claim, parts, voice)
-    _compose_capabilities(qframe, answers)
+    _speak_survivors(qframe, answers)
     report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers, measure_gap=measure_gap)
+    report["omitted"] = omitted_matches + int(report.get("omitted") or 0)
     report["match_mode"] = "frame_gate"
     report["frame_trace"] = {
         "rule": "4.9.236 G = f(ΔΦ, S, C): frame unification (S) x context coherence (C), ΔΦ to the operation phase weighted",
@@ -3140,50 +3152,61 @@ def _finish_claim(world, text, atom, premises, proof, checked, status, how, phas
     return claim
 
 
-def _compose_capabilities(qframe: dict[str, Any] | None, answers: list[dict[str, Any]] | None) -> None:
-    """4.9.253: a capability question speaks every gate-passing action clause, best rank first.
+def _proof_rank(claim: dict[str, Any]) -> int:
+    """Direct stored facts before anything derived from them."""
+    how = str(claim.get("how") or "")
+    if how == "direct":
+        return 0
+    return 1
 
-    "What can you do?" is a pro-verb. One matching clause is not the answer. "Can you run simulations?"
-    is an ability question: the polarity word, then every fact whose karma is that head. The sentences are
-    the clauses already spoken for each fact. Nothing here writes a new sentence from a template.
+
+def _speak_survivors(qframe: dict[str, Any] | None, answers: list[dict[str, Any]] | None) -> None:
+    """Every gate-passing survivor is spoken, direct proofs first, then derived ones.
+
+    The sentences are the atoms each survivor already carries. A polarity filler (yes or no) is spoken
+    once when the match produced one and the question is negative or an ability question. A later
+    sentence that repeats an earlier one is dropped. Past the sentence bound, the rest are counted
+    and not spoken.
     """
-    if not isinstance(qframe, dict) or not answers:
+    if not answers:
         return
     from rmc_engine_v1 import derive_frame as DF
-    pro = str(qframe.get("kriya") or "") == "do" and str(qframe.get("wh_role") or "") == "karma"
-    able = str(qframe.get("modality") or "") == "able" and str(qframe.get("wh_role") or "") == "polarity"
-    if pro:
-        group = [c for c in answers if (c.get("frame_match") or {}).get("rule") == DF.RULE_PRO_VERB]
-    elif able:
-        group = [c for c in answers if str((c.get("frame_match") or {}).get("rule") or "").startswith("polar")]
-    else:
-        return
-    if len(group) < (1 if able else 2):
-        return
-    group = sorted(group, key=_frame_key)
+    group = sorted(answers, key=lambda c: (_proof_rank(c),) + _frame_key(c))
+    bound = int(LIMITS["MAX_SENTENCES"])
     texts: list[str] = []
     atoms: list[dict[str, Any]] = []
-    if able:
-        yn = str((group[0].get("frame_match") or {}).get("filler") or "")
-        if yn in ("yes", "no"):
-            said = _cap(yn)
-            texts.append(said)
-            atoms.append({"text": said, "atom": None, "verbatim": True, "role": "polarity", "source_id": None})
+    fm0 = group[0].get("frame_match") or {}
+    yn = str(fm0.get("filler") or "")
+    able = isinstance(qframe, dict) and str(qframe.get("modality") or "") == "able"
+    neg = yn == "no"
+    if yn in ("yes", "no") and str(fm0.get("rule") or "").startswith("polar") and (able or neg):
+        said = _cap(yn)
+        texts.append(said)
+        atoms.append({"text": said, "atom": {"predicate": "polarity", "args": [yn], "polarity": "pos" if yn == "yes" else "neg"}, "verbatim": True, "role": "polarity", "source_id": None})
+    used = 0
     for claim in group:
+        if used >= bound:
+            break
         spoken = [a for a in (claim.get("spoken_atoms") or []) if isinstance(a, dict) and str(a.get("text") or "").strip()]
         if not spoken and str(claim.get("spoken") or "").strip():
-            spoken = [{"text": str(claim.get("spoken")).strip(), "atom": claim.get("atom"), "verbatim": False, "role": "conclusion", "source_id": (claim.get("premises") or [{}])[0].get("id") if claim.get("premises") else None}]
+            spoken = [{"text": str(claim.get("spoken")).strip(), "atom": claim.get("atom") if isinstance(claim.get("atom"), dict) else None, "verbatim": False, "role": "conclusion", "source_id": None}]
         for atom in spoken:
-            text = str(atom.get("text") or "").strip()
-            if text and text not in texts:
-                texts.append(text)
-                atoms.append(atom)
-    if len(texts) < 2:
-        return
-    head = group[0]
-    head["spoken"] = " ".join(texts)
-    head["spoken_atoms"] = atoms
-    head["composed_of"] = [str(c.get("text") or "") for c in group]
+            text = _cap_sentences(str(atom.get("text") or "").strip())
+            key = " ".join(text.lower().split())
+            if not text or key in {" ".join(t.lower().split()) for t in texts}:
+                continue
+            if used >= bound:
+                break
+            texts.append(text)
+            atoms.append(dict(atom, text=text))
+            used += 1
+    omitted = max(0, len(group) - used)
+    head = sorted(answers, key=_frame_key)[0]
+    if texts:
+        head["spoken"] = " ".join(texts)
+        head["spoken_atoms"] = atoms
+        head["composed_of"] = [str(c.get("text") or "") for c in group[:bound]]
+        head["omitted"] = omitted
 
 
 def _derive_report(world, question, status, reason, claims, incomplete, answers=None, measure_gap=None) -> dict[str, Any]:
@@ -3221,6 +3244,7 @@ def _derive_report(world, question, status, reason, claims, incomplete, answers=
     }
     if measure_gap:
         report["measure_gap"] = measure_gap
+    report["omitted"] = int((chosen or {}).get("omitted") or 0)
     return report
 
 
