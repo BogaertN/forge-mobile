@@ -499,6 +499,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     try {
       const compiled = window.KQFrame && KQFrame.compile ? KQFrame.compile(qtext, forge) : null;
       blocked = window.KWorldFacts && KWorldFacts.refuted ? KWorldFacts.refuted(qtext, compiled) : null;
+      if (window.KLearning && KLearning.noteTurn) KLearning.noteTurn(qtext, compiled);
     } catch (e) { blocked = null; }
     if (blocked) row = { ok: true, held: true, reply: null, product_reply: false, route: 'RETRACTED', trace: { rule: 'RETRACTED', status: blocked.status, hash: blocked.hash, reason: blocked.reason, calls_llm: false }, calls_llm: false };
     else if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
