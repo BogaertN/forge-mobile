@@ -14,6 +14,7 @@ import hashlib
 import json
 import math
 import re
+import subprocess
 from fractions import Fraction
 from functools import reduce
 from pathlib import Path
@@ -23,6 +24,45 @@ PROBLEM = "FORGE-SIM-PROBLEM/v1"
 SCHEMA = "FORGE-SIM-RECEIPT/v1"
 VERSION = "forge-sim-device/4.9.249"
 _DATA: dict[str, Any] | None = None
+_REALIZE_CACHE: dict[str, str] = {}
+_REALIZER: subprocess.Popen[str] | None = None
+
+
+def _realize(atom: dict[str, Any] | None) -> str:
+    """The sentence of a kāraka atom, from grammar.js clauseText. No verb table."""
+    if not isinstance(atom, dict) or not atom.get("predicate"):
+        return ""
+    raw = json.dumps(atom, sort_keys=True, ensure_ascii=False, default=str)
+    hit = _REALIZE_CACHE.get(raw)
+    if hit is not None:
+        return hit
+    text = _realize_uncached(raw)
+    _REALIZE_CACHE[raw] = text
+    return text
+
+
+def _realize_uncached(raw: str) -> str:
+    try:
+        import js  # Pyodide: the worker installed grammar.js as forgeRealizeAtom
+        fn = getattr(js, "forgeRealizeAtom", None)
+        if fn is not None:
+            return str(fn(raw))
+    except Exception:
+        pass
+    global _REALIZER
+    if _REALIZER is None or _REALIZER.poll() is not None:
+        script = Path(__file__).resolve().parents[2] / "src" / "realize_atom.js"
+        _REALIZER = subprocess.Popen(
+            ["node", str(script), "--serve"],
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1,
+        )
+    assert _REALIZER.stdin is not None and _REALIZER.stdout is not None
+    _REALIZER.stdin.write(raw + "\n")
+    _REALIZER.stdin.flush()
+    line = _REALIZER.stdout.readline()
+    if not line:
+        raise RuntimeError("grammar realizer closed")
+    return line.strip()
 
 # solver → (family, runtime, Pyodide packages from the pinned 0.27.7 lock; WASM engines load in the page)
 SOLVERS: dict[str, dict[str, Any]] = {
@@ -867,12 +907,50 @@ def _solve_thermal(p: dict[str, Any]) -> dict[str, Any]:
             "equations": ["Q = m c ΔT", "phase from the melting point and the boiling point"]}
 
 
+def _wasm_via_node(problem: dict[str, Any]) -> dict[str, Any] | None:
+    """The phone's WASM worker, run from this process when Node is the harness. Pyodide leaves it to the page."""
+    solver = problem.get("solver")
+    if solver == "mujoco_wasm":
+        try:
+            cmd, arg = "mujoco", mujoco_job(problem["scene"])
+        except ValueError:
+            return None
+    elif solver == "rdkit_wasm":
+        cmd, arg = "rdkit", {"smiles": problem.get("smiles")}
+    elif solver == "circuits_wasm":
+        cmd, arg = "spice", {"netlist": problem.get("netlist")}
+    else:
+        return None
+    try:
+        import js  # noqa: F401  Pyodide: the page worker measures
+        return None
+    except Exception:
+        pass
+    script = Path(__file__).resolve().parents[2] / "src" / "sim_wasm_node.js"
+    if not script.is_file():
+        return None
+    try:
+        proc = subprocess.run(["node", str(script)], input=json.dumps({"cmd": cmd, "arg": arg}), capture_output=True, text=True, timeout=120)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    if proc.returncode != 0 or not proc.stdout.strip():
+        return {"error": (proc.stderr or "wasm worker failed")[-180:]}
+    try:
+        raw = json.loads(proc.stdout)
+    except json.JSONDecodeError:
+        return {"error": "wasm worker returned no measurements"}
+    return finish(problem, raw)
+
+
 def solve(problem: dict[str, Any]) -> dict[str, Any]:
     fn = {"sympy_pyodide": _solve_sympy, "chemistry_ondevice": _solve_reaction, "chemistry_kinetics": _solve_kinetics,
           "biology_ondevice": _solve_sequence, "biology_kinetics": _solve_enzyme, "astronomy_ondevice": _solve_orbit,
           "quantum_ondevice": _solve_quantum, "buoyancy_ondevice": _solve_buoyancy,
           "thermal_ondevice": _solve_thermal}.get(problem["solver"])
     if fn is None:
+        measured = _wasm_via_node(problem)
+        if measured is not None:
+            return measured
         return {"solver": problem["solver"], "error": "not a Python family"}
     return fn(problem)
 
@@ -1127,165 +1205,68 @@ def finish(problem: dict[str, Any], raw: dict[str, Any]) -> dict[str, Any]:
 
 # ---------------------------------------------------------------- seal
 
-def _subject_clause(p: dict[str, Any], run: dict[str, Any]) -> tuple[str, str, list[str]]:
-    """(premise clause, spoken effect, extra fact sentences) for a run."""
-    s, ms = p["solver"], run.get("measurements") or {}
-    if s in ("mujoco_wasm", "sympy_pyodide"):
-        return _rigid_clause(p["scene"], run["outcome"], ms) + ([],)
-    if s == "chemistry_ondevice":
-        names = p["reactant_names"]
-        eq = ms["equation"]
-        return (f"Reacting {' with '.join(names)} balances as {eq}.",
-                f"The reaction balances as {eq}.", [])
-    if s == "chemistry_kinetics":
-        return (f"After {_g(p['t'])} seconds the reactant concentration falls to {_g(ms['concentration_left'])} moles per liter.",
-                f"The concentration falls to {_g(ms['concentration_left'])} moles per liter after {_g(p['t'])} seconds.", [])
-    if s == "publisher_lookup":
-        n = str(p.get("substance") or "")
-        prop = str(p.get("property") or "value")
-        value = str((ms.get(prop) if isinstance(ms, dict) else "") or ms.get("value") or "")
-        spoken = f"The {prop} of {n} is {value}."
-        return (spoken, spoken, [])
+def _intervention_struct(scene: dict[str, Any]) -> dict[str, Any] | None:
+    """The intervention as a kāraka atom: the verb, the patient, the point and the surface."""
+    body = scene.get("body") if isinstance(scene.get("body"), dict) else None
+    if not body or not body.get("noun") or body.get("average"):
+        return None
+    verb = str(scene.get("verb") or "").strip()
+    if not verb:
+        return None
+    mods: list[dict[str, Any]] = []
+    point = scene.get("point") if isinstance(scene.get("point"), dict) else {}
+    surface = scene.get("surface") if isinstance(scene.get("surface"), dict) else {}
+    if point.get("name") and point.get("name") not in ("center", "centre"):
+        mods.append(_mod("near", "the " + str(point["name"]), "adhikarana"))
+    if surface.get("name") and surface.get("name") != "table":
+        mods.append(_mod("on", str(surface["name"]), "adhikarana"))
+    if scene.get("drop_height") is not None:
+        mods.append(_mod("from", f"{float(scene['drop_height']):g} meters", "apadana"))
+    launch = scene.get("launch") if isinstance(scene.get("launch"), dict) else None
+    if launch:
+        if launch.get("angle_deg") is not None:
+            mods.append(_mod("at", f"{float(launch['angle_deg']):g} degrees", "adhikarana"))
+        if launch.get("speed") is not None:
+            mods.append(_mod("at", f"{float(launch['speed']):g} meters per second", "adhikarana"))
+    return _karaka(verb, ["you", _rigid_subject(scene)], modifiers=mods or None)
+
+
+def _extra_structs(p: dict[str, Any], run: dict[str, Any]) -> list[dict[str, Any]]:
+    """Further measured clauses that are not the effect atom."""
+    s, ms = p.get("solver"), run.get("measurements") or {}
     if s == "rdkit_wasm":
-        n = p["substance"]
-        mw = ms["average_mw"]
-        asked = str(p.get("property_text") or "").strip()
-        if asked.lower().startswith("the "):
-            asked_s = asked[0].upper() + asked[1:]
-        else:
-            asked_s = ""
-        value = f"{mw:g} daltons" if p.get("property") in ("weight", "mass") else ms["formula"]
-        if p.get("property") == "structure":
-            value = f"{ms['heavy_atoms']} heavy atoms and {ms['aromatic_rings']} aromatic rings"
-        main = f"{asked_s} is {value}." if asked_s else {
-            "weight": f"The molecular weight of {n} is {mw:g} daltons.",
-            "mass": f"The molecular mass of {n} is {mw:g} daltons.",
-            "formula": f"The molecular formula of {n} is {ms['formula']}.",
-            "structure": f"The molecular structure of {n} has {ms['heavy_atoms']} heavy atoms and {ms['aromatic_rings']} aromatic rings.",
-        }[p["property"]]
-        facts = [f"The molecular formula of {n} is {ms['formula']}.", f"The molecular weight of {n} is {mw:g} daltons.",
-                 f"The molecular mass of {n} is {mw:g} daltons."]
-        return main, main, [f for f in facts if f != main]
-    if s == "biology_ondevice":
-        if p["op"] == "transcribe":
-            # One kāraka clause the grammar realizes. "RNA polymerase" plus "messenger RNA" is two readings.
-            return (f"Transcribing the DNA {p['sequence']} gives the messenger RNA {ms['mrna']}.",
-                    f"The polymerase makes the RNA {ms['mrna']}.", [])
-        stop = " and then stops" if ms.get("stopped") else ""
-        return (f"Translating the {p['kind']} {p['sequence']} gives the protein {ms['protein']}.",
-                f"The ribosome makes the protein {ms['protein']}{stop}.", [])
-    if s == "biology_kinetics":
-        return (f"After {_g(p['t'])} seconds the enzyme leaves {_g(ms['substrate_left_mM'])} millimolar of substrate.",
-                f"The enzyme leaves {_g(ms['substrate_left_mM'])} millimolar of substrate after {_g(p['t'])} seconds.", [])
-    if s == "astronomy_ondevice":
-        alt = p["altitude_m"] / 1000
-        return (f"An orbit {_g(alt)} kilometers above {ms['body']} takes {ms['period_min']:g} minutes at {ms['speed_km_s']:g} kilometers per second.",
-                f"The satellite circles {ms['body']} every {ms['period_min']:g} minutes at {ms['speed_km_s']:g} kilometers per second.", [])
-    if s == "quantum_ondevice":
-        p0, p1 = ms["p0"], ms["p1"]
-        if abs(p0 - p1) < 1e-6:
-            eff = "The qubit ends in an equal superposition, with probability 0.5 for 0 and 0.5 for 1."
-        else:
-            eff = f"The qubit ends with probability {p0:g} for 0 and {p1:g} for 1."
-        gate = {"H": "the Hadamard gate", "X": "the Pauli X gate", "Y": "the Pauli Y gate", "Z": "the Pauli Z gate"}.get(
-            p["gate"], f"a {_g(p.get('theta_over_pi', 1))} pi Rabi pulse")
-        return f"Applying {gate} to the state {p['state']} gives probability {p0:g} for 0 and {p1:g} for 1.", eff, []
-    if s == "circuits_wasm":
-        if p["topology"] == "rc":
-            return (f"Charging the {_g(p['C'] * 1e6)} microfarad capacitor through {_g(p['R'])} ohms for {_g(p['t'] * 1000)} milliseconds brings it to {_g(ms['v_out_end'])} volts.",
-                    f"The capacitor charges to {_g(ms['v_out_end'])} volts.", [])
-        if "v_out" in ms and p["topology"] == "divider":
-            return (f"Putting {_g(p['V'])} volts across the divider gives {_g(ms['v_out'])} volts at the output.",
-                    f"The output is {_g(ms['v_out'])} volts and the current is {_g(ms['source_current_a'] * 1000)} milliamps.", [])
-        return (f"Putting {_g(p['V'])} volts across the resistors draws {_g(ms['source_current_a'] * 1000)} milliamps.",
-                f"The current is {_g(ms['source_current_a'] * 1000)} milliamps through {_g(ms['total_resistance_ohm'])} ohms in total.", [])
-    if s == "pyscf_abinitio":
-        e = float(ms["total_energy_hartree"])
-        method = str(ms.get("method") or "HF")
-        label = "Hartree-Fock" if "HF" in method and "B3LYP" not in method and "DFT" not in method.upper() else "density-functional"
-        mag = f"{abs(e):g}"
-        if e < 0:
-            sent = f"The {label} energy of {ms['molecule']} is {mag} hartree below zero."
-        else:
-            sent = f"The {label} energy of {ms['molecule']} is {mag} hartree."
-        return sent, sent, []
-    if s == "buoyancy_ondevice":
-        who = str(p.get("patient") or "body")
-        fluid = str(ms.get("fluid") or p.get("fluid") or "the fluid")
-        verb = {"float": "floats", "sink": "sinks", "suspend": "hangs"}.get(run["outcome"], "moves")
-        sent = f"The {who} {verb} in {fluid}."
-        return sent, sent, []
-    if s == "thermal_ondevice":
+        n = str(p.get("substance") or "")
+        mw = ms.get("average_mw")
+        formula = str(ms.get("formula") or "")
+        atoms = []
+        if formula:
+            atoms.append(_karaka("is", [f"the molecular formula of {n}", formula]))
+        if mw is not None:
+            atoms.append(_karaka("is", [f"the molecular weight of {n}", f"{mw:g} daltons"]))
+            atoms.append(_karaka("is", [f"the molecular mass of {n}", f"{mw:g} daltons"]))
+        return atoms
+    if s == "thermal_ondevice" and ms.get("temperature_c") is not None:
         sub = str(ms.get("substance") or p.get("substance") or "it")
-        phase = str(ms.get("phase") or "liquid")
-        temp = ms.get("temperature_c")
-        verb = {"solid": "freezes", "melting": "melts", "liquid": "stays liquid", "boiling": "boils", "gas": "boils"}.get(phase, "changes")
-        if phase == "liquid":
-            sent = f"The {sub} stays liquid."
-        else:
-            sent = f"The {sub} {verb}."
-        extra = f"The final temperature of the {sub} is {temp:g} degrees."
-        return sent, sent, [extra]
-    if s == "openfoam_cfd":
-        it = ms.get("iterations")
-        return (f"The OpenFOAM run at {_g(ms['inlet_speed_m_s'])} meters per second took {it} iterations.",
-                f"The flow solution settles after {it} iterations.", [])
-    raise ValueError("no clause for " + s)
+        return [_karaka("is", [f"the final temperature of the {sub}", f"{float(ms['temperature_c']):g} degrees"])]
+    return []
 
 
-VERB_3SG = {"topple": "topples", "slide": "slides", "stay": "stays", "fall": "falls", "roll": "rolls", "land": "lands"}
-GERUND = {"push": "pushing", "drop": "dropping", "throw": "throwing", "release": "releasing", "shove": "shoving",
-          "nudge": "nudging", "tap": "tapping", "poke": "poking", "hit": "hitting", "kick": "kicking", "bump": "bumping",
-          "flick": "flicking", "toss": "tossing", "launch": "launching", "let": "releasing"}
-
-
-def _rigid_clause(scene: dict[str, Any], outcome: str, ms: dict[str, Any]) -> tuple[str, str]:
-    body = scene.get("body") or {}
-    if body.get("average"):
-        # The grammar round-trips "The average <kind> of <mass> kilograms <verb>." so the outward compile can speak it.
-        phrase = str(body.get("phrase") or body.get("noun") or "object")
-        mass = float(body.get("mass") or 0)
-        verb = VERB_3SG.get(outcome, outcome + "s")
-        sent = f"The average {phrase} of {mass:g} kilograms {verb}."
-        return sent, sent
-    # A passive or reordered intervention is spoken from the kāraka slots (patient, point, surface), not by
-    # gluing the raw clause onto a gerund. The active "you …" form keeps the historical sentence so recorded
-    # receipts re-seal.
-    raw = str(scene.get("intervention_raw") or "")
-    words = raw.split()
-    verb = str(scene.get("verb") or "")
-    active = bool(words) and (words[0].lower() in ("you", "i", "we", "they", "someone", "one") or words[0].lower().startswith(verb[:4] if len(verb) >= 4 else verb))
-    if not active and scene.get("body"):
-        noun = scene["body"]["noun"]
-        subject = "The " + noun
-        point = (scene.get("point") or {}).get("name")
-        surface = (scene.get("surface") or {}).get("name")
-        ger = GERUND.get(verb, (verb or "moving") + "ing")
-        where = ""
-        if point and point not in ("center", "centre"):
-            where += " near the " + point
-        if surface and surface != "table":
-            where += " on " + surface
-        if outcome == "land":
-            return (f"{ger.capitalize()} the {noun} makes it land.",
-                    f"{subject} lands {ms['range_m']:g} meters away after {ms['flight_time_s']:g} seconds.")
-        return f"{ger.capitalize()} the {noun}{where} makes it {outcome}.", f"{subject} {VERB_3SG.get(outcome, outcome + 's')}."
-    words = scene["intervention_raw"].split()
-    if words and words[0].lower() in ("you", "i", "we", "they", "someone", "one"):
-        words = words[1:]
-    rest = " ".join(words[1:])
-    if scene["verb"] == "release" and rest.lower().startswith("go of "):
-        rest = rest[6:]
-    if rest.lower().startswith(("a ", "an ")):
-        rest = "the " + rest.split(" ", 1)[1]
-    ger = GERUND.get(scene["verb"], scene["verb"] + "ing")
-    adj = " ".join(scene["body"].get("adjectives") or [])
-    subject = "The " + (adj + " " if adj else "") + scene["body"]["noun"]
-    if outcome == "land":
-        return (f"{ger.capitalize()} {rest} makes it land.",
-                f"{subject} lands {ms['range_m']:g} meters away after {ms['flight_time_s']:g} seconds.")
-    return f"{ger.capitalize()} {rest} makes it {outcome}.", f"{subject} {VERB_3SG.get(outcome, outcome + 's')}."
-
+def _subject_clause(p: dict[str, Any], run: dict[str, Any]) -> tuple[str, str, list[str]]:
+    """(premise clause, spoken effect, extra fact sentences), each realized from its kāraka atom."""
+    effect_atom = _effect_struct(p, run)
+    if not effect_atom:
+        raise ValueError("no clause for " + str(p.get("solver")))
+    effect = _realize(effect_atom)
+    clause_atom = effect_atom
+    if p.get("solver") in ("mujoco_wasm", "sympy_pyodide"):
+        clause_atom = _intervention_struct(p.get("scene") or {}) or effect_atom
+    clause = _realize(clause_atom)
+    extras = []
+    for atom in _extra_structs(p, run):
+        sentence = _realize(atom)
+        if sentence and sentence not in (clause, effect) and sentence not in extras:
+            extras.append(sentence)
+    return clause, effect, extras
 
 def _canon(x: Any) -> Any:
     """JSON-stable form: an integral float is written as an int (and -0.0 as 0), as JavaScript does, so the sha256
@@ -1304,46 +1285,9 @@ def receipt_sha256(body: dict[str, Any]) -> str:
 
 
 def _causal_reason(problem: dict[str, Any], run: dict[str, Any]) -> str:
-    """One short sentence the grammar can realize, naming the law that decided the outcome."""
-    s = problem.get("solver")
-    ms = run.get("measurements") or {}
-    if s == "mujoco_wasm" and problem.get("scene"):
-        chk = tip_check(problem["scene"])
-        if chk and run.get("outcome") == "topple":
-            return "The push height exceeds the critical height."
-        if chk and run.get("outcome") == "slide":
-            return "The critical height exceeds the push height."
-        if chk and run.get("outcome") == "stay":
-            slope_stay = (chk.get("slope") or {}) if isinstance(chk.get("slope"), dict) else {}
-            if slope_stay.get("outcome") == "stay":
-                return "The static friction exceeds the downhill pull."
-            return "The static friction exceeds the push force."
-        slope = (chk or {}).get("slope") if chk else None
-        if slope and slope.get("outcome") == "slide":
-            return "The slope exceeds the friction."
-        if slope and slope.get("outcome") == "topple":
-            return "The slope exceeds the tip angle."
-    if s == "buoyancy_ondevice":
-        who = str(problem.get("patient") or "body")
-        fluid = str(ms.get("fluid") or "the fluid")
-        if run.get("outcome") == "float":
-            return f"The density of the {who} is below the density of {fluid}."
-        if run.get("outcome") == "sink":
-            return f"The density of the {who} is above the density of {fluid}."
-    if s == "thermal_ondevice":
-        sub = str(ms.get("substance") or "it")
-        phase = str(ms.get("phase") or "")
-        if phase in ("boiling", "gas"):
-            return f"The final temperature of the {sub} is above the boiling point."
-        if phase == "solid":
-            return f"The final temperature of the {sub} is below the melting point."
-        if phase == "liquid":
-            return f"The final temperature of the {sub} is between the melting point and the boiling point."
-    if s == "pyscf_abinitio":
-        return "The self-consistent field converged."
-    if s == "astronomy_ondevice":
-        return "Gravity balances the centripetal acceleration."
-    return ""
+    """The law sentence, realized from the same kāraka atom the outcome comparison built."""
+    atom = _reason_struct(problem, run)
+    return _realize(atom) if atom else ""
 
 
 def _state_pair(problem: dict[str, Any], run: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -1507,7 +1451,8 @@ def _effect_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, An
                 _karaka("is", ["the output", f"{_g(ms['v_out'])} volts"]),
                 _karaka("is", ["the current", f"{_g(ms['source_current_a'] * 1000)} milliamps"]),
             ])
-        return _karaka("is", ["the current", f"{_g(ms['source_current_a'] * 1000)} milliamps"])
+        ohms = _mod("through", f"{_g(ms['total_resistance_ohm'])} ohms", "karana") if ms.get("total_resistance_ohm") is not None else None
+        return _karaka("is", ["the current", f"{_g(ms['source_current_a'] * 1000)} milliamps"], modifiers=[ohms] if ohms else None)
     if s == "pyscf_abinitio":
         e = float(ms["total_energy_hartree"])
         method = str(ms.get("method") or "HF")

@@ -87,7 +87,9 @@ T('Ask: a receipt for this intervention is spoken (C ≥ 0.87, Echo ≥ 0.85); t
 });
 
 T('honest holds: no receipt, a receipt for another intervention, or a receipt without its sha256', () => {
-  expect(ask(TOP, []).product_reply === false, 'no receipt');
+  // 4.9.257: with no preloaded receipt this process measures the push in the same WASM worker the phone uses.
+  const bare = ask(TOP, []);
+  expect(bare.product_reply === true && /topples/.test(bare.reply || ''), 'measured ' + (bare.reply || ''));
   expect(ask(TOP, FIX[BOTTOM].rows).product_reply === false, 'wrong scene');
   const forged = JSON.parse(JSON.stringify(FIX[TOP].rows)); forged[0].sim.sha256 = 'x';
   expect(ask(TOP, forged).product_reply === false, 'forged receipt');
@@ -105,9 +107,9 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 });
 
 T('version, registry, CONFLICTS name 4.9.244', () => {
-  expect(read('VERSION').trim() === '4.9.256', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.257', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.256' && reg.features.some(x => x.id === 'R4244-SIM-ROUTER') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.257' && reg.features.some(x => x.id === 'R4244-SIM-ROUTER') && reg.count === reg.features.length, 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.244'), 'CONFLICTS');
 });
 

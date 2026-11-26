@@ -23,6 +23,8 @@ jobs:
           python-version: '3.12'
       - name: Install the pinned math wheels (4.9.216; the same SHA-256 lock as data/forge_libs.json)
         run: 'python -m pip install --require-hashes --no-deps --only-binary :all: --target source/_mathlibs -r source/engine/requirements-math.txt'
+      - name: Install biopython and scipy for the biology and quantum solvers
+        run: python -m pip install 'biopython==1.84' 'scipy==1.14.1'
       - name: Prepare the clone
         run: sh source/tools/prepare_clone.sh
       - name: Writer lockdown suite (4.9.205), three passes

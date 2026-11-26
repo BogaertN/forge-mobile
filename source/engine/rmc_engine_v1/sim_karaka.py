@@ -323,12 +323,20 @@ def _token_state(part: dict[str, Any]) -> int:
     return 0
 
 
-def _token_theta(part: dict[str, Any]) -> float:
+def _token_theta(part: dict[str, Any], question: str = "") -> float:
     words = [str(t.get("w") or "") for t in (part.get("tokens") or [])]
     if "/" in words:
         i = words.index("/")
         if i + 1 < len(words) and re.fullmatch(r"\d+", words[i + 1]):
             return 1.0 / float(words[i + 1])
+    for w in words:
+        m = re.fullmatch(r"(?:pi|π)/(\d+)", w, re.I)
+        if m:
+            return 1.0 / float(m.group(1))
+    # The tokenizer keeps "pi" and "2" and drops the slash. The question still has it.
+    m = re.search(r"(?:pi|π)\s*(?:/|over)\s*(\d+)", str(question or ""), re.I)
+    if m:
+        return 1.0 / float(m.group(1))
     return 1.0
 
 
@@ -435,7 +443,7 @@ def read(question: str, frame: dict[str, Any] | None = None, facts: list[dict[st
         if "enzyme" in lemmas or "vmax" in words or "km" in words.split():
             return {"question": q, "frame": fr, "kind": "enzyme", "part": part}
         if "rabi" in words or "pulse" in lemmas:
-            return {"question": q, "frame": fr, "kind": "quantum", "gate": "RABI", "state": _token_state(part), "part": part, "theta_over_pi": _token_theta(part)}
+            return {"question": q, "frame": fr, "kind": "quantum", "gate": "RABI", "state": _token_state(part), "part": part, "theta_over_pi": _token_theta(part, q)}
         if "capacitor" in lemmas or "farad" in lemmas or "resistor" in lemmas or "volt" in lemmas:
             return {"question": q, "frame": fr, "kind": "circuit", "part": part}
         if "rate" in lemmas and "constant" in lemmas:
@@ -511,7 +519,7 @@ def read(question: str, frame: dict[str, Any] | None = None, facts: list[dict[st
             gate = "RABI"
         if gate is None:
             return {"hold": True, "reason": "gate_missing", "missing": "gate", "question": q, "frame": fr}
-        return {"question": q, "frame": fr, "kind": "quantum", "gate": gate, "state": state}
+        return {"question": q, "frame": fr, "kind": "quantum", "gate": gate, "state": state, "theta_over_pi": _token_theta(part, q)}
 
     if k == "orbit" or "satellite" in heads:
         body = "earth"

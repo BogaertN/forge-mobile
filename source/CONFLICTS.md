@@ -1,3 +1,13 @@
+## v4.9.257 — Coherence of two-premise derivations, realized sim sentences (Nic)
+
+**Conflict:** A sound two-premise derivation was measured as if the derived sentence were its own premise, so coherence stayed at 0.838 while a copula chain of two remembered sentences cleared 0.87. Rigid-body wording was a verb table. Biology and quantum were not installed in this process. A WASM push was reported as not a Python family. Thirst and dream were not derived from the self-model.
+
+**Where:** A derived containment or kinship row is measured on the phone facts that produced it, and the checker replays that rule. The inverse lemma is licensed by the rule, the same way a relational head is. Effect and law sentences are `grammar.js` realizations of the kāraka atoms. Node runs the same MuJoCo, RDKit, and ngspice worker and Python classifies the measurements. Biopython 1.84 and SciPy 1.14.1 are installed in the test environment, not stored in the repo. A kernel question whose verb class is emotion, perception, body, or consumption, and whose gloss names sensation, emotion, experience, body, or sleep, is denied by a clause realized from that frame.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. The sound containment and the niece inverse now score 0.910, the same floor a copula chain clears. The opposite containment is not derived. Solver measurements in the recorded receipts are unchanged. Thirst is denied because "feel" is glossed as a sensation. Dream is denied because a perception sense is glossed as experience while sleeping.
+
+Proof: `verify/r4280_suite.js`.
+
 ## v4.9.256 — Hand-offs that were still open (Nic)
 
 **Conflict:** A missing size was a silent hold. Two ability questions joined by "and" did not both answer. "Half as tall" did not scale the prior body. A negative containment and a possessive kinship inverse were not derived. "Do you have a pulse?" did not follow from having no body.
