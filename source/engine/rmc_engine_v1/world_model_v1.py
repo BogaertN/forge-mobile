@@ -2954,10 +2954,11 @@ def _induced_claims(world: dict[str, Any], question: str, qframe: dict[str, Any]
             surface = str(karma.get("text"))
         if len(premises) >= 3:
             break
-    text = _realize(_karaka("have", ["the " + str(applied.get("subject") or ""), surface]))
+    holder = "the " + str(applied.get("subject") or "")
+    text = _realize(_karaka("have", [holder, surface]))
     if not text:
         return [], report
-    atom = {"predicate": "have", "args": [str(applied.get("subject") or ""), surface], "polarity": "pos"}
+    atom = {"predicate": "have", "args": [holder, surface], "polarity": "pos"}
     proof = _direct_proof(world, subject_fact)
     checked = {"ok": True, "reason": "gilligan_validated", "cite": "learning_loop.gilligan"}
     claim = _finish_claim(world, text, atom, premises, proof, checked, "supported_only", "WM-INDUCED", phase_path)
