@@ -3503,6 +3503,7 @@ def _listener_atom(atom: dict[str, Any] | None, voice: Any) -> dict[str, Any] | 
             t = voice(a)
             return t[:1].lower() + t[1:] if t != a or a[:1].islower() else t
         out["args"] = [arg(a) for a in out["args"]]
+    out["args"] = [a for a in out["args"] if str(a).strip()]
     return out
 
 

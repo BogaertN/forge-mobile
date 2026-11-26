@@ -2305,22 +2305,22 @@
    "raw": null,
    "outcome": "translate",
    "primary_solver": "biology_ondevice",
-   "clause": "The ribosome makes the protein MAIVMGR and then the ribosome stops.",
-   "effect_text": "The ribosome makes the protein MAIVMGR and then the ribosome stops.",
-   "receipt_id": "sim-bda8a1502c63d001",
-   "sha256": "bda8a1502c63d001c9dce07df511d202749b255eea1ff38717a3163f17ae7000",
+   "clause": "The ribosome makes the protein MAIVMGR and then stops.",
+   "effect_text": "The ribosome makes the protein MAIVMGR and then stops.",
+   "receipt_id": "sim-8e4302337bbff26d",
+   "sha256": "8e4302337bbff26d728cebec3fe2f2752d63c060810aff587d6ac62d3f509e53",
    "rows": [
     {
-     "id": "sim-bda8a1502c63d001",
-     "text": "The ribosome makes the protein MAIVMGR and then the ribosome stops.",
+     "id": "sim-8e4302337bbff26d",
+     "text": "The ribosome makes the protein MAIVMGR and then stops.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-bda8a1502c63d001",
-      "sha256": "bda8a1502c63d001c9dce07df511d202749b255eea1ff38717a3163f17ae7000",
+      "receipt_id": "sim-8e4302337bbff26d",
+      "sha256": "8e4302337bbff26d728cebec3fe2f2752d63c060810aff587d6ac62d3f509e53",
       "intervention_key": "atggccattgtaatgggccgctgaaagggtgcccgatag dna ribosome translat",
       "question": null,
-      "effect_text": "The ribosome makes the protein MAIVMGR and then the ribosome stops.",
+      "effect_text": "The ribosome makes the protein MAIVMGR and then stops.",
       "outcome": "translate",
       "solver": "biology_ondevice",
       "engine": "biopython 1.84 Bio.Seq (standard table 1)",
@@ -2344,7 +2344,7 @@
       "patient": null,
       "spoken_atoms": [
        {
-        "text": "The ribosome makes the protein MAIVMGR and then the ribosome stops.",
+        "text": "The ribosome makes the protein MAIVMGR and then stops.",
         "atom": {
          "predicate": "coord",
          "args": [],
