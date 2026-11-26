@@ -68,6 +68,12 @@
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "creative": { "n": 1, "file": "creative_266.json" },
       "note": "Standing counts are unchanged. A creative reply speaks every gathered clause. An admitted learned rule survives reload, and a retraction still archives it."
+    },
+    {
+      "version": "4.9.267",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. A simulator receipt is kept as evidence and survives reload. It is not a fact and not a publisher."
     }
   ]
 }

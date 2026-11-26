@@ -279,6 +279,9 @@
     } catch (e) { out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'sim_error', error: String(e && e.message || e).slice(0, 240), calls_llm: false, asked: q }; }
     out.elapsed_ms = Date.now() - t0;
     root.__lastSim = out;
+    if (out && out.ok && root.KSimReceipts && typeof root.KSimReceipts.record === 'function') {
+      try { root.KSimReceipts.record(out); } catch (e) { /* the turn still has the receipt */ }
+    }
     return out;
   }
   function propertyHold(rec) {

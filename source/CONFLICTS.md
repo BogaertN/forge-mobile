@@ -1,3 +1,13 @@
+## v4.9.267 — A simulator receipt is kept as evidence (Nic, 26 Nov 2026)
+
+**Conflict:** A simulator receipt lived only for the turn. The next simulation replaced it. Nothing in it was a structured scene with named quantities and units that a later idle pass could read.
+
+**Where:** `sim_receipts.js` keeps each sealed receipt: the scene, the quantities and the units those names already carried, the outcome, and the mechanism atoms. Reloading reads them back. The same receipt is not stored twice. A row marked as a fact is refused. The turn still passes the receipt to the engine as this turn's premise. The kept copy is evidence. It is not a world fact and it is not a publisher.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. Predictions are still not facts.
+
+Proof: `verify/r4285_suite.js`.
+
 ## v4.9.266 — Every gathered clause is spoken, and a learned rule survives reload (Nic, 26 Nov 2026)
 
 **Conflict:** On the phone a creative reply used one gathered sentence even when several admitted and single-source clauses were in hand. Admitted learned rules lived only in the page's memory, so a reload dropped them.
