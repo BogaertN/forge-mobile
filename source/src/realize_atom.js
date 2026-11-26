@@ -22,7 +22,12 @@
   function clauseFrom(atom) {
     if (!atom || typeof atom !== 'object') return null;
     if (atom.predicate === 'coord' || (atom.parts && atom.parts.length)) {
-      return { coord: atom.parts.map(clauseFrom), op: atom.op || 'and', comma: false };
+      const parts = (atom.parts || []).map(clauseFrom);
+      const key = n => JSON.stringify(n && (n.pron ? { pron: n.pron } : { det: n && n.det, head: n && n.head }));
+      for (let i = 1; i < parts.length; i++) {
+        if (parts[0] && parts[i] && key(parts[i].subj) === key(parts[0].subj)) parts[i].sharedSubj = true;
+      }
+      return { coord: parts, op: atom.op || 'and', comma: false };
     }
     const tense = atom.tense || 'present';
     const pol = atom.polarity === 'neg' ? 'neg' : 'pos';
