@@ -603,6 +603,6 @@ function clauseText(c, persp) {
 function material(x) { return JSON.parse(JSON.stringify(x, (k, v) => (v && typeof v === 'object' && v.boundOrig ? v.boundOrig : ['rules', 'surface', 'f', 'form', 'dosupport', 'sense', 'resolvedFrom', 'plural', 'resolved_reading', 'front', 'indefinite', 'group'].includes(k) ? undefined : v))); }
 let isMassUnit = function () { return false; };
 try { isMassUnit = (typeof require === 'function' ? require('./units.js') : root.KUnits).isMass; } catch (e) { /* the table is optional only if the script failed to load */ }
-const api = { ADJ_INF, FRAME_SUPP, SEED_FRAMES, IRRV, IRRF, IRRNP, IRRN, dbl, CLOSED, CL, PRON, TIMEW, FEMALE, MALE, PERSONISH, NAMEISH, SUBW, CTRL_INF, CTRL_GER, learnExc, splitSentences, tokenize, analyse, analyseAll, lemmatize, inflect, Parser, npText, clauseText, vpText, material };
+const api = { ADJ_INF, FRAME_SUPP, SEED_FRAMES, IRRA, IRRV, IRRF, IRRNP, IRRN, dbl, CLOSED, CL, PRON, TIMEW, FEMALE, MALE, PERSONISH, NAMEISH, SUBW, CTRL_INF, CTRL_GER, learnExc, splitSentences, tokenize, analyse, analyseAll, lemmatize, inflect, Parser, npText, clauseText, vpText, material };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KGrammar = api;
 })(this);

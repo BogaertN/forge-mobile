@@ -1,3 +1,13 @@
+## v4.9.261 — Creative composition from fact atoms and every solver (Nic, 26 Nov 2026)
+
+**Conflict:** Creative mode recited cited facts. The scene trigger was a word list (water, sea, tide, harbor, boat) plus "a measured height means push near the top." The arithmetic capability clause named add, subtract, multiply, and divide by hand. "Which is the better" and "would you rather" and "favorite" were not opinions. A topic with no fact stopped at a canned sentence instead of a gap.
+
+**Where:** `sim_karaka.questions_for_rows` builds a scene question from the clause's own verb, its in-adjunct, a geometric measure, or an above-measure. `plan()` chooses the solver. A rigid body with no stated point uses the halfway point in the solver's point table, not "near the top." `computed_math.operation_lemmas` is the capability set (`math_ops.js`). Parse marks a comparative, a superlative, or an evaluative lexicon class as `prefer`. `creative.py` realizes an arc (setting, before, after, consequence) with `grammar.js`. A missing fact is an Athena gap and is not stored. Factual floors are unchanged.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A creative reply is not a fact. The 4.9.260 boat poem expected "topples" because the old question pushed near the top. The halfway point slides, so `r4282` now expects "slides."
+
+Proof: `verify/r4283_suite.js`. Trace: `verify/novel_heldout/creative_261.json`.
+
 ## v4.9.260 — Orbit altitude, capability realization, creative composition (Nic, 26 Nov 2026)
 
 **Conflict:** "What is the period of a satellite 350 kilometers above Earth?" asked for the altitude of the Earth. The number was the end of the subject, so the locative kept the unit and the body and lost the measure. "Can you add two numbers?" measured C 0.909 with Echo 0 because no sentence was realized: the manual has no clause for that verb. A poem or an opinion had no path.

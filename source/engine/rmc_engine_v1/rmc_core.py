@@ -561,7 +561,25 @@ def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict
 def _creative_result(question: str, piece: dict[str, Any]) -> dict[str, Any]:
     """A composed reply. It is not an admitted fact and it is not offered for storage."""
     text = str(piece.get("text") or "")
-    quotes = [{"id": row.get("id"), "text": row.get("text"), "source": row.get("source")} for row in (piece.get("lines") or []) if isinstance(row, dict)]
+    beats = [row for row in (piece.get("beats") or piece.get("lines") or []) if isinstance(row, dict) and row.get("text")]
+    quotes = [{"id": row.get("id"), "text": row.get("text"), "source": row.get("source")} for row in beats]
+    sentences = []
+    broken = False
+    for row in beats:
+        atom = row.get("atom") if isinstance(row.get("atom"), dict) and row.get("atom", {}).get("predicate") else None
+        stanza = piece.get("form") == "lines" and row.get("kind") != "setting" and not broken and any(b.get("kind") == "setting" for b in beats)
+        if stanza:
+            broken = True
+        sentences.append({
+            "text": row.get("text"),
+            "atom": atom,
+            "verbatim": atom is None,
+            "role": "creative",
+            "source_id": row.get("id"),
+            "break_before": stanza,
+        })
+    if not sentences:
+        sentences = [{"text": text, "atom": None, "verbatim": True, "role": "creative"}]
     return {
         "ok": True, "foundations": True, "live": True, "engine": "rmc_engine_v1", "calls_llm": False, "model_invoked": False,
         "product_reply": True, "reply": text, "held": False, "route": "creative", "answer_path": "creative",
@@ -570,7 +588,7 @@ def _creative_result(question: str, piece: dict[str, Any]) -> dict[str, Any]:
         "admit": {"disposition": "creative", "applied_to_ask": False, "rule": "CREATIVE-NOT-A-FACT"},
         "creative": piece,
         "memory_write": {"committed": False, "proposed": False, "rule": "CREATIVE-NOT-A-FACT", "calls_llm": False},
-        "outward": {"schema": "forge.outward/v1", "measured_text": text, "sentences": [{"text": text, "atom": None, "verbatim": True, "role": "creative"}], "quotes": quotes[:8]},
+        "outward": {"schema": "forge.outward/v1", "measured_text": text, "form": piece.get("form") or "prose", "sentences": sentences, "quotes": quotes[:8]},
         "world_model": {"derive": {"status": "creative", "reason": "composed from cited facts and sims", "survivor": {"how": "WM-CREATIVE", "text": text, "spoken": text}}},
         "question": question,
     }

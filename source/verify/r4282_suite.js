@@ -40,7 +40,7 @@ function register(C, expect) {
     const opinion = ask('Which do you prefer, a harp or a drum?', ['A harp is a lute.', 'A lute is a stringed instrument.']);
     expect(opinion.route === 'creative' && /harp/.test(opinion.reply || '') && /stringed instrument/.test(opinion.reply || ''), JSON.stringify(opinion));
     const poem = ask('Write a poem about a boat. What is 6 times 7?', ['The boat weighs 5.4 kilograms and is 0.70 meters tall and 0.20 meters wide and 0.20 meters deep.']);
-    expect(poem.route === 'creative' && /topples/.test(poem.reply || '') && /42/.test(poem.reply || '') && poem.write === false, JSON.stringify(poem));
+    expect(poem.route === 'creative' && /slides/.test(poem.reply || '') && /42/.test(poem.reply || '') && poem.write === false, JSON.stringify(poem));
   });
 }
 module.exports = register;

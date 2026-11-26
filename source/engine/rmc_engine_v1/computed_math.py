@@ -1336,6 +1336,16 @@ def _fmt_frac(f: Fraction) -> str:
 
 
 _PREC = {"add": 1, "sub": 1, "mul": 2, "div": 2, "pct": 3, "pctof": 2, "pow": 4, "neg": 3, "root": 5, "num": 9, "var": 9, "paren": 9, "fn": 9, "const": 9}
+# The operations render() speaks, and the verb lemma a capability question uses for each.
+# square and cube are the exponents render() writes as "squared" and "cubed".
+_OP_LEMMA = {"add": "add", "sub": "subtract", "mul": "multiply", "div": "divide", "square": "square", "cube": "cube"}
+
+
+def operation_lemmas() -> list[str]:
+    """Verb lemmas of the operations this grammar compiles. Not a second list in the ask path."""
+    lemmas = {_OP_LEMMA[k] for k in ("add", "sub", "mul", "div")}
+    lemmas.update(("square", "cube"))
+    return sorted(lemmas)
 
 
 def render(node) -> str:
