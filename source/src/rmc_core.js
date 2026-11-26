@@ -159,6 +159,17 @@ function withClauses(payload, QF, F) {
       }
     }
   } catch (e) {}
+  /* A capability question whose verb is an installed arithmetic operation has no manual sentence.
+   * The clause is the question's own kartṛ and karma, for this turn, and it is not stored. */
+  try {
+    const fr = payload.frame;
+    const arith = { add: 1, subtract: 1, multiply: 1, divide: 1 };
+    if (fr && fr.wh_role === 'polarity' && fr.modality === 'able' && arith[fr.kriya] && fr.karma && fr.karma.text && fr.kartr && fr.kartr.kernel) {
+      const text = 'You ' + fr.kriya + ' ' + fr.karma.text + '.';
+      const cl = QF.clause(text, F);
+      if (cl && cl.parsed) m.self = m.self.concat([{ id: 'cap:' + fr.kriya, text: text, tier: 'self', trust: 'trusted', clause: cl, source: 'self_model', capability: 'cap.math.whole_number_arithmetic.v1' }]);
+    }
+  } catch (e) {}
   for (const k of CLAUSE_KEYS) if (Array.isArray(m[k])) m[k] = m[k].map(r => clauseRow(r, QF, F, stat));
   if (Array.isArray(m.pools)) m.pools = m.pools.map(p => p && Array.isArray(p.rows) ? Object.assign({}, p, { rows: p.rows.map(r => clauseRow(r, QF, F, stat)) }) : p);
   stat.ms = Date.now() - t0;

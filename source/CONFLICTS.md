@@ -1,3 +1,13 @@
+## v4.9.260 — Orbit altitude, capability realization, creative composition (Nic, 26 Nov 2026)
+
+**Conflict:** "What is the period of a satellite 350 kilometers above Earth?" asked for the altitude of the Earth. The number was the end of the subject, so the locative kept the unit and the body and lost the measure. "Can you add two numbers?" measured C 0.909 with Echo 0 because no sentence was realized: the manual has no clause for that verb. A poem or an opinion had no path.
+
+**Where:** A number before a length unit is not the end of the subject (`qframe.js` `subjectOnly`), so the locative keeps "350 kilometers above Earth" and the orbit solver measures the period. A capability question whose verb is add, subtract, multiply, or divide gets a turn-only self clause from that installed operation (`rmc_core.js` `withClauses`). It is not written into the manual. Parse marks compose, narrate, describe, and prefer from the lexicon class of the verb and the object (`markExpressive`). `creative.py` speaks only cited facts, solver sentences, and computed sentences, labelled creative, and does not propose memory.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A creative reply is not a fact.
+
+Proof: `verify/r4282_suite.js`. Audit: `docs/CREATIVE_MODE.md`.
+
 ## v4.9.259 — Learned rules are admitted when Gilligan validates them (Nic, 26 Nov 2026)
 
 **Conflict:** A Gilligan-clean induction stayed a proposal until a person listed its id. A frame pattern stayed unused until a second admit. A later counterexample did not retire the row. An answer that used a learned rule was not labelled.

@@ -558,11 +558,36 @@ def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict
     }
 
 
+def _creative_result(question: str, piece: dict[str, Any]) -> dict[str, Any]:
+    """A composed reply. It is not an admitted fact and it is not offered for storage."""
+    text = str(piece.get("text") or "")
+    quotes = [{"id": row.get("id"), "text": row.get("text"), "source": row.get("source")} for row in (piece.get("lines") or []) if isinstance(row, dict)]
+    return {
+        "ok": True, "foundations": True, "live": True, "engine": "rmc_engine_v1", "calls_llm": False, "model_invoked": False,
+        "product_reply": True, "reply": text, "held": False, "route": "creative", "answer_path": "creative",
+        "coherence": None, "drift": None,
+        "echo": {"score": 1.0 if piece.get("well_formed") else 0.0, "pass": bool(piece.get("well_formed")), "min": None, "method": "creative_grammar"},
+        "admit": {"disposition": "creative", "applied_to_ask": False, "rule": "CREATIVE-NOT-A-FACT"},
+        "creative": piece,
+        "memory_write": {"committed": False, "proposed": False, "rule": "CREATIVE-NOT-A-FACT", "calls_llm": False},
+        "outward": {"schema": "forge.outward/v1", "measured_text": text, "sentences": [{"text": text, "atom": None, "verbatim": True, "role": "creative"}], "quotes": quotes[:8]},
+        "world_model": {"derive": {"status": "creative", "reason": "composed from cited facts and sims", "survivor": {"how": "WM-CREATIVE", "text": text, "spoken": text}}},
+        "question": question,
+    }
+
+
 def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     payload = dict(payload or {})
     question = str(payload.get("question") or payload.get("text") or "").strip()
     if not question:
         return {"ok": False, "engine": "rmc_engine_v1", "error": "empty_question", "calls_llm": False, "product_reply": False}
+    from rmc_engine_v1 import question_frame
+    frame = question_frame.current()
+    if frame and frame.get("speech_act") in ("compose", "narrate", "describe", "prefer"):
+        from rmc_engine_v1.creative import compose
+        piece = compose(question, frame, payload.get("memory") if isinstance(payload.get("memory"), dict) else {})
+        if piece and piece.get("text"):
+            return _creative_result(question, piece)
     _payload_memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
     from rmc_engine_v1.world_model_v1 import set_relation_overlay
     set_relation_overlay(_payload_memory.get("relation_overlay") if isinstance(_payload_memory.get("relation_overlay"), dict) else None)

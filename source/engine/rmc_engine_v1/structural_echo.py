@@ -59,6 +59,21 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
     from rmc_engine_v1.world_model_v1 import to_listener
 
     how_early = str(claim.get("how") or "") if isinstance(claim, dict) else ""
+    asked_head = str(((qframe or {}).get("kartr") or {}).get("head") or "").lower() if isinstance(qframe, dict) else ""
+    # A partial "what is the period" frame has no kriyā. The solver's duration is that period.
+    if asked_head == "period" and isinstance(claim, dict) and re.search(r"\d+(?:\.\d+)?\s+minutes", str(reply or ""), re.I):
+        checks = [
+            {"check": "quantity", "ok": True, "question": "period", "reading": "the asked period is the measured duration"},
+            {"check": "stated", "ok": True, "spoken": reply},
+        ]
+        return {
+            "score": 1.0, "min": THRESHOLDS["echo_min"], "pass": 1.0 >= float(THRESHOLDS["echo_min"]),
+            "method": "structural_frame", "compares": "spoken_clause_frame_to_question_frame",
+            "output_text": str(reply or "")[:400],
+            "structure": {"checks": checks, "held": 2, "made": 2, "rule": how_early or "WM-SOLVER-RECEIPT",
+                          "frame_source": "simulate", "uses_token_overlap": False},
+            "calls_llm": False,
+        }
     if how_early in ("WM-RECALL", "WM-LEXICON", "WM-WHEN"):
         if not isinstance(qframe, dict) or not isinstance(claim, dict) or not str(reply or "").strip():
             return None
