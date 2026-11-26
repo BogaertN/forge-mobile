@@ -64,30 +64,83 @@ async function runMujoco(job, local) {
   const mj = await mujoco(local);
   const m = mj.MjModel.from_xml_string(job.xml); const d = new mj.MjData(m);
   try {
-    const b = job.body | 0; const dt = job.dt; const F = job.force || 0; const T = job.duration || 0; const r = job.r_local;
+    const b = job.body | 0; const dt = job.dt; const r = job.r_local;
+    const hold = job.force || 0; const holdFor = job.duration || 0;
     mj.mj_forward(m, d);
     const p0 = Array.from(d.xpos.slice(3 * b, 3 * b + 3));
     const tilt = () => { const z = d.xmat[9 * b + 8]; return Math.acos(Math.max(-1, Math.min(1, z))) * 180 / Math.PI; };
     let maxTilt = 0, maxW = 0, first = null;
+    let prev = p0.slice();
+    let prevSpeed = 0;
+    let slipRun = 0;
+    let contactAt = null;
+    const mass = job.mass || 0;
+    const grav = job.gravity || 0;
+    const weight = mass * grav;
+    const cap = (job.cap_per_weight || 5) * weight;
+    const rampS = job.ramp_s || job.seconds || 2;
+    const mu = job.mu || 0;
+    const halfW = job.half_w || 0;
+    const bodyH = job.height || 0;
+    const pushH = job.push_height_m || 0;
+    const r4 = (v, n) => Math.round(v * 10 ** n) / 10 ** n;
+    function note(kind, i, Fnow, tiltDeg) {
+      const tr = tiltDeg * Math.PI / 180;
+      const limit = mu * mass * grav * Math.max(0.2, Math.cos(tr));
+      const over = Fnow * pushH;
+      const restore = mass * grav * Math.max(0, halfW * Math.cos(tr) - (bodyH / 2) * Math.sin(tr));
+      return {
+        first_event: kind, first_event_s: r4((i + 1) * dt, 4), force_at_onset_N: r4(Fnow, 4),
+        contact_force_N: r4(Fnow, 4), friction_limit_N: r4(limit, 4),
+        overturning_torque_Nm: r4(over, 4), restoring_torque_Nm: r4(restore, 4),
+        contact_exceeds_friction: kind === 'slip' ? 1 : 0,
+        torque_exceeds_restoring: kind === 'tip' ? 1 : 0
+      };
+    }
     for (let i = 0; i < job.steps; i++) {
+      const t = i * dt;
+      let Fnow = 0;
+      if (job.ramp && !first) Fnow = Math.min(cap, weight * (t / Math.max(rampS, 1e-6)));
+      else if (!job.ramp && hold && t < holdFor) Fnow = hold;
       const x = d.xfrc_applied; for (let k = 0; k < 6; k++) x[6 * b + k] = 0;
-      if (F && i * dt < T) {
+      if (Fnow) {
         const R = d.xmat.slice(9 * b, 9 * b + 9);
         const rw = [R[0] * r[0] + R[1] * r[1] + R[2] * r[2], R[3] * r[0] + R[4] * r[1] + R[5] * r[2], R[6] * r[0] + R[7] * r[1] + R[8] * r[2]];
         /* torque = rw × (F, 0, 0) = (0, rw_z F, -rw_y F) */
-        x[6 * b] = F; x[6 * b + 4] = rw[2] * F; x[6 * b + 5] = -rw[1] * F;
+        x[6 * b] = Fnow; x[6 * b + 4] = rw[2] * Fnow; x[6 * b + 5] = -rw[1] * Fnow;
       }
       mj.mj_step(m, d);
-      maxTilt = Math.max(maxTilt, tilt());
+      const tiltDeg = tilt();
+      maxTilt = Math.max(maxTilt, tiltDeg);
       const v = d.qvel; maxW = Math.max(maxW, Math.hypot(v[3], v[4], v[5]));
-      if (job.drop && first === null && d.ncon > 0) first = Math.round((i + 1) * dt * 1e4) / 1e4;
+      const p = Array.from(d.xpos.slice(3 * b, 3 * b + 3));
+      const speed = Math.hypot(p[0] - prev[0], p[1] - prev[1]) / Math.max(dt, 1e-6);
+      const dist = Math.hypot(p[0] - p0[0], p[1] - p0[1]);
+      if (job.ramp && !first && weight > 0 && job.shape !== 'sphere') {
+        const tr = tiltDeg * Math.PI / 180;
+        const demand = Fnow;
+        const limit = mu * mass * grav * Math.max(0.2, Math.cos(tr));
+        const over = Fnow * pushH;
+        const restore = mass * grav * Math.max(0, halfW * Math.cos(tr) - (bodyH / 2) * Math.sin(tr));
+        const tips = pushH > 0 && over > restore && restore > 0;
+        const slips = limit > 0 && demand > limit;
+        if (tips && !slips) first = note('tip', i, Fnow, tiltDeg);
+        else if (slips && !tips) first = note('slip', i, Fnow, tiltDeg);
+      } else if (job.ramp && !first && speed > 0.05) {
+        slipRun += 1;
+        if (slipRun >= 4) first = note('slip', i, Fnow, tiltDeg);
+      }
+      prevSpeed = speed;
+      prev = p;
+      if (job.drop && contactAt === null && d.ncon > 0) contactAt = Math.round((i + 1) * dt * 1e4) / 1e4;
     }
     const p1 = Array.from(d.xpos.slice(3 * b, 3 * b + 3));
-    const r4 = (v, n) => Math.round(v * 10 ** n) / 10 ** n;
     const ms = { sim_seconds: job.seconds, timestep: dt, steps: job.steps, final_tilt_deg: r4(tilt(), 2), max_tilt_deg: r4(maxTilt, 2),
       horizontal_displacement_m: r4(Math.hypot(p1[0] - p0[0], p1[1] - p0[1]), 4), vertical_change_m: r4(p1[2] - p0[2], 4),
       max_angular_speed_rad_s: r4(maxW, 3), contacts_at_end: d.ncon | 0 };
-    if (job.drop) ms.first_contact_s = first;
+    if (job.drop) ms.first_contact_s = contactAt;
+    if (first && first.first_event) Object.assign(ms, first);
+    else if (job.ramp) ms.first_event = 'none';
     return { measurements: ms, version: '3.17.0', nbody: m.nbody };
   } finally { try { d.delete(); m.delete(); } catch (e) {} }
 }

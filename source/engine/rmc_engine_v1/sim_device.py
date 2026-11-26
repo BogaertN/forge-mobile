@@ -709,8 +709,43 @@ def mjcf(scene: dict[str, Any]) -> str:
 </mujoco>"""
 
 
+def _legacy_recorded_push(scene: dict[str, Any]) -> dict[str, Any]:
+    """The force stamped on recordings made before the ramp. Reseal only. A new push does not call this."""
+    body = scene["body"]
+    g = float(scene["gravity"])
+    _, _, half = _geom(body)
+    full = 2 * half if body["shape"] != "sphere" else 2 * body["radius"]
+    h = float(scene["point"]["fraction"]) * full
+    half_w = push_half(body) or 0.0
+    mass = float(body["mass"])
+    mu = float(scene.get("push_reference_mu") or scene["surface"]["mu"])
+    f_slip = mu * mass * g
+    f_tip = mass * g * half_w / max(h, 1e-6) if body["shape"] != "sphere" else float("inf")
+    push = scene.get("push") or {}
+    margin = float(push.get("margin", 1.25))
+    duration = float(push.get("duration_s", 0.5))
+    depth = body.get("depth")
+    width = body.get("width")
+    distinct = body.get("shape") == "box" and isinstance(depth, (int, float)) and width and abs(float(depth) - float(width)) > 1e-4
+    mu_s = max(float(scene["surface"]["mu"]), 1e-6)
+    rule = "1.25 x min(mu_table m g, m g w/2 / h)"
+    if distinct and h > 0 and (float((_point_top() or 0.92) * full) > half_w / mu_s):
+        margin = max(margin, 2.0)
+        f_tip = mass * g * half_w / max(float(_point_top() or 0.92) * full, 1e-6)
+        rule = "2 x min(mu_table m g, m g * half_depth / h_top); the same push at every height"
+        if h > half_w / mu_s:
+            duration = max(duration, 1.2)
+    return {"push_force_N": round(margin * min(f_slip, f_tip), 3), "push_rule": rule,
+            "push_duration_s": duration, "push_height_m": round(h, 4)}
+
+
+def _point_top() -> float | None:
+    from rmc_engine_v1.sim_scene import defaults
+    return float((defaults().get("points") or {}).get("top") or 0.92)
+
+
 def mujoco_job(scene: dict[str, Any]) -> dict[str, Any]:
-    """Everything the MuJoCo loop needs: MJCF, step count, and the FORGE push (force, body-frame point, duration)."""
+    """Everything the MuJoCo loop needs. A push ramps with weight, not with the slip or tip thresholds."""
     body = scene["body"]
     g = float(scene["gravity"])
     seconds = SIM_SECONDS
@@ -723,40 +758,22 @@ def mujoco_job(scene: dict[str, Any]) -> dict[str, Any]:
         full = 2 * half if body["shape"] != "sphere" else 2 * body["radius"]
         h = float(scene["point"]["fraction"]) * full
         half_w = push_half(body)
-        face = -half_w
+        face = -(half_w or 0.0)
         mass = float(body["mass"])
-        mu = float(scene.get("push_reference_mu") or scene["surface"]["mu"])
-        f_slip = mu * mass * g
-        f_tip = mass * g * half_w / max(h, 1e-6) if body["shape"] != "sphere" else float("inf")
-        push = scene.get("push") or {}
-        margin = float(push.get("margin", 1.25))
-        duration = float(push.get("duration_s", 0.5))
-        # A box whose depth differs from its width tips about the shallow edge. The reference push is
-        # held a little longer so the body can pass the balance point. Square boxes and cylinders keep
-        # the reference push, so recorded receipts re-seal.
-        depth = body.get("depth")
-        width = body.get("width")
-        distinct = body.get("shape") == "box" and isinstance(depth, (int, float)) and width and abs(float(depth) - float(width)) > 1e-4
-        mu_s = max(float(scene["surface"]["mu"]), 1e-6)
-        from rmc_engine_v1.sim_scene import defaults as _defaults
-        top_h = float((_defaults().get("points") or {}).get("top") or 0.92) * full
-        # One push for a shallow box: sized as the push at the top. Applied lower, that same force
-        # slides once it exceeds surface friction. Square boxes and cylinders keep the reference push.
-        if distinct and top_h > half_w / mu_s:
-            margin = max(margin, 2.0)
-            f_tip = mass * g * half_w / max(top_h, 1e-6)
-            job["push_rule"] = "2 x min(mu_table m g, m g * half_depth / h_top); the same push at every height"
-            if h > half_w / mu_s:
-                duration = max(duration, 1.2)
-                seconds = max(seconds, duration + 1.0)
-                job["steps"] = int(seconds / DT)
-                job["seconds"] = round(seconds, 3)
-        job.update(force=margin * min(f_slip, f_tip), duration=duration,
-                   r_local=[face, 0.0, h - half], push_height_m=round(h, 4))
+        job.update(ramp=True, force=0.0, mass=mass, gravity=g, mu=float(scene["surface"]["mu"]),
+                   half_w=float(half_w or 0.0), height=float(body.get("height") or full),
+                   cap_per_weight=5.0, ramp_s=seconds, duration=seconds,
+                   r_local=[face, 0.0, h - half], push_height_m=round(h, 4),
+                   shape=body.get("shape"))
     return job
 
 
 def classify_rigid(scene: dict[str, Any], ms: dict[str, Any]) -> str:
+    first = ms.get("first_event")
+    if first:
+        if scene["body"]["shape"] == "sphere":
+            return "roll" if first == "slip" else "stay"
+        return {"tip": "topple", "slip": "slide", "none": "stay"}.get(str(first), "stay")
     if scene["action"] == "drop":
         return "fall" if ms["vertical_change_m"] < -0.5 * max(scene.get("drop_height", 0.0), 0.02) else "stay"
     if scene["body"]["shape"] == "sphere":
@@ -986,7 +1003,7 @@ def tip_check(scene: dict[str, Any]) -> dict[str, Any] | None:
     mass = float(b.get("mass") or 0.0)
     g = float(scene.get("gravity") or 0.0)
     if mass > 0 and g > 0:
-        F = float(mujoco_job(scene).get("force") or 0.0)
+        F = float(_legacy_recorded_push(scene).get("push_force_N") or 0.0)
         if F > 0:
             F_slip = mu * mass * g
             F_tip = mass * g * half_w / max(h, 1e-6)
@@ -1173,10 +1190,11 @@ def finish(problem: dict[str, Any], raw: dict[str, Any]) -> dict[str, Any]:
             if str(exc) == "depth_missing":
                 return {"solver": s, "error": "depth_missing", "outcome": None}
             raise
-        if sc["action"] == "push":
-            ms.update(push_force_N=round(job["force"], 3),
-                      push_rule=job.get("push_rule") or "1.25 x min(mu_table m g, m g w/2 / h)",
-                      push_duration_s=job["duration"], push_height_m=job["push_height_m"])
+        if sc["action"] == "push" and not ms.get("first_event"):
+            ms.update(_legacy_recorded_push(sc))
+        elif sc["action"] == "push":
+            ms["push_height_m"] = job.get("push_height_m")
+            ms["push_schedule"] = "ramp with weight until the first motion"
         run = {"solver": s, "engine": "mujoco " + str(raw.get("version") or "3.17.0") + " (WASM, on device)",
                "outcome": classify_rigid(sc, ms), "measurements": ms, "classifier": CLASSIFIER}
         if USE_TIP_CHECK:
@@ -1486,10 +1504,40 @@ def _effect_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, An
     return None
 
 
+def _num(value: Any) -> float | None:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    return float(value)
+
+
+def _learned_reason(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, Any] | None:
+    """An admitted mechanism speaks only when its threshold names this outcome."""
+    law = problem.get("learned_mechanism") if isinstance(problem.get("learned_mechanism"), dict) else None
+    if not law or law.get("fact") is True or not law.get("expression") or law.get("status") != "admitted":
+        return None
+    if str(law.get("above") or "") != str(run.get("outcome") or "") and str(law.get("below") or "") != str(run.get("outcome") or ""):
+        return None
+    return law.get("atom") if isinstance(law.get("atom"), dict) else _karaka("exceed", [str(law.get("expression")), str(law.get("threshold"))])
+
+
 def _reason_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, Any] | None:
     """The law atom, from the same comparison that writes the causal sentence."""
     s = problem.get("solver")
     ms = run.get("measurements") or {}
+    if s == "mujoco_wasm" and ms.get("first_event"):
+        contact = _num(ms.get("contact_force_N"))
+        limit = _num(ms.get("friction_limit_N"))
+        over = _num(ms.get("overturning_torque_Nm"))
+        restore = _num(ms.get("restoring_torque_Nm"))
+        if run.get("outcome") == "topple" and ms.get("torque_exceeds_restoring") and over is not None and restore is not None:
+            return _karaka("exceed", ["the torque about the edge", "the restoring torque"])
+        if run.get("outcome") in ("slide", "roll") and ms.get("contact_exceeds_friction") and contact is not None and limit is not None:
+            return _karaka("exceed", ["the contact force", "the friction limit"])
+        if run.get("outcome") == "stay" and limit is not None and contact is not None and limit >= contact:
+            return _karaka("exceed", ["the friction limit", "the contact force"])
+        learned = _learned_reason(problem, run)
+        if learned:
+            return learned
     if USE_TIP_CHECK and s == "mujoco_wasm" and problem.get("scene"):
         chk = tip_check(problem["scene"])
         if chk and run.get("outcome") == "topple":
