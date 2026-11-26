@@ -53,8 +53,8 @@
     const massU = '(kilograms?|kg|pounds?|lbs?|grams?|g)';
     const dimW = '(tall|high|wide|deep|long|thick)';
     t = t.replace(new RegExp('\\b(\\d+(?:\\.\\d+)?)\\s+' + lenU + '\\s+' + dimW + '\\b', 'gi'), (m, n, u, d) => { stated.push({ num: String(n), unit: String(u).toLowerCase(), dim: String(d).toLowerCase() }); return ' '; });
-    t = t.replace(new RegExp('\\b(\\d+(?:\\.\\d+)?)\\s+' + massU + '\\b', 'gi'), (m, n, u) => { stated.push({ num: String(n), unit: String(u).toLowerCase(), dim: 'mass' }); return ' '; });
-    /* "on a 30 degree ramp": the number is the slope. Lift it so the noun phrase can parse. */
+    t = t.replace(/\bto\s+minus\s+(\d+(?:\.\d+)?)\s+degrees?\b/gi, (m, n) => { stated.push({ num: '-' + String(n), unit: 'degree', dim: 'temperature' }); return ' '; });
+    t = t.replace(new RegExp('\\b(\\d+(?:\\.\\d+)?)\\s+' + massU + '\\b(?!\\s+of\\b)', 'gi'), (m, n, u) => { stated.push({ num: String(n), unit: String(u).toLowerCase(), dim: 'mass' }); return ' '; });
     t = t.replace(/\b(\d+(?:\.\d+)?)\s+degrees?\s+(?=(?:ramp|slope|incline|plane|hill)\b)/gi, (m, n) => { stated.push({ num: String(n), unit: 'degree', dim: 'slope' }); return ' '; });
     t = t.replace(/\s+/g, ' ').trim();
     t = t.replace(/ and (?=near |on |at |across |along |onto |in )/gi, ' ');
@@ -182,7 +182,12 @@
     if (!p || !p.clause) {
       const open = parseOpen(forge, text);
       const trial = open && open.clause ? roles(open.clause, forge) : null;
-      if (trial && trial.kriya === 'be' && trial.pred && trial.pred.type === 'measure') { p = open; openLex = true; }
+      const weighed = trial && trial.kriya === 'weigh' && trial.karma && trial.karma.num != null;
+      if (trial && ((trial.kriya === 'be' && trial.pred && trial.pred.type === 'measure') || weighed)) { p = open; openLex = true; }
+    }
+    if (!p || !p.clause) {
+      const scaled = scaleOf(text, forge);
+      if (scaled) return scaled;
     }
     if (!p || !p.clause) return rec;
     const r = roles(p.clause, forge);
@@ -209,9 +214,68 @@
     }
     return [{ text: t, link: own }];
   }
+  /* Degree words the copula grammar does not yet attach. The rest of the sentence is parsed as a copula,
+   * and the degree is the factor of that predicate. Any noun. */
+  const SCALE = { twice: 2, thrice: 3, double: 2, triple: 3, half: 0.5 };
+  function scaleOf(text, forge) {
+    const m = String(text || '').match(/^(.*?)\s+(is|are|was|were)\s+(twice|thrice|double|triple|half|\d+(?:\.\d+)?\s+times)\s+(.+)$/i);
+    if (!m) return null;
+    const word = m[3].toLowerCase().replace(/\s+/g, ' ');
+    const factor = Object.prototype.hasOwnProperty.call(SCALE, word) ? SCALE[word] : parseFloat(word);
+    if (!(factor > 0)) return null;
+    const base = (m[1] + ' ' + m[2] + ' ' + m[4]).replace(/\s+/g, ' ').trim();
+    const open = parseOpen(forge, base);
+    if (!open || !open.clause) return null;
+    const r = roles(open.clause, forge);
+    if (r.kriya !== 'be' || !r.pred || r.pred.type !== 'np' || !r.kartr) return null;
+    return Object.assign({ schema: CLAUSE, text: String(text || ''), parsed: true, calls_llm: false, lexicon: 'open' }, r, {
+      pred: { type: 'scale', factor: factor, of: r.pred, text: m[3] + ' ' + (r.pred.text || '') }, parses: open.parses
+    });
+  }
+  /* A fronted "from YEAR to YEAR" is the same clause as the unfronted sentence, with the interval on kāla. */
+  function frontedKala(text, forge) {
+    const m = String(text || '').match(/^from\s+(\d{3,4})\s+to\s+(\d{3,4})\s+(.+)$/i);
+    if (!m) return null;
+    const inner = clauseOne(m[3], forge);
+    if (!inner || !inner.parsed) return null;
+    const extra = [
+      { prep: 'from', role: 'kala', np: { text: m[1], num: m[1], head: null } },
+      { prep: 'to', role: 'kala', np: { text: m[2], num: m[2], head: null } }
+    ];
+    const adj = (Array.isArray(inner.adj) ? inner.adj : []).concat(extra);
+    return Object.assign({}, inner, { text: text, adj: adj, adjuncts: adj });
+  }
+  /* "X weighs A and is B tall and C wide" is one subject and one clause per conjunct. A conjunct that is only a
+   * measure gets the subject's copula back. A conjunct with a different subject is not this construction. */
+  function coordinateOf(text, forge) {
+    const parts = String(text || '').split(/\s+and\s+/i).map(s => s.trim()).filter(Boolean);
+    if (parts.length < 2) return null;
+    const first = clauseOne(parts[0], forge);
+    if (!first || !first.parsed || !first.kartr || !first.kartr.text) return null;
+    const subj = first.kartr.text;
+    const head = String(first.kartr.head || '').toLowerCase();
+    const clauses = [Object.assign({}, first, { text: parts[0] })];
+    for (let i = 1; i < parts.length; i++) {
+      let trial = clauseOne(subj + ' ' + parts[i], forge);
+      if (!trial || !trial.parsed) trial = clauseOne(subj + ' is ' + parts[i], forge);
+      if (!trial || !trial.parsed) return null;
+      const h2 = String((trial.kartr && trial.kartr.head) || '').toLowerCase();
+      if (head && h2 && head !== h2) return null;
+      clauses.push(Object.assign({}, trial, { text: (subj + ' ' + parts[i]).replace(/\s+/g, ' ') }));
+    }
+    return {
+      schema: CLAUSE, text: text, parsed: true, split: 'coordinate', clauses: clauses, calls_llm: false,
+      kriya: first.kriya, kartr: first.kartr, pred: first.pred, karma: first.karma, adj: first.adj || [], polarity: first.polarity
+    };
+  }
   function clauseSplit(s, forge) {
     const parts = splitClauses(s);
-    if (parts.length < 2) return clauseOne(s, forge);
+    if (parts.length < 2) {
+      const one = clauseOne(s, forge);
+      if (one && one.parsed) return one;
+      const bare = String(s || '').replace(/[.!?]+$/, '').trim();
+      return frontedKala(bare, forge) || coordinateOf(bare, forge) || one;
+    }
     const clauses = parts.map(p => Object.assign(clauseOne(p.text, forge), { link: p.link }));
     return { schema: CLAUSE, text: s.replace(/[.!?]+$/, '').trim(), parsed: clauses.every(c => c && c.parsed), split: 'subordinate', clauses, calls_llm: false };
   }
@@ -481,6 +545,10 @@
     {
       const math = mathOperation(ws, lw, f);
       if (math) return math;
+      if (lw[0] === 'what' && (lw[1] === 'is' || lw[1] === 'are') && /^[xyzn]$/.test(lw[2] || '') && (lw[3] === 'when' || lw[3] === 'if')) {
+        const eq = ws.slice(4).map(w => bareTok(w).replace(/[?!.]+$/, '')).join(' ').replace(/\bis equal to\b/ig, '=').replace(/\bequals\b/ig, '=');
+        if (eq.indexOf('=') >= 0) return Object.assign(f, { speech_act: 'compute', mood: 'operation', op: 'solve', kind: 'equation', equations: [eq], malformed: false, rule: 'QF-MATH-SOLVE' });
+      }
     }
     /* interjection-only turn (closed class INTJ): the act is left to the engine's concept reading */
     if (lw.every(w => has(w.replace(/[,!.]/g, ''), 'INTJ') || has(w.replace(/[,!.]/g, ''), 'PLEASE'))) return Object.assign(f, { speech_act: 'interjection', mood: 'interjection', rule: 'QF-INTJ' });
@@ -654,6 +722,9 @@
           if (!x.r.pred || x.r.pred.type !== 'pp') return false;
           const prep = String(x.r.pred.prep || '').toLowerCase();
           if (!prep || prep === 'of' || !surface.includes(prep)) return false;
+          /* A bare year after in/from/to is kāla, not the predicate. The nominal stays the predicate. */
+          const yearNp = x.r.pred.np && /^\d{3,4}$/.test(String(x.r.pred.np.num || x.r.pred.np.text || ''));
+          if (yearNp && (prep === 'in' || prep === 'from' || prep === 'to')) return false;
           const complement = parsed.some(y => {
             const word = String((y.r.pred && y.r.pred.text) || '').toLowerCase();
             return y.r.pred && y.r.pred.type === 'adj' && adjective(word) && (y.r.adj || []).some(a => a && String(a.prep || '').toLowerCase() === prep && a.np);

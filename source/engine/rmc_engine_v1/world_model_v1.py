@@ -128,6 +128,20 @@ COPULA_RULE = {
     "guard": "distinct $x $z",
 }
 
+# A positive kind followed by a negative kind denies the kind. The negative premise has to be the second one:
+# "a dog is an animal" and "an animal is not a plant" deny "a dog is a plant". The other order does not.
+COPULA_NEG_RULE = {
+    "id": "WM-COPULA-NEG-CHAIN",
+    "class": "forward_chain",
+    "cite": "4.9.255: a positive copula then a negative copula denies the composed kind. The reverse order does not.",
+    "body": [
+        {"predicate": "is", "args": ["$x", "$y"], "polarity": "pos"},
+        {"predicate": "is", "args": ["$y", "$z"], "polarity": "neg"},
+    ],
+    "head": {"predicate": "is", "args": ["$x", "$z"], "polarity": "neg"},
+    "guard": "distinct $x $z",
+}
+
 # Geographic inclusion is copular "in" only when the phone grammar filed both names as lexicon locations
 # (noun.location). It is not enclosure and it is not every "in". Residence is the verb live plus adhikarana "in".
 GEO_RULE = {
@@ -639,6 +653,9 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
     elif verb and verb != "be" and karma:
         predicate, obj = verb, karma["text"]
         arg0 = kartr["text"]
+    elif verb and verb != "be" and not karma:
+        predicate, obj = verb, ""
+        arg0 = kartr["text"]
     else:
         return None, "clause_shape"
     covered = _clause_words(arg0 + " " + obj + " " + verb + " " + (str(pred.get("prep")) if isinstance(pred, dict) else ""))
@@ -670,6 +687,10 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         gap = re.search(re.escape(kartr["text"].lower()) + r"\s+(?:\w+\s+)?([a-z']+)\s+" + re.escape(obj.lower()), str(sentence).lower())
         if gap and gap.group(1) == missing[0]:
             missing = []
+    if missing and verb and verb != "be":
+        gap = re.search(re.escape(str(kartr.get("text") or "").lower()) + r"\s+([a-z']+)", str(sentence).lower())
+        if gap and gap.group(1) in missing:
+            missing = [w for w in missing if w != gap.group(1)]
     if missing:
         return None, "clause_incomplete:" + ",".join(missing[:4])
     frame = {"kriya": verb, "polarity": pol, "kartr": kartr, "tense": rec.get("tense")}
@@ -754,7 +775,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(MARRIED_SYMMETRIC), dict(NEXT_SYMMETRIC), dict(ADJACENT_SYMMETRIC), dict(SIBLING_SYMMETRIC), dict(NEXT_CHAIN), dict(MEASURE_RULE)] + [dict(r) for r in ORDER_RULES] + [dict(r) for r in CMP_RULES] + [dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
+        "rules": [dict(COPULA_RULE), dict(COPULA_NEG_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(MARRIED_SYMMETRIC), dict(NEXT_SYMMETRIC), dict(ADJACENT_SYMMETRIC), dict(SIBLING_SYMMETRIC), dict(NEXT_CHAIN), dict(MEASURE_RULE)] + [dict(r) for r in ORDER_RULES] + [dict(r) for r in CMP_RULES] + [dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -1571,17 +1592,18 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
     rounds = 0
     while rounds < LIMITS["MAX_ROUNDS"] and len(claims) < 12:
         rounds += 1
-        hops = _match_body(COPULA_RULE["body"], [f for f in pool if not f.get("self_fact")])
+        hops = _copula_hops(pool)
         added = 0
-        for sub, chosen in hops:
+        for rule, sub, chosen in hops:
             if len(claims) >= 12:
                 incomplete = True
                 break
+            pol = str((rule.get("head") or {}).get("polarity") or "pos")
             conclusion = _atom("is", [
                 chosen[0]["atom"]["args"][0],
                 chosen[1]["atom"]["args"][1],
-            ], "pos")
-            key = (_norm(conclusion["args"][0]), _norm(conclusion["args"][1]), "pos")
+            ], pol)
+            key = (_norm(conclusion["args"][0]), _norm(conclusion["args"][1]), pol)
             if key in seen or _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
                 continue
             text = _render_atom(conclusion)
@@ -1589,11 +1611,11 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
                 continue
             proof_world = dict(world)
             proof_world["facts"] = proof_facts
-            proof = _chain_proof(proof_world, chosen[0], chosen[1], sub, conclusion)
+            proof = _chain_proof(proof_world, chosen[0], chosen[1], sub, conclusion, rule["id"])
             checked = check_proof(proof_world, proof)
             premises = _original_premises(chosen)
             claim = _finish_claim(
-                world, text, conclusion, premises, proof, checked, "supported_only", "WM-COPULA-CHAIN", phase_path or [],
+                world, text, conclusion, premises, proof, checked, "supported_only", rule["id"], phase_path or [],
             )
             hop_rows: list[dict[str, Any]] = []
             for fact in chosen:
@@ -1740,6 +1762,40 @@ def _contain_text(chosen: list[dict[str, Any]], conclusion: dict[str, Any]) -> s
     return _render_atom(conclusion)
 
 
+def _copula_hops(pool: list[dict[str, Any]]) -> list[tuple[dict[str, Any], dict[str, str], list[dict[str, Any]]]]:
+    """Positive copula chain, then the negative chain. The same unifier. """
+    rows = [f for f in pool if not f.get("self_fact")]
+    out: list[tuple[dict[str, Any], dict[str, str], list[dict[str, Any]]]] = []
+    for rule in (COPULA_RULE, COPULA_NEG_RULE):
+        for sub, chosen in _match_body(rule["body"], rows):
+            out.append((rule, sub, chosen))
+    return out
+
+
+def _span_frame(cframe: dict[str, Any], chosen: list[dict[str, Any]]) -> dict[str, Any]:
+    """A chained conclusion holds only inside the overlap of its premises' kāla intervals.
+    A premise with no interval does not restrict the overlap."""
+    from rmc_engine_v1 import derive_frame as DF
+    spans = []
+    for fact in chosen:
+        ff, _ = DF.fact_frame(fact)
+        span = DF._kala_span(ff) if isinstance(ff, dict) else None
+        if span:
+            spans.append(span)
+    if not spans:
+        return cframe
+    start, end = max(s[0] for s in spans), min(s[1] for s in spans)
+    out = dict(cframe)
+    if start > end:
+        out["kala_empty"] = True
+        return out
+    adj = [a for a in (out.get("adj") or []) if isinstance(a, dict)]
+    adj.append({"prep": "from", "role": "kala", "np": {"text": str(start), "num": str(start)}})
+    adj.append({"prep": "to", "role": "kala", "np": {"text": str(end), "num": str(end)}})
+    out["adj"] = adj
+    return out
+
+
 def _contain_chain(world: dict[str, Any], question: str, phase_path: list[Any], pool: list[dict[str, Any]], proof_facts: list[dict[str, Any]], seen: set[tuple[str, str, str]], qframe: dict[str, Any] | None) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], set[tuple[str, str, str]], bool]:
     """Forward-chain WM-CONTAIN-CHAIN on the same unifier as the copula rule. Only positive in(content, container) facts.
      A conclusion is not symmetric and a cycle (x inside x) is the distinct guard."""
@@ -1765,6 +1821,12 @@ def _contain_chain(world: dict[str, Any], question: str, phase_path: list[Any], 
             if key in seen or _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
                 continue
             text = _contain_text(chosen, conclusion)
+            dated = _span_frame({}, chosen)
+            span = None
+            from rmc_engine_v1 import derive_frame as _DF
+            span = _DF._kala_span(dated)
+            if span and text:
+                text = text.rstrip(".") + " from " + str(span[0]) + " to " + str(span[1]) + "."
             if qframe is None and _coverage(question, text) <= 0:
                 continue
             proof_world = dict(world)
@@ -1785,7 +1847,7 @@ def _contain_chain(world: dict[str, Any], question: str, phase_path: list[Any], 
             for i, hop in enumerate(hop_rows, start=1):
                 hop["n"] = i
             claim["hops"] = hop_rows
-            cframe = DF.contain_frame(conclusion)
+            cframe = _span_frame(DF.contain_frame(conclusion), chosen)
             if qframe is not None:
                 place = _derived_place(chosen)
                 m = DF.match(qframe, cframe)
@@ -2904,23 +2966,24 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     rounds, chain_claims = 0, 0
     while rounds < LIMITS["MAX_ROUNDS"]:
         rounds += 1
-        hops = _match_body(COPULA_RULE["body"], [f for f in pool if not f.get("self_fact")])
+        hops = _copula_hops(pool)
         added = 0
-        for sub, chosen in hops:
+        for rule, sub, chosen in hops:
             if chain_claims >= 24:
                 incomplete = True
                 break
-            conclusion = _atom("is", [chosen[0]["atom"]["args"][0], chosen[1]["atom"]["args"][1]], "pos")
-            key = (_norm(conclusion["args"][0]), _norm(conclusion["args"][1]), "pos")
+            pol = str((rule.get("head") or {}).get("polarity") or "pos")
+            conclusion = _atom("is", [chosen[0]["atom"]["args"][0], chosen[1]["atom"]["args"][1]], pol)
+            key = (_norm(conclusion["args"][0]), _norm(conclusion["args"][1]), pol)
             if key in seen or _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
                 continue
             text = _render_atom(conclusion)
             proof_world = dict(world)
             proof_world["facts"] = proof_facts
-            proof = _chain_proof(proof_world, chosen[0], chosen[1], sub, conclusion)
+            proof = _chain_proof(proof_world, chosen[0], chosen[1], sub, conclusion, rule["id"])
             checked = check_proof(proof_world, proof)
             premises = _original_premises(chosen)
-            claim = _finish_claim(world, text, conclusion, premises, proof, checked, "supported_only", "WM-COPULA-CHAIN", phase_path)
+            claim = _finish_claim(world, text, conclusion, premises, proof, checked, "supported_only", rule["id"], phase_path)
             hop_rows: list[dict[str, Any]] = []
             for fact in chosen:
                 prior = fact.get("hop_trace") if isinstance(fact.get("hop_trace"), list) else None
@@ -3039,7 +3102,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     if measure_gap:
         reason = str(measure_gap["reason"])
     for claim in answers:
-        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or "_THAN-" in str(claim.get("how") or "") or str(claim.get("how") or "") == "WM-MEASURE-COMPARE":
+        if claim.get("how") in ("WM-COPULA-CHAIN", "WM-COPULA-NEG-CHAIN", "WM-CONTAIN-CHAIN", "WM-GEO-CHAIN", "WM-LIVE-GEO", "WM-PART-CHAIN", "WM-ANCESTOR-CHAIN", "WM-ANCESTOR-INVERSE", "WM-DESCENDANT-CHAIN", "WM-DESCENDANT-INVERSE", "WM-PARENT-INVERSE", "WM-CHILD-INVERSE", "WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-NEXT-CHAIN", "WM-BEFORE-CHAIN", "WM-AFTER-CHAIN", "WM-ABOVE-CHAIN", "WM-BELOW-CHAIN", "WM-BEFORE-INVERSE", "WM-AFTER-INVERSE", "WM-ABOVE-INVERSE", "WM-BELOW-INVERSE") or "_THAN-" in str(claim.get("how") or "") or str(claim.get("how") or "") == "WM-MEASURE-COMPARE":
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
         elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
             parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]

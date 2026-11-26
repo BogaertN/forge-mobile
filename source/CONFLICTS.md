@@ -1,3 +1,13 @@
+## v4.9.255 — Computable quantities and on-device receipts (Nic)
+
+**Conflict:** A derivative, an equation, and a remaining fraction did not reach the symbolic engine. A year outside a stated span was treated as the same event. An on-device thermal receipt never entered Ask. The math wheels were fetched from a host that does not resolve.
+
+**Where:** A spaced coefficient times a powered variable is one quantity. "What is x when … equals …" is an equation. A stated capacity minus a stated removal, asked as the fraction that remains, is computed. A kāla "in" year is yes only inside the fact's from/to span, including a chain that inherits that span. A what-happens-if question whose solver runs in this process attaches that receipt for the turn, and a receipt sealed for this question answers it. A remembered measure fills a later percent, conversion, push, or orbit. A positive copula followed by a negative copula denies the composed kind. The pinned wheels also live at `data/forge-libs/` and are tried before the remote bucket. A missing sim property asks for that property.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A simulation receipt is not stored. An unknown noun is not given a fact.
+
+Proof: `verify/r4278_suite.js`, `verify/r4279_suite.js`.
+
 ## v4.9.254 — One pipeline from the parse to the sentence (Nic)
 
 **Conflict:** A reply could be one survivor, a stored sentence chosen by token overlap, or a hand-copied manual line. A where-question did not fill the place. An object relative and a passive retained object were dropped.

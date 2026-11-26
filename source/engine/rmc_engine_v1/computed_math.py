@@ -36,6 +36,7 @@ _NUM_WORDS = {
 _SCALES = {"hundred": 100, "thousand": 1000, "million": 10 ** 6, "billion": 10 ** 9, "trillion": 10 ** 12}
 _PHRASES = [  # longest first; each becomes one operator token
     ("to the power of", "^"), ("raised to the power of", "^"), ("raised to the", "^"), ("raised to", "^"),
+    ("is equal to", "="), ("equal to", "="), ("equals", "="),
     ("multiplied by", "*"), ("divided by", "/"), ("times", "*"), ("plus", "+"), ("minus", "-"), ("over", "/"),
     ("the square root of", "SQRT"), ("the cube root of", "CBRT"), ("square root of", "SQRT"), ("cube root of", "CBRT"), ("squared", "SQ"), ("cubed", "CU"),
     ("percent of", "PCTOF"), ("per cent of", "PCTOF"), ("% of", "PCTOF"), ("percent", "PCT"), ("per cent", "PCT"),
@@ -174,8 +175,23 @@ class _P:
             node = ("mul" if op == "*" else "div", node, rhs)
         return node
 
+    def _postfix(self, node):
+        while True:
+            if self.at("^"):
+                self.eat(); node = ("pow", node, self.unary())
+            elif self.at("SQ"):
+                self.eat(); node = ("pow", node, ("num", Fraction(2), "2"))
+            elif self.at("CU"):
+                self.eat(); node = ("pow", node, ("num", Fraction(3), "3"))
+            else:
+                return node
+
     def power(self):
         node = self.unary()
+        # "4 x cubed" is 4 times (x cubed): the postfix belongs to the variable, not the number.
+        if isinstance(node, tuple) and node[0] == "num" and self.peek() and self.peek()[0] == "var":
+            right = self._postfix(self.eat())
+            node = ("mul", node, right)
         while True:
             if self.at("^"):
                 self.eat(); node = ("pow", node, self.unary())
@@ -870,13 +886,52 @@ def _conversion_of(body: str) -> dict[str, Any] | None:
 
 
 # ---------------------------------------------------------------- understand (no library needed)
-def understand(question: str) -> dict[str, Any] | None:
+def _remainder(question: str) -> dict[str, Any] | None:
+    """A container's stated capacity minus a stated removal, asked as the fraction that remains.
+
+    Both quantities name the same unit. Nothing is filled in when either number or the unit is missing.
+    """
+    parts = [p.strip() for p in re.split(r"[.?!]\s+", str(question or "").strip()) if p.strip()]
+    if len(parts) < 2:
+        return None
+    ask = parts[-1].lower().rstrip("?.! ")
+    if "fraction" not in ask or not re.search(r"\b(remains?|left)\b", ask):
+        return None
+    unit_re = r"(\d+(?:\.\d+)?)\s+(liters?|litres?|gallons?|milliliters?|millilitres?|kilograms?|grams?)"
+    held = removed = None
+    unit = None
+    for sentence in parts[:-1]:
+        found = re.search(unit_re, sentence, re.I)
+        if not found:
+            continue
+        num = Fraction(found.group(1))
+        this = found.group(2).lower().rstrip("s")
+        if re.search(r"\b(holds|contains|capacity)\b", sentence, re.I):
+            held, unit = num, this
+        elif re.search(r"\b(drawn|removed|taken|used|poured|emptied|drained)\b", sentence, re.I):
+            if unit and this != unit:
+                return {"status": "unparsed", "kind": "remainder", "rule": "MATH-UNPARSED", "reason": "the quantities do not share a unit"}
+            removed = num
+            unit = unit or this
+    if held is None or removed is None:
+        return None
+    if removed > held:
+        return {"status": "uncomputable", "kind": "remainder", "rule": "MATH-UNCOMPUTABLE", "reason": "more is removed than the container holds"}
+    return {"status": "ok", "kind": "remainder", "held": [held.numerator, held.denominator],
+            "removed": [removed.numerator, removed.denominator], "lib": "sympy", "asked": "the fraction that remains"}
+
+
+def _understand_core(question: str) -> dict[str, Any] | None:
     """None: not a math question. Otherwise {'status': 'ok'|'unparsed'|'ambiguous_unit', 'kind', 'tree'/..., 'asked'}."""
     q = _norm(question)
     if not q:
         return None
     from rmc_engine_v1 import question_frame as _qf
     fr = _qf.current()
+    if not (isinstance(fr, dict) and str(fr.get("rule") or "").startswith("QF-MATH")):
+        rem = _remainder(question)
+        if rem is not None:
+            return rem
     if isinstance(fr, dict) and fr.get("rule") == "QF-MATH-FACTOR" and fr.get("op") == "factor":
         expr = _norm(str(fr.get("expr") or ""))
         toks = tokenize(expr, allow_var=True)
@@ -1072,6 +1127,186 @@ def understand(question: str) -> dict[str, Any] | None:
     if _vars(tree):
         return {"status": "unparsed", "kind": "expression", "rule": "MATH-UNPARSED", "reason": "an unknown without an equation"}
     return {"status": "ok", "kind": "expression", "tree": tree, "lib": "sympy", "asked": "the value of " + render(tree)}
+
+
+def _math_head(np: Any) -> str:
+    if not isinstance(np, dict):
+        return ""
+    return str(np.get("head") or "").strip().lower()
+
+
+def _clause_nodes(cl: Any):
+    if not isinstance(cl, dict):
+        return
+    nested = cl.get("clauses") if isinstance(cl.get("clauses"), list) and cl.get("clauses") else None
+    if nested is None and isinstance(cl.get("sentences"), list) and cl.get("sentences"):
+        nested = cl.get("sentences")
+    if nested:
+        for child in nested:
+            yield from _clause_nodes(child)
+        return
+    yield cl
+
+
+def _memory_clauses() -> list[dict[str, Any]]:
+    from rmc_engine_v1 import memory_clauses as mc
+    reg = mc._REG.get()
+    if not reg:
+        return []
+    out: list[dict[str, Any]] = []
+    seen: set[int] = set()
+    for cl in (reg.get("by_text") or {}).values():
+        for node in _clause_nodes(cl):
+            if not isinstance(node, dict) or not node.get("parsed") or id(node) in seen:
+                continue
+            seen.add(id(node))
+            out.append(node)
+    return out
+
+
+def _named_quantities() -> dict[str, list[dict[str, Any]]]:
+    """head -> remembered measures and scales of remembered measures. Nothing is filled in."""
+    base: dict[tuple[str, str], dict[str, Any]] = {}
+    scales: list[tuple[str, Fraction, str]] = []
+    for cl in _memory_clauses():
+        verb = str(cl.get("kriya") or "")
+        head = _math_head(cl.get("kartr"))
+        if not head or head in _UNITS:
+            continue
+        pred = cl.get("pred") if isinstance(cl.get("pred"), dict) else {}
+        if verb == "be" and pred.get("type") == "measure" and pred.get("num") is not None:
+            kind, canon, _surf = _unit(str(pred.get("unit") or ""))
+            if kind != "ok":
+                continue
+            try:
+                num = Fraction(str(pred.get("num")))
+            except Exception:
+                continue
+            prop = str(pred.get("property") or "").lower()
+            base[(head, prop)] = {"num": num, "unit": canon, "word": str(pred.get("unit") or "").lower(), "prop": prop}
+        elif verb == "weigh":
+            karma = cl.get("karma") if isinstance(cl.get("karma"), dict) else {}
+            kind, canon, _surf = _unit(_math_head(karma) or "kilogram")
+            if kind != "ok" or karma.get("num") is None:
+                continue
+            try:
+                num = Fraction(str(karma.get("num")))
+            except Exception:
+                continue
+            base[(head, "mass")] = {"num": num, "unit": canon, "word": (_math_head(karma) or "kilograms"), "prop": "mass"}
+        elif verb == "be" and pred.get("type") == "scale":
+            of = pred.get("of") if isinstance(pred.get("of"), dict) else {}
+            ofh = _math_head(of)
+            try:
+                factor = Fraction(str(pred.get("factor")))
+            except Exception:
+                continue
+            if ofh and factor > 0:
+                scales.append((head, factor, ofh))
+    for _ in range(4):
+        changed = False
+        for head, factor, ofh in scales:
+            srcs = [row for (h, _p), row in base.items() if h == ofh]
+            if head in {h for (h, _p) in base} or len(srcs) != 1:
+                continue
+            src = srcs[0]
+            base[(head, src["prop"])] = {"num": src["num"] * factor, "unit": src["unit"], "word": src["word"], "prop": src["prop"]}
+            changed = True
+        if not changed:
+            break
+    by_head: dict[str, list[dict[str, Any]]] = {}
+    for (head, _prop), row in base.items():
+        by_head.setdefault(head, []).append(row)
+    return by_head
+
+
+_PROP_WORDS = {
+    "height": ("tall", "high", "height"),
+    "length": ("long", "length"),
+    "width": ("wide", "width"),
+    "depth": ("deep", "thick", "depth"),
+    "mass": ("mass", "heavy", "weight"),
+    "weight": ("mass", "heavy", "weight"),
+}
+
+
+def _pick_quantity(rows: list[dict[str, Any]], prop: str | None) -> dict[str, Any] | None:
+    if prop:
+        wanted = _PROP_WORDS.get(prop, (prop,))
+        hit = [r for r in rows if r.get("prop") in wanted]
+        return hit[0] if len(hit) == 1 else None
+    return rows[0] if len(rows) == 1 else None
+
+
+def _bind_named(question: str) -> dict[str, Any] | None:
+    """Replace a remembered measure named in the question, then read the question as arithmetic.
+    A noun with no remembered measure is left alone. A noun with several measures is used only
+    when the question names the property."""
+    qty = _named_quantities()
+    if not qty:
+        return None
+    q = _norm(question)
+    if not any(re.search(r"\b" + re.escape(h) + r"\b", q) for h in qty):
+        return None
+    if not re.search(r"\b(?:percent|percentage)\b|\s(?:in|to|into)\s+[a-z]", q):
+        return None
+    used: dict[str, Any] | None = None
+
+    def put(row: dict[str, Any]) -> str:
+        nonlocal used
+        used = row
+        return _fmt_frac(row["num"]) + " " + row["word"]
+
+    def repl_prop(m: re.Match[str]) -> str:
+        rows = qty.get(m.group(1))
+        row = _pick_quantity(rows, m.group(2)) if rows else None
+        return put(row) if row else m.group(0)
+
+    def repl_np(m: re.Match[str]) -> str:
+        rows = qty.get(m.group(1))
+        row = _pick_quantity(rows, None) if rows else None
+        return put(row) if row else m.group(0)
+
+    rewritten = re.sub(r"\b(?:the\s+)?([a-z][a-z'-]*)'s\s+(height|length|width|depth|mass|weight)\b", repl_prop, q)
+    rewritten = re.sub(r"\b(?:a|an|the)\s+([a-z][a-z'-]*)\b", repl_np, rewritten)
+    if rewritten == q or used is None:
+        return None
+    got = _understand_core(rewritten)
+    if got and got.get("status") == "ok":
+        return got
+    # "percent of 40 centimeters in millimeters" is a percent and then a conversion.
+    both = re.match(r"^(?:what is\s+)?(\d+(?:\.\d+)?)\s+percent of\s+(\d+(?:\.\d+)?)\s+([a-z]+)\s+(?:in|to|into)\s+([a-z]+)$", rewritten)
+    if both:
+        src, dst = _unit(both.group(3)), _unit(both.group(4))
+        if src[0] == "ok" and dst[0] == "ok":
+            try:
+                scaled = Fraction(both.group(2)) * Fraction(both.group(1)) / 100
+            except Exception:
+                return None
+            return {"status": "ok", "kind": "bound_quantity", "lib": "pint",
+                    "value": [scaled.numerator, scaled.denominator], "value_surface": _fmt_frac(scaled),
+                    "from": src[1], "from_word": both.group(3), "to": dst[1], "to_word": both.group(4),
+                    "asked": both.group(1) + " percent of " + both.group(2) + " " + both.group(3)}
+    word = str(used.get("word") or "")
+    if word and re.search(r"\bpercent\b", rewritten):
+        bare = re.sub(r"\b" + re.escape(word) + r"\b", " ", rewritten)
+        bare = re.sub(r"\s+", " ", bare).strip()
+        got = _understand_core(bare)
+        if got and got.get("status") == "ok" and got.get("kind") == "expression":
+            out = dict(got)
+            out["unit_word"] = word
+            out["unit"] = used.get("unit")
+            return out
+    return None
+
+
+def understand(question: str) -> dict[str, Any] | None:
+    """None: not a math question. A noun the user already measured is that measure, then the same arithmetic."""
+    u = _understand_core(question)
+    if u is not None and u.get("status") == "ok":
+        return u
+    bound = _bind_named(question)
+    return bound if bound is not None else u
 
 
 # ---------------------------------------------------------------- rendering of the asked quantity
@@ -1291,13 +1526,40 @@ def compute(question: str, u: dict[str, Any] | None = None) -> dict[str, Any]:
     import sympy as sp
     libs = {"sympy": sp.__version__}
     try:
-        if u["kind"] == "expression":
+        if u["kind"] == "remainder":
+            held = Fraction(u["held"][0], u["held"][1])
+            removed = Fraction(u["removed"][0], u["removed"][1])
+            frac = Fraction(held - removed, held)
+            text = _fmt_ratio(frac)
+            sentence = "The fraction that remains is " + text + "."
+            result = {"value": str(frac), "text": text, "exact": True}
+            expression = "(" + str(held) + " - " + str(removed) + ") / " + str(held)
+        elif u["kind"] == "expression":
             v = sp.simplify(_sym(u["tree"], sp))
             text, exact = fmt_value(v, sp)
             lhs = render(u["tree"])
-            sentence = lhs[0].upper() + lhs[1:] + " is " + text + "."
+            unit = str(u.get("unit_word") or "")
+            if unit:
+                sentence = lhs + " " + unit + " is " + text + " " + unit + "."
+            else:
+                sentence = lhs + " is " + text + "."
+            sentence = sentence[0].upper() + sentence[1:]
             result = {"value": str(v), "text": text, "exact": exact}
             expression = str(_sym(u["tree"], sp))
+        elif u["kind"] == "bound_quantity":
+            import pint
+            libs["pint"] = pint.__version__
+            n = Fraction(u["value"][0], u["value"][1])
+            out, rule, why = _convert_exact(n, u["from"], u["to"])
+            if rule:
+                return {"status": "uncomputable", "kind": "bound_quantity", "rule": rule, "reason": why}
+            exact_text = _fmt_frac(out)
+            dst_w = _unit_word(u["to_word"], out != 1)
+            sentence = u["asked"] + " is " + exact_text + " " + dst_w + "."
+            sentence = sentence[0].upper() + sentence[1:]
+            text = exact_text + " " + dst_w
+            result = {"value": exact_text, "text": text, "exact": True, "from": u["from"], "to": u["to"]}
+            expression = u["value_surface"] + " " + u["from"] + " -> " + exact_text + " " + u["to"]
         elif u["kind"] == "percent_of":
             whole, part = _sym(u["whole"], sp), _sym(u["part"], sp)
             if whole == 0:
@@ -1512,7 +1774,22 @@ def echo(question: str, reply: str, computed: dict[str, Any] | None) -> dict[str
     try:
         import sympy as sp
         s = reply.rstrip(".").strip()
-        if u["kind"] == "expression":
+        unit_word = str(u.get("unit_word") or "")
+        if unit_word and u.get("kind") == "expression":
+            if not re.search(r"\b" + re.escape(unit_word) + r"\b", s):
+                return fail("the reply dropped the unit")
+            s = re.sub(r"\s+" + re.escape(unit_word) + r"(?=\s+is\b)", "", s, count=1)
+            s = re.sub(r"\s+" + re.escape(unit_word) + r"$", "", s)
+        if u["kind"] == "remainder":
+            m = re.match(r"^The fraction that remains is (.+)$", s)
+            if not m:
+                return fail("the reply is not the remaining fraction")
+            held = Fraction(u["held"][0], u["held"][1])
+            removed = Fraction(u["removed"][0], u["removed"][1])
+            want = Fraction(held - removed, held)
+            got = _value_of(m.group(1), sp)
+            ok = (got is not None and _same(got, want, sp)) or m.group(1) == _fmt_ratio(want)
+        elif u["kind"] == "expression":
             if " is " not in s:
                 return fail("the reply is not 'quantity is value'")
             lhs_t, val_t = s.rsplit(" is ", 1)
@@ -1525,6 +1802,14 @@ def echo(question: str, reply: str, computed: dict[str, Any] | None) -> dict[str
             want = sp.simplify(_sym(u["tree"], sp))
             got = _value_of(val_t, sp)
             ok = (got is not None and _same(got, want, sp)) or val_t == fmt_value(want, sp)[0]
+        elif u["kind"] == "bound_quantity":
+            n = Fraction(u["value"][0], u["value"][1])
+            out, rule, why = _convert_exact(n, u["from"], u["to"])
+            if rule:
+                return fail(why or "the units do not convert")
+            dst_w = _unit_word(u["to_word"], out != 1)
+            want = u["asked"] + " is " + _fmt_frac(out) + " " + dst_w
+            ok = s.lower() == want.lower()
         elif u["kind"] == "percent_of":
             m = re.match(r"^(.+?) is (.+?)% of (.+)$", s)
             if not m:

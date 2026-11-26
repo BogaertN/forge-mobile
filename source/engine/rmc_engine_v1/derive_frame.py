@@ -357,11 +357,14 @@ def _contain_inner(pred: Any) -> dict[str, Any] | None:
     return {"text": text, "head": pred.get("head") or text} if text else None
 
 
-def _adjunct_np(frame: dict[str, Any] | None) -> dict[str, Any] | None:
+def _adjunct_np(frame: dict[str, Any] | None, skip: frozenset[str] | set[str] | None = None) -> dict[str, Any] | None:
     if not isinstance(frame, dict):
         return None
+    skipped = skip or set()
     for adj in frame.get("adj") or []:
-        if isinstance(adj, dict) and isinstance(adj.get("np"), dict) and str(adj["np"].get("text") or "").strip():
+        if not isinstance(adj, dict) or str(adj.get("role") or "") in skipped:
+            continue
+        if isinstance(adj.get("np"), dict) and str(adj["np"].get("text") or "").strip():
             return adj["np"]
     return None
 
@@ -417,7 +420,52 @@ def chain_frame(first: dict[str, Any], second: dict[str, Any], conclusion: dict[
     args = conclusion.get("args") or ["", ""]
     kartr = (f1 or {}).get("kartr") or _atom_np(args[0])
     pred = (f2 or {}).get("pred") or _atom_np(args[1])
-    return {"kriya": "be", "polarity": "pos", "kartr": kartr, "pred": pred, "derived": True}
+    return {"kriya": "be", "polarity": str(conclusion.get("polarity") or "pos"), "kartr": kartr, "pred": pred, "derived": True}
+
+
+def _adhikarana_np(frame: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not isinstance(frame, dict):
+        return None
+    for adj in frame.get("adj") or []:
+        if isinstance(adj, dict) and str(adj.get("role") or "") == "adhikarana" and isinstance(adj.get("np"), dict) and str(adj["np"].get("text") or "").strip():
+            return adj["np"]
+    return None
+
+
+def _kala_year(frame: dict[str, Any] | None, prep: str) -> int | None:
+    """The year a kāla adjunct names, when it is a bare number."""
+    if not isinstance(frame, dict):
+        return None
+    for adj in frame.get("adj") or []:
+        if not isinstance(adj, dict):
+            continue
+        if str(adj.get("prep") or "").lower() != prep or str(adj.get("role") or "") != "kala":
+            continue
+        np = adj.get("np") if isinstance(adj.get("np"), dict) else {}
+        raw = str(np.get("num") or np.get("text") or "").strip()
+        if raw.isdigit():
+            return int(raw)
+    return None
+
+
+def _kala_span(frame: dict[str, Any] | None) -> tuple[int, int] | None:
+    """(from, to) when the clause states both ends of a kāla interval."""
+    start, end = _kala_year(frame, "from"), _kala_year(frame, "to")
+    if start is None or end is None:
+        return None
+    return (start, end) if start <= end else (end, start)
+
+
+def _year_allows(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None, yes: bool) -> bool:
+    """A question year inside the fact's from/to is the same event. A year outside it is not.
+    A fact with no interval is not restricted. An empty inherited interval never holds."""
+    if isinstance(fframe, dict) and fframe.get("kala_empty"):
+        return False
+    span = _kala_span(fframe)
+    asked = _kala_year(qframe, "in")
+    if span and asked is not None:
+        return bool(yes) and span[0] <= asked <= span[1]
+    return bool(yes)
 
 
 def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[str, Any] | None:
@@ -448,7 +496,7 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
             yes = fpol == (qframe.get("polarity") or "pos")
             return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "measure", "rule": "polar"}
     if role in ("polarity", "") and qc and qn and fc and fn and np_unify(qc, fc) and np_unify(qn, fn):
-        yes = fpol == (qframe.get("polarity") or "pos")
+        yes = _year_allows(qframe, fframe, fpol == (qframe.get("polarity") or "pos"))
         return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "contain", "rule": "polar_contain"}
     qp, qwhere = live_place(qframe)
     fp, fwhere = live_place(fframe)
@@ -488,21 +536,30 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
                                 continue
                             if str(qp.get("text") or "").lower() != str(b.get("text") or "").lower():
                                 continue
-                    qa, fa = _adjunct_np(qframe), _adjunct_np(fframe)
+                    qa, fa = _adjunct_np(qframe, skip={"kala"}), _adjunct_np(fframe, skip={"kala"})
                     # "married to Cy" is not "married to Bob": a complement on the question has to be the fact's complement
                     if qa and not (fa and np_unify(qa, fa)):
                         continue
-                    yes = (fpol == (qframe.get("polarity") or "pos"))
+                    yes = _year_allows(qframe, fframe, fpol == (qframe.get("polarity") or "pos"))
                     return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": orient, "rule": "polar"}
             # 4.9.241: the converse of a positive kind inclusion is answered "not necessarily" (it does not follow, and it
             # is not denied); a negative fact, an identity or a membership of a particular gives no converse answer
             if fpol == "pos" and (qframe.get("polarity") or "pos") == "pos" and kind_inclusion(fs, fp) and np_unify(qs, fp) and np_unify(qp, fs):
                 return {"roles": 2, "gap": None, "filler": NOT_NECESSARILY, "orientation": "kartr=pred", "rule": RULE_CONVERSE, "entails": False}
             return None
-        if np_unify(qs, fs) and (np_unify(qo, fo) or _same_head(qo, fo)):
+        if np_unify(qs, fs) and (np_unify(qo, fo) or _same_head(qo, fo) or (qo is None and fo is None)):
             # 4.9.241: "I have no body" is a negative answer to "Do you have a body?"
             # 4.9.253: "simulations" names the same head as "a simulation" and as "a heavy simulation".
+            # 4.9.255: a year inside the fact's from/to kāla is the same event; a year outside it is not.
             yes = polarity_of(fframe) == polarity_of(qframe)
+            span = _kala_span(fframe)
+            asked = _kala_year(qframe, "in")
+            if span and asked is not None:
+                yes = yes and span[0] <= asked <= span[1]
+            qa = _adhikarana_np(qframe)
+            fa = _adhikarana_np(fframe)
+            if qa and not (fa and np_unify(qa, fa)):
+                return None
             return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "kartr,karma", "rule": "polar"}
         return None
     if fpol != "pos":

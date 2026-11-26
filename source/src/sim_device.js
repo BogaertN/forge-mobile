@@ -193,6 +193,21 @@
     } catch (e) { return null; }
     return null;
   }
+  function clauseNodes(c, out) {
+    if (!c || typeof c !== 'object') return;
+    if (Array.isArray(c.clauses)) c.clauses.forEach(x => clauseNodes(x, out));
+    if (Array.isArray(c.sentences)) c.sentences.forEach(x => clauseNodes(x, out));
+    out.push(c);
+  }
+  function rememberedAbove(memory, head) {
+    const want = String(head || '').toLowerCase();
+    if (!want) return false;
+    return memoryRows(memory).some(r => {
+      const all = [];
+      clauseNodes(r.clause, all);
+      return all.some(c => c && c.kriya === 'sit' && c.kartr && String(c.kartr.head || '').toLowerCase() === want && (c.adj || []).some(a => a && a.prep === 'above' && a.np));
+    });
+  }
   function memoryRows(memory) {
     const phone = memory && Array.isArray(memory.phone) ? memory.phone : [];
     return phone.filter(r => r && (r.clause || r.text)).slice(-32).map(r => ({ text: r.text, clause: r.clause || null }));
@@ -206,7 +221,8 @@
     const frame0 = frameOf(q);
     const property = frame0 && frame0.kriya === 'be' && frame0.kartr && /^(weight|mass|formula|structure)$/.test(String(frame0.kartr.head || ''));
     const orbit = frame0 && frame0.kartr && frame0.kartr.head === 'period' && frame0.kartr.of && frame0.kartr.of.head === 'satellite';
-    if (!(frame0 && (frame0.rule === 'QF-WHAT-HAPPENS-IF' || frame0.conditional || property || orbit)) && !GATE.test(q)) return null;
+    const placed = frame0 && frame0.kartr && frame0.kartr.head === 'period' && frame0.kartr.owner && rememberedAbove(memory, frame0.kartr.owner.head);
+    if (!(frame0 && (frame0.rule === 'QF-WHAT-HAPPENS-IF' || frame0.conditional || property || orbit || placed)) && !GATE.test(q)) return null;
     const t0 = Date.now();
     let out;
     try {
@@ -230,7 +246,12 @@
       const p = pl && pl.problem;
       if (p && p.ok && p.scene) lastScene = { question: question, scene: p.scene };
       if (out && out.status === 'ask') { /* the follow-up turn owns this question */ }
-      else if (!p || !p.ok) out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'no_problem', problem: p || null, reason: (p && p.reason) || null, missing: (p && p.missing) || null, calls_llm: false };
+      else if (!p || !p.ok) {
+        const reason = String((p && p.reason) || '');
+        const ask = /property_missing|unknown_body|altitude_missing|sequence_missing/.test(reason) ? simAsk(question, p, (p && (p.substance || p.body)) || '') : null;
+        if (ask) ask.missing = p && p.missing;
+        out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: ask ? 'ask' : 'no_problem', ask: ask, problem: p || null, reason: reason || null, missing: (p && p.missing) || null, calls_llm: false };
+      }
       else if (p.runtime === 'home_pc') out = await homePc(p, frame);
       else if (p.runtime === 'pyodide') out = await pyCall({ op: 'solve', problem: p });
       else {
