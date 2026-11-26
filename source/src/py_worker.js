@@ -98,6 +98,7 @@ async function mountEngine(o) {
 async function rmcAsk(arg) {
   if (!py) await init({ base: arg.base, sri: arg.sri, pint: false, sympy: false, rmc: null, libs: arg.libs });
   await mountEngine(arg);
+  ensureRealizer(arg);
   py.globals.set('payload_json', JSON.stringify(arg.payload || {}));
   const runOnce = () => JSON.parse(py.runPython('import json\nfrom rmc_engine_v1.rmc_core import run\njson.dumps(run(json.loads(payload_json)), default=str)'));
   let out = runOnce();

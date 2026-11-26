@@ -50,19 +50,23 @@ def _realize_uncached(raw: str) -> str:
     except Exception:
         pass
     global _REALIZER
-    if _REALIZER is None or _REALIZER.poll() is not None:
-        script = Path(__file__).resolve().parents[2] / "src" / "realize_atom.js"
-        _REALIZER = subprocess.Popen(
-            ["node", str(script), "--serve"],
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1,
-        )
-    assert _REALIZER.stdin is not None and _REALIZER.stdout is not None
-    _REALIZER.stdin.write(raw + "\n")
-    _REALIZER.stdin.flush()
-    line = _REALIZER.stdout.readline()
-    if not line:
-        raise RuntimeError("grammar realizer closed")
-    return line.strip()
+    try:
+        if _REALIZER is None or _REALIZER.poll() is not None:
+            script = Path(__file__).resolve().parents[2] / "src" / "realize_atom.js"
+            _REALIZER = subprocess.Popen(
+                ["node", str(script), "--serve"],
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1,
+            )
+        assert _REALIZER.stdin is not None and _REALIZER.stdout is not None
+        _REALIZER.stdin.write(raw + "\n")
+        _REALIZER.stdin.flush()
+        line = _REALIZER.stdout.readline()
+        if not line:
+            raise RuntimeError("grammar realizer closed")
+        return line.strip()
+    except Exception:
+        _REALIZER = None
+        return ""
 
 # solver → (family, runtime, Pyodide packages from the pinned 0.27.7 lock; WASM engines load in the page)
 SOLVERS: dict[str, dict[str, Any]] = {
