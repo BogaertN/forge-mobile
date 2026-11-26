@@ -248,7 +248,7 @@ T('a formula with an undigited element symbol still compiles', () => {
 T('an unknown body is held and nothing is stored', () => {
   const q = 'What happens if you push a quorble near the top?';
   const row = ask(q, { phone: [], simulation: [] });
-  expect(row.product_reply === false && !row.reply, JSON.stringify({ r: row.reply, c: row.coherence, route: row.route }));
+  expect(row.product_reply === false && /quorble/.test(row.reply || '') && /shape/.test(row.reply || ''), JSON.stringify({ r: row.reply, c: row.coherence, route: row.route }));
   const planned = py(`
 import json, sys
 from rmc_engine_v1.sim_device import plan
@@ -259,10 +259,10 @@ print(json.dumps({"ok": p.get("ok"), "reason": p.get("reason"), "missing": p.get
 });
 
 T('laws and version 4.9.248; no model and no secret', () => {
-  expect(read('VERSION').trim() === '4.9.255', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.256', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.255' && reg.features.some(x => x.id === 'R4248-SOLVER-ATOMS') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.255'), 'CONFLICTS');
+  expect(reg.version === '4.9.256' && reg.features.some(x => x.id === 'R4248-SOLVER-ATOMS') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.256'), 'CONFLICTS');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T

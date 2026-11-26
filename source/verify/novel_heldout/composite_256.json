@@ -1,0 +1,418 @@
+{
+ "schema": "forge.novel_composite.snapshot/v1",
+ "fit_forbidden": true,
+ "not_a_golden": true,
+ "n": 8,
+ "rows": [
+  {
+   "id": "d-ability",
+   "expect": [
+    "self",
+    "capability"
+   ],
+   "q": "Can you derive a sentence and also answer a question from a remembered fact?",
+   "turns": [
+    {
+     "q": "Can you derive a sentence and also answer a question from a remembered fact?",
+     "asked": {
+      "reply": "Yes. I derive a sentence by a fixed rule. Yes. I answer a question from a remembered fact.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "derived",
+      "derive": "supported_only",
+      "how": "direct",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "derive",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "Yes. I derive a sentence by a fixed rule. Yes. I answer a question from a remembered fact.",
+   "path": "derived",
+   "held": false
+  },
+  {
+   "id": "d-pulse",
+   "expect": [
+    "self",
+    "entail"
+   ],
+   "q": "Do you have a heartbeat?",
+   "turns": [
+    {
+     "q": "Do you have a heartbeat?",
+     "asked": {
+      "reply": "No. I have no heartbeat.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "derived",
+      "derive": "supported_only",
+      "how": "direct",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "derive",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "No. I have no heartbeat.",
+   "path": "derived",
+   "held": false
+  },
+  {
+   "id": "d-ask",
+   "expect": [
+    "ask"
+   ],
+   "q": "What happens if I push the brin near the top?",
+   "turns": [
+    {
+     "q": "What happens if I push the brin near the top?",
+     "asked": {
+      "reply": "What is the shape of the brin?",
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": "ask",
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "property_missing",
+      "missing": "shape",
+      "runtime": null
+     },
+     "saw": [
+      "property_missing",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": "ask",
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "property_missing",
+      "missing": "shape",
+      "expected": [
+       "ask"
+      ]
+     }
+    }
+   ],
+   "reply": "What is the shape of the brin?",
+   "path": "ask",
+   "held": true
+  },
+  {
+   "id": "d-contra",
+   "expect": [
+    "negation",
+    "geo"
+   ],
+   "q": "Is Mira inside Pell?",
+   "turns": [
+    {
+     "q": "Is Mira inside Pell?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "active_stack_candidate",
+      "path": null,
+      "derive": "supported_only",
+      "how": "direct",
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "active_stack_candidate"
+     ],
+     "break": {
+      "route": "active_stack_candidate",
+      "path": null,
+      "derive": "supported_only",
+      "how": "direct",
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "negation",
+       "geo"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "d-contra-no",
+   "expect": [
+    "hold"
+   ],
+   "q": "Is Mira inside Soln?",
+   "turns": [
+    {
+     "q": "Is Mira inside Soln?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "hold"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "d-niece",
+   "expect": [
+    "kinship"
+   ],
+   "q": "Who is Rae's niece?",
+   "turns": [
+    {
+     "q": "Who is Rae's niece?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "active_stack_candidate",
+      "path": null,
+      "derive": "supported_only",
+      "how": "direct",
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WH-AUX-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "active_stack_candidate"
+     ],
+     "break": {
+      "route": "active_stack_candidate",
+      "path": null,
+      "derive": "supported_only",
+      "how": "direct",
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "kinship"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "d-half",
+   "expect": [
+    "counterfactual"
+   ],
+   "q": "What if the stool were twice as wide?",
+   "turns": [
+    {
+     "q": "What if the stool were twice as wide?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "intervention_unparsed",
+      "missing": "kriya",
+      "runtime": null
+     },
+     "saw": [
+      "intervention_unparsed",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "intervention_unparsed",
+      "missing": "kriya",
+      "expected": [
+       "counterfactual"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "d-percent",
+   "expect": [
+    "derive",
+    "compute"
+   ],
+   "q": "What is 25 percent of a tiv?",
+   "turns": [
+    {
+     "q": "What is 25 percent of a tiv?",
+     "asked": {
+      "reply": "25% of 16 centimeters is 4 centimeters.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "computed",
+      "derive": "undetermined",
+      "how": null,
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-WH-AUX-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "compute",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "25% of 16 centimeters is 4 centimeters.",
+   "path": "computed",
+   "held": false
+  }
+ ]
+}

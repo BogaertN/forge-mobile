@@ -243,7 +243,14 @@
       }
       /* The Ask itself does not fetch. Neo's tick researches a held gap, and the admitted clause comes back as a premise. */
       let pl = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory) });
-      const p = pl && pl.problem;
+      let p = pl && pl.problem;
+      if (p && !p.ok && /unknown_substance|unknown_body|property_missing|altitude_missing/.test(String(p.reason || ''))) {
+        const found = await athenaFacts(p);
+        if (found && found.length) {
+          const again = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory), facts: found });
+          if (again && again.problem && again.problem.ok) { pl = again; p = again.problem; }
+        }
+      }
       if (p && p.ok && p.scene) lastScene = { question: question, scene: p.scene };
       if (out && out.status === 'ask') { /* the follow-up turn owns this question */ }
       else if (!p || !p.ok) {
