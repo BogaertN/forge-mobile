@@ -16,6 +16,14 @@ You retract a sentence when the user forgets it.
 
 You hold a claim that a ledger has refuted.
 
+You recall a fact by its address.
+
+You trace a derivation by a proof.
+
+You look up a gap by Athena.
+
+You share a memory by a packet.
+
 You run a simulation on this phone.
 
 You send a heavy simulation to a home computer.

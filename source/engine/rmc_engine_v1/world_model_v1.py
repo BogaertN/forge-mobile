@@ -2721,7 +2721,14 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     phi_q = DF.OPERATION_PHASE[DF.operation(qframe)]
     direct.sort(key=lambda d: (-int(bool(d[2] == "clause")), -float(DF.phase_factor(placed(d[0]).get("Phi"), phi_q).get("A") or 0.0),
                                -int(d[4].get("band_key") or 0), -float(d[4].get("coupling") or 0.0), str(d[0].get("text") or ""), str(d[0]["id"])))
-    for fact, ff, src, m, al in direct[:4]:
+    # 4.9.236: ranked by the operation-phase factor A. A capability question asks for the set of actions, so the
+    # bound is the manual's own clauses, not one arbitrary match. Other questions stay at four.
+    cap = 4
+    if str(qframe.get("kriya") or "") == "do" and str(qframe.get("wh_role") or "") == "karma":
+        cap = 12
+    elif str(qframe.get("modality") or "") == "able" and str(qframe.get("wh_role") or "") == "polarity":
+        cap = 8
+    for fact, ff, src, m, al in direct[:cap]:
         if m.get("rule") == DF.RULE_NAME_OF and len((fact.get("atom") or {}).get("args") or []) == 2:
             x, n = [str(a) for a in fact["atom"]["args"]]
             sub = {"$x": x, "$n": n}
@@ -3072,6 +3079,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
             claim["spoken"] = " ".join(a["text"] for a in atoms if a["text"])
         else:
             claim["spoken_atoms"] = _spoken_atoms(world, claim, parts, voice)
+    _compose_capabilities(qframe, answers)
     report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers, measure_gap=measure_gap)
     report["match_mode"] = "frame_gate"
     report["frame_trace"] = {
@@ -3130,6 +3138,52 @@ def _finish_claim(world, text, atom, premises, proof, checked, status, how, phas
     }]
     claim["debate"] = run_debate(claim, content_tokens=content_tokens)
     return claim
+
+
+def _compose_capabilities(qframe: dict[str, Any] | None, answers: list[dict[str, Any]] | None) -> None:
+    """4.9.253: a capability question speaks every gate-passing action clause, best rank first.
+
+    "What can you do?" is a pro-verb. One matching clause is not the answer. "Can you run simulations?"
+    is an ability question: the polarity word, then every fact whose karma is that head. The sentences are
+    the clauses already spoken for each fact. Nothing here writes a new sentence from a template.
+    """
+    if not isinstance(qframe, dict) or not answers:
+        return
+    from rmc_engine_v1 import derive_frame as DF
+    pro = str(qframe.get("kriya") or "") == "do" and str(qframe.get("wh_role") or "") == "karma"
+    able = str(qframe.get("modality") or "") == "able" and str(qframe.get("wh_role") or "") == "polarity"
+    if pro:
+        group = [c for c in answers if (c.get("frame_match") or {}).get("rule") == DF.RULE_PRO_VERB]
+    elif able:
+        group = [c for c in answers if str((c.get("frame_match") or {}).get("rule") or "").startswith("polar")]
+    else:
+        return
+    if len(group) < (1 if able else 2):
+        return
+    group = sorted(group, key=_frame_key)
+    texts: list[str] = []
+    atoms: list[dict[str, Any]] = []
+    if able:
+        yn = str((group[0].get("frame_match") or {}).get("filler") or "")
+        if yn in ("yes", "no"):
+            said = _cap(yn)
+            texts.append(said)
+            atoms.append({"text": said, "atom": None, "verbatim": True, "role": "polarity", "source_id": None})
+    for claim in group:
+        spoken = [a for a in (claim.get("spoken_atoms") or []) if isinstance(a, dict) and str(a.get("text") or "").strip()]
+        if not spoken and str(claim.get("spoken") or "").strip():
+            spoken = [{"text": str(claim.get("spoken")).strip(), "atom": claim.get("atom"), "verbatim": False, "role": "conclusion", "source_id": (claim.get("premises") or [{}])[0].get("id") if claim.get("premises") else None}]
+        for atom in spoken:
+            text = str(atom.get("text") or "").strip()
+            if text and text not in texts:
+                texts.append(text)
+                atoms.append(atom)
+    if len(texts) < 2:
+        return
+    head = group[0]
+    head["spoken"] = " ".join(texts)
+    head["spoken_atoms"] = atoms
+    head["composed_of"] = [str(c.get("text") or "") for c in group]
 
 
 def _derive_report(world, question, status, reason, claims, incomplete, answers=None, measure_gap=None) -> dict[str, Any]:

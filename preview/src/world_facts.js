@@ -267,7 +267,7 @@
     const doc = loadRaw();
     const hash = claimHash(text);
     const roles = rolesOf(clause);
-    const entry = { hash: hash, text: String(text || ''), kartr: roles.kartr, pred: roles.pred, status: (reason && reason.status) || 'refuted', reason: { why: reason && reason.why || 'refuted', path: reason && reason.path || 'unspecified', source: reason && reason.source || null }, at: new Date().toISOString(), calls_llm: false };
+    const entry = { hash: hash, text: String(text || ''), kartr: roles.kartr, pred: roles.pred, status: (reason && reason.status) || 'refuted', reason: { why: reason && reason.why || 'refuted', path: reason && reason.path || 'unspecified', source: reason && reason.source || null }, path_hash: claimHash([reason && reason.path, roles.kartr, roles.pred].join('|')), at: new Date().toISOString(), calls_llm: false };
     const ledger = (doc.refuted || []).filter(e => e && e.hash !== hash);
     ledger.unshift(entry);
     const saved = saveRaw(Object.assign({}, doc, { refuted: ledger.slice(0, 200) }));

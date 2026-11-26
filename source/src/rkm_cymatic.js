@@ -17,24 +17,34 @@
     return hz.sort((a, b) => a - b);
   }
   function plate(packet, n) {
+    /* The displacement is the hfield-cymatics reader-surface sum:
+     * sin(2π · (hz/root) · t + x·π·(1+frac(hz/root)·4)), then signed_sum/sqrt(n)·0.42.
+     * Visual only. It does not decode the packet. */
     const size = n || 48;
     const tones = carriers(packet);
+    const root = tones[0] || 144;
+    const timeMs = 250;
+    const seconds = timeMs / 1000;
+    const norm = Math.sqrt(tones.length) || 1;
     const grid = [];
     for (let y = 0; y < size; y++) {
       const row = [];
-      const yy = (y / (size - 1)) * Math.PI;
+      const yy = y / (size - 1);
       for (let x = 0; x < size; x++) {
-        const xx = (x / (size - 1)) * Math.PI;
-        let v = 0;
-        tones.forEach((hz, i) => {
-          const k = 1 + (i % 5);
-          v += Math.cos(k * xx * (hz / 144)) * Math.cos(k * yy * (hz / 144));
+        const xx = x / (size - 1);
+        let signed = 0;
+        tones.forEach(hz => {
+          const ratio = hz / Math.max(root, 1);
+          const spatial = xx * Math.PI * (1 + ((ratio % 1) * 4));
+          const wave = Math.sin(2 * Math.PI * ratio * seconds + yy * Math.PI + spatial);
+          signed += wave;
         });
-        row.push(Math.round((v / tones.length) * 1000) / 1000);
+        const displacement = Math.max(-0.9, Math.min(0.9, (signed / norm) * 0.42));
+        row.push(Math.round(displacement * 1000) / 1000);
       }
       grid.push(row);
     }
-    return { label: LABEL, decodes: false, carriers: tones, grid: grid, calls_llm: false };
+    return { label: LABEL, decodes: false, carriers: tones, grid: grid, calls_llm: false, source: 'hfield-cymatics reader surface' };
   }
   /* Extension point. A condenser or piezo diaphragm would subscribe here. Nothing is connected. */
   const transducer = { status: 'not_connected', kind: 'condenser_or_piezo', drive: null };

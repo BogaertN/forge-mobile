@@ -12,3 +12,17 @@ Nic runs this on Ubuntu. It serves the sim router and lets Neo's interval plan A
 6. On the phone, open Custody. The Settings field is the Home PC address. Save it, then Test Connection. The status line is the health.
 
 The phone page can reach `https://` or `http://localhost` on the same device. A plain `http://` address on another computer is refused.
+
+## Harmonic Conductor Studio
+
+HCS stays its own desktop app on this Ubuntu machine. The home node only exchanges `.hfield` packets with it. A packet from HCS is a claim: `peer_is_publisher` and `auto_persist` are refused, and Gilligan still has to pass the claim before anything is kept.
+
+Build the crates this bridge talks to (Ubuntu 24.04, the RTX 3060 Ti is for the HCS app, not for this Python process):
+
+1. Install Rust from https://rustup.rs if `cargo` is missing.
+2. `git clone https://github.com/BogaertN/harmonic-conductor-studio.git`
+3. `cd harmonic-conductor-studio && cargo build -p hfield-packet -p hfield-forge-bridge -p hfield-cymatics`
+4. Run the HCS app from that tree the way its own README says. Point `FORGE_HCS_URL` at it. Leave the variable empty and this node holds packets instead of forwarding them.
+
+`python -c "from server.home_pc.hcs_bridge import exchange; print(exchange({'schema':'aiweb.hfield'}))"` should print `HCS-HELD` when the URL is empty.
+

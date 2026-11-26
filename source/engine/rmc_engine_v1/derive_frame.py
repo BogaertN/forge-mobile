@@ -495,8 +495,9 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
             if fpol == "pos" and (qframe.get("polarity") or "pos") == "pos" and kind_inclusion(fs, fp) and np_unify(qs, fp) and np_unify(qp, fs):
                 return {"roles": 2, "gap": None, "filler": NOT_NECESSARILY, "orientation": "kartr=pred", "rule": RULE_CONVERSE, "entails": False}
             return None
-        if np_unify(qs, fs) and np_unify(qo, fo):
+        if np_unify(qs, fs) and (np_unify(qo, fo) or _same_head(qo, fo)):
             # 4.9.241: "I have no body" is a negative answer to "Do you have a body?"
+            # 4.9.253: "simulations" names the same head as "a simulation" and as "a heavy simulation".
             yes = polarity_of(fframe) == polarity_of(qframe)
             return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "kartr,karma", "rule": "polar"}
         return None
@@ -541,6 +542,15 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
         if np_unify(qs, fs) and isinstance(fo, dict):
             return {"roles": 1, "gap": "karma", "filler": fo.get("text"), "orientation": "kartr=kartr", "rule": "transitive"}
     return None
+
+
+def _same_head(q: Any, f: Any) -> bool:
+    """A bare question noun and a fact noun of the same head ("simulations", "a heavy simulation")."""
+    if not isinstance(q, dict) or not isinstance(f, dict):
+        return False
+    if _head(q) != _head(f) or not _head(q):
+        return False
+    return len(_words(str(q.get("text") or ""))) == 1
 
 
 def _manner_np(frame: dict[str, Any] | None) -> dict[str, Any] | None:

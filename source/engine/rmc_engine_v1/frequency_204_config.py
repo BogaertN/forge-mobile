@@ -18,7 +18,7 @@ from __future__ import annotations
 
 PROPOSAL = "proposal v1"
 AWAITING = "Nic"
-STATUS = "proposal"
+STATUS = "approved nominal, not validated"
 
 # RSOC. Read back from research_hooks at runtime; these are the same numbers.
 ZETA = 0.12

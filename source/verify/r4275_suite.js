@@ -38,9 +38,13 @@ function register(C, expect) {
     const one = askManual('What can you do?');
     const two = askManual('What do you do?');
     const three = askManual('How do I remember something?');
-    expect(one.product_reply === true && one.reply === 'I send a heavy simulation to a home computer.' && one.coherence >= 0.87 && one.echo.method === 'structural_frame' && one.echo.score >= 0.85, JSON.stringify([one.reply, one.route, one.coherence]));
+    const four = askManual('Can you run simulations?');
+    const parts = String(one.reply || '').split(/(?<=\.)\s+/).filter(Boolean);
+    expect(one.product_reply === true && parts.length >= 5 && one.coherence >= 0.87 && one.echo.method === 'structural_frame' && one.echo.score >= 0.85, JSON.stringify([one.reply, one.route, one.coherence]));
+    for (const bit of ['remember a sentence', 'simulation', 'derivation', 'packet', 'Athena']) expect(String(one.reply).includes(bit), 'missing ' + bit);
     expect(two.product_reply === true && two.reply === one.reply && two.echo.pass === true, JSON.stringify(two.reply));
     expect(three.product_reply === true && three.reply === 'You remember a sentence by an explicit request.' && three.echo.method === 'structural_frame' && !/shipped behavior/.test(three.reply), JSON.stringify([three.reply, three.route]));
+    expect(four.product_reply === true && /^Yes\. /.test(four.reply || '') && /simulation/.test(four.reply || ''), JSON.stringify(four.reply));
     const src = fs.readFileSync(path.join(ROOT, 'src', 'selfmodel.js'), 'utf8');
     expect(!/TODO|placeholder/.test(src), 'the self-model placeholder is gone');
   });
@@ -101,7 +105,7 @@ print(json.dumps({"plain": plain, "refused": refused, "blocked": blocked, "why":
     expect(CY.transducer.status === 'not_connected' && CY.transducer.kind === 'condenser_or_piezo' && CY.transducer.drive === null, JSON.stringify(CY.transducer));
     const note = fs.readFileSync(path.join(ROOT, '..', 'docs', 'rkm', 'README.md'), 'utf8');
     expect(/BLAKE3 psi_id is superseded by SHA-256/.test(note) && /25 Nov 2026/.test(note) && /WebCrypto/.test(note), 'the decision is written down');
-    expect(fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.252', 'VERSION');
+    expect(fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.253', 'VERSION');
   });
 }
 module.exports = register;
