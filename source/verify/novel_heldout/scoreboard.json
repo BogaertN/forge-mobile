@@ -74,6 +74,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. A simulator receipt is kept as evidence and survives reload. It is not a fact and not a publisher."
+    },
+    {
+      "version": "4.9.268",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. A mechanism is read from scene quantities and admitted only after held-out receipts and edge probes agree."
     }
   ]
 }
