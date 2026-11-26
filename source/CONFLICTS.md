@@ -1,3 +1,13 @@
+## v4.9.271 — The tip law is a dimensionless group (Nic, 26 Nov 2026)
+
+**Conflict:** Products of raw quantities could fit a small sample without being a law. Mass has a dimension the outcome does not depend on.
+
+**Where:** The search builds Buckingham groups from the units already on the scene quantities. On 32 pushes that vary height, radius, friction, push fraction and mass independently, the admitted group is `(fraction*height*mu)/radius`. Gilligan's probes pin the threshold at 1.000. Twenty new scenes agree with the measurement on 19, and with the geometric rule on 19. Every new scene that `tip_check` calls a tip or a slide agrees; its "stay" answers are the old weak push, which the ramp keeps increasing past. Idle proposes the next scenes where the leading candidates disagree. The row is evidence, not a fact.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4288_suite.js`.
+
 ## v4.9.270 — A push ramps until the first measured limit (Nic, 26 Nov 2026)
 
 **Conflict:** The push force was `1.25 × min(μmg, mg·half/h)`. The outcome was the formula the search was asked to discover. Tall narrow bodies then tipped in MuJoCo where the quasi-static check said slide. Spoken answers also lost their reason.

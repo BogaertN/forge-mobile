@@ -60,6 +60,63 @@
     rec(0, []);
     return out;
   }
+  function dimVector(variable) {
+    const unit = String((variable && variable.unit) || '');
+    const dim = String((variable && variable.dimension) || '');
+    if (dim === 'dimensionless' || unit === '1') return [0, 0, 0];
+    if (dim === 'length' || unit === 'm' || unit === 'km') return [1, 0, 0];
+    if (dim === 'mass' || unit === 'kg') return [0, 1, 0];
+    if (dim === 'time' || unit === 's' || unit === 'min') return [0, 0, 1];
+    if (dim === 'acceleration' || unit === 'm/s^2') return [1, 0, -2];
+    return null;
+  }
+  function piExprs(names, sample) {
+    const dims = {};
+    names.forEach(name => { dims[name] = dimVector(sample[name]); });
+    const known = names.filter(name => dims[name]);
+    const exprs = [];
+    function add(terms) {
+      const sum = [0, 0, 0];
+      terms.forEach(term => dims[term.name].forEach((part, i) => { sum[i] += part * term.exp; }));
+      if (sum.some(part => part !== 0)) return;
+      const num = terms.filter(term => term.exp > 0).map(term => term.name).sort();
+      const den = terms.filter(term => term.exp < 0).map(term => term.name).sort();
+      if (!num.length && !den.length) return;
+      const text = (num.length > 1 ? '(' + num.join('*') + ')' : num.join('*') || '1') + (den.length ? '/' + (den.length > 1 ? '(' + den.join('*') + ')' : den[0]) : '');
+      if (exprs.some(ex => ex.text === text)) return;
+      exprs.push({
+        text: text, vars: terms.map(term => term.name), factors: terms.length, pi: true,
+        eval: vals => {
+          let value = 1;
+          for (const term of terms) {
+            const part = vals[term.name];
+            if (part == null || !isFinite(part) || (term.exp < 0 && part === 0)) return null;
+            value *= term.exp > 0 ? part : 1 / part;
+          }
+          return value;
+        }
+      });
+    }
+    known.forEach(name => { if (dims[name].every(part => part === 0)) add([{ name: name, exp: 1 }]); });
+    for (let i = 0; i < known.length; i++) for (let j = i + 1; j < known.length; j++) {
+      add([{ name: known[i], exp: 1 }, { name: known[j], exp: -1 }]);
+      add([{ name: known[i], exp: 1 }, { name: known[j], exp: 1 }]);
+    }
+    for (let i = 0; i < known.length; i++) for (let j = i + 1; j < known.length; j++) for (let k = j + 1; k < known.length; k++) {
+      [known[i], known[j], known[k]].forEach(den => {
+        const num = [known[i], known[j], known[k]].filter(name => name !== den);
+        add([{ name: num[0], exp: 1 }, { name: num[1], exp: 1 }, { name: den, exp: -1 }]);
+      });
+    }
+    if (known.length >= 4) for (let a = 0; a < known.length; a++) for (let b = a + 1; b < known.length; b++) for (let c = b + 1; c < known.length; c++) for (let d = c + 1; d < known.length; d++) {
+      const four = [known[a], known[b], known[c], known[d]];
+      four.forEach(den => {
+        const num = four.filter(name => name !== den);
+        add(num.map(name => ({ name: name, exp: 1 })).concat([{ name: den, exp: -1 }]));
+      });
+    }
+    return exprs;
+  }
   function enumerate(names) {
     const exprs = [];
     function push(text, used, fn, factors) { exprs.push({ text: text, vars: used, eval: fn, factors: factors }); }
@@ -167,7 +224,7 @@
     if (varying.length < 2 || outcomes.length !== 2) return null;
     let tried = 0;
     const passing = [];
-    enumerate(varying).forEach(ex => {
+    enumerate(varying).concat(piExprs(varying, maps[0] || {})).forEach(ex => {
       tried += 1;
       const scored = [];
       for (let i = 0; i < train.length; i++) {
@@ -180,7 +237,7 @@
       if (scored.length !== train.length) return;
       const sep = bestCut(scored);
       if (!sep || sep.acc < 0.75) return;
-      const cand = { expression: ex.text, variables: ex.vars.slice(), factors: ex.factors, threshold: sep.threshold, above: sep.above, below: sep.below, gap: sep.gap, _bounds: { lo: sep.lo, hi: sep.hi }, _eval: ex.eval, trainAcc: sep.acc };
+      const cand = { expression: ex.text, variables: ex.vars.slice(), factors: ex.factors, pi: ex.pi === true, threshold: sep.threshold, above: sep.above, below: sep.below, gap: sep.gap, _bounds: { lo: sep.lo, hi: sep.hi }, _eval: ex.eval, trainAcc: sep.acc };
       const trainAcc = cand.trainAcc;
       const heldAcc = acc(cand, held || []);
       if (trainAcc < 0.75 || heldAcc < 0.75) return;
@@ -189,7 +246,7 @@
       cand.fullAcc = acc(cand, all || train.concat(held || []));
       passing.push(cand);
     });
-    const best = passing.sort((a, b) => b.fullAcc - a.fullAcc || b.heldAcc - a.heldAcc || b.trainAcc - a.trainAcc || a.factors - b.factors || b.gap - a.gap)[0] || null;
+    const best = passing.sort((a, b) => b.fullAcc - a.fullAcc || b.heldAcc - a.heldAcc || (b.pi === true) - (a.pi === true) || a.factors - b.factors || b.gap - a.gap)[0] || null;
     if (!best) return null;
     best.alts = passing.map(p => ({ expression: p.expression, fullAcc: p.fullAcc, heldAcc: p.heldAcc, factors: p.factors }));
     best.tried = tried;
@@ -231,6 +288,7 @@
         id: 'mech:' + solver + ':' + found.expression,
         solver: solver,
         expression: found.expression,
+        pi: found.pi === true,
         variables: found.variables,
         range: found.range,
         threshold: found.threshold,
@@ -329,8 +387,34 @@
     }
     return { ok: agree, status: row.status, id: row.id, fact: false, publisher: false, probes: row.probes };
   }
+  function nextScenes(proposals) {
+    const ranked = (proposals || []).filter(p => p && p.variables && p.variables.length).slice(0, 2);
+    if (!ranked.length) return [];
+    const lead = ranked[0];
+    const other = ranked[1];
+    const span = lead.range || {};
+    const names = Object.keys(span);
+    if (!names.length) return [];
+    const scenes = [];
+    names.forEach(name => {
+      const row = span[name];
+      if (!row || !(row.max > row.min)) return;
+      const mid = (row.min + row.max) / 2;
+      [row.min, mid, row.max].forEach(value => {
+        const values = {};
+        names.forEach(key => { values[key] = key === name ? value : (span[key].min + span[key].max) / 2; });
+        const atLead = lead._eval ? lead._eval(values) : null;
+        const atOther = other && other._eval ? other._eval(values) : null;
+        const leadLabel = atLead == null ? null : (atLead > lead.threshold ? lead.above : lead.below);
+        const otherLabel = atOther == null || !other ? null : (atOther > other.threshold ? other.above : other.below);
+        if (other && leadLabel === otherLabel) return;
+        scenes.push({ values: values, near: name, lead: lead.expression, other: other && other.expression });
+      });
+    });
+    return scenes.slice(0, 8);
+  }
   function list() { return load().mechanisms.slice(); }
   function admitted() { return list().filter(r => r && r.status === 'admitted' && r.fact === false); }
-  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap };
+  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap, nextScenes };
   if (isNode) module.exports = api; else root.KMechanisms = api;
 })(typeof self !== 'undefined' ? self : this);
