@@ -1,0 +1,8 @@
+FieldScore deserialize: OK
+validate_hfield_packet_contract: status=warning, fatal_errors=[]
+create_forge_packet_bridge_stub_report: status=warning, fatal_errors=[]
+warnings (expected for an unsigned example): authority receipt reference is not yet bound;
+  consent event reference is not yet bound; provenance hash is not yet sealed;
+  packet contains no conductor gesture events yet
+Note: the first run failed with "packet music track list must not be empty", so the packet
+now carries one view-only music track (forge_root_reference) to satisfy HCS.

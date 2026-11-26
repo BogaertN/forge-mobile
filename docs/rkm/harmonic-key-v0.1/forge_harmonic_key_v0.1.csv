@@ -1,0 +1,55 @@
+role_code,band_index,band,band_range_hz,carrier_hz,q_tune,kappa,half_life_s,amp_floor,memory_kind,slot,phase_deg,triad,hfield_phase,role,meaning
+0x00,0,delta,1-4,2.25,6,12,31536000,0.25,"consolidated long-term fact (verified, stored)",0,0,0,1,kriya,predicate / relation (the verb or relation of the clause)
+0x01,0,delta,1-4,2.25,6,12,31536000,0.25,"consolidated long-term fact (verified, stored)",1,40,0,2,karta,agent / subject
+0x02,0,delta,1-4,2.25,6,12,31536000,0.25,"consolidated long-term fact (verified, stored)",2,80,0,3,karma,object / patient
+0x03,0,delta,1-4,2.25,6,12,31536000,0.25,"consolidated long-term fact (verified, stored)",3,120,1,4,karana,instrument / means
+0x04,0,delta,1-4,2.25,6,12,31536000,0.25,"consolidated long-term fact (verified, stored)",4,160,1,5,sampradana,recipient / beneficiary
+0x05,0,delta,1-4,2.25,6,12,31536000,0.25,"consolidated long-term fact (verified, stored)",5,200,1,6,apadana,source / point of departure ('from')
+0x06,0,delta,1-4,2.25,6,12,31536000,0.25,"consolidated long-term fact (verified, stored)",6,240,2,7,adhikarana,"locus: place, time, medium or context"
+0x07,0,delta,1-4,2.25,6,12,31536000,0.25,"consolidated long-term fact (verified, stored)",7,280,2,8,mana,measure: value with unit
+0x08,0,delta,1-4,2.25,6,12,31536000,0.25,"consolidated long-term fact (verified, stored)",8,320,2,9,nibandhana,"qualifier: condition, scope, negation, statistic (mean, max...)"
+0x10,1,theta,4-8,4.5,3,6,2592000,0.0,sequence / context / trace order,0,0,0,1,seq_1,position 1 (Forge loop convention: held Ask)
+0x11,1,theta,4-8,4.5,3,6,2592000,0.0,sequence / context / trace order,1,40,0,2,seq_2,position 2 (Neo tick)
+0x12,1,theta,4-8,4.5,3,6,2592000,0.0,sequence / context / trace order,2,80,0,3,seq_3,position 3 (Athena lookup / simulate / derive)
+0x13,1,theta,4-8,4.5,3,6,2592000,0.0,sequence / context / trace order,3,120,1,4,seq_4,position 4 (Gilligan check)
+0x14,1,theta,4-8,4.5,3,6,2592000,0.0,sequence / context / trace order,4,160,1,5,seq_5,position 5 (resumed answer)
+0x15,1,theta,4-8,4.5,3,6,2592000,0.0,sequence / context / trace order,5,200,1,6,seq_6,position 6
+0x16,1,theta,4-8,4.5,3,6,2592000,0.0,sequence / context / trace order,6,240,2,7,seq_7,position 7
+0x17,1,theta,4-8,4.5,3,6,2592000,0.0,sequence / context / trace order,7,280,2,8,seq_8,position 8
+0x18,1,theta,4-8,4.5,3,6,2592000,0.0,sequence / context / trace order,8,320,2,9,seq_9,"position 9 (longer sequences continue in a new window, flag CONT)"
+0x20,2,alpha,8-13,9.0,8,16,3600,0.0,gating / suppression of what is irrelevant now,0,0,0,1,pass,open gate: eligible for retrieval
+0x21,2,alpha,8-13,9.0,8,16,3600,0.0,gating / suppression of what is irrelevant now,1,40,0,2,suppress_irrelevant,inhibit: off-topic for the current task
+0x22,2,alpha,8-13,9.0,8,16,3600,0.0,gating / suppression of what is irrelevant now,2,80,0,3,suppress_contradicted,"inhibit: contradicted, awaiting Athena re-check"
+0x23,2,alpha,8-13,9.0,8,16,3600,0.0,gating / suppression of what is irrelevant now,3,120,1,4,hold_pending,held Ask waiting for Neo/Athena
+0x24,2,alpha,8-13,9.0,8,16,3600,0.0,gating / suppression of what is irrelevant now,4,160,1,5,speculative,speculative bin: NEVER on the speaking path
+0x25,2,alpha,8-13,9.0,8,16,3600,0.0,gating / suppression of what is irrelevant now,5,200,1,6,ghost,"failed / rejected attempt store (kept, never spoken)"
+0x26,2,alpha,8-13,9.0,8,16,3600,0.0,gating / suppression of what is irrelevant now,6,240,2,7,tier_cold,"collapsed to cold tier (kept, not deleted)"
+0x27,2,alpha,8-13,9.0,8,16,3600,0.0,gating / suppression of what is irrelevant now,7,280,2,8,tier_deep,"collapsed to deep tier (kept, not deleted)"
+0x28,2,alpha,8-13,9.0,8,16,3600,0.0,gating / suppression of what is irrelevant now,8,320,2,9,quarantine_peer,received peer claim not yet through Gilligan
+0x30,3,beta,13-30,18.0,4,12,900,0.0,active task / rule hold (working state),0,0,0,1,current_question,the Ask being answered
+0x31,3,beta,13-30,18.0,4,12,900,0.0,active task / rule hold (working state),1,40,0,2,active_rule,rule or law currently applied
+0x32,3,beta,13-30,18.0,4,12,900,0.0,active task / rule hold (working state),2,80,0,3,active_gap,the gap Athena is filling
+0x33,3,beta,13-30,18.0,4,12,900,0.0,active task / rule hold (working state),3,120,1,4,constraint,"constraint on the answer (units, range, scope)"
+0x34,3,beta,13-30,18.0,4,12,900,0.0,active task / rule hold (working state),4,160,1,5,expected_type,"expected answer type (quantity, entity, yes/no...)"
+0x35,3,beta,13-30,18.0,4,12,900,0.0,active task / rule hold (working state),5,200,1,6,unit_frame,unit system in force
+0x36,3,beta,13-30,18.0,4,12,900,0.0,active task / rule hold (working state),6,240,2,7,peer_session,current Forge-to-Forge session
+0x37,3,beta,13-30,18.0,4,12,900,0.0,active task / rule hold (working state),7,280,2,8,pending_followup,follow-up question queued
+0x38,3,beta,13-30,18.0,4,12,900,0.0,active task / rule hold (working state),8,320,2,9,reserved_b8,reserved
+0x40,4,gamma,30-80,36.0,4,10,604800,0.0,binding: the parts of one item,0,0,0,1,head,head entity of the item
+0x41,4,gamma,30-80,36.0,4,10,604800,0.0,binding: the parts of one item,1,40,0,2,class,type / class
+0x42,4,gamma,30-80,36.0,4,10,604800,0.0,binding: the parts of one item,2,80,0,3,attribute,attribute name
+0x43,4,gamma,30-80,36.0,4,10,604800,0.0,binding: the parts of one item,3,120,1,4,value,value
+0x44,4,gamma,30-80,36.0,4,10,604800,0.0,binding: the parts of one item,4,160,1,5,unit,unit
+0x45,4,gamma,30-80,36.0,4,10,604800,0.0,binding: the parts of one item,5,200,1,6,part_whole,part-of / has-part link
+0x46,4,gamma,30-80,36.0,4,10,604800,0.0,binding: the parts of one item,6,240,2,7,alias,name / alias / surface form
+0x47,4,gamma,30-80,36.0,4,10,604800,0.0,binding: the parts of one item,7,280,2,8,publisher,publisher lineage reference
+0x48,4,gamma,30-80,36.0,4,10,604800,0.0,binding: the parts of one item,8,320,2,9,evidence,evidence hash / timestamp
+0x50,5,ripple,80-144,144.0,3,6,60,0.0,replay / consolidation (Athena re-check during Neo idle ticks),0,0,0,1,replay_request,Neo schedules a replay
+0x51,5,ripple,80-144,144.0,3,6,60,0.0,replay / consolidation (Athena re-check during Neo idle ticks),1,40,0,2,re_lookup,Athena re-looks-up sources
+0x52,5,ripple,80-144,144.0,3,6,60,0.0,replay / consolidation (Athena re-check during Neo idle ticks),2,80,0,3,re_simulate,Athena re-runs a simulator
+0x53,5,ripple,80-144,144.0,3,6,60,0.0,replay / consolidation (Athena re-check during Neo idle ticks),3,120,1,4,re_derive,Athena re-derives
+0x54,5,ripple,80-144,144.0,3,6,60,0.0,replay / consolidation (Athena re-check during Neo idle ticks),4,160,1,5,gilligan_recheck,Gilligan re-validates under the same fixed gates
+0x55,5,ripple,80-144,144.0,3,6,60,0.0,replay / consolidation (Athena re-check during Neo idle ticks),5,200,1,6,reinforce,passed: amplitude reinforced
+0x56,5,ripple,80-144,144.0,3,6,60,0.0,replay / consolidation (Athena re-check during Neo idle ticks),6,240,2,7,demote,failed: collapse one tier
+0x57,5,ripple,80-144,144.0,3,6,60,0.0,replay / consolidation (Athena re-check during Neo idle ticks),7,280,2,8,readmit,"re-admission attempt (counted, cap 5)"
+0x58,5,ripple,80-144,144.0,3,6,60,0.0,replay / consolidation (Athena re-check during Neo idle ticks),8,320,2,9,fixed_point,fixed-point check: re-inference gives identical fact set

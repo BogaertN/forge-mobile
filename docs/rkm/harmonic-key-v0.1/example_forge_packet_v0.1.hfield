@@ -1,0 +1,397 @@
+{
+  "format": "aiweb.hfield",
+  "version": "0.1.0",
+  "packet": {
+    "contract_id": "aiweb.hfield.packet_contract.v1",
+    "packet_kind": "forge_memory_exchange_packet",
+    "packet_role": "forge_to_forge_claim",
+    "source_system": "Forge",
+    "target_systems": [
+      "Forge",
+      "HCS"
+    ],
+    "analog_bridge_intent": "forge_memory_key_coordinates_over_acoustic_or_network",
+    "phase_profile": {
+      "phase_count": 9,
+      "phase_order": [
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        8
+      ],
+      "anchor_layout": "center_1_lower_5_upper_9",
+      "root_frequency_hz": 144.0,
+      "communication_mode": "nine_phase_frequency_packet"
+    },
+    "payload_layers": [
+      "score",
+      "frequency_phase",
+      "gesture",
+      "field",
+      "render",
+      "forge_bridge",
+      "forge_memory"
+    ],
+    "render_targets": [
+      "acoustic_mfsk_frame",
+      "forge_card_view"
+    ],
+    "forge_bridge": {
+      "status": "bound",
+      "bridge_profile": "forge_memory_bridge_v1",
+      "forge_runtime_ref": "forge-mobile@4.9.x",
+      "symbolic_trace_ref": "blake3:681744de3169d5baeb4d7bb157049b0968cc94ac274905e9a7386f090707ba5d",
+      "validation_ref": "gilligan:receiver_must_revalidate"
+    },
+    "migration_profile": "forge_memory_packet_v1"
+  },
+  "provenance": {
+    "contract_id": "aiweb.hfield.identity_provenance_contract.v1",
+    "artifact_id": "forge.packet.3f84ac283846aff0",
+    "artifact_kind": "harmonic_field_packet",
+    "custody_model": "identity_vault_reference_only",
+    "disclosure_class": "private_reference_only",
+    "identity_vault": {
+      "status": "reference_only",
+      "vault_profile": "aiweb.identity_vault.reference.v1",
+      "vault_record_ref": "aiweb.identity_vault.forge.EXAMPLE-A",
+      "public_identity_ref": null
+    },
+    "creator": {
+      "principal_id": "forge.instance.EXAMPLE-A",
+      "principal_kind": "system",
+      "display_label": "Forge instance A (example)",
+      "identity_vault_ref": null,
+      "authority_scope": "system_generated_private_reference_only"
+    },
+    "contributors": [],
+    "parent_artifacts": [],
+    "derivative_chain": [],
+    "forge_trace_ref": "blake3:681744de3169d5baeb4d7bb157049b0968cc94ac274905e9a7386f090707ba5d",
+    "memory_capsule_ref": null,
+    "authority_receipt_ref": null,
+    "consent_event_ref": null,
+    "license_ref": null,
+    "rights_policy_ref": null,
+    "signature_ref": null,
+    "provenance_hash": null,
+    "raw_private_identity_exported": false,
+    "public_identity_authorized": false,
+    "economic_processing_authorized": false,
+    "portable_rights_authorized": false
+  },
+  "title": "Forge memory packet (EXAMPLE)",
+  "root_frequency_hz": 144.0,
+  "anchors": {
+    "anchor_1": {
+      "ratio": 1.0,
+      "role": "center_home_root_presence"
+    },
+    "anchor_5": {
+      "ratio": 0.5,
+      "role": "lower_depth_weight_transformation"
+    },
+    "anchor_9": {
+      "ratio": 3.0,
+      "role": "upper_lift_expression_release"
+    }
+  },
+  "gesture_vocabulary": "nine_gesture_conductor_v0",
+  "coupling_profile": "forge_memory_key_v0_1",
+  "music": {
+    "tempo_bpm": 60.0,
+    "meter": "4/4",
+    "tuning_mode": "twelve_tone_equal_temperament_reader_proof",
+    "tracks": [
+      {
+        "track_id": "forge_root_reference",
+        "role": "logical_144hz_root_reference_view_only_not_the_acoustic_carrier",
+        "notes": [
+          {
+            "midi_note": 50,
+            "start_ms": 0,
+            "duration_ms": 1000,
+            "velocity": 0.5
+          }
+        ]
+      }
+    ]
+  },
+  "conductor": {
+    "field_layout": "center_1_lower_5_upper_9",
+    "primary_hand_track": {
+      "track_id": "primary_hand",
+      "events": []
+    },
+    "expressive_hand_track": {
+      "track_id": "expressive_hand",
+      "events": []
+    }
+  },
+  "forge_memory": {
+    "schema": "forge.hfield.memory.v1",
+    "key": {
+      "key_id": "forge.harmonic_key",
+      "key_version": "0.1.0",
+      "structure_fp": "bfae15f7",
+      "structure_hash_blake3": "bfae15f75ea4d911c23ea7cb8da2a1b5d7ff22f74027b1c3bda5ea29f67adfcc",
+      "full_hash_blake3": "01813586d0006fcd213e8d2c0adb9b5d25e42138bd32152bbacbedbd1c55dc02"
+    },
+    "message": {
+      "type": "CLAIM",
+      "session": "0x51",
+      "seq": 1,
+      "sent_at": "2026-11-25T13:40:00Z",
+      "sender": "forge.instance.EXAMPLE-A",
+      "receiver": "forge.instance.EXAMPLE-B"
+    },
+    "records": [
+      {
+        "fact_id": "a6822b68cb50a5ef73554dc74098c660353fec442745146fe9548f830a1da432",
+        "address": {
+          "band": "delta",
+          "band_index": 0,
+          "slot": 0,
+          "phase_deg": 0,
+          "hfield_phase": 1,
+          "role_code": "0x00",
+          "amplitude": 1.0,
+          "amp_q": 15,
+          "parent": null,
+          "flags": [
+            "VERIFIED_REF"
+          ],
+          "compact_hex": "01fc20"
+        },
+        "clause": {
+          "k": "forge.clause.v1",
+          "roles": {
+            "kriya": {
+              "t": "relation",
+              "v": "speed"
+            },
+            "karta": {
+              "t": "entity",
+              "v": "light"
+            },
+            "adhikarana": {
+              "t": "medium",
+              "v": "vacuum"
+            },
+            "mana": {
+              "t": "quantity",
+              "v": "299792458",
+              "u": "m/s"
+            }
+          }
+        },
+        "atoms": [
+          {
+            "role": "kriya",
+            "slot": 0,
+            "phase_deg": 0,
+            "role_code": "0x00",
+            "atom_id": "b02abf4232119ac250205b1061a8454a9605de2b88a11ddf7992e99dd852ded7"
+          },
+          {
+            "role": "karta",
+            "slot": 1,
+            "phase_deg": 40,
+            "role_code": "0x01",
+            "atom_id": "bdd2a20f751da3dbed23628e336fe1c0a19e5f558973ca4472f715de3a984a50"
+          },
+          {
+            "role": "adhikarana",
+            "slot": 6,
+            "phase_deg": 240,
+            "role_code": "0x06",
+            "atom_id": "08d3f197234d741fec9bd551ec42d9e8b44058b914e438a57c28fa291ef118f5"
+          },
+          {
+            "role": "mana",
+            "slot": 7,
+            "phase_deg": 280,
+            "role_code": "0x07",
+            "atom_id": "64dce1cbedf27915095b10e04b540557c7ddfb078d6aaf81177271d989e140d2"
+          }
+        ],
+        "evidence": {
+          "lineages": [
+            "lineage:EXAMPLE-publisher-A",
+            "lineage:EXAMPLE-publisher-B"
+          ],
+          "independent_publisher_count": 2,
+          "note": "placeholder lineages: example data only"
+        },
+        "sender_gate_report": {
+          "note": "informational only; receiver recomputes with its own Gilligan",
+          "admitted": true
+        }
+      },
+      {
+        "fact_id": "ff7075d6a9e63094f2d9580bb37d0db202402f03ceee42f8efada56f00558a55",
+        "address": {
+          "band": "delta",
+          "band_index": 0,
+          "slot": 0,
+          "phase_deg": 0,
+          "hfield_phase": 1,
+          "role_code": "0x00",
+          "amplitude": 0.8,
+          "amp_q": 12,
+          "parent": null,
+          "flags": [
+            "VERIFIED_REF"
+          ],
+          "compact_hex": "019c20"
+        },
+        "clause": {
+          "k": "forge.clause.v1",
+          "roles": {
+            "kriya": {
+              "t": "relation",
+              "v": "distance"
+            },
+            "karta": {
+              "t": "entity",
+              "v": "moon"
+            },
+            "apadana": {
+              "t": "entity",
+              "v": "earth"
+            },
+            "mana": {
+              "t": "quantity",
+              "v": "384400000",
+              "u": "m"
+            },
+            "nibandhana": {
+              "t": "qualifier",
+              "v": "mean"
+            }
+          }
+        },
+        "atoms": [
+          {
+            "role": "kriya",
+            "slot": 0,
+            "phase_deg": 0,
+            "role_code": "0x00",
+            "atom_id": "7f7497471e09bf367a6edc35a85b7af29a4c1603511013f971687f0002ed68d3"
+          },
+          {
+            "role": "karta",
+            "slot": 1,
+            "phase_deg": 40,
+            "role_code": "0x01",
+            "atom_id": "d84eef325a7315717e8f2909ac0500d252d94e91cd2c8925a8a32038179a4ef3"
+          },
+          {
+            "role": "apadana",
+            "slot": 5,
+            "phase_deg": 200,
+            "role_code": "0x05",
+            "atom_id": "154e511ecfecd9ebe7ceaaec7735dc15fe1d77fc01649174ac039b56a382cc60"
+          },
+          {
+            "role": "mana",
+            "slot": 7,
+            "phase_deg": 280,
+            "role_code": "0x07",
+            "atom_id": "4e67dd79830d52520a7afb95815f06c5131399cee01eb9646e20ef17d7ea2299"
+          },
+          {
+            "role": "nibandhana",
+            "slot": 8,
+            "phase_deg": 320,
+            "role_code": "0x08",
+            "atom_id": "d2e0db7e23066214c0f2d23a01a61803cc8a9c6d4bcc2abbef52fc24ef205365"
+          }
+        ],
+        "evidence": {
+          "lineages": [
+            "lineage:EXAMPLE-publisher-A",
+            "lineage:EXAMPLE-publisher-B"
+          ],
+          "independent_publisher_count": 2,
+          "note": "placeholder lineages: example data only"
+        },
+        "sender_gate_report": {
+          "note": "informational only; receiver recomputes with its own Gilligan",
+          "admitted": true
+        }
+      }
+    ],
+    "trace": {
+      "order": "held>neo>athena>gilligan>resumed",
+      "steps": [
+        {
+          "step": "held",
+          "band": "theta",
+          "slot": 0,
+          "phase_deg": 0,
+          "parent": {
+            "band": "beta",
+            "slot": 0
+          }
+        },
+        {
+          "step": "neo",
+          "band": "theta",
+          "slot": 1,
+          "phase_deg": 40,
+          "parent": {
+            "band": "beta",
+            "slot": 0
+          }
+        },
+        {
+          "step": "athena",
+          "band": "theta",
+          "slot": 2,
+          "phase_deg": 80,
+          "parent": {
+            "band": "beta",
+            "slot": 0
+          }
+        },
+        {
+          "step": "gilligan",
+          "band": "theta",
+          "slot": 3,
+          "phase_deg": 120,
+          "parent": {
+            "band": "beta",
+            "slot": 0
+          }
+        },
+        {
+          "step": "resumed",
+          "band": "theta",
+          "slot": 4,
+          "phase_deg": 160,
+          "parent": {
+            "band": "beta",
+            "slot": 0
+          }
+        }
+      ],
+      "trace_hash_blake3": "681744de3169d5baeb4d7bb157049b0968cc94ac274905e9a7386f090707ba5d"
+    },
+    "receiver_policy": {
+      "content_is_claim": true,
+      "must_pass_gilligan": true,
+      "auto_persist": false,
+      "speak_gate_echo": 0.85,
+      "write_gate_echo": 0.97,
+      "c_min": 0.87,
+      "min_independent_publishers": 2
+    },
+    "payload_hash_blake3": "3f84ac283846aff00ab8eaa0b8deb9722ec3cc2fcd9a5f4abe8ec2a8ed823a2b"
+  }
+}

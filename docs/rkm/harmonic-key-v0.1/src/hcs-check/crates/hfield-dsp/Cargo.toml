@@ -1,0 +1,13 @@
+[package]
+name = "hfield-dsp"
+version = "0.1.0"
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+hfield-domain = { path = "../hfield-domain" }
+hfield-conductor = { path = "../hfield-conductor" }
+hound.workspace = true
+serde.workspace = true
+blake3.workspace = true
