@@ -79,7 +79,7 @@ function register(C, expect) {
     expect(gone.ok === true && gone.proposal.status === 'archived' && gone.proposal.valid_to && gone.proposal.deleted === false, JSON.stringify(gone.proposal && gone.proposal.status));
     expect(Q.compile('gnat wing', f).parsed !== true, 'archived mapping is not used');
   });
-  C('R4281', 'calibration records a later refutation and only proposes a stricter floor', () => {
+  C('R4281', 'calibration records a later refutation and does not propose a stricter floor', () => {
     L.clear();
     L.noteAdmitted({ question: 'Is a brin a flarn?', reply: 'A brin is a flarn.', coherence: 0.91, echo: 1, drift: 0.02 });
     expect(L.label('confirmed', 'A brin is a flarn.').ok === true, 'confirm');
@@ -88,7 +88,7 @@ function register(C, expect) {
     const report = L.calibrationReport();
     const tune = L.proposeStricter();
     expect(report.confirmed === 1 && report.refuted === 1 && report.reliability === 0.5, JSON.stringify(report));
-    expect(tune.needs_nic === true && tune.applied === false && tune.changes_gates === false && tune.suggested > tune.current, JSON.stringify(tune));
+    expect(tune.proposal === 'dropped' && tune.needs_nic === false && tune.applied === false && tune.changes_gates === false && tune.suggested === tune.current, JSON.stringify(tune));
   });
   C('R4281', 'newer agreeing evidence sets valid_to and keeps the old row', () => {
     WF.clear();
@@ -117,7 +117,7 @@ function register(C, expect) {
     const rows = ['A beetle is an insect.', 'A beetle has wings.', 'A moth is an insect.', 'A moth has wings.', 'An ant is an insect.', 'An ant has wings.'].map(fact);
     const loop = M.closeLoop([{ verified: true, route: 'derived', gate: 'admit', recall_hit: true }], rows, []);
     expect(loop.stage === 'idle' && loop.changes_gates === false && loop.calls_llm === false && loop.calibration && loop.stricter && loop.stricter.applied === false, JSON.stringify(loop));
-    expect(loop.settled && loop.settled.admitted.some(r => r.id === 'kind-property:insect:wing') && loop.stricter.needs_nic === true, JSON.stringify(loop.settled && loop.settled.admitted.map(r => r.id)));
+    expect(loop.settled && loop.settled.admitted.some(r => r.id === 'kind-property:insect:wing') && loop.stricter.proposal === 'dropped' && loop.stricter.needs_nic === false, JSON.stringify(loop.settled && loop.settled.admitted.map(r => r.id)));
   });
 }
 module.exports = register;

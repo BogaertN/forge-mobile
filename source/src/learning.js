@@ -224,9 +224,7 @@
   }
   function proposeStricter() {
     const report = calibrationReport();
-    const current = 0.87;
-    const suggested = report.refuted ? Math.min(0.99, Math.round((current + 0.01) * 1000) / 1000) : current;
-    return { proposal: 'stricter-only', field: 'C_min', current: current, suggested: suggested, needs_nic: true, applied: false, changes_gates: false, calls_llm: false, report: report };
+    return { proposal: 'dropped', field: 'C_min', current: 0.87, suggested: 0.87, needs_nic: false, applied: false, changes_gates: false, calls_llm: false, reason: 'tighten-only proposal dropped', report: report };
   }
 
   function supersedeHosted(id, validTo, sources) {
