@@ -369,6 +369,15 @@ def _adjunct_np(frame: dict[str, Any] | None, skip: frozenset[str] | set[str] | 
     return None
 
 
+def _kala_pp(frame: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not isinstance(frame, dict):
+        return None
+    for adj in frame.get("adj") or []:
+        if isinstance(adj, dict) and str(adj.get("role") or "") == "kala" and isinstance(adj.get("np"), dict):
+            return adj
+    return None
+
+
 def contain_roles(frame: dict[str, Any] | None) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
     """(content, container) when the frame is the containment relation, from either reading."""
     if not isinstance(frame, dict):
@@ -559,6 +568,13 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
             qa = _adhikarana_np(qframe)
             fa = _adhikarana_np(fframe)
             if qa and not (fa and np_unify(qa, fa)):
+                return None
+            qkala, fkala = _kala_pp(qframe), _kala_pp(fframe)
+            if qkala and fkala:
+                if str(qkala.get("prep") or "").lower() != str(fkala.get("prep") or "").lower() or not np_unify(qkala.get("np"), fkala.get("np")):
+                    return None
+            elif qkala and polarity_of(fframe) != "neg":
+                # A positive event at no stated time does not answer a question about a particular time.
                 return None
             return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "kartr,karma", "rule": "polar"}
         return None
