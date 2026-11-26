@@ -71,7 +71,18 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
     # 4.9.243: "What happens if …?" — Simulate filled the effect gap from a causal frame. Score by effect, not kriyā identity.
     q_rule = str(qframe.get("rule") or "")
     how = str((claim.get("frame_match") or {}).get("rule") or claim.get("how") or "")
-    if (q_rule == "QF-WHAT-HAPPENS-IF" or str(qframe.get("kriya") or "").lower() == "happen") and (
+    # A receipt sealed for this question measured the quantity the question asks (period → period_min).
+    asked_head = ""
+    kartr = qframe.get("kartr") if isinstance(qframe.get("kartr"), dict) else {}
+    asked_head = str(kartr.get("head") or "").lower()
+    receipt_measures_asked = False
+    if how == "WM-SOLVER-RECEIPT" and asked_head:
+        for step in claim.get("simulate_chain") or []:
+            measured = step.get("measurements") if isinstance(step, dict) else None
+            if isinstance(measured, dict) and any(str(k).lower().startswith(asked_head) for k in measured):
+                receipt_measures_asked = True
+                break
+    if (q_rule == "QF-WHAT-HAPPENS-IF" or str(qframe.get("kriya") or "").lower() == "happen" or receipt_measures_asked) and (
         how.startswith("WM-") or claim.get("kind") == "causal_prediction" or (claim.get("simulate_chain") is not None)
     ):
         filler = str((claim.get("frame_match") or {}).get("filler") or claim.get("text") or "").strip()

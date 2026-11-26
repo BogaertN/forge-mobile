@@ -121,7 +121,7 @@ function analyse(tok, idx, lex) {
   if (cap && idx === 0 && !closed.length && an.length && lex.coreNoun && !lex.coreNoun(w)) an.push({ tag: 'PROPN', lemma: tok.orig, rule: 'TAG-PROPN-INITIAL-ALT' }); // initial capital: name reading kept open unless a core common noun
   if (!an.length && cap) an.push({ tag: 'PROPN', lemma: tok.orig, rule: 'TAG-PROPN-CAPITAL' });
   if (!an.length && ctrl.length) an.push({ tag: 'N', lemma: w, f: 'sg', rule: 'TAG-CONTROLLED-TERM' });
-  if (!an.length && lex.openNominal && /^[a-z][a-z-]{2,}$/.test(w)) an.push(/[^su]s$/.test(w) && w.length > 4 ? { tag: 'N', lemma: w.slice(0, -1), f: 'pl', rule: 'LX-OPEN-NOMINAL' } : { tag: 'N', lemma: w, f: 'sg', rule: 'LX-OPEN-NOMINAL' }); // OPEN-NOMINAL: an unknown word of a proved source sentence is a noun stem
+  if (!an.length && lex.openNominal && /^[a-z][a-z-]{2,}$/.test(w)) { an.push(/[^su]s$/.test(w) && w.length > 4 ? { tag: 'N', lemma: w.slice(0, -1), f: 'pl', rule: 'LX-OPEN-NOMINAL' } : { tag: 'N', lemma: w, f: 'sg', rule: 'LX-OPEN-NOMINAL' }); an.push({ tag: 'V', lemma: w, f: 'base', rule: 'LX-OPEN-VERB' }); } // an unknown word of a proved sentence is a noun stem, and a verb stem when it sits where a verb is required
   if (!an.length) an.push({ tag: 'UNK', lemma: w, rule: 'LX-UNKNOWN' });
   return an;
 }

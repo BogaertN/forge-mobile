@@ -604,7 +604,10 @@ def _solver_step(world: dict[str, Any] | None, intervention: dict[str, Any]) -> 
         ik = sim.get("intervention_key")
         if not sim.get("effect_text"):
             continue
-        if not ik or (ik != key and ik != struct and sim.get("legacy_key") not in (key, struct)):
+        asked = re.sub(r"\s+", " ", str(intervention.get("raw") or "")).strip().lower().rstrip("?.!")
+        sealed = re.sub(r"\s+", " ", str(sim.get("question") or "")).strip().lower().rstrip("?.!")
+        same_question = bool(asked) and asked == sealed
+        if not same_question and (not ik or (ik != key and ik != struct and sim.get("legacy_key") not in (key, struct))):
             continue
         atoms = [a for a in (sim.get("spoken_atoms") or []) if isinstance(a, dict) and a.get("atom") and a.get("text")]
         if atoms:
@@ -897,22 +900,27 @@ def predict(
     pool = RULES if rules is None else tuple(rules)
     intervention = intervention_of(question)
     if intervention is None:
-        return {
-            "schema": HOOK_SCHEMA,
-            "operation": "CauseEffect",
-            "status": "not_applicable",
-            "rule": "CAUSE-EFFECT-NOT-HAPPENS-IF",
-            "question": str(question or ""),
-            "world_root": (world or {}).get("root") if isinstance(world, dict) else None,
-            "rules_loaded": len(pool),
-            "prediction": None,
-            "admit": False,
-            "store_as_fact": False,
-            "writes": False,
-            "calls_llm": False,
-            "note": "question is not a what-happens-if; Simulate stays idle",
-        }
-    sim = forward_chain(world, intervention)
+        # A receipt sealed for this question is its measurement. It is not stored, and it is not another question's scene.
+        solved = _solver_step(world, {"raw": str(question or "")})
+        if solved is None:
+            return {
+                "schema": HOOK_SCHEMA,
+                "operation": "CauseEffect",
+                "status": "not_applicable",
+                "rule": "CAUSE-EFFECT-NOT-HAPPENS-IF",
+                "question": str(question or ""),
+                "world_root": (world or {}).get("root") if isinstance(world, dict) else None,
+                "rules_loaded": len(pool),
+                "prediction": None,
+                "admit": False,
+                "store_as_fact": False,
+                "writes": False,
+                "calls_llm": False,
+                "note": "question is not a what-happens-if; Simulate stays idle",
+            }
+        sim = solved
+    else:
+        sim = forward_chain(world, intervention)
     pred = sim.get("prediction")
     return {
         "schema": HOOK_SCHEMA,

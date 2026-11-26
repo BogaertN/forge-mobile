@@ -1,0 +1,1295 @@
+{
+ "schema": "forge.novel_composite.snapshot/v1",
+ "fit_forbidden": true,
+ "not_a_golden": true,
+ "n": 22,
+ "rows": [
+  {
+   "id": "c-recall-push",
+   "expect": [
+    "recall",
+    "simulate"
+   ],
+   "q": "What happens if I push the dolven near the top?",
+   "turns": [
+    {
+     "q": "What happens if I push the dolven near the top?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "unknown_body",
+      "missing": "shape",
+      "runtime": null
+     },
+     "saw": [
+      "unknown_body",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "unknown_body",
+      "missing": "shape",
+      "expected": [
+       "recall",
+       "simulate"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-recall-drop",
+   "expect": [
+    "recall",
+    "simulate"
+   ],
+   "q": "What happens if I drop the selved from 2 meters?",
+   "turns": [
+    {
+     "q": "What happens if I drop the selved from 2 meters?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "unknown_body",
+      "missing": "shape",
+      "runtime": null
+     },
+     "saw": [
+      "unknown_body",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "unknown_body",
+      "missing": "shape",
+      "expected": [
+       "recall",
+       "simulate"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-chain-percent",
+   "expect": [
+    "derive",
+    "compute"
+   ],
+   "q": "What is 25 percent of a grel?",
+   "turns": [
+    {
+     "q": "What is 25 percent of a grel?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WH-AUX-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "derive",
+       "compute"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-chain-units",
+   "expect": [
+    "derive",
+    "compute"
+   ],
+   "q": "What is a feln in centimeters?",
+   "turns": [
+    {
+     "q": "What is a feln in centimeters?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WH-AUX-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "derive",
+       "compute"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-chem-heat",
+   "expect": [
+    "chemistry",
+    "thermal"
+   ],
+   "q": "What happens if burning thujene heats 100 grams of water to 95 degrees?",
+   "turns": [
+    {
+     "q": "What happens if burning thujene heats 100 grams of water to 95 degrees?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": true,
+      "solver": "thermal_ondevice",
+      "reason": null,
+      "missing": null,
+      "runtime": "pyodide",
+      "outcome": "stay",
+      "error": null
+     },
+     "saw": [
+      "thermal_ondevice",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": null,
+      "missing": null,
+      "expected": [
+       "chemistry",
+       "thermal"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-orbit-height",
+   "expect": [
+    "derive",
+    "orbit"
+   ],
+   "q": "What is the period of the spar?",
+   "turns": [
+    {
+     "q": "What is the period of the spar?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WH-AUX-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "derive",
+       "orbit"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-counter",
+   "expect": [
+    "simulate",
+    "counterfactual"
+   ],
+   "q": "What happens if I push the dolven near the top? || What if the dolven were half as tall?",
+   "turns": [
+    {
+     "q": "What happens if I push the dolven near the top?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "unknown_body",
+      "missing": "shape",
+      "runtime": null
+     },
+     "saw": [
+      "unknown_body",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "unknown_body",
+      "missing": "shape",
+      "expected": [
+       "simulate",
+       "counterfactual"
+      ]
+     }
+    },
+    {
+     "q": "What if the dolven were half as tall?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "active_stack_candidate",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "intervention_unparsed",
+      "missing": "kriya",
+      "runtime": null
+     },
+     "saw": [
+      "intervention_unparsed",
+      "active_stack_candidate"
+     ],
+     "break": {
+      "route": "active_stack_candidate",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "intervention_unparsed",
+      "missing": "kriya",
+      "expected": [
+       "simulate",
+       "counterfactual"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-time-geo",
+   "expect": [
+    "valid-time",
+    "geo"
+   ],
+   "q": "Was Kelm inside Hast in 1904?",
+   "turns": [
+    {
+     "q": "Was Kelm inside Hast in 1904?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "valid-time",
+       "geo"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-time-geo-out",
+   "expect": [
+    "valid-time",
+    "hold"
+   ],
+   "q": "Was Kelm inside Hast in 1922?",
+   "turns": [
+    {
+     "q": "Was Kelm inside Hast in 1922?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "valid-time",
+       "hold"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-neg-chain",
+   "expect": [
+    "derive",
+    "negation"
+   ],
+   "q": "Is a marn a skel?",
+   "turns": [
+    {
+     "q": "Is a marn a skel?",
+     "asked": {
+      "reply": "A torve is not a skel. A marn is a torve.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "derived",
+      "derive": "supported_only",
+      "how": "direct",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-YN-NOPARSE"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "derive",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "A torve is not a skel. A marn is a torve.",
+   "path": "derived",
+   "held": false
+  },
+  {
+   "id": "c-pos-chain",
+   "expect": [
+    "derive"
+   ],
+   "q": "Is a marn a skel?",
+   "turns": [
+    {
+     "q": "Is a marn a skel?",
+     "asked": {
+      "reply": "A marn is a torve. A torve is a skel. A marn is a skel.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "derived",
+      "derive": "supported_only",
+      "how": "WM-COPULA-CHAIN",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-YN-NOPARSE"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "derive",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "A marn is a torve. A torve is a skel. A marn is a skel.",
+   "path": "derived",
+   "held": false
+  },
+  {
+   "id": "c-self-both",
+   "expect": [
+    "self",
+    "capability"
+   ],
+   "q": "Can you run a simulation and also remember a sentence?",
+   "turns": [
+    {
+     "q": "Can you run a simulation and also remember a sentence?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "spc_cold_storage_required",
+      "path": null,
+      "derive": "supported_only",
+      "how": "direct",
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "spc_cold_storage_required"
+     ],
+     "break": {
+      "route": "spc_cold_storage_required",
+      "path": null,
+      "derive": "supported_only",
+      "how": "direct",
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "self",
+       "capability"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-unknown-boil",
+   "expect": [
+    "derive",
+    "athena"
+   ],
+   "q": "What is the boiling point of a glornek?",
+   "turns": [
+    {
+     "q": "What is the boiling point of a glornek?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WH-AUX-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "derive",
+       "athena"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-unknown-push",
+   "expect": [
+    "recall",
+    "athena-or-ask"
+   ],
+   "q": "What happens if I push the wembit near the top?",
+   "turns": [
+    {
+     "q": "What happens if I push the wembit near the top?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "unknown_body",
+      "missing": "shape",
+      "runtime": null
+     },
+     "saw": [
+      "unknown_body",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "unknown_body",
+      "missing": "shape",
+      "expected": [
+       "recall",
+       "athena-or-ask"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-kin-time",
+   "expect": [
+    "valid-time",
+    "kinship"
+   ],
+   "q": "Was Neri Bram's child in 1885?",
+   "turns": [
+    {
+     "q": "Was Neri Bram's child in 1885?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "active_stack_candidate",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "active_stack_candidate"
+     ],
+     "break": {
+      "route": "active_stack_candidate",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "valid-time",
+       "kinship"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-kin-time-out",
+   "expect": [
+    "valid-time",
+    "hold"
+   ],
+   "q": "Was Neri Bram's child in 1902?",
+   "turns": [
+    {
+     "q": "Was Neri Bram's child in 1902?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "active_stack_candidate",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "active_stack_candidate"
+     ],
+     "break": {
+      "route": "active_stack_candidate",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "valid-time",
+       "hold"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-height-percent",
+   "expect": [
+    "recall",
+    "compute"
+   ],
+   "q": "What is 50 percent of the dolven's height in centimeters?",
+   "turns": [
+    {
+     "q": "What is 50 percent of the dolven's height in centimeters?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WH-AUX-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "recall",
+       "compute"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-geo-neg",
+   "expect": [
+    "negation",
+    "geo"
+   ],
+   "q": "Is Kelm inside Hast?",
+   "turns": [
+    {
+     "q": "Is Kelm inside Hast?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "negation",
+       "geo"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-fact-thermal",
+   "expect": [
+    "recall",
+    "thermal"
+   ],
+   "q": "What happens if I cool 1 kilogram of seawater to minus 2 degrees?",
+   "turns": [
+    {
+     "q": "What happens if I cool 1 kilogram of seawater to minus 2 degrees?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "intervention_unparsed",
+      "missing": "kriya",
+      "runtime": null
+     },
+     "saw": [
+      "intervention_unparsed",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "intervention_unparsed",
+      "missing": "kriya",
+      "expected": [
+       "recall",
+       "thermal"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-unknown-heat",
+   "expect": [
+    "athena"
+   ],
+   "q": "What happens if I heat 20 grams of thujene to 40 degrees?",
+   "turns": [
+    {
+     "q": "What happens if I heat 20 grams of thujene to 40 degrees?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "property_missing",
+      "missing": "phase",
+      "runtime": null
+     },
+     "saw": [
+      "property_missing",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "property_missing",
+      "missing": "phase",
+      "expected": [
+       "athena"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-mass-then-push",
+   "expect": [
+    "ask",
+    "simulate"
+   ],
+   "q": "What happens if I push a lorret near the top? || The lorret weighs 9 kilograms and is 1 meter tall and 0.4 meters wide and 0.4 meters deep.",
+   "turns": [
+    {
+     "q": "What happens if I push a lorret near the top?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "unknown_body",
+      "missing": "shape",
+      "runtime": null
+     },
+     "saw": [
+      "unknown_body",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "unknown_body",
+      "missing": "shape",
+      "expected": [
+       "ask",
+       "simulate"
+      ]
+     }
+    },
+    {
+     "q": "The lorret weighs 9 kilograms and is 1 meter tall and 0.4 meters wide and 0.4 meters deep.",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "unknown_body",
+      "missing": "shape",
+      "runtime": null
+     },
+     "saw": [
+      "unknown_body",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "unknown_body",
+      "missing": "shape",
+      "expected": [
+       "ask",
+       "simulate"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  },
+  {
+   "id": "c-neg-parent",
+   "expect": [
+    "negation",
+    "kinship"
+   ],
+   "q": "Is Leda Wynn's mother?",
+   "turns": [
+    {
+     "q": "Is Leda Wynn's mother?",
+     "asked": {
+      "reply": "No. Leda is not Wynn's mother.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "derived",
+      "derive": "supported_only",
+      "how": "direct",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "derive",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "No. Leda is not Wynn's mother.",
+   "path": "derived",
+   "held": false
+  }
+ ]
+}

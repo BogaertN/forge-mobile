@@ -28,8 +28,8 @@ _PROP = {"weight", "mass", "formula", "structure"}
 _SURF_PREP = {"on", "across", "along", "onto"}
 _POINT = {"top", "upper", "middle", "center", "centre", "bottom", "base", "lower"}
 
-_UNIT_M = {"m": 1.0, "meter": 1.0, "metre": 1.0, "km": 1000.0, "kilometer": 1000.0, "kilometre": 1000.0,
-           "cm": 0.01, "centimeter": 0.01, "mm": 0.001}
+_UNIT_M = {"m": 1.0, "meter": 1.0, "metre": 1.0, "km": 1000.0, "kilometer": 1000.0, "kilometers": 1000.0,
+           "kilometre": 1000.0, "kilometres": 1000.0, "cm": 0.01, "centimeter": 0.01, "centimeters": 0.01, "mm": 0.001}
 _TIME_S = {"s": 1.0, "second": 1.0, "ms": 0.001, "millisecond": 0.001, "min": 60.0, "minute": 60.0,
            "h": 3600.0, "hour": 3600.0}
 
@@ -121,8 +121,9 @@ def measures(part: dict[str, Any]) -> list[dict[str, Any]]:
 _MASS_SI = {"kg": 1.0, "kilogram": 1.0, "kilograms": 1.0, "g": 0.001, "gram": 0.001, "grams": 0.001,
             "pound": 0.45359237, "pounds": 0.45359237, "lb": 0.45359237, "lbs": 0.45359237}
 _LEN_SI = {"m": 1.0, "meter": 1.0, "meters": 1.0, "metre": 1.0, "metres": 1.0, "cm": 0.01, "centimeter": 0.01,
-           "centimeters": 0.01, "mm": 0.001, "millimeter": 0.001, "millimeters": 0.001, "foot": 0.3048, "feet": 0.3048,
-           "inch": 0.0254, "inches": 0.0254}
+           "centimeters": 0.01, "mm": 0.001, "millimeter": 0.001, "millimeters": 0.001, "km": 1000.0,
+           "kilometer": 1000.0, "kilometers": 1000.0, "kilometre": 1000.0, "kilometres": 1000.0,
+           "foot": 0.3048, "feet": 0.3048, "inch": 0.0254, "inches": 0.0254}
 _DIM_ROLE = {"tall": "height", "high": "height", "wide": "width", "deep": "depth", "long": "depth", "thick": "depth",
              "mass": "mass"}
 
@@ -155,37 +156,106 @@ def stated_props(part: dict[str, Any]) -> dict[str, Any]:
     return out
 
 
+def _clause_list(cl: Any):
+    """One record, or each conjunct / sentence the phone already split."""
+    if not isinstance(cl, dict):
+        return
+    nested = cl.get("clauses") if isinstance(cl.get("clauses"), list) and cl.get("clauses") else None
+    if nested is None and isinstance(cl.get("sentences"), list) and cl.get("sentences"):
+        nested = cl.get("sentences")
+    if nested:
+        for child in nested:
+            yield from _clause_list(child)
+        return
+    yield cl
+
+
+def _remembered(head: str, prop: str, val: Any, unit: str, extra: dict[str, Any] | None = None) -> dict[str, Any]:
+    row = {"schema": "forge.sim_property/v1", "head": head, "property": prop, "value": val,
+           "unit": unit, "source": "remembered", "calls_llm": False, "supabase_write": False}
+    if extra:
+        row.update(extra)
+    return row
+
+
 def memory_facts(rows: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
-    """Remembered copulas ("a crate is 35 kilograms", "a crate is 1.6 meters tall") as property rows.
-    The user's own statement, not a publisher. """
+    """Remembered measures ("a crate is 35 kilograms", "a crate weighs 35 kilograms", "a crate is 1.6 meters tall",
+    "the dock sits 400 kilometers above Earth") as property rows. The user's own statement, not a publisher. """
     found: list[dict[str, Any]] = []
     for row in rows or []:
         if not isinstance(row, dict):
             continue
-        cl = row.get("clause") if isinstance(row.get("clause"), dict) else row
-        if str(cl.get("kriya") or "") != "be":
-            continue
-        head = _head(cl.get("kartr"))
-        if not head:
-            continue
-        pred = cl.get("pred") if isinstance(cl.get("pred"), dict) else {}
-        stated = None
-        if pred.get("type") == "measure" and pred.get("num") is not None:
-            stated = [{"num": pred.get("num"), "unit": str(pred.get("unit") or "").lower(), "dim": str(pred.get("property") or "").lower()}]
-        elif pred.get("type") == "np" and pred.get("num") is not None:
-            stated = [{"num": pred.get("num"), "unit": _head(pred), "dim": "mass"}]
-        elif pred.get("text"):
-            m = re.search(r"(\d+(?:\.\d+)?)\s+([a-z]+)\s+(tall|high|wide|deep|long|thick)", str(pred.get("text")), re.I)
-            if m:
-                stated = [{"num": m.group(1), "unit": m.group(2).lower(), "dim": m.group(3).lower()}]
-        if not stated:
-            continue
-        props = stated_props({"stated": stated})
-        for prop, val in props.items():
-            found.append({"schema": "forge.sim_property/v1", "head": head, "property": prop, "value": val,
-                          "unit": "kg" if prop == "mass" else "m", "source": "remembered", "calls_llm": False,
-                          "supabase_write": False})
+        top = row.get("clause") if isinstance(row.get("clause"), dict) else row
+        for cl in _clause_list(top):
+            verb = str(cl.get("kriya") or "")
+            head = _head(cl.get("kartr"))
+            if not head:
+                continue
+            if verb == "sit":
+                karma = cl.get("karma") if isinstance(cl.get("karma"), dict) else {}
+                unit = (_head(karma) or "").lower()
+                above = None
+                for adj in cl.get("adj") or []:
+                    if isinstance(adj, dict) and str(adj.get("prep") or "") == "above":
+                        above = _head(adj.get("np"))
+                if above and karma.get("num") is not None and unit in _UNIT_M:
+                    try:
+                        val = float(karma["num"]) * _UNIT_M[unit]
+                    except (TypeError, ValueError):
+                        val = None
+                    if val is not None:
+                        found.append(_remembered(head, "above", val, "m", {"above": above}))
+                continue
+            stated = None
+            if verb == "weigh":
+                karma = cl.get("karma") if isinstance(cl.get("karma"), dict) else {}
+                if karma.get("num") is not None:
+                    stated = [{"num": karma.get("num"), "unit": (_head(karma) or "kilogram").lower(), "dim": "mass"}]
+            elif verb == "be":
+                pred = cl.get("pred") if isinstance(cl.get("pred"), dict) else {}
+                if pred.get("type") == "measure" and pred.get("num") is not None:
+                    stated = [{"num": pred.get("num"), "unit": str(pred.get("unit") or "").lower(), "dim": str(pred.get("property") or "").lower()}]
+                elif pred.get("type") == "np" and pred.get("num") is not None:
+                    stated = [{"num": pred.get("num"), "unit": _head(pred), "dim": "mass"}]
+                elif pred.get("text"):
+                    m = re.search(r"(\d+(?:\.\d+)?)\s+([a-z]+)\s+(tall|high|wide|deep|long|thick)", str(pred.get("text")), re.I)
+                    if m:
+                        stated = [{"num": m.group(1), "unit": m.group(2).lower(), "dim": m.group(3).lower()}]
+            if not stated:
+                continue
+            props = stated_props({"stated": stated})
+            for prop, val in props.items():
+                found.append(_remembered(head, prop, val, "kg" if prop == "mass" else "m"))
     return found
+
+
+_PLANETS = frozenset({"earth", "sun", "jupiter"})
+
+
+def altitude_above_body(head: str, facts: list[dict[str, Any]] | None) -> tuple[float | None, str | None]:
+    """Sum a chain of remembered 'sits N above Y' until Y is a body the orbit solver knows."""
+    edges = []
+    for fact in facts or []:
+        if isinstance(fact, dict) and str(fact.get("property") or "") == "above" and fact.get("value") is not None:
+            edges.append((str(fact.get("head") or "").lower(), str(fact.get("above") or "").lower(), fact.get("value")))
+    cur = str(head or "").lower()
+    seen: set[str] = set()
+    total = 0.0
+    for _ in range(6):
+        if not cur or cur in seen:
+            return None, None
+        seen.add(cur)
+        hit = next((e for e in edges if e[0] == cur), None)
+        if hit is None:
+            return None, None
+        try:
+            total += float(hit[2])
+        except (TypeError, ValueError):
+            return None, None
+        cur = hit[1]
+        if cur in _PLANETS:
+            return total, cur
+    return None, None
 
 
 def _qty(part: dict[str, Any], units: dict[str, float]) -> float | None:
@@ -398,6 +468,13 @@ def read(question: str, frame: dict[str, Any] | None = None, facts: list[dict[st
                 break
         return {"question": q, "frame": fr, "kind": "orbit", "body": body, "altitude_m": alt,
                 "body_facts": _facts_for(body, facts), "part": part}
+    owner = _head(kartr.get("owner")) if isinstance(kartr.get("owner"), dict) else None
+    if _head(kartr) == "period" and owner:
+        # A period of something the user placed above a body is that body's orbit. No altitude is invented.
+        alt, body = altitude_above_body(owner, facts)
+        if alt is not None:
+            return {"question": q, "frame": fr, "kind": "orbit", "body": body or "earth", "altitude_m": alt,
+                    "body_facts": _facts_for(body or "earth", facts), "part": part}
     if fr.get("kriya") == "be" and _head(kartr) in _PROP and isinstance(kartr.get("of"), dict):
         sub = _head(kartr.get("of")) or str((kartr.get("of") or {}).get("text") or "").lower()
         return {"question": q, "frame": fr, "kind": "mol", "substance": sub, "property": _head(kartr),

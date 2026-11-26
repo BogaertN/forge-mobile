@@ -88,6 +88,44 @@ def _stage_rows(stages: list[Any]) -> list[dict[str, Any]]:
 FALLBACK_MAX = 3
 
 
+def _attach_ondevice_sim(payload: dict[str, Any]) -> None:
+    """A what-happens-if question whose solver runs in this process gets that receipt as turn evidence.
+
+    WASM families stay on the phone worker. A missing property is recorded so the phone can ask.
+    The receipt is not stored.
+    """
+    from rmc_engine_v1 import question_frame as qf
+    frame = qf.current()
+    kartr = frame.get("kartr") if isinstance(frame, dict) and isinstance(frame.get("kartr"), dict) else {}
+    wants = isinstance(frame, dict) and (frame.get("rule") == "QF-WHAT-HAPPENS-IF" or str(kartr.get("head") or "") == "period")
+    if not wants:
+        return
+    memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else None
+    if memory is None:
+        memory = {}
+        payload["memory"] = memory
+    if memory.get("simulation"):
+        return
+    from rmc_engine_v1.sim_device import plan, solve, seal
+    question = str(payload.get("question") or "")
+    problem = plan(question, frame, memory=list(memory.get("phone") or []))
+    if not problem.get("ok"):
+        payload["_sim_hold"] = {"reason": problem.get("reason"), "missing": problem.get("missing"),
+                                 "substance": problem.get("substance"), "body": problem.get("body")}
+        return
+    try:
+        run = solve(problem)
+    except Exception as exc:
+        payload["_sim_hold"] = {"reason": "solver_error", "solver": problem.get("solver"), "error": str(exc)[:180]}
+        return
+    if run.get("error"):
+        payload["_sim_hold"] = {"reason": run.get("error"), "solver": problem.get("solver")}
+        return
+    sealed = seal(problem, run)
+    if sealed.get("ok") and sealed.get("rows"):
+        memory["simulation"] = list(sealed.get("rows") or [])
+
+
 def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
     memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
     rows: list[dict[str, Any]] = []
@@ -526,6 +564,7 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     _payload_memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
     from rmc_engine_v1.world_model_v1 import set_relation_overlay
     set_relation_overlay(_payload_memory.get("relation_overlay") if isinstance(_payload_memory.get("relation_overlay"), dict) else None)
+    _attach_ondevice_sim(payload)
     rows = _rows(payload)
     # 4.9.216 computed tier: only the engine's own computation receipt for this question is a computed premise.
     # A row that merely claims tier "computed" from the phone's memory is not.

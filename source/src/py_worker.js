@@ -47,14 +47,26 @@ async function rmcThresholds(src) { if (src) { py.FS.mkdirTree('/forge'); py.FS.
  * in the Cache API so math works offline after first use. A mismatch is never installed and its cache entry is removed. */
 const libsDone = new Set();
 async function sha256hex(buf) { const d = new Uint8Array(await crypto.subtle.digest('SHA-256', buf)); let s = ''; for (const b of d) s += b.toString(16).padStart(2, '0'); return s; }
+async function fetchWheel(url, w, cache) {
+  let res = cache ? await cache.match(url) : null; let from = 'cache';
+  if (!res) {
+    from = 'network';
+    res = await fetch(url, { credentials: 'omit', referrerPolicy: 'no-referrer', integrity: w.integrity, cache: 'no-store' });
+    if (!res.ok) throw new Error('forge_libs_http_' + res.status + '_' + w.name);
+  }
+  const buf = await res.arrayBuffer();
+  if (await sha256hex(buf) !== w.sha256) { if (cache) { try { await cache.delete(w.url); } catch (e) {} try { if (url !== w.url) await cache.delete(url); } catch (e) {} } throw new Error('forge_libs_sha256_mismatch_' + w.name); }
+  if (from === 'network' && cache) { try { await cache.put(url, new Response(buf.slice(0), { headers: { 'content-type': 'application/zip' } })); } catch (e) {} }
+  return { buf, from };
+}
 async function wheelBytes(w, cacheName) {
   let cache = null; try { cache = await caches.open(cacheName); } catch (e) { cache = null; }
-  let res = cache ? await cache.match(w.url) : null; let from = 'cache';
-  if (!res) { from = 'network'; res = await fetch(w.url, { credentials: 'omit', referrerPolicy: 'no-referrer', integrity: w.integrity, cache: 'no-store' }); if (!res.ok) throw new Error('forge_libs_http_' + res.status + '_' + w.name); }
-  const buf = await res.arrayBuffer();
-  if (await sha256hex(buf) !== w.sha256) { if (cache) { try { await cache.delete(w.url); } catch (e) {} } throw new Error('forge_libs_sha256_mismatch_' + w.name); }
-  if (from === 'network' && cache) { try { await cache.put(w.url, new Response(buf.slice(0), { headers: { 'content-type': 'application/zip' } })); } catch (e) {} }
-  return { buf, from };
+  const urls = [w.url].concat(w.remote && w.remote !== w.url ? [w.remote] : []);
+  let last = new Error('forge_libs_unreachable_' + w.name);
+  for (const url of urls) {
+    try { return await fetchWheel(url, w, cache); } catch (e) { last = e; }
+  }
+  throw last;
 }
 async function installLibs(groups, libs) {
   if (!libs || !Array.isArray(libs.wheels) || !libs.groups) throw new Error('forge_libs_manifest_missing');

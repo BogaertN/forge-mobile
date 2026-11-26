@@ -4,7 +4,7 @@
  "sources": {
   "substances": "PubChem compound records (formula, canonical SMILES), https://pubchem.ncbi.nlm.nih.gov/",
   "reactions": "OpenStax Chemistry 2e, ch. 4.2 (classifying chemical reactions: combustion of C/H/O compounds gives CO2 and H2O; synthesis of binary compounds), https://openstax.org/books/chemistry-2e/pages/4-2-classifying-chemical-reactions",
-  "bodies": "NASA Planetary Fact Sheet (GM and volumetric mean radius), https://nssdc.gsfc.nasa.gov/planetary/factsheet/ ; Earth, Sun and Jupiter come from astropy.constants (IAU 2015)"
+  "bodies": "NASA Planetary Fact Sheet (GM and volumetric mean radius), https://nssdc.gsfc.nasa.gov/planetary/factsheet/ . astropy.constants is used when that package is installed"
  },
  "substances": {
   "hydrogen": {"formula": "H2", "smiles": "[H][H]"},
@@ -46,6 +46,9 @@
   {"reactants": ["C", "O2"], "products": ["CO2"]}
  ],
  "bodies": {
+  "earth": {"GM": 3.986004418e14, "radius": 6371000.0, "name": "Earth"},
+  "sun": {"GM": 1.3271244e20, "radius": 695700000.0, "name": "the Sun"},
+  "jupiter": {"GM": 1.26686534e17, "radius": 69911000.0, "name": "Jupiter"},
   "moon": {"GM": 4.9028e12, "radius": 1737400.0, "name": "the Moon"},
   "mars": {"GM": 4.282837e13, "radius": 3389500.0, "name": "Mars"},
   "venus": {"GM": 3.24859e14, "radius": 6051800.0, "name": "Venus"},

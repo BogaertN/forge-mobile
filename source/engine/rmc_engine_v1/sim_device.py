@@ -1020,14 +1020,18 @@ def _solve_enzyme(p: dict[str, Any]) -> dict[str, Any]:
 
 def _solve_orbit(p: dict[str, Any]) -> dict[str, Any]:
     b = p["body"]
+    gm = rad = name = src = engine = None
     if b in ("earth", "sun", "jupiter"):
-        import astropy
-        from astropy import constants as C
-        gm = {"earth": C.GM_earth, "sun": C.GM_sun, "jupiter": C.GM_jup}[b].si.value
-        rad = {"earth": C.R_earth, "sun": C.R_sun, "jupiter": C.R_jup}[b].si.value
-        name, src = {"earth": "Earth", "sun": "the Sun", "jupiter": "Jupiter"}[b], "astropy.constants (IAU 2015)"
-        engine = "astropy " + astropy.__version__
-    else:
+        try:
+            import astropy
+            from astropy import constants as C
+            gm = {"earth": C.GM_earth, "sun": C.GM_sun, "jupiter": C.GM_jup}[b].si.value
+            rad = {"earth": C.R_earth, "sun": C.R_sun, "jupiter": C.R_jup}[b].si.value
+            name, src = {"earth": "Earth", "sun": "the Sun", "jupiter": "Jupiter"}[b], "astropy.constants (IAU 2015)"
+            engine = "astropy " + astropy.__version__
+        except ImportError:
+            gm = None
+    if gm is None:
         facts = p.get("body_facts") or {}
         rec = (data().get("bodies") or {}).get(b) or {}
         if facts.get("gm") and facts.get("radius"):
@@ -1599,7 +1603,8 @@ def seal(problem: dict[str, Any], run: dict[str, Any], where: str = "on_device")
     before, after = _state_pair(problem, run)
     patient = ((problem.get("scene") or {}).get("body") or {}).get("noun") or problem.get("patient") or problem.get("substance")
     spoken = _spoken_from_run(problem, run, effect, why, before, after)
-    sim = {"receipt_id": rid, "sha256": sha, "intervention_key": problem.get("intervention_key"), "effect_text": effect,
+    sim = {"receipt_id": rid, "sha256": sha, "intervention_key": problem.get("intervention_key"),
+           "question": problem.get("question"), "effect_text": effect,
            "outcome": run["outcome"], "solver": problem["solver"], "engine": run.get("engine"), "family": problem["family"],
            "where": where, "measurements": run.get("measurements"), "cross_check": run.get("cross_check") or [],
            "causal_reason": why, "state_before": before, "state_after": after, "patient": patient,

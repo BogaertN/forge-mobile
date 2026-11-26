@@ -107,7 +107,9 @@ T('Ask: recorded receipts are spoken through the full chain (C â‰¥ 0.87, Echo â‰
 
 T('honest holds: no receipt, a receipt for another intervention, a forged sha256', () => {
   const q = 'What happens if a satellite orbits Earth at 400 km?';
-  expect(ask(q, []).product_reply === false, 'no receipt');
+  // 4.9.255: with no preloaded receipt this process computes the orbit from the documented body table.
+  const bare = ask(q, []);
+  expect(bare.product_reply === true && /minutes/.test(bare.reply || ''), 'computed orbit ' + (bare.reply || ''));
   expect(ask(q, FIX['What happens if you apply a Hadamard gate to a qubit in state 0?'].rows).product_reply === false, 'wrong receipt');
   const forged = JSON.parse(JSON.stringify(FIX[q].rows)); forged[0].sim.sha256 = 'x';
   expect(ask(q, forged).product_reply === false, 'forged');
@@ -151,10 +153,10 @@ import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T
 print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine", "hard_stop")}))`);
   expect(T_.C_min === 0.87 && T_.echo_min === 0.85 && T_.drift_quarantine === 0.35 && T_.hard_stop === 0.8, JSON.stringify(T_));
-  expect(read('VERSION').trim() === '4.9.254', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.255', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.254' && reg.features.some(x => x.id === 'R4245-SIM-ONDEVICE') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.254'), 'CONFLICTS');
+  expect(reg.version === '4.9.255' && reg.features.some(x => x.id === 'R4245-SIM-ONDEVICE') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.255'), 'CONFLICTS');
 });
 
 const results = [];
