@@ -452,6 +452,10 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
         return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "contain", "rule": "polar_contain"}
     qp, qwhere = live_place(qframe)
     fp, fwhere = live_place(fframe)
+    if str(qframe.get("wh") or "") == "where" and role == "adhikarana":
+        resident, place = live_place(fframe)
+        if resident and place and np_unify(qframe.get("kartr"), resident):
+            return {"roles": 1, "gap": "adhikarana", "filler": place.get("text"), "orientation": "live", "rule": "live_where"}
     if role in ("polarity", "") and qp and qwhere and fp and fwhere and np_unify(qp, fp) and np_unify(qwhere, fwhere):
         yes = fpol == (qframe.get("polarity") or "pos")
         return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "live", "rule": "polar_live"}

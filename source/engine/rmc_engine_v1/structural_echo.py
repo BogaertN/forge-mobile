@@ -26,7 +26,7 @@ from typing import Any
 from rmc_engine_v1.mobile_config import THRESHOLDS
 
 ROLES = ("kartr", "karma", "pred")
-GAP_ROLES = {"kartr", "karma", "pred", "polarity", "prakara", "hetu"}  # 4.9.241: a how-gap (state); a why-gap is the stored hetu
+GAP_ROLES = {"kartr", "karma", "pred", "polarity", "prakara", "hetu", "adhikarana"}  # a where-gap is the place the clause already names
 
 
 def _norm(text: Any) -> str:

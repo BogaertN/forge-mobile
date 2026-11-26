@@ -37,7 +37,7 @@ T('the 4.9.203 / 4.9.204 constants are unchanged and recorded as Nic-approved (d
   expect(/from rmc_engine_v1\.frequency_203_config import EPSILON, NUDGE_SPAN, OFFSET_CAP/.test(qt) && !/^\s*[A-Za-z_]+\s*=\s*0\.(02|40?|45)\b/m.test(qt), 'constants imported, not restated');
   expect(!/What is|Why is|capital|Moon|Burkina/.test(qt.replace(/"""[\s\S]*?"""/g, '')), 'no question list in the code');
   expect(/D14/.test(read('engine/rmc_engine_v1/drift_policy.py')) && /QUESTION_TUNING = \{/.test(read('engine/rmc_engine_v1/drift_policy.py')), 'drift_policy');
-  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.218'); const e = conf.slice(i, i + 5000); /* 4.9.219 (4.9.221, 4.9.222, 4.9.223, 4.9.230, 4.9.231, 4.9.232, 4.9.233, 4.9.234, 4.9.235, 4.9.236, 4.9.237, 4.9.238, 4.9.239, 4.9.240, 4.9.242, 4.9.243, 4.9.244, 4.9.245, 4.9.250: one more each): later entries sit above; the 4.9.218 entry stays near the top */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 28 && /ε 0\.02/.test(e) && /0\.40/.test(e) && /0\.45/.test(e) && /pt125u/.test(e), 'CONFLICTS entry at the top');
+  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.218'); const e = conf.slice(i, i + 5000); /* 4.9.219 (4.9.221, 4.9.222, 4.9.223, 4.9.230, 4.9.231, 4.9.232, 4.9.233, 4.9.234, 4.9.235, 4.9.236, 4.9.237, 4.9.238, 4.9.239, 4.9.240, 4.9.242, 4.9.243, 4.9.244, 4.9.245, 4.9.250: one more each): later entries sit above; the 4.9.218 entry stays near the top */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 29 && /ε 0\.02/.test(e) && /0\.40/.test(e) && /0\.45/.test(e) && /pt125u/.test(e), 'CONFLICTS entry at the top');
 });
 T('rank_memory reads the tuned phase: the station nearest the question wins on grace, and the π/4 window reads the continuous gap', () => {
   // 4.9.219 (DRIFT-SPEC/v1 D15, Nic 2026-11-04) retired the ± phase offset in rank_memory: the question reads its integer
@@ -59,7 +59,7 @@ T('what stays: Ask ε /3, decimal packet phase, definition-first rank, relation 
   expect(/role_locks\.sort\(key=lambda row: \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\)/.test(rr) && /def _phase_value/.test(rr), 'rank and decimal phase');
   expect(c.dna.product_reply && /^DNA, or deoxyribonucleic acid/.test(c.dna.reply) && c.dna.relation.realised === true, 'definition first');
   expect(!c.moon.product_reply && c.moon.relation.realised === false, 'relation Echo holds a mention');
-  expect(c.sky.product_reply && c.sky.relation.asked === 'cause', 'cause');
+  expect(!c.sky.product_reply && c.sky.reply === null, 'a stored sentence is not a cause');
   expect(c.math.product_reply && c.math.reply === '17 times 23 is 391.' && c.math.echo_method === 'computed_quantity_reparse', 'math');
   expect(c.convert.product_reply && c.convert.reply === '5 miles is 8.04672 km.', 'convert');
   expect(c.car.product_reply && c.car.reply === 'My car is red.' && c.car.relation.asked === 'attribute', 'remembered fact');

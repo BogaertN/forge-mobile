@@ -96,7 +96,7 @@ T('"look" is a linking verb for attribute questions only: both colour questions 
   const b = ask('What breed is the sky?');
   expect(b.reply === null, 'breed has no value rule: held ' + JSON.stringify(b.reply));
   const why = ask('Why is the sky blue?');
-  expect(why.reply && /sky looks blue to us because our eyes/.test(why.reply) && why.C >= 0.87, 'the cause question still speaks the whole anchor');
+  expect(why.reply == null && why.product_reply !== true, 'a why-question does not echo the stored sentence ' + JSON.stringify(why.reply));
   const df = read('engine/rmc_engine_v1/derive_frame.py');
   expect(/LINKING_VERBS = frozenset\(\{"look"\}\)/.test(df) && /def is_value_of/.test(df) && /def _first_person_roles/.test(df), 'wired');
 });
@@ -131,9 +131,9 @@ print(json.dumps(dict({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarant
 });
 
 T('version registry names 4.9.238', () => {
-  expect(read('VERSION').trim() === '4.9.253', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.254', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.253' && reg.features.some(x => x.id === 'R4238-OPERATION-PHASE-RECALL-STRUCTURAL-ECHO') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.254' && reg.features.some(x => x.id === 'R4238-OPERATION-PHASE-RECALL-STRUCTURAL-ECHO') && reg.count === reg.features.length, 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.238') >= 0 && (read('CONFLICTS.md').slice(0, read('CONFLICTS.md').includes('## v4.9.238')).match(/^## v/gm) || []).length <= 10, 'CONFLICTS entry near the top (4.9.239–4.9.248 sit above)');
 });
 

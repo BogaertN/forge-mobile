@@ -2,7 +2,7 @@
  * teach the engine these questions. A snapshot is a record, not a golden. */
 const path = require('path');
 const cp = require('child_process');
-const SET = require('./set.js');
+const SET = process.argv[3] ? require(path.resolve(process.argv[3])) : require('./set.js');
 const ROOT = path.join(__dirname, '..', '..');
 const Q = require(ROOT + '/src/qframe.js');
 const FK = require(ROOT + '/src/forge.js');

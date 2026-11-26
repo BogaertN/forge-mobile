@@ -58,7 +58,7 @@ T('what stays: Ask ε /3, definition-first rank, relation Echo; the math, rememb
   expect(/epsilon_s = round\(\(sigma_res \+ d_score \+ delta_phi\) \/ 3\.0, 4\)/.test(read('engine/rmc_engine_v1/drift_engine.py')), '/3');
   expect(c.dna.product_reply && /^DNA, or deoxyribonucleic acid/.test(c.dna.reply) && c.dna.relation.realised === true, 'definition first');
   expect(!c.moon.product_reply && c.moon.relation.realised === false, 'relation Echo holds a mention');
-  expect(c.sky.product_reply && c.math.reply === '17 times 23 is 391.' && c.convert.reply === '5 miles is 8.04672 km.' && c.car.reply === 'My car is red.', 'paths');
+  expect(!c.sky.product_reply && c.math.reply === '17 times 23 is 391.' && c.convert.reply === '5 miles is 8.04672 km.' && c.car.reply === 'My car is red.', 'paths');
   for (const k of ['dry_math', 'dry_sky']) expect(c[k].product_reply === false && c[k].writes === false && c[k].calls_llm === false, k);
 });
 T('the cold 60 for 4.9.219 is recorded (not tuned): zero false admits and no admit lost against 4.9.218', () => {
@@ -69,7 +69,7 @@ T('the cold 60 for 4.9.219 is recorded (not tuned): zero false admits and no adm
   expect(c.admitted >= p.admitted, 'admits');
 });
 T('version registry names 4.9.219', () => {
-  expect(read('VERSION').trim() === '4.9.253', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.254', 'VERSION');
   expect(JSON.stringify(JSON.parse(read('data/feature_registry.json'))).indexOf('R4219-') >= 0, 'registry');
 });
 (async () => {

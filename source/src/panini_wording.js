@@ -125,7 +125,9 @@ function Wording(ctx) {
     }
     const karmaNode = c.roles && c.roles.karma;
     const inf = karmaNode && karmaNode.inf && karmaNode.inf.verb;
-    const karma = inf ? [inf.lemma, karmaNode.inf.roles && karmaNode.inf.roles.karma ? G.npText(karmaNode.inf.roles.karma, 'kernel') : ''].filter(Boolean).join(' ') : (karmaNode && !karmaNode.clause ? G.npText(karmaNode, 'kernel') : null);
+    let karma = inf ? [inf.lemma, karmaNode.inf.roles && karmaNode.inf.roles.karma ? G.npText(karmaNode.inf.roles.karma, 'kernel') : ''].filter(Boolean).join(' ') : (karmaNode && !karmaNode.clause ? G.npText(karmaNode, 'kernel') : null);
+    const vid = c.roles && c.roles.vidheya;
+    if (karma && vid && vid.of === 'karma' && Array.isArray(vid.adjp) && vid.adjp.length) karma = (karma + ' ' + vid.adjp.join(' ')).trim();
     if (karma) return Object.assign(base, { args: [subj, karma] });
     /* an intransitive clause states lemma(kartṛ) */
     return Object.assign(base, { args: [subj] });

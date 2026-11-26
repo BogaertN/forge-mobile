@@ -1,3 +1,13 @@
+## v4.9.254 — One pipeline from the parse to the sentence (Nic)
+
+**Conflict:** A reply could be one survivor, a stored sentence chosen by token overlap, or a hand-copied manual line. A where-question did not fill the place. An object relative and a passive retained object were dropped.
+
+**Where:** Every gate-passing survivor is spoken, direct proofs first, up to the sentence limit, and the rest are counted. Token overlap does not replace a missing derivation. The manual is `docs/USER_MANUAL.md`, parsed by the same grammar. A where-question with kriyā live fills the adhikarana. A past participle can premodify. An object can carry a relative. A passive with a retained object keeps that object. The card names the path. `docs/PIPELINE.md` lists the stages and the bypasses.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. Ask does not store. A question with no derivation holds.
+
+Proof: `verify/r4277_suite.js`.
+
 ## v4.9.253 — Several capabilities, the HCS bridge, Mirror counts, nominal Proposal v1 (Nic)
 
 **Conflict:** "What can you do?" spoke one action clause. The home PC could not exchange a packet with Harmonic Conductor Studio. Starter simulation cases were not listed. Nothing read verified receipts into a next-turn expectation. Proposal v1 numbers were still labeled as if they were waiting, and nobody had scaled them.

@@ -38,7 +38,7 @@ function register(C, expect) {
     const back = turn(['remember that my pet is a poodle'], 'is a poodle my pet?');
     expect(back.product_reply !== true || /^Not necessarily\./.test(back.reply || ''), back.reply);
     const neg = turn(['remember that a dog is not a cat'], 'is a dog a cat?');
-    expect(admitted(neg) && neg.reply === 'A dog is not a cat.', neg.reply);
+    expect(admitted(neg) && neg.reply === 'No. A dog is not a cat.', neg.reply);
   });
   C('IS-A', 'a stated negative conflicts with the positive and nothing is spoken', () => {
     const row = turn(['remember that a poodle is a dog', 'remember that a poodle is not a dog'], 'is a poodle a dog?');

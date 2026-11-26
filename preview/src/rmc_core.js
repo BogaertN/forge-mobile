@@ -143,6 +143,11 @@ function outwardCompile(row, payload, F, R2, QFin) {
       if (!r.ok) return holdOutward(row, rec, 'OUTWARD-COMPILE-FAIL');
       out.push(r.R_t); continue;
     }
+    if (s.atom.predicate === 'polarity') {
+      out.push(String(s.text));
+      rec.sentences.push({ text: s.text, mode: 'quoted', role: 'polarity', source_id: s.source_id || null });
+      continue;
+    }
     let r = null; try { r = F.outward(s.text, s.atom); } catch (e) { r = { ok: false, step: 'throw' }; }
     /* a stored sentence the phone grammar cannot read at all (brackets, numbers, lists) is spoken verbatim as the cited
      * quote it is; a sentence that reads as another atom, or a rule-made sentence that does not read, holds */

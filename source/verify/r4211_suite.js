@@ -100,7 +100,7 @@ T('the write gate: Φ6 correction then Φ7 naming, Echo ≥ 0.97 plus negation/c
   expect(c.corrected.write_gate.drift_input.depth === 2 && c.corrected.write_gate.drift_status === 'corrected', 'one χ-correct pass is recorded in the depth');
   /* 4.9.242: the canned capability line ("... does not call a model") is gone; engine-only, with no frame and no self rows,
    * "What can you do?" is held and proposes nothing. A lost negation is still refused by the classes (negation_lost below). */
-  expect(c.capital.proposed === true && c.capability.proposed !== true && c.capability.reply === null, JSON.stringify([c.capability.rule, c.capability.reply]));
+  expect(c.capital.proposed !== true && c.capability.proposed !== true && c.capability.reply === null, JSON.stringify([c.capital.proposed, c.capability.rule, c.capability.reply]));
   expect(c.negation_lost.failed.join() === 'echo_classes' && c.negation_lost.echo_classes.classes.negation.source === true && c.negation_lost.echo_classes.classes.negation.answer === false, 'a lost negation never becomes memory');
   expect(c.negation_kept.ok && c.source_sentence.ok && c.source_sentence.echo_source === 'premise:p1', 'a kept negation and the containing sentence');
   expect(c.unnamed.failed.indexOf('unnamed') >= 0 && c.low_echo.failed.join() === 'echo', 'no naming, no write; Echo 0.9 < 0.97');

@@ -72,7 +72,7 @@ T('the self-facts are selfmodel clauses re-read as clauses about the kernel, not
 
 T('self questions are answered from self-facts through frame, Derive, compile and structural Echo, in the kernel\'s person', () => {
   const want = { 'Who are you?': /^I am a computer program\.$/, 'What is your name?': /^My name is Forge\.$/,
-    'Do you have a body?': /^I have no body\.$/, 'Are you a person?': /^I am not a person\.$/ };
+    'Do you have a body?': /^No\. I have no body\.$/, 'Are you a person?': /^No\. I am not a person\.$/ };
   for (const [q, re] of Object.entries(want)) {
     const r = ask(q);
     const sv = ((r.world_model || {}).derive || {}).survivor || {};
@@ -235,9 +235,9 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 });
 
 T('version registry names 4.9.242', () => {
-  expect(read('VERSION').trim() === '4.9.253', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.254', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.253' && reg.features.some(x => x.id === 'R4241-SELF-FACTS-FROM-CLAUSES') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.254' && reg.features.some(x => x.id === 'R4241-SELF-FACTS-FROM-CLAUSES') && reg.count === reg.features.length, 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.242'), 'CONFLICTS entry at the top');
 });
 

@@ -23,7 +23,7 @@ function register(C, expect) {
     const yes = ask(['remember that the red lamp is older than the blue lamp'], 'is the red lamp older than the blue lamp?');
     expect(admitted(yes) && yes.reply === 'The red lamp is older than the blue lamp.' && yes.world_model.derive.survivor.how === 'direct', yes.reply);
     const no = ask(['remember that the red lamp is older than the blue lamp'], 'is the blue lamp older than the red lamp?');
-    expect(admitted(no) && no.reply === 'The red lamp is older than the blue lamp. The blue lamp is not older than the red lamp.' && no.world_model.derive.survivor.how === 'WM-OLDER_THAN-ASYM', no.reply);
+    expect(admitted(no) && no.reply === 'No. The red lamp is older than the blue lamp. The blue lamp is not older than the red lamp.' && no.world_model.derive.survivor.how === 'WM-OLDER_THAN-ASYM', no.reply);
   });
   C('COMPARE', 'height stays height: a taller fact answers itself and does not become age', () => {
     const yes = ask(['remember that my brother is taller than my sister'], 'is my brother taller than my sister?');

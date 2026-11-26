@@ -574,7 +574,7 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         # to speak a different sentence (photosynthesis, for "what is oxygen")
         # that only shared a token. Echo is taken on the spoken sentence.
         derive_status = str(((world.get("derive") or {}) if isinstance(world.get("derive"), dict) else {}).get("status") or "")
-        rendered = derived if live else rendered_full
+        rendered = derived
         scored = str(meaning_preview.get("candidate") or "").strip()
         scored_kind = str(meaning_preview.get("candidate_kind") or "")
         # A conflict speaks neither side. The scored sentence is used only when
@@ -597,9 +597,6 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         _derived_speech = isinstance(_surv, dict) and derive_status == "supported_only" and bool(str(_surv.get("spoken") or "").strip()) and (
             _how in ("WM-MARRIED-SYMMETRIC", "WM-NEXT-SYMMETRIC", "WM-ADJACENT-SYMMETRIC", "WM-SIBLING-SYMMETRIC", "WM-RECALL", "WM-LEXICON", "WM-WHEN")
             or _how.endswith("-ASYM") or _how.endswith("-EXCLUDES") or "_THAN-" in _how or _how == "WM-MEASURE-COMPARE")
-        if live and derive_status != "conflicted" and scored and not _restated and not _converse and not _framed_hold and not _derived_speech and ("memory" in scored_kind or meaning_preview.get("language_core")):
-            if echo_against_question(question, scored, rendered=True).get("pass"):
-                rendered = scored
         # 4.9.241 (Nic: natural conversation): a turn that is only conversational acts the speech-act lexicon answers is
         # answered by their expected response acts (speech_acts.turn), measured against the lexicon items they realize
         # (artifacts.speech_act_measure). A turn that opens with such acts and goes on ("Hi, who wrote Hamlet?") is
@@ -608,16 +605,6 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         greeting = bool(live and derive_status != "conflicted" and act_measure and act_measure.get("pure") and act_measure.get("spoken"))
         if greeting:
             rendered = str(act_measure.get("spoken"))
-        if (
-            live
-            and not greeting
-            and not _derived_speech
-            and derive_status != "conflicted"
-            and language_core.get("admitted_candidate")
-            and language_core.get("claim")
-            and selected_id == str(language_core.get("candidate_id") or "")
-        ):
-            rendered = str(language_core.get("claim"))
         echo = echo_against_question(question, rendered if live else _candidate_text(report), rendered=live)
         # 4.9.241 (plan 229 step 10): no Echo is forced. The speech-act bypass (score 1.0 for any reply to a question
         # with no content word) is gone. A greeting reply is scored by structural Echo for speech acts: the reply is
@@ -707,6 +694,27 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         chain = [s.get("stage_id") for s in stages]
         spoken = bool(gate.get("applied_to_ask") and rendered)
         reply = rendered if spoken else None
+        if reply:
+            starters = {"a", "an", "the", "i", "you", "we", "they", "he", "she", "it", "my", "your", "his", "her", "our", "their", "no", "yes", "not", "this", "that"}
+            bits = [p for p in __import__("re").split(r"(?<=[.!?])\s+", reply.strip()) if p]
+            fixed = []
+            for p in bits:
+                first = p.split(" ", 1)[0].strip(".,").lower()
+                if first in starters and p[:1].islower():
+                    p = p[:1].upper() + p[1:]
+                fixed.append(p)
+            reply = " ".join(fixed)
+        if _how == "WM-RECALL":
+            answer_path = "recalled"
+        elif computed is not None and spoken:
+            answer_path = "computed"
+        elif spoken and any(isinstance(r, dict) and r.get("source") == "sim_receipt" for r in rows):
+            answer_path = "simulated"
+        elif spoken:
+            answer_path = "derived"
+        else:
+            answer_path = None
+        pipeline = ["parse", "recall", "derive", "gate"] + (["compile"] if spoken else [])
         trust_trace = _trust_trace(reply, rows, anchors, act_measure if greeting else None)
         if spoken and trust_trace.get("blocks_admit"):
             spoken = False
@@ -837,6 +845,8 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "module": "rmc_engine_v1.rmc_core",
             "product_reply": spoken,
             "reply": reply,
+            "answer_path": answer_path,
+            "pipeline": {"stages": pipeline, "answer_path": answer_path, "omitted": ((world.get("derive") or {}).get("omitted") if isinstance(world.get("derive"), dict) else 0) or 0, "gap": not spoken},
             "outward": _outward_plan_acts(reply, world, act_measure if (greeting or act_prefix) else None),
             "claim": str((artifacts.get("admitted_claim") or {}).get("text") or "")[:500],
             "held": bool(live and not spoken),
