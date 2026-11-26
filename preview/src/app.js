@@ -167,8 +167,12 @@ async function askMemory(question) {
      * Derive seeds from them next turn. Personal; no hosted write. */
     try {
       const WF = window.KWorldFacts; if (WF && typeof WF.rows === 'function') {
+        let asked = null;
+        try { const frame = window.KQFrame && KQFrame.compile ? KQFrame.compile(question, forge) : null; asked = WF.intervalFromClause ? WF.intervalFromClause(frame) : null; } catch (e) { asked = null; }
         const seen = new Set(memory.phone.map(r => String(r && r.text || '').toLowerCase()));
-        for (const row of WF.rows()) {
+        const open = r => !r || (!r.valid_from && !r.valid_to) || (WF.covers && WF.covers(r, asked));
+        memory.phone = memory.phone.filter(open);
+        for (const row of WF.rows({ at: asked })) {
           if (!row || !row.text || seen.has(String(row.text).toLowerCase())) continue;
           seen.add(String(row.text).toLowerCase()); memory.phone.push(row);
         }
@@ -344,7 +348,8 @@ async function rememberStatement(text) {
   if (kept.some(x => x && String(x.text).toLowerCase() === sentence.toLowerCase())) return { ok: true, rule: 'REMEMBER-ALREADY-KEPT', text: sentence, message: 'Already remembered on this phone: ' + sentence };
   const id = 'rem-' + (window.KSha && KSha.sha256 ? KSha.sha256(sentence.toLowerCase()).slice(0, 12) : String(kept.length + 1));
   const told = new Date().toISOString();
-  const row = { id, text: sentence, clause, scope: 'phone', sensitive, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', at: told }, remembered_at: told };
+  const when = window.KWorldFacts && KWorldFacts.intervalFromClause ? KWorldFacts.intervalFromClause(clause) : null;
+  const row = { id, text: sentence, clause, scope: 'phone', sensitive, valid_from: when && when.valid_from, valid_to: when && when.valid_to, provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', actor: 'user', at: told }, remembered_at: told };
   const wf = keepWorldFact(row, 'remember');
   if (wf && wf.ok === false && /^WORLD-FACTS-CONFLICT/.test(wf.rule || '')) return { ok: false, rule: wf.rule, message: wf.message || 'Held: that contradicts a kept fact.', existing: wf.existing };
   kept.push(row);
@@ -488,7 +493,13 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     }
     if (simReceipt && simReceipt.ok && Array.isArray(simReceipt.rows)) memory.simulation = simReceipt.rows.slice(0, 6);
     askCtx.sim = simReceipt || null;
-    if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
+    let blocked = null;
+    try {
+      const compiled = window.KQFrame && KQFrame.compile ? KQFrame.compile(qtext, forge) : null;
+      blocked = window.KWorldFacts && KWorldFacts.refuted ? KWorldFacts.refuted(qtext, compiled) : null;
+    } catch (e) { blocked = null; }
+    if (blocked) row = { ok: true, held: true, reply: null, product_reply: false, route: 'RETRACTED', trace: { rule: 'RETRACTED', status: blocked.status, hash: blocked.hash, reason: blocked.reason, calls_llm: false }, calls_llm: false };
+    else if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
     else row = await KRMCCore.run(Object.assign({ question: qtext, live: true, dry_run: false, memory: memory }, askCtx.sense ? { sense: askCtx.sense } : {}));
     /* 4.9.206: the old replay of recorded self-seed documents (the fixtures global) is removed from Ask. Recorded demo
      * documents are shown only on the Self-seed card (window.SELF_SEED_DEMO); Ask never treats a recording as research. */

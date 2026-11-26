@@ -1,0 +1,13 @@
+[Unit]
+Description=Forge home PC simulator and Athena gap loop
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/forge-mobile/source
+EnvironmentFile=/opt/forge-mobile/source/server/home_pc/.env
+ExecStart=/opt/forge-mobile/source/server/home_pc/.venv/bin/python -m server.home_pc.run
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

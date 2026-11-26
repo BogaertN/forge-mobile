@@ -11,7 +11,7 @@ Fingerprint (SHA-256, first 4 bytes): `4d1db5d2`.
 | 72 Hz | high gamma: links between items. Φ9 stays the transition |
 | Delta slots | kriya, kartr, karma, karana, sampradana, apadana, adhikarana, vidheya, hetu |
 | Gamma extras | sambandha, vishaya, upadhi are parts, not delta slots |
-| Ids | SHA-256. Concept id plus WordNet 3.0 offset; lemma only if unknown, flagged |
+| Ids | SHA-256. Concept id plus WordNet 3.0 offset; lemma only if unknown, flagged. RSOC's BLAKE3 psi_id is superseded by SHA-256 (decision 25 Nov 2026: native WebCrypto, no benefit at these sizes, and RKM already uses SHA-256). |
 | Symmetric | only predicates `world_rules.js` marks symmetric |
 | Sound | audible 1728–3888 Hz by default. Near-ultrasonic is an opt-in with a visible checkbox |
 | MAC | required on CLAIM and any other state-changing frame. HELLO is open |

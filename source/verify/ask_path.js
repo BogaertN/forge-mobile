@@ -242,6 +242,9 @@ function ask(s, question, extra) {
     fresh.followup = { kind: 'why', of: prior.question, how: prior.how };
     return fresh;
   }
+  const WF = require(ROOT + '/src/world_facts.js');
+  const blocked = WF.refuted && WF.refuted(question, frame);
+  if (blocked) return { product_reply: false, reply: null, route: 'RETRACTED', trace: { rule: 'RETRACTED', status: blocked.status, hash: blocked.hash, reason: blocked.reason, calls_llm: false }, calls_llm: false };
   const before = s.phone.length;
   const prod = extra.isolated === true ? { shared: [], anchors: [] } : productionPools();
   const pools = [{ name: 'confirmed_shared', into: 'hosted', rows: prod.shared.concat(extra.sharedRows || []) }];

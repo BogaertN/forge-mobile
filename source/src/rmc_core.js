@@ -35,8 +35,12 @@ function selfRows(QF, F) {
   const node = typeof module !== 'undefined' && module.exports;
   const SM = node ? require('./selfmodel.js') : root.KSelf, G = node ? require('./grammar.js') : root.KGrammar;
   if (!SM || !SM.FACTS || !G || typeof G.clauseText !== 'function') return [];
+  const UM = node ? require('./user_manual.js') : root.KUserManual;
+  const aboutKernel = k => k && (k.kernel || k.owner === 'kernel' || k.user);
+  const manual = UM && typeof UM.rows === 'function' ? UM.rows(QF, F).filter(r => r.clause && aboutKernel(r.clause.kartr)) : [];
   const out = [];
   for (const [k, c] of Object.entries(SM.FACTS)) {
+    if (manual.length && (k === 'rsoc' || k === 'rules' || k === 'memory')) continue;
     let t = null; try { t = G.clauseText(c, 'user'); } catch (e) { t = null; }
     if (!t) continue;
     const text = t.charAt(0).toUpperCase() + t.slice(1) + '.';
@@ -46,6 +50,7 @@ function selfRows(QF, F) {
     out.push({ id: 'self:' + k, memory_id: 'self:' + k, text, tier: 'self', trust: 'trusted', clause: cl,
       provenance: { source: 'src/selfmodel.js FACTS.' + k, kind: 'self_fact', perspective: 'asker_to_kernel' } });
   }
+  manual.forEach(r => out.push(r));
   SELF_ROWS = out; return out;
 }
 /* 4.9.241 (Nic: natural conversation) SELF-STATE FROM MEASURED LIVE STATE. The kernel's state is not a stored sentence:

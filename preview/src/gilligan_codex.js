@@ -399,6 +399,9 @@
     function authorizeWrite(rec) {
       rec = rec || {};
       if (rec.calls_llm === true) return { ok: false, rule: 'CODEX-LLM-REFUSED', calls_llm: false, section: '1.3.3' };
+      const WF = isNode ? require('./world_facts.js') : root.KWorldFacts;
+      const prior = WF && WF.refuted && rec.claim ? WF.refuted(rec.claim) : null;
+      if (prior) return { ok: false, rule: 'CODEX-REFUTED', calls_llm: false, section: 'ledger', status: prior.status, hash: prior.hash, reason: prior.reason };
       if (moneyShaped(rec)) return { ok: false, rule: 'CODEX-TOKEN-REFUSED', calls_llm: false, section: '3.12' };
       if (bioShaped(rec)) return { ok: false, rule: 'CODEX-BIOMETRIC-ABSENT', calls_llm: false, section: '11.1' };
       const eps = Number(rec.eps);

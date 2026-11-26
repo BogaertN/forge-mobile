@@ -208,15 +208,20 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
         checks.append({"check": "orientation", "ok": ident, "hard": True, "reading": "identity runs both ways" if ident else "kind or membership does not run backwards"})
     filler = (m or {}).get("filler")
     if gap == "prakara":
-        # 4.9.241: a how-gap asks a state or manner; the clause must supply it as a predicate adjective
+        # 4.9.241: a how-gap asks a state or manner; the clause must supply it as a predicate adjective.
+        # 4.9.252: or as the fact's means adjunct (WM-MANNER). A noun predicate still fails.
         fp = ff.get("pred") if isinstance(ff.get("pred"), dict) else {}
-        checks.append({"check": "state", "ok": str(fp.get("type") or "").startswith("adj"), "hard": True, "pred_type": fp.get("type")})
+        manner = (m or {}).get("rule") == DF.RULE_MANNER
+        checks.append({"check": "state", "ok": str(fp.get("type") or "").startswith("adj") or manner, "hard": True, "pred_type": fp.get("type"), "manner": manner})
     checks.append({"check": "gap:" + gap, "ok": bool(filler), "filler": filler, "kind": ((qframe.get("pred") or {}).get("kind") if isinstance(qframe.get("pred"), dict) else None)})
     args = [_norm(a) for a in atom.get("args") or []]
     if rule == DF.RULE_PRO_VERB:
         # 4.9.241: the pro-verb's filler is the fact's verb phrase: the spoken atom states that verb and its object
         fo = ff.get("karma") if isinstance(ff.get("karma"), dict) else {}
         stated = _norm(atom.get("predicate")) == _norm((m or {}).get("action")) and _norm(fo.get("text")) in args
+    elif rule == DF.RULE_MANNER:
+        # The means adjunct is not an atom argument. It has to be the spoken sentence, and the verb has to be the fact's.
+        stated = bool(filler) and _norm(filler) in _norm(reply) and _norm(atom.get("predicate")) == _norm((m or {}).get("action"))
     elif gap == "polarity":
         stated = bool(m) and (atom.get("polarity") or "pos") == (ff.get("polarity") or "pos")
     else:

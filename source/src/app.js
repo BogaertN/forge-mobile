@@ -493,7 +493,13 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     }
     if (simReceipt && simReceipt.ok && Array.isArray(simReceipt.rows)) memory.simulation = simReceipt.rows.slice(0, 6);
     askCtx.sim = simReceipt || null;
-    if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
+    let blocked = null;
+    try {
+      const compiled = window.KQFrame && KQFrame.compile ? KQFrame.compile(qtext, forge) : null;
+      blocked = window.KWorldFacts && KWorldFacts.refuted ? KWorldFacts.refuted(qtext, compiled) : null;
+    } catch (e) { blocked = null; }
+    if (blocked) row = { ok: true, held: true, reply: null, product_reply: false, route: 'RETRACTED', trace: { rule: 'RETRACTED', status: blocked.status, hash: blocked.hash, reason: blocked.reason, calls_llm: false }, calls_llm: false };
+    else if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
     else row = await KRMCCore.run(Object.assign({ question: qtext, live: true, dry_run: false, memory: memory }, askCtx.sense ? { sense: askCtx.sense } : {}));
     /* 4.9.206: the old replay of recorded self-seed documents (the fixtures global) is removed from Ask. Recorded demo
      * documents are shown only on the Self-seed card (window.SELF_SEED_DEMO); Ask never treats a recording as research. */

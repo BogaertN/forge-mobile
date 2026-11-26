@@ -1,3 +1,13 @@
+## v4.9.252 — The manual is a source, a forget is a tombstone, the home PC is installable (Nic)
+
+**Conflict:** Capability questions still rested on a placeholder self-fact. Forget spliced the row. A claim Gilligan had already rejected could be admitted again. The home computer had no installable node. RSOC's BLAKE3 psi_id was still easy to read as the live id. An hfield packet had no picture of its carriers.
+
+**Where:** `docs/USER_MANUAL.md` is parsed into clauses whose provenance source is Forge user manual, and Ask composes the reply through outwardCompile. `src/world_facts.js` sets status retracted and keeps a SHA-256 ledger entry with a structured reason. Gilligan and the reasoner refuse a ledger hit, and the trace says RETRACTED. `server/home_pc` is the Ubuntu package: the sim router and Neo's existing gap interval, a writer credential that is not service_role, and no hosted write without a session. `docs/rkm/README.md` records that SHA-256 supersedes BLAKE3 (25 Nov 2026). `src/rkm_cymatic.js` draws the plate and leaves the transducer unconnected.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. Ask does not store. Neo's duty is unchanged. Nothing is hard-deleted.
+
+Proof: `verify/r4275_suite.js`.
+
 ## v4.9.251 — The named stubs are built; the gates stay where they are (Nic)
 
 **Conflict:** The HCS boundary was a comment. The Home PC had no PyBullet or COPASI slot. Phase ablation reported a stub with no dataset sentence. A stated year was not a valid time. The forge2 codec and the symbolic grammar-operator registry were not in this tree.

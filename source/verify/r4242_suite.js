@@ -162,19 +162,17 @@ T('spoken answers are not auto-persisted into world_facts (no self-evidence loop
   expect(app.includes("keepWorldFact(row, 'remember')"), 'Remember still writes');
 });
 
-T('capability self-facts are a marked placeholder (await user manual; wording unchanged)', () => {
+T('capability self-facts come from the user manual, not the 4.9.242 placeholder', () => {
   const sm = read('src/selfmodel.js');
-  expect(/TODO\(4\.9\.242 \/ Nic\): PLACEHOLDER capability self-facts/.test(sm), 'TODO block');
-  expect((sm.match(/PLACEHOLDER: capability — await user manual/g) || []).length >= 3, 'rsoc/rules/memory marked');
-  expect(read('CONFLICTS.md').includes('Capability self-facts are a placeholder (Nic, 4.9.242)'), 'CONFLICTS Open note');
-  /* wording of the three facts is unchanged from 4.9.241 */
-  expect(/rsoc:.*V\('compute'\)/.test(sm) && /rules:.*V\('derive'\)/.test(sm) && /memory:.*V\('know'\)/.test(sm), 'wording kept');
+  const manual = read('src/user_manual.js');
+  expect(!/TODO\(4\.9\.242 \/ Nic\): PLACEHOLDER capability self-facts/.test(sm) && !/PLACEHOLDER: capability — await user manual/.test(sm), 'placeholder still present');
+  expect(!/V\('compute'\)/.test(sm) && manual.includes("SOURCE = 'Forge user manual'") && manual.includes('You remember a sentence by an explicit request.'), 'manual source');
 });
 
 T('version registry names 4.9.242', () => {
-  expect(read('VERSION').trim() === '4.9.251', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.252', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.251' && reg.features.some(x => x.id === 'R4242-WORLD-FACTS-PERSIST') && reg.count === reg.features.length , 'registry');
+  expect(reg.version === '4.9.252' && reg.features.some(x => x.id === 'R4242-WORLD-FACTS-PERSIST') && reg.count === reg.features.length , 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.242'), 'CONFLICTS 242 entry');
 });
 
