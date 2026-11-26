@@ -86,6 +86,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. tip_check is not the spoken reason. The candidate threshold from receipts agrees with it on 2 of 4 fresh scenes and stays a proposal."
+    },
+    {
+      "version": "4.9.270",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. A push ramps with weight. The reason is the first measured limit, friction or restoring torque."
     }
   ]
 }

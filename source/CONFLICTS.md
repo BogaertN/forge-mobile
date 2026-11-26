@@ -1,3 +1,15 @@
+## v4.9.270 — A push ramps until the first measured limit (Nic, 26 Nov 2026)
+
+**Conflict:** The push force was `1.25 × min(μmg, mg·half/h)`. The outcome was the formula the search was asked to discover. Tall narrow bodies then tipped in MuJoCo where the quasi-static check said slide. Spoken answers also lost their reason.
+
+**Where:** A push now ramps with the body's weight, up to five times that weight, and stops at the first limit the ramp crosses. Slip is the applied force passing the friction limit `μ·weight`. Tip is the torque about the edge passing the restoring torque. The reason is that measured comparison: "The torque about the edge exceeds the restoring torque." or "The contact force exceeds the friction limit." The old critical-height sentence stays unwired. Recordings made before the ramp still reseal with the force they were given.
+
+**What the disagreement was:** It was the force schedule, not the contact model. A tall narrow body was pushed past both limits at once, and the extra rotation tipped it. With the ramp, those scenes slide, and they agree with `tip_check`. The quasi-static check is the right description of which limit a slow push reaches first. MuJoCo's friction cone and timestep were not the cause.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. The result is still evidence, not a fact.
+
+Proof: `verify/r4287_suite.js`.
+
 ## v4.9.269 — tip_check is off, and the threshold is read from receipts (Nic, 26 Nov 2026)
 
 **Conflict:** The reason a push toppled or slid was a hand-written comparison, `tip_check`. The measurements were already in the receipts.
