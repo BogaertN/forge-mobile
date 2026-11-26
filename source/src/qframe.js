@@ -853,7 +853,18 @@
     else if (concepts.length > 1) frame.lexicon = { ambiguous: true, term: head, ids: concepts.map(c => c.id) };
     return frame;
   }
-  function compile(text, forge) { try { return attachLexicon(actFrame(text, forge) || canonicalize(compileQ(text, forge), forge), forge); } catch (e) { return { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; } }
+  function compile(text, forge) {
+    let frame;
+    try { frame = attachLexicon(actFrame(text, forge) || canonicalize(compileQ(text, forge), forge), forge); }
+    catch (e) { frame = { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; }
+    if (frame && frame.parsed) return frame;
+    try {
+      const L = (typeof module !== 'undefined' && module.exports) ? require('./learning.js') : root.KLearning;
+      const learned = L && L.applyFrame ? L.applyFrame(text) : null;
+      if (learned) return learned;
+    } catch (e) { /* a missing learner leaves the unparsed frame */ }
+    return frame;
+  }
   /* A sim-ask reply is either measures, a kind, or both. The measures are the same lift the question frame
    * already uses. The leftover noun phrase is read as the predicate of a copula, so the kind is a kāraka
    * and not a splice into the pending question. */

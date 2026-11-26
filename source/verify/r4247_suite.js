@@ -191,10 +191,10 @@ print(json.dumps(seal(p, run, where="home_pc")))`, JSON.stringify([q, frame]));
 });
 
 T('laws and version 4.9.248; the suite does not fetch the network', () => {
-  expect(read('VERSION').trim() === '4.9.257', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.258', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.257' && reg.features.some(x => x.id === 'R4247-WORLD-SIM') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.257'), 'CONFLICTS');
+  expect(reg.version === '4.9.258' && reg.features.some(x => x.id === 'R4247-WORLD-SIM') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.258'), 'CONFLICTS');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T

@@ -90,6 +90,11 @@
     const used = Math.min(asked, N_STAR);
     return { cap: N_STAR, depth: used, stopped: asked > N_STAR, calls_llm: false };
   }
-  const api = { N_STAR, counts, predict, scoreHeldOut, ablate, blocked, suggest, depth, off: () => ({ on: false, route_priority: [], hypotheses: [], changes_gates: false, calls_llm: false }) };
+  function closeLoop(receipts) {
+    const Learning = isNode ? require('./learning.js') : root.KLearning;
+    const loop = Learning && Learning.closeLoop ? Learning.closeLoop(receipts) : null;
+    return loop || { stage: 'idle', mirror: suggest(receipts), writes_code: false, changes_gates: false, calls_llm: false };
+  }
+  const api = { N_STAR, counts, predict, scoreHeldOut, ablate, blocked, suggest, depth, closeLoop, off: () => ({ on: false, route_priority: [], hypotheses: [], changes_gates: false, calls_llm: false }) };
   if (isNode) module.exports = api; else root.KMirror = api;
 })(typeof self !== 'undefined' ? self : this);

@@ -1,0 +1,17 @@
+{
+  "schema": "forge.heldout_scoreboard/v1",
+  "not_a_golden": true,
+  "versions": [
+    {
+      "version": "4.9.257",
+      "single": { "spoke": 29, "held": 19, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 }
+    },
+    {
+      "version": "4.9.258",
+      "single": { "spoke": 29, "held": 19, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "No induced rule was admitted, so the held-out set is unchanged."
+    }
+  ]
+}

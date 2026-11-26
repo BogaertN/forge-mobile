@@ -48,11 +48,17 @@
   }
   function decayed(doc, now) {
     const iso = now || new Date().toISOString();
-    const facts = (doc.facts || []).map(r => Object.assign({}, r, { charge: chargeOf(r, iso), charge_half_life_h: HALF_LIFE_H, charge_lambda: LAMBDA }))
-      .filter(r => r.charge >= COLLECT)
+    const scored = (doc.facts || []).map(r => Object.assign({}, r, { charge: chargeOf(r, iso), charge_half_life_h: HALF_LIFE_H, charge_lambda: LAMBDA }));
+    const kept = scored.filter(r => r.charge >= COLLECT)
       .sort((a, b) => b.charge - a.charge || String(b.updated_at || '').localeCompare(String(a.updated_at || '')))
       .slice(0, MAX);
-    return Object.assign({}, doc, { facts, as_of: iso });
+    const keptIds = {};
+    kept.forEach(r => { keptIds[r.id] = true; });
+    const archive = (doc.archive || []).concat(scored.filter(r => !keptIds[r.id]).map(r => Object.assign({}, r, { status: r.charge < COLLECT ? 'aged' : 'over_cap', retained: true, deleted: false })));
+    const seen = {};
+    const retained = [];
+    archive.forEach(r => { if (!r || seen[r.id]) return; seen[r.id] = true; retained.push(r); });
+    return Object.assign({}, doc, { facts: kept, archive: retained, as_of: iso });
   }
   function norm(t) { return String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, ''); }
   function sameText(a, b) { return norm(a) === norm(b); }
@@ -237,7 +243,7 @@
     const now = (opts && opts.now) || new Date().toISOString();
     const doc = decayed(loadRaw(), now);
     const asked = opts && Object.prototype.hasOwnProperty.call(opts, 'at') ? (opts.at || null) : undefined;
-    return (doc.facts || []).filter(r => r.status !== 'retracted' && r.status !== 'refuted' && r.charge >= ACTIVE && (asked === undefined || covers(r, asked))).map(r => ({
+    return (doc.facts || []).filter(r => r.status !== 'retracted' && r.status !== 'refuted' && r.charge >= ACTIVE && (r.status !== 'superseded' || asked !== undefined) && (asked === undefined || covers(r, asked))).map(r => ({
       id: r.id, memory_id: r.id, text: r.text, clause: r.clause, atom: r.atom,
       tier: 'world_fact', trust: r.trust || 'trusted', source: 'world_facts',
       scope: 'phone', provenance: Object.assign({}, r.provenance || {}, { store: 'world_facts', kind: r.kind || 'world_fact' }),
@@ -300,6 +306,23 @@
   }
   function receipts() { return ((loadRaw().receipts) || []).slice(); }
   function snapshot() { return decayed(loadRaw()); }
-  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, forget, refute, refuted, claimHash, receipts, snapshot, conflictWith, atomKey, norm, sameText, intervalFromClause, covers };
+  /* A newer statement that two sources agree on ends the older row. The older row stays. */
+  function supersede(id, validTo, sources) {
+    const rows = (sources || []).filter(s => s && s.text);
+    if (rows.length < 2) return { ok: false, rule: 'LEARN-SUPERSEDE-NEEDS-TWO', deleted: false };
+    const texts = rows.map(s => norm(s.text));
+    if (texts.some(t => t !== texts[0])) return { ok: false, rule: 'LEARN-SUPERSEDE-DISAGREE', deleted: false };
+    const doc = loadRaw();
+    const fact = (doc.facts || []).find(f => f && (f.id === id || norm(f.text) === norm(id)));
+    if (!fact) return { ok: false, rule: 'WORLD-FACTS-SUPERSEDE-MISSING', deleted: false };
+    fact.valid_to = validTo || new Date().toISOString();
+    fact.status = 'superseded';
+    fact.superseded_by = rows.map(s => ({ source: s.source || s.id || '', text: s.text }));
+    fact.deleted = false;
+    const saved = saveRaw(doc);
+    if (!saved.ok) return saved;
+    return { ok: true, rule: 'WORLD-FACTS-SUPERSEDED', fact: { id: fact.id, text: fact.text, valid_to: fact.valid_to, status: 'superseded', deleted: false } };
+  }
+  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, forget, refute, refuted, claimHash, receipts, snapshot, conflictWith, atomKey, norm, sameText, intervalFromClause, covers, supersede };
   if (isNode) module.exports = api; else root.KWorldFacts = api;
 })(typeof self !== 'undefined' ? self : this);
