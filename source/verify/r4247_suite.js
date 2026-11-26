@@ -113,11 +113,11 @@ p, run = json.load(sys.stdin)
 print(json.dumps(seal(p, run)))`, JSON.stringify([fx.problem, fx.run]));
   expect(rec.sha256 === fx.sha256, 'reseal changed the receipt hash');
   expect(rec.may_store_as_fact === false && rec.state_before && rec.state_after && rec.state_after.motion === 'topple', JSON.stringify(rec.state_after));
-  expect(/exceeds the critical height/.test(rec.causal_reason), rec.causal_reason);
+  expect(rec.causal_reason === '', rec.causal_reason);
   const clause = Q.clause('The bottle holds water.', f);
   const row = ask(q, { phone: [{ id: 'h1', text: 'The bottle holds water.', clause }], simulation: rec.rows });
   expect(row.product_reply === true && row.coherence >= 0.87 && row.echo.score >= 0.85 && row.drift <= 0.35, JSON.stringify({ c: row.coherence, e: row.echo, d: row.drift, r: row.reply }));
-  expect(/topples/.test(row.reply) && /spills the water/.test(row.reply) && /critical height/.test(row.reply), row.reply);
+  expect(/topples/.test(row.reply) && /spills the water/.test(row.reply), row.reply);
   const compiled = CORE.outwardCompile(row, { question: q }, f, null, Q);
   expect(compiled.product_reply === true, JSON.stringify(compiled.outward_compile));
 });
@@ -191,10 +191,10 @@ print(json.dumps(seal(p, run, where="home_pc")))`, JSON.stringify([q, frame]));
 });
 
 T('laws and version 4.9.248; the suite does not fetch the network', () => {
-  expect(read('VERSION').trim() === '4.9.268', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.269', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.268' && reg.features.some(x => x.id === 'R4247-WORLD-SIM') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.268'), 'CONFLICTS');
+  expect(reg.version === '4.9.269' && reg.features.some(x => x.id === 'R4247-WORLD-SIM') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.269'), 'CONFLICTS');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T

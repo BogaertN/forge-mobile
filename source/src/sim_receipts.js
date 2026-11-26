@@ -58,10 +58,19 @@
     if (U[k]) return { unit: U[k].name, dimension: U[k].dim };
     if (TEMP[k]) return { unit: TEMP[k] === 'C' ? 'celsius' : TEMP[k] === 'F' ? 'fahrenheit' : 'kelvin', dimension: 'temperature' };
     const bits = k.split('_');
+    const named = token => {
+      if (U[token]) return { unit: U[token].name, dimension: U[token].dim };
+      if (TEMP[token]) return { unit: TEMP[token] === 'C' ? 'celsius' : TEMP[token] === 'F' ? 'fahrenheit' : 'kelvin', dimension: 'temperature' };
+      return null;
+    };
+    if (bits.length >= 3) {
+      const left = named(bits[bits.length - 2]);
+      const right = named(bits[bits.length - 1]);
+      if (left && right) return { unit: left.unit + '/' + right.unit, dimension: left.dimension + '/' + right.dimension };
+    }
     if (bits.length > 1) {
-      const last = bits[bits.length - 1];
-      if (U[last]) return { unit: U[last].name, dimension: U[last].dim };
-      if (TEMP[last]) return { unit: TEMP[last] === 'C' ? 'celsius' : TEMP[last] === 'F' ? 'fahrenheit' : 'kelvin', dimension: 'temperature' };
+      const last = named(bits[bits.length - 1]);
+      if (last) return last;
     }
     /* Quantities the scene compiler already stores in SI. The name is the slot, not an object. */
     const SI = {
