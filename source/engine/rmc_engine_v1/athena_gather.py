@@ -55,7 +55,10 @@ def _lex() -> dict[str, Any]:
     global _LEX
     if _LEX is None:
         path = Path(__file__).resolve().parents[2] / "data" / "lexicon.json"
-        _LEX = json.loads(path.read_text(encoding="utf-8"))
+        try:
+            _LEX = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            _LEX = {}
     return _LEX
 
 
@@ -272,7 +275,10 @@ def fan_out(questions: list[str], http: Http | None = None, timeout: float = 2.5
         except TimeoutError:
             for fut in futs:
                 fut.cancel()
-        pool.shutdown(wait=False, cancel_futures=True)
+        try:
+            pool.shutdown(wait=False, cancel_futures=True)
+        except TypeError:
+            pool.shutdown(wait=False)
     kept = []
     for doc in docs:
         key = str(doc.get("publisher") or "") + "\n" + str(doc.get("text") or "")
@@ -383,23 +389,33 @@ def admit_documents(topic: str, documents: list[dict[str, Any]]) -> list[dict[st
 
 
 def gather(topic: str, http: Http | None = None, documents: list[dict[str, Any]] | None = None,
-           timeout: float = 2.5, budget: float = 12.0, lexicon: bool = True) -> dict[str, Any]:
+           timeout: float = 2.5, budget: float = 12.0, lexicon: bool = True, network: bool | None = None) -> dict[str, Any]:
     head = str(topic or "").strip().lower()
-    atoms = topic_atoms(head)
+    try:
+        atoms = topic_atoms(head)
+    except Exception:
+        atoms = []
     questions = []
     for word in [head] + [a["head"] for a in atoms if a.get("role") != "behavior"]:
         q = "What is a " + word + "?"
         if word and q not in questions:
             questions.append(q)
+    do_net = (documents is None) if network is None else bool(network)
     remote = {"documents": [], "errors": [], "queried": []}
-    if documents is None:
-        remote = fan_out(questions, http=http, timeout=timeout, budget=budget)
-        docs = list(remote["documents"])
-    else:
-        docs = [dict(d) for d in documents if isinstance(d, dict)]
-        remote = {"documents": docs, "errors": [], "queried": sorted({str(d.get("source_id")) for d in docs if d.get("source_id")})}
+    if do_net:
+        try:
+            remote = fan_out(questions, http=http, timeout=timeout, budget=budget)
+        except Exception as exc:
+            remote = {"documents": [], "errors": [{"source": "gather", "error": type(exc).__name__ + ": " + str(exc)[:80]}], "queried": []}
+    docs = [dict(d) for d in (remote.get("documents") or []) if isinstance(d, dict)]
+    for extra in documents or []:
+        if isinstance(extra, dict) and extra.get("text"):
+            docs.append(dict(extra))
     if lexicon:
-        docs.extend(_local_docs(head, atoms))
+        try:
+            docs.extend(_local_docs(head, atoms))
+        except Exception:
+            pass
     clauses = admit_documents(head, docs)
     queried = list(remote.get("queried") or [])
     for doc in docs:

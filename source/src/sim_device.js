@@ -391,12 +391,30 @@
     }
     return found;
   }
+  function localGloss(topic) {
+    const lex = root.forge && root.forge.lexicon;
+    if (!lex || typeof lex.senses !== 'function') return null;
+    const senses = (lex.senses(topic) || []).filter(s => s && s.pos === 'n' && s.gloss);
+    const physical = { 'noun.animal': 1, 'noun.artifact': 1, 'noun.object': 1, 'noun.location': 1, 'noun.plant': 1, 'noun.substance': 1, 'noun.body': 1, 'noun.food': 1 };
+    const sense = senses.filter(s => physical[s.lexname])[0] || senses[0];
+    if (!sense) return null;
+    let gloss = String(sense.gloss).split(';')[0].trim().replace(/\.+$/, '');
+    if (!gloss) return null;
+    if (/^[A-Z]/.test(gloss) && gloss.slice(1) === gloss.slice(1).toLowerCase()) gloss = gloss.charAt(0).toLowerCase() + gloss.slice(1);
+    const label = topic.charAt(0).toUpperCase() + topic.slice(1);
+    return { text: label + ' is ' + gloss + '.', publisher: 'Open English WordNet', source_id: 'oewn', counts: true, asked: 'What is a ' + topic + '?' };
+  }
   async function gatherCreative(frame) {
     const heads = topicHeads(frame);
     const topic = heads[0] || '';
     if (!topic) return null;
-    try { return await pyCall({ op: 'gather', topic: topic, budget: 10, timeout: 2 }); }
-    catch (e) { return null; }
+    const seed = localGloss(topic);
+    try {
+      const got = await pyCall({ op: 'gather', topic: topic, budget: 8, timeout: 2, network: true, documents: seed ? [seed] : [] });
+      if (got && Array.isArray(got.clauses) && got.clauses.length) return got;
+    } catch (e) { /* the lexicon gloss still feeds the poem */ }
+    if (!seed) return null;
+    return { topic: topic, atoms: [], queried: ['oewn'], admitted: 0, single: 1, clauses: [Object.assign({}, seed, { source_count: 1, publishers: [seed.publisher], admitted: false, single_source: true, fact: false, gilligan: 'GILLIGAN-STRUCTURE-OK', scale: 'ok', drift: 'clean', store: null, hosted_eligible: false })], calls_llm: false, supabase_write: false, creative_persisted: false };
   }
   async function prepareCreative(memory, question, frame) {
     /* Scene questions from the cited clauses, then the same on-page plan/solve/WASM path a factual sim uses.
