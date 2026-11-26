@@ -15,7 +15,7 @@ const M = require(ROOT + '/src/mirror.js');
 function forge() { return FK.ForgeKernel({ store: K.MemoryStore(), lexicon: LEX, lexiconExt: EXT, clock: () => '2026-11-26T00:00:00Z' }); }
 function ask(q, phone, extra) {
   const f = forge();
-  const py = 'import json,sys\nfrom rmc_engine_v1.rmc_core import run\np=json.load(sys.stdin)\nr=run(p)\nd=(r.get("world_model") or {}).get("derive") or {}\nprint(json.dumps({"reply":r.get("reply"),"product":r.get("product_reply"),"path":r.get("answer_path"),"derived":d.get("derived_text"),"learning":d.get("learning")},default=str))';
+  const py = 'import json,sys\nfrom rmc_engine_v1.rmc_core import run\np=json.load(sys.stdin)\nr=run(p)\nd=(r.get("world_model") or {}).get("derive") or {}\ns=(d.get("survivor") or {})\natoms=s.get("spoken_atoms") or []\nprint(json.dumps({"reply":r.get("reply"),"product":r.get("product_reply"),"path":r.get("answer_path"),"derived":d.get("derived_text"),"learning":d.get("learning"),"conclusion":atoms[-1] if atoms else None},default=str))';
   const env = Object.assign({}, process.env, { PYTHONPATH: [path.join(ROOT, 'engine'), ROOT, path.join(ROOT, '_mathlibs')].join(path.delimiter) });
   const rows = (phone || []).map((t, i) => ({ id: 'p' + i, text: t, source: 'phone_kb', trust: 'trusted' }));
   const frame = Object.assign({}, Q.compile(q, f), extra || {});
@@ -46,6 +46,8 @@ function register(C, expect) {
     const phone = ['A beetle is an insect.', 'A beetle has wings.', 'A moth is an insect.', 'A moth has wings.', 'An ant is an insect.', 'An ant has wings.', 'A flea is an insect.'];
     const spoken = ask('Does a flea have wings?', phone, {});
     expect(spoken.product === true && /wing/.test(spoken.reply || '') && /flea/.test(spoken.reply || ''), JSON.stringify(spoken));
+    const wording = forge().outward(spoken.conclusion && spoken.conclusion.text, spoken.conclusion && spoken.conclusion.atom);
+    expect(wording.ok === true, JSON.stringify({ step: wording.step, atom: spoken.conclusion && spoken.conclusion.atom, got: wording.clause_atom }));
     expect(spoken.learning && spoken.learning.applied && spoken.learning.applied.rule.support === 3, JSON.stringify(spoken.learning && spoken.learning.applied));
     const live = L.list().rules.find(r => r.id === 'kind-property:insect:wing');
     expect(live && live.status === 'admitted' && live.class === 'learned' && live.hosted === false && live.deleted === false && !live.valid_to, JSON.stringify(live && live.status));
