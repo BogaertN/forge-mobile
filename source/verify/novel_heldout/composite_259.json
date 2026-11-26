@@ -1,0 +1,432 @@
+{
+ "schema": "forge.novel_composite.snapshot/v1",
+ "fit_forbidden": true,
+ "not_a_golden": true,
+ "n": 6,
+ "rows": [
+  {
+   "id": "c259-induce",
+   "expect": [
+    "derive"
+   ],
+   "q": "Does a genet have whiskers?",
+   "turns": [
+    {
+     "q": "Does a genet have whiskers?",
+     "asked": {
+      "reply": "A genet is a mammal. A marten has whiskers. A mink has whiskers. The genet has whiskers.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "derived",
+      "derive": "supported_only",
+      "how": "WM-INDUCED",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "derive",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "A genet is a mammal. A marten has whiskers. A mink has whiskers. The genet has whiskers.",
+   "path": "derived",
+   "held": false
+  },
+  {
+   "id": "c259-recall-sim",
+   "expect": [
+    "recall",
+    "simulate"
+   ],
+   "q": "What happens if I push the quillon near the top?",
+   "turns": [
+    {
+     "q": "What happens if I push the quillon near the top?",
+     "asked": {
+      "reply": "The quillon topples. The push height exceeds the critical height.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "simulated",
+      "derive": "supported_only",
+      "how": "WM-SOLVER-RECEIPT",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": true,
+      "solver": "mujoco_wasm",
+      "reason": null,
+      "missing": null,
+      "runtime": "wasm",
+      "outcome": "topple",
+      "error": null
+     },
+     "saw": [
+      "simulate",
+      "mujoco_wasm"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "The quillon topples. The push height exceeds the critical height.",
+   "path": "simulated",
+   "held": false
+  },
+  {
+   "id": "c259-math",
+   "expect": [
+    "compute"
+   ],
+   "q": "What is 17 percent of 640?",
+   "turns": [
+    {
+     "q": "What is 17 percent of 640?",
+     "asked": {
+      "reply": "17% of 640 is 108.8.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "computed",
+      "derive": "undetermined",
+      "how": null,
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-WH-AUX-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "compute",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "17% of 640 is 108.8.",
+   "path": "computed",
+   "held": false
+  },
+  {
+   "id": "c259-recall",
+   "expect": [
+    "recall"
+   ],
+   "q": "Is a genet a mammal?",
+   "turns": [
+    {
+     "q": "Is a genet a mammal?",
+     "asked": {
+      "reply": "A genet is a mammal.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "derived",
+      "derive": "supported_only",
+      "how": "direct",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "derive",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "A genet is a mammal.",
+   "path": "derived",
+   "held": false
+  },
+  {
+   "id": "c259-chain",
+   "expect": [
+    "derive"
+   ],
+   "q": "Is a serval a mammal?",
+   "turns": [
+    {
+     "q": "Is a serval a mammal?",
+     "asked": {
+      "reply": "A serval is a cat. A cat is a mammal. A serval is a mammal.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "derived",
+      "derive": "supported_only",
+      "how": "WM-COPULA-CHAIN",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "derive",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    }
+   ],
+   "reply": "A serval is a cat. A cat is a mammal. A serval is a mammal.",
+   "path": "derived",
+   "held": false
+  },
+  {
+   "id": "c259-handoff",
+   "expect": [
+    "derive",
+    "recall",
+    "simulate",
+    "compute",
+    "hold"
+   ],
+   "q": "Does a genet have whiskers? || Is a genet a mammal? || What happens if I push the quillon near the top? || What is 17 percent of 640? || Does a genet have whiskers?",
+   "turns": [
+    {
+     "q": "Does a genet have whiskers?",
+     "asked": {
+      "reply": "A genet is a mammal. A marten has whiskers. A mink has whiskers. The genet has whiskers.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "derived",
+      "derive": "supported_only",
+      "how": "WM-INDUCED",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "derive",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    },
+    {
+     "q": "Is a genet a mammal?",
+     "asked": {
+      "reply": "A genet is a mammal.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "derived",
+      "derive": "supported_only",
+      "how": "direct",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "derive",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    },
+    {
+     "q": "What happens if I push the quillon near the top?",
+     "asked": {
+      "reply": "The quillon topples. The push height exceeds the critical height.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "simulated",
+      "derive": "supported_only",
+      "how": "WM-SOLVER-RECEIPT",
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-WHAT-HAPPENS-IF"
+     },
+     "sim": {
+      "ok": true,
+      "solver": "mujoco_wasm",
+      "reason": null,
+      "missing": null,
+      "runtime": "wasm",
+      "outcome": "topple",
+      "error": null
+     },
+     "saw": [
+      "simulate",
+      "mujoco_wasm"
+     ],
+     "break": null
+    },
+    {
+     "q": "What is 17 percent of 640?",
+     "asked": {
+      "reply": "17% of 640 is 108.8.",
+      "product_reply": true,
+      "held": false,
+      "route": "active_stack_candidate",
+      "path": "computed",
+      "derive": "undetermined",
+      "how": null,
+      "gap": false,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate",
+       "compile"
+      ],
+      "frame": "QF-WH-AUX-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "compute",
+      "not_a_simulation_question"
+     ],
+     "break": null
+    },
+    {
+     "q": "Does a genet have whiskers?",
+     "asked": {
+      "reply": null,
+      "product_reply": false,
+      "held": true,
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "gap": true,
+      "stages": [
+       "parse",
+       "recall",
+       "derive",
+       "gate"
+      ],
+      "frame": "QF-YN-DECL"
+     },
+     "sim": {
+      "ok": false,
+      "solver": null,
+      "reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "runtime": null
+     },
+     "saw": [
+      "not_a_simulation_question",
+      "correction_queue"
+     ],
+     "break": {
+      "route": "correction_queue",
+      "path": null,
+      "derive": "undetermined",
+      "how": null,
+      "sim_reason": "not_a_simulation_question",
+      "missing": "intervention",
+      "expected": [
+       "derive",
+       "recall",
+       "simulate",
+       "compute",
+       "hold"
+      ]
+     }
+    }
+   ],
+   "reply": null,
+   "path": null,
+   "held": true
+  }
+ ]
+}

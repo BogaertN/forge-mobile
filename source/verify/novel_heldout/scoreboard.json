@@ -12,6 +12,13 @@
       "single": { "spoke": 29, "held": 19, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "No induced rule was admitted, so the held-out set is unchanged."
+    },
+    {
+      "version": "4.9.259",
+      "single": { "spoke": 29, "held": 19, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "fresh": { "spoke": 5, "held": 1, "n": 6, "file": "composites_259.js" },
+      "note": "Gilligan auto-admits. Fresh handoff speaks the induced rule, the stored kind sentence, the quillon push, and 17% of 640, then a counterexample archives the rule and that question is held."
     }
   ]
 }

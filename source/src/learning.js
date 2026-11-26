@@ -1,4 +1,5 @@
-/* Learning loop. Proposals are not facts. Gilligan validates. Admission is a separate step.
+/* Learning loop. Gilligan validates a proposal and that pass admits it into this store.
+ * Derive and Parse only read the store. A later counterexample sets valid_to and archives the row.
  * Nothing here writes a gate, calls a model, or deletes a row. */
 (function (root) {
   'use strict';
@@ -7,7 +8,7 @@
   const MIN_SUPPORT = 3;
   const CLOSED = { the: 1, a: 1, an: 1, is: 1, are: 1, was: 1, were: 1, do: 1, does: 1, did: 1, you: 1, i: 1, we: 1, to: 1, of: 1, in: 1, on: 1, at: 1, before: 1, after: 1, and: 1, or: 1, not: 1, no: 1, have: 1, has: 1, had: 1 };
   let MEM = null;
-  function blank() { return { schema: SCHEMA, frames: [], calibration: [], hosted: [], calls_llm: false, changes_gates: false }; }
+  function blank() { return { schema: SCHEMA, frames: [], rules: [], ledger: [], calibration: [], hosted: [], calls_llm: false, changes_gates: false }; }
   function load() { return MEM && MEM.schema === SCHEMA ? MEM : (MEM = blank()); }
   function save(doc) { MEM = Object.assign(blank(), doc, { schema: SCHEMA, calls_llm: false, changes_gates: false }); return MEM; }
   function clear() { MEM = blank(); return { ok: true }; }
@@ -69,6 +70,40 @@
     if (hit) return Object.assign({}, fresh, { status: 'refuted', reason: 'refuted_ledger', validator: 'gilligan', ledger: hit.text });
     return Object.assign({}, fresh, { status: 'validated', reason: 'no_counterexample', validator: 'gilligan', admitted: false });
   }
+  function retire(row, reason, doc) {
+    row.status = 'archived';
+    row.valid_to = new Date().toISOString();
+    row.deleted = false;
+    row.reason = reason || 'counterexample';
+    const text = row.kind ? ('a ' + row.kind + ' has no ' + row.property) : (row.failed || row.id);
+    doc.ledger = [{ id: row.id, text: text, status: 'refuted', at: row.valid_to, rule: row.id, reason: row.reason }].concat(doc.ledger || []).slice(0, 200);
+  }
+  function settle(facts, ledger) {
+    const doc = load();
+    const led = (ledger || []).concat(doc.ledger || []);
+    const proposals = induce(facts || []).map(row => gilligan(row, facts || [], led));
+    const byId = {};
+    (doc.rules || []).forEach(row => { if (row && row.id) byId[row.id] = row; });
+    const now = new Date().toISOString();
+    proposals.forEach(row => {
+      const prev = byId[row.id];
+      if (row.status === 'validated') {
+        byId[row.id] = Object.assign({}, prev || {}, row, {
+          status: 'admitted', admitted: true, class: 'learned', hosted: false, deleted: false,
+          admitted_at: (prev && prev.admitted_at) || now, valid_from: (prev && prev.valid_from) || now, valid_to: null,
+          validator: 'gilligan', reason: 'no_counterexample'
+        });
+      } else if (row.status === 'refuted' && prev && prev.status === 'admitted') {
+        retire(prev, row.reason, doc);
+      }
+    });
+    doc.rules = Object.keys(byId).map(id => byId[id]);
+    save(doc);
+    return { proposals: proposals, admitted: doc.rules.filter(r => r.status === 'admitted' && !r.valid_to), archived: doc.rules.filter(r => r.status === 'archived'), calls_llm: false, changes_gates: false, spoken_as_fact: false };
+  }
+  function admittedIds() { return (load().rules || []).filter(r => r.status === 'admitted' && !r.valid_to).map(r => r.id); }
+  function ledger() { return (load().ledger || []).slice(); }
+  function list() { return { rules: (load().rules || []).slice(), frames: (load().frames || []).filter(r => r.status === 'admitted' || r.status === 'archived') }; }
 
   function rolesOf(frame) {
     const roles = [];
@@ -119,9 +154,19 @@
     const want = rolesOf(expected);
     const same = assigned && want.length === row.roles.length && want.every(role => assigned[role.role] === role.head) && expected.kriya === row.kriya;
     row.replay = { held_out: String(heldOut || ''), ok: !!same, at: new Date().toISOString() };
-    row.status = same ? 'validated' : 'refuted';
+    if (same) {
+      row.status = 'admitted';
+      row.admitted = true;
+      row.class = 'learned';
+      row.admitted_at = row.admitted_at || new Date().toISOString();
+      row.valid_from = row.valid_from || row.admitted_at;
+      row.valid_to = null;
+      row.deleted = false;
+    } else if (row.status === 'admitted') {
+      retire(row, 'replay_failed', doc);
+    } else row.status = 'refuted';
     save(doc);
-    return { ok: !!same, rule: same ? 'LEARN-FRAME-VALIDATED' : 'LEARN-FRAME-REPLAY-FAILED', proposal: row };
+    return { ok: !!same, rule: same ? 'LEARN-FRAME-ADMITTED' : 'LEARN-FRAME-REPLAY-FAILED', proposal: row };
   }
   function admitFrame(id) {
     const doc = load();
@@ -135,7 +180,7 @@
     const doc = load();
     const row = (doc.frames || []).find(r => r.id === id);
     if (!row) return { ok: false, rule: 'LEARN-FRAME-MISSING' };
-    row.status = 'retracted';
+    retire(row, 'retract', doc);
     save(doc);
     return { ok: true, rule: 'LEARN-FRAME-RETRACTED', proposal: row };
   }
@@ -208,14 +253,13 @@
     });
   }
 
-  function admittedIds() { return []; }
   function closeLoop(receipts) {
     const Mirror = isNode ? require('./mirror.js') : root.KMirror;
     const suggestion = Mirror && Mirror.suggest ? Mirror.suggest(receipts || []) : { hypotheses: [], changes_gates: false };
     return {
       stage: 'idle',
       mirror: suggestion,
-      induction: 'Gilligan validates proposals from Derive before admission. Admitted rules re-enter Derive as WM-INDUCED.',
+      induction: 'Gilligan validates a proposal and the same pass admits it. Derive reads that store as WM-INDUCED. A later counterexample archives the rule.',
       calibration: calibrationReport(),
       stricter: proposeStricter(),
       writes_code: false,
@@ -224,7 +268,7 @@
     };
   }
   const api = {
-    SCHEMA, MIN_SUPPORT, clear, induce, gilligan, noteCorrection, noteTurn, validateReplay, admitFrame, retractFrame, applyFrame,
+    SCHEMA, MIN_SUPPORT, clear, induce, gilligan, settle, admittedIds, ledger, list, noteCorrection, noteTurn, validateReplay, admitFrame, retractFrame, applyFrame,
     noteAdmitted, label, calibrationReport, proposeStricter, supersedeHosted, ageHosted, admittedIds, closeLoop, load
   };
   if (isNode) module.exports = api; else root.KLearning = api;

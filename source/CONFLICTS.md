@@ -1,3 +1,13 @@
+## v4.9.259 — Learned rules are admitted when Gilligan validates them (Nic, 26 Nov 2026)
+
+**Conflict:** A Gilligan-clean induction stayed a proposal until a person listed its id. A frame pattern stayed unused until a second admit. A later counterexample did not retire the row. An answer that used a learned rule was not labelled.
+
+**Where:** `learning.js` `settle` runs from Ask (`withClauses`), from Mirror `closeLoop`, and from `dream_idle` when the queue is empty. A clean Gilligan check admits the rule into that store. Derive reads only the store (`WM-INDUCED`). A held-out replay that matches admits the frame pattern, and Parse uses it only while it is admitted. A later counterexample or ledger hit sets `valid_to`, archives the row, and the next answer that depended on it is not spoken. The card says "derived via learned rule" and lists the supporting cases. Calibration still proposes a stricter floor and is not applied. Two publishers are still required to supersede a hosted fact. An induced rule stays class learned.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. Ask does not store a proposal or a simulation.
+
+Proof: `verify/r4281_suite.js`. Fresh set: `verify/novel_heldout/composites_259.js`. Scoreboard: `docs/HELD_OUT.md`.
+
 ## v4.9.258 — Learning loop on the existing stages (Nic)
 
 **Conflict:** Repeated verified cases did not become a proposal. A failed parse did not learn a frame from a correction. Admitted answers were not labelled when later confirmed or refuted. A fact that stopped being true was not closed, and an aged row could leave the store. Held-out results were not a per-version scoreboard.

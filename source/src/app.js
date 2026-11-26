@@ -577,7 +577,10 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const comp = row && row.computed;
   const compNote = !admitted && comp && comp.status !== 'ok' ? ' <span data-computed-held="' + esc(comp.status) + '">' + (comp.clarify ? esc(comp.clarify) : 'Math not computed: ' + esc(comp.reason || comp.rule || comp.status) + '.') + (row.libs && row.libs.error ? ' Math libraries did not load (' + esc(row.libs.error) + ').' : '') + '</span>' : '';
   const compTag = admitted && comp && comp.status === 'ok' && comp.receipt && comp.receipt.receipt_id ? '<span class="tag" data-computed-receipt="' + esc(comp.receipt.receipt_id) + '">computed · ' + esc(comp.receipt.receipt_id) + '</span>' : '';
-  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span>' + compTag + relTag + ocTag + (admitted && row.memory_write && row.memory_write.write_gate && !row.memory_write.write_gate.ok ? '<span class="tag" data-write-gate>not storable: ' + esc((row.memory_write.write_gate.failed || []).join(', ')) + '</span>' : '') + '<div data-ask-body data-answer-source="' + (admitted ? (oc && oc.applied ? 'panini_wording.outward' : 'rmc_engine_v1.output_renderer') : 'hold') + '">' + body + compNote + '</div>' + ocQuotes + resumeTag + rkmTag + ledgerTag + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
+  const induced = (row && row.world_model && row.world_model.derive && row.world_model.derive.survivor && row.world_model.derive.survivor.induced) || null;
+  const learnedTag = induced ? '<span class="tag" data-learned-rule="' + esc(induced.id) + '">derived via learned rule</span>' : '';
+  const learnedProv = induced ? '<div class="small" data-learned-provenance>Gilligan ' + esc(induced.confidence) + ' · support ' + esc(induced.support) + ' · ' + esc((induced.instances || []).map(i => i.subject).join(', ')) + '</div>' : '';
+  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span>' + compTag + learnedTag + relTag + ocTag + (admitted && row.memory_write && row.memory_write.write_gate && !row.memory_write.write_gate.ok ? '<span class="tag" data-write-gate>not storable: ' + esc((row.memory_write.write_gate.failed || []).join(', ')) + '</span>' : '') + '<div data-ask-body data-answer-source="' + (admitted ? (oc && oc.applied ? 'panini_wording.outward' : 'rmc_engine_v1.output_renderer') : 'hold') + '">' + body + compNote + '</div>' + learnedProv + ocQuotes + resumeTag + rkmTag + ledgerTag + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
   if (rememberBtn) { const card = log.lastElementChild; const btn = card.querySelector('[data-ask-remember]'); btn.onclick = async () => { btn.disabled = true; const r = await rememberAnswer(row, 'tap'); btn.textContent = r.ok ? 'Remembered' + (r.supabase && r.supabase.ok ? ' · shared' : ' · on this phone') : 'Not remembered'; }; }
   log.lastElementChild.scrollIntoView({ block: 'end' });
   renderRmc(qtext, row);
@@ -666,10 +669,21 @@ function renderLexiconPackets() {
   host.innerHTML += '<div class="meta" data-lexicon-authority>' + esc(ResonanceLexicon.wordCount()) + ' seed words. Letter map: ' + esc((ResonanceLexicon.letterAuthority() || {}).map_authority) + ', not ' + esc((ResonanceLexicon.letterAuthority() || {}).not_map_authority) + '. θ ' + esc(angle.formula || '') + '. Merge window π/4. Proposal-v1 words with ε/μ: ' + esc(ResonanceLexicon.proposalV1Count()) + '. μ otherwise unspecified. C_min 0.87. Money disabled.</div>'
     + '<div class="meta" data-breaker-check>breaker check · two failures stay ' + esc(held && held.rule) + ' · three ε 0.36 failures ' + esc(opened && opened.rule) + ' · consecutive ' + esc(opened && opened.consecutive_failures) + '/' + esc(opened && opened.consecutive_limit) + '</div>';
 }
+function learnedListHtml() {
+  const L = window.KLearning;
+  if (!L || !L.list) return 'Learned rules load with the page.';
+  const doc = L.list();
+  const rules = doc.rules || [], frames = doc.frames || [];
+  if (!rules.length && !frames.length) return 'No learned rules or frame patterns admitted.';
+  return rules.map(r => '<div data-learned-rule-row="' + esc(r.id) + '" data-status="' + esc(r.status) + '">' + esc(r.status) + ' · ' + esc(r.id) + ' · support ' + esc(r.support) + ' · Gilligan ' + esc(r.reason) + (r.valid_to ? ' · retired ' + esc(r.valid_to) : '') + ' · ' + esc((r.instances || []).map(i => (i.kind_text || i.subject) + (i.have_text ? ' / ' + i.have_text : '')).join('; ')) + '</div>').join('')
+    + frames.map(r => '<div data-learned-frame="' + esc(r.id) + '" data-status="' + esc(r.status) + '">frame ' + esc(r.status) + ' · ' + esc(r.failed) + ' → ' + esc(r.success) + (r.replay && r.replay.ok ? ' · replay held' : '') + (r.valid_to ? ' · retired ' + esc(r.valid_to) : '') + '</div>').join('');
+}
 function renderRmc(text, row) {
   const host = $('#rmcLive'), body = $('#rmcLiveBody');
   if (!host || !body) return;
   host.hidden = false;
+  const board = $('#learnedRulesBody');
+  if (board) board.innerHTML = learnedListHtml();
   const stages = (row && row.stages) || [];
   const pills = stages.map(s => '<span class="tag" data-stage="' + esc(s.stage_id) + '" data-status="' + esc(s.status) + '">' + s.n + ' ' + esc(s.status) + '</span>').join(' ');
   const late = ((row && row.late_stages) || []).map(s => esc(s.n + ' ' + s.stage_id + ' ' + s.status + (s.reason ? ' · ' + s.reason : ''))).join('<br>');
@@ -706,6 +720,7 @@ function renderRmc(text, row) {
     + '<div class="meta" data-phase-glyph>phase ' + glyphSpan(phase.primary) + ' ' + glyphSpan(phase.glyph || '') + ' · concept ' + esc(phase.concept) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'
     + engineStage(row)
     + '<div class="meta" data-rmc-late>' + late + '</div>'
+    + '<div class="meta" data-learned-rules>' + learnedListHtml() + '</div>'
     + '<div class="meta">' + (row && row.product_reply ? 'Admitted answer from the RMC renderer.' : 'Held. This card is the trace. Stages 14–16 ran. Observe, Derive, and the debate ran in the engine.') + '</div>';
   host.setAttribute('data-ready', '1');
   window.RMC_DRY_LAST = row;

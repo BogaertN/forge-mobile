@@ -2943,16 +2943,21 @@ def _induced_claims(world: dict[str, Any], question: str, qframe: dict[str, Any]
     rule = applied["rule"]
     subject_fact = applied["subject_fact"]
     premises = [subject_fact]
+    surface = str(rule.get("property") or "")
     for inst in rule.get("instances") or []:
         have = next((f for f in topical if isinstance(f, dict) and f.get("id") == inst.get("have_id")), None)
         if have and have not in premises:
             premises.append(have)
+        framed = have.get("frame") if isinstance(have, dict) and isinstance(have.get("frame"), dict) else (have.get("clause") if isinstance(have, dict) else None)
+        karma = framed.get("karma") if isinstance(framed, dict) else None
+        if isinstance(karma, dict) and karma.get("text") and surface == str(rule.get("property") or ""):
+            surface = str(karma.get("text"))
         if len(premises) >= 3:
             break
-    text = _realize(_karaka("have", ["the " + str(applied.get("subject") or ""), str(rule.get("property") or "")]))
+    text = _realize(_karaka("have", ["the " + str(applied.get("subject") or ""), surface]))
     if not text:
         return [], report
-    atom = {"predicate": "have", "args": [str(applied.get("subject") or ""), str(rule.get("property") or "")], "polarity": "pos"}
+    atom = {"predicate": "have", "args": [str(applied.get("subject") or ""), surface], "polarity": "pos"}
     proof = _direct_proof(world, subject_fact)
     checked = {"ok": True, "reason": "gilligan_validated", "cite": "learning_loop.gilligan"}
     claim = _finish_claim(world, text, atom, premises, proof, checked, "supported_only", "WM-INDUCED", phase_path)
@@ -2963,7 +2968,7 @@ def _induced_claims(world: dict[str, Any], question: str, qframe: dict[str, Any]
         hops.append(_hop_row(str(fact.get("text") or ""), [fact.get("id")], _drift_for(str(fact.get("text") or ""), [fact], phase_path), len(hops) + 1))
     hops.append(_hop_row(text, [p.get("id") for p in premises], claim["drift"], len(hops) + 1))
     claim["hops"] = hops
-    claim["induced"] = {"id": rule.get("id"), "support": rule.get("support"), "confidence": rule.get("confidence"), "instances": rule.get("instances"), "spoken_as_fact": False}
+    claim["induced"] = {"id": rule.get("id"), "support": rule.get("support"), "confidence": rule.get("confidence"), "instances": rule.get("instances"), "gilligan": checked.get("reason"), "validator": "gilligan", "spoken_as_fact": False}
     ff = {"kriya": "have", "polarity": "pos", "kartr": {"text": "the " + str(applied.get("subject") or ""), "head": applied.get("subject")}, "karma": {"text": rule.get("property"), "head": rule.get("property")}}
     matched = DF.match(qframe, ff)
     if not matched:
@@ -3612,6 +3617,7 @@ def _public_claim(claim: dict[str, Any] | None) -> dict[str, Any] | None:
         "recall_count": claim.get("recall_count"),
         "coverage_tiebreak": claim.get("coverage_tiebreak"),
         "intermediate": claim.get("intermediate"),
+        "induced": claim.get("induced"),
         "debate": {
             "survived": debate.get("survived"),
             "frame": (debate.get("frame") or {}).get("id"),
