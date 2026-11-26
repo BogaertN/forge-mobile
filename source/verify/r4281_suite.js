@@ -1,5 +1,6 @@
 /* 4.9.259: Gilligan admits a clean rule. A later counterexample archives it. These sentences are not the held-out set. */
 const path = require('path');
+const fs = require('fs');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
 const LEX = require(ROOT + '/data/lexicon.json');
@@ -54,6 +55,9 @@ function register(C, expect) {
     expect(retired && retired.status === 'archived' && retired.valid_to && retired.deleted === false, JSON.stringify(retired && { status: retired.status, valid_to: retired.valid_to, deleted: retired.deleted }));
     expect(L.ledger().some(e => e.rule === 'kind-property:insect:wing' && e.status === 'refuted'), JSON.stringify(L.ledger()));
     expect(L.admittedIds().indexOf('kind-property:insect:wing') < 0, 'archived rule is not admitted');
+    const worker = fs.readFileSync(path.join(ROOT, 'src', 'py_worker.js'), 'utf8');
+    const askFn = worker.slice(worker.indexOf('async function rmcAsk'), worker.indexOf('async function sim'));
+    expect(/ensureRealizer\(arg\)/.test(askFn), 'the ask worker loads the realizer before Derive');
   });
   C('R4281', 'a failed phrasing becomes a frame proposal only after a held-out replay', () => {
     L.clear();
