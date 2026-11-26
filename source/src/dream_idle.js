@@ -1124,10 +1124,16 @@
       if (athena.listActive().some(h => h.task === 'resonance_place' || h.task === 'pack_append')) {
         return { ok: false, ran: false, schema: SCHEMA, always_on: true, idle_gated: false, rule: 'DREAM-ATHENA-PRIORITY', calls_llm: false, researcher: 'athena' };
       }
+      let learned = null;
+      try {
+        const L = isNode ? require('./learning.js') : root.KLearning;
+        const WF = isNode ? require('./world_facts.js') : root.KWorldFacts;
+        if (L && L.settle && WF && WF.rows) learned = L.settle(WF.rows(), (WF.loadRaw().refuted || []).concat(L.ledger ? L.ledger() : []));
+      } catch (e) { learned = null; }
       const cold = revisitCold(o);
       if (!queue.length) {
         if (cold.ran) return Object.assign({ schema: SCHEMA, always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan' }, cold);
-        return { ok: true, ran: false, schema: SCHEMA, always_on: true, idle_gated: false, rule: 'DREAM-IDLE-EMPTY', calls_llm: false, cold: cold, researcher: 'athena', cold_curator: 'gilligan' };
+        return { ok: true, ran: false, schema: SCHEMA, always_on: true, idle_gated: false, rule: 'DREAM-IDLE-EMPTY', calls_llm: false, cold: cold, learned: learned, researcher: 'athena', cold_curator: 'gilligan' };
       }
       if (queue[0] && athena.listActive().some(h => h.gap_id && h.gap_id === queue[0].id)) {
         queue.push(queue.shift());

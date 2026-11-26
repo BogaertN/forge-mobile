@@ -1,0 +1,181 @@
+{
+ "schema": "forge.learned_trace/v1",
+ "not_a_golden": true,
+ "version": "4.9.259",
+ "admit_use": {
+  "q": "Does a genet have whiskers?",
+  "reply": "A genet is a mammal. A marten has whiskers. A mink has whiskers. The genet has whiskers.",
+  "product": true,
+  "path": "derived",
+  "how": "WM-INDUCED",
+  "coherence": 0.909596,
+  "echo": 1,
+  "induced": {
+   "id": "kind-property:mammal:whisker",
+   "support": 3,
+   "confidence": 1,
+   "instances": [
+    {
+     "subject": "marten",
+     "kind_id": "mem_receipt_5ec687884f42eb8c39:e1fb169e28",
+     "have_id": "mem_receipt_7f6ae90a57feaa43d4:589a5c04b8",
+     "kind_text": "A marten is a mammal.",
+     "have_text": "A marten has whiskers."
+    },
+    {
+     "subject": "mink",
+     "kind_id": "mem_receipt_8670fb10105d4b735a:aa7db882e2",
+     "have_id": "mem_receipt_3ed97dbbf1a9afa127:c88f9fd270",
+     "kind_text": "A mink is a mammal.",
+     "have_text": "A mink has whiskers."
+    },
+    {
+     "subject": "ferret",
+     "kind_id": "mem_receipt_970dd399db70cc18af:70f73b9c10",
+     "have_id": "mem_receipt_d8b7e6927c39542217:0bbe03e163",
+     "kind_text": "A ferret is a mammal.",
+     "have_text": "A ferret has whiskers."
+    }
+   ],
+   "gilligan": "gilligan_validated",
+   "validator": "gilligan",
+   "spoken_as_fact": false
+  },
+  "admitted": [
+   "kind-property:mammal:whisker"
+  ],
+  "rules": [
+   {
+    "id": "kind-property:mammal:whisker",
+    "status": "admitted",
+    "valid_to": null,
+    "deleted": false,
+    "class": "learned",
+    "hosted": false,
+    "support": 3,
+    "reason": "no_counterexample"
+   }
+  ]
+ },
+ "simulate": {
+  "q": "What happens if I push the quillon near the top?",
+  "reply": "The quillon topples. The push height exceeds the critical height.",
+  "product": true,
+  "path": "simulated",
+  "how": "WM-SOLVER-RECEIPT",
+  "coherence": 0.909596,
+  "echo": 1,
+  "induced": null,
+  "admitted": [
+   "kind-property:mammal:whisker"
+  ],
+  "rules": [
+   {
+    "id": "kind-property:mammal:whisker",
+    "status": "admitted",
+    "valid_to": null,
+    "deleted": false,
+    "class": "learned",
+    "hosted": false,
+    "support": 3,
+    "reason": "no_counterexample"
+   }
+  ]
+ },
+ "math": {
+  "q": "What is 17 percent of 640?",
+  "reply": "17% of 640 is 108.8.",
+  "product": true,
+  "path": "computed",
+  "how": null,
+  "coherence": 0.909056,
+  "echo": 1,
+  "induced": null,
+  "admitted": [
+   "kind-property:mammal:whisker"
+  ],
+  "rules": [
+   {
+    "id": "kind-property:mammal:whisker",
+    "status": "admitted",
+    "valid_to": null,
+    "deleted": false,
+    "class": "learned",
+    "hosted": false,
+    "support": 3,
+    "reason": "no_counterexample"
+   }
+  ]
+ },
+ "recall": {
+  "q": "Is a genet a mammal?",
+  "reply": "A genet is a mammal.",
+  "product": true,
+  "path": "derived",
+  "how": "direct",
+  "coherence": 0.909596,
+  "echo": 1,
+  "induced": null,
+  "admitted": [
+   "kind-property:mammal:whisker"
+  ],
+  "rules": [
+   {
+    "id": "kind-property:mammal:whisker",
+    "status": "admitted",
+    "valid_to": null,
+    "deleted": false,
+    "class": "learned",
+    "hosted": false,
+    "support": 3,
+    "reason": "no_counterexample"
+   }
+  ]
+ },
+ "retract": {
+  "q": "Does a genet have whiskers?",
+  "reply": null,
+  "product": false,
+  "path": null,
+  "how": null,
+  "coherence": 0.486924,
+  "echo": 0,
+  "induced": null,
+  "admitted": [],
+  "rules": [
+   {
+    "id": "kind-property:mammal:whisker",
+    "status": "archived",
+    "valid_to": "2026-11-26T13:46:44.092Z",
+    "deleted": false,
+    "class": "learned",
+    "hosted": false,
+    "support": 3,
+    "reason": "counterexample_in_memory"
+   }
+  ]
+ },
+ "ledger": [
+  {
+   "id": "kind-property:mammal:whisker",
+   "text": "a mammal has no whisker",
+   "status": "refuted",
+   "at": "2026-11-26T13:46:44.092Z",
+   "rule": "kind-property:mammal:whisker",
+   "reason": "counterexample_in_memory"
+  }
+ ],
+ "frame": {
+  "proposed": "LEARN-FRAME-PROPOSED",
+  "bad_replay": "LEARN-FRAME-REPLAY-FAILED",
+  "admitted": "LEARN-FRAME-ADMITTED",
+  "status": "admitted",
+  "applied": "QF-LEARNED",
+  "archived": {
+   "status": "archived",
+   "valid_to": "2026-11-26T13:46:44.306Z",
+   "deleted": false
+  },
+  "unused": false
+ }
+}

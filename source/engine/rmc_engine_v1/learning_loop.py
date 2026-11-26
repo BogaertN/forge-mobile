@@ -1,4 +1,6 @@
 """Induction proposals from repeated admitted clauses.
+The phone store admits a rule after this module's Gilligan check. review applies
+only an id that store still lists, and only while the same check still passes.
 
 A proposal is not a fact. Gilligan searches the same facts and the refuted ledger
 for a counterexample. Derive speaks a conclusion only when that search is clean

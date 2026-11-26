@@ -1,4 +1,4 @@
-/* 4.9.258: learning loop. Proposals are not facts. These sentences are not the held-out set. */
+/* 4.9.259: Gilligan admits a clean rule. A later counterexample archives it. These sentences are not the held-out set. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
@@ -40,13 +40,20 @@ function register(C, expect) {
     const refused = L.gilligan(proposed[0], bad, []);
     expect(refused.status === 'refuted' && refused.reason === 'counterexample_in_memory', JSON.stringify(refused));
   });
-  C('R4281', 'an admitted rule is spoken from its instances and a proposal is not', () => {
+  C('R4281', 'Gilligan auto-admits a rule, Derive speaks it, and a counterexample archives it', () => {
+    L.clear();
     const phone = ['A beetle is an insect.', 'A beetle has wings.', 'A moth is an insect.', 'A moth has wings.', 'An ant is an insect.', 'An ant has wings.', 'A flea is an insect.'];
-    const held = ask('Does a flea have wings?', phone, {});
-    expect(held.product !== true, JSON.stringify(held));
-    const spoken = ask('Does a flea have wings?', phone, { learning_admitted: ['kind-property:insect:wing'] });
+    const spoken = ask('Does a flea have wings?', phone, {});
     expect(spoken.product === true && /wing/.test(spoken.reply || '') && /flea/.test(spoken.reply || ''), JSON.stringify(spoken));
     expect(spoken.learning && spoken.learning.applied && spoken.learning.applied.rule.support === 3, JSON.stringify(spoken.learning && spoken.learning.applied));
+    const live = L.list().rules.find(r => r.id === 'kind-property:insect:wing');
+    expect(live && live.status === 'admitted' && live.class === 'learned' && live.hosted === false && live.deleted === false && !live.valid_to, JSON.stringify(live && live.status));
+    const held = ask('Does a flea have wings?', phone.concat(['A louse is an insect.', 'A louse has no wings.']), {});
+    expect(held.product !== true, JSON.stringify(held));
+    const retired = L.list().rules.find(r => r.id === 'kind-property:insect:wing');
+    expect(retired && retired.status === 'archived' && retired.valid_to && retired.deleted === false, JSON.stringify(retired && { status: retired.status, valid_to: retired.valid_to, deleted: retired.deleted }));
+    expect(L.ledger().some(e => e.rule === 'kind-property:insect:wing' && e.status === 'refuted'), JSON.stringify(L.ledger()));
+    expect(L.admittedIds().indexOf('kind-property:insect:wing') < 0, 'archived rule is not admitted');
   });
   C('R4281', 'a failed phrasing becomes a frame proposal only after a held-out replay', () => {
     L.clear();
@@ -59,13 +66,12 @@ function register(C, expect) {
     expect(bad.ok === false && bad.proposal.status === 'refuted', JSON.stringify(bad.rule));
     L.noteCorrection('beetle wing', 'A beetle has wings.', success);
     const good = L.validateReplay(noted.proposal.id, 'moth wing', heldOut);
-    expect(good.ok === true && good.proposal.status === 'validated', JSON.stringify(good.rule));
-    expect(L.applyFrame('gnat wing') == null, 'not admitted');
-    expect(L.admitFrame(noted.proposal.id).ok === true, 'admit');
+    expect(good.ok === true && good.proposal.status === 'admitted' && good.proposal.deleted === false && good.rule === 'LEARN-FRAME-ADMITTED', JSON.stringify(good.rule));
     const learned = Q.compile('gnat wing', f);
     expect(learned.parsed === true && learned.rule === 'QF-LEARNED' && learned.kriya === 'have', JSON.stringify(learned));
-    expect(L.retractFrame(noted.proposal.id).ok === true, 'retract');
-    expect(Q.compile('gnat wing', f).parsed !== true, 'retracted mapping is not used');
+    const gone = L.retractFrame(noted.proposal.id);
+    expect(gone.ok === true && gone.proposal.status === 'archived' && gone.proposal.valid_to && gone.proposal.deleted === false, JSON.stringify(gone.proposal && gone.proposal.status));
+    expect(Q.compile('gnat wing', f).parsed !== true, 'archived mapping is not used');
   });
   C('R4281', 'calibration records a later refutation and only proposes a stricter floor', () => {
     L.clear();
@@ -101,8 +107,11 @@ function register(C, expect) {
     WF.clear();
   });
   C('R4281', 'mirror idle replay reads the learning loop and does not move a gate', () => {
-    const loop = M.closeLoop([{ verified: true, route: 'derived', gate: 'admit', recall_hit: true }]);
+    L.clear();
+    const rows = ['A beetle is an insect.', 'A beetle has wings.', 'A moth is an insect.', 'A moth has wings.', 'An ant is an insect.', 'An ant has wings.'].map(fact);
+    const loop = M.closeLoop([{ verified: true, route: 'derived', gate: 'admit', recall_hit: true }], rows, []);
     expect(loop.stage === 'idle' && loop.changes_gates === false && loop.calls_llm === false && loop.calibration && loop.stricter && loop.stricter.applied === false, JSON.stringify(loop));
+    expect(loop.settled && loop.settled.admitted.some(r => r.id === 'kind-property:insect:wing') && loop.stricter.needs_nic === true, JSON.stringify(loop.settled && loop.settled.admitted.map(r => r.id)));
   });
 }
 module.exports = register;

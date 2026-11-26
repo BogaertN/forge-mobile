@@ -163,6 +163,14 @@ function withClauses(payload, QF, F) {
   if (Array.isArray(m.pools)) m.pools = m.pools.map(p => p && Array.isArray(p.rows) ? Object.assign({}, p, { rows: p.rows.map(r => clauseRow(r, QF, F, stat)) }) : p);
   stat.ms = Date.now() - t0;
   try { if (root) root.FORGE_LAST_CLAUSES = stat; } catch (e) {}
+  try {
+    const L = (typeof module !== 'undefined' && module.exports) ? require('./learning.js') : root.KLearning;
+    if (L && L.settle && payload.frame) {
+      L.settle([].concat(m.phone || [], m.hosted || []), L.ledger());
+      payload.frame.learning_admitted = L.admittedIds();
+      payload.frame.learning_ledger = L.ledger();
+    }
+  } catch (e) { /* the learner is local; a failure leaves Derive without a learned rule */ }
   return Object.assign({}, payload, { memory: m });
 }
 /* 4.9.237 OUTWARD COMPILE (Nic plan 229 step 8). The engine measured a reply and sent its sentences with the atom each states
