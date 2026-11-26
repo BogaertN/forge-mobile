@@ -1,3 +1,13 @@
+## v4.9.268 — A mechanism is read from simulation evidence (Nic, 26 Nov 2026)
+
+**Conflict:** The phone kept simulator receipts, and it had no record of a regularity: named quantities, units, a tested range, and a threshold. The only comparisons were written by hand.
+
+**Where:** While idle, the search reads the quantities the scene already named. It tries products and ratios in a fixed order. A threshold is kept only when it separates the measured outcomes on the receipts it was not shown, and when probes beside that threshold agree. The admitted row is evidence. It is not a fact and it is not a publisher.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. The hand-written tip comparison is still the cross-check until the next step.
+
+Proof: `verify/r4286_suite.js`.
+
 ## v4.9.267 — A simulator receipt is kept as evidence (Nic, 26 Nov 2026)
 
 **Conflict:** A simulator receipt lived only for the turn. The next simulation replaced it. Nothing in it was a structured scene with named quantities and units that a later idle pass could read.
