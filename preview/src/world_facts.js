@@ -163,6 +163,31 @@
     return { Phi, phase: Phi, band: row.band || (pkt.band && pkt.band.name) || null, hz: row.hz != null ? row.hz : (pkt.hz != null ? pkt.hz : null),
       phi_basis: row.phi_basis || (pkt.Phi != null ? 'row_packet' : 'default_world_fact') };
   }
+  function yearStamp(token, end) { const y = String(token || ''); if (!/^[1-9]\d{3}$/.test(y)) return null; return end === 'end' ? y + '-12-31T23:59:59Z' : y + '-01-01T00:00:00Z'; }
+  /* The grammar already filed a year under kala. This records that year as valid_from / valid_to. */
+  function intervalFromClause(clause) {
+    const adj = (clause && (clause.adj || clause.adjuncts)) || [];
+    let from = null, to = null, any = false;
+    for (const a of adj) {
+      if (!a || a.role !== 'kala') continue;
+      const year = a.np && a.np.num != null && /^[1-9]\d{3}$/.test(String(a.np.num)) ? String(a.np.num) : null;
+      if (!year) continue;
+      any = true;
+      const prep = a.prep;
+      if (prep === 'from' || prep === 'since' || prep === 'after') from = yearStamp(year, 'start');
+      else if (prep === 'to' || prep === 'until' || prep === 'before') to = yearStamp(year, 'end');
+      else if (prep === 'in' || prep === 'on' || prep === 'at' || prep === 'during') { from = yearStamp(year, 'start'); to = yearStamp(year, 'end'); }
+    }
+    return any ? { valid_from: from, valid_to: to } : null;
+  }
+  function covers(row, asked) {
+    const from = row && row.valid_from || null, to = row && row.valid_to || null;
+    if (!from && !to) return true;
+    if (!asked) return false;
+    if (to && asked.valid_from && to < asked.valid_from) return false;
+    if (asked.valid_to && from && asked.valid_to < from) return false;
+    return true;
+  }
   function upsert(input, opts) {
     opts = opts || {};
     const now = opts.now || new Date().toISOString();
@@ -174,23 +199,35 @@
       provenance: Object.assign({}, input.provenance || {}, { kind: input.kind || (input.provenance && input.provenance.kind) || 'world_fact' }),
       trust: input.trust || 'trusted', source: input.source || 'phone_kb', scope: 'phone',
       remembered_at: input.remembered_at || null, admitted_at: input.admitted_at || null,
+      valid_from: (input.valid_from !== undefined ? input.valid_from : (intervalFromClause(input.clause) || {}).valid_from) || null,
+      valid_to: (input.valid_to !== undefined ? input.valid_to : (intervalFromClause(input.clause) || {}).valid_to) || null,
       charged_at: now, charge0: typeof input.charge0 === 'number' ? input.charge0 : 1,
       updated_at: now, kind: input.kind || 'remember',
     };
     Object.assign(row, placeOf(input));
     const hit = (doc.facts || []).find(f => norm(f.text) === norm(text));
     if (hit) {
-      /* refresh charge on re-remember / re-admit; never change the clause silently */
+      const hash = claimHash(text);
+      const blocked = (doc.refuted || []).find(e => e && e.hash === hash && e.status === 'refuted');
+      if (blocked) return { ok: false, rule: 'WORLD-FACTS-REFUTED', hash: hash, reason: blocked.reason, message: 'Held: that claim is on the refuted ledger. Nothing was stored.' };
+      /* An explicit remember restores a tombstone. The retracted row stays in the store; it becomes active again. A refuted claim does not. */
+      if (hit.status === 'retracted') { delete hit.status; delete hit.retracted; }
       hit.charged_at = now; hit.charge0 = Math.min(1, (hit.charge0 || 1) + 0.05); hit.updated_at = now;
       hit.last_access = now;
       if (input.clause && !hit.clause) hit.clause = input.clause;
-      const saved = saveRaw(Object.assign({}, doc, { facts: doc.facts }));
+      if (row.valid_from) hit.valid_from = row.valid_from;
+      if (row.valid_to) hit.valid_to = row.valid_to;
+      const ledger = (doc.refuted || []).filter(e => !(e && e.hash === hash && e.status === 'retracted'));
+      const saved = saveRaw(Object.assign({}, doc, { facts: doc.facts, refuted: ledger }));
       if (!saved.ok) return saved;
       return { ok: true, rule: 'WORLD-FACTS-REFRESHED', fact: hit, n: saved.n };
     }
     const conflict = conflictWith(doc, row);
-    if (conflict) return { ok: false, rule: conflict.rule, existing: { id: conflict.existing.id, text: conflict.existing.text },
-      message: 'Held: that contradicts a fact already kept on this phone (' + conflict.existing.text + '). Nothing was overwritten.' };
+    if (conflict) {
+      refute(text, { status: 'refuted', why: conflict.rule, path: 'remember_conflict', source: conflict.existing && conflict.existing.text });
+      return { ok: false, rule: conflict.rule, existing: { id: conflict.existing.id, text: conflict.existing.text },
+        message: 'Held: that contradicts a fact already kept on this phone (' + conflict.existing.text + '). Nothing was overwritten.' };
+    }
     doc.facts = [row].concat(doc.facts || []).slice(0, MAX);
     const saved = saveRaw(doc);
     if (!saved.ok) return saved;
@@ -199,34 +236,70 @@
   function rows(opts) {
     const now = (opts && opts.now) || new Date().toISOString();
     const doc = decayed(loadRaw(), now);
-    return (doc.facts || []).filter(r => r.charge >= ACTIVE).map(r => ({
+    const asked = opts && Object.prototype.hasOwnProperty.call(opts, 'at') ? (opts.at || null) : undefined;
+    return (doc.facts || []).filter(r => r.status !== 'retracted' && r.status !== 'refuted' && r.charge >= ACTIVE && (asked === undefined || covers(r, asked))).map(r => ({
       id: r.id, memory_id: r.id, text: r.text, clause: r.clause, atom: r.atom,
       tier: 'world_fact', trust: r.trust || 'trusted', source: 'world_facts',
       scope: 'phone', provenance: Object.assign({}, r.provenance || {}, { store: 'world_facts', kind: r.kind || 'world_fact' }),
       phase: r.Phi, packet: { Phi: r.Phi, eps: 0, mu: r.charge, band: r.band, hz: r.hz },
       sfe: { Phi: r.Phi, eps: 0, mu: r.charge }, charge: r.charge, charge_half_life_h: HALF_LIFE_H,
       remembered_at: r.remembered_at, admitted_at: r.admitted_at, updated_at: r.updated_at,
+      valid_from: r.valid_from || null, valid_to: r.valid_to || null,
     }));
   }
-  function clear() { MEM = { schema: SCHEMA, facts: [], receipts: [], updated_at: new Date().toISOString(), calls_llm: false };
+  function clear() { MEM = { schema: SCHEMA, facts: [], receipts: [], refuted: [], updated_at: new Date().toISOString(), calls_llm: false };
     const b = backend(); if (b) { try { b.set(KEY, JSON.stringify(MEM)); } catch (e) {} } return { ok: true }; }
   /* Explicit forget of one stored premise. Derived answers are not stored, so nothing derived is deleted here;
    * the next Ask recomputes from what remains. Shared packs and anchors are not this store. */
+  function claimHash(text) {
+    const key = norm(text);
+    if (isNode) return require('crypto').createHash('sha256').update(key).digest('hex');
+    const S = root.KSha;
+    return S && S.sha256 ? S.sha256(key) : key;
+  }
+  function rolesOf(clause) {
+    if (!clause) return { kartr: null, pred: null };
+    const k = clause.kartr && (clause.kartr.text || (Array.isArray(clause.kartr.head) ? clause.kartr.head.join(' ') : clause.kartr.head));
+    const p = clause.pred && (clause.pred.text || (clause.pred.words && clause.pred.words.filter(w => w !== 'and').join(' ')) || (clause.pred.np && clause.pred.np.text) || (Array.isArray(clause.pred.head) ? clause.pred.head.join(' ') : null));
+    return { kartr: k ? String(k).toLowerCase() : null, pred: p ? String(p).toLowerCase() : null };
+  }
+  function refute(text, reason, clause) {
+    const doc = loadRaw();
+    const hash = claimHash(text);
+    const roles = rolesOf(clause);
+    const entry = { hash: hash, text: String(text || ''), kartr: roles.kartr, pred: roles.pred, status: (reason && reason.status) || 'refuted', reason: { why: reason && reason.why || 'refuted', path: reason && reason.path || 'unspecified', source: reason && reason.source || null }, at: new Date().toISOString(), calls_llm: false };
+    const ledger = (doc.refuted || []).filter(e => e && e.hash !== hash);
+    ledger.unshift(entry);
+    const saved = saveRaw(Object.assign({}, doc, { refuted: ledger.slice(0, 200) }));
+    if (!saved.ok) return saved;
+    return { ok: true, rule: 'WORLD-FACTS-REFUTED', entry: entry };
+  }
+  function refuted(text, frame) {
+    const hash = claimHash(text);
+    const rows = (loadRaw().refuted) || [];
+    const direct = rows.find(e => e && (e.hash === hash || norm(e.text) === norm(text)));
+    if (direct) return direct;
+    const roles = rolesOf(frame);
+    if (!roles.kartr || !roles.pred) return null;
+    return rows.find(e => e && e.kartr === roles.kartr && e.pred === roles.pred) || null;
+  }
   function forget(sel) {
     const doc = loadRaw();
     const key = norm(sel);
     const facts = doc.facts || [];
-    const i = facts.findIndex(f => f && (f.id === sel || norm(f.text) === key));
+    const i = facts.findIndex(f => f && (f.id === sel || norm(f.text) === key) && f.status !== 'retracted');
     if (i < 0) return { ok: false, rule: 'WORLD-FACTS-FORGET-MISSING', message: 'Nothing remembered matches that.' };
-    const fact = facts[i];
-    const next = facts.slice(0, i).concat(facts.slice(i + 1));
-    const receipt = { schema: 'forge.world_facts.forget/v1', id: 'fg-' + String(fact.id || i), fact_id: fact.id, text: fact.text, at: new Date().toISOString() };
+    const fact = Object.assign({}, facts[i], { status: 'retracted', retracted: { why: 'user_forget', path: 'explicit_forget', source: 'user' } });
+    const next = facts.slice();
+    next[i] = fact;
+    const receipt = { schema: 'forge.world_facts.forget/v1', id: 'fg-' + String(fact.id || i), fact_id: fact.id, text: fact.text, status: 'retracted', at: new Date().toISOString() };
     const saved = saveRaw(Object.assign({}, doc, { facts: next, receipts: [receipt].concat(doc.receipts || []).slice(0, 64) }));
     if (!saved.ok) return saved;
-    return { ok: true, rule: 'WORLD-FACTS-FORGOT', fact: { id: fact.id, text: fact.text }, receipt: receipt, n: next.length, message: 'Forgot on this phone: ' + fact.text + ' · ' + receipt.id };
+    refute(fact.text, { status: 'retracted', why: 'user_forget', path: 'explicit_forget', source: 'user' }, fact.clause);
+    return { ok: true, rule: 'WORLD-FACTS-FORGOT', status: 'retracted', fact: { id: fact.id, text: fact.text, status: 'retracted' }, receipt: receipt, n: next.filter(f => f.status !== 'retracted').length, message: 'Retracted on this phone: ' + fact.text + ' · ' + receipt.id };
   }
   function receipts() { return ((loadRaw().receipts) || []).slice(); }
   function snapshot() { return decayed(loadRaw()); }
-  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, forget, receipts, snapshot, conflictWith, atomKey, norm, sameText };
+  const api = { SCHEMA, KEY, MAX, HALF_LIFE_H, LAMBDA, ACTIVE, COLLECT, loadRaw, saveRaw, decayed, chargeOf, upsert, rows, clear, forget, refute, refuted, claimHash, receipts, snapshot, conflictWith, atomKey, norm, sameText, intervalFromClause, covers };
   if (isNode) module.exports = api; else root.KWorldFacts = api;
 })(typeof self !== 'undefined' ? self : this);

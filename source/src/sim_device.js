@@ -278,7 +278,7 @@
   function renderSettings() {
     const el = root.document && root.document.getElementById('homePcSim'); if (!el) return;
     const cur = get(LS_ROUTER);
-    el.innerHTML = '<div class="card" data-home-pc><div class="cardhead">Home PC Simulator (Optional)</div>'
+    el.innerHTML = '<div class="card" data-home-pc data-settings="home-pc"><div class="cardhead">Settings · Home PC Simulator (Optional)</div>'
       + '<div class="small">Most simulations run right on this phone: physics, math, chemistry, biology, astronomy, quantum and circuits. Two kinds are too heavy for a phone: airflow (CFD with OpenFOAM) and Hartree-Fock / DFT chemistry (PySCF). If you run the FORGE simulator on a computer at home, put its address here. Leave it empty and those questions are held. Nothing else is sent to it.</div>'
       + '<form id="homePcForm" class="row"><input id="homePcUrl" type="url" inputmode="url" autocomplete="off" placeholder="https://my-pc.example:8765" value="' + esc(cur) + '" aria-label="Home PC Simulator address">'
       + '<button type="submit">Save</button><button type="button" id="homePcTest">Test Connection</button><button type="button" id="homePcClear">Clear</button></form>'

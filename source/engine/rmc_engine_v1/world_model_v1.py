@@ -3050,9 +3050,15 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         # program."); the kernel speaks it in its own person ("I am a computer program."). Deixis, not content.
         selfvoice = any(_SECOND_PERSON_RE.search(p) for p in parts) and bool(claim.get("premises")) and all(
             str(p.get("source") or "") in DF.SELF_SOURCES for p in claim.get("premises") or [] if _SECOND_PERSON_RE.search(str(p.get("text") or "")))
-        voice = to_speaker if selfvoice else (to_listener if personal else None)
+        # 4.9.252: a user-manual clause whose kartṛ is the user ("I remember a sentence by an explicit request")
+        # is an instruction to the asker, spoken back to them ("You remember...").
+        _ff = claim.get("fact_frame") if isinstance(claim.get("fact_frame"), dict) else {}
+        _kar = _ff.get("kartr") if isinstance(_ff.get("kartr"), dict) else {}
+        instruct = (bool(_kar.get("user")) or bool(re.match(r"(?i)^\s*i\b", str(_kar.get("text") or "")))) and bool(claim.get("premises")) and all(
+            str(p.get("source") or "") in DF.SELF_SOURCES for p in claim.get("premises") or [])
+        voice = to_listener if instruct else (to_speaker if selfvoice else (to_listener if personal else None))
         claim["spoken"] = " ".join(dict.fromkeys(_cap(voice(p) if voice else p) for p in parts if p.strip()))
-        claim["perspective"] = "speaker" if selfvoice else ("listener" if personal else "as_stored")
+        claim["perspective"] = "listener" if instruct else ("speaker" if selfvoice else ("listener" if personal else "as_stored"))
         # 4.9.237 (plan 229 step 8): each spoken sentence with the atom it states, for the outward compile (panini_wording)
         if claim.get("how") in ("WM-RECALL", "WM-WHEN"):
             by_prem = {str(p.get("text") or "").strip(): p for p in claim.get("premises") or [] if isinstance(p, dict)}

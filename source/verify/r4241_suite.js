@@ -53,10 +53,17 @@ T('no canned self sentence, no synthetic self node, no string-equality self trus
 T('the self-facts are selfmodel clauses re-read as clauses about the kernel, not strings', () => {
   const SM = require(ROOT + '/src/selfmodel.js');
   const rows = CORE.selfRows(Q, f);
-  expect(rows.length >= 8 && rows.length <= Object.keys(SM.FACTS).length, 'rows ' + rows.length);
-  for (const r of rows) {
+  const self = rows.filter(r => r.provenance.kind === 'self_fact');
+  const manual = rows.filter(r => r.provenance.kind === 'manual');
+  expect(self.length >= 8 && self.length <= Object.keys(SM.FACTS).length, 'self rows ' + self.length);
+  expect(manual.length >= 1, 'the user manual is a knowledge source');
+  for (const r of self) {
     expect(r.clause && r.clause.parsed && (r.clause.kartr.kernel || r.clause.kartr.owner === 'kernel'), r.text);
     expect(/^(You|Your)\b/.test(r.text) && r.trust === 'trusted' && r.tier === 'self' && /selfmodel\.js FACTS\./.test(r.provenance.source), JSON.stringify(r).slice(0, 200));
+  }
+  for (const r of manual) {
+    expect(r.clause && r.clause.parsed && (r.clause.kartr.kernel || r.clause.kartr.user || r.clause.kartr.owner === 'kernel'), r.text);
+    expect(r.provenance.source === 'Forge user manual' && r.trust === 'trusted' && r.tier === 'self', JSON.stringify(r.provenance));
   }
   expect(rows.some(r => r.text === 'Your name is Forge.') && rows.some(r => r.text === 'You are a computer program.'), rows.map(r => r.text).join(' | '));
   const src = read('src/rmc_core.js');
@@ -64,7 +71,7 @@ T('the self-facts are selfmodel clauses re-read as clauses about the kernel, not
 });
 
 T('self questions are answered from self-facts through frame, Derive, compile and structural Echo, in the kernel\'s person', () => {
-  const want = { 'Who are you?': /^I am a computer program\.$/, 'What is your name?': /^My name is Forge\.$/, 'What can you do?': /^I (compute|derive|know) /,
+  const want = { 'Who are you?': /^I am a computer program\.$/, 'What is your name?': /^My name is Forge\.$/, 'What can you do?': /^I send a heavy simulation to a home computer\.$/,
     'Do you have a body?': /^I have no body\.$/, 'Are you a person?': /^I am not a person\.$/ };
   for (const [q, re] of Object.entries(want)) {
     const r = ask(q);
@@ -197,7 +204,7 @@ T('How are you? is answered from a self-state built from the measured live state
   const sv = ((h.world_model || {}).derive || {}).survivor || {};
   expect(h.product_reply && h.reply === 'I am awake and coherent.' && h.echo.method === 'structural_frame' && h.echo.pass && sv.perspective === 'speaker' && h.coherence >= 0.87, JSON.stringify([h.reply, h.echo && h.echo.method, h.coherence]));
   const w = ask('Who are you?'); expect(w.reply === 'I am a computer program.', 'a state adjective does not answer who: ' + w.reply);
-  const hp = ask('Help'); expect(hp.product_reply && /^I (compute|derive|know) /.test(hp.reply) && hp.echo.method === 'structural_frame', JSON.stringify([hp.reply, hp.route]));
+  const hp = ask('Help'); expect(hp.product_reply && hp.reply === 'I send a heavy simulation to a home computer.' && hp.echo.method === 'structural_frame', JSON.stringify([hp.reply, hp.route]));
   const hh = ask('Hello, how are you?'); expect(hh.reply === 'Hello. I am awake and coherent.' && hh.admit.scored === 'speech_act_lexicon+world_model' && hh.echo.parts.acts.pass, JSON.stringify([hh.reply, hh.admit && hh.admit.scored]));
 });
 
@@ -221,9 +228,9 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 });
 
 T('version registry names 4.9.242', () => {
-  expect(read('VERSION').trim() === '4.9.251', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.252', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.251' && reg.features.some(x => x.id === 'R4241-SELF-FACTS-FROM-CLAUSES') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.252' && reg.features.some(x => x.id === 'R4241-SELF-FACTS-FROM-CLAUSES') && reg.count === reg.features.length, 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.242'), 'CONFLICTS entry at the top');
 });
 

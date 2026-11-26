@@ -38,6 +38,8 @@ PERSONAL_SOURCES = frozenset({"phone_kb", "world_facts"})
 # 4.9.241 (plan 229 step 10): the kernel's facts about itself, stored as clauses (src/selfmodel.js FACTS, sent as memory.self)
 SELF_SOURCES = frozenset({"self_model"})
 RULE_PRO_VERB = "WM-PRO-VERB"
+# A how-gap filled by the fact's means adjunct (kāraṇa), not by a noun predicate.
+RULE_MANNER = "WM-MANNER"
 RULE_CONVERSE = "polar_converse"
 NOT_NECESSARILY = "not necessarily"
 _FIRST_PERSON = re.compile(r"(?i)\b(i|me|my|mine|myself|our|ours|we|us)\b")
@@ -505,7 +507,11 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
         return None
     if role == "prakara" and not (isinstance(fp, dict) and str(fp.get("type") or "").startswith("adj")):
         # 4.9.241: a "how" gap asks a manner or state (prakāra); a noun phrase is not one ("How are you?" is not answered
-        # by what the kernel is)
+        # by what the kernel is). 4.9.252: the fact's means adjunct (kāraṇa, "by an explicit request") is a manner.
+        manner = _manner_np(fframe)
+        if manner and fpol == "pos" and np_unify(qs, fs) and (is_gap(qo) or (isinstance(fo, dict) and np_unify(qo, fo))):
+            return {"roles": 2, "gap": "prakara", "filler": manner.get("text"), "orientation": "kartr=kartr",
+                    "rule": RULE_MANNER, "action": fk}
         return None
     if qk == "be":
         if is_gap(qp) and qp.get("kind") and isinstance(qs, dict) and not is_gap(qs):
@@ -534,6 +540,19 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
     if role == "karma" or is_gap(qo):
         if np_unify(qs, fs) and isinstance(fo, dict):
             return {"roles": 1, "gap": "karma", "filler": fo.get("text"), "orientation": "kartr=kartr", "rule": "transitive"}
+    return None
+
+
+def _manner_np(frame: dict[str, Any] | None) -> dict[str, Any] | None:
+    """The means (kāraṇa) a clause names: "by an explicit request". Not a noun predicate."""
+    if not isinstance(frame, dict):
+        return None
+    for adj in frame.get("adj") or []:
+        if not isinstance(adj, dict) or str(adj.get("role") or "") not in ("karana", "prakara"):
+            continue
+        np = adj.get("np") if isinstance(adj.get("np"), dict) else None
+        if np and str(np.get("text") or "").strip():
+            return np
     return None
 
 
@@ -632,11 +651,16 @@ def context_coherence(qframe: dict[str, Any] | None, claim: dict[str, Any], prem
         "not_conflicted": claim.get("status") != "conflicted",
         "not_quarantined": not any(bool(p.get("quarantined")) for p in premises),
     }
-    # possessor scope: a first-person memory speaks for the asker only when it lives on the asker's device
+    # possessor scope: a first-person memory speaks for the asker only when it lives on the asker's device.
+    # A user-manual clause about the asker (source self_model, kartṛ I) is that instruction, and only while the question
+    # is also about the asker.
     asks_user = any(_owner_user(r) or (isinstance(r, dict) and isinstance(r.get("owner"), dict) and _owner_user(r["owner"]))
                     for r in ((qframe or {}).get("kartr"), (qframe or {}).get("karma"), (qframe or {}).get("pred")) if isinstance(r, dict))
     first = [p for p in premises if _first_person_roles(p)]
-    checks["possessor_scope"] = all(str(p.get("source") or "") in PERSONAL_SOURCES for p in first)
+    def _asker_source(p: dict[str, Any]) -> bool:
+        src = str(p.get("source") or "")
+        return src in PERSONAL_SOURCES or (asks_user and src in SELF_SOURCES)
+    checks["possessor_scope"] = all(_asker_source(p) for p in first)
     failed = [k for k, v in checks.items() if not v]
     return {"C": 0.0 if failed else 1.0, "checks": checks, "failed": failed}
 
