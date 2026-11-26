@@ -1,3 +1,13 @@
+## v4.9.264 — Athena gathers the topic before a poem (Nic, 26 Nov 2026)
+
+**Conflict:** A creative prompt composed only from facts already on the phone. Athena was asked only when nothing was stored, and only for a measured body. The seed fetch stopped after two allowlisted pages.
+
+**Where:** `athena_gather.gather` runs before `compose`. It asks every enabled connector, in parallel, about the topic and the lexicon atoms of that topic (kind, parts, properties, behaviors, habitats, relations). A clause is admitted when two independent publishers agree, Gilligan can read it, drift is clean, and the scale check passes. One publisher stays imagery, marked single-source, and is not a fact. Source count is on the clause. An admitted clause is written to the phone's world-facts store. The creative text is not stored. Hosted write stays on the gated writer and does not use a service role.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A chair at 0.9 m from two publishers is admitted. A bottle at 5 m is held. The same publisher twice does not count as two.
+
+Proof: `verify/r4284_suite.js`. Trace: `verify/novel_heldout/creative_264.json`.
+
 ## v4.9.263 — A measured scale, and a poem that stays on its topic (Nic, 26 Nov 2026)
 
 **Conflict:** The library sense check refused a structure shorter than a fixed 2 m. A poem listed each measurement on its own line and took any simulator result that shared a word with the prompt, so a cask poem spoke a qubit. A story was read as putting the hypernym in the subject ("the weasel" for a mink).

@@ -22,6 +22,10 @@ Older release notes say creative writing was not started (`source/CONFLICTS.md` 
 
 No generator of poems or stories. No opinion or preference reasoner. No speech act for compose, narrate, describe-as-a-scene, or prefer. No path that feeds a simulator result and a computed number into one labelled creative reply. No UI label `creative` on an ask card. A creative or opinion prompt at `53840a4` fell through Derive and was held with Echo 0.
 
+## What 4.9.264 changes
+
+A creative prompt gathers before it composes. `athena_gather.gather` asks every enabled Athena connector, in parallel, about the topic and the atoms the lexicon gives that topic. Two independent publishers, a readable clause, a clean drift measure, and the scale check admit a clause into the phone's world-facts store. A single publisher can still be imagery. It is marked single-source, it is not a fact, and the creative text itself is not stored. The source count is kept on each clause.
+
 ## What 4.9.263 changes
 
 A height is accepted from the kind's own family. `kind_accepts` walks the hypernym chain and uses admitted heights of sibling or parent kinds. The allowed band is that sample's own spread. A structure with no measured kin is held. A furnishing with no measured kin keeps the height, so a chair at 0.9 m still passes. A library, a hall, and a bank hold. A table keeps 0.75 m. A bottle at 5 m falls outside the vessel sample; a bottle at 0.22 m fits it.
