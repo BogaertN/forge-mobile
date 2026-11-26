@@ -465,7 +465,9 @@
       }],
       ['eol', 'Encyclopedia of Life', 'eol', true, 'https://eol.org/api/search/1.0.json?page=1&exact=true&q=' + encodeURIComponent(topic), raw => {
         const hit = ((JSON.parse(raw).results) || []).find(r => r && (String(r.content || '').toLowerCase().indexOf(topic) >= 0 || String(r.title || '').toLowerCase().indexOf(topic) >= 0));
-        return hit ? label + ' is ' + stripTags(hit.content || hit.title) + '.' : '';
+        const content = hit ? stripTags(hit.content || hit.title) : '';
+        if (!content || !/\b(is|are|was|were)\b/i.test(content)) return '';
+        return content.toLowerCase().indexOf(topic) >= 0 ? content : label + ' is ' + content + '.';
       }],
       ['pubchem_desc', 'NLM', 'nlm', true, 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(topic) + '/description/JSON', raw => {
         const info = ((((JSON.parse(raw).InformationList) || {}).Information) || [])[0];
