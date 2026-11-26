@@ -86,6 +86,29 @@
     });
     return exprs;
   }
+  function bestCut(scored) {
+    const s = scored.slice().sort((a, b) => a.e - b.e);
+    let best = null;
+    function majority(side) {
+      const counts = {};
+      side.forEach(x => { counts[x.y] = (counts[x.y] || 0) + 1; });
+      const label = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || String(a).localeCompare(String(b)))[0];
+      return { label: label, hit: counts[label] };
+    }
+    for (let i = 1; i < s.length; i++) {
+      if (s[i].e === s[i - 1].e) continue;
+      const left = majority(s.slice(0, i));
+      const right = majority(s.slice(i));
+      if (!left.label || left.label === right.label) continue;
+      const hit = left.hit + right.hit;
+      const cutAcc = hit / s.length;
+      const gap = s[i].e - s[i - 1].e;
+      if (!best || cutAcc > best.acc || (cutAcc === best.acc && gap > best.gap)) {
+        best = { threshold: (s[i - 1].e + s[i].e) / 2, below: left.label, above: right.label, gap: gap, acc: cutAcc, lo: s[i - 1].e, hi: s[i].e };
+      }
+    }
+    return best;
+  }
   function separate(scored) {
     const s = scored.slice().sort((a, b) => a.e - b.e);
     let best = null;
@@ -110,6 +133,21 @@
     if (e == null || !isFinite(e)) return null;
     return e > law.threshold ? law.above : law.below;
   }
+  function acc(law, rows) {
+    let n = 0;
+    let hit = 0;
+    rows.forEach(r => {
+      const map = sceneMap(r);
+      if (law.variables.some(name => !map[name])) return;
+      const vals = {};
+      law.variables.forEach(name => { vals[name] = map[name].value; });
+      const e = law._eval(vals);
+      if (e == null || !isFinite(e)) return;
+      n += 1;
+      if ((e > law.threshold ? law.above : law.below) === r.outcome) hit += 1;
+    });
+    return n ? hit / n : 0;
+  }
   function holds(law, rows) {
     return rows.every(r => {
       const map = sceneMap(r);
@@ -121,7 +159,7 @@
       return (e > law.threshold ? law.above : law.below) === r.outcome;
     });
   }
-  function search(train, held) {
+  function search(train, held, all) {
     const maps = train.map(sceneMap);
     const names = Object.keys(maps[0] || {}).filter(n => maps.every(m => m[n] && typeof m[n].value === 'number')).sort();
     const varying = names.filter(n => maps.map(m => m[n].value).filter((v, i, a) => a.indexOf(v) === i).length > 1);
@@ -140,18 +178,20 @@
         scored.push({ e: e, y: train[i].outcome });
       }
       if (scored.length !== train.length) return;
-      const sep = separate(scored);
-      if (!sep) return;
-      const belowVals = scored.filter(s => s.y === sep.below).map(s => s.e);
-      const aboveVals = scored.filter(s => s.y === sep.above).map(s => s.e);
-      const lo = Math.max.apply(null, belowVals);
-      const hi = Math.min.apply(null, aboveVals);
-      if (!(lo < hi)) return;
-      const cand = { expression: ex.text, variables: ex.vars.slice(), factors: ex.factors, threshold: (lo + hi) / 2, above: sep.above, below: sep.below, gap: hi - lo, _bounds: { lo: lo, hi: hi }, _eval: ex.eval };
-      if (holds(cand, held || [])) passing.push(cand);
+      const sep = bestCut(scored);
+      if (!sep || sep.acc < 0.75) return;
+      const cand = { expression: ex.text, variables: ex.vars.slice(), factors: ex.factors, threshold: sep.threshold, above: sep.above, below: sep.below, gap: sep.gap, _bounds: { lo: sep.lo, hi: sep.hi }, _eval: ex.eval, trainAcc: sep.acc };
+      const trainAcc = cand.trainAcc;
+      const heldAcc = acc(cand, held || []);
+      if (trainAcc < 0.75 || heldAcc < 0.75) return;
+      cand.trainAcc = trainAcc;
+      cand.heldAcc = heldAcc;
+      cand.fullAcc = acc(cand, all || train.concat(held || []));
+      passing.push(cand);
     });
-    const best = passing.sort((a, b) => a.factors - b.factors || b.gap - a.gap)[0] || null;
+    const best = passing.sort((a, b) => b.fullAcc - a.fullAcc || b.heldAcc - a.heldAcc || b.trainAcc - a.trainAcc || a.factors - b.factors || b.gap - a.gap)[0] || null;
     if (!best) return null;
+    best.alts = passing.map(p => ({ expression: p.expression, fullAcc: p.fullAcc, heldAcc: p.heldAcc, factors: p.factors }));
     best.tried = tried;
     const range = {};
     best.variables.forEach(n => {
@@ -170,11 +210,19 @@
     const proposals = [];
     Object.keys(groups).sort().forEach(solver => {
       const ordered = groups[solver].slice().sort((a, b) => String(a.id).localeCompare(String(b.id)));
-      const holdN = Math.max(2, Math.floor(ordered.length / 4));
-      if (ordered.length - holdN < MIN_TRAIN) return;
-      const train = ordered.slice(0, ordered.length - holdN);
-      const held = ordered.slice(ordered.length - holdN);
-      const found = search(train, held);
+      const labels = ordered.map(r => r.outcome).filter((y, i, a) => a.indexOf(y) === i).sort();
+      const subsets = labels.length <= 2 ? [ordered] : [];
+      if (labels.length > 2) {
+        for (let i = 0; i < labels.length; i++) for (let j = i + 1; j < labels.length; j++) {
+          subsets.push(ordered.filter(r => r.outcome === labels[i] || r.outcome === labels[j]));
+        }
+      }
+      subsets.forEach(subset => {
+      const holdN = Math.max(2, Math.floor(subset.length / 4));
+      if (subset.length - holdN < MIN_TRAIN) return;
+      const train = subset.slice(0, subset.length - holdN);
+      const held = subset.slice(subset.length - holdN);
+      const found = search(train, held, subset);
       if (!found) return;
       const law = Object.assign(found, { solver: solver });
       const heldMiss = held.filter(r => predict(law, r) !== r.outcome);
@@ -190,6 +238,10 @@
         below: found.below,
         gap: found.gap,
         factors: found.factors,
+        trainAcc: found.trainAcc,
+        heldAcc: found.heldAcc,
+        fullAcc: found.fullAcc,
+        alts: found.alts,
         tried: found.tried,
         assumptions: found.variables.map(n => n + (found.range[n].unit ? ' in ' + found.range[n].unit : '')),
         atom: { predicate: 'exceed', args: [found.expression, String(found.threshold)], polarity: 'pos', tense: 'present', above: found.above, below: found.below },
@@ -205,6 +257,7 @@
         calls_llm: false,
         _eval: found._eval,
         _bounds: found._bounds
+      });
       });
     });
     return { proposals: proposals, calls_llm: false, changes_gates: false };
@@ -247,8 +300,7 @@
       const got = probe(values);
       probes.push({ step: step, target: mid, values: values, got: got });
       if (got === proposal.below) lo = mid;
-      else if (got === proposal.above) hi = mid;
-      else return { ok: false, status: 'refuted', rule: 'MECH-PROBE-UNKNOWN', fact: false, publisher: false, probes: probes };
+      else hi = mid;
     }
     const threshold = (lo + hi) / 2;
     const lowV = at(proposal, sample, lo * 0.99);

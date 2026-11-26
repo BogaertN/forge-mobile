@@ -1,3 +1,15 @@
+## v4.9.269 — tip_check is off, and the threshold is read from receipts (Nic, 26 Nov 2026)
+
+**Conflict:** The reason a push toppled or slid was a hand-written comparison, `tip_check`. The measurements were already in the receipts.
+
+**Where:** The solver no longer consults `tip_check`. The function remains as an oracle the proof can call. Idle search reads a threshold from the measured receipts. On this grid the best tip-versus-slide candidate is `fraction*mu`, above 0.051 topples and below it slides, over fraction 0.25 to 0.9 and friction 0.2 to 0.6, fitting 0.85 of the receipts it was shown. On four new scenes it agrees with the measurement and with `tip_check` on 2 of 4. The edge probes flip inside the gap, so Gilligan leaves it a proposal. It is not a fact. A speed recorded as kilometers per second keeps both units.
+
+**Expectation changes:** A sealed push no longer says "the critical height exceeds the push height" or "the static friction exceeds the push force" unless a mechanism has been admitted. The effect sentence remains. `verify/r4247_suite.js`, `verify/r4248_suite.js`, and `verify/r4283_suite.js` no longer require that hand-written because-clause.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4287_suite.js`.
+
 ## v4.9.268 — A mechanism is read from simulation evidence (Nic, 26 Nov 2026)
 
 **Conflict:** The phone kept simulator receipts, and it had no record of a regularity: named quantities, units, a tested range, and a threshold. The only comparisons were written by hand.

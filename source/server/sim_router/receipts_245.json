@@ -89,23 +89,7 @@
      "push_duration_s": 0.5,
      "push_height_m": 0.2024
     },
-    "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)",
-    "cross_check": [
-     {
-      "solver": "statics_check",
-      "role": "cross_check",
-      "outcome": "topple",
-      "measurements": {
-       "critical_push_height_m": 0.13,
-       "push_height_m": 0.2024
-      },
-      "equations": [
-       "slip: F > μ m g",
-       "tip: F h > m g w/2",
-       "tip before slip iff h > (w/2)/μ"
-      ]
-     }
-    ]
+    "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)"
    },
    "raw": {
     "measurements": {
@@ -127,17 +111,17 @@
    "primary_solver": "mujoco_wasm",
    "clause": "You push the bottle near the top.",
    "effect_text": "The bottle topples.",
-   "receipt_id": "sim-99098526a76466c2",
-   "sha256": "99098526a76466c29dacc3f2b6d4ff97c133ff9f4a38ab22110d92c19b642d8f",
+   "receipt_id": "sim-2f470010d14ec681",
+   "sha256": "2f470010d14ec68140ccfba4a0de3524a6a8ef2ea15a1da156ad640db1aeca8b",
    "rows": [
     {
-     "id": "sim-99098526a76466c2",
+     "id": "sim-2f470010d14ec681",
      "text": "You push the bottle near the top.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-99098526a76466c2",
-      "sha256": "99098526a76466c29dacc3f2b6d4ff97c133ff9f4a38ab22110d92c19b642d8f",
+      "receipt_id": "sim-2f470010d14ec681",
+      "sha256": "2f470010d14ec68140ccfba4a0de3524a6a8ef2ea15a1da156ad640db1aeca8b",
       "intervention_key": "bottle near push top",
       "question": null,
       "effect_text": "The bottle topples.",
@@ -171,9 +155,9 @@
          "push_height_m": 0.2024
         },
         "equations": [
-         "slip: F > μ m g",
+         "slip: F > \u03bc m g",
          "tip: F h > m g w/2",
-         "tip before slip iff h > (w/2)/μ"
+         "tip before slip iff h > (w/2)/\u03bc"
         ]
        }
       ],
@@ -365,23 +349,7 @@
      "push_duration_s": 0.5,
      "push_height_m": 0.0176
     },
-    "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)",
-    "cross_check": [
-     {
-      "solver": "statics_check",
-      "role": "cross_check",
-      "outcome": "slide",
-      "measurements": {
-       "critical_push_height_m": 0.13,
-       "push_height_m": 0.0176
-      },
-      "equations": [
-       "slip: F > μ m g",
-       "tip: F h > m g w/2",
-       "tip before slip iff h > (w/2)/μ"
-      ]
-     }
-    ]
+    "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)"
    },
    "raw": {
     "measurements": {
@@ -403,17 +371,17 @@
    "primary_solver": "mujoco_wasm",
    "clause": "You push the bottle near the bottom.",
    "effect_text": "The bottle slides.",
-   "receipt_id": "sim-f10a151cce15b22e",
-   "sha256": "f10a151cce15b22ec1e907facf62edbc2cdcda3b4bca5f49f80c7a92abfb5c47",
+   "receipt_id": "sim-c811a80115400161",
+   "sha256": "c811a801154001615bd063537451db552cd6bc1d059490dfb4af2ab55e8d08ac",
    "rows": [
     {
-     "id": "sim-f10a151cce15b22e",
+     "id": "sim-c811a80115400161",
      "text": "You push the bottle near the bottom.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-f10a151cce15b22e",
-      "sha256": "f10a151cce15b22ec1e907facf62edbc2cdcda3b4bca5f49f80c7a92abfb5c47",
+      "receipt_id": "sim-c811a80115400161",
+      "sha256": "c811a801154001615bd063537451db552cd6bc1d059490dfb4af2ab55e8d08ac",
       "intervention_key": "bottle bottom near push",
       "question": null,
       "effect_text": "The bottle slides.",
@@ -447,9 +415,9 @@
          "push_height_m": 0.0176
         },
         "equations": [
-         "slip: F > μ m g",
+         "slip: F > \u03bc m g",
          "tip: F h > m g w/2",
-         "tip before slip iff h > (w/2)/μ"
+         "tip before slip iff h > (w/2)/\u03bc"
         ]
        }
       ],
@@ -624,23 +592,7 @@
      "push_duration_s": 0.5,
      "push_height_m": 0.2024
     },
-    "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)",
-    "cross_check": [
-     {
-      "solver": "statics_check",
-      "role": "cross_check",
-      "outcome": "slide",
-      "measurements": {
-       "critical_push_height_m": 1.0833,
-       "push_height_m": 0.2024
-      },
-      "equations": [
-       "slip: F > μ m g",
-       "tip: F h > m g w/2",
-       "tip before slip iff h > (w/2)/μ"
-      ]
-     }
-    ]
+    "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)"
    },
    "raw": {
     "measurements": {
@@ -662,17 +614,17 @@
    "primary_solver": "mujoco_wasm",
    "clause": "You push the bottle near the top on ice.",
    "effect_text": "The bottle slides.",
-   "receipt_id": "sim-72bad070df8a4449",
-   "sha256": "72bad070df8a4449bb30e3498877b7fc977278b2cf01a93ee501d9c70d1ffaef",
+   "receipt_id": "sim-8bb021db04bd272c",
+   "sha256": "8bb021db04bd272c54d7cd8111cbfbfe1c2a16a616b076cf9e411d2f8cbe44f6",
    "rows": [
     {
-     "id": "sim-72bad070df8a4449",
+     "id": "sim-8bb021db04bd272c",
      "text": "You push the bottle near the top on ice.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-72bad070df8a4449",
-      "sha256": "72bad070df8a4449bb30e3498877b7fc977278b2cf01a93ee501d9c70d1ffaef",
+      "receipt_id": "sim-8bb021db04bd272c",
+      "sha256": "8bb021db04bd272c54d7cd8111cbfbfe1c2a16a616b076cf9e411d2f8cbe44f6",
       "intervention_key": "bottle ice near on push top",
       "question": null,
       "effect_text": "The bottle slides.",
@@ -706,9 +658,9 @@
          "push_height_m": 0.2024
         },
         "equations": [
-         "slip: F > μ m g",
+         "slip: F > \u03bc m g",
          "tip: F h > m g w/2",
-         "tip before slip iff h > (w/2)/μ"
+         "tip before slip iff h > (w/2)/\u03bc"
         ]
        }
       ],
@@ -883,23 +835,7 @@
      "push_duration_s": 0.5,
      "push_height_m": 0.0176
     },
-    "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)",
-    "cross_check": [
-     {
-      "solver": "statics_check",
-      "role": "cross_check",
-      "outcome": "stay",
-      "measurements": {
-       "critical_push_height_m": 0.0361,
-       "push_height_m": 0.0176
-      },
-      "equations": [
-       "slip: F > μ m g",
-       "tip: F h > m g w/2",
-       "tip before slip iff h > (w/2)/μ"
-      ]
-     }
-    ]
+    "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)"
    },
    "raw": {
     "measurements": {
@@ -921,17 +857,17 @@
    "primary_solver": "mujoco_wasm",
    "clause": "You push the bottle near the bottom on rubber.",
    "effect_text": "The bottle stays.",
-   "receipt_id": "sim-e16a759d208b503c",
-   "sha256": "e16a759d208b503c76853f0ee50b3138e5d0e1bc4984d1ed31ab55a68a969648",
+   "receipt_id": "sim-c26dc905e11bd06f",
+   "sha256": "c26dc905e11bd06ff75ad4d0f212337d6ce2e8d4eb6d6af14b0926e7e9bc9a28",
    "rows": [
     {
-     "id": "sim-e16a759d208b503c",
+     "id": "sim-c26dc905e11bd06f",
      "text": "You push the bottle near the bottom on rubber.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-e16a759d208b503c",
-      "sha256": "e16a759d208b503c76853f0ee50b3138e5d0e1bc4984d1ed31ab55a68a969648",
+      "receipt_id": "sim-c26dc905e11bd06f",
+      "sha256": "c26dc905e11bd06ff75ad4d0f212337d6ce2e8d4eb6d6af14b0926e7e9bc9a28",
       "intervention_key": "bottle bottom near on push rubber",
       "question": null,
       "effect_text": "The bottle stays.",
@@ -965,9 +901,9 @@
          "push_height_m": 0.0176
         },
         "equations": [
-         "slip: F > μ m g",
+         "slip: F > \u03bc m g",
          "tip: F h > m g w/2",
-         "tip before slip iff h > (w/2)/μ"
+         "tip before slip iff h > (w/2)/\u03bc"
         ]
        }
       ],
@@ -1145,23 +1081,7 @@
      "push_duration_s": 0.5,
      "push_height_m": 0.0736
     },
-    "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)",
-    "cross_check": [
-     {
-      "solver": "statics_check",
-      "role": "cross_check",
-      "outcome": "slide",
-      "measurements": {
-       "critical_push_height_m": 0.8,
-       "push_height_m": 0.0736
-      },
-      "equations": [
-       "slip: F > μ m g",
-       "tip: F h > m g w/2",
-       "tip before slip iff h > (w/2)/μ"
-      ]
-     }
-    ]
+    "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)"
    },
    "raw": {
     "measurements": {
@@ -1183,17 +1103,17 @@
    "primary_solver": "mujoco_wasm",
    "clause": "You push the wide flat block near the top.",
    "effect_text": "The wide flat block slides.",
-   "receipt_id": "sim-50f28a542ee0e84e",
-   "sha256": "50f28a542ee0e84ea55aaa1930547ba829f5f350eaa7136e88fd64e2023eaca4",
+   "receipt_id": "sim-a121a5456333565f",
+   "sha256": "a121a5456333565f23588c6d0e0d48d22d9eee89c9e2bb5826a0c31db32638ed",
    "rows": [
     {
-     "id": "sim-50f28a542ee0e84e",
+     "id": "sim-a121a5456333565f",
      "text": "You push the wide flat block near the top.",
      "source": "sim_receipt",
      "trust": "solver_receipt",
      "sim": {
-      "receipt_id": "sim-50f28a542ee0e84e",
-      "sha256": "50f28a542ee0e84ea55aaa1930547ba829f5f350eaa7136e88fd64e2023eaca4",
+      "receipt_id": "sim-a121a5456333565f",
+      "sha256": "a121a5456333565f23588c6d0e0d48d22d9eee89c9e2bb5826a0c31db32638ed",
       "intervention_key": "block flat near push top wide",
       "question": null,
       "effect_text": "The wide flat block slides.",
@@ -1227,9 +1147,9 @@
          "push_height_m": 0.0736
         },
         "equations": [
-         "slip: F > μ m g",
+         "slip: F > \u03bc m g",
          "tip: F h > m g w/2",
-         "tip before slip iff h > (w/2)/μ"
+         "tip before slip iff h > (w/2)/\u03bc"
         ]
        }
       ],
@@ -1395,9 +1315,9 @@
      "max_height_m": 5.099
     },
     "equations": [
-     "R = v^2 sin(2θ)/g",
-     "t = 2 v sin θ / g",
-     "H = (v sin θ)^2 / (2g)"
+     "R = v^2 sin(2\u03b8)/g",
+     "t = 2 v sin \u03b8 / g",
+     "H = (v sin \u03b8)^2 / (2g)"
     ]
    },
    "raw": null,
@@ -2563,7 +2483,7 @@
     },
     "constants_source": "astropy.constants (IAU 2015)",
     "equations": [
-     "T = 2π sqrt(a^3/GM)",
+     "T = 2\u03c0 sqrt(a^3/GM)",
      "v = sqrt(GM/a)",
      "v_esc = sqrt(2GM/a)",
      "g = GM/a^2"
@@ -2729,7 +2649,7 @@
       ]
      ]
     },
-    "method": "U = i expm(-i π/2 G) = G; Born rule P(k) = |<k|psi>|^2"
+    "method": "U = i expm(-i \u03c0/2 G) = G; Born rule P(k) = |<k|psi>|^2"
    },
    "raw": null,
    "outcome": "measure",
@@ -2875,7 +2795,7 @@
       ]
      ]
     },
-    "method": "U = i expm(-i π/2 G) = G; Born rule P(k) = |<k|psi>|^2"
+    "method": "U = i expm(-i \u03c0/2 G) = G; Born rule P(k) = |<k|psi>|^2"
    },
    "raw": null,
    "outcome": "measure",
@@ -3027,7 +2947,7 @@
       ]
      ]
     },
-    "method": "U = expm(-i θ/2 σx), θ = 0.5 π; Born rule P(k) = |<k|psi>|^2"
+    "method": "U = expm(-i \u03b8/2 \u03c3x), \u03b8 = 0.5 \u03c0; Born rule P(k) = |<k|psi>|^2"
    },
    "raw": null,
    "outcome": "measure",

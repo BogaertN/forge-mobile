@@ -769,6 +769,10 @@ def classify_rigid(scene: dict[str, Any], ms: dict[str, Any]) -> str:
 CLASSIFIER = ("topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay "
               "(sphere: roll; drop: fall if it lost > half the drop height)")
 
+# The hand-written tip comparison stays in this file as an oracle the proof can call.
+# The solver path does not consult it. A reason is a mechanism read from receipts, or none.
+USE_TIP_CHECK = False
+
 
 # ---------------------------------------------------------------- solve (Python families)
 
@@ -1175,9 +1179,10 @@ def finish(problem: dict[str, Any], raw: dict[str, Any]) -> dict[str, Any]:
                       push_duration_s=job["duration"], push_height_m=job["push_height_m"])
         run = {"solver": s, "engine": "mujoco " + str(raw.get("version") or "3.17.0") + " (WASM, on device)",
                "outcome": classify_rigid(sc, ms), "measurements": ms, "classifier": CLASSIFIER}
-        chk = tip_check(sc)
-        if chk:
-            run["cross_check"] = [chk]
+        if USE_TIP_CHECK:
+            chk = tip_check(sc)
+            if chk:
+                run["cross_check"] = [chk]
         return run
     if s == "rdkit_wasm":
         counts = formula_from_rdkit_json(raw["mol_json"])
@@ -1485,7 +1490,7 @@ def _reason_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, An
     """The law atom, from the same comparison that writes the causal sentence."""
     s = problem.get("solver")
     ms = run.get("measurements") or {}
-    if s == "mujoco_wasm" and problem.get("scene"):
+    if USE_TIP_CHECK and s == "mujoco_wasm" and problem.get("scene"):
         chk = tip_check(problem["scene"])
         if chk and run.get("outcome") == "topple":
             return _karaka("exceed", ["the push height", "the critical height"])
