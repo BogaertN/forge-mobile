@@ -479,8 +479,9 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       } catch (e) { /* a missing fetch stays quarantined-empty; it is not an answer */ }
     }
     /* 4.9.244 (plan 229 step 12b): a what-happens-if question goes to the backend Simulation Router (MuJoCo / SymPy).
-     * Its receipt is a measured causal premise for this turn only (memory.simulation; never stored). No router → no
-     * receipt → the engine holds or uses stored causal facts as before. */
+     * Its rows are a measured causal premise for this turn only (memory.simulation). A copy is kept as simulation
+     * evidence, never as a fact and never as a publisher. No router → no receipt → the engine holds or uses stored
+     * causal facts as before. */
     /* 4.9.245: the simulators run on this phone first (KSimDevice: Pyodide SymPy/SciPy/Biopython/astropy and WASM
      * MuJoCo/RDKit/ngspice). Heavy CFD / Hartree-Fock asks go to the Home PC Simulator if one is set, else they hold. */
     const simReceipt = window.KSimDevice ? await KSimDevice.simulate(qtext, memory, simSpecific, simSupplement) : await simulateViaRouter(qtext);
@@ -493,6 +494,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       refreshChrome();
       return { ok: true, held: true, reply: asked, product_reply: false, sim_ask: true, calls_llm: false };
     }
+    if (simReceipt && simReceipt.ok && window.KSimReceipts) { try { KSimReceipts.record(simReceipt); } catch (e) { /* the turn premise is unchanged */ } }
     if (simReceipt && simReceipt.ok && Array.isArray(simReceipt.rows)) memory.simulation = simReceipt.rows.slice(0, 6);
     askCtx.sim = simReceipt || null;
     try {

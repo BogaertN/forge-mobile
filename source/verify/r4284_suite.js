@@ -1,4 +1,4 @@
-/* 4.9.266: a creative topic gathers every Athena source before it is composed. */
+/* 4.9.267: a creative topic gathers every Athena source before it is composed. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
