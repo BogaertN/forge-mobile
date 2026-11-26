@@ -498,6 +498,20 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     try {
       const creativeFrame = window.KQFrame && KQFrame.compile ? KQFrame.compile(qtext, forge) : null;
       if (creativeFrame && creativeFrame.expressive && window.KSimDevice && KSimDevice.prepareCreative) {
+        if (KSimDevice.gatherCreative) {
+          const gathered = await KSimDevice.gatherCreative(creativeFrame);
+          if (gathered && Array.isArray(gathered.clauses)) {
+            gathered.clauses.forEach(c => {
+              if (c && window.KQFrame && KQFrame.clause) { try { c.clause = KQFrame.clause(c.text, forge); } catch (e) { /* the text still carries the clause */ } }
+            });
+            memory.creative_clauses = gathered;
+            /* A spoken creative answer is not stored. Only a gathered clause two publishers already agreed is. */
+            for (const c of gathered.clauses) {
+              if (!c || c.admitted !== true || c.fact !== true) continue;
+              keepWorldFact({ text: c.text, clause: c.clause, trust: 'trusted', provenance: { publishers: c.publishers || [], source_count: c.source_count, store: 'local', hosted_eligible: c.hosted_eligible === true } }, 'admitted');
+            }
+          }
+        }
         memory.creative_sims = await KSimDevice.prepareCreative(memory, qtext, creativeFrame);
       }
     } catch (e) { /* a creative question still composes from the facts it has */ }
@@ -587,7 +601,9 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const learnedTag = induced ? '<span class="tag" data-learned-rule="' + esc(induced.id) + '">derived via learned rule</span>' : '';
   const creativeTag = row && row.creative ? '<span class="tag" data-creative="1">creative</span>' : '';
   const learnedProv = induced ? '<div class="small" data-learned-provenance>Gilligan ' + esc(induced.confidence) + ' · support ' + esc(induced.support) + ' · ' + esc((induced.instances || []).map(i => i.subject).join(', ')) + '</div>' : '';
-  const creativeProv = row && row.creative ? '<div class="small" data-creative-provenance>' + esc((row.creative.lines || []).map(l => (l.kind || 'fact') + ': ' + (l.text || '')).join(' | ')) + '</div>' : '';
+  const gather = row && row.creative && row.creative.gather;
+  const gatherNote = gather ? 'sources ' + ((gather.queried || []).length) + ', admitted ' + (gather.admitted || 0) + ', single-source ' + (gather.single || 0) : '';
+  const creativeProv = row && row.creative ? '<div class="small" data-creative-provenance>' + esc((gatherNote ? gatherNote + ' | ' : '') + (row.creative.lines || []).map(l => (l.kind || 'fact') + ': ' + (l.text || '')).join(' | ')) + '</div>' : '';
   log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span>' + compTag + learnedTag + creativeTag + relTag + ocTag + (admitted && row.memory_write && row.memory_write.write_gate && !row.memory_write.write_gate.ok ? '<span class="tag" data-write-gate>not storable: ' + esc((row.memory_write.write_gate.failed || []).join(', ')) + '</span>' : '') + '<div data-ask-body data-answer-source="' + (admitted ? (oc && oc.applied ? 'panini_wording.outward' : 'rmc_engine_v1.output_renderer') : 'hold') + '">' + body + compNote + '</div>' + learnedProv + creativeProv + ocQuotes + resumeTag + rkmTag + ledgerTag + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
   if (rememberBtn) { const card = log.lastElementChild; const btn = card.querySelector('[data-ask-remember]'); btn.onclick = async () => { btn.disabled = true; const r = await rememberAnswer(row, 'tap'); btn.textContent = r.ok ? 'Remembered' + (r.supabase && r.supabase.ok ? ' · shared' : ' · on this phone') : 'Not remembered'; }; }
   log.lastElementChild.scrollIntoView({ block: 'end' });

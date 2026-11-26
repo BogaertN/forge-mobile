@@ -357,6 +357,39 @@ def _opinion_text(opinion: dict[str, Any], derived: str | None) -> tuple[str, li
     return body, lines
 
 
+def _gathered(memory: dict[str, Any]) -> dict[str, Any]:
+    """Clauses Athena already gathered for this turn. Admitted ones are facts. A single source is imagery only."""
+    raw = memory.get("creative_clauses") if isinstance(memory.get("creative_clauses"), dict) else {}
+    facts = []
+    for row in raw.get("clauses") or []:
+        if not isinstance(row, dict) or not row.get("text"):
+            continue
+        if not (row.get("admitted") or row.get("single_source")):
+            continue
+        facts.append({
+            "id": "athena:" + str(row.get("claim") or row.get("text"))[:80],
+            "text": str(row.get("text")),
+            "source": "athena",
+            "kind": "fact" if row.get("admitted") else "imagery",
+            "clause": row.get("clause") if isinstance(row.get("clause"), dict) else {},
+            "source_count": row.get("source_count"),
+            "publishers": row.get("publishers") or [],
+            "admitted": bool(row.get("admitted")),
+            "single_source": bool(row.get("single_source")),
+            "fact": bool(row.get("fact")),
+            "persisted": False,
+        })
+    summary = {
+        "topic": raw.get("topic"),
+        "atoms": raw.get("atoms") or [],
+        "queried": raw.get("queried") or [],
+        "admitted": raw.get("admitted") or 0,
+        "single": raw.get("single") or 0,
+        "creative_persisted": False,
+    } if raw else None
+    return {"facts": facts, "summary": summary}
+
+
 def _athena(topic: str, question: str, frame: dict[str, Any] | None) -> dict[str, Any]:
     """A gap handed to Athena. The proposals stay on this turn. Nothing is written."""
     try:
@@ -534,6 +567,15 @@ def _arc(form: str, tense: str, facts: list[dict[str, Any]], sims: list[dict[str
 
     picture = _fact_picture(facts, topic)
     setting = _setting_atom(picture, tense)
+    if not setting:
+        # A gathered sentence the clause reader did not split still counts as imagery. It is quoted, not a new fact.
+        for fact in facts:
+            if fact.get("source") == "athena" and fact.get("text") and (not topic or topic in str(fact.get("text")).lower()):
+                spoken = _beat(str(fact["text"]), None, "setting", "athena", fact.get("id"))
+                spoken["source_count"] = fact.get("source_count")
+                spoken["single_source"] = fact.get("single_source")
+                add(spoken)
+                break
     if setting:
         beat = _speak_beat(setting, "", "setting", "fact", None)
         if beat:
@@ -589,6 +631,11 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
     memory = memory if isinstance(memory, dict) else {}
     heads = _heads(frame)
     facts = _facts(memory, heads)
+    gathered = _gathered(memory)
+    for row in gathered["facts"]:
+        key = row["text"].strip().lower()
+        if key and all(key != str(f.get("text") or "").strip().lower() for f in facts):
+            facts.append(row)
     athena = None
     if not facts and heads:
         athena = _athena(heads[0], question, frame)
@@ -650,7 +697,7 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
             return {
                 "text": gap["text"], "form": "prose", "persisted": False, "calls_llm": False,
                 "facts": facts, "sims": [], "math": [], "lines": [gap], "beats": [gap],
-                "well_formed": bool(gap.get("text")), "athena": athena, "needs_libs": needs_libs,
+                "well_formed": bool(gap.get("text")), "athena": athena, "gather": gathered["summary"], "needs_libs": needs_libs,
             }
         derived = None
         if opinion.get("choice"):
@@ -662,7 +709,7 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
         return {
             "text": text, "form": "prose", "persisted": False, "calls_llm": False,
             "facts": facts, "sims": [], "math": [], "lines": lines, "beats": lines,
-            "why": opinion.get("why"), "well_formed": bool(text), "athena": athena, "needs_libs": needs_libs,
+            "why": opinion.get("why"), "well_formed": bool(text), "athena": athena, "gather": gathered["summary"], "needs_libs": needs_libs,
         }
     if not facts and not sims and not maths:
         topic = heads[0] if heads else "that"
@@ -674,7 +721,7 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
             return {
                 "text": gap["text"], "form": form, "persisted": False, "calls_llm": False,
                 "facts": [], "sims": [], "math": [], "lines": [gap], "beats": [gap],
-                "well_formed": bool(gap.get("text")), "athena": athena, "needs_libs": needs_libs,
+                "well_formed": bool(gap.get("text")), "athena": athena, "gather": gathered["summary"], "needs_libs": needs_libs,
             }
     topic = heads[0] if heads else None
     beats = _arc(form, tense, facts, sims, maths, topic)
@@ -684,11 +731,11 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
         return {
             "text": gap["text"], "form": form, "persisted": False, "calls_llm": False,
             "facts": facts, "sims": sims, "math": maths, "lines": [gap], "beats": [gap],
-            "well_formed": bool(gap.get("text")), "athena": athena, "needs_libs": needs_libs,
+            "well_formed": bool(gap.get("text")), "athena": athena, "gather": gathered["summary"], "needs_libs": needs_libs,
         }
     text = _format(form, beats)
     return {
         "text": text, "form": form, "persisted": False, "calls_llm": False,
         "facts": facts, "sims": sims, "math": maths, "lines": beats, "beats": beats,
-        "well_formed": bool(text), "athena": athena, "needs_libs": needs_libs,
+        "well_formed": bool(text), "athena": athena, "gather": gathered["summary"], "needs_libs": needs_libs,
     }

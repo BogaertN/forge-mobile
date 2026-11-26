@@ -157,7 +157,8 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 
 T('spoken answers are not auto-persisted into world_facts (no self-evidence loop)', () => {
   const app = read('src/app.js');
-  expect(!/keepWorldFact\([^)]*'admitted'\)/.test(app) && !/kind: 'admitted_claim'/.test(app), 'auto-admit persist still present');
+  expect(!/keepWorldFact\(row,\s*'admitted'\)/.test(app) && !/kind: 'admitted_claim'/.test(app), 'a spoken answer is still not stored');
+  expect(/c\.admitted !== true \|\| c\.fact !== true/.test(app), 'only a two-publisher gather clause is stored');
   expect(/spoken engine answer is NOT auto-persisted|must not become its own evidence/.test(app), 'law commented');
   expect(app.includes("keepWorldFact(row, 'remember')"), 'Remember still writes');
 });
@@ -170,9 +171,9 @@ T('capability self-facts come from the user manual, not the 4.9.242 placeholder'
 });
 
 T('version registry names 4.9.242', () => {
-  expect(read('VERSION').trim() === '4.9.263', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.264', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.263' && reg.features.some(x => x.id === 'R4242-WORLD-FACTS-PERSIST') && reg.count === reg.features.length , 'registry');
+  expect(reg.version === '4.9.264' && reg.features.some(x => x.id === 'R4242-WORLD-FACTS-PERSIST') && reg.count === reg.features.length , 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.242'), 'CONFLICTS 242 entry');
 });
 

@@ -1,0 +1,414 @@
+{
+ "schema": "forge.creative_heldout/v1",
+ "not_a_golden": true,
+ "version": "4.9.264",
+ "n": 5,
+ "rows": [
+  {
+   "q": "Tell a story about a badger.",
+   "before": "I do not have a fact about the badger.",
+   "after": "Badger is sturdy carnivorous burrowing mammal with strong claws.",
+   "admitted": 0,
+   "single": 1,
+   "queried": 1,
+   "atoms": [
+    {
+     "role": "kind",
+     "head": "musteline mammal"
+    },
+    {
+     "role": "relation",
+     "head": "carnivore"
+    },
+    {
+     "role": "relation",
+     "head": "placental"
+    },
+    {
+     "role": "part",
+     "head": "mammal"
+    }
+   ],
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "Open English WordNet"
+     ],
+     "text": "Badger is sturdy carnivorous burrowing mammal with strong claws."
+    }
+   ]
+  },
+  {
+   "q": "Write a poem about a lute.",
+   "before": "I do not have a fact about the lute.",
+   "after": "Lute is a substance for packing a joint or coating a porous surface to make it impervious to gas o.",
+   "admitted": 0,
+   "single": 1,
+   "queried": 1,
+   "atoms": [
+    {
+     "role": "kind",
+     "head": "sealing material"
+    },
+    {
+     "role": "relation",
+     "head": "material"
+    },
+    {
+     "role": "relation",
+     "head": "substance"
+    },
+    {
+     "role": "habitat",
+     "head": "packing"
+    },
+    {
+     "role": "part",
+     "head": "joint"
+    },
+    {
+     "role": "part",
+     "head": "coating"
+    }
+   ],
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "Open English WordNet"
+     ],
+     "text": "Lute is a substance for packing a joint or coating a porous surface to make it impervious to gas o."
+    }
+   ]
+  },
+  {
+   "q": "Write a poem about a cistern.",
+   "before": "I do not have a fact about the cistern.",
+   "after": "Cistern is a sac or cavity containing fluid especially lymph or cerebrospinal fluid.",
+   "admitted": 0,
+   "single": 2,
+   "queried": 1,
+   "atoms": [
+    {
+     "role": "kind",
+     "head": "sac"
+    },
+    {
+     "role": "relation",
+     "head": "cavity"
+    },
+    {
+     "role": "relation",
+     "head": "structure"
+    },
+    {
+     "role": "habitat",
+     "head": "fluid"
+    },
+    {
+     "role": "part",
+     "head": "lymph"
+    }
+   ],
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "Open English WordNet"
+     ],
+     "text": "Cistern is a sac or cavity containing fluid especially lymph or cerebrospinal fluid."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "Open English WordNet"
+     ],
+     "text": "Sac is an enclosed space."
+    }
+   ]
+  },
+  {
+   "q": "Tell a story about a heron.",
+   "before": "I do not have a fact about the heron.",
+   "after": "Heron is grey or white wading bird with long neck and long legs and (usually) long bill.",
+   "admitted": 0,
+   "single": 1,
+   "queried": 1,
+   "atoms": [
+    {
+     "role": "kind",
+     "head": "wading bird"
+    },
+    {
+     "role": "relation",
+     "head": "bird"
+    },
+    {
+     "role": "use",
+     "head": "wading"
+    },
+    {
+     "role": "part",
+     "head": "neck"
+    },
+    {
+     "role": "property",
+     "head": "legs"
+    },
+    {
+     "role": "behavior",
+     "head": "bill"
+    }
+   ],
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "Open English WordNet"
+     ],
+     "text": "Heron is grey or white wading bird with long neck and long legs and (usually) long bill."
+    }
+   ]
+  },
+  {
+   "q": "Write a poem about a harbor.",
+   "before": "I do not have a fact about the harbor.",
+   "after": "Harbor is a sheltered port where ships can take on or discharge cargo.",
+   "admitted": 0,
+   "single": 2,
+   "queried": 1,
+   "atoms": [
+    {
+     "role": "kind",
+     "head": "port"
+    },
+    {
+     "role": "relation",
+     "head": "point"
+    },
+    {
+     "role": "behavior",
+     "head": "can"
+    },
+    {
+     "role": "behavior",
+     "head": "take"
+    },
+    {
+     "role": "behavior",
+     "head": "discharge"
+    },
+    {
+     "role": "part",
+     "head": "cargo"
+    }
+   ],
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "Open English WordNet"
+     ],
+     "text": "Harbor is a sheltered port where ships can take on or discharge cargo."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "fact": false,
+     "publishers": [
+      "Open English WordNet"
+     ],
+     "text": "Port is a place (seaport or airport) where people and merchandise can enter or leave a country."
+    }
+   ]
+  }
+ ],
+ "live_fanout": [
+  {
+   "topic": "ibex",
+   "atoms": [],
+   "queried": 13,
+   "admitted": 0,
+   "single": 1,
+   "errors": 1,
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "pubs": [
+      "NASA"
+     ],
+     "text": "IBEX is a NASA spacecraft studying how our heliosphere, the magnetic bubble surrounding our Sun and planets, interacts with interstellar spa"
+    }
+   ]
+  },
+  {
+   "topic": "fjord",
+   "atoms": [],
+   "queried": 13,
+   "admitted": 0,
+   "single": 0,
+   "errors": 1,
+   "clauses": []
+  },
+  {
+   "topic": "badger",
+   "atoms": [
+    {
+     "role": "kind",
+     "head": "musteline mammal"
+    },
+    {
+     "role": "relation",
+     "head": "carnivore"
+    },
+    {
+     "role": "relation",
+     "head": "placental"
+    },
+    {
+     "role": "part",
+     "head": "mammal"
+    }
+   ],
+   "queried": 13,
+   "admitted": 0,
+   "single": 1,
+   "errors": 2,
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "pubs": [
+      "Open English WordNet"
+     ],
+     "text": "Badger is sturdy carnivorous burrowing mammal with strong claws."
+    }
+   ]
+  },
+  {
+   "topic": "lute",
+   "atoms": [
+    {
+     "role": "kind",
+     "head": "sealing material"
+    },
+    {
+     "role": "relation",
+     "head": "material"
+    },
+    {
+     "role": "relation",
+     "head": "substance"
+    },
+    {
+     "role": "habitat",
+     "head": "packing"
+    },
+    {
+     "role": "part",
+     "head": "joint"
+    },
+    {
+     "role": "part",
+     "head": "coating"
+    }
+   ],
+   "queried": 13,
+   "admitted": 0,
+   "single": 1,
+   "errors": 2,
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "pubs": [
+      "Open English WordNet"
+     ],
+     "text": "Lute is a substance for packing a joint or coating a porous surface to make it impervious to gas o."
+    }
+   ]
+  },
+  {
+   "topic": "cistern",
+   "atoms": [
+    {
+     "role": "kind",
+     "head": "sac"
+    },
+    {
+     "role": "relation",
+     "head": "cavity"
+    },
+    {
+     "role": "relation",
+     "head": "structure"
+    },
+    {
+     "role": "habitat",
+     "head": "fluid"
+    },
+    {
+     "role": "part",
+     "head": "lymph"
+    }
+   ],
+   "queried": 13,
+   "admitted": 0,
+   "single": 3,
+   "errors": 3,
+   "clauses": [
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "pubs": [
+      "Open English WordNet"
+     ],
+     "text": "Cistern is a sac or cavity containing fluid especially lymph or cerebrospinal fluid."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "pubs": [
+      "NLM"
+     ],
+     "text": "Lymph is the interstitial fluid that is in the LYMPHATIC SYSTEM."
+    },
+    {
+     "n": 1,
+     "admitted": false,
+     "single": true,
+     "pubs": [
+      "Open English WordNet"
+     ],
+     "text": "Sac is an enclosed space."
+    }
+   ]
+  }
+ ]
+}

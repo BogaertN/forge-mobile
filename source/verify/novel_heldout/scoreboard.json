@@ -47,6 +47,13 @@
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "creative": { "n": 5, "file": "creative_263.json" },
       "note": "Standing counts are unchanged. A cask poem stays on the cask. A mink story keeps mink and cites mammal. Scale comes from measured kin, not a fixed metre cutoff."
+    },
+    {
+      "version": "4.9.264",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "creative": { "n": 5, "file": "creative_264.json" },
+      "note": "Standing counts are unchanged. Creative gather queries every enabled connector. A clause is admitted only when two publishers agree."
     }
   ]
 }

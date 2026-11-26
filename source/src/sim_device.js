@@ -391,6 +391,13 @@
     }
     return found;
   }
+  async function gatherCreative(frame) {
+    const heads = topicHeads(frame);
+    const topic = heads[0] || '';
+    if (!topic) return null;
+    try { return await pyCall({ op: 'gather', topic: topic, budget: 10, timeout: 2 }); }
+    catch (e) { return null; }
+  }
   async function prepareCreative(memory, question, frame) {
     /* Scene questions from the cited clauses, then the same on-page plan/solve/WASM path a factual sim uses.
      * The worker does not start Node and does not run WASM itself.
@@ -422,6 +429,6 @@
     }
     return sims;
   }
-  root.KSimDevice = { simulate, prepareCreative, research, book, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
+  root.KSimDevice = { simulate, prepareCreative, gatherCreative, research, book, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
   if (root.document) { if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', renderSettings); else renderSettings(); }
 })(typeof self !== 'undefined' ? self : this);

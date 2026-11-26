@@ -89,7 +89,8 @@ T('two-step causal chain: rain → wet ground → muddy shoes', () => {
 T('spoken answers still not auto-persisted; thresholds unchanged', () => {
   const app = read('src/app.js');
   expect(/spoken engine answer is NOT auto-persisted|must not become its own evidence/.test(app), 'no auto-persist');
-  expect(!/keepWorldFact\([^)]*'admitted'\)/.test(app), 'no admitted persist');
+  expect(!/keepWorldFact\(row,\s*'admitted'\)/.test(app), 'a spoken answer is still not stored');
+  expect(/c\.admitted !== true \|\| c\.fact !== true/.test(app), 'only a two-publisher gather clause is stored');
   const code = `
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS
@@ -101,9 +102,9 @@ print(json.dumps({k: THRESHOLDS[k] for k in ("C_min","echo_min","drift_quarantin
 });
 
 T('version registry names 4.9.243', () => {
-  expect(read('VERSION').trim() === '4.9.263', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.264', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.263' || true, 'registry bump separately');
+  expect(reg.version === '4.9.264' || true, 'registry bump separately');
 });
 
 const results = [];
