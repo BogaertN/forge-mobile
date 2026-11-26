@@ -1,3 +1,13 @@
+## v4.9.263 — A measured scale, and a poem that stays on its topic (Nic, 26 Nov 2026)
+
+**Conflict:** The library sense check refused a structure shorter than a fixed 2 m. A poem listed each measurement on its own line and took any simulator result that shared a word with the prompt, so a cask poem spoke a qubit. A story was read as putting the hypernym in the subject ("the weasel" for a mink).
+
+**Where:** `kind_accepts` walks the hypernym chain and the admitted heights of sibling or parent kinds. The tolerance is that sample's own spread. With no sample, a structure is held and a furnishing keeps the height. Composition uses the parsed topic. A measure list is one comma appositive. A cited class is a relative clause. A second event is a fronted time clause. "Because" is only the solver's mechanism. Line breaks follow clause length; the lexicon stores no syllable count. The asked noun stays the subject.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A creative reply is not a fact. Chair 0.9 m still passes. Library 0.758 m, a hall, and a bank hold. A table keeps its height. A bottle at 5 m does not fit the vessel sample.
+
+Proof: `verify/r4283_suite.js`. Trace: `verify/novel_heldout/creative_263.json`.
+
 ## v4.9.262 — Creative replies use the phone's sim path (Nic, 26 Nov 2026)
 
 **Conflict:** On the phone, compose() planned scene questions by starting Node and solved WASM inside the worker, so a creative reply had no simulation and no math. "Because" was attached to the before-state ("the boat slides because the boat rests") and the same clause was repeated. A library poem spoke "The height of the library is 0.758 m." "Can you integrate a function?" held, although the math grammar computes integrals.

@@ -101,7 +101,8 @@ function Wording(ctx) {
       return { lemma: 'coord', op: c.op || 'and', parts, args: [], polarity: 'pos', tense: null };
     }
     if (!c.verb) return null;
-    const v = c.verb, subj = c.subj ? G.npText(c.subj, 'kernel') : null;
+    const bare = c.subj ? Object.assign({}, c.subj, { members: undefined, rel: undefined }) : null;
+    const v = c.verb, subj = bare ? G.npText(bare, 'kernel') : null;
     if (!subj) return null;
     const base = { lemma: v.lemma, polarity: v.pol || 'pos', tense: v.tense || 'present', modifiers: adjunctArgs(c) };
     if (v.particle) base.particle = v.particle;

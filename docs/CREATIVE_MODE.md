@@ -22,6 +22,12 @@ Older release notes say creative writing was not started (`source/CONFLICTS.md` 
 
 No generator of poems or stories. No opinion or preference reasoner. No speech act for compose, narrate, describe-as-a-scene, or prefer. No path that feeds a simulator result and a computed number into one labelled creative reply. No UI label `creative` on an ask card. A creative or opinion prompt at `53840a4` fell through Derive and was held with Echo 0.
 
+## What 4.9.263 changes
+
+A height is accepted from the kind's own family. `kind_accepts` walks the hypernym chain and uses admitted heights of sibling or parent kinds. The allowed band is that sample's own spread. A structure with no measured kin is held. A furnishing with no measured kin keeps the height, so a chair at 0.9 m still passes. A library, a hall, and a bank hold. A table keeps 0.75 m. A bottle at 5 m falls outside the vessel sample; a bottle at 0.22 m fits it.
+
+A poem or a story stays on the parsed topic. A fact is included when it names that topic, or when it names a noun a topic fact already names, so a harbor that holds water can bring a boat and a cask poem does not bring a qubit. Dimensions fold into one noun ("the cask, 0.62 meters tall, 0.28 meters wide and 0.28 meters deep, weighs 4.8 kilograms"). A cited class is a relative clause ("the mink that is a mammal"). A second event is a fronted "after" clause. "Because" is only the solver mechanism. The lexicon has no syllable counts, so a stanza break follows clause length. The asked noun stays the subject. The class is cited, not substituted.
+
 ## What 4.9.261 changes
 
 The 4.9.260 scene list (water, sea, tide, harbor, boat, and a measured height pushed near the top) is gone. `questions_for_rows` in `sim_karaka.py` builds a question from the clause's verb, an in-adjunct, a geometric measure, or an above-measure, and `plan()` selects the solver. Capability verbs come from `computed_math.operation_lemmas`. Preference is a comparative, superlative, or evaluative lexicon class on the frame. Composition is an arc of kāraka atoms realized by `grammar.js`. A topic with no fact is an Athena gap and is not stored.

@@ -1,0 +1,54 @@
+{
+ "schema": "forge.creative_heldout/v1",
+ "not_a_golden": true,
+ "version": "4.9.263",
+ "n": 5,
+ "note": "Fresh prompts. Not imported by product code. The 4.9.262 cask poem is the before text.",
+ "scale": {
+  "library_0.758": false,
+  "hall_0.5": false,
+  "bank_0.5": false,
+  "table_0.75": true,
+  "chair_0.9": true,
+  "bottle_0.22": true,
+  "bottle_5": false
+ },
+ "rows": [
+  {
+   "id": "cask-topic",
+   "q": "Write a poem about a cask.",
+   "before": "The cask weighs 4.8 kilograms.\nThe cask is 0.62 meters tall.\nThe cask is 0.28 meters wide.\nThe cask is 0.28 meters deep.\n\nThe cask rests.\nThe cask slides because the critical height exceeds the push height.\nThe seawater rests.\nThe seawater boils because the final temperature of the seawater is above the boiling point.\nThe qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.\nThe reaction balances as CH4 + 2 O2 -> CO2 + 2 H2O.\n9 times 6 is 54.",
+   "reply": "The cask, 0.62 meters tall, 0.28 meters wide and 0.28 meters deep, weighs 4.8 kilograms.\nAfter the cask rests, the cask slides because the critical height exceeds the push height.",
+   "sims": ["mujoco_wasm"],
+   "absent": ["qubit", "seawater", "methane"]
+  },
+  {
+   "id": "mink-chain",
+   "q": "Tell a story about a mink.",
+   "facts": ["A mink is a mammal.", "A mink has fur."],
+   "reply": "The mink that is a mammal had fur.",
+   "chain": ["mink", "mammal"],
+   "absent": ["weasel"]
+  },
+  {
+   "id": "weasel-subject",
+   "q": "Tell a story about a weasel.",
+   "facts": ["A weasel is a mammal."],
+   "reply": "The weasel was a mammal.",
+   "chain": ["weasel", "mammal"]
+  },
+  {
+   "id": "heron-sequence",
+   "q": "Tell a story about a heron.",
+   "facts": ["A heron is a bird.", "A heron catches fish.", "A heron wades."],
+   "reply": "After the heron waded, the heron that is a bird caught fish.",
+   "chain": ["heron", "bird"]
+  },
+  {
+   "id": "harbor-kin",
+   "q": "Write a poem about a harbor.",
+   "facts": ["The harbor holds water.", "A boat floats on water."],
+   "reply": "The harbor holds water.\nThe boat floats on water."
+  }
+ ]
+}
