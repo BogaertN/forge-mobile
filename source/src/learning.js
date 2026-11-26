@@ -77,6 +77,23 @@
     if (frame && frame.pred) roles.push({ role: 'pred', head: head(frame.pred) });
     return roles.filter(r => r.head);
   }
+  function noteTurn(text, frame) {
+    const doc = load();
+    if (frame && frame.parsed && frame.rule !== 'QF-LEARNED' && doc.hold) {
+      const noted = noteCorrection(doc.hold, text, frame);
+      doc.hold = null;
+      save(doc);
+      return noted;
+    }
+    if (!frame || !frame.parsed) {
+      doc.hold = String(text || '');
+      save(doc);
+      return { ok: true, rule: 'LEARN-FRAME-HELD', spoken_as_fact: false };
+    }
+    doc.hold = null;
+    save(doc);
+    return { ok: true, rule: 'LEARN-FRAME-IDLE' };
+  }
   function noteCorrection(failed, successText, successFrame) {
     const doc = load();
     const roles = rolesOf(successFrame);
@@ -207,7 +224,7 @@
     };
   }
   const api = {
-    SCHEMA, MIN_SUPPORT, clear, induce, gilligan, noteCorrection, validateReplay, admitFrame, retractFrame, applyFrame,
+    SCHEMA, MIN_SUPPORT, clear, induce, gilligan, noteCorrection, noteTurn, validateReplay, admitFrame, retractFrame, applyFrame,
     noteAdmitted, label, calibrationReport, proposeStricter, supersedeHosted, ageHosted, admittedIds, closeLoop, load
   };
   if (isNode) module.exports = api; else root.KLearning = api;
