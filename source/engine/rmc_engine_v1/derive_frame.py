@@ -569,13 +569,14 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
             fa = _adhikarana_np(fframe)
             if qa and not (fa and np_unify(qa, fa)):
                 return None
-            qkala, fkala = _kala_pp(qframe), _kala_pp(fframe)
-            if qkala and fkala:
-                if str(qkala.get("prep") or "").lower() != str(fkala.get("prep") or "").lower() or not np_unify(qkala.get("np"), fkala.get("np")):
+            if asked is None:
+                qkala, fkala = _kala_pp(qframe), _kala_pp(fframe)
+                if qkala and fkala:
+                    if str(qkala.get("prep") or "").lower() != str(fkala.get("prep") or "").lower() or not np_unify(qkala.get("np"), fkala.get("np")):
+                        return None
+                elif qkala and polarity_of(fframe) != "neg":
+                    # A positive event at no stated time does not answer a question about a particular time.
                     return None
-            elif qkala and polarity_of(fframe) != "neg":
-                # A positive event at no stated time does not answer a question about a particular time.
-                return None
             return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "kartr,karma", "rule": "polar"}
         return None
     if fpol != "pos":
