@@ -19,6 +19,13 @@
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "fresh": { "spoke": 5, "held": 1, "n": 6, "file": "composites_259.js" },
       "note": "Gilligan auto-admits. Fresh handoff speaks the induced rule, the stored kind sentence, the quillon push, and 17% of 640, then a counterexample archives the rule and that question is held."
+    },
+    {
+      "version": "4.9.260",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "creative": { "n": 11, "file": "creative_260.json" },
+      "note": "orbit-640 and orbit-sun now speak the measured period. Creative prompts are a separate trace, not part of these counts."
     }
   ]
 }

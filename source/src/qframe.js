@@ -322,8 +322,19 @@
     return c;
   }
   /* the subject NP alone, for a question whose full declarative will not parse: the longest prefix that parses as "NP is something" */
+  function measureTail(body, k) {
+    const num = String(body[k - 1] || '');
+    const unit = String(body[k] || '').toLowerCase();
+    if (!/^\d+(?:\.\d+)?$/.test(num)) return false;
+    return /^(kilometers?|kilometres?|meters?|metres?|centimeters?|millimeters?|cm|mm|feet|foot|inches?|inch|m)$/.test(unit);
+  }
   function subjectOnly(forge, body) {
-    for (let k = body.length; k >= 1; k--) { const p = parse(forge, join(body.slice(0, k)) + ' is something'); if (p && p.clause && p.clause.subj) return { p, k }; }
+    for (let k = body.length; k >= 1; k--) {
+      /* A number glued to the following length unit is the measure of that place, not the end of the subject. */
+      if (measureTail(body, k)) continue;
+      const p = parse(forge, join(body.slice(0, k)) + ' is something');
+      if (p && p.clause && p.clause.subj) return { p, k };
+    }
     return null;
   }
   /* reorder an aux-fronted question body into declarative order, trying every split point, filler at the asked slot */
@@ -853,16 +864,55 @@
     else if (concepts.length > 1) frame.lexicon = { ambiguous: true, term: head, ids: concepts.map(c => c.id) };
     return frame;
   }
+  function markExpressive(forge, frame) {
+    /* A creative or opinion act is read off the parsed frame and the lexicon class of its verb and object.
+     * It is not a list of prompt strings. */
+    if (!frame) return frame;
+    if (frame.wh === 'which' && frame.locus && frame.locus.tokens && frame.locus.tokens.length) {
+      const verb = String(frame.locus.tokens[0].w || '').toLowerCase();
+      const gloss = String((sensesOf(forge, verb, 'v')[0] || {}).gloss || '');
+      if (/like better|select as an alternative/.test(gloss)) {
+        frame.speech_act = 'prefer';
+        frame.kriya = verb;
+        frame.expressive = 'opinion';
+      }
+    }
+    if (frame.mood === 'imperative' && frame.parsed && frame.kriya) {
+      const files = sensesOf(forge, frame.kriya, 'v').map(s => s.lexname || '');
+      const talks = files.indexOf('verb.creation') >= 0 || files.indexOf('verb.communication') >= 0;
+      const head = frame.karma && frame.karma.head;
+      const noun = head ? (sensesOf(forge, head, 'n')[0] || {}) : {};
+      if (frame.kriya === 'describe' || frame.kriya === 'imagine' || (talks && noun.lexname === 'noun.communication')) {
+        const gloss = String(noun.gloss || '');
+        frame.speech_act = /metrical|verse|rhythm/.test(gloss) ? 'compose' : /narrat|fiction/.test(gloss) ? 'narrate' : 'describe';
+        frame.expressive = frame.speech_act === 'compose' ? 'lines' : 'prose';
+      }
+    }
+    return frame;
+  }
   function compile(text, forge) {
     let frame;
     try { frame = attachLexicon(actFrame(text, forge) || canonicalize(compileQ(text, forge), forge), forge); }
     catch (e) { frame = { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; }
-    if (frame && frame.parsed) return frame;
+    frame = markExpressive(forge, frame);
+    if (frame && (frame.parsed || frame.expressive)) return frame;
     try {
       const L = (typeof module !== 'undefined' && module.exports) ? require('./learning.js') : root.KLearning;
       const learned = L && L.applyFrame ? L.applyFrame(text) : null;
       if (learned) return learned;
     } catch (e) { /* a missing learner leaves the unparsed frame */ }
+    const parts = String(text || '').split(/(?<=[.!?])\s+/).filter(Boolean);
+    if (parts.length > 1) {
+      let first = null;
+      try { first = attachLexicon(actFrame(parts[0], forge) || canonicalize(compileQ(parts[0], forge), forge), forge); }
+      catch (e) { first = null; }
+      first = markExpressive(forge, first);
+      if (first && first.expressive) {
+        first.rest = parts.slice(1).join(' ');
+        first.text = String(text || '');
+        return first;
+      }
+    }
     return frame;
   }
   /* A sim-ask reply is either measures, a kind, or both. The measures are the same lift the question frame

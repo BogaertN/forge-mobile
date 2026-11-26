@@ -1,0 +1,228 @@
+{
+ "schema": "forge.creative_heldout/v1",
+ "not_a_golden": true,
+ "n": 11,
+ "rows": [
+  {
+   "id": "cr-tide",
+   "q": "Describe the tide.",
+   "product": true,
+   "route": "creative",
+   "reply": "The tide rises. The tide falls.",
+   "write": false,
+   "speech": null,
+   "facts": [
+    {
+     "text": "The tide rises.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "The tide falls.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null
+  },
+  {
+   "id": "cr-whale",
+   "q": "Tell me a story about a whale.",
+   "product": true,
+   "route": "creative",
+   "reply": "A whale is a mammal. A whale has no fur.",
+   "write": false,
+   "speech": null,
+   "facts": [
+    {
+     "text": "A whale is a mammal.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "A whale has no fur.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null
+  },
+  {
+   "id": "cr-fox",
+   "q": "Which do you prefer, a fox or a skunk?",
+   "product": true,
+   "route": "creative",
+   "reply": "The fox. A fox is a dog. A dog is a mammal. A fox is a mammal.",
+   "write": false,
+   "speech": null,
+   "facts": [
+    {
+     "text": "A fox is a dog.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": "c0"
+  },
+  {
+   "id": "cr-harbor",
+   "q": "Imagine a harbor.",
+   "product": true,
+   "route": "creative",
+   "reply": "A harbor holds water. A boat floats in the water.",
+   "write": false,
+   "speech": null,
+   "facts": [
+    {
+     "text": "A harbor holds water.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "A boat floats in the water.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null
+  },
+  {
+   "id": "cr-drum",
+   "q": "Describe a drum.",
+   "product": true,
+   "route": "creative",
+   "reply": "A drum is an instrument.",
+   "write": false,
+   "speech": null,
+   "facts": [
+    {
+     "text": "A drum is an instrument.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null
+  },
+  {
+   "id": "cr-sable",
+   "q": "Which do you prefer, a sable or a skunk?",
+   "product": true,
+   "route": "creative",
+   "reply": "The sable. A sable is a mammal. A mammal is an animal. A sable is an animal.",
+   "write": false,
+   "speech": null,
+   "facts": [
+    {
+     "text": "A sable is a mammal.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "A mammal is an animal.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": "c0"
+  },
+  {
+   "id": "cr-boat",
+   "q": "Write a poem about a boat. What is 4 times 9?",
+   "product": true,
+   "route": "creative",
+   "reply": "The boat weighs 4.2 kilograms and is 0.55 meters tall and 0.30 meters wide and 0.30 meters deep.\nThe boat slides.\nThe boat floats in water.\n4 times 9 is 36.",
+   "write": false,
+   "speech": null,
+   "facts": [
+    {
+     "text": "The boat weighs 4.2 kilograms and is 0.55 meters tall and 0.30 meters wide and 0.30 meters deep.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "mujoco_wasm",
+     "outcome": "slide",
+     "text": "The boat slides."
+    },
+    {
+     "solver": "buoyancy_ondevice",
+     "outcome": "float",
+     "text": "The boat floats in water."
+    }
+   ],
+   "math": [
+    "4 times 9 is 36."
+   ],
+   "why": null
+  },
+  {
+   "id": "cr-otter",
+   "q": "Tell me a story about an otter.",
+   "product": true,
+   "route": "creative",
+   "reply": "An otter is a mammal. An otter has fur.",
+   "write": false,
+   "speech": null,
+   "facts": [
+    {
+     "text": "An otter is a mammal.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "An otter has fur.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null
+  },
+  {
+   "id": "cr-water",
+   "q": "Describe water.",
+   "product": true,
+   "route": "creative",
+   "reply": "Water freezes below 0 degrees.",
+   "write": false,
+   "speech": null,
+   "facts": [
+    {
+     "text": "Water freezes below 0 degrees.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null
+  },
+  {
+   "id": "cr-empty",
+   "q": "Write a poem about a library.",
+   "product": true,
+   "route": "creative",
+   "reply": "I have no fact about the library.",
+   "write": false,
+   "speech": null,
+   "facts": [],
+   "sims": [],
+   "math": [],
+   "why": null
+  },
+  {
+   "id": "cr-season",
+   "q": "Which is the better season, winter or summer?",
+   "product": false,
+   "route": "correction_queue",
+   "reply": null,
+   "write": null,
+   "speech": null,
+   "facts": [],
+   "sims": [],
+   "math": [],
+   "why": null
+  }
+ ]
+}
