@@ -1,0 +1,377 @@
+{
+ "schema": "forge.creative_heldout/v1",
+ "not_a_golden": true,
+ "n": 15,
+ "rows": [
+  {
+   "id": "p-tide",
+   "q": "Describe a tide.",
+   "product": true,
+   "route": "creative",
+   "reply": "The tide rises. The tide falls.",
+   "write": false,
+   "facts": [
+    {
+     "text": "The tide rises.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "The tide falls.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "describe"
+  },
+  {
+   "id": "p-mink",
+   "q": "Tell a story about a mink.",
+   "product": true,
+   "route": "creative",
+   "reply": "The mink was a mammal. The mink had fur.",
+   "write": false,
+   "facts": [
+    {
+     "text": "A mink is a mammal.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "A mink has fur.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "narrate"
+  },
+  {
+   "id": "p-better",
+   "q": "Which is the better instrument, a harp or a drum?",
+   "product": true,
+   "route": "creative",
+   "reply": "The harp is the choice. A harp is a lute. A lute is a stringed instrument. A harp is a stringed instrument.",
+   "write": false,
+   "facts": [
+    {
+     "text": "A harp is a lute.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "A lute is a stringed instrument.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": "c0",
+   "athena": null,
+   "speech": "prefer"
+  },
+  {
+   "id": "p-rather",
+   "q": "Would you rather a sable or a skunk?",
+   "product": true,
+   "route": "creative",
+   "reply": "The sable is the choice. A sable is a mammal. A mammal is an animal. A sable is an animal.",
+   "write": false,
+   "facts": [
+    {
+     "text": "A sable is a mammal.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "A mammal is an animal.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": "c0",
+   "athena": null,
+   "speech": "prefer"
+  },
+  {
+   "id": "p-favorite",
+   "q": "What is your favorite instrument?",
+   "product": true,
+   "route": "creative",
+   "reply": "The lyre is the choice. A lyre is an instrument.",
+   "write": false,
+   "facts": [
+    {
+     "text": "A lyre is an instrument.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": "c0",
+   "athena": null,
+   "speech": "prefer"
+  },
+  {
+   "id": "p-crate",
+   "q": "Write a poem about a crate. What is 8 times 7?",
+   "product": true,
+   "route": "creative",
+   "reply": "The crate weighs 6.2 kilograms.\n\nThe crate rests.\nThe crate slides.\nThe crate slides after the crate rests.\n8 times 7 is 56.\nThe crate slides because the crate rests.",
+   "write": false,
+   "facts": [
+    {
+     "text": "The crate weighs 6.2 kilograms and is 0.48 meters tall and 0.36 meters wide and 0.36 meters deep.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "mujoco_wasm",
+     "outcome": "slide",
+     "text": "The crate slides.",
+     "question": "What happens if I push the crate near the middle?"
+    }
+   ],
+   "math": [
+    "8 times 7 is 56."
+   ],
+   "why": null,
+   "athena": null,
+   "speech": "compose"
+  },
+  {
+   "id": "p-ethanol",
+   "q": "Write a poem about ethanol.",
+   "product": true,
+   "route": "creative",
+   "reply": "Heat 180 grams of ethanol to 85 degrees.\n\nThe ethanol rests.\nThe ethanol boils.\nThe ethanol boils after the ethanol rests.",
+   "write": false,
+   "facts": [
+    {
+     "text": "Heat 180 grams of ethanol to 85 degrees.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "thermal_ondevice",
+     "outcome": "boil",
+     "text": "The ethanol boils.",
+     "question": "What happens if you heat 180 grams of ethanol to 85 degrees?"
+    }
+   ],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "compose"
+  },
+  {
+   "id": "p-gate",
+   "q": "Write a poem about a gate.",
+   "product": true,
+   "route": "creative",
+   "reply": "What happens if you apply a Hadamard gate to a qubit in state 0?\n\nThe qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
+   "write": false,
+   "facts": [
+    {
+     "text": "What happens if you apply a Hadamard gate to a qubit in state 0?",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "quantum_ondevice",
+     "outcome": "measure",
+     "text": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
+     "question": "What happens if you apply a Hadamard gate to a qubit in state 0?"
+    }
+   ],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "compose"
+  },
+  {
+   "id": "p-divider",
+   "q": "Describe a divider.",
+   "product": true,
+   "route": "creative",
+   "reply": "Put 10 volts across a 1k and 1k voltage divider. The output is 5 volts and the current is 5 milliamps.",
+   "write": false,
+   "facts": [
+    {
+     "text": "Put 10 volts across a 1k and 1k voltage divider.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "circuits_wasm",
+     "outcome": "solve",
+     "text": "The output is 5 volts and the current is 5 milliamps.",
+     "question": "What happens if you put 10 volts across a 1k and 1k voltage divider?"
+    }
+   ],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "describe"
+  },
+  {
+   "id": "p-hydrogen",
+   "q": "Tell a story about hydrogen.",
+   "product": true,
+   "route": "creative",
+   "reply": "Hydrogen reacts with oxygen. The reaction balances as 2 H2 + O2 -> 2 H2O.",
+   "write": false,
+   "facts": [
+    {
+     "text": "Hydrogen reacts with oxygen.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "chemistry_ondevice",
+     "outcome": "react",
+     "text": "The reaction balances as 2 H2 + O2 -> 2 H2O.",
+     "question": "What happens if hydrogen reacts with oxygen?"
+    }
+   ],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "narrate"
+  },
+  {
+   "id": "p-dock",
+   "q": "Describe a dock.",
+   "product": true,
+   "route": "creative",
+   "reply": "The dock sits 350 kilometers. The satellite circles Earth every 91.39 minutes at 7.701 kilometers per second.",
+   "write": false,
+   "facts": [
+    {
+     "text": "The dock sits 350 kilometers above Earth.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "astronomy_ondevice",
+     "outcome": "orbit",
+     "text": "The satellite circles Earth every 91.39 minutes at 7.701 kilometers per second.",
+     "question": "What is the period of a satellite 350 kilometers above earth?"
+    }
+   ],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "describe"
+  },
+  {
+   "id": "p-ball",
+   "q": "Write a poem about a ball.",
+   "product": true,
+   "route": "creative",
+   "reply": "What happens if you throw a ball at 30 degrees at 20 m/s?\n\nThe ball lands 35.324 meters away after 2.039 seconds.",
+   "write": false,
+   "facts": [
+    {
+     "text": "What happens if you throw a ball at 30 degrees at 20 m/s?",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "sympy_pyodide",
+     "outcome": "land",
+     "text": "The ball lands 35.324 meters away after 2.039 seconds.",
+     "question": "What happens if you throw a ball at 30 degrees at 20 m/s?"
+    }
+   ],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "compose"
+  },
+  {
+   "id": "p-sequence",
+   "q": "Tell a story about a sequence.",
+   "product": true,
+   "route": "creative",
+   "reply": "Translate the RNA sequence AUGCCCUAG. The ribosome makes the protein MP and then stops.",
+   "write": false,
+   "facts": [
+    {
+     "text": "Translate the RNA sequence AUGCCCUAG.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "biology_ondevice",
+     "outcome": "translate",
+     "text": "The ribosome makes the protein MP and then stops.",
+     "question": "What happens if you translate the RNA sequence AUGCCCUAG?"
+    }
+   ],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "narrate"
+  },
+  {
+   "id": "p-harbor",
+   "q": "Imagine a harbor.",
+   "product": true,
+   "route": "creative",
+   "reply": "The harbor holds water. A skiff floats in the water. The skiff floats in water after the skiff rests.",
+   "write": false,
+   "facts": [
+    {
+     "text": "A harbor holds water.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "A skiff floats in the water.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "buoyancy_ondevice",
+     "outcome": "float",
+     "text": "The skiff floats in water.",
+     "question": "What happens if I drop the skiff in the water?"
+    }
+   ],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "describe"
+  },
+  {
+   "id": "p-library",
+   "q": "Write a poem about a library.",
+   "product": true,
+   "route": "creative",
+   "reply": "The height of the library is 0.758 m.",
+   "write": false,
+   "facts": [
+    {
+     "text": "The height of the library is 0.758 m.",
+     "source": "athena"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null,
+   "athena": "ATHENA-PROPOSED",
+   "speech": "compose"
+  }
+ ]
+}

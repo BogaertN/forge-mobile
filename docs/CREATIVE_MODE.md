@@ -22,6 +22,10 @@ Older release notes say creative writing was not started (`source/CONFLICTS.md` 
 
 No generator of poems or stories. No opinion or preference reasoner. No speech act for compose, narrate, describe-as-a-scene, or prefer. No path that feeds a simulator result and a computed number into one labelled creative reply. No UI label `creative` on an ask card. A creative or opinion prompt at `53840a4` fell through Derive and was held with Echo 0.
 
+## What 4.9.261 changes
+
+The 4.9.260 scene list (water, sea, tide, harbor, boat, and a measured height pushed near the top) is gone. `questions_for_rows` in `sim_karaka.py` builds a question from the clause's verb, an in-adjunct, a geometric measure, or an above-measure, and `plan()` selects the solver. Capability verbs come from `computed_math.operation_lemmas`. Preference is a comparative, superlative, or evaluative lexicon class on the frame. Composition is an arc of kāraka atoms realized by `grammar.js`. A topic with no fact is an Athena gap and is not stored.
+
 ## What 4.9.260 adds
 
 Parse sets `compose`, `narrate`, `describe`, or `prefer` from the verb's lexicon class and the object's lexicon class (`source/src/qframe.js` `markExpressive`). `source/engine/rmc_engine_v1/creative.py` reads phone, hosted, and self facts whose clauses name the topic, calls `sim_device.plan` and `solve` when a fact gives a body the existing solvers can measure, and calls `computed_math.compute` on a sentence of the same question that is an operation. Lines are those facts, solver sentences, and computed sentences. An opinion names the option that a fact supports and, when Derive chains it, the chain. The reply is labelled creative, `memory_write.proposed` is false, and it is not a Gilligan fact. Factual floors in `mobile_config.py` are unchanged.

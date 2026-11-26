@@ -44,6 +44,10 @@
     if (atom.particle) { verb.particle = atom.particle; verb.particlePos = 'post'; }
     const clause = { subj: npFrom(args[0]), verb: verb, roles: {}, adj: adjFrom(atom.modifiers) };
     if (args.length > 1 && args[1] !== '') clause.roles.karma = npFrom(args[1]);
+    if (atom.sub && atom.sub.conj && atom.sub.atom) {
+      const inner = clauseFrom(atom.sub.atom);
+      if (inner) clause.sub = { conj: atom.sub.conj, pre: !!atom.sub.pre, clause: inner };
+    }
     return clause;
   }
   function realizeAtom(atom) {

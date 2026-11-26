@@ -747,3 +747,110 @@ def resume_pending(question: str, frame: dict[str, Any] | None, supplement: dict
     return {"ok": True, "question": rebuilt, "specific": bool(phrase) and not stated,
             "derive_missing": bool(stated.get("height")) and "width" not in stated and "depth" not in stated,
             "calls_llm": False}
+
+
+_INTERVENTION = _PUSH | _DROP | _THROW | _HEAT | _REACT | _IMMERSE | {"orbit", "translate", "transcribe", "apply", "run"}
+_GEOM_PROPS = {"mass", "height", "width", "depth"}
+
+
+def _push_points() -> set[str]:
+    try:
+        from rmc_engine_v1.sim_scene import defaults
+        return {str(k).lower() for k in (defaults().get("points") or {})}
+    except Exception:
+        return set()
+
+
+def _neutral_point() -> str | None:
+    """The point the rigid-body table treats as halfway up. Not a topic word."""
+    try:
+        from rmc_engine_v1.sim_scene import defaults
+        points = defaults().get("points") or {}
+    except Exception:
+        return None
+    for name, frac in points.items():
+        try:
+            if abs(float(frac) - 0.5) < 1e-9:
+                return str(name).lower()
+        except (TypeError, ValueError):
+            continue
+    return None
+
+
+def questions_for_rows(rows: list[dict[str, Any]] | None) -> list[str]:
+    """Scene questions built from cited clauses and the measures memory_facts already reads.
+
+    A clause whose own verb is an intervention is re-asked. A clause with an in-adjunct names
+    that complement as the fluid. A head with a geometric measure is a rigid body. A head that
+    sits above a body is an orbit. plan() accepts or holds each question. No topic-word list.
+    """
+    props = memory_facts(rows)
+    by: dict[str, list[dict[str, Any]]] = {}
+    for prop in props:
+        by.setdefault(str(prop.get("head") or ""), []).append(prop)
+    out: list[str] = []
+    seen: set[str] = set()
+
+    def add(question: str) -> None:
+        q = " ".join(str(question or "").split())
+        key = q.lower().rstrip("?")
+        if not q or key in seen:
+            return
+        seen.add(key)
+        out.append(q if q.endswith("?") else q + "?")
+
+    for row in rows or []:
+        if not isinstance(row, dict):
+            continue
+        text = str(row.get("text") or "").strip()
+        bare = text.rstrip(".!?").strip()
+        if bare.lower().startswith("what "):
+            candidate = bare if bare.endswith("?") else bare + "?"
+            reading = read(candidate, facts=props)
+            if not reading.get("hold") and reading.get("kind"):
+                add(candidate)
+        elif bare:
+            first = bare.split()[0].lower()
+            if first in _INTERVENTION:
+                candidate = "What happens if you " + bare[0].lower() + bare[1:] + "?"
+                reading = read(candidate, facts=props)
+                if not reading.get("hold") and reading.get("kind"):
+                    add(candidate)
+            else:
+                candidate = "What happens if " + bare[0].lower() + bare[1:] + "?"
+                reading = read(candidate, facts=props)
+                if not reading.get("hold") and reading.get("kind"):
+                    add(candidate)
+        top = row.get("clause") if isinstance(row.get("clause"), dict) else {}
+        for cl in _clause_list(top):
+            if not isinstance(cl, dict):
+                continue
+            head = _head(cl.get("kartr"))
+            if not head:
+                continue
+            point = None
+            for adj in cl.get("adj") or []:
+                if not isinstance(adj, dict):
+                    continue
+                if str(adj.get("prep") or "") == "in":
+                    fluid = _head(adj.get("np"))
+                    if fluid and fluid != head:
+                        add("What happens if I drop the " + head + " in the " + fluid)
+                if _head(adj.get("np")) in _push_points():
+                    point = _head(adj.get("np"))
+            own = by.get(head) or []
+            if any(p.get("property") in _GEOM_PROPS for p in own):
+                where = point or _neutral_point()
+                add("What happens if I push the " + head + (" near the " + where if where else ""))
+            for prop in own:
+                if prop.get("property") == "above" and prop.get("above") and prop.get("value") is not None:
+                    try:
+                        meters = float(prop["value"])
+                    except (TypeError, ValueError):
+                        continue
+                    body = str(prop["above"])
+                    if meters >= 1000.0:
+                        add("What is the period of a satellite " + format(meters / 1000.0, "g") + " kilometers above " + body)
+                    else:
+                        add("What is the period of a satellite " + format(meters, "g") + " meters above " + body)
+    return out[:8]

@@ -159,12 +159,13 @@ function withClauses(payload, QF, F) {
       }
     }
   } catch (e) {}
-  /* A capability question whose verb is an installed arithmetic operation has no manual sentence.
-   * The clause is the question's own kartṛ and karma, for this turn, and it is not stored. */
+  /* A capability question whose verb is an operation the compute grammar compiles has no manual sentence.
+   * The verb set is math_ops.js, generated from computed_math.operation_lemmas. The clause is for this turn. */
   try {
     const fr = payload.frame;
-    const arith = { add: 1, subtract: 1, multiply: 1, divide: 1 };
-    if (fr && fr.wh_role === 'polarity' && fr.modality === 'able' && arith[fr.kriya] && fr.karma && fr.karma.text && fr.kartr && fr.kartr.kernel) {
+    const ops = (typeof module !== 'undefined' && module.exports) ? require('./math_ops.js') : (root && root.KMathOps);
+    const arith = new Set((ops && ops.verbs) || []);
+    if (fr && fr.wh_role === 'polarity' && fr.modality === 'able' && arith.has(fr.kriya) && fr.karma && fr.karma.text && fr.kartr && fr.kartr.kernel) {
       const text = 'You ' + fr.kriya + ' ' + fr.karma.text + '.';
       const cl = QF.clause(text, F);
       if (cl && cl.parsed) m.self = m.self.concat([{ id: 'cap:' + fr.kriya, text: text, tier: 'self', trust: 'trusted', clause: cl, source: 'self_model', capability: 'cap.math.whole_number_arithmetic.v1' }]);
@@ -204,6 +205,7 @@ function outwardCompile(row, payload, F, R2, QFin) {
   if (!F || typeof F.outward !== 'function') { rec.mode = 'quoted'; rec.reason = 'compiler_missing'; return Object.assign({}, row, { outward_compile: rec }); }
   const out = [];
   for (const s of plan.sentences) {
+    if (s && s.break_before && out.length) out.push('');
     if (!s || !s.atom) { out.push(String(s && s.text || '')); rec.sentences.push({ text: s && s.text, mode: 'quoted', source_id: s && s.source_id || null }); continue; }
     /* 4.9.241: a speech-act response is compiled from its act atom by the speech-act lexicon (realize, re-read, same act) */
     if (s.atom.predicate === 'speech_act') {
@@ -240,11 +242,12 @@ function outwardCompile(row, payload, F, R2, QFin) {
     if (!r.ok) return holdOutward(row, rec, 'OUTWARD-COMPILE-FAIL');
     out.push(r.R_t);
   }
-  const R_t = out.join(' ').trim();
+  const joiner = plan && plan.form === 'lines' ? '\n' : ' ';
+  const R_t = out.join(joiner).trim();
   rec.mode = rec.sentences.every(x => x.mode === 'compiled') ? 'compiled' : rec.sentences.every(x => x.mode === 'quoted') ? 'quoted' : 'mixed';
   rec.R_t = R_t; rec.measured_text = plan.measured_text || row.reply;
   rec.surface_changed = normS(R_t) !== normS(rec.measured_text);
-  if (rec.surface_changed) {
+  if (rec.surface_changed && !(row.admit && row.admit.disposition === 'creative')) {
     let e = null; try { e = R2 && R2.echoOf ? R2.echoOf(payload && payload.question, R_t) : null; } catch (x) { e = null; }
     rec.echo = e ? { score: e.score, pass: !!e.pass } : null;
     if (!e || !e.pass) return holdOutward(row, rec, 'OUTWARD-ECHO-FAIL');

@@ -26,6 +26,13 @@
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "creative": { "n": 11, "file": "creative_260.json" },
       "note": "orbit-640 and orbit-sun now speak the measured period. Creative prompts are a separate trace, not part of these counts."
+    },
+    {
+      "version": "4.9.261",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "creative": { "n": 15, "file": "creative_261.json" },
+      "note": "Standing counts are unchanged. Creative traces are separate. Nine solvers appear across those traces."
     }
   ]
 }

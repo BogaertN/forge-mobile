@@ -864,27 +864,90 @@
     else if (concepts.length > 1) frame.lexicon = { ambiguous: true, term: head, ids: concepts.map(c => c.id) };
     return frame;
   }
+  function glosses(forge, w) { return sensesOf(forge, w).map(s => String(s.gloss || '')); }
+  function comparativeLex(forge, w) {
+    const g = glosses(forge, w).map(x => x.trim());
+    if (g.some(x => /^\(?comparative\b/i.test(x) || /^\(superlative\b/i.test(x) || /^comparative of\b/i.test(x))) return true;
+    const row = G.IRRA && G.IRRA[String(w || '').toLowerCase()];
+    if (row && (row[1] === 'cmp' || row[1] === 'sup')) return true;
+    try { if (WR && WR.COMPARATIVES && WR.COMPARATIVES.has(String(w || '').toLowerCase())) return true; } catch (e) {}
+    return false;
+  }
+  function preferenceWord(forge, w) {
+    if (!w) return false;
+    if (comparativeLex(forge, w)) return true;
+    const emotion = sensesOf(forge, w).some(s => s.lexname === 'verb.emotion');
+    if (emotion && glosses(forge, w).some(g => (String(g).toLowerCase().match(/[a-z]+/g) || []).some(t => comparativeLex(forge, t)))) return true;
+    for (const s of sensesOf(forge, w)) {
+      if (s.pos !== 'a' && s.pos !== 'r') continue;
+      const tokens = String(s.gloss || '').toLowerCase().match(/[a-z]+/g) || [];
+      for (const t of tokens) {
+        const stems = [t];
+        if (t.endsWith('ed')) stems.push(t.slice(0, -2), t.slice(0, -1), t.slice(0, -3));
+        if (t.endsWith('ing')) stems.push(t.slice(0, -3), t.slice(0, -3) + 'e');
+        for (const lemma of stems) {
+          if (!lemma || !sensesOf(forge, lemma).some(v => v.lexname === 'verb.emotion')) continue;
+          if (glosses(forge, lemma).some(g => (String(g).toLowerCase().match(/[a-z]+/g) || []).some(u => comparativeLex(forge, u)))) return true;
+        }
+        if (glosses(forge, t).some(g => /^more\s+\w+/.test(String(g).trim()) && /\bthan\b/.test(g))) return true;
+      }
+      if (s.pos === 'r' && /^more\s+\w+/.test(String(s.gloss || '').trim())) return true;
+    }
+    return false;
+  }
+  function preferOptions(forge, np) {
+    if (!np) return [];
+    const members = Array.isArray(np.conj) ? np.conj : [];
+    if (members.length < 2) return [];
+    const marked = members.filter(c => (c.adjs || []).some(a => preferenceWord(forge, a)) || preferenceWord(forge, c.head) || preferenceWord(forge, String(c.text || '').split(/\s+/).pop()));
+    const plain = members.filter(c => marked.indexOf(c) < 0 && c.head);
+    return plain.length >= 2 ? plain.map(c => String(c.head).toLowerCase()) : [];
+  }
   function markExpressive(forge, frame) {
     /* A creative or opinion act is read off the parsed frame and the lexicon class of its verb and object.
-     * It is not a list of prompt strings. */
+     * Comparative and superlative evaluation is the grammar's degree and the lexicon's own class, not a word list. */
     if (!frame) return frame;
     if (frame.wh === 'which' && frame.locus && frame.locus.tokens && frame.locus.tokens.length) {
       const verb = String(frame.locus.tokens[0].w || '').toLowerCase();
-      const gloss = String((sensesOf(forge, verb, 'v')[0] || {}).gloss || '');
-      if (/like better|select as an alternative/.test(gloss)) {
+      if (preferenceWord(forge, verb) || sensesOf(forge, verb, 'v').some(s => s.lexname === 'verb.emotion')) {
         frame.speech_act = 'prefer';
         frame.kriya = verb;
         frame.expressive = 'opinion';
+      }
+    }
+    const options = preferOptions(forge, frame.kartr);
+    const asked = frame.wh === 'which' || frame.wh === 'what';
+    const evalAdj = (frame.kartr && (frame.kartr.adjs || []).some(a => preferenceWord(forge, a))) || options.length >= 2;
+    if (asked && (evalAdj || (frame.pred && (frame.pred.type === 'cmp' || frame.pred.type === 'sup')))) {
+      frame.speech_act = 'prefer';
+      frame.expressive = 'opinion';
+      if (options.length) frame.prefer_options = options;
+    }
+    if (!frame.expressive && frame.aux === 'would') {
+      let words = [];
+      try { words = String(frame.text || '').toLowerCase().replace(/[^a-z\s]/g, ' ').split(/\s+/).filter(Boolean); } catch (e) { words = []; }
+      if (words.some(w => preferenceWord(forge, w))) {
+        frame.speech_act = 'prefer';
+        frame.expressive = 'opinion';
+        const sides = String(frame.text || '').split(/\bor\b/i).slice(0, 2);
+        const opts = sides.map(part => {
+          const kept = part.toLowerCase().replace(/[^a-z\s]/g, ' ').split(/\s+/).filter(w => w && !preferenceWord(forge, w) && !(G.CL && G.CL[w]));
+          return kept.length ? kept[kept.length - 1] : '';
+        }).filter(Boolean);
+        if (opts.length >= 2) frame.prefer_options = opts;
       }
     }
     if (frame.mood === 'imperative' && frame.parsed && frame.kriya) {
       const files = sensesOf(forge, frame.kriya, 'v').map(s => s.lexname || '');
       const talks = files.indexOf('verb.creation') >= 0 || files.indexOf('verb.communication') >= 0;
       const head = frame.karma && frame.karma.head;
-      const noun = head ? (sensesOf(forge, head, 'n')[0] || {}) : {};
-      if (frame.kriya === 'describe' || frame.kriya === 'imagine' || (talks && noun.lexname === 'noun.communication')) {
-        const gloss = String(noun.gloss || '');
-        frame.speech_act = /metrical|verse|rhythm/.test(gloss) ? 'compose' : /narrat|fiction/.test(gloss) ? 'narrate' : 'describe';
+      const senses = head ? sensesOf(forge, head, 'n') : [];
+      const comm = senses.filter(s => s.lexname === 'noun.communication');
+      const gloss = comm.map(s => String(s.gloss || '')).join(' ');
+      const poem = talks && /metrical|verse|rhythm/.test(gloss);
+      const story = talks && /narrat|fiction/.test(gloss);
+      if (poem || story || frame.kriya === 'describe' || frame.kriya === 'imagine') {
+        frame.speech_act = poem ? 'compose' : story ? 'narrate' : 'describe';
         frame.expressive = frame.speech_act === 'compose' ? 'lines' : 'prose';
       }
     }
