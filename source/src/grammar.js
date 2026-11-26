@@ -272,6 +272,33 @@ function Parser(toks, lex) {
       else withRel.push(R(Object.assign({}, a.node, { relObj: Object.assign(rc, { gap: 'karma' }) }), v.i, a.rules.concat(['G-REL-OBJ-GAP'], s2.rules, v.rules))); }
     const all = res.concat(withRel);
     const co = []; for (const a of all) { const cw = word(a.i);
+      /* NP-MEASURE-APPOS / NP-KIND-APPOS: a comma-wrapped measure or a comma-wrapped kind is the noun's own description
+         ("the cask, 0.62 meters tall and 0.28 meters wide,"; "the mink, a mammal,"). The closing comma ends it. */
+      if (cw === ',' && a.node.head && !a.node.conj && !a.node.members && !a.node.pron && !a.node.pron3) {
+        const unit = /^(metres?|meters?|m|feet|foot|inches?|centimetres?|centimeters?|cm|km|kilometres?|kilometers?|miles?|kg|kilograms?|pounds?|years?|months?|weeks?|days?)$/;
+        const dim = /^(old|tall|long|wide|high|deep|heavy|away|far)$/;
+        const one = k => /^\d+(\.\d+)?$/.test(word(k)) && unit.test(word(k + 1)) && dim.test(word(k + 2)) ? k + 3 : 0;
+        let k = one(a.i + 1);
+        if (k) {
+          const parts = [{ head: [word(a.i + 1), word(a.i + 2), word(a.i + 3)], surface: [word(a.i + 1), word(a.i + 2), word(a.i + 3)] }];
+          while (word(k) === ',' || word(k) === 'and') {
+            const at = word(k) === ',' && word(k + 1) === 'and' ? k + 2 : word(k) === 'and' ? k + 1 : k + 1;
+            if (word(k) === ',' && !one(k + 1) && word(k + 1) !== 'and') break;
+            const n = one(at);
+            if (!n) break;
+            parts.push({ head: [word(at), word(at + 1), word(at + 2)], surface: [word(at), word(at + 1), word(at + 2)] });
+            k = n;
+            if (word(k - 3) && word(at) && (word(k) === ',' && word(k + 1) !== 'and' && !one(k + 1))) break;
+          }
+          if (word(k) === ',') {
+            const members = parts.length === 1 ? parts[0] : { conj: parts, op: 'and' };
+            co.push(R(Object.assign({}, a.node, { members: members }), k + 1, a.rules.concat(['NP-MEASURE-APPOS'])));
+          }
+        }
+        if (/^(a|an)$/.test(word(a.i + 1)) && at(a.i + 2, 'N').length && !at(a.i + 2, 'V').length && word(a.i + 3) === ',') {
+          co.push(R(Object.assign({}, a.node, { members: { det: word(a.i + 1), head: [word(a.i + 2)], surface: [word(a.i + 2)] } }), a.i + 4, a.rules.concat(['NP-KIND-APPOS'])));
+        }
+      }
       /* NP-ELIDED-HEAD after a comma: "the fifth planet from the Sun, and the largest in the Solar System" */
       if (cw === ',' && ['and', 'or'].includes(word(a.i + 1)) && a.node.head && !a.node.conj && word(a.i + 2) === 'the' && at(a.i + 3, 'ADJ').some(x => x.f === 'sup') && !at(a.i + 4, 'N').length) { const op = word(a.i + 1), el = { det: 'the', head: [T[a.i + 3].w], elidedHead: a.node.head[a.node.head.length - 1] }, j = a.i + 4;
         co.push(R({ conj: [a.node, el], op, plural: op === 'and' }, j, a.rules.concat(['G-COORD-NP', 'NP-ELIDED-HEAD'])));
@@ -533,7 +560,12 @@ function npText(n, persp) {
   if (n.conj) { const parts = n.conj.map(x => npText(x, persp)); return parts.length > 2 ? parts.slice(0, -1).join(', ') + (n.serial ? ',' : '') + ' ' + n.op + ' ' + parts[parts.length - 1] : parts.join(' ' + n.op + ' '); }
   if (n.boundOrig) return npText(n.boundOrig, persp); /* REF-BOUND-LOCAL: a structurally bound pronoun is realized as the pronoun */
   if (n.pron === 'user') return persp === 'user' ? 'I' : 'you'; if (n.pron === 'kernel') return persp === 'user' ? 'you' : 'I';
-  if (n.members) return npText(Object.assign({}, n, { members: undefined }), persp) + ', ' + npText(n.members, persp); /* NP-APPOSITIVE-COUNT */
+  if (n.members) {
+    const base = npText(Object.assign({}, n, { members: undefined, rel: undefined }), persp) + ', ' + npText(n.members, persp);
+    if (!n.rel) return base;
+    const who = n.propn || (n.head && n.head.some(h => FEMALE.has(h) || MALE.has(h) || PERSONISH.has(h)));
+    return base + (who ? ' who ' : ' that ') + vpText(n.rel, n, persp);
+  } /* NP-APPOSITIVE-COUNT; a relative still follows the appositive */
   if (n.pron3) return n.pron3; if (n.indef) return n.indef + (n.adjs && n.adjs.length ? ' ' + n.adjs.join(' ') : ''); if (n.propn) return (n.appos ? npText(n.appos, persp) + ' ' : '') + n.propn + (n.of ? ' of ' + npText(n.of, persp) : '') + (n.pp ? ' ' + n.pp.prep + ' ' + (n.pp.np.pron ? objText(n.pp.np, persp) : npText(n.pp.np, persp)) : ''); /* 4.9.90: a name's of-phrase is said ("the Treaty of Versailles") */ /* NP-APPOSITION-CLOSE: the description, then the name */ if (n.quote !== undefined) return '"' + n.quote + '"';
   let s = '';
   if (n.quant) s += n.quant + (n.partitive ? ' of ' : ' ');
@@ -595,7 +627,11 @@ function clauseText(c, persp) {
   let body; /* 4.9.91: a coordination keeps its subordinate clause and condition ("… and creates a demand deposit while making loans") */
   if (c.coord && c.coord.some(x => x.sharedSubj)) body = c.coord.map(x => (x.sharedSubj ? vpText(x, x.subj, persp) : clauseText(x, persp))).join(' ' + (c.op || 'and') + ' ');
   else if (c.coord) { const sep = c.comma === false ? ' ' + (c.op || 'and') + ' ' : ', ' + (c.op || 'and') + ' '; body = c.coord.map(x => clauseText(x, persp)).join(sep); }
-  else body = npText(c.subj, persp) + ' ' + vpText(c, c.subj, persp);
+  else {
+    const subj = npText(c.subj, persp);
+    body = subj + ((c.subj && c.subj.members) ? ', ' : ' ') + vpText(c, c.subj, persp);
+  }
+  if (c.front && c.front.clause) body = c.front.conj + ' ' + clauseText(c.front.clause, persp) + ', ' + body;
   if (c.sub) body = c.sub.pre ? c.sub.conj + ' ' + clauseText(c.sub.clause, persp) + ', ' + body : body + ' ' + c.sub.conj + ' ' + clauseText(c.sub.clause, persp);
   return c.cond ? 'if ' + clauseText(c.cond, persp) + ', ' + body : body;
 }

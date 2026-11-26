@@ -95,11 +95,12 @@ def _fact(head: str, prop: str, value: Any, unit: str | None, publishers: list[d
 
 
 _LEX_CACHE: dict[str, Any] | None = None
-_STRUCTURE = re.compile(r"\b(building|edifice|room|hall)\b|\bbuilt to\b", re.I)
 _COLLECTION = re.compile(r"\bcollection\b", re.I)
-# A gloss that names a room or a building is that kind only when the specimen is tall enough to be one.
-# A shorter agreement is another sense (a model, a part, a picture's subject). The bound is the class, not a noun.
-_STRUCTURE_MIN_M = 2.0
+# Hypernym lemmas that are too broad to be a size family. Not a cutoff in metres.
+_GENERIC = {"artifact", "instrumentality", "furnishing", "whole", "object", "physical entity", "entity",
+            "abstraction", "group", "thing", "substance", "matter", "attribute", "measure", "relation"}
+_STRUCTURE_NODES = {"room", "building", "structure", "hallway", "edifice", "area"}
+_ABSTRACT_NODES = {"abstraction", "group", "collection", "act", "attribute", "relation", "communication", "cognition"}
 
 
 def _lexicon() -> dict[str, Any]:
@@ -132,17 +133,146 @@ def _noun_senses(head: str) -> list[dict[str, str]]:
     return out
 
 
+def _synsets(head: str) -> list[str]:
+    data = _lexicon()
+    row = (data.get("L") or {}).get(str(head or "").lower())
+    out = []
+    if not isinstance(row, list):
+        return out
+    for pos_block in row:
+        if not isinstance(pos_block, list) or len(pos_block) < 2 or pos_block[0] != "n":
+            continue
+        for sense in pos_block[1] or []:
+            if isinstance(sense, list) and sense:
+                out.append(str(sense[0]))
+    return out
+
+
+def _ancestors(sid: str) -> list[str]:
+    data = _lexicon()
+    H = data.get("H") or {}
+    out, seen, cur = [], set(), sid
+    for _ in range(8):
+        out.append(cur)
+        nxts = H.get(cur) or []
+        nxt = nxts[0] if nxts else None
+        if not nxt or nxt in seen:
+            break
+        seen.add(nxt)
+        cur = nxt
+    return out
+
+
+def _lemma(sid: str) -> str:
+    return str((_lexicon().get("N") or {}).get(sid) or "")
+
+
+def _chain_lemmas(sid: str) -> list[str]:
+    return [w for w in (_lemma(s) for s in _ancestors(sid)) if w]
+
+
+def _children() -> dict[str, list[str]]:
+    data = _lexicon()
+    kids: dict[str, list[str]] = {}
+    for sid, hypers in (data.get("H") or {}).items():
+        for h in hypers or []:
+            kids.setdefault(str(h), []).append(str(sid))
+    return kids
+
+
+def _known_heights() -> dict[str, float]:
+    """Admitted typical heights of named bodies. A radius is the diameter, the body's own extent."""
+    path = Path(__file__).resolve().parent / "physical_defaults.json"
+    try:
+        bodies = (json.loads(path.read_text(encoding="utf-8")).get("bodies") or {})
+    except (OSError, json.JSONDecodeError):
+        return {}
+    out = {}
+    for name, body in bodies.items():
+        if not isinstance(body, dict):
+            continue
+        if isinstance(body.get("height"), (int, float)):
+            out[str(name)] = float(body["height"])
+        elif isinstance(body.get("radius"), (int, float)):
+            out[str(name)] = 2.0 * float(body["radius"])
+    return out
+
+
+def _syn_lemmas() -> dict[str, list[str]]:
+    data = _lexicon()
+    out: dict[str, list[str]] = {}
+    for lem, row in (data.get("L") or {}).items():
+        if not isinstance(row, list):
+            continue
+        for block in row:
+            if not isinstance(block, list) or not block or block[0] != "n":
+                continue
+            for sense in block[1] or []:
+                if isinstance(sense, list) and sense:
+                    out.setdefault(str(sense[0]), []).append(str(lem))
+    return out
+
+
+def _subtree(root: str, kids: dict[str, list[str]], limit: int = 400) -> list[str]:
+    out, seen, q = [], set(), [root]
+    while q and len(out) < limit:
+        cur = q.pop(0)
+        if cur in seen:
+            continue
+        seen.add(cur)
+        out.append(cur)
+        for child in kids.get(cur, []):
+            if child not in seen:
+                q.append(child)
+    return out
+
+
+def _family_heights(sid: str, self_name: str) -> list[float] | None:
+    """Heights of other lemmas under the nearest non-generic hypernym that has at least two."""
+    known = _known_heights()
+    if not known:
+        return None
+    kids = _children()
+    lemmas = _syn_lemmas()
+    for anc in _ancestors(sid)[1:]:
+        name = _lemma(anc)
+        if not name or name in _GENERIC or name == self_name:
+            continue
+        found = []
+        for node in _subtree(anc, kids):
+            for lem in lemmas.get(node, []):
+                if lem == self_name or lem not in known:
+                    continue
+                if known[lem] not in found:
+                    found.append(known[lem])
+        if len(found) >= 2:
+            return found
+    return None
+
+
+def _fits(height: float, samples: list[float]) -> bool:
+    """Inside the family's own range, expanded by the spread the samples themselves show."""
+    med = _median(samples)
+    if not med:
+        return False
+    lo, hi = min(samples), max(samples)
+    spread = (hi - lo) / med
+    pad = spread * med
+    return (lo - pad) <= height <= (hi + pad)
+
+
 def kind_accepts(head: str, rows: list[dict[str, Any]]) -> bool:
-    """A bare noun with both a structure sense and a collection sense is not one measured object.
-    A structure sense does not take a specimen shorter than that kind."""
+    """A height fits the physical sense's family, or it is held.
+
+    The family is the hypernym chain. Its scale is the admitted heights of the other
+    members under the nearest kind that has at least two. The tolerance is that sample's
+    own spread. A structure kind with no such members is held. An ordinary object with
+    no members is not given an invented cutoff.
+    """
     senses = _noun_senses(head)
+    sids = _synsets(head)
     if not senses:
         return True
-    glosses = [s["gloss"] for s in senses]
-    structure = any(_STRUCTURE.search(g) for g in glosses)
-    collection = any(s["lexname"] == "noun.group" or _COLLECTION.search(s["gloss"]) for s in senses)
-    if structure and collection:
-        return False
     heights = []
     for row in rows or []:
         if str(row.get("property") or "") != "height":
@@ -151,7 +281,41 @@ def kind_accepts(head: str, rows: list[dict[str, Any]]) -> bool:
             heights.append(float(row.get("value")))
         except (TypeError, ValueError):
             continue
-    if structure and heights and min(heights) < _STRUCTURE_MIN_M:
+    if not heights:
+        return True
+    height = min(heights)
+    kinds = []
+    for i, sense in enumerate(senses):
+        sid = sids[i] if i < len(sids) else ""
+        lemmas = set(_chain_lemmas(sid)) if sid else set()
+        gloss = sense["gloss"]
+        lexname = sense["lexname"]
+        if lemmas & _STRUCTURE_NODES:
+            kinds.append("structure")
+        elif lexname == "noun.group" or _COLLECTION.search(gloss) or lemmas & _ABSTRACT_NODES:
+            kinds.append("abstract")
+        elif lexname in {"noun.artifact", "noun.object", "noun.location", "noun.body"} or lemmas & {"artifact", "furniture", "object"}:
+            kinds.append("object")
+        else:
+            kinds.append("other")
+    structure = "structure" in kinds
+    abstract = "abstract" in kinds
+    # The physical sense used for the scale is the structure one when the noun has it, else the object one.
+    sid = ""
+    physical_lemmas: set[str] = set()
+    for i, kind in enumerate(kinds):
+        if kind == ("structure" if structure else "object") and i < len(sids):
+            sid = sids[i]
+            physical_lemmas = set(_chain_lemmas(sid))
+            break
+    samples = _family_heights(sid, head) if sid else None
+    if samples:
+        return _fits(height, samples)
+    # No measured kin. A structure, or a physical sense that is not a furnishing, is held
+    # rather than given an invented metre cutoff. A seat or a table keeps the height.
+    if structure:
+        return False
+    if abstract and not (physical_lemmas & {"furniture", "seat", "tableware", "vessel", "container", "furnishing"}):
         return False
     return True
 

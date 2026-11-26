@@ -91,8 +91,11 @@ def _facts(memory: dict[str, Any], heads: list[str], expand: bool = True) -> lis
         out.append(row)
     extra_heads = []
     for row in out:
-        for word in re.findall(r"[a-z]+", row["text"].lower()):
-            if word not in heads and word not in extra_heads and len(word) > 3:
+        clause = row.get("clause") if isinstance(row.get("clause"), dict) else {}
+        for role in ("kartr", "karma", "pred"):
+            np = clause.get(role)
+            word = str(np.get("head") or "").lower() if isinstance(np, dict) else ""
+            if word and word not in heads and word not in extra_heads and len(word) > 3:
                 extra_heads.append(word)
     if expand and extra_heads:
         more = _facts(memory, extra_heads[:6], False)
@@ -137,12 +140,64 @@ def _imagery_atom(fact: dict[str, Any], tense: str) -> dict[str, Any] | None:
     verb = str(cl.get("kriya") or "")
     karma = cl.get("karma") if isinstance(cl.get("karma"), dict) else {}
     karma_text = str(karma.get("text") or karma.get("head") or "").strip()
-    if verb and verb != "be" and karma_text:
+    mods = []
+    for adj in cl.get("adj") or []:
+        if isinstance(adj, dict) and adj.get("prep") and isinstance(adj.get("np"), dict):
+            mods.append({"prep": adj.get("prep"), "text": str(adj["np"].get("text") or adj["np"].get("head") or ""), "role": adj.get("role")})
+    if verb and verb != "be" and (karma_text or mods):
         pol = "neg" if cl.get("polarity") == "neg" else "pos"
-        return _karaka(verb, [subject, karma_text], polarity=pol, tense=tense)
+        args = [subject, karma_text] if karma_text else [subject]
+        return _karaka(verb, args, polarity=pol, tense=tense, modifiers=mods or None)
     if pred.get("text"):
         return _karaka("be", [subject, str(pred.get("text"))], tense=tense)
     return None
+
+
+def _kin_facts(facts: list[dict[str, Any]], topic: str | None) -> list[dict[str, Any]]:
+    """Facts about a noun that a topic fact already names. A harbor fact that names water may bring the boat.
+    A noun the prompt did not ask about, and that no topic fact names, stays out.
+    """
+    named: set[str] = set()
+    for fact in facts:
+        for node in _walk_clauses(fact.get("clause") or {}):
+            if not isinstance(node, dict):
+                continue
+            head = _head_of(node.get("kartr"))
+            if topic and head and head != topic:
+                continue
+            for role in ("karma", "pred"):
+                np = node.get(role) if isinstance(node.get(role), dict) else {}
+                if np.get("num") is not None:
+                    continue
+                other = _head_of(np)
+                if other and other != topic:
+                    named.add(other)
+            for adj in node.get("adj") or []:
+                if isinstance(adj, dict):
+                    other = _head_of(adj.get("np"))
+                    if other and other != topic:
+                        named.add(other)
+    kin = []
+    for fact in facts:
+        heads = []
+        linked = False
+        for node in _walk_clauses(fact.get("clause") or {}):
+            if not isinstance(node, dict):
+                continue
+            head = _head_of(node.get("kartr"))
+            if head:
+                heads.append(head)
+            nouns = [head, _head_of(node.get("karma")), _head_of(node.get("pred"))]
+            for adj in node.get("adj") or []:
+                if isinstance(adj, dict):
+                    nouns.append(_head_of(adj.get("np")))
+            if any(n in named for n in nouns if n):
+                linked = True
+        if topic and any(h == topic for h in heads):
+            continue
+        if linked:
+            kin.append(fact)
+    return kin
 
 
 def _state_atom(state: dict[str, Any] | None, tense: str) -> dict[str, Any] | None:
@@ -356,9 +411,114 @@ def _walk_clauses(cl: Any):
     yield cl
 
 
-def _arc(form: str, tense: str, facts: list[dict[str, Any]], sims: list[dict[str, Any]], maths: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Setting from the facts' own clauses, then each sim's before state and its effect.
-    'because' attaches only the solver's mechanism atom, never the before state. Repeated lines are dropped.
+def _sim_about(sim: dict[str, Any], heads: list[str], facts: list[dict[str, Any]]) -> bool:
+    """A simulator result belongs only when its question names the topic or a noun in the topic's facts."""
+    blob = (str(sim.get("question") or "") + " " + str(sim.get("text") or "")).lower()
+    if any(h and h in blob for h in heads):
+        return True
+    nouns = set()
+    for fact in facts:
+        clause = fact.get("clause") if isinstance(fact.get("clause"), dict) else {}
+        for role in ("kartr", "karma", "pred"):
+            np = clause.get(role)
+            if isinstance(np, dict) and np.get("head"):
+                nouns.add(str(np.get("head")).lower())
+    return any(n in blob for n in nouns if n not in set(heads))
+
+
+def _fact_picture(facts: list[dict[str, Any]], topic: str | None) -> dict[str, Any]:
+    """The user's noun stays the subject. An is-a fact is an appositive, not a new subject.
+    Measures fold into that same noun. The chain is the cited classes, in order.
+    """
+    subject = topic or ""
+    isa = None
+    measures: list[str] = []
+    events: list[dict[str, Any]] = []
+    chain = [topic] if topic else []
+    for fact in facts:
+        for node in _walk_clauses(fact.get("clause") or {}):
+            if not isinstance(node, dict):
+                continue
+            head = _head_of(node.get("kartr"))
+            if head and not subject:
+                subject = head
+                if head not in chain:
+                    chain.insert(0, head)
+            if topic and head and head != topic:
+                continue
+            pred = node.get("pred") if isinstance(node.get("pred"), dict) else {}
+            verb = str(node.get("kriya") or "")
+            if verb == "be" and pred.get("type") == "np" and (pred.get("head") or pred.get("text")):
+                isa = str(pred.get("head") or pred.get("text"))
+                if isa and isa not in chain:
+                    chain.append(isa)
+                continue
+            if pred.get("type") == "measure" and pred.get("num") is not None:
+                bit = str(pred.get("num")) + " " + str(pred.get("unit") or "")
+                prop = str(pred.get("property") or "").strip()
+                if prop:
+                    bit += " " + prop
+                measures.append(bit.strip())
+                continue
+            karma = node.get("karma") if isinstance(node.get("karma"), dict) else {}
+            if verb and verb != "be":
+                karma_text = str(karma.get("text") or karma.get("head") or "").strip()
+                events.append({
+                    "verb": verb,
+                    "karma": karma_text,
+                    "pol": "neg" if node.get("polarity") == "neg" else "pos",
+                })
+    return {"subject": subject, "isa": isa, "measures": measures, "events": events, "chain": chain}
+
+
+def _setting_atom(picture: dict[str, Any], tense: str) -> dict[str, Any] | None:
+    from rmc_engine_v1.sim_device import _karaka
+    subject = picture.get("subject") or ""
+    if not subject:
+        return None
+    who = "the " + subject
+    meta = {}
+    if picture.get("isa") and picture["isa"] != subject:
+        det = "an" if str(picture["isa"])[:1].lower() in "aeiou" else "a"
+        # A cited class is a relative clause when the noun also does something ("the mink that is a mammal").
+        # A measure list takes the comma appositive instead, which is the shape the grammar reads back.
+        if picture.get("events") and not picture.get("measures"):
+            meta["rel_be"] = det + " " + str(picture["isa"])
+        else:
+            meta["appos"] = det + " " + str(picture["isa"])
+    events = list(picture.get("events") or [])
+    if events:
+        if picture.get("measures"):
+            meta["measures"] = picture["measures"]
+        main = next((ev for ev in events if ev.get("karma")), events[0])
+        prior = next((ev for ev in events if ev is not main), None)
+        args = [who, main["karma"]] if main.get("karma") else [who]
+        atom = _karaka(main["verb"], args, polarity=main["pol"], tense=tense)
+        # A second stated event is the time clause. The one with an object stays the consequence,
+        # because that is the shape the grammar reads back.
+        if prior and main.get("karma"):
+            pargs = [who, prior["karma"]] if prior.get("karma") else [who]
+            atom["front"] = {"conj": "after", "atom": _karaka(prior["verb"], pargs, polarity=prior["pol"], tense=tense)}
+            picture["extra"] = [ev for ev in events if ev is not main and ev is not prior]
+        else:
+            picture["extra"] = [ev for ev in events if ev is not main]
+    elif picture.get("isa"):
+        atom = _karaka("be", [who, meta.get("appos") or picture["isa"]], tense=tense)
+        meta.pop("appos", None)
+    elif picture.get("measures"):
+        atom = _karaka("be", [who, picture["measures"][0]], tense=tense)
+        atom["pred_parts"] = picture["measures"]
+    else:
+        return None
+    if meta:
+        atom["subject"] = meta
+    atom["chain"] = picture.get("chain") or []
+    return atom
+
+
+def _arc(form: str, tense: str, facts: list[dict[str, Any]], sims: list[dict[str, Any]], maths: list[dict[str, Any]], topic: str | None = None) -> list[dict[str, Any]]:
+    """One subject, the user's noun. Measures and the cited class fold into it.
+    A sim is the next clause: its before-state is a time clause, its mechanism is because.
     """
     beats: list[dict[str, Any]] = []
     seen: set[str] = set()
@@ -372,53 +532,55 @@ def _arc(form: str, tense: str, facts: list[dict[str, Any]], sims: list[dict[str
         seen.add(key)
         beats.append(beat)
 
-    for fact in facts:
-        produced = False
-        for node in _walk_clauses(fact.get("clause") or {}):
-            if not isinstance(node, dict) or not (node.get("parsed") or node.get("kriya")):
-                continue
-            atom = _imagery_atom({"clause": node}, tense)
-            beat = _speak_beat(atom, "", "setting", str(fact.get("source") or "fact"), fact.get("id"))
-            if beat:
-                add(beat)
-                produced = True
-        if not produced and not sims:
-            text = str(fact.get("text") or "").strip()
-            if text and not text.lower().startswith("what "):
-                add(_beat(text, None, "setting", str(fact.get("source") or "fact"), fact.get("id")))
+    picture = _fact_picture(facts, topic)
+    setting = _setting_atom(picture, tense)
+    if setting:
+        beat = _speak_beat(setting, "", "setting", "fact", None)
+        if beat:
+            beat["chain"] = setting.get("chain") or []
+            add(beat)
+    for fact in _kin_facts(facts, picture.get("subject") or topic):
+        add(_speak_beat(_imagery_atom(fact, tense), "", "setting", str(fact.get("source") or "fact"), fact.get("id")))
+    for ev in picture.get("extra") or []:
+        who = "the " + str(picture.get("subject") or "")
+        args = [who, ev["karma"]] if ev.get("karma") else [who]
+        from rmc_engine_v1.sim_device import _karaka
+        add(_speak_beat(_karaka(ev["verb"], args, polarity=ev["pol"], tense=tense), "", "setting", "fact", None))
     for sim in sims:
         src = str(sim.get("source") or "sim")
         before = _state_atom(sim.get("before"), "present")
-        effect = sim.get("atom") if isinstance(sim.get("atom"), dict) else None
+        effect = dict(sim["atom"]) if isinstance(sim.get("atom"), dict) else None
         reason = sim.get("reason_atom") if isinstance(sim.get("reason_atom"), dict) else None
-        add(_speak_beat(before, "", "before", src, sim.get("id")))
+        # Fold the topic's measures into the effect's subject once, not as extra lines.
+        if effect and picture.get("measures") and not any(b.get("kind") == "setting" for b in beats):
+            effect["subject"] = {"measures": picture["measures"]}
         if effect and reason:
-            linked = dict(effect)
-            linked["sub"] = {"conj": "because", "atom": reason}
-            spoken = _speak_beat(linked, "", "transition", src, sim.get("id"))
-            if spoken:
-                add(spoken)
-            else:
-                add(_speak_beat(effect, sim.get("text") or "", "after", src, sim.get("id")))
-                add(_speak_beat(reason, sim.get("reason_text") or "", "reason", src, sim.get("id")))
-        else:
-            add(_speak_beat(effect, sim.get("text") or "", "after", src, sim.get("id")))
+            effect["sub"] = {"conj": "because", "atom": reason}
+        if before and effect:
+            effect["front"] = {"conj": "after", "atom": before}
+        add(_speak_beat(effect, sim.get("text") or "", "after", src, sim.get("id")))
     for row in maths:
         add(_beat(row["text"], None, "math", "computation", "compute"))
     return beats
 
 
 def _format(form: str, beats: list[dict[str, Any]]) -> str:
+    lines = [b["text"].strip() for b in beats if b.get("text")]
     if form != "lines":
-        return " ".join(b["text"].strip() for b in beats if b.get("text"))
-    setting = [b["text"].strip() for b in beats if b.get("kind") == "setting"]
-    rest = [b["text"].strip() for b in beats if b.get("kind") != "setting"]
-    parts = []
-    if setting:
-        parts.append("\n".join(setting))
-    if rest:
-        parts.append("\n".join(rest))
-    return "\n\n".join(parts)
+        return " ".join(lines)
+    # The lexicon senses carry no syllable count. Line rhythm is the clause length.
+    if len(lines) < 3:
+        return "\n".join(lines)
+    lengths = [len(t.split()) for t in lines]
+    med = sorted(lengths)[len(lengths) // 2]
+    mad = sorted(abs(n - med) for n in lengths)[len(lengths) // 2]
+    gap = max(mad, 1)
+    groups = [[lines[0]]]
+    for i in range(1, len(lines)):
+        if abs(lengths[i] - lengths[i - 1]) > gap:
+            groups.append([])
+        groups[-1].append(lines[i])
+    return "\n\n".join("\n".join(g) for g in groups if g)
 
 
 def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] | None) -> dict[str, Any] | None:
@@ -435,18 +597,6 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
     phone = []
     for key in ("phone", "hosted", "self"):
         phone.extend(r for r in (memory.get(key) or []) if isinstance(r, dict))
-    # A later sentence of the same question can name another remembered head ("… The methanol …").
-    qwords = set(re.findall(r"[a-z]{4,}", str(frame.get("text") or "").lower())) - {"write", "poem", "about", "what", "times", "with", "from", "that", "this", "your", "have", "does"}
-    for row in phone:
-        words = set(re.findall(r"[a-z]{4,}", str(row.get("text") or "").lower()))
-        if not (words & qwords):
-            continue
-        key = str(row.get("text") or "").strip().lower()
-        if key and all(key != str(f.get("text") or "").strip().lower() for f in facts):
-            facts.append({
-                "id": row.get("id"), "text": str(row.get("text")), "source": row.get("source") or "phone",
-                "kind": "fact", "clause": row.get("clause") if isinstance(row.get("clause"), dict) else {},
-            })
     cited = {row["text"].strip().lower() for row in facts}
     scene_rows = [r for r in phone if str(r.get("text") or "").strip().lower() in cited]
     have = {str(r.get("text") or "").strip().lower() for r in scene_rows}
@@ -465,6 +615,8 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
             line = _sim_from_receipt(row if isinstance(row, dict) and row.get("spoken_atoms") else (row.get("sim") if isinstance(row, dict) else None))
             if not line or not line.get("source") or line["source"] in seen_solvers:
                 continue
+            if not _sim_about(line, heads, facts):
+                continue
             seen_solvers.add(line["source"])
             sims.append(line)
     elif frame.get("speech_act") != "prefer":
@@ -473,6 +625,8 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
             if not line or line.get("source") in seen_solvers:
                 continue
             seen_solvers.add(line.get("source"))
+            if not _sim_about(line, heads, facts):
+                continue
             sims.append(line)
             if len(sims) >= 4:
                 break
@@ -522,7 +676,8 @@ def compose(question: str, frame: dict[str, Any] | None, memory: dict[str, Any] 
                 "facts": [], "sims": [], "math": [], "lines": [gap], "beats": [gap],
                 "well_formed": bool(gap.get("text")), "athena": athena, "needs_libs": needs_libs,
             }
-    beats = _arc(form, tense, facts, sims, maths)
+    topic = heads[0] if heads else None
+    beats = _arc(form, tense, facts, sims, maths, topic)
     if not beats:
         topic = heads[0] if heads else "that"
         gap = _gap_line(topic, athena or {})

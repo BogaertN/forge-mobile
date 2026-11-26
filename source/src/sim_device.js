@@ -375,10 +375,31 @@
     words(question).forEach(w => { if (!stop[w]) q[w] = 1; });
     return words(text).some(w => q[w]);
   }
-  async function prepareCreative(memory, question) {
+  function topicHeads(frame) {
+    const found = [];
+    function add(np) {
+      if (!np || typeof np !== 'object') return;
+      const head = String(np.head || '').trim().toLowerCase();
+      if (head && found.indexOf(head) < 0 && head !== 'you' && head !== 'kernel' && head !== 'poem' && head !== 'story') found.push(head);
+      (np.conj || []).forEach(add);
+    }
+    if (frame) {
+      add(frame.karma);
+      add(frame.kartr);
+      (frame.adj || []).forEach(a => add(a && a.np));
+      (frame.prefer_options || []).forEach(name => { const w = String(name || '').trim().toLowerCase(); if (w && found.indexOf(w) < 0) found.push(w); });
+    }
+    return found;
+  }
+  async function prepareCreative(memory, question, frame) {
     /* Scene questions from the cited clauses, then the same on-page plan/solve/WASM path a factual sim uses.
-     * The worker does not start Node and does not run WASM itself. */
-    const rows = memoryRows(memory).filter(r => !question || sharesQuestion(question, r.text));
+     * The worker does not start Node and does not run WASM itself.
+     * Only rows about the parsed topic heads are measured. A later noun in the same prompt is not a topic. */
+    const heads = topicHeads(frame);
+    const rows = memoryRows(memory).filter(r => {
+      if (heads.length) return heads.some(h => String(r.text || '').toLowerCase().indexOf(h) >= 0);
+      return !question || sharesQuestion(question, r.text);
+    });
     let questions = [];
     try {
       const got = await pyCall({ op: 'scenes', rows: rows });

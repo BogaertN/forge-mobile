@@ -50,16 +50,22 @@ function register(C, expect) {
     expect(ball.route === 'creative' && ball.sims.indexOf('sympy_pyodide') >= 0 && ball.write === false, JSON.stringify(ball));
   });
   C('R4283', 'a structure sense does not take a tabletop height', () => {
-    const py = 'from rmc_engine_v1.athena_props import kind_accepts\nimport json\nprint(json.dumps({"library": kind_accepts("library", [{"property":"height","value":0.758}]), "chair": kind_accepts("chair", [{"property":"height","value":0.9}])}))';
+    const py = 'from rmc_engine_v1.athena_props import kind_accepts\nimport json\nprint(json.dumps({"library": kind_accepts("library", [{"property":"height","value":0.758}]), "chair": kind_accepts("chair", [{"property":"height","value":0.9}]), "hall": kind_accepts("hall", [{"property":"height","value":0.5}]), "table": kind_accepts("table", [{"property":"height","value":0.75}]), "bank": kind_accepts("bank", [{"property":"height","value":0.5}]), "bottle": kind_accepts("bottle", [{"property":"height","value":0.22}]), "bottle5": kind_accepts("bottle", [{"property":"height","value":5.0}])}))';
     const env = Object.assign({}, process.env, { PYTHONPATH: [path.join(ROOT, 'engine'), ROOT, path.join(ROOT, '_mathlibs')].join(path.delimiter) });
     const proc = cp.spawnSync('python3', ['-c', py], { cwd: ROOT, env, encoding: 'utf8' });
     const row = JSON.parse(proc.stdout.trim());
-    expect(proc.status === 0 && row.library === false && row.chair === true, proc.stdout + proc.stderr);
+    expect(proc.status === 0 && row.library === false && row.chair === true && row.hall === false && row.table === true && row.bank === false && row.bottle === true && row.bottle5 === false, proc.stdout + proc.stderr);
   });
-  C('R4283', 'a story is past where the fact is a copula and is not stored', () => {
+  C('R4283', 'a story keeps the asked noun and cites its class', () => {
     const story = ask('Tell a story about a mink.', ['A mink is a mammal.']);
     expect(Q.compile('Tell a story about a mink.', forge()).speech_act === 'narrate', 'narrate');
-    expect(story.route === 'creative' && /mink/.test(story.reply || '') && story.write === false, JSON.stringify(story));
+    expect(story.route === 'creative' && /^The mink\b/.test(story.reply || '') && /mammal/.test(story.reply || '') && !/weasel/.test(story.reply || '') && story.write === false, JSON.stringify(story));
+    const fur = ask('Tell a story about a mink.', ['A mink is a mammal.', 'A mink has fur.']);
+    expect(fur.route === 'creative' && /The mink that is a mammal had fur/.test(fur.reply || '') && !/weasel/.test(fur.reply || '') && fur.write === false, JSON.stringify(fur));
+  });
+  C('R4283', 'a poem stays with the topic and folds its measures', () => {
+    const cask = ask('Write a poem about a cask.', ['A cask weighs 4.8 kilograms.', 'A cask is 0.62 meters tall.', 'A cask is 0.28 meters wide.', 'A cask is 0.28 meters deep.', 'A qubit is a bit.']);
+    expect(cask.route === 'creative' && /0\.62 meters tall/.test(cask.reply || '') && /weighs 4\.8 kilograms/.test(cask.reply || '') && /because the critical height exceeds the push height/.test(cask.reply || '') && !/qubit/.test(cask.reply || '') && cask.write === false, JSON.stringify(cask));
   });
 }
 module.exports = register;

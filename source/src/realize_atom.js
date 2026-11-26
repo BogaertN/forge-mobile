@@ -13,6 +13,26 @@
     if (!head.length) return { det: det, head: [det], surface: [det] };
     return { det: det, head: head, surface: head };
   }
+  function decorate(np, meta) {
+    if (!np || !meta || typeof meta !== 'object') return np;
+    if (meta.appos) np.members = npFrom(meta.appos);
+    if (meta.rel_be) {
+      np.rel = { verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' }, pred: { type: 'np', np: npFrom(meta.rel_be) } };
+    }
+    if (meta.rel && meta.rel.verb) {
+      const rel = { verb: { lemma: meta.rel.verb, tense: meta.rel.tense || 'present', pol: meta.rel.pol || 'pos', mod: 'asserted' }, roles: {} };
+      if (meta.rel.karma) rel.roles.karma = npFrom(meta.rel.karma);
+      np.rel = rel;
+    }
+    const measures = Array.isArray(meta.measures) ? meta.measures.filter(Boolean) : [];
+    if (measures.length) {
+      const parts = measures.map(m => { const w = String(m).trim().split(/\s+/); return { head: w, surface: w }; });
+      const phrase = parts.length === 1 ? parts[0] : { conj: parts, op: 'and' };
+      if (np.members) np.rel = { verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' }, pred: { type: 'np', np: phrase } };
+      else np.members = phrase;
+    }
+    return np;
+  }
   function adjFrom(mods) {
     return (mods || []).map(m => {
       if (m && m.time) return { role: m.role || 'kala', time: m.time };
@@ -32,21 +52,32 @@
     const tense = atom.tense || 'present';
     const pol = atom.polarity === 'neg' ? 'neg' : 'pos';
     const args = atom.args || [];
+    const subj = decorate(npFrom(args[0]), atom.subject);
     if (atom.predicate === 'is' || atom.predicate === 'be') {
+      let pred = npFrom(args[1] || '');
+      if (Array.isArray(atom.pred_parts) && atom.pred_parts.length) {
+        const parts = atom.pred_parts.filter(Boolean).map(m => { const w = String(m).trim().split(/\s+/); return { head: w, surface: w }; });
+        if (parts.length === 1) pred = parts[0];
+        else if (parts.length) pred = { conj: parts, op: 'and' };
+      }
       return {
-        subj: npFrom(args[0]),
+        subj: subj,
         verb: { lemma: 'be', tense: tense, pol: pol, mod: 'asserted' },
-        pred: { type: 'np', np: npFrom(args[1] || '') },
+        pred: { type: 'np', np: pred },
         adj: adjFrom(atom.modifiers),
       };
     }
     const verb = { lemma: atom.predicate, tense: tense, pol: pol, mod: 'asserted' };
     if (atom.particle) { verb.particle = atom.particle; verb.particlePos = 'post'; }
-    const clause = { subj: npFrom(args[0]), verb: verb, roles: {}, adj: adjFrom(atom.modifiers) };
+    const clause = { subj: subj, verb: verb, roles: {}, adj: adjFrom(atom.modifiers) };
     if (args.length > 1 && args[1] !== '') clause.roles.karma = npFrom(args[1]);
     if (atom.sub && atom.sub.conj && atom.sub.atom) {
       const inner = clauseFrom(atom.sub.atom);
       if (inner) clause.sub = { conj: atom.sub.conj, pre: !!atom.sub.pre, clause: inner };
+    }
+    if (atom.front && atom.front.conj && atom.front.atom) {
+      const prior = clauseFrom(atom.front.atom);
+      if (prior) clause.front = { conj: atom.front.conj, clause: prior };
     }
     return clause;
   }
