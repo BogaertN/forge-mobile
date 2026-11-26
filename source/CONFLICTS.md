@@ -1,3 +1,13 @@
+## v4.9.256 — Hand-offs that were still open (Nic)
+
+**Conflict:** A missing size was a silent hold. Two ability questions joined by "and" did not both answer. "Half as tall" did not scale the prior body. A negative containment and a possessive kinship inverse were not derived. "Do you have a pulse?" did not follow from having no body.
+
+**Where:** A missing sim slot asks for that slot. Athena's existing lookup runs before the ask, and a stated measure still resumes the scene. "Can you A and also B" is two ability questions. "Were half as tall" scales the prior height. Not-inside a container, together with a smaller place inside that container, denies the smaller place. The opposite direction is not derived. "X's aunt is Y" is the same fact as "Y's niece is X". A have-question whose noun the lexicon files as a body, or whose gloss names a body noun, is denied by the no-body fact for that turn only.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. The containment and niece sentences are derived and Echo at 1.0; their coherence is 0.838, so the fixed floor holds them. Outcome sentence tables in sim_device.py are still the rigid-body wording. MuJoCo is still the browser worker; this process does not run that worker. Bio and scipy are requested by the Pyodide solver when a biology or quantum problem is solved; they are not installed in this process.
+
+Proof: `verify/r4280_suite.js`.
+
 ## v4.9.255 — Computable quantities and on-device receipts (Nic)
 
 **Conflict:** A derivative, an equation, and a remaining fraction did not reach the symbolic engine. A year outside a stated span was treated as the same event. An on-device thermal receipt never entered Ask. The math wheels were fetched from a host that does not resolve.

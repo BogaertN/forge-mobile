@@ -591,6 +591,18 @@
           cond: condRoles ? Object.assign({ text: condTxt, parses: cond.parses, open: !!cond.open }, condCanon ? { canonical: [condCanon] } : {}, condRoles) : { text: condTxt, parsed: false, tokens: tokenLine(forge, condTxt) },
           rule: 'QF-WHAT-HAPPENS-IF',
         });
+        /* "were half as tall" did not parse as a clause. The degree and the dimension adjective are still on the tokens. */
+        if (f.cond && !f.cond.kriya && Array.isArray(f.cond.tokens)) {
+          const DEG = { half: 0.5, twice: 2, double: 2, triple: 3 };
+          const DIM = { tall: 'height', high: 'height', wide: 'width', deep: 'depth', long: 'length' };
+          let factor = null, dim = null;
+          for (const t of f.cond.tokens) {
+            const w = String(t.w || '').toLowerCase();
+            if (Object.prototype.hasOwnProperty.call(DEG, w)) factor = DEG[w];
+            if (DIM[w]) dim = DIM[w];
+          }
+          if (factor && dim) f.cond.scale = { factor: factor, dim: dim };
+        }
         return f;
       }
     }
@@ -737,6 +749,18 @@
         if (pick) { Object.assign(f, pick.r); f.parsed = true; f.declarative = pick.c.s; f.parses = pick.p.parses; }
       }
       f.speech_act = selfAct(f, null, f.aux) || 'stated'; f.polar = true; f.rule = 'QF-YN-' + (f.parsed ? 'DECL' : 'NOPARSE');
+      /* Two ability questions joined by and ("can you V and also W") are each the same ability question. */
+      if (!f.kriya && /^(can|could)$/.test(lw[0]) && lw[1] === 'you') {
+        const rest = ws.slice(2).join(' ').replace(/[?]+$/, '');
+        const bits = rest.split(/\s+and(?:\s+also)?\s+/i).map(s => s.trim()).filter(Boolean);
+        if (bits.length >= 2) {
+          const frames = bits.map(b => compileQ(lw[0] + ' you ' + b + '?', forge));
+          if (frames.length === bits.length && frames.every(x => x && x.kriya && x.modality === 'able')) {
+            const more = frames.slice(1).map(x => { const c = Object.assign({}, x); delete c.conjuncts; return c; });
+            return Object.assign(f, frames[0], { text: f.text, conjuncts: more, polar: true, rule: 'QF-YN-DECL' });
+          }
+        }
+      }
       return f;
     }
     /* 4.9.246 QF-WH-INSITU: "Aspirin has what molecular weight?" is the same copula as "What is the molecular weight of aspirin?"

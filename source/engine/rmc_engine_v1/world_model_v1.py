@@ -217,6 +217,22 @@ CHILD_INVERSE = {
     "head": {"predicate": "parent", "args": ["$y", "$x"], "polarity": "pos"},
     "guard": "distinct $x $y",
 }
+# If Y is inside Z and X is not inside Z, X is not inside Y.
+# Being inside Y would put X inside Z by the containment chain, which contradicts the negative fact.
+# The other direction is not this rule: not inside a smaller place does not deny the larger place.
+CONTAIN_CONTRA = {
+    "id": "WM-CONTAIN-CONTRA",
+    "class": "forward_chain",
+    "cite": "4.9.256: contrapositive of containment. not in(X, Z) and in(Y, Z) deny in(X, Y). not in(X, Y) and in(Y, Z) do not deny in(X, Z).",
+    "body": [
+        {"predicate": "in", "args": ["$y", "$z"], "polarity": "pos"},
+        {"predicate": "in", "args": ["$x", "$z"], "polarity": "neg"},
+    ],
+    "head": {"predicate": "in", "args": ["$x", "$y"], "polarity": "neg"},
+    "guard": "distinct $x $y $z",
+}
+# Possessive kinship inverses. "Sera's aunt is Nima" is the same fact as "Nima's niece is Sera".
+KIN_INVERSE = {"aunt": "niece", "niece": "aunt", "uncle": "nephew", "nephew": "uncle"}
 # The relation table marks these four symmetric and not transitive. A shared spouse or sibling licenses nothing further.
 def _symmetric_rule(pred: str, cite: str) -> dict[str, Any]:
     return {
@@ -566,7 +582,7 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
         head = str(pred.get("head") or "").lower()
         if head == "part":
             part_of = _np_frame(pred.get("of"))
-        elif head in ("ancestor", "descendant", "parent", "child", "sibling"):
+        elif head in ("ancestor", "descendant", "parent", "child", "sibling", "aunt", "niece", "uncle", "nephew"):
             of_rel = (head, _np_frame(pred.get("of")))
     to_rel = None
     if verb == "be" and isinstance(pred, dict) and str(pred.get("type") or "") == "adj":
@@ -775,7 +791,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE), dict(COPULA_NEG_RULE), dict(CONTAIN_RULE), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(MARRIED_SYMMETRIC), dict(NEXT_SYMMETRIC), dict(ADJACENT_SYMMETRIC), dict(SIBLING_SYMMETRIC), dict(NEXT_CHAIN), dict(MEASURE_RULE)] + [dict(r) for r in ORDER_RULES] + [dict(r) for r in CMP_RULES] + [dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
+        "rules": [dict(COPULA_RULE), dict(COPULA_NEG_RULE), dict(CONTAIN_RULE), dict(CONTAIN_CONTRA), dict(GEO_RULE), dict(LIVE_RULE), dict(PART_RULE), dict(ANCESTOR_RULE), dict(ANCESTOR_INVERSE), dict(DESCENDANT_RULE), dict(DESCENDANT_INVERSE), dict(PARENT_INVERSE), dict(CHILD_INVERSE), dict(MARRIED_SYMMETRIC), dict(NEXT_SYMMETRIC), dict(ADJACENT_SYMMETRIC), dict(SIBLING_SYMMETRIC), dict(NEXT_CHAIN), dict(MEASURE_RULE)] + [dict(r) for r in ORDER_RULES] + [dict(r) for r in CMP_RULES] + [dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -1561,7 +1577,21 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
     # 4.9.241: a framed question is matched by its frame even when it has no content word ("Who are you?": kartṛ you,
     # the gap the predicate); token coverage is not what decides it
     if isinstance(qframe, dict) and qframe.get("kriya") and (qframe.get("parsed") or qframe.get("partial")):
-        return _derive_by_frame(world, question, phase_path or [], qframe, topical)
+        report = _derive_by_frame(world, question, phase_path or [], qframe, topical)
+        extras = [c for c in (qframe.get("conjuncts") or []) if isinstance(c, dict) and c.get("kriya")]
+        if not extras:
+            return report
+        texts = [str(report.get("derived_text") or "").strip()]
+        for sub in extras:
+            extra = _derive_by_frame(world, str(sub.get("text") or question), phase_path or [], sub, topical)
+            bit = str(extra.get("derived_text") or "").strip()
+            if bit and bit not in texts:
+                texts.append(bit)
+        joined = " ".join(t for t in texts if t)
+        if joined and isinstance(report.get("survivor"), dict):
+            report["survivor"]["spoken"] = joined
+            report["derived_text"] = joined
+        return report
     if not q_tokens:
         return _derive_report(world, question, "undetermined", "no content tokens in the question", claims, incomplete)
 
@@ -2775,11 +2805,98 @@ def _same_event(qframe: dict[str, Any], frame: dict[str, Any] | None) -> bool:
     return bool(DF.np_unify(qframe.get("kartr"), frame.get("kartr")))
 
 
+def _np_person(np: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not isinstance(np, dict) or not str(np.get("text") or "").strip():
+        return None
+    if np.get("owner") or str(np.get("head") or "") in KIN_INVERSE:
+        return None
+    return np
+
+
+def _expand_sound_facts(world: dict[str, Any], topical: list[dict[str, Any]]) -> None:
+    """Add only conclusions that follow from the facts already in the turn.
+
+    Containment contrapositive: Y inside Z and X not inside Z deny X inside Y.
+    Possessive kinship: X's aunt is Y is the same fact as Y's niece is X.
+    """
+    from rmc_engine_v1 import derive_frame as DF
+    have = set()
+    for fact in topical:
+        atom = fact.get("atom") if isinstance(fact.get("atom"), dict) else {}
+        args = tuple(_norm(a) for a in (atom.get("args") or []))
+        have.add((str(atom.get("predicate") or ""), str(atom.get("polarity") or "pos"), args))
+    added: list[dict[str, Any]] = []
+    pos = [f for f in topical if str((f.get("atom") or {}).get("predicate") or "") == "in" and str((f.get("atom") or {}).get("polarity") or "pos") == "pos"]
+    neg = [f for f in topical if str((f.get("atom") or {}).get("predicate") or "") == "in" and str((f.get("atom") or {}).get("polarity") or "pos") == "neg"]
+    for yp in pos:
+        y_args = (yp.get("atom") or {}).get("args") or []
+        if len(y_args) < 2:
+            continue
+        for xn in neg:
+            x_args = (xn.get("atom") or {}).get("args") or []
+            if len(x_args) < 2 or _norm(x_args[1]) != _norm(y_args[1]):
+                continue
+            if _norm(x_args[0]) == _norm(y_args[0]):
+                continue
+            key = ("in", "neg", (_norm(x_args[0]), _norm(y_args[0])))
+            if key in have:
+                continue
+            conclusion = _atom("in", [x_args[0], y_args[0]], "neg")
+            text = _render_atom(conclusion)
+            frame = DF.contain_frame(conclusion)
+            row = _fact_row("hop-" + _digest(text)[:12], {"text": text, "atom": conclusion, "parsed": True, "frame": frame, "atom_source": "derive"},
+                            source="derive", provenance=[xn.get("id"), yp.get("id")], quarantined=False, cite=CONTAIN_CONTRA["cite"])
+            row["place"] = xn.get("place") or yp.get("place")
+            row["packet"] = xn.get("packet") or yp.get("packet")
+            row["confidence"] = xn.get("confidence") or yp.get("confidence") or "medium"
+            row["retrieval_weight"] = xn.get("retrieval_weight") if xn.get("retrieval_weight") is not None else yp.get("retrieval_weight")
+            added.append(row)
+            have.add(key)
+    for fact in topical:
+        ff, _ = DF.fact_frame(fact)
+        if not isinstance(ff, dict) or str(ff.get("kriya") or "") != "be" or str(ff.get("polarity") or "pos") == "neg":
+            continue
+        kartr = ff.get("kartr") if isinstance(ff.get("kartr"), dict) else {}
+        pred = ff.get("pred") if isinstance(ff.get("pred"), dict) else {}
+        rel = holder = relative = None
+        if str(kartr.get("head") or "") in KIN_INVERSE and isinstance(kartr.get("owner"), dict):
+            rel, holder, relative = str(kartr["head"]), kartr["owner"], _np_person(pred)
+        elif str(pred.get("head") or "") in KIN_INVERSE and isinstance(pred.get("owner"), dict):
+            rel, holder, relative = str(pred["head"]), pred["owner"], _np_person(kartr)
+        if not rel or not isinstance(holder, dict) or not isinstance(relative, dict):
+            continue
+        inv = KIN_INVERSE[rel]
+        who = str(relative.get("text") or "").strip()
+        kin = str(holder.get("text") or "").strip()
+        if not who or not kin:
+            continue
+        niece = {"text": who + "'s " + inv, "head": inv, "owner": {"text": who, "head": relative.get("head") or who, "propn": relative.get("propn") or who}}
+        person = {"text": kin, "head": holder.get("head") or kin, "propn": holder.get("propn") or kin}
+        text = niece["text"][:1].upper() + niece["text"][1:] + " is " + kin + "."
+        key = ("is", "pos", (_norm(niece["text"]), _norm(kin)))
+        if key in have:
+            continue
+        frame = {"kriya": "be", "polarity": "pos", "kartr": niece, "pred": person, "derived": True}
+        atom = _atom("is", [niece["text"], kin], "pos")
+        row = _fact_row("hop-" + _digest(text)[:12], {"text": text, "atom": atom, "parsed": True, "frame": frame, "atom_source": "derive"},
+                        source="derive", provenance=[fact.get("id")], quarantined=False, cite="4.9.256: a possessive kinship noun and its inverse name one fact.")
+        row["place"] = fact.get("place")
+        row["packet"] = fact.get("packet")
+        row["confidence"] = fact.get("confidence") or "medium"
+        row["retrieval_weight"] = fact.get("retrieval_weight")
+        added.append(row)
+        have.add(key)
+    topical.extend(added)
+    if isinstance(world, dict) and added:
+        world["facts"] = list(world.get("facts") or []) + added
+
+
 def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any], qframe: dict[str, Any], topical: list[dict[str, Any]]) -> dict[str, Any]:
     """4.9.233: a fact answers only when its frame unifies with the question frame AND its placement is phase-aligned
     with the question (grace = rpm·cos²δ, δ ≤ π/4); band relation and the 4.9.204 attraction rank the aligned matches;
     word coverage is a logged tie-break. A copula-chain conclusion carries the frame built from its premises."""
     from rmc_engine_v1 import derive_frame as DF
+    _expand_sound_facts(world, topical)
 
     def placed(row: dict[str, Any]) -> dict[str, Any]:
         return row.get("place") if isinstance(row.get("place"), dict) else place_row({}, str(row.get("text") or ""), bool(row.get("quarantined")))

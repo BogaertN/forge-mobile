@@ -110,8 +110,10 @@ def _attach_ondevice_sim(payload: dict[str, Any]) -> None:
     question = str(payload.get("question") or "")
     problem = plan(question, frame, memory=list(memory.get("phone") or []))
     if not problem.get("ok"):
+        scene = problem.get("scene") if isinstance(problem.get("scene"), dict) else {}
+        named = problem.get("body") or problem.get("substance") or scene.get("body")
         payload["_sim_hold"] = {"reason": problem.get("reason"), "missing": problem.get("missing"),
-                                 "substance": problem.get("substance"), "body": problem.get("body")}
+                                 "substance": problem.get("substance"), "body": named if not isinstance(named, dict) else (named.get("noun") or named.get("phrase"))}
         return
     try:
         run = solve(problem)
@@ -760,6 +762,20 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             reply = None
             gate = dict(gate)
             gate["applied_to_ask"] = False
+        hold = payload.get("_sim_hold") if isinstance(payload.get("_sim_hold"), dict) else None
+        if live and not spoken and not reply and hold and hold.get("reason") in ("property_missing", "unknown_body", "altitude_missing", "sequence_missing", "unknown_substance"):
+            slot = str(hold.get("missing") or "measured property")
+            if hold.get("reason") == "unknown_body" and slot in ("shape", "karma", ""):
+                slot = "shape, dimensions, and mass"
+            if hold.get("reason") == "unknown_substance":
+                slot = "formula and structure"
+            scene = hold.get("scene") if isinstance(hold.get("scene"), dict) else {}
+            named = hold.get("body") or hold.get("substance") or scene.get("body")
+            if isinstance(named, dict):
+                named = named.get("noun") or named.get("phrase")
+            name = str(named or "").strip()
+            reply = "What is the " + slot + ((" of the " + name) if name else "") + "?"
+            answer_path = "ask"
             gate["disposition"] = "held"
             gate["low_trust_block"] = trust_trace["rule"]
         recall_state = (((artifacts.get("trace_spine") or {}).get("memory_recall") or {}).get("memory_state") or {})

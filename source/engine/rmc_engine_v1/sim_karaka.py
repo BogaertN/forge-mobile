@@ -661,6 +661,21 @@ def continue_scene(prior: dict[str, Any] | None, follow_frame: dict[str, Any] | 
     part = cond_of(follow_frame) or follow_frame
     if not isinstance(part, dict):
         return None
+    scale = part.get("scale") if isinstance(part.get("scale"), dict) else None
+    if scale and scale.get("dim") in ("height", "width", "depth") and isinstance(body.get(scale["dim"]), (int, float)):
+        try:
+            scaled = dict(body)
+            scaled[str(scale["dim"])] = float(body[str(scale["dim"])]) * float(scale["factor"])
+            body = scaled
+            dims = []
+            if "dimensions" not in defaulted:
+                for key, word in (("height", "tall"), ("width", "wide"), ("depth", "deep")):
+                    val = body.get(key)
+                    if isinstance(val, (int, float)) and float(val) > 0:
+                        dims.append(f"{float(val):g} meters {word}")
+            noun = f"{art} {mass_bit}{name}" + ((" " + " and ".join(dims)) if dims else "")
+        except (TypeError, ValueError):
+            pass
     verb = str(scene.get("verb") or scene.get("action") or "push")
     point = _point(part) or ((scene.get("point") or {}).get("name") if isinstance(scene.get("point"), dict) else None)
     surface = _surface(part)

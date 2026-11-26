@@ -81,6 +81,19 @@ function stateRows(QF, F) {
   return [{ id: 'state:live', memory_id: 'state:live', text, tier: 'self', trust: 'trusted', clause: cl,
     provenance: { source: 'measured live state (the previous Ask turn)', kind: 'self_state', perspective: 'asker_to_kernel', measured: Object.assign({}, LAST_STATE), coherent } }];
 }
+function bodilyNoun(F, word) {
+  const head = Array.isArray(word) ? word[word.length - 1] : word;
+  if (!F || !F.lexicon || !head) return false;
+  let senses = [];
+  try { senses = F.lexicon.senses(String(head)).filter(s => s && s.pos === 'n').slice(0, 2); } catch (e) { return false; }
+  const isBody = w => { try { return F.lexicon.senses(w).some(s => s && s.pos === 'n' && s.lexname === 'noun.body'); } catch (e) { return false; } };
+  for (const s of senses) {
+    if (s.lexname === 'noun.body') return true;
+    const words = String(s.gloss || '').toLowerCase().split(/[^a-z]+/).filter(w => w.length > 3);
+    if (words.some(isBody)) return true;
+  }
+  return false;
+}
 function clauseParsed(c) {
   if (!c || typeof c !== 'object') return false;
   if (c.parsed) return true;
@@ -108,6 +121,17 @@ function withClauses(payload, QF, F) {
   const t0 = Date.now(), stat = { rows: 0, kept: 0, parsed: 0, unparsed: 0 };
   const m = Object.assign({}, mem);
   if (!Array.isArray(m.self)) { try { m.self = selfRows(QF, F).concat(stateRows(QF, F)); } catch (e) { m.self = []; } }
+  /* A have-question whose noun the lexicon files as a body, or whose gloss names a body noun, is denied by the
+   * self-fact that there is no body. The clause is for this turn. It is not stored. */
+  try {
+    const fr = payload.frame;
+    const head = fr && fr.kriya === 'have' && fr.kartr && (fr.kartr.head === 'you' || fr.kartr.user || fr.kartr.kernel) && fr.karma && fr.karma.head;
+    if (head && bodilyNoun(F, head)) {
+      const text = 'You have no ' + head + '.';
+      const cl = QF.clause(text, F);
+      if (cl && cl.parsed) m.self = m.self.concat([{ id: 'self:no-' + head, text: text, tier: 'self', trust: 'trusted', clause: cl, source: 'self_model' }]);
+    }
+  } catch (e) {}
   for (const k of CLAUSE_KEYS) if (Array.isArray(m[k])) m[k] = m[k].map(r => clauseRow(r, QF, F, stat));
   if (Array.isArray(m.pools)) m.pools = m.pools.map(p => p && Array.isArray(p.rows) ? Object.assign({}, p, { rows: p.rows.map(r => clauseRow(r, QF, F, stat)) }) : p);
   stat.ms = Date.now() - t0;
