@@ -1,0 +1,252 @@
+{
+ "schema": "forge.creative_heldout/v1",
+ "not_a_golden": true,
+ "n": 10,
+ "rows": [
+  {
+   "id": "p-arc",
+   "q": "Write a poem about a cask. The seawater, the qubit and the methane are in the poem. What is 9 times 6?",
+   "product": true,
+   "route": "creative",
+   "reply": "The cask weighs 4.8 kilograms.\nThe cask is 0.62 meters tall.\nThe cask is 0.28 meters wide.\nThe cask is 0.28 meters deep.\n\nThe cask rests.\nThe cask slides because the critical height exceeds the push height.\nThe seawater rests.\nThe seawater boils because the final temperature of the seawater is above the boiling point.\nThe qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.\nThe reaction balances as CH4 + 2 O2 -> CO2 + 2 H2O.\n9 times 6 is 54.",
+   "write": false,
+   "facts": [
+    {
+     "text": "The cask weighs 4.8 kilograms and is 0.62 meters tall and 0.28 meters wide and 0.28 meters deep.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "Heat 200 grams of seawater to 110 degrees.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "What happens if you apply a Hadamard gate to a qubit in state 0?",
+     "source": "phone_kb"
+    },
+    {
+     "text": "Methane reacts with oxygen.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "mujoco_wasm",
+     "outcome": "slide",
+     "text": "The cask slides.",
+     "question": "What happens if I push the cask near the middle?"
+    },
+    {
+     "solver": "thermal_ondevice",
+     "outcome": "boil",
+     "text": "The seawater boils.",
+     "question": "What happens if you heat 200 grams of seawater to 110 degrees?"
+    },
+    {
+     "solver": "quantum_ondevice",
+     "outcome": "measure",
+     "text": "The qubit ends in an equal superposition with probability 0.5 for 0 and 0.5 for 1.",
+     "question": "What happens if you apply a Hadamard gate to a qubit in state 0?"
+    },
+    {
+     "solver": "chemistry_ondevice",
+     "outcome": "react",
+     "text": "The reaction balances as CH4 + 2 O2 -> CO2 + 2 H2O.",
+     "question": "What happens if methane reacts with oxygen?"
+    }
+   ],
+   "math": [
+    "9 times 6 is 54."
+   ],
+   "why": null,
+   "athena": null,
+   "speech": "compose"
+  },
+  {
+   "id": "p-weasel",
+   "q": "Tell a story about a weasel.",
+   "product": true,
+   "route": "creative",
+   "reply": "The weasel was a mammal. The weasel had fur.",
+   "write": false,
+   "facts": [
+    {
+     "text": "A weasel is a mammal.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "A weasel has fur.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "narrate"
+  },
+  {
+   "id": "p-autumn",
+   "q": "Which is the better season, autumn or spring?",
+   "product": true,
+   "route": "creative",
+   "reply": "The autumn is the choice. Autumn is a season.",
+   "write": false,
+   "facts": [
+    {
+     "text": "Autumn is a season.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": "c0",
+   "athena": null,
+   "speech": "prefer"
+  },
+  {
+   "id": "p-library",
+   "q": "Write a poem about a library.",
+   "product": true,
+   "route": "creative",
+   "reply": "I do not have a fact about the library.",
+   "write": false,
+   "facts": [],
+   "sims": [],
+   "math": [],
+   "why": null,
+   "athena": "ATHENA-NO-AGREEMENT",
+   "speech": "compose"
+  },
+  {
+   "id": "p-pier",
+   "q": "Describe a pier.",
+   "product": true,
+   "route": "creative",
+   "reply": "The pier sits 400 kilometers. The satellite circles Earth every 92.41 minutes at 7.673 kilometers per second because gravity balances the centripetal acceleration.",
+   "write": false,
+   "facts": [
+    {
+     "text": "The pier sits 400 kilometers above Earth.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "astronomy_ondevice",
+     "outcome": "orbit",
+     "text": "The satellite circles Earth every 92.41 minutes at 7.673 kilometers per second.",
+     "question": "What is the period of a satellite 400 kilometers above earth?"
+    }
+   ],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "describe"
+  },
+  {
+   "id": "p-stone",
+   "q": "Write a poem about a stone.",
+   "product": true,
+   "route": "creative",
+   "reply": "I do not have a fact about the stone.",
+   "write": false,
+   "facts": [
+    {
+     "text": "What happens if you throw a stone at 40 degrees at 15 m/s?",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "compose"
+  },
+  {
+   "id": "p-punt",
+   "q": "Imagine a harbor.",
+   "product": true,
+   "route": "creative",
+   "reply": "The harbor holds water. The punt rests. The punt floats in water because the density of the punt is below the density of water.",
+   "write": false,
+   "facts": [
+    {
+     "text": "A harbor holds water.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "A punt floats in the water.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [
+    {
+     "solver": "buoyancy_ondevice",
+     "outcome": "float",
+     "text": "The punt floats in water.",
+     "question": "What happens if I drop the punt in the water?"
+    }
+   ],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "describe"
+  },
+  {
+   "id": "p-integrate",
+   "q": "Can you integrate a function?",
+   "product": true,
+   "route": "active_stack_candidate",
+   "reply": "Yes. I integrate a function.",
+   "write": false,
+   "facts": [],
+   "sims": [],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "capability"
+  },
+  {
+   "id": "p-rather",
+   "q": "Would you rather a lyre or a drum?",
+   "product": true,
+   "route": "creative",
+   "reply": "The lyre is the choice. A lyre is an instrument.",
+   "write": false,
+   "facts": [
+    {
+     "text": "A lyre is an instrument.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": "c0",
+   "athena": null,
+   "speech": "prefer"
+  },
+  {
+   "id": "p-tide",
+   "q": "Describe a current.",
+   "product": true,
+   "route": "creative",
+   "reply": "The current rises. The current falls.",
+   "write": false,
+   "facts": [
+    {
+     "text": "The current rises.",
+     "source": "phone_kb"
+    },
+    {
+     "text": "The current falls.",
+     "source": "phone_kb"
+    }
+   ],
+   "sims": [],
+   "math": [],
+   "why": null,
+   "athena": null,
+   "speech": "describe"
+  }
+ ]
+}

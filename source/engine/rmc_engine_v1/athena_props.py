@@ -94,6 +94,68 @@ def _fact(head: str, prop: str, value: Any, unit: str | None, publishers: list[d
     }
 
 
+_LEX_CACHE: dict[str, Any] | None = None
+_STRUCTURE = re.compile(r"\b(building|edifice|room|hall)\b|\bbuilt to\b", re.I)
+_COLLECTION = re.compile(r"\bcollection\b", re.I)
+# A gloss that names a room or a building is that kind only when the specimen is tall enough to be one.
+# A shorter agreement is another sense (a model, a part, a picture's subject). The bound is the class, not a noun.
+_STRUCTURE_MIN_M = 2.0
+
+
+def _lexicon() -> dict[str, Any]:
+    global _LEX_CACHE
+    if _LEX_CACHE is None:
+        path = Path(__file__).resolve().parents[2] / "data" / "lexicon.json"
+        try:
+            _LEX_CACHE = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            _LEX_CACHE = {}
+    return _LEX_CACHE
+
+
+def _noun_senses(head: str) -> list[dict[str, str]]:
+    data = _lexicon()
+    names = ((data.get("meta") or {}).get("lexnames") or [])
+    row = (data.get("L") or {}).get(str(head or "").lower())
+    out = []
+    if not isinstance(row, list):
+        return out
+    for pos_block in row:
+        if not isinstance(pos_block, list) or len(pos_block) < 2 or pos_block[0] != "n":
+            continue
+        for sense in pos_block[1] or []:
+            if not isinstance(sense, list) or len(sense) < 3:
+                continue
+            idx = sense[1]
+            lexname = names[idx] if isinstance(idx, int) and 0 <= idx < len(names) else ""
+            out.append({"lexname": str(lexname), "gloss": str(sense[2] or "")})
+    return out
+
+
+def kind_accepts(head: str, rows: list[dict[str, Any]]) -> bool:
+    """A bare noun with both a structure sense and a collection sense is not one measured object.
+    A structure sense does not take a specimen shorter than that kind."""
+    senses = _noun_senses(head)
+    if not senses:
+        return True
+    glosses = [s["gloss"] for s in senses]
+    structure = any(_STRUCTURE.search(g) for g in glosses)
+    collection = any(s["lexname"] == "noun.group" or _COLLECTION.search(s["gloss"]) for s in senses)
+    if structure and collection:
+        return False
+    heights = []
+    for row in rows or []:
+        if str(row.get("property") or "") != "height":
+            continue
+        try:
+            heights.append(float(row.get("value")))
+        except (TypeError, ValueError):
+            continue
+    if structure and heights and min(heights) < _STRUCTURE_MIN_M:
+        return False
+    return True
+
+
 def gilligan(facts: list[dict[str, Any]]) -> dict[str, Any]:
     """Two independent non-Wikipedia hosts, or the row is not admitted."""
     ok, held = [], []
@@ -661,7 +723,12 @@ def fetch_objects(head: str, http: Http = _http) -> dict[str, Any]:
     if len(sides) < 2:
         return {"ok": [], "held": [{"head": head.lower(), "property": "dimensions", "reason": "two_publishers_required",
                                     "publishers": [s[0] for s in sides]}], "calls_llm": False, "supabase_write": False}
-    return gilligan(agree_objects(head, sides))
+    packed = gilligan(agree_objects(head, sides))
+    if packed.get("ok") and not kind_accepts(head, packed["ok"]):
+        return {"ok": [], "held": [{"head": head.lower(), "property": "kind", "reason": "kind_scale",
+                                    "values": [r.get("value") for r in packed["ok"] if r.get("property") == "height"]}],
+                "calls_llm": False, "supabase_write": False}
+    return packed
 
 
 # ---------------------------------------------------------------- celestial body: IMCCE ssoCard and NASA/JPL SBDB (asteroids / dwarf planets)

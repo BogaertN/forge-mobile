@@ -173,6 +173,9 @@ elif op == 'lookup_seal':
     out = S.seal(problem, run)
     out['gilligan'] = fact.get('gilligan')
     out['proposal'] = fact
+elif op == 'scenes':
+    from rmc_engine_v1.sim_karaka import questions_for_rows
+    out = {'questions': questions_for_rows(a.get('rows') or []), 'calls_llm': False}
 elif op == 'solve':
     out = S.seal(a['problem'], S.solve(a['problem']))
 elif op == 'finish':

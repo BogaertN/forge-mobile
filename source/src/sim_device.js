@@ -368,6 +368,39 @@
     if (proposed && proposed.ledger) root.FORGE_LEDGER = proposed.ledger;
     return proposed && proposed.proposals ? proposed : { rule: 'ATHENA-NO-AGREEMENT', proposals: [], ledger: proposed && proposed.ledger, calls_llm: false, supabase_write: false };
   }
-  root.KSimDevice = { simulate, research, book, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
+  function sharesQuestion(question, text) {
+    const stop = { write: 1, poem: 1, about: 1, what: 1, times: 1, with: 1, from: 1, that: 1, this: 1, your: 1, have: 1, does: 1 };
+    const words = s => String(s || '').toLowerCase().match(/[a-z]{4,}/g) || [];
+    const q = {};
+    words(question).forEach(w => { if (!stop[w]) q[w] = 1; });
+    return words(text).some(w => q[w]);
+  }
+  async function prepareCreative(memory, question) {
+    /* Scene questions from the cited clauses, then the same on-page plan/solve/WASM path a factual sim uses.
+     * The worker does not start Node and does not run WASM itself. */
+    const rows = memoryRows(memory).filter(r => !question || sharesQuestion(question, r.text));
+    let questions = [];
+    try {
+      const got = await pyCall({ op: 'scenes', rows: rows });
+      questions = (got && got.questions) || [];
+    } catch (e) { questions = []; }
+    const sims = [];
+    const seen = {};
+    for (const q of questions) {
+      let rec = null;
+      try { rec = await simulate(q, memory); } catch (e) { rec = null; }
+      if (!rec || !rec.ok) continue;
+      const solver = rec.primary_solver || (rec.problem && rec.problem.solver) || '';
+      if (!solver || seen[solver]) continue;
+      const row = (rec.rows || [])[0];
+      const sim = row && row.sim;
+      if (!sim || !sim.solver) continue;
+      seen[solver] = 1;
+      sims.push(sim);
+      if (sims.length >= 4) break;
+    }
+    return sims;
+  }
+  root.KSimDevice = { simulate, prepareCreative, research, book, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
   if (root.document) { if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', renderSettings); else renderSettings(); }
 })(typeof self !== 'undefined' ? self : this);

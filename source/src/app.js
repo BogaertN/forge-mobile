@@ -495,6 +495,12 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     }
     if (simReceipt && simReceipt.ok && Array.isArray(simReceipt.rows)) memory.simulation = simReceipt.rows.slice(0, 6);
     askCtx.sim = simReceipt || null;
+    try {
+      const creativeFrame = window.KQFrame && KQFrame.compile ? KQFrame.compile(qtext, forge) : null;
+      if (creativeFrame && creativeFrame.expressive && window.KSimDevice && KSimDevice.prepareCreative) {
+        memory.creative_sims = await KSimDevice.prepareCreative(memory, qtext);
+      }
+    } catch (e) { /* a creative question still composes from the facts it has */ }
     let blocked = null;
     try {
       const compiled = window.KQFrame && KQFrame.compile ? KQFrame.compile(qtext, forge) : null;
