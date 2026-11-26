@@ -1,3 +1,13 @@
+## v4.9.266 — Every gathered clause is spoken, and a learned rule survives reload (Nic, 26 Nov 2026)
+
+**Conflict:** On the phone a creative reply used one gathered sentence even when several admitted and single-source clauses were in hand. Admitted learned rules lived only in the page's memory, so a reload dropped them.
+
+**Where:** `compose` speaks each gathered clause the setting did not already say. `learning.js` writes the store to local storage (and, in tests, to a backing record that outlives the cache). `reload` reads it back. A counterexample still archives the rule, and the archive is what comes back.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A single-source clause is still not a fact. The creative text is still not stored.
+
+Proof: `verify/r4284_suite.js`, `verify/r4281_suite.js`.
+
 ## v4.9.265 — Open sources, and a gloss split into clauses (Nic, 26 Nov 2026)
 
 **Conflict:** The phone gather never reached the network. Pyodide's HTTP is the browser, and those hosts do not send CORS headers to the page, so the worker returned nothing and the poem recited one unparsed gloss. On the node, the older connectors were asked "what is a badger?", a question most of them only answer for a planet, a chemical, or a capital. Wikipedia, Wikidata, Wiktionary, GBIF and the other open references were not connectors. A lute poem took the packing-substance sense because that sense is listed first in the extended lexicon.

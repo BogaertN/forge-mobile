@@ -79,6 +79,21 @@ function register(C, expect) {
     expect(gone.ok === true && gone.proposal.status === 'archived' && gone.proposal.valid_to && gone.proposal.deleted === false, JSON.stringify(gone.proposal && gone.proposal.status));
     expect(Q.compile('gnat wing', f).parsed !== true, 'archived mapping is not used');
   });
+  C('R4281', 'an admitted rule survives reload and a retraction still archives it', () => {
+    L.clear();
+    const rows = ['A beetle is an insect.', 'A beetle has wings.', 'A moth is an insect.', 'A moth has wings.', 'An ant is an insect.', 'An ant has wings.'].map(fact);
+    const settled = L.settle(rows, []);
+    expect(settled.admitted.length === 1 && settled.admitted[0].id === 'kind-property:insect:wing', JSON.stringify(settled.admitted));
+    L.reload();
+    const kept = L.list().rules.find(r => r.id === 'kind-property:insect:wing');
+    expect(kept && kept.status === 'admitted' && !kept.valid_to, JSON.stringify(kept && kept.status));
+    const bad = rows.concat([fact('A louse is an insect.'), fact('A louse has no wings.')]);
+    L.settle(bad, []);
+    L.reload();
+    const retired = L.list().rules.find(r => r.id === 'kind-property:insect:wing');
+    expect(retired && retired.status === 'archived' && retired.valid_to && retired.deleted === false, JSON.stringify(retired && retired.status));
+    expect(L.admittedIds().indexOf('kind-property:insect:wing') < 0, 'reloaded archive is not admitted');
+  });
   C('R4281', 'calibration records a later refutation and only proposes a stricter floor', () => {
     L.clear();
     L.noteAdmitted({ question: 'Is a brin a flarn?', reply: 'A brin is a flarn.', coherence: 0.91, echo: 1, drift: 0.02 });
