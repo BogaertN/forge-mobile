@@ -176,6 +176,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. A kind follow-up is realized by the grammar from the noun."
+    },
+    {
+      "version": "4.9.285",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. Idle keeps the best sandbox branch. It is not a fact."
     }
   ]
 }
