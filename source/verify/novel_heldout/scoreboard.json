@@ -116,6 +116,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. A follow-up is abduction, action, then prediction on the admitted mechanism. The spoken reason is whether the group exceeds the threshold."
+    },
+    {
+      "version": "4.9.275",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. A derived answer speaks the reason atom copied from the fitting receipts. An ask retries while the worker is not ready."
     }
   ]
 }

@@ -1,10 +1,14 @@
-/* 4.9.274: an admitted mechanism answers inside its tested range. A sim runs only outside it, and that receipt refits the law. */
+/* 4.9.275: an admitted mechanism answers inside its tested range. A sim runs only outside it, and that receipt refits the law. */
 const path = require('path');
 const fs = require('fs');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
 const S = require(ROOT + '/src/sim_receipts.js');
 const M = require(ROOT + '/src/mechanisms.js');
+function cause(outcome) {
+  const topple = outcome === 'topple';
+  return [{ role: 'reason', atom: { predicate: 'exceed', args: topple ? ['the torque about the edge', 'the restoring torque'] : ['the contact force', 'the friction limit'], polarity: 'pos', tense: 'present' } }];
+}
 function register(C, expect) {
   C('R4290', 'an admitted mechanism is used inside its range and refused outside it', () => {
     S.clear();
@@ -16,7 +20,7 @@ function register(C, expect) {
         ok: true, may_store_as_fact: false, receipt_id: 'sim-range-' + i, sha256: 'sha-range-' + i,
         outcome: value > 1 ? 'topple' : 'slide', primary_solver: 'mujoco_wasm',
         problem: { solver: 'mujoco_wasm', scene: { action: 'push', body: { noun: 'sample', shape: 'cylinder', height: height, radius: radius, mass: 0.5 }, surface: { name: 'table', mu: mu }, point: { fraction: fraction }, gravity: 9.80665 } },
-        spoken_atoms: []
+        spoken_atoms: cause(value > 1 ? 'topple' : 'slide')
       });
       i++;
     }
@@ -29,6 +33,7 @@ function register(C, expect) {
     M.reload();
     const law = M.admitted().find(r => r.expression === '(fraction*height*mu)/radius');
     expect(law && typeof law._eval !== 'function' && law.fact === false, 'reloaded without a stored function');
+    expect(law.causes && law.causes.topple && law.causes.topple.args[0] === 'the torque about the edge' && law.causes.slide && law.causes.slide.args[0] === 'the contact force', JSON.stringify(law.causes));
     const inside = { fraction: 0.5, height: 0.3, mu: 0.35, radius: 0.045 };
     const got = M.apply(law, inside);
     const expectOutcome = (0.5 * 0.3 * 0.35 / 0.045) > law.threshold ? law.above : law.below;
@@ -61,8 +66,8 @@ print(json.dumps({"ok": out.get("ok"), "method": out.get("method"), "fact": out.
     expect(proc.status === 0, (proc.stderr || '').slice(-600));
     const sealed = JSON.parse(proc.stdout.trim().split('\n').pop());
     expect(sealed.ok === true && sealed.method === 'learned_mechanism' && sealed.fact === false && sealed.derived === true, JSON.stringify(sealed));
-    const why = got.outcome === law.below ? 'The group does not exceed the threshold.' : 'The group exceeds the threshold.';
-    expect(sealed.outcome === got.outcome && sealed.why === why && !/torque about the edge/.test(sealed.why), JSON.stringify(sealed));
+    const why = got.outcome === 'topple' ? 'The torque about the edge exceeds the restoring torque.' : 'The contact force exceeds the friction limit.';
+    expect(sealed.outcome === got.outcome && sealed.why === why && !/the group exceeds the threshold/i.test(sealed.why), JSON.stringify(sealed));
     expect(sealed.trace && sealed.trace.some(row => row.unit === 'm') && sealed.trace.some(row => row.unit === '1'), JSON.stringify(sealed.trace));
     expect((sealed.assumptions || []).length >= 4, JSON.stringify(sealed.assumptions));
     const before = law.range.fraction.max;

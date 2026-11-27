@@ -283,6 +283,26 @@
     best.range = range;
     return best;
   }
+  function causesOf(rows) {
+    const counts = {};
+    rows.forEach(r => {
+      if (!r || !r.outcome) return;
+      const list = r.mechanism_atoms || [];
+      const atom = list.map(a => a && a.atom).find(a => a && a.predicate && Array.isArray(a.args));
+      if (!atom) return;
+      const copy = { predicate: atom.predicate, args: atom.args.map(x => String(x)), polarity: atom.polarity || 'pos', tense: atom.tense || 'present' };
+      const id = JSON.stringify(copy);
+      const slot = counts[r.outcome] || (counts[r.outcome] = {});
+      slot[id] = slot[id] || { atom: copy, n: 0 };
+      slot[id].n += 1;
+    });
+    const out = {};
+    Object.keys(counts).forEach(outcome => {
+      const best = Object.keys(counts[outcome]).sort((a, b) => counts[outcome][b].n - counts[outcome][a].n || a.localeCompare(b))[0];
+      if (best) out[outcome] = counts[outcome][best].atom;
+    });
+    return out;
+  }
   function induce(receipts) {
     const groups = {};
     (receipts || []).forEach(r => {
@@ -328,6 +348,7 @@
         tried: found.tried,
         assumptions: found.variables.map(n => n + (found.range[n].unit ? ' in ' + found.range[n].unit : '')),
         atom: { predicate: 'exceed', args: [found.expression, String(found.threshold)], polarity: 'pos', tense: 'present', above: found.above, below: found.below },
+        causes: causesOf(subset),
         train: train.map(r => r.id),
         held: held.map(r => r.id),
         held_miss: heldMiss.map(r => r.id),
@@ -399,6 +420,7 @@
       schema: SCHEMA, id: proposal.id, solver: proposal.solver, expression: proposal.expression,
       variables: proposal.variables, range: proposal.range, threshold: threshold,
       above: proposal.above, below: proposal.below, assumptions: proposal.assumptions, atom: atom,
+      causes: proposal.causes || {},
       tried: proposal.tried, train: proposal.train, held: proposal.held, probes: probes,
       status: agree ? 'admitted' : 'refuted',
       evidence_class: 'mechanism', fact: false, may_store_as_fact: false, publisher: false, hosted_eligible: false, calls_llm: false
@@ -564,6 +586,8 @@
       law.train = next.train;
       law.held = next.held;
       if (law.atom && Array.isArray(law.atom.args)) law.atom = Object.assign({}, law.atom, { args: [law.expression, String(next.threshold)] });
+      const causes = causesOf(agreed);
+      if (Object.keys(causes).length) law.causes = Object.assign({}, law.causes || {}, causes);
       law.refit = { at: now, expanded: fresh.map(r => r.id), fact: false };
       changed = true;
     });

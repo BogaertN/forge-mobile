@@ -370,6 +370,14 @@ function askCard(kind, bodyHtml, state) {
   log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="' + state + '" data-followup="' + kind + '"><span class="kind deterministic_route">meaning</span><div data-ask-body>' + bodyHtml + '</div><div class="flags">no LLM · deterministic · nothing stored</div></div>');
   log.lastElementChild.scrollIntoView({ block: 'end' });
 }
+async function engineReady() {
+  const start = Date.now();
+  while (Date.now() - start < 8000) {
+    if (window.KRMCCore && KRMCCore.run && window.KRMC && KRMC.ask && window.forge) return true;
+    await new Promise(r => setTimeout(r, 150));
+  }
+  return !!(window.KRMCCore && KRMCCore.run && window.forge);
+}
 async function say(text) { if (lexState.core === 'loading') { queue.push(text); return; }
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
   let qtext = text; let askCtx = {}; let simSpecific = false; let simSupplement = null;
@@ -524,7 +532,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       if (window.KLearning && KLearning.noteTurn) KLearning.noteTurn(qtext, compiled);
     } catch (e) { blocked = null; }
     if (blocked) row = { ok: true, held: true, reply: null, product_reply: false, route: 'RETRACTED', trace: { rule: 'RETRACTED', status: blocked.status, hash: blocked.hash, reason: blocked.reason, calls_llm: false }, calls_llm: false };
-    else if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
+    else if (!(await engineReady())) row = { ok: false, held: true, reply: null, route: 'engine_unavailable', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
     else row = await KRMCCore.run(Object.assign({ question: qtext, live: true, dry_run: false, memory: memory }, askCtx.sense ? { sense: askCtx.sense } : {}));
     /* 4.9.206: the old replay of recorded self-seed documents (the fixtures global) is removed from Ask. Recorded demo
      * documents are shown only on the Self-seed card (window.SELF_SEED_DEMO); Ask never treats a recording as research. */

@@ -6,7 +6,7 @@
 (function (root) {
 'use strict';
 const HELD = 'The answer is held.';
-const BUNDLE = { url: 'data/py/rmc_engine_bundle.json', sri: 'sha384-r835xPIlkkQT2IVBhDWuGuEOcATn2yfil/UAIVrjqpMQNbdFnYIJMFyMn3a+43hu' };
+const BUNDLE = { url: 'data/py/rmc_engine_bundle.json', sri: 'sha384-wW/bmPrJZHab2vn6TspyM3dLtRZJ/YwCKExUG6PstsocSKo/9kskerLPlUeKwOL8' };
 function held(extra) { return Object.assign({ ok: false, engine: 'rmc_engine_v1', reply: HELD, admitted: false, held: true, fallback: true, calls_llm: false, model_invoked: false }, extra || {}); }
 function askSync(payload) {
   if (typeof require !== 'function') return held({ error: 'browser_uses_worker' });
@@ -40,6 +40,24 @@ async function askBackend(payload, url) {
   out.path = 'backend';
   return out;
 }
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+/* A thin fallback has no route. That is the engine not being ready, not an answer. Retry, then name the route. */
+async function settle(run, gaps) {
+  const waits = gaps && gaps.length ? gaps : [0, 400, 900, 1800];
+  let last = null;
+  for (let i = 0; i < waits.length; i++) {
+    if (waits[i]) await sleep(waits[i]);
+    try {
+      const out = await run(i);
+      if (out && (out.route || out.product_reply === true || out.fallback !== true)) return out;
+      last = out;
+    } catch (e) {
+      last = { ok: false, fallback: true, held: true, product_reply: false, calls_llm: false, error: String(e && e.message || e).slice(0, 240) };
+    }
+  }
+  if (last && !last.route) last = Object.assign({}, last, { route: 'engine_unavailable' });
+  return last || { ok: false, fallback: true, held: true, product_reply: false, calls_llm: false, route: 'engine_unavailable' };
+}
 function askBrowser(payload, opts) {
   opts = opts || {};
   const Py = root.KPyCheck;
@@ -53,12 +71,17 @@ function askBrowser(payload, opts) {
     const realizeUrl = here ? new URL('src/realize_atom.js', here).href : 'src/realize_atom.js';
     return client.rmcAsk(payload, { bundleUrl: bundleUrl, bundleSri: BUNDLE.sri, grammarUrl: grammarUrl, realizeUrl: realizeUrl });
   };
-  return runWorker().then(out => Object.assign({ path: 'pyodide' }, out)).catch(err => { const msg = String(err && err.message || err).slice(0, 300); try { console.error('rmc worker failed: ' + msg); } catch (e) {} return askBackend(payload, opts.endpoint).catch(e => held({ error: msg + ' | ' + String(e && e.message || e).slice(0, 160), path: 'backend' })); });
+  return settle(() => runWorker().then(out => Object.assign({ path: 'pyodide' }, out)), opts.gaps).then(out => {
+    if (out && out.fallback !== true) return out;
+    const msg = String(out && out.error || 'worker_failed').slice(0, 300);
+    try { console.error('rmc worker failed: ' + msg); } catch (e) {}
+    return askBackend(payload, opts.endpoint).catch(e => held({ error: msg + ' | ' + String(e && e.message || e).slice(0, 160), path: 'backend', route: 'engine_unavailable' }));
+  });
 }
 function ask(payload, opts) {
   if (typeof require === 'function' && typeof fetch === 'undefined') return Promise.resolve(askSync(payload));
   return askBrowser(payload, opts);
 }
-const api = { HELD, BUNDLE, askSync, askBrowser, ask, askBackend };
+const api = { HELD, BUNDLE, askSync, askBrowser, ask, askBackend, settle };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KRMC = api;
 })(typeof self !== 'undefined' ? self : this);
