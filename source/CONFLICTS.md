@@ -1,3 +1,13 @@
+## v4.9.292 — Open figures, verb arguments, and a depth comparison (Nic, 27 Nov 2026)
+
+**Conflict:** A bird had no handbook density, so the water sim never ran. A story verb was a bare intransitive when the gathered sentences named a patient or a place. The buoyancy solver never compared the depth it reached with a body length.
+
+**Where:** When the handbook has no figure, the phone reads a Wikidata quantity claim and converts it by that unit's own SI factor. The figure is used only when two lineages agree, or their interval sits entirely on one side of the fluid. A Wikimedia claim does not count alone. The result stays evidence. Each story verb takes a patient from a compound in the gloss or a place from a gathered adjunct, and a place whose gloss names a liquid is the fluid the sim is asked about. When a body height and a leg length are both on the problem, the solver says whether the depth reached is above or below the length of the leg.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4302_suite.js`.
+
 ## v4.9.291 — A story runs the sim it can ground, and kinship keeps its inverse (Nic, 27 Nov 2026)
 
 **Conflict:** A story in water held because the body had no density, so the float or the sink was never said. The telling was one action. A fresh kinship question that had spoken on the previous release held on this one.

@@ -900,6 +900,19 @@ def _interval_problem(q: str, reading: dict[str, Any], key: str | None, fluid: s
     return _hold(q, "property_missing", "kind", body=patient, fluid=fluid, material_class=klass, ask_kind=True)
 
 
+def _with_body(problem: dict[str, Any], reading: dict[str, Any]) -> dict[str, Any]:
+    """A stated body height and leg length travel with the problem. They are not a density."""
+    if not problem.get("ok"):
+        return problem
+    props = reading.get("props") if isinstance(reading.get("props"), dict) else {}
+    for src, dest in (("height", "height_m"), ("height_m", "height_m"), ("leg", "leg_m"), ("leg_m", "leg_m")):
+        val = props.get(src)
+        if isinstance(val, bool) or not isinstance(val, (int, float)) or not (float(val) > 0):
+            continue
+        problem[dest] = float(val)
+    return problem
+
+
 def _buoyancy_problem(q: str, reading: dict[str, Any], key: str | None) -> dict[str, Any]:
     fluid = str(reading.get("fluid") or "")
     rho_f = _fluid_density(fluid)
@@ -907,12 +920,12 @@ def _buoyancy_problem(q: str, reading: dict[str, Any], key: str | None) -> dict[
         return _hold(q, "unknown_fluid", "fluid", fluid=fluid, body=reading.get("patient"))
     spanned = _interval_problem(q, reading, key, fluid, rho_f)
     if spanned is not None:
-        return spanned
+        return _with_body(spanned, reading)
     rho_b, src = _body_density(reading)
     if rho_b is None:
         return _hold(q, "property_missing", "density", body=reading.get("patient"), fluid=fluid)
-    return _problem(q, "buoyancy_ondevice", key, patient=reading.get("patient"), phrase=reading.get("phrase"),
-                    fluid=fluid, rho_body=rho_b, rho_fluid=rho_f, density_source=src)
+    return _with_body(_problem(q, "buoyancy_ondevice", key, patient=reading.get("patient"), phrase=reading.get("phrase"),
+                               fluid=fluid, rho_body=rho_b, rho_fluid=rho_f, density_source=src), reading)
 
 
 def _thermal_problem(q: str, reading: dict[str, Any], key: str | None) -> dict[str, Any]:
@@ -930,6 +943,18 @@ def _thermal_problem(q: str, reading: dict[str, Any], key: str | None) -> dict[s
                     power_w=power, time_s=time_s, **row)
 
 
+def _note_depth(p: dict[str, Any], ms: dict[str, Any], frac: float | None) -> dict[str, Any]:
+    """Depth reached is the submerged fraction of the body height. It is compared with the leg only when both were given."""
+    height, leg = p.get("height_m"), p.get("leg_m")
+    if isinstance(height, (int, float)) and not isinstance(height, bool) and isinstance(frac, (int, float)) and not isinstance(frac, bool) and height > 0:
+        ms["depth_m"] = round(float(height) * float(frac), 4)
+    if isinstance(leg, (int, float)) and not isinstance(leg, bool) and ms.get("depth_m") is not None and leg > 0:
+        ms["leg_m"] = float(leg)
+        depth = float(ms["depth_m"])
+        ms["depth_vs_leg"] = "below" if depth < float(leg) else "above" if depth > float(leg) else "meet"
+    return ms
+
+
 def _solve_buoyancy(p: dict[str, Any]) -> dict[str, Any]:
     rho_f = float(p["rho_fluid"])
     if p.get("density_interval"):
@@ -944,6 +969,7 @@ def _solve_buoyancy(p: dict[str, Any]) -> dict[str, Any]:
                               "fluid": p["fluid"], "patient": p["patient"]}
         if outcome == "sink":
             ms["submerged_fraction"] = 1.0
+            _note_depth(p, ms, 1.0)
         return {"solver": "buoyancy_ondevice", "engine": "archimedes (on device)", "outcome": outcome,
                 "measurements": ms,
                 "equations": ["Archimedes: the outcome is fixed when the whole density interval is on one side of the fluid"]}
@@ -954,9 +980,11 @@ def _solve_buoyancy(p: dict[str, Any]) -> dict[str, Any]:
         outcome, frac = "sink", 1.0
     else:
         outcome, frac = "suspend", 1.0
+    ms = {"rho_body": round(rho_b, 2), "rho_fluid": round(rho_f, 2),
+          "submerged_fraction": round(frac, 4), "fluid": p["fluid"], "patient": p["patient"]}
+    _note_depth(p, ms, frac)
     return {"solver": "buoyancy_ondevice", "engine": "archimedes (on device)", "outcome": outcome,
-            "measurements": {"rho_body": round(rho_b, 2), "rho_fluid": round(rho_f, 2),
-                             "submerged_fraction": round(frac, 4), "fluid": p["fluid"], "patient": p["patient"]},
+            "measurements": ms,
             "equations": ["Archimedes: floats iff ρ_body < ρ_fluid", "submerged fraction = ρ_body / ρ_fluid"]}
 
 
@@ -1340,12 +1368,17 @@ def _extra_structs(p: dict[str, Any], run: dict[str, Any]) -> list[dict[str, Any
             atoms.append(_karaka("is", [f"the molecular weight of {n}", f"{mw:g} daltons"]))
             atoms.append(_karaka("is", [f"the molecular mass of {n}", f"{mw:g} daltons"]))
         return atoms
-    if s == "buoyancy_ondevice" and str(p.get("density_source") or "").startswith("lexicon ") and not str(p.get("density_source") or "").startswith("lexicon interval"):
-        who = str(p.get("patient") or "body")
-        if ms.get("rho_body") is None:
-            return []
-        return [_karaka("have", [f"the {who}", f"a density of {float(ms['rho_body']):g} kilograms"],
-                        modifiers=[_mod("per", "cubic meter", "sambandha")])]
+    if s == "buoyancy_ondevice":
+        atoms: list[dict[str, Any]] = []
+        src = str(p.get("density_source") or "")
+        if src.startswith("lexicon ") and not src.startswith("lexicon interval") and ms.get("rho_body") is not None:
+            who = str(p.get("patient") or "body")
+            atoms.append(_karaka("have", [f"the {who}", f"a density of {float(ms['rho_body']):g} kilograms"],
+                                 modifiers=[_mod("per", "cubic meter", "sambandha")]))
+        side = ms.get("depth_vs_leg")
+        if side in ("below", "above"):
+            atoms.append(_karaka("is", ["the depth", f"{side} the length of the leg"]))
+        return atoms
     if s == "thermal_ondevice" and ms.get("temperature_c") is not None:
         sub = str(ms.get("substance") or p.get("substance") or "it")
         return [_karaka("is", [f"the final temperature of the {sub}", f"{float(ms['temperature_c']):g} degrees"])]

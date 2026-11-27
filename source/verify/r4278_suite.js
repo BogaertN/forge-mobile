@@ -40,7 +40,7 @@ function register(C, expect) {
   C('R4278', 'an on-device thermal receipt is spoken as a simulation', () => {
     const row = ask('What happens if I cool 1 kilogram of water to minus 10 degrees?');
     expect(row.product === true && row.path === 'simulated' && /water/.test(row.reply) && /freez/.test(row.reply), JSON.stringify(row));
-    expect(fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.291', 'VERSION');
+    expect(fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.292', 'VERSION');
   });
 }
 module.exports = register;
