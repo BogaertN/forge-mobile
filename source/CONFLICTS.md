@@ -1,3 +1,13 @@
+## v4.9.275 — A mechanism speaks the cause its receipts measured (Nic, 27 Nov 2026)
+
+**Conflict:** A mechanism-derived answer said "The group exceeds the threshold." That is not the cause. An ask that reached the engine before the worker was ready was held with an empty route.
+
+**Where:** The admitted mechanism keeps the reason atom that the fitting receipts already carried for each outcome, copied from those receipts. A derived answer speaks that atom. The expression, the value and the units stay on the trace. An ask retries while the worker is missing, and a last failure is named `engine_unavailable` rather than left without a route.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. The derived row is still not a fact.
+
+Proof: `verify/r4290_suite.js`, `verify/r4292_suite.js`.
+
 ## v4.9.274 — A counterfactual is abduction, action, then prediction (Nic, 27 Nov 2026)
 
 **Conflict:** A follow-up rebuilt the question and measured it again. It did not say what the stored scene was, which quantity the question changed, or what the admitted mechanism predicted.
