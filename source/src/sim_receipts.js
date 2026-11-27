@@ -84,7 +84,7 @@
       v: ['V', 'voltage'], r: ['ohm', 'resistance'],
       gm_m3_s2: ['m^3/s^2', 'gravitational_parameter'], orbit_radius_m: ['m', 'length'],
       speed_m_s: ['m/s', 'velocity'], concentration_left: ['mol', 'amount'], c0: ['mol', 'amount'],
-      source_current_a: ['A', 'current'], t: ['s', 'time'], k: ['1/s', 'rate']
+      source_current_a: ['A', 'current'], total_resistance_ohm: ['ohm', 'resistance'], t: ['s', 'time'], k: ['1/s', 'rate']
     };
     if (SI[k]) return { unit: SI[k][0], dimension: SI[k][1] };
     if (k === 'slope_deg' || k === 'angle_deg' || k === 'tilt_deg' || k.endsWith('_deg')) return { unit: 'degree', dimension: 'angle' };

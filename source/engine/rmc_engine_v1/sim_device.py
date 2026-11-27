@@ -105,6 +105,17 @@ def _g(x: float, sig: int = 4) -> str:
     return s
 
 
+def _resistor_fields(rs: list[float]) -> dict[str, Any]:
+    """The resistance the question already stated, as a problem quantity the fit can read."""
+    fields: dict[str, Any] = {"resistors": rs}
+    if len(rs) == 1:
+        fields["R"] = rs[0]
+    elif len(rs) >= 2:
+        fields["R1"] = rs[0]
+        fields["R2"] = rs[1]
+    return fields
+
+
 def _hold(q: str, reason: str, missing: str, **extra: Any) -> dict[str, Any]:
     return {"schema": PROBLEM, "ok": False, "status": "hold", "question": q, "reason": reason, "missing": missing,
             "calls_llm": False, **extra}
@@ -377,7 +388,7 @@ def _circuit_from_frame(q: str, reading: dict[str, Any], key: str | None) -> dic
         lines = "".join(f"R{i + 1} {nodes[i]} {nodes[i + 1]} {x:g}\n" for i, x in enumerate(rs))
         topo = "series" if len(rs) > 1 else "single"
     net = f"* FORGE {topo}\nV1 in 0 DC {v:g}\n{lines}.op\n.end\n"
-    return _problem(q, "circuits_wasm", key, topology=topo, V=v, resistors=rs, netlist=net)
+    return _problem(q, "circuits_wasm", key, topology=topo, V=v, netlist=net, **_resistor_fields(rs))
 
 
 def _reaction_from_frame(q: str, reading: dict[str, Any], key: str | None) -> dict[str, Any]:
@@ -588,7 +599,7 @@ def _plan_circuit(q: str, r: str, key: str | None) -> dict[str, Any]:
         lines = "".join(f"R{i + 1} {nodes[i]} {nodes[i + 1]} {x:g}\n" for i, x in enumerate(rs))
         topo = "series" if len(rs) > 1 else "single"
     net = f"* FORGE {topo}\nV1 in 0 DC {v:g}\n{lines}.op\n.end\n"
-    return _problem(q, "circuits_wasm", key, topology=topo, V=v, resistors=rs, netlist=net)
+    return _problem(q, "circuits_wasm", key, topology=topo, V=v, netlist=net, **_resistor_fields(rs))
 
 
 # ---------------------------------------------------------------- formulas
@@ -829,6 +840,10 @@ def _thermal_row(name: str) -> dict[str, float] | None:
 def _body_density(reading: dict[str, Any]) -> tuple[float | None, str]:
     """Bulk density from a stated mass and box, a remembered mass, or a handbook material. No invented noun."""
     props = reading.get("props") if isinstance(reading.get("props"), dict) else {}
+    stated_rho = props.get("density")
+    if isinstance(stated_rho, (int, float)) and not isinstance(stated_rho, bool) and stated_rho > 0:
+        material = props.get("material")
+        return float(stated_rho), ("lexicon " + str(material)) if material else "lexicon"
     h, w, d, mass = props.get("height"), props.get("width"), props.get("depth"), props.get("mass")
     if mass and h and w and d:
         depth = float(d)
@@ -1281,6 +1296,9 @@ def _extra_structs(p: dict[str, Any], run: dict[str, Any]) -> list[dict[str, Any
             atoms.append(_karaka("is", [f"the molecular weight of {n}", f"{mw:g} daltons"]))
             atoms.append(_karaka("is", [f"the molecular mass of {n}", f"{mw:g} daltons"]))
         return atoms
+    if s == "buoyancy_ondevice" and ms.get("rho_body") is not None and str(p.get("density_source") or "").startswith("lexicon"):
+        who = str(p.get("patient") or "body")
+        return [_karaka("is", [f"the density of the {who}", f"{float(ms['rho_body']):g} kilograms per cubic meter"])]
     if s == "thermal_ondevice" and ms.get("temperature_c") is not None:
         sub = str(ms.get("substance") or p.get("substance") or "it")
         return [_karaka("is", [f"the final temperature of the {sub}", f"{float(ms['temperature_c']):g} degrees"])]

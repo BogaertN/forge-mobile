@@ -140,6 +140,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. Idle admits V/R from circuit receipts. A later ask inside the range is derived from that law."
+    },
+    {
+      "version": "4.9.279",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. This node set does not run the phone material lookup. A named handbook material fills density on the phone; a disagreeing class stays an ask."
     }
   ]
 }

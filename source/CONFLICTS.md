@@ -1,3 +1,13 @@
+## v4.9.279 — A named material can fill a density, and a resistor keeps its resistance (Nic, 27 Nov 2026)
+
+**Conflict:** Real resistor asks stored the voltage and not the resistance, so idle could not fit V/R. A nail in seawater asked for a density even when the question or the lexicon named a handbook material.
+
+**Where:** A circuit problem now carries the resistance the question already stated. Words in the question and in the artifact gloss are matched to handbook materials. One agreed density is used, and the answer states that value. A class whose members disagree, such as "metal", stays an ask. Nothing is hardcoded to one object.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. The looked-up density is evidence for this solve, not a stored fact.
+
+Proof: `verify/r4296_suite.js`.
+
 ## v4.9.278 — Idle admits a quantitative law and Derive uses it (Nic, 27 Nov 2026)
 
 **Conflict:** A quantitative fit lived only in the suite. The phone's idle loop did not keep it, and a later ask inside the tested range measured again.
