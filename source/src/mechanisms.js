@@ -71,6 +71,10 @@
     if (dim === 'time' || unit === 's' || unit === 'min') return [0, 0, 1];
     if (dim === 'acceleration' || unit === 'm/s^2') return [1, 0, -2];
     if (dim === 'density' || unit === 'kg/m^3') return [-3, 1, 0];
+    if (dim === 'velocity' || unit === 'm/s' || unit === 'km/s') return [1, 0, -1];
+    if (dim === 'gravitational_parameter' || unit === 'm^3/s^2') return [3, 0, -2];
+    if (dim === 'rate' || unit === '1/s') return [0, 0, -1];
+    if (dim === 'current' || unit === 'A') return null;
     return null;
   }
   function piExprs(names, sample) {
@@ -597,8 +601,159 @@
     if (changed) save(doc);
     return { ok: true, changed: changed, admitted: admitted().map(r => r.id), fact: false, may_store_as_fact: false };
   }
+  function familyName(name) {
+    return String(name || '').replace(/_(km_s|m_s|m3_s2|km|min|m|s|a)$/g, '');
+  }
+  function median(xs) {
+    const s = xs.filter(v => typeof v === 'number' && isFinite(v)).slice().sort((a, b) => a - b);
+    if (!s.length) return null;
+    const mid = Math.floor(s.length / 2);
+    return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+  }
+  function termValue(term, vals) {
+    let value = 1;
+    for (let i = 0; i < term.length; i++) {
+      const x = vals[term[i].name];
+      if (typeof x !== 'number' || !isFinite(x) || (term[i].exp < 0 && x === 0)) return null;
+      value *= Math.pow(x, term[i].exp);
+    }
+    return value;
+  }
+  function termText(term) {
+    const num = term.filter(t => t.exp > 0);
+    const den = term.filter(t => t.exp < 0);
+    function side(parts) {
+      return parts.map(t => (t.exp === 1 || t.exp === -1) ? t.name : (t.exp === 0.5 || t.exp === -0.5) ? 'sqrt(' + t.name + ')' : t.name + '^' + Math.abs(t.exp)).join('*');
+    }
+    const n = side(num) || '1';
+    const d = side(den.map(t => ({ name: t.name, exp: -t.exp })));
+    return d ? (num.length > 1 || (num[0] && num[0].exp !== 1) ? '(' + n + ')' : n) + '/' + (den.length > 1 ? '(' + d + ')' : d) : n;
+  }
+  function fitContinuous(receipts) {
+    const groups = {};
+    (receipts || []).forEach(r => {
+      if (!r || r.fact === true || !r.id || !r.solver) return;
+      (groups[r.solver] = groups[r.solver] || []).push(r);
+    });
+    const proposals = [];
+    Object.keys(groups).sort().forEach(solver => {
+      const rows = groups[solver].slice().sort((a, b) => String(a.id).localeCompare(String(b.id)));
+      if (rows.length < 6) return;
+      const cols = {};
+      rows.forEach(r => (r.variables || []).forEach(v => {
+        if (!v || typeof v.value !== 'number' || !isFinite(v.value) || !v.unit) return;
+        const slot = cols[v.name] || (cols[v.name] = { name: v.name, unit: v.unit, dimension: v.dimension, source: v.source, by: {} });
+        slot.by[r.id] = v.value;
+      }));
+      const varying = Object.keys(cols).filter(name => {
+        const vals = rows.map(r => cols[name].by[r.id]).filter(v => typeof v === 'number');
+        return vals.length === rows.length && vals.filter((v, i, a) => a.indexOf(v) === i).length > 1;
+      });
+      const outputs = varying.filter(name => cols[name].source === 'measurement');
+      outputs.forEach(output => {
+        const yDim = dimVector(cols[output]);
+        const inputs = varying.filter(name => name !== output && familyName(name) !== familyName(output));
+        if (inputs.length < 1 || inputs.length > 8) return;
+        const holdN = Math.max(2, Math.floor(rows.length / 4));
+        const train = rows.slice(0, rows.length - holdN);
+        const held = rows.slice(rows.length - holdN);
+        const candidates = [];
+        function add(term) {
+          const dims = term.map(t => dimVector(cols[t.name]));
+          if (yDim && dims.every(Boolean)) {
+            const sum = [0, 0, 0];
+            term.forEach((t, i) => dims[i].forEach((part, k) => { sum[k] += part * t.exp; }));
+            if (sum.some((part, k) => part !== yDim[k])) return;
+          }
+          candidates.push(term);
+        }
+        inputs.forEach(name => [[1], [-1], [0.5], [-0.5], [2]].forEach(exp => add([{ name: name, exp: exp[0] }])));
+        for (let i = 0; i < inputs.length; i++) for (let j = i + 1; j < inputs.length; j++) {
+          [[1, 1], [1, -1], [-1, 1], [0.5, -0.5], [-0.5, 0.5], [1, -0.5], [-0.5, 1]].forEach(pair => {
+            add([{ name: inputs[i], exp: pair[0] }, { name: inputs[j], exp: pair[1] }]);
+          });
+        }
+        function score(term, subset, scale) {
+          const ratios = [];
+          const pred = [];
+          subset.forEach(r => {
+            const vals = {};
+            term.forEach(t => { vals[t.name] = cols[t.name].by[r.id]; });
+            const f = termValue(term, vals);
+            const y = cols[output].by[r.id];
+            if (f == null || !y) return;
+            ratios.push(y / f);
+            pred.push({ y: y, f: f });
+          });
+          if (pred.length !== subset.length) return null;
+          const used = scale == null ? median(ratios) : scale;
+          if (used == null) return null;
+          const rel = pred.map(row => Math.abs(row.y - used * row.f) / Math.abs(row.y));
+          return { scale: used, rel: median(rel) };
+        }
+        const passed = [];
+        candidates.forEach(term => {
+          const tr = score(term, train, null);
+          const hd = tr && score(term, held, tr.scale);
+          if (!tr || !hd || tr.rel > 0.02 || hd.rel > 0.02) return;
+          passed.push({ expression: termText(term), scale: tr.scale, trainRel: tr.rel, heldRel: hd.rel, factors: term.length, form: 'scale' });
+        });
+        const positive = inputs.filter(name => rows.every(r => cols[name].by[r.id] > 0) && rows.every(r => cols[output].by[r.id] > 0));
+        positive.forEach(x0 => positive.forEach(x1 => {
+          if (x0 === x1) return;
+          function expScore(subset, prod, scale) {
+            const as = [];
+            const pred = [];
+            subset.forEach(r => {
+              const y = cols[output].by[r.id];
+              const base = cols[x0].by[r.id];
+              const z = prod(r);
+              if (!(y > 0) || !(base > 0) || !z) return;
+              as.push(Math.log(y / base) / z);
+              pred.push({ y: y, base: base, z: z });
+            });
+            if (pred.length !== subset.length) return null;
+            const used = scale == null ? median(as) : scale;
+            if (used == null) return null;
+            const rel = pred.map(row => Math.abs(row.y - row.base * Math.exp(used * row.z)) / Math.abs(row.y));
+            return { scale: used, rel: median(rel) };
+          }
+          const one = expScore(train, r => cols[x1].by[r.id], null);
+          const oneH = one && expScore(held, r => cols[x1].by[r.id], one.scale);
+          if (one && oneH && one.rel <= 0.02 && oneH.rel <= 0.02) {
+            passed.push({ expression: x0 + '*exp(' + one.scale + '*' + x1 + ')', scale: one.scale, trainRel: one.rel, heldRel: oneH.rel, factors: 2, form: 'exponential' });
+          }
+          positive.forEach(x2 => {
+            if (x2 === x0 || x2 === x1 || x2 < x1) return;
+            const two = expScore(train, r => cols[x1].by[r.id] * cols[x2].by[r.id], null);
+            const twoH = two && expScore(held, r => cols[x1].by[r.id] * cols[x2].by[r.id], two.scale);
+            if (!two || !twoH || two.rel > 0.02 || twoH.rel > 0.02) return;
+            passed.push({ expression: x0 + '*exp(' + two.scale + '*' + x1 + '*' + x2 + ')', scale: two.scale, trainRel: two.rel, heldRel: twoH.rel, factors: 3, form: 'exponential' });
+          });
+        }));
+        const seen = {};
+        passed.sort((a, b) => a.heldRel - b.heldRel || a.factors - b.factors).forEach(row => { if (!seen[row.expression]) seen[row.expression] = row; });
+        Object.keys(seen).slice(0, 4).forEach(expression => {
+          const best = seen[expression];
+          proposals.push({
+            schema: SCHEMA, id: 'quant:' + solver + ':' + output + ':' + expression, solver: solver, output: output,
+            unit: cols[output].unit, expression: best.expression, scale: best.scale, form: best.form,
+            trainRel: best.trainRel, heldRel: best.heldRel, factors: best.factors,
+            status: 'admitted', kind: 'quantitative', fact: false, may_store_as_fact: false, publisher: false, calls_llm: false
+          });
+        });
+      });
+    });
+    return { proposals: proposals, calls_llm: false, changes_gates: false, fact: false };
+  }
+  function boundaryInputs(receipts) {
+    const names = {};
+    (receipts || []).forEach(r => (r.variables || []).forEach(v => { if (v && v.name) names[v.name] = true; }));
+    const moves = ['pressure', 'pressure_pa', 'solute', 'salinity', 'concentration'];
+    return { present: moves.filter(n => names[n]), absent: moves.filter(n => !names[n]), calls_llm: false, fact: false };
+  }
   function list() { return load().mechanisms.slice(); }
   function admitted() { return list().filter(r => r && r.status === 'admitted' && r.fact === false); }
-  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap, nextScenes, evaluate, apply, prepare, sceneValues, refit, counterfactual };
+  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap, nextScenes, evaluate, apply, prepare, sceneValues, refit, counterfactual, fitContinuous, boundaryInputs };
   if (isNode) module.exports = api; else root.KMechanisms = api;
 })(typeof self !== 'undefined' ? self : this);

@@ -1,3 +1,13 @@
+## v4.9.277 — Continuous measurements can be a law (Nic, 27 Nov 2026)
+
+**Conflict:** Orbit, chemistry, kinetics and circuits each had one outcome label, so a threshold search could not learn anything. Pages also produced no kinetics receipts: that job never installed SciPy, and the solver raised on the import. Thermal's `target_c/boil_c` only restates the phase comparison the solver already makes.
+
+**Where:** A first-order decay seals from its closed form when SciPy is absent, and Pages now installs SciPy the way the test workflow does. A quantitative fit looks for `output = scale × f(inputs)`, including a square root and an exponential, and keeps a candidate whose held-out relative error stays within 2%. On these grids it keeps orbital speed as `sqrt(gm)/sqrt(radius)` with scale 1, concentration as `c0 exp(-k t)`, and series current as `V/R` with scale 1. The orbit solver still assumes a circular orbit, so it does not produce decay, bound and escape. The thermal solver has no pressure and no solute, so nothing in the receipt can move the boil or melt boundary.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A fitted row is not a fact.
+
+Proof: `verify/r4294_suite.js`.
+
 ## v4.9.276 — Solver quantities enter the same mechanism search (Nic, 27 Nov 2026)
 
 **Conflict:** The search read only scene slots. A thermal, buoyancy, orbit, circuit or chemistry problem kept its numbers on the problem, so those solvers could not grow a mechanism.
