@@ -1,3 +1,13 @@
+## v4.9.274 — A counterfactual is abduction, action, then prediction (Nic, 27 Nov 2026)
+
+**Conflict:** A follow-up rebuilt the question and measured it again. It did not say what the stored scene was, which quantity the question changed, or what the admitted mechanism predicted.
+
+**Where:** On a follow-up, the prior scene is the abduction: the mechanism's variables and the outcome they determine. The action is the quantity that changed, written as an intervention. The prediction is the same mechanism on the intervened scene. Inside the tested range that prediction is the answer. Outside it, the simulator runs. The three steps are on the receipt. The card says "counterfactual". The spoken reason is the mechanism comparison in words the grammar can round-trip: the group exceeds the threshold, or does not. The expression, the value and the units stay on the trace. A formula in the sentence does not round-trip, so it is not spoken. None of it is a fact.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4291_suite.js`.
+
 ## v4.9.273 — Derive uses an admitted mechanism inside its tested range (Nic, 27 Nov 2026)
 
 **Conflict:** Every push was measured again, even when an admitted mechanism already covered the scene. The mechanism's function did not survive a reload, so a stored law could not be evaluated. A derivation was not labeled, and an out-of-range measurement did not move the tested range.

@@ -110,6 +110,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. An admitted mechanism answers inside its tested range. Outside that range the simulator runs and the receipt refits the law."
+    },
+    {
+      "version": "4.9.274",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. A follow-up is abduction, action, then prediction on the admitted mechanism. The spoken reason is whether the group exceeds the threshold."
     }
   ]
 }

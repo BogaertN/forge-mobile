@@ -503,6 +503,28 @@
     if (outside) return Object.assign({ mode: 'simulate' }, outside);
     return { mode: 'simulate', reason: rows.length ? 'missing' : 'no_mechanism', fact: false };
   }
+  function counterfactual(law, before, after) {
+    const prior = apply(law, before);
+    const next = apply(law, after);
+    const names = [];
+    Object.keys(before || {}).concat(Object.keys(after || {})).forEach(name => { if (names.indexOf(name) < 0) names.push(name); });
+    const changed = [];
+    names.forEach(name => {
+      const fromRow = before && before[name];
+      const toRow = after && after[name];
+      const from = fromRow && typeof fromRow === 'object' ? fromRow.value : fromRow;
+      const to = toRow && typeof toRow === 'object' ? toRow.value : toRow;
+      if (from === to) return;
+      changed.push({ name: name, from: from, to: to, unit: (toRow && toRow.unit) || (fromRow && fromRow.unit) || null });
+    });
+    return {
+      steps: ['abduction', 'action', 'prediction'],
+      abduction: { values: before || {}, outcome: prior.applied ? prior.outcome : null, applied: prior.applied === true, reason: prior.reason || null, value: prior.value == null ? null : prior.value, fact: false },
+      action: { do: changed, fact: false },
+      prediction: { outcome: next.applied ? next.outcome : null, applied: next.applied === true, reason: next.reason || null, value: next.value == null ? null : next.value, expression: law && law.expression, threshold: law && law.threshold, fact: false },
+      fact: false, may_store_as_fact: false, calls_llm: false
+    };
+  }
   function refit(receipts) {
     const rows = (receipts || []).filter(r => r && r.id && r.outcome);
     const found = induce(rows);
@@ -550,6 +572,6 @@
   }
   function list() { return load().mechanisms.slice(); }
   function admitted() { return list().filter(r => r && r.status === 'admitted' && r.fact === false); }
-  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap, nextScenes, evaluate, apply, prepare, sceneValues, refit };
+  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap, nextScenes, evaluate, apply, prepare, sceneValues, refit, counterfactual };
   if (isNode) module.exports = api; else root.KMechanisms = api;
 })(typeof self !== 'undefined' ? self : this);
