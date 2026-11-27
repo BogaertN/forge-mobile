@@ -1,4 +1,4 @@
-/* 4.9.287: a stated resistance is a problem quantity. A named material fills density; a class that disagrees does not. */
+/* 4.9.288: a stated resistance is a problem quantity. A named material fills density; a class that disagrees does not. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');

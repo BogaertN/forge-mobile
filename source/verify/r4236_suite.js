@@ -152,9 +152,9 @@ print(json.dumps(THRESHOLDS))`);
 });
 
 T('version registry names 4.9.236', () => {
-  expect(read('VERSION').trim() === '4.9.287', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.288', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.287' && reg.features.some(f => f.id === 'R4236-PHASE-INVARIANCE-GATE') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.288' && reg.features.some(f => f.id === 'R4236-PHASE-INVARIANCE-GATE') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

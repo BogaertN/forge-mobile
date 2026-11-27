@@ -1021,20 +1021,13 @@
   function glossClauses(topic, gloss, forge) {
     const G = (typeof module !== 'undefined' && module.exports) ? require('./grammar.js') : root.KGrammar;
     const lex = forge && forge.lexicon;
+    const glex = forge && forge.grammarLex;
     const headWord = String(topic || '').trim().toLowerCase();
     const raw = String(gloss || '').replace(/[;.].*$/, '').trim();
-    if (!G || !headWord || !raw) return [];
+    if (!G || !headWord || !raw || !glex) return [];
     const has = (w, pos) => !!(lex && lex.hasPos && lex.hasPos(w, pos));
-    const bits = raw.toLowerCase().split(/\s+/).filter(w => w.length > 2);
-    const relAt = bits.findIndex(w => /^(that|which|where|who|of|in)$/.test(w));
-    const withAt = bits.findIndex(w => w === 'with');
-    const cut = [relAt, withAt].filter(i => i >= 0).sort((a, b) => a - b)[0];
-    const pre = cut >= 0 ? bits.slice(0, cut) : bits.slice();
-    const after = withAt >= 0 && (relAt < 0 || withAt < relAt) ? bits.slice(withAt + 1, relAt > withAt ? relAt : undefined) : [];
-    let nounAt = -1;
-    for (let i = pre.length - 1; i >= 0; i--) if (has(pre[i], 'n') || has(pre[i].replace(/s$/, ''), 'n')) { nounAt = i; break; }
-    const kind = nounAt >= 0 ? pre[nounAt].replace(/s$/, '') : '';
-    const mods = nounAt >= 0 ? pre.slice(0, nounAt) : pre;
+    const toks = G.tokenize(raw).filter(t => t && !/^[,.;]$/.test(t.w));
+    const P = G.Parser(toks, glex);
     const subj = { det: 'a', head: [headWord], surface: [headWord] };
     const be = { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' };
     function say(clause) {
@@ -1044,8 +1037,42 @@
       const cap = text.charAt(0).toUpperCase() + text.slice(1);
       return /[.!?]$/.test(cap) ? cap : cap + '.';
     }
+    let best = null;
+    for (let i = 0; i < toks.length; i++) {
+      P.np(i).forEach(n => {
+        const node = n && n.node;
+        if (!node || node.propn || !Array.isArray(node.head) || !node.head.length) return;
+        const span = n.i - i;
+        const rank = node.head.length * 10 + span;
+        if (!best || rank > best.rank) best = { start: i, end: n.i, node: node, span: span, rank: rank };
+      });
+    }
+    const covered = {};
+    for (let i = 0; i < toks.length; i++) {
+      P.np(i).forEach(n => {
+        const node = n && n.node;
+        const proper = node && (node.propn || (node.conj && node.conj.some(c => c && c.propn)));
+        if (!proper || n.i > (best ? best.start : toks.length)) return;
+        for (let k = i; k < n.i; k++) covered[k] = 1;
+      });
+    }
     const out = [];
-    if (kind && kind !== headWord) out.push(say({ subj: subj, verb: be, pred: { type: 'np', np: { det: 'a', head: [kind], surface: [kind] } } }));
+    const seen = {};
+    function push(text) { if (text && !seen[text]) { seen[text] = 1; out.push(text); } }
+    if (best) {
+      const heads = best.node.head.filter(Boolean);
+      const kind = heads.join(' ');
+      if (kind && kind !== headWord) push(say({ subj: subj, verb: be, pred: { type: 'np', np: { det: 'a', head: heads, surface: heads } } }));
+      (best.node.adjs || []).forEach(w => {
+        if (typeof w !== 'string' || has(w, 'n')) return;
+        if (has(w, 'a') || has(w, 's')) push(say({ subj: subj, verb: be, pred: { type: 'adj', words: [w] } }));
+      });
+      if (best.node.of && Array.isArray(best.node.of.head)) push(say({ subj: subj, verb: be, pred: { type: 'pp', prep: 'of', np: best.node.of } }));
+      const pp = best.node.pp;
+      if (pp && pp.prep === 'with' && pp.np && Array.isArray(pp.np.head)) {
+        push(say({ subj: subj, verb: { lemma: 'have', tense: 'present', pol: 'pos', mod: 'asserted' }, roles: { karma: pp.np } }));
+      }
+    }
     const light = { consist: 1, have: 1, use: 1, include: 1, be: 1 };
     function ingStem(w) {
       if (!w.endsWith('ing') || w.length < 6) return '';
@@ -1054,23 +1081,14 @@
       if (has(restored, 'v') && restored.slice(0, -1) + 'ing' === w) return restored;
       return has(base, 'v') ? base : '';
     }
-    mods.forEach(w => {
+    const limit = best ? best.start : toks.length;
+    for (let i = 0; i < limit; i++) {
+      if (covered[i]) continue;
+      const w = toks[i].w;
       const stem = ingStem(w);
-      if (stem && !light[stem]) out.push(say({ subj: subj, verb: { lemma: stem, tense: 'present', pol: 'pos', mod: 'asserted' }, roles: {} }));
-      else if (has(w, 'a') || has(w, 's')) out.push(say({ subj: subj, verb: be, pred: { type: 'adj', words: [w] } }));
-    });
-    const parts = [];
-    let cur = [];
-    after.forEach(w => { if (w === 'and' || w === 'or') { if (cur.length) parts.push(cur); cur = []; } else cur.push(w); });
-    if (cur.length) parts.push(cur);
-    parts.forEach(part => {
-      const noun = part.filter(w => has(w, 'n') || has(w.replace(/s$/, ''), 'n')).pop();
-      if (!noun || noun.length < 3) return;
-      const adjs = [];
-      part.forEach(w => { if (w !== noun && (has(w, 'a') || has(w, 's')) && adjs.indexOf(w) < 0) adjs.push(w); });
-      const det = /s$/.test(noun) ? null : 'a';
-      out.push(say({ subj: subj, verb: { lemma: 'have', tense: 'present', pol: 'pos', mod: 'asserted' }, roles: { karma: { det: det, adjs: adjs, head: [noun], surface: [noun] } } }));
-    });
+      if (stem && !light[stem]) push(say({ subj: subj, verb: { lemma: stem, tense: 'present', pol: 'pos', mod: 'asserted' }, roles: {} }));
+      else if (has(w, 'a') || has(w, 's')) push(say({ subj: subj, verb: be, pred: { type: 'adj', words: [w] } }));
+    }
     return out.filter(Boolean);
   }
   /* The head noun of a definition, as its own sentence, so two sources that both call it a bird agree. */

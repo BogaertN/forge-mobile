@@ -1144,9 +1144,12 @@
               mechanisms.dream = Dream.search(Mech.admitted());
               const door = Dream.questions ? Dream.questions(mechanisms.dream) : [];
               mechanisms.door = door;
-              if (door.length && !queue.some(g => g && g.kind === 'dream_hypothesis' && g.question === door[0].question)) {
-                enqueue(door);
-                mechanisms.door_deferred = true;
+              const driven = door.some(q => q && (q.axis === 'range' || q.axis === 'chain'));
+              const fresh = driven ? door.filter(q => q && q.question && !queue.some(g => g && g.kind === 'dream_hypothesis' && g.question === q.question)) : [];
+              if (fresh.length) {
+                const before = queue.length;
+                enqueue(fresh);
+                if (!before) mechanisms.door_deferred = true;
               }
             }
           } catch (e) { mechanisms.dream = { ok: false, fact: false, may_store_as_fact: false, calls_llm: false }; }

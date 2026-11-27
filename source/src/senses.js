@@ -210,8 +210,15 @@ function pronoun(word) {
   return !!(G && G.PRON && (G.PRON[s] || G.PRON[head]));
 }
 function kindHead(p) {
-  const cands = [p && p.word, p && p.patient, p && p.phrase];
-  for (let i = 0; i < cands.length; i++) if (!pronoun(cands[i])) return String(cands[i]).toLowerCase().split(/\s+/).filter(Boolean);
+  const klass = String(p && p.material_class || '').toLowerCase();
+  const named = String(p && p.noun || '').toLowerCase();
+  const cands = [p && p.noun, p && p.word, p && p.patient, p && p.phrase];
+  for (let i = 0; i < cands.length; i++) {
+    const raw = String(cands[i] || '').toLowerCase().trim();
+    if (pronoun(raw)) continue;
+    if (klass && raw === klass && named && named !== klass) continue;
+    return raw.split(/\s+/).filter(Boolean);
+  }
   return null;
 }
 /* The follow-up is a clause, not a pasted sentence. "What kind of nail is it?" is what kind of the noun is it. */

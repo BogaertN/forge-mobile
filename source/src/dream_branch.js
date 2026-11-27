@@ -68,7 +68,7 @@
       return { ok: true, calls_llm: false, memory_write_allowed: false, projection_allowed: false, branch_count: row && row.E_t && row.E_t.branch_count, bounded: row && row.E_t && row.E_t.bounded_branch_count, id: row && row.exploration_id };
     } catch (e) { return { ok: false, reason: String(e && e.message || e).slice(0, 180), calls_llm: false }; }
   }
-  function search(laws) {
+  function search(laws, opts) {
     const { Mech, Evo, Ede, Box } = mods();
     const box = Box && Box.open ? Box.open() : { tag: x => x, atom: x => x };
     const admitted = (laws || []).filter(law => law && law.status === 'admitted' && law.fact === false);
@@ -116,40 +116,184 @@
         }
       }))
     };
+    const scenes = sceneSearch(admitted, box, opts && opts.object);
     const ranked = report.candidate_set.length ? explorer(report) : { ok: false, reason: 'no_branch', calls_llm: false };
     const best = branches[0] ? box.tag(Object.assign({}, branches[0], { kept: true })) : null;
     const hypotheses = ((evolved && evolved.population) || []).slice(0, 4).map(row => box.tag({
       id: row.id, text: row.text, status: 'HYPOTHESIS', op: row.op, fact: false, may_store_as_fact: false
     }));
     return box.tag({
-      branches: branches, best: best, hypotheses: hypotheses,
+      branches: branches, best: best, hypotheses: hypotheses, scenes: scenes, report: report,
       ede: ede.map(r => ({ retained: (r.retained || []).length, archived: (r.archived || []).length })),
       evolved: evolved ? { explored: evolved.explored, population: (evolved.population || []).length } : null,
       explorer: ranked, calls_llm: false, fact: false, may_store_as_fact: false, dice: false
     });
   }
+  function wordsOf(name) {
+    const words = String(name || '').replace(/_/g, ' ').split(/[^A-Za-z0-9]+/).filter(Boolean);
+    if (words.length > 1 && words[words.length - 1].length === 1) words.pop();
+    return words;
+  }
+  function grammar() { return isNode ? require('./grammar.js') : root.KGrammar; }
+  function say(clause, mark) {
+    const G = grammar();
+    if (!G || typeof G.clauseText !== 'function') return '';
+    let text = '';
+    try { text = String(G.clauseText(clause, 'user') || '').replace(/\s+/g, ' ').trim(); } catch (e) { text = ''; }
+    if (!text) return '';
+    text = text.charAt(0).toUpperCase() + text.slice(1);
+    return mark === '?' ? text + '?' : (/[.!?]$/.test(text) ? text : text + '.');
+  }
+  const BE = { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' };
+  const WAS = { lemma: 'be', tense: 'past', pol: 'pos', mod: 'asserted' };
+  function formula(law, nums) {
+    if (!law || law.form === 'exponential' || !Array.isArray(law.terms) || !law.terms.length) return null;
+    let f = 1;
+    for (let i = 0; i < law.terms.length; i++) {
+      const x = nums[law.terms[i].name];
+      if (typeof x !== 'number' || !isFinite(x)) return null;
+      f *= Math.pow(x, law.terms[i].exp);
+    }
+    return law.scale == null ? f : law.scale * f;
+  }
+  /* Scene axes are the slots a mechanism already reads. A gap is a slot no admitted law records. */
+  const GAPS = [
+    { axis: 'material', name: 'density' },
+    { axis: 'placement', name: 'fraction' },
+    { axis: 'force', name: 'gravity' }
+  ];
+  function sceneSearch(admitted, box, objectName) {
+    const { Mech } = mods();
+    const object = wordsOf(objectName || 'object');
+    const scenes = [];
+    (admitted || []).forEach(law => {
+      const span = law.range || {};
+      Object.keys(span).forEach(name => {
+        const row = span[name];
+        if (!row || !(row.max > row.min)) return;
+        const past = row.max + (row.max - row.min) * 0.25;
+        const values = {};
+        Object.keys(span).forEach(key => { values[key] = key === name ? past : (span[key].min + span[key].max) / 2; });
+        const mech = Mech ? judge(Mech, law, { values: values }) : { applied: false };
+        const sim = formula(law, values);
+        const disagree = mech.reason === 'out_of_range' && typeof sim === 'number' && isFinite(sim);
+        const question = say({
+          subj: { head: ['what'] }, verb: BE,
+          pred: { type: 'np', np: { det: 'the', head: wordsOf(law.output || 'result') } },
+          sub: { conj: 'when', clause: { subj: { head: wordsOf(name) }, verb: BE, pred: { type: 'adj', words: ['untested'] } } }
+        }, '?');
+        scenes.push(box.tag({
+          id: 'range:' + String(law.id || law.expression || 'law') + ':' + name,
+          axis: 'range', name: name, object: object.join(' '), solver: law.solver || null, solvers: [law.solver || null],
+          expression: law.expression || null, outside: true, missing: null,
+          mechanism: mech.reason || (mech.applied ? 'applied' : 'silent'), simulator: sim,
+          disagree: disagree, score: disagree ? 4 : 2, question: question,
+          fact: false, may_store_as_fact: false
+        }));
+      });
+    });
+    const covered = {};
+    (admitted || []).forEach(law => (law.variables || []).forEach(name => { covered[name] = true; }));
+    GAPS.forEach(gap => {
+      if (covered[gap.name]) return;
+      const question = say({
+        subj: { head: ['what'] }, verb: BE,
+        pred: { type: 'np', np: { det: 'the', head: [gap.name], of: { det: 'the', head: object } } }
+      }, '?');
+      scenes.push(box.tag({
+        id: 'gap:' + gap.axis + ':' + gap.name,
+        axis: gap.axis, name: gap.name, object: object.join(' '), solver: null, solvers: [],
+        expression: null, outside: false, missing: gap.name,
+        mechanism: 'unmeasured', simulator: null, disagree: false,
+        score: gap.name === 'density' ? 3 : 2, question: question,
+        fact: false, may_store_as_fact: false
+      }));
+    });
+    for (let i = 0; i < (admitted || []).length; i++) {
+      for (let j = i + 1; j < admitted.length; j++) {
+        const a = admitted[i], b = admitted[j];
+        const shared = (a.variables || []).filter(name => (b.variables || []).indexOf(name) >= 0);
+        const question = say({
+          subj: { head: ['what'] }, verb: BE,
+          pred: { type: 'np', np: { det: 'the', head: ['result'] } },
+          sub: { conj: 'when', clause: { subj: { det: 'the', head: ['mechanisms'], plural: true }, verb: BE, pred: { type: 'adj', words: ['chained'] } } }
+        }, '?');
+        scenes.push(box.tag({
+          id: 'chain:' + String(a.id || i) + '+' + String(b.id || j),
+          axis: 'chain', name: shared[0] || null, object: object.join(' '),
+          solver: a.solver || null, solvers: [a.solver || null, b.solver || null],
+          expression: String(a.expression || '') + '+' + String(b.expression || ''),
+          outside: false, missing: null, mechanism: a.expression || null, simulator: b.expression || null,
+          disagree: String(a.expression || '') !== String(b.expression || ''),
+          score: 3.5, question: question, fact: false, may_store_as_fact: false
+        }));
+      }
+    }
+    scenes.sort((a, b) => b.score - a.score || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+    return scenes;
+  }
   function questions(found) {
-    const best = found && found.best;
-    if (!best || !best.expression) return [];
-    return [{
-      kind: 'dream_hypothesis',
-      question: 'Does ' + String(best.expression) + ' still hold?',
-      hypothesis: true,
-      fact: false,
-      may_store_as_fact: false,
-      truth_support_allowed: false,
-      stable_memory_allowed: false,
-      projection_allowed: false,
-      calls_llm: false
-    }];
+    const rows = (found && found.scenes) || [];
+    const seen = {};
+    const picked = [];
+    function take(pred) {
+      const row = rows.find(r => r && r.question && !seen[r.question] && pred(r));
+      if (!row) return;
+      seen[row.question] = 1;
+      picked.push(row);
+    }
+    take(r => r.axis === 'range');
+    take(r => r.axis === 'range');
+    take(r => r.missing === 'density');
+    take(r => r.axis === 'chain');
+    take(r => r.axis === 'placement' || r.axis === 'force');
+    rows.forEach(r => { if (picked.length < 4 && r && r.question && !seen[r.question]) { seen[r.question] = 1; picked.push(r); } });
+    return picked.slice(0, 4).map(row => ({
+      kind: 'dream_hypothesis', question: row.question, axis: row.axis, name: row.name, score: row.score,
+      hypothesis: true, experiment: row.axis === 'range' || row.axis === 'chain', athena_gap: row.missing != null,
+      fact: false, may_store_as_fact: false, truth_support_allowed: false, stable_memory_allowed: false,
+      projection_allowed: false, calls_llm: false
+    }));
+  }
+  function narrate(topic, found) {
+    const head = wordsOf(topic || 'object');
+    const rows = (found && found.scenes) || [];
+    const scene = rows.find(s => s && (s.axis === 'material' || s.axis === 'placement' || s.axis === 'force' || s.axis === 'chain')) || rows[0];
+    const lead = say({ subj: { det: 'the', head: head }, verb: WAS, pred: { type: 'pp', prep: 'in', np: { det: 'the', head: ['scene'] } } });
+    let because = '';
+    if (scene && scene.missing) because = say({ subj: { det: 'the', head: [scene.missing] }, verb: WAS, pred: { type: 'adj', words: ['missing'] } });
+    else if (scene && scene.outside) because = say({ subj: { head: wordsOf(scene.name) }, verb: WAS, pred: { type: 'adj', words: ['untested'] } });
+    else if (scene && scene.axis === 'chain') because = say({ subj: { det: 'the', head: ['mechanisms'], plural: true }, verb: WAS, pred: { type: 'adj', words: ['chained'] } });
+    const body = [lead, because].filter(Boolean).join(' ');
+    return body ? 'Imagined. ' + body : '';
+  }
+  function imagine(topic, laws) {
+    const found = search(laws || [], { object: topic });
+    return {
+      label: 'imagined', imagined: true, fact: false, may_store_as_fact: false, taint: 'sandbox', stored: false,
+      story: narrate(topic, found), expression: found.best && found.best.expression || null,
+      scenes: (found.scenes || []).length, question: (questions(found)[0] || {}).question || null, calls_llm: false
+    };
+  }
+  function readExplorer(row) {
+    if (!row || row.ok === false || (!row.E_t && !row.exploration_id && !row.branch_count)) {
+      return { ok: false, reason: (row && (row.reason || row.error)) || 'explorer', calls_llm: false };
+    }
+    return {
+      ok: true, calls_llm: false, memory_write_allowed: row.memory_write_allowed === true ? true : false,
+      projection_allowed: false, path: 'pyodide',
+      branch_count: (row.E_t && row.E_t.branch_count) || row.branch_count || null,
+      id: row.exploration_id || null
+    };
   }
   function consider(laws, mode) {
     const found = search(laws);
     const asked = questions(found)[0] || null;
     if (mode === 'creative') {
       return {
-        label: 'imagined', imagined: true, fact: false, may_store_as_fact: false, taint: 'sandbox',
+        label: 'imagined', imagined: true, fact: false, may_store_as_fact: false, taint: 'sandbox', stored: false,
         expression: found.best && found.best.expression || null,
+        story: narrate('object', found),
         question: asked && asked.question || null, calls_llm: false
       };
     }
@@ -159,6 +303,6 @@
       question: asked && asked.question || null, calls_llm: false
     };
   }
-  const api = { search: search, points: points, questions: questions, consider: consider };
+  const api = { search: search, points: points, questions: questions, consider: consider, imagine: imagine, narrate: narrate, readExplorer: readExplorer };
   if (isNode) module.exports = api; else root.KDreamBranch = api;
 })(typeof self !== 'undefined' ? self : this);

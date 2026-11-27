@@ -194,6 +194,13 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. Creative search is labelled imagined. A factual answer stays on the real path."
+    },
+    {
+      "version": "4.9.288",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "fresh": { "spoke": 8, "held": 5, "n": 13, "composite_spoke": 6, "composite_held": 0, "composite_n": 6 },
+      "note": "Standing counts are unchanged. A fresh set that was not committed spoke 8 of 13, and its 6 composites all spoke. Checkable arithmetic, a translation, a containment, and a negation matched. Five single questions held: a missing measure, an unknown phase, an unknown fluid, an unknown substance, and an uninferred kinship."
     }
   ]
 }

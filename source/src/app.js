@@ -535,7 +535,16 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     if (blocked) row = { ok: true, held: true, reply: null, product_reply: false, route: 'RETRACTED', trace: { rule: 'RETRACTED', status: blocked.status, hash: blocked.hash, reason: blocked.reason, calls_llm: false }, calls_llm: false };
     else if (!(await engineReady())) row = { ok: false, held: true, reply: null, route: 'engine_unavailable', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
     else row = await KRMCCore.run(Object.assign({ question: qtext, live: true, dry_run: false, memory: memory }, askCtx.sense ? { sense: askCtx.sense } : {}));
-    if (row && row.creative && memory.creative_imagined && memory.creative_imagined.imagined) row.creative.imagined = true;
+    if (row && row.creative && memory.creative_imagined && memory.creative_imagined.imagined) {
+      row.creative.imagined = true;
+      if (memory.creative_imagined.story) {
+        row.reply = memory.creative_imagined.story;
+        row.creative.story = memory.creative_imagined.story;
+        row.creative.label = 'imagined';
+        row.creative.stored = false;
+        if (row.memory_write) { row.memory_write.committed = false; row.memory_write.proposed = false; }
+      }
+    }
     else if (row && !row.creative && window.KDreamBranch && window.KMechanisms && KDreamBranch.consider) {
       const hypo = KDreamBranch.consider(KMechanisms.admitted(), 'factual');
       if (hypo && hypo.answer_from === 'real_world' && hypo.reply == null && hypo.question) row.hypothesis = hypo;

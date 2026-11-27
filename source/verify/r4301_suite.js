@@ -1,4 +1,4 @@
-/* 4.9.287: creative search is labelled imagined. A factual answer stays on the real path. */
+/* 4.9.288: creative search is labelled imagined. A factual answer stays on the real path. */
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
@@ -19,8 +19,8 @@ function register(C, expect) {
     WF.clear();
     const creative = B.consider([law()], 'creative');
     const factual = B.consider([law()], 'factual');
-    expect(creative.imagined === true && creative.label === 'imagined' && creative.fact === false && creative.taint === 'sandbox' && creative.expression === 'V/R', JSON.stringify(creative));
-    expect(factual.answer_from === 'real_world' && factual.reply == null && factual.imagined === false && factual.fact === false && factual.question === 'Does V/R still hold?', JSON.stringify(factual));
+    expect(creative.imagined === true && creative.label === 'imagined' && creative.fact === false && creative.taint === 'sandbox' && creative.expression === 'V/R' && /^Imagined\. /.test(creative.story || '') && creative.stored === false, JSON.stringify(creative));
+    expect(factual.answer_from === 'real_world' && factual.reply == null && factual.imagined === false && factual.fact === false && /\?$/.test(factual.question || '') && !/still hold/.test(factual.question || ''), JSON.stringify(factual));
     const fact = WF.upsert({ text: 'The dream imagined V/R.', taint: 'sandbox', atom: creative });
     expect(fact.ok === false && WF.rows().length === 0, JSON.stringify(fact));
     const app = fs.readFileSync(path.join(ROOT, 'src/app.js'), 'utf8');

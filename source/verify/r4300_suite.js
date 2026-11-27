@@ -1,4 +1,4 @@
-/* 4.9.287: a dream branch leaves only as a question. The tainted branch does not. */
+/* 4.9.288: a dream branch leaves only as a question. The tainted branch does not. */
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const B = require(ROOT + '/src/dream_branch.js');
@@ -21,7 +21,9 @@ function register(C, expect) {
     WF.clear();
     const found = B.search([law()]);
     const door = B.questions(found);
-    expect(door.length === 1 && door[0].question === 'Does V/R still hold?' && door[0].hypothesis === true && door[0].fact === false && door[0].taint !== 'sandbox', JSON.stringify(door[0]));
+    const texts = door.map(q => q.question);
+    expect(door.length >= 3 && new Set(texts).size === texts.length && door.every(q => q.hypothesis === true && q.fact === false && q.taint !== 'sandbox' && /\?$/.test(q.question)), JSON.stringify(door[0]));
+    expect(texts.some(q => /untested/.test(q)) && texts.some(q => /density/.test(q)), JSON.stringify(texts));
     expect(SB.blocked(found.best) && SB.blocked(found.best).rule === 'SANDBOX-WRITE-BARRIER', 'branch is tainted');
     const store = KS.MemoryStore();
     const mem = store.save('memory', [found.best]);
@@ -34,7 +36,7 @@ function register(C, expect) {
     const idle = D.createIdleDream({});
     M.save({ mechanisms: [law()] });
     const first = idle.tick({});
-    expect(first.rule === 'DREAM-IDLE-EMPTY' && first.door && first.door[0].question === 'Does V/R still hold?' && first.door[0].fact === false, JSON.stringify(first.door));
+    expect(first.rule === 'DREAM-IDLE-EMPTY' && first.door && first.door.length >= 3 && first.door.every(q => q.fact === false) && new Set(first.door.map(q => q.question)).size >= 3, JSON.stringify(first.door && first.door.map(q => q.question)));
     const second = idle.tick({});
     expect(second.wrote_confirmed_shared !== true && second.fact !== true, JSON.stringify({ rule: second.rule, wrote: second.wrote_confirmed_shared }));
     expect(WF.rows().length === 0 && M.admitted().every(r => r.taint !== 'sandbox'), 'the question was not stored as a fact');
