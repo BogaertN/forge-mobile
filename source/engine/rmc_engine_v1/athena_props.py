@@ -664,6 +664,37 @@ def _species(blob: str) -> list[str]:
     return found
 
 
+def density_from_words(words: list[str] | None) -> dict[str, Any]:
+    """A material named by the lexicon or the question, only when the handbook pair agrees.
+    A class whose members disagree is ambiguous. Nothing here is a stored fact."""
+    rows = _material_rows()
+    keys: list[str] = []
+    classes: list[str] = []
+    for word in words or []:
+        w = str(word or "").lower()
+        if not w:
+            continue
+        key = _WORD_ALIAS.get(w, w)
+        if key in rows and _density_of(key) and key not in keys:
+            keys.append(key)
+        elif any(str((row or {}).get("class") or "") == w for row in rows.values()) and w not in classes:
+            classes.append(w)
+    if not keys and len(classes) == 1:
+        keys = [k for k, row in rows.items() if str((row or {}).get("class") or "") == classes[0] and _density_of(k)]
+    rhos = [(k, _density_of(k)) for k in keys]
+    rhos = [(k, rho) for k, rho in rhos if rho]
+    if not rhos:
+        return {"ok": False, "ambiguous": False, "fact": False, "may_store_as_fact": False, "calls_llm": False}
+    lo, hi = min(rho for _, rho in rhos), max(rho for _, rho in rhos)
+    if lo and (hi - lo) / lo > REL:
+        return {"ok": False, "ambiguous": True, "materials": [k for k, _ in rhos], "class": classes[0] if classes else None,
+                "fact": False, "may_store_as_fact": False, "calls_llm": False}
+    rho = sum(r for _, r in rhos) / len(rhos)
+    material = rhos[0][0] if len(rhos) == 1 else (classes[0] if classes else rhos[0][0])
+    return {"ok": True, "ambiguous": False, "rho": rho, "material": material, "fact": False,
+            "may_store_as_fact": False, "calls_llm": False}
+
+
 def _density_of(key: str) -> float | None:
     row = _material_rows().get(key) or {}
     pair = row.get("rho") or []

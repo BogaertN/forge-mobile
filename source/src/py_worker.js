@@ -179,6 +179,9 @@ elif op == 'scenes':
 elif op == 'gather':
     from rmc_engine_v1.athena_gather import gather
     out = gather(a.get('topic') or '', budget=float(a.get('budget') or 10), timeout=float(a.get('timeout') or 2.0), documents=a.get('documents'), network=a.get('network'), lexicon=a.get('lexicon') if a.get('lexicon') is not None else True, prompt=a.get('prompt') or a.get('question') or '')
+elif op == 'material_density':
+    from rmc_engine_v1.athena_props import density_from_words
+    out = density_from_words(a.get('words') or [])
 elif op == 'derive_quantitative':
     out = S.derive_quantitative(a.get('problem') or {}, a.get('law') or {}, a.get('derived') or {})
 elif op == 'derive_mechanism':
@@ -208,7 +211,7 @@ async function sim(arg) {
     if (todo.length) { await py.loadPackage(todo, { checkIntegrity: true }); todo.forEach(n => pkgsDone.add(n)); }
     packages = { rule: 'PYODIDE-LOCK-SHA256', lock: 'pyodide 0.27.7', requested: want, loaded_now: todo };
   }
-  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason, frame: arg.frame, facts: arg.facts, rows: arg.rows, name: arg.name, phrase: arg.phrase, specific: arg.specific, pub: arg.pub, term: arg.term, sides: arg.sides, memory: arg.memory, nhtsa: arg.nhtsa, epa: arg.epa, nhtsa_raw: arg.nhtsa_raw, epa_raw: arg.epa_raw, nhtsa_url: arg.nhtsa_url, epa_url: arg.epa_url, card: arg.card, card_url: arg.card_url, quaero: arg.quaero, prior: arg.prior, supplement: arg.supplement, ledger: arg.ledger, method: arg.method, disagreed: arg.disagreed, rule: arg.rule, admitted: arg.admitted, topic: arg.topic, budget: arg.budget, timeout: arg.timeout, documents: arg.documents, network: arg.network, lexicon: arg.lexicon, prompt: arg.prompt, law: arg.law, derived: arg.derived }));
+  py.globals.set('sim_json', JSON.stringify({ op: arg.op, question: arg.question, problem: arg.problem, raw: arg.raw, reason: arg.reason, frame: arg.frame, facts: arg.facts, rows: arg.rows, name: arg.name, phrase: arg.phrase, specific: arg.specific, pub: arg.pub, term: arg.term, sides: arg.sides, memory: arg.memory, nhtsa: arg.nhtsa, epa: arg.epa, nhtsa_raw: arg.nhtsa_raw, epa_raw: arg.epa_raw, nhtsa_url: arg.nhtsa_url, epa_url: arg.epa_url, card: arg.card, card_url: arg.card_url, quaero: arg.quaero, prior: arg.prior, supplement: arg.supplement, ledger: arg.ledger, method: arg.method, disagreed: arg.disagreed, rule: arg.rule, admitted: arg.admitted, topic: arg.topic, budget: arg.budget, timeout: arg.timeout, documents: arg.documents, network: arg.network, lexicon: arg.lexicon, prompt: arg.prompt, law: arg.law, derived: arg.derived, words: arg.words }));
   const out = JSON.parse(py.runPython(SIM_PY));
   if (packages) out.packages = packages;
   return out;

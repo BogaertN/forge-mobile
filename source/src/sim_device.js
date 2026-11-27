@@ -220,9 +220,21 @@
     const phone = memory && Array.isArray(memory.phone) ? memory.phone : [];
     return phone.filter(r => r && (r.clause || r.text)).slice(-32).map(r => ({ text: r.text, clause: r.clause || null }));
   }
+  function materialWords(question, name) {
+    const words = String(question || '').toLowerCase().split(/[^a-z]+/).filter(Boolean);
+    const lex = root.forge && root.forge.lexicon;
+    if (lex && typeof lex.senses === 'function' && name) {
+      const senses = lex.senses(name) || [];
+      const art = senses.find(s => s && s.lexname === 'noun.artifact') || senses.find(s => s && s.pos === 'n');
+      if (art && art.gloss) art.gloss.toLowerCase().split(/[^a-z]+/).forEach(w => { if (w && words.indexOf(w) < 0) words.push(w); });
+    }
+    return words;
+  }
   function simAsk(question, problem, word) {
     const scene = (problem && problem.scene) || {};
-    return { kind: 'sim', question: String(question || ''), word: String(word || scene.phrase || ''), patientText: String(scene.patient_text || ''), options: [], tries: 0 };
+    const ask = { kind: 'sim', question: String(question || ''), word: String(word || scene.phrase || ''), patientText: String(scene.patient_text || ''), options: [], tries: 0 };
+    if (problem && problem.ambiguous) { ask.ambiguous = true; ask.material_class = problem.material_class || ''; }
+    return ask;
   }
   async function simulate(question, memory, specific, supplement) {
     const q = String(question || '');
@@ -261,6 +273,17 @@
         if (found && found.length) {
           const again = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory), facts: found });
           if (again && again.problem && again.problem.ok) { pl = again; p = again.problem; }
+        }
+      }
+      if (p && !p.ok && p.missing === 'density' && (p.body || p.patient)) {
+        const who = p.body || p.patient;
+        const hit = await pyCall({ op: 'material_density', words: materialWords(question, who) });
+        if (hit && hit.ok && hit.rho && !hit.ambiguous) {
+          const facts = [{ head: who, property: 'density', value: hit.rho }, { head: who, property: 'material', value: hit.material }];
+          const again = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory), facts: facts });
+          if (again && again.problem && again.problem.ok) { pl = again; p = again.problem; }
+        } else if (hit && hit.ambiguous) {
+          p = Object.assign({}, p, { ambiguous: true, materials: hit.materials || [], material_class: hit.class || '' });
         }
       }
       if (p && p.ok && p.scene) lastScene = { question: question, scene: p.scene };
