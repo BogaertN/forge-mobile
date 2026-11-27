@@ -158,6 +158,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. A sandbox atom is refused by memory, admitted facts, and mechanisms."
+    },
+    {
+      "version": "4.9.282",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. A disagreed class is decided from its density interval against the fluid. A crossing asks for the kind."
     }
   ]
 }

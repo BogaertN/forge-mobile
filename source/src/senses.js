@@ -204,8 +204,8 @@ function planAsk(question, row, ctx) {
 function askText(p, again) {
   if (p && p.kind === 'sim') {
     const lead = again ? 'I still need that. ' : '';
-    const note = p.ambiguous && p.material_class ? 'The lexicon names ' + p.material_class + ', and the handbook densities do not agree. ' : '';
-    if (p.missing) return lead + note + 'What is the ' + p.missing + (p.word ? ' of the ' + p.word : '') + '?';
+    if (p.ask_kind || p.missing === 'kind') return lead + 'What kind of ' + (p.word || 'it') + ' is it?';
+    if (p.missing) return lead + 'What is the ' + p.missing + (p.word ? ' of the ' + p.word : '') + '?';
     return lead + 'What kind of ' + p.word + ' is it? Name the kind, or give the mass and the size.';
   }
   const list = p.options.map((o, i) => (i + 1) + ') ' + o.label + (o.hint ? ' [' + o.hint + ']' : '')).join('  ');

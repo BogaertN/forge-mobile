@@ -234,6 +234,7 @@
     const scene = (problem && problem.scene) || {};
     const ask = { kind: 'sim', question: String(question || ''), word: String(word || scene.phrase || ''), patientText: String(scene.patient_text || ''), options: [], tries: 0 };
     if (problem && problem.ambiguous) { ask.ambiguous = true; ask.material_class = problem.material_class || ''; }
+    if (problem && (problem.ask_kind || problem.missing === 'kind')) { ask.ask_kind = true; ask.missing = 'kind'; }
     return ask;
   }
   async function simulate(question, memory, specific, supplement) {
@@ -277,13 +278,18 @@
       }
       if (p && !p.ok && p.missing === 'density' && (p.body || p.patient)) {
         const who = p.body || p.patient;
-        const hit = await pyCall({ op: 'material_density', words: materialWords(question, who) });
-        if (hit && hit.ok && hit.rho && !hit.ambiguous) {
+        const hit = await pyCall({ op: 'material_density', words: materialWords(question, who), fluid: p.fluid || '' });
+        if (hit && hit.determined && hit.lo != null && hit.hi != null) {
+          const facts = [{ head: who, property: 'density_lo', value: hit.lo }, { head: who, property: 'density_hi', value: hit.hi }, { head: who, property: 'material', value: hit.class || '' }];
+          const again = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory), facts: facts });
+          if (again && again.problem && again.problem.ok) { pl = again; p = again.problem; }
+          else if (again && again.problem && again.problem.ask_kind) p = Object.assign({}, again.problem, { ambiguous: true, ask_kind: true, materials: hit.materials || [], material_class: hit.class || '' });
+        } else if (hit && hit.ok && hit.rho && !hit.ambiguous) {
           const facts = [{ head: who, property: 'density', value: hit.rho }, { head: who, property: 'material', value: hit.material }];
           const again = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory), facts: facts });
           if (again && again.problem && again.problem.ok) { pl = again; p = again.problem; }
-        } else if (hit && hit.ambiguous) {
-          p = Object.assign({}, p, { ambiguous: true, materials: hit.materials || [], material_class: hit.class || '' });
+        } else if (hit && (hit.straddles || hit.span)) {
+          p = Object.assign({}, p, { ambiguous: true, ask_kind: true, missing: 'kind', materials: hit.materials || [], material_class: hit.class || '' });
         }
       }
       if (p && p.ok && p.scene) lastScene = { question: question, scene: p.scene };

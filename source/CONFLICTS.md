@@ -1,3 +1,13 @@
+## v4.9.282 — A disagreed density is an interval (Nic, 27 Nov 2026)
+
+**Conflict:** A class whose handbook densities disagree asked for the number. Every candidate can still sit on one side of the fluid, and then the outcome is already fixed.
+
+**Where:** The class returns the interval of the agreeing handbook figures. The outcome is spoken, with that range, when the whole interval is above or below the fluid's own pair. A crossing asks what kind it is, and the reply is planned again so that material can be looked up. The number is not requested.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4298_suite.js`.
+
 ## v4.9.281 — A sandbox atom cannot become a fact (Nic, 27 Nov 2026)
 
 **Conflict:** Imagination and the world model shared one write path. An atom made inside a sandbox could be stored as memory, as an admitted fact, or as a mechanism.

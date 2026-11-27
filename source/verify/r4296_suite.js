@@ -1,4 +1,4 @@
-/* 4.9.281: a stated resistance is a problem quantity. A named material fills density; a class that disagrees does not. */
+/* 4.9.282: a stated resistance is a problem quantity. A named material fills density; a class that disagrees does not. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
@@ -25,7 +25,7 @@ nail = density_from_words(["nail", "thin", "pointed", "piece", "metal", "hammere
 print(json.dumps({"steel": steel, "nail": nail}))
 `);
     expect(words.steel.ok === true && words.steel.ambiguous === false && words.steel.material === 'steel' && words.steel.rho > 7000 && words.steel.fact === false, JSON.stringify(words.steel));
-    expect(words.nail.ok === false && words.nail.ambiguous === true && words.nail.fact === false, JSON.stringify(words.nail));
+    expect(words.nail.span === true && words.nail.ambiguous === true && words.nail.lo < words.nail.hi && words.nail.fact === false, JSON.stringify(words.nail));
     const sunk = py(`
 import json, sys
 from rmc_engine_v1.sim_device import plan, solve, seal
