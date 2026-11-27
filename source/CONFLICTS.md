@@ -1,3 +1,13 @@
+## v4.9.285 — Idle searches branches inside the sandbox (Nic, 27 Nov 2026)
+
+**Conflict:** Idle admitted a law and stopped. It did not vary that law, and it did not keep a best branch.
+
+**Where:** dream_idle varies an admitted law inside its tested range and one step past it. evolve.js, ede.js, and the RMC explorer score the same branches. The best is kept. Every branch is tainted. None is written.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4299_suite.js`.
+
 ## v4.9.284 — A kind question names the noun (Nic, 27 Nov 2026)
 
 **Conflict:** The follow-up asked "What kind of it is?" A pronoun is not the thing whose kind is missing.

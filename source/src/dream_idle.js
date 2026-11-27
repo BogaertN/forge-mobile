@@ -1138,6 +1138,10 @@
           const found = Mech.induce(Rec.list());
           const quant = Mech.admitQuant ? Mech.admitQuant(Rec.list()) : null;
           mechanisms = { proposals: (found.proposals || []).map(p => ({ id: p.id, expression: p.expression, status: p.status, fact: false })), next: Mech.nextScenes ? Mech.nextScenes(found.proposals) : [], quantitative: quant, calls_llm: false, changes_gates: false };
+          try {
+            const Dream = isNode ? require('./dream_branch.js') : root.KDreamBranch;
+            if (Dream && Dream.search) mechanisms.dream = Dream.search(Mech.admitted());
+          } catch (e) { mechanisms.dream = { ok: false, fact: false, may_store_as_fact: false, calls_llm: false }; }
         }
       } catch (e) { mechanisms = null; }
       const cold = revisitCold(o);
