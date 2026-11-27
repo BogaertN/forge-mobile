@@ -1591,6 +1591,8 @@ def _reason_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, An
         if run.get("outcome") == "float":
             return _karaka("is", [f"the density of the {who}", f"below the density of {fluid}"])
         if run.get("outcome") == "sink":
+            if str(problem.get("density_source") or "").startswith("lexicon") and ms.get("rho_body") is not None:
+                return _karaka("is", [f"the density of the {who}", f"{float(ms['rho_body']):g} kilograms per cubic meter"])
             return _karaka("is", [f"the density of the {who}", f"above the density of {fluid}"])
     if s == "thermal_ondevice":
         sub = str(ms.get("substance") or "it")

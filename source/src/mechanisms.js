@@ -578,6 +578,7 @@
     const scene = problem && problem.scene;
     const values = valueMap(problem);
     const quant = (laws || []).filter(law => law && law.kind === 'quantitative' && law.status === 'admitted' && (!law.solver || !problem.solver || law.solver === problem.solver));
+    quant.sort((a, b) => (b.factors || 0) - (a.factors || 0) || (a.heldRel || 0) - (b.heldRel || 0));
     for (let q = 0; q < quant.length; q++) {
       const got = applyQuant(quant[q], values);
       if (got.applied || got.reason === 'out_of_range') return got.applied ? got : Object.assign({ mode: 'simulate' }, got);

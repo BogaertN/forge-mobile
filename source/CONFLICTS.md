@@ -1,3 +1,13 @@
+## v4.9.280 — Derive a circuit with no scene, and speak the looked-up density (Nic, 27 Nov 2026)
+
+**Conflict:** A quantitative law was admitted from resistor asks, and the next ask inside the range was still measured. A circuit problem has no scene, and Derive only looked when a scene was present. A steel pin used the handbook density, and the spoken reason did not state the number.
+
+**Where:** Derive now considers an admitted quantitative law on any compiled problem. The spoken reason for a lexicon density is the value in kilograms per cubic meter.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4296_suite.js`.
+
 ## v4.9.279 — A named material can fill a density, and a resistor keeps its resistance (Nic, 27 Nov 2026)
 
 **Conflict:** Real resistor asks stored the voltage and not the resistance, so idle could not fit V/R. A nail in seawater asked for a density even when the question or the lexicon named a handbook material.
