@@ -1,3 +1,13 @@
+## v4.9.276 — Solver quantities enter the same mechanism search (Nic, 27 Nov 2026)
+
+**Conflict:** The search read only scene slots. A thermal, buoyancy, orbit, circuit or chemistry problem kept its numbers on the problem, so those solvers could not grow a mechanism.
+
+**Where:** A problem quantity that already has a unit is a receipt variable, and it is on the structured scene. The same search runs. Buoyancy admits `rho_body/rho_fluid` (held-out 1, probes agree, float below and sink above). Thermal's `target_c/boil_c` fits the sample with held-out 1 and the probes refute it, so it stays unadmitted. Orbit, reaction chemistry, kinetics and circuits each record receipts and have one outcome label, so no law is proposed.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. None of these rows is a fact.
+
+Proof: `verify/r4293_suite.js`.
+
 ## v4.9.275 — A mechanism speaks the cause its receipts measured (Nic, 27 Nov 2026)
 
 **Conflict:** A mechanism-derived answer said "The group exceeds the threshold." That is not the cause. An ask that reached the engine before the worker was ready was held with an empty route.

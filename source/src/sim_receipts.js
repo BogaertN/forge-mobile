@@ -56,7 +56,7 @@
     const TEMP = alg.TEMP || {};
     const k = String(key || '').toLowerCase();
     if (U[k]) return { unit: U[k].name, dimension: U[k].dim };
-    if (TEMP[k]) return { unit: TEMP[k] === 'C' ? 'celsius' : TEMP[k] === 'F' ? 'fahrenheit' : 'kelvin', dimension: 'temperature' };
+    if (TEMP[k] && k.length > 1) return { unit: TEMP[k] === 'C' ? 'celsius' : TEMP[k] === 'F' ? 'fahrenheit' : 'kelvin', dimension: 'temperature' };
     const bits = k.split('_');
     const named = token => {
       if (U[token]) return { unit: U[token].name, dimension: U[token].dim };
@@ -76,7 +76,12 @@
     const SI = {
       height: ['m', 'length'], width: ['m', 'length'], depth: ['m', 'length'], radius: ['m', 'length'],
       drop_height: ['m', 'length'], mass: ['kg', 'mass'], gravity: ['m/s^2', 'acceleration'],
-      speed: ['m/s', 'velocity'], mu: ['1', 'dimensionless'], fraction: ['1', 'dimensionless']
+      speed: ['m/s', 'velocity'], mu: ['1', 'dimensionless'], fraction: ['1', 'dimensionless'],
+      rho_body: ['kg/m^3', 'density'], rho_fluid: ['kg/m^3', 'density'],
+      target_c: ['celsius', 'temperature'], melt_c: ['celsius', 'temperature'],
+      boil_c: ['celsius', 'temperature'], room_c: ['celsius', 'temperature'],
+      mass_kg: ['kg', 'mass'], altitude_m: ['m', 'length'], power_w: ['W', 'power'], time_s: ['s', 'time'],
+      v: ['V', 'voltage'], r: ['ohm', 'resistance']
     };
     if (SI[k]) return { unit: SI[k][0], dimension: SI[k][1] };
     if (k === 'slope_deg' || k === 'angle_deg' || k === 'tilt_deg' || k.endsWith('_deg')) return { unit: 'degree', dimension: 'angle' };
@@ -142,6 +147,10 @@
     walk(run.measurements || {}, 'measurement', 'measurement', variables);
     const outcome = String(receipt.outcome || run.outcome || '');
     if (!outcome) return null;
+    const quantities = {};
+    variables.forEach(v => { if (v && v.source === 'problem' && v.unit) quantities[v.name] = { value: v.value, unit: v.unit, dimension: v.dimension }; });
+    const sceneRow = structuredScene(scene) || (Object.keys(quantities).length ? { schema: null } : null);
+    if (sceneRow && Object.keys(quantities).length) sceneRow.quantities = quantities;
     return {
       schema: SCHEMA,
       id: id,
@@ -157,7 +166,7 @@
       solver: String(receipt.primary_solver || problem.solver || ''),
       family: problem.family || null,
       outcome: outcome,
-      scene: structuredScene(scene),
+      scene: sceneRow,
       variables: variables,
       mechanism_atoms: atomsOf(receipt, 'reason'),
       effect_atoms: atomsOf(receipt, 'effect'),
