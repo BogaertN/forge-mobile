@@ -44,12 +44,51 @@
   if (neo) root.KNeo = neo;
   function noteHeld(question, row, extra) { return neo ? neo.noteHeld(question, row, extra) : { ok: false, rule: 'NEO-NO-QUEUE' }; }
   let dreamBusy = false;
+  function effectText(rec) {
+    const found = [];
+    const walk = v => {
+      if (!v || found.length > 6) return;
+      if (Array.isArray(v)) { v.forEach(walk); return; }
+      if (typeof v !== 'object') return;
+      if (v.role === 'effect' && v.text) found.push(String(v.text));
+      if (v.spoken_atoms) walk(v.spoken_atoms);
+      if (v.rows) walk(v.rows);
+      if (v.sim) walk(v.sim);
+    };
+    walk(rec);
+    return found[0] || '';
+  }
   async function phoneDream() {
     if (dreamBusy || answering || !root.KDreamBranch || !root.KMechanisms) return;
-    const found = root.KDreamBranch.search(root.KMechanisms.admitted());
+    const nouns = [];
+    try {
+      const recs = root.KSimReceipts && root.KSimReceipts.list ? root.KSimReceipts.list() : [];
+      recs.forEach(r => {
+        const problem = r && r.problem || {};
+        const body = problem.scene && problem.scene.body;
+        [body && body.noun, problem.patient, problem.body].forEach(n => {
+          const s = String(n || '').toLowerCase().trim();
+          if (s && nouns.indexOf(s) < 0) nouns.push(s);
+        });
+      });
+    } catch (e) { /* the laws still name their own quantities */ }
+    const found = root.KDreamBranch.search(root.KMechanisms.admitted(), { nouns: nouns });
     const asked = root.KDreamBranch.questions ? root.KDreamBranch.questions(found) : [];
     root.FORGE_DREAM_QUESTIONS = asked;
     asked.forEach(q => { if (q && q.question && cur && cur.noteHeld) cur.noteHeld(q.question, { product_reply: false, route: 'dream_hypothesis', fact: false }); });
+    const top = asked.find(q => q && q.probe && q.probe.kind === 'circuit' && q.probe.ask);
+    if (top && root.KSimDevice && root.KSimDevice.simulate && !(root.FORGE_DREAM_RESOLUTION && root.FORGE_DREAM_RESOLUTION.question === top.question && root.FORGE_DREAM_RESOLUTION.ok)) {
+      dreamBusy = true;
+      try {
+        const rec = await root.KSimDevice.simulate(top.probe.ask);
+        const spoken = effectText(rec);
+        const fallback = !spoken && root.KDreamBranch.resolve ? root.KDreamBranch.resolve(top) : null;
+        root.FORGE_DREAM_RESOLUTION = { question: top.question, reply: spoken || (fallback && fallback.reply) || '', ok: !!(rec && rec.ok) || !!(fallback && fallback.ok), fact: false, may_store_as_fact: false, method: rec && rec.ok ? 'simulate' : 'simulator', calls_llm: false };
+      } catch (e) {
+        const fallback = root.KDreamBranch.resolve ? root.KDreamBranch.resolve(top) : null;
+        root.FORGE_DREAM_RESOLUTION = fallback || { ok: false, question: top.question, fact: false, calls_llm: false };
+      } finally { dreamBusy = false; }
+    }
     if (!found || !found.report || !found.report.candidate_set || !found.report.candidate_set.length) return;
     if (root.FORGE_EXPLORER && root.FORGE_EXPLORER.ok) return;
     if (!root.KSimDevice || !root.KSimDevice.exploreDrift) return;

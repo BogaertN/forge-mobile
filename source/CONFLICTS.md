@@ -1,3 +1,13 @@
+## v4.9.289 — Concrete branch events and concrete experiments (Nic, 27 Nov 2026)
+
+**Conflict:** A creative answer spoke the search itself, and a dream question named no object and no value.
+
+**Where:** A story is the topic's gathered sentences plus a simulator's effect, realized by the grammar. The card carries the imagined label. A queued question names the quantity and the value taken from the branch. The next idle tick runs that experiment through the simulator and does not store it.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4302_suite.js`.
+
 ## v4.9.288 — Scene branches, intact glosses, and an imagined story (Nic, 27 Nov 2026)
 
 **Conflict:** A gloss split a multiword lexeme into loose adjectives, and a kind question used an internal class. Dream search only jittered one law. Creative mode spoke the gloss. The phone deferred the explorer.

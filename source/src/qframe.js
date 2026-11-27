@@ -1070,7 +1070,9 @@
       if (best.node.of && Array.isArray(best.node.of.head)) push(say({ subj: subj, verb: be, pred: { type: 'pp', prep: 'of', np: best.node.of } }));
       const pp = best.node.pp;
       if (pp && pp.prep === 'with' && pp.np && Array.isArray(pp.np.head)) {
-        push(say({ subj: subj, verb: { lemma: 'have', tense: 'present', pol: 'pos', mod: 'asserted' }, roles: { karma: pp.np } }));
+        const np = Object.assign({}, pp.np);
+        if (!np.det && !np.plural) np.det = 'a';
+        push(say({ subj: subj, verb: { lemma: 'have', tense: 'present', pol: 'pos', mod: 'asserted' }, roles: { karma: np } }));
       }
     }
     const light = { consist: 1, have: 1, use: 1, include: 1, be: 1 };

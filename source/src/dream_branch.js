@@ -116,7 +116,7 @@
         }
       }))
     };
-    const scenes = sceneSearch(admitted, box, opts && opts.object);
+    const scenes = sceneSearch(admitted, box, opts || {});
     const ranked = report.candidate_set.length ? explorer(report) : { ok: false, reason: 'no_branch', calls_llm: false };
     const best = branches[0] ? box.tag(Object.assign({}, branches[0], { kept: true })) : null;
     const hypotheses = ((evolved && evolved.population) || []).slice(0, 4).map(row => box.tag({
@@ -129,20 +129,81 @@
       explorer: ranked, calls_llm: false, fact: false, may_store_as_fact: false, dice: false
     });
   }
+  const BANNED = { mechanism: 1, mechanisms: 1, scene: 1, branch: 1, chained: 1, imagined: 1, sandbox: 1, untested: 1 };
   function wordsOf(name) {
     const words = String(name || '').replace(/_/g, ' ').split(/[^A-Za-z0-9]+/).filter(Boolean);
     if (words.length > 1 && words[words.length - 1].length === 1) words.pop();
-    return words;
+    return words.filter(w => !BANNED[w.toLowerCase()]);
   }
   function grammar() { return isNode ? require('./grammar.js') : root.KGrammar; }
-  function say(clause, mark) {
+  function say(clause, mark, persp) {
     const G = grammar();
     if (!G || typeof G.clauseText !== 'function') return '';
     let text = '';
-    try { text = String(G.clauseText(clause, 'user') || '').replace(/\s+/g, ' ').trim(); } catch (e) { text = ''; }
-    if (!text) return '';
+    try { text = String(G.clauseText(clause, persp || 'user') || '').replace(/\s+/g, ' ').trim(); } catch (e) { text = ''; }
+    if (!text || forbidden(text)) return '';
+    if (mark === 'raw') return text;
     text = text.charAt(0).toUpperCase() + text.slice(1);
     return mark === '?' ? text + '?' : (/[.!?]$/.test(text) ? text : text + '.');
+  }
+  function forbidden(text) {
+    return String(text || '').toLowerCase().split(/[^a-z]+/).some(w => BANNED[w]);
+  }
+  function numText(n) {
+    if (typeof n !== 'number' || !isFinite(n)) return '';
+    const digits = Math.abs(n) >= 1 ? 1000 : 10000;
+    const rounded = Math.round(n * digits) / digits;
+    return String(rounded);
+  }
+  function speakUnit(unit) {
+    const u = String(unit || '').toLowerCase();
+    if (u === 'v' || u === 'volt' || u === 'volts') return 'volts';
+    if (u === 'ohm' || u === 'ohms') return 'ohms';
+    if (u === 'a' || u === 'amp' || u === 'amps' || u === 'ampere' || u === 'amperes') return 'amperes';
+    if (u === 'kg') return 'kilograms';
+    if (u === 'm') return 'meters';
+    return u;
+  }
+  function quantityWords(name, unit) {
+    const u = String(unit || '').toLowerCase();
+    if (u === 'v' || u === 'volt' || u === 'volts') return ['voltage'];
+    if (u === 'ohm' || u === 'ohms') return ['resistance'];
+    if (u === 'a' || u === 'amp' || u === 'amps' || u === 'ampere' || u === 'amperes') return ['current'];
+    if (name === 'density' || u.indexOf('kg/m') === 0) return ['density'];
+    return wordsOf(name);
+  }
+  function isVolt(unit) { const u = String(unit || '').toLowerCase(); return u === 'v' || u === 'volt' || u === 'volts'; }
+  function isOhm(unit) { const u = String(unit || '').toLowerCase(); return u === 'ohm' || u === 'ohms'; }
+  function circuitQuestion(voltage, resistance) {
+    const cond = say({
+      subj: { pron: 'user' },
+      verb: { lemma: 'put', tense: 'present', pol: 'pos', mod: 'asserted' },
+      roles: { karma: { head: [numText(voltage), 'volts'] } },
+      adj: [{ prep: 'across', np: { det: 'a', head: [numText(resistance), 'ohm', 'resistor'] } }]
+    }, 'raw', 'kernel');
+    if (!cond) return '';
+    return 'What happens if ' + cond + '?';
+  }
+  function whenQuestion(outputWords, pairs) {
+    const parts = pairs.filter(p => p && p.words && p.words.length && p.num).map(p => ({
+      subj: { det: 'the', head: p.words }, verb: BE,
+      pred: { type: 'measure', num: p.num, unit: p.unit }
+    }));
+    if (!parts.length || !outputWords.length) return '';
+    const when = parts.length === 1 ? parts[0] : { coord: parts, op: 'and', comma: false };
+    return say({
+      subj: { head: ['what'] }, verb: BE,
+      pred: { type: 'np', np: { det: 'the', head: outputWords } },
+      sub: { conj: 'when', clause: when }
+    }, '?');
+  }
+  function resultSentence(outputWords, value, unit) {
+    let n = value, u = speakUnit(unit);
+    if (u === 'amperes' && typeof value === 'number' && Math.abs(value) < 1) { n = value * 1000; u = 'milliamps'; }
+    return say({
+      subj: { det: 'the', head: outputWords }, verb: BE,
+      pred: { type: 'measure', num: numText(n), unit: u }
+    });
   }
   const BE = { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' };
   const WAS = { lemma: 'be', tense: 'past', pol: 'pos', mod: 'asserted' };
@@ -162,73 +223,81 @@
     { axis: 'placement', name: 'fraction' },
     { axis: 'force', name: 'gravity' }
   ];
-  function sceneSearch(admitted, box, objectName) {
+  function namedNoun(opts, circuit) {
+    const nouns = (opts && opts.nouns) || [];
+    const topic = wordsOf(opts && opts.object);
+    const picked = nouns.map(n => String(n || '').toLowerCase().trim()).find(n => n && n !== 'object' && !BANNED[n]);
+    if (picked) return wordsOf(picked);
+    if (topic.length && topic.join(' ') !== 'object') return topic;
+    if (circuit) return ['resistor'];
+    return [];
+  }
+  function sceneSearch(admitted, box, opts) {
     const { Mech } = mods();
-    const object = wordsOf(objectName || 'object');
     const scenes = [];
     (admitted || []).forEach(law => {
       const span = law.range || {};
-      Object.keys(span).forEach(name => {
+      const names = Object.keys(span).filter(name => span[name] && span[name].max > span[name].min);
+      const circuit = names.some(name => isVolt(span[name].unit)) && names.some(name => isOhm(span[name].unit));
+      const noun = namedNoun(opts, circuit);
+      names.forEach(name => {
         const row = span[name];
-        if (!row || !(row.max > row.min)) return;
-        const past = row.max + (row.max - row.min) * 0.25;
-        const values = {};
-        Object.keys(span).forEach(key => { values[key] = key === name ? past : (span[key].min + span[key].max) / 2; });
-        const mech = Mech ? judge(Mech, law, { values: values }) : { applied: false };
-        const sim = formula(law, values);
-        const disagree = mech.reason === 'out_of_range' && typeof sim === 'number' && isFinite(sim);
-        const question = say({
-          subj: { head: ['what'] }, verb: BE,
-          pred: { type: 'np', np: { det: 'the', head: wordsOf(law.output || 'result') } },
-          sub: { conj: 'when', clause: { subj: { head: wordsOf(name) }, verb: BE, pred: { type: 'adj', words: ['untested'] } } }
-        }, '?');
-        scenes.push(box.tag({
-          id: 'range:' + String(law.id || law.expression || 'law') + ':' + name,
-          axis: 'range', name: name, object: object.join(' '), solver: law.solver || null, solvers: [law.solver || null],
-          expression: law.expression || null, outside: true, missing: null,
-          mechanism: mech.reason || (mech.applied ? 'applied' : 'silent'), simulator: sim,
-          disagree: disagree, score: disagree ? 4 : 2, question: question,
-          fact: false, may_store_as_fact: false
-        }));
+        const past = Math.ceil(row.max + (row.max - row.min) * 0.25);
+        const below = Math.floor(row.min - (row.max - row.min) * 0.25);
+        [past, below].forEach(point => {
+          if (!(point > 0) || point === row.min || point === row.max) return;
+          const values = {};
+          names.forEach(key => { values[key] = key === name ? point : (span[key].min + span[key].max) / 2; });
+          const mech = Mech ? judge(Mech, law, { values: values }) : { applied: false };
+          const sim = formula(law, values);
+          const disagree = mech.reason === 'out_of_range' && typeof sim === 'number' && isFinite(sim);
+          const volt = names.filter(isName => isVolt(span[isName].unit))[0];
+          const ohm = names.filter(isName => isOhm(span[isName].unit))[0];
+          const pairs = names.map(key => ({ words: quantityWords(key, span[key].unit), num: numText(values[key]), unit: speakUnit(span[key].unit) }));
+          const output = quantityWords(law.output, law.unit);
+          const question = circuit && volt && ohm
+            ? circuitQuestion(values[volt], values[ohm])
+            : whenQuestion(output, pairs);
+          if (!question) return;
+          scenes.push(box.tag({
+            id: 'range:' + String(law.id || law.expression || 'law') + ':' + name + ':' + numText(point),
+            axis: 'range', name: name, object: noun.join(' '), solver: law.solver || null,
+            expression: law.expression || null, outside: point > row.max || point < row.min, missing: null,
+            values: values, unit: law.unit || null,
+            mechanism: mech.reason || (mech.applied ? 'applied' : 'silent'), simulator: sim,
+            disagree: disagree, score: disagree ? 4 : 2, question: question,
+            probe: { kind: circuit ? 'circuit' : 'quant', ask: question, value: sim, output: output, unit: law.unit || null, values: values },
+            fact: false, may_store_as_fact: false
+          }));
+        });
       });
     });
     const covered = {};
     (admitted || []).forEach(law => (law.variables || []).forEach(name => { covered[name] = true; }));
+    const circuitLaw = (admitted || []).some(law => {
+      const span = law.range || {};
+      const names = Object.keys(span);
+      return names.some(name => isVolt(span[name] && span[name].unit)) && names.some(name => isOhm(span[name] && span[name].unit));
+    });
     GAPS.forEach(gap => {
       if (covered[gap.name]) return;
+      const noun = namedNoun(opts, circuitLaw && gap.name === 'density');
+      if (!noun.length) return;
       const question = say({
         subj: { head: ['what'] }, verb: BE,
-        pred: { type: 'np', np: { det: 'the', head: [gap.name], of: { det: 'the', head: object } } }
+        pred: { type: 'np', np: { det: 'the', head: [gap.name], of: { det: 'the', head: noun } } }
       }, '?');
+      if (!question) return;
       scenes.push(box.tag({
-        id: 'gap:' + gap.axis + ':' + gap.name,
-        axis: gap.axis, name: gap.name, object: object.join(' '), solver: null, solvers: [],
-        expression: null, outside: false, missing: gap.name,
+        id: 'gap:' + gap.axis + ':' + noun.join('-') + ':' + gap.name,
+        axis: gap.axis, name: gap.name, object: noun.join(' '), solver: null,
+        expression: null, outside: false, missing: gap.name, values: null, unit: null,
         mechanism: 'unmeasured', simulator: null, disagree: false,
         score: gap.name === 'density' ? 3 : 2, question: question,
+        probe: { kind: 'density', ask: question, noun: noun.join(' '), value: null, output: ['density'], unit: 'kg/m^3' },
         fact: false, may_store_as_fact: false
       }));
     });
-    for (let i = 0; i < (admitted || []).length; i++) {
-      for (let j = i + 1; j < admitted.length; j++) {
-        const a = admitted[i], b = admitted[j];
-        const shared = (a.variables || []).filter(name => (b.variables || []).indexOf(name) >= 0);
-        const question = say({
-          subj: { head: ['what'] }, verb: BE,
-          pred: { type: 'np', np: { det: 'the', head: ['result'] } },
-          sub: { conj: 'when', clause: { subj: { det: 'the', head: ['mechanisms'], plural: true }, verb: BE, pred: { type: 'adj', words: ['chained'] } } }
-        }, '?');
-        scenes.push(box.tag({
-          id: 'chain:' + String(a.id || i) + '+' + String(b.id || j),
-          axis: 'chain', name: shared[0] || null, object: object.join(' '),
-          solver: a.solver || null, solvers: [a.solver || null, b.solver || null],
-          expression: String(a.expression || '') + '+' + String(b.expression || ''),
-          outside: false, missing: null, mechanism: a.expression || null, simulator: b.expression || null,
-          disagree: String(a.expression || '') !== String(b.expression || ''),
-          score: 3.5, question: question, fact: false, may_store_as_fact: false
-        }));
-      }
-    }
     scenes.sort((a, b) => b.score - a.score || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
     return scenes;
   }
@@ -245,34 +314,92 @@
     take(r => r.axis === 'range');
     take(r => r.axis === 'range');
     take(r => r.missing === 'density');
-    take(r => r.axis === 'chain');
-    take(r => r.axis === 'placement' || r.axis === 'force');
+    take(r => r.axis === 'range');
     rows.forEach(r => { if (picked.length < 4 && r && r.question && !seen[r.question]) { seen[r.question] = 1; picked.push(r); } });
     return picked.slice(0, 4).map(row => ({
       kind: 'dream_hypothesis', question: row.question, axis: row.axis, name: row.name, score: row.score,
-      hypothesis: true, experiment: row.axis === 'range' || row.axis === 'chain', athena_gap: row.missing != null,
+      hypothesis: true, experiment: row.axis === 'range', athena_gap: row.missing != null,
+      probe: row.probe ? { kind: row.probe.kind, ask: row.probe.ask, value: row.probe.value, output: row.probe.output, unit: row.probe.unit, noun: row.probe.noun || null, values: row.probe.values } : null,
       fact: false, may_store_as_fact: false, truth_support_allowed: false, stable_memory_allowed: false,
       projection_allowed: false, calls_llm: false
     }));
   }
-  function narrate(topic, found) {
-    const head = wordsOf(topic || 'object');
-    const rows = (found && found.scenes) || [];
-    const scene = rows.find(s => s && (s.axis === 'material' || s.axis === 'placement' || s.axis === 'force' || s.axis === 'chain')) || rows[0];
-    const lead = say({ subj: { det: 'the', head: head }, verb: WAS, pred: { type: 'pp', prep: 'in', np: { det: 'the', head: ['scene'] } } });
-    let because = '';
-    if (scene && scene.missing) because = say({ subj: { det: 'the', head: [scene.missing] }, verb: WAS, pred: { type: 'adj', words: ['missing'] } });
-    else if (scene && scene.outside) because = say({ subj: { head: wordsOf(scene.name) }, verb: WAS, pred: { type: 'adj', words: ['untested'] } });
-    else if (scene && scene.axis === 'chain') because = say({ subj: { det: 'the', head: ['mechanisms'], plural: true }, verb: WAS, pred: { type: 'adj', words: ['chained'] } });
-    const body = [lead, because].filter(Boolean).join(' ');
-    return body ? 'Imagined. ' + body : '';
+  function clauseSentences(topic, clauses) {
+    const lines = [];
+    const seen = {};
+    const head = String(topic || '').toLowerCase();
+    (clauses || []).forEach(row => {
+      let text = String(row && row.text || row || '').replace(/\s+/g, ' ').trim();
+      if (!text || forbidden(text)) return;
+      if (head && text.toLowerCase().indexOf(head) < 0) return;
+      const words = text.replace(/[.!?]+$/, '').split(/\s+/);
+      if (words.length <= 4 && BANNED[words[words.length - 1].toLowerCase()]) return;
+      if (/^a\s+\S+\s+is\s+any\.?$/i.test(text)) return;
+      if (!/[.!?]$/.test(text)) text += '.';
+      const key = text.toLowerCase();
+      if (seen[key]) return;
+      seen[key] = 1;
+      lines.push(text.charAt(0).toUpperCase() + text.slice(1));
+    });
+    return lines;
   }
-  function imagine(topic, laws) {
+  function simSentences(sims) {
+    const lines = [];
+    (sims || []).forEach(sim => {
+      const atoms = (sim && sim.spoken_atoms) || (sim && sim.sim && sim.sim.spoken_atoms) || [];
+      atoms.forEach(atom => { if (atom && atom.text && !forbidden(atom.text)) lines.push(String(atom.text).trim()); });
+      ['effect_text', 'causal_reason'].forEach(key => {
+        if (sim && sim[key] && !forbidden(sim[key])) lines.push(String(sim[key]).trim());
+      });
+    });
+    return lines;
+  }
+  function prose(topic, clauses, sims) {
+    const lines = clauseSentences(topic, clauses).concat(simSentences(sims));
+    const seen = {};
+    return lines.filter(text => {
+      const key = text.toLowerCase();
+      if (!text || seen[key] || forbidden(text)) return false;
+      seen[key] = 1;
+      return true;
+    }).join(' ');
+  }
+  function narrate(topic, found, clauses) {
+    return prose(topic, clauses, null);
+  }
+  function imagine(topic, laws, clauses) {
     const found = search(laws || [], { object: topic });
     return {
       label: 'imagined', imagined: true, fact: false, may_store_as_fact: false, taint: 'sandbox', stored: false,
-      story: narrate(topic, found), expression: found.best && found.best.expression || null,
+      story: narrate(topic, found, clauses), expression: found.best && found.best.expression || null,
       scenes: (found.scenes || []).length, question: (questions(found)[0] || {}).question || null, calls_llm: false
+    };
+  }
+  function resolve(gap) {
+    const probe = gap && gap.probe;
+    if (!probe) return { ok: false, fact: false, may_store_as_fact: false, calls_llm: false };
+    let value = typeof probe.value === 'number' ? probe.value : null;
+    let method = 'simulator';
+    if (probe.kind === 'circuit' && probe.ask && isNode) {
+      try {
+        const cp = require('child_process');
+        const path = require('path');
+        const rootDir = path.join(__dirname, '..');
+        const py = 'import json,sys\nfrom rmc_engine_v1.sim_device import plan, solve\nq=json.load(sys.stdin)["q"]\np=plan(q)\nout={"ok": bool(p.get("ok")), "solver": p.get("solver"), "reason": p.get("reason")}\n\nif p.get("ok"):\n    s=solve(p)\n    out["measurements"]=s.get("measurements") or {}\n    out["outcome"]=s.get("outcome")\nprint(json.dumps(out))\n';
+        const env = Object.assign({}, process.env, { PYTHONPATH: [path.join(rootDir, 'engine'), rootDir, path.join(rootDir, '_mathlibs')].join(path.delimiter) });
+        const proc = cp.spawnSync('python3', ['-c', py], { input: JSON.stringify({ q: probe.ask }), cwd: rootDir, env: env, encoding: 'utf8', maxBuffer: 1 << 22, timeout: 60000 });
+        if (proc.status === 0) {
+          const row = JSON.parse(String(proc.stdout || '').trim().split('\n').pop());
+          const measured = row && row.measurements && row.measurements.source_current_a;
+          if (typeof measured === 'number') { value = measured; method = 'simulate'; }
+        }
+      } catch (e) { /* the expression value remains the reading */ }
+    }
+    const output = Array.isArray(probe.output) && probe.output.length ? probe.output : ['value'];
+    const reply = typeof value === 'number' ? resultSentence(output, value, probe.unit) : '';
+    return {
+      ok: !!reply, question: gap.question, reply: reply || null, method: method,
+      fact: false, may_store_as_fact: false, calls_llm: false, stored: false
     };
   }
   function readExplorer(row) {
@@ -293,7 +420,7 @@
       return {
         label: 'imagined', imagined: true, fact: false, may_store_as_fact: false, taint: 'sandbox', stored: false,
         expression: found.best && found.best.expression || null,
-        story: narrate('object', found),
+        story: narrate('object', found, null),
         question: asked && asked.question || null, calls_llm: false
       };
     }
@@ -303,6 +430,6 @@
       question: asked && asked.question || null, calls_llm: false
     };
   }
-  const api = { search: search, points: points, questions: questions, consider: consider, imagine: imagine, narrate: narrate, readExplorer: readExplorer };
+  const api = { search: search, points: points, questions: questions, consider: consider, imagine: imagine, narrate: narrate, prose: prose, resolve: resolve, readExplorer: readExplorer };
   if (isNode) module.exports = api; else root.KDreamBranch = api;
 })(typeof self !== 'undefined' ? self : this);

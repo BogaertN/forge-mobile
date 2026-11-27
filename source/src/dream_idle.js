@@ -1141,7 +1141,16 @@
           try {
             const Dream = isNode ? require('./dream_branch.js') : root.KDreamBranch;
             if (Dream && Dream.search) {
-              mechanisms.dream = Dream.search(Mech.admitted());
+              const nouns = [];
+              (Rec.list() || []).forEach(r => {
+                const problem = r && r.problem || {};
+                const body = problem.scene && problem.scene.body;
+                [body && body.noun, problem.patient, problem.body].forEach(n => {
+                  const s = String(n || '').toLowerCase().trim();
+                  if (s && nouns.indexOf(s) < 0) nouns.push(s);
+                });
+              });
+              mechanisms.dream = Dream.search(Mech.admitted(), { nouns: nouns });
               const door = Dream.questions ? Dream.questions(mechanisms.dream) : [];
               mechanisms.door = door;
               const driven = door.some(q => q && (q.axis === 'range' || q.axis === 'chain'));
@@ -1168,6 +1177,15 @@
         return { ok: true, ran: false, schema: SCHEMA, rule: 'DREAM-HELPER-OWNS-GAP', calls_llm: false };
       }
       const gap = queue.shift();
+      let resolved = null;
+      if (gap && gap.kind === 'dream_hypothesis') {
+        try {
+          const Dream = isNode ? require('./dream_branch.js') : root.KDreamBranch;
+          resolved = Dream && Dream.resolve ? Dream.resolve(gap) : null;
+          if (resolved) { resolved.fact = false; resolved.may_store_as_fact = false; }
+        } catch (e) { resolved = null; }
+        if (mechanisms) mechanisms.resolved = resolved;
+      }
       if (athenaDoc && gap && gap.question) athenaDoc.interact(gap.question);
       const raw = researchGap(gap);
       const routed = routeMeasurement(raw);
@@ -1182,6 +1200,12 @@
       }
       const rec = Object.assign({ ok: true, ran: true, gap_id: gap.id, kind: gap.kind, at: now(), always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan', cold: cold, calls_llm: false, codex: codexTrace ? codexTrace.public : null, athena_doc: athenaDoc ? athenaDoc.pass({ eps: routed.eps, claim: routed.claim }) : null }, routed);
       rec.question = gap.question || rec.question || null;
+      if (gap && gap.kind === 'dream_hypothesis') {
+        rec.resolved = resolved;
+        rec.fact = false;
+        rec.may_store_as_fact = false;
+        rec.wrote_confirmed_shared = false;
+      }
       try { rec.forge2 = loopSeal(routed.claim || gap.question || gap.id, now()); }
       catch (e) { rec.forge2 = { ok: false, rule: 'FORGE2-SEAL-FAILED', detail: String(e && e.message || e).slice(0, 180), calls_llm: false }; }
       if (routed.lane === 'hard_reject') {
