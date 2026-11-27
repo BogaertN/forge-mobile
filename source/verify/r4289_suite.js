@@ -1,4 +1,4 @@
-/* 4.9.277: a creative copula has to fit the subject's taxonomy, and the copulas share one predicate. */
+/* 4.9.278: a creative copula has to fit the subject's taxonomy, and the copulas share one predicate. */
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const K = require(ROOT + '/src/kernel.js');

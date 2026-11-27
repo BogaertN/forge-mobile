@@ -518,11 +518,72 @@
       trace: trace, law: law, fact: false, may_store_as_fact: false, method: 'learned_mechanism'
     };
   }
+  function valueMap(problem) {
+    const vals = sceneValues(problem && problem.scene);
+    Object.keys(problem || {}).forEach(key => {
+      if (key === 'scene' || key === 'question' || key === 'frame') return;
+      if (typeof problem[key] === 'number' && isFinite(problem[key])) vals[key] = { value: problem[key] };
+    });
+    return vals;
+  }
+  function predictQuant(law, nums) {
+    if (!law) return null;
+    if (law.form === 'exponential') {
+      const base = nums[law.base];
+      if (typeof base !== 'number' || !(base > 0)) return null;
+      let z = 1;
+      const names = law.factorsNames || [];
+      for (let i = 0; i < names.length; i++) {
+        const x = nums[names[i]];
+        if (typeof x !== 'number' || !isFinite(x)) return null;
+        z *= x;
+      }
+      if (!z) return null;
+      return base * Math.exp(law.scale * z);
+    }
+    const f = termValue(law.terms || [], nums);
+    return f == null ? null : law.scale * f;
+  }
+  function applyQuant(law, values) {
+    if (!law || law.kind !== 'quantitative' || law.status !== 'admitted' || law.fact === true) {
+      return { applied: false, reason: 'not_admitted', fact: false };
+    }
+    const names = law.variables || [];
+    const nums = {};
+    const trace = [];
+    let outside = null;
+    for (let i = 0; i < names.length; i++) {
+      const name = names[i];
+      const raw = values && values[name];
+      const value = raw && typeof raw === 'object' ? raw.value : raw;
+      const span = law.range && law.range[name];
+      const unit = (span && span.unit) || (raw && raw.unit) || null;
+      if (typeof value !== 'number' || !isFinite(value)) return { applied: false, reason: 'missing', name: name, fact: false };
+      trace.push({ name: name, value: value, unit: unit });
+      if (span && typeof span.min === 'number' && typeof span.max === 'number' && (value < span.min || value > span.max)) {
+        outside = { name: name, value: value, min: span.min, max: span.max, unit: unit };
+      }
+      nums[name] = value;
+    }
+    if (outside) return { applied: false, reason: 'out_of_range', kind: 'quantitative', variable: outside, trace: trace, law: law, fact: false };
+    const value = predictQuant(law, nums);
+    if (value == null || !isFinite(value)) return { applied: false, reason: 'unevaluable', fact: false };
+    return {
+      applied: true, mode: 'derive', kind: 'quantitative', outcome: 'derived', output: law.output, value: value,
+      expression: law.expression, scale: law.scale, range: law.range, unit: law.unit,
+      trace: trace, law: law, fact: false, may_store_as_fact: false, method: 'learned_mechanism'
+    };
+  }
   function prepare(problem, laws) {
     const scene = problem && problem.scene;
+    const values = valueMap(problem);
+    const quant = (laws || []).filter(law => law && law.kind === 'quantitative' && law.status === 'admitted' && (!law.solver || !problem.solver || law.solver === problem.solver));
+    for (let q = 0; q < quant.length; q++) {
+      const got = applyQuant(quant[q], values);
+      if (got.applied || got.reason === 'out_of_range') return got.applied ? got : Object.assign({ mode: 'simulate' }, got);
+    }
     if (!scene) return { mode: 'simulate', reason: 'no_scene', fact: false };
-    const values = sceneValues(scene);
-    const rows = (laws || []).filter(law => law && (!law.solver || !problem.solver || law.solver === problem.solver));
+    const rows = (laws || []).filter(law => law && law.kind !== 'quantitative' && (!law.solver || !problem.solver || law.solver === problem.solver));
     let outside = null;
     for (let i = 0; i < rows.length; i++) {
       const got = apply(rows[i], values);
@@ -562,6 +623,38 @@
     let changed = false;
     (doc.mechanisms || []).forEach(law => {
       if (!law || law.status !== 'admitted') return;
+      if (law.kind === 'quantitative') {
+        const fresh = rows.filter(r => (law.train || []).indexOf(r.id) < 0 && (law.held || []).indexOf(r.id) < 0 && law.solver === (r.solver || r.primary_solver));
+        fresh.forEach(r => {
+          const map = {};
+          (r.variables || []).forEach(v => { if (v && typeof v.value === 'number') map[v.name] = v.value; });
+          const pred = predictQuant(law, map);
+          const measured = map[law.output];
+          if (pred == null || typeof measured !== 'number' || !measured) return;
+          const rel = Math.abs(measured - pred) / Math.abs(measured);
+          if (rel > 0.05) {
+            law.status = 'archived';
+            law.valid_to = now;
+            law.refit = { at: now, disagreed: [r.id], fact: false };
+            changed = true;
+            return;
+          }
+          let grew = false;
+          (law.variables || []).forEach(name => {
+            const span = law.range && law.range[name];
+            const value = map[name];
+            if (!span || typeof value !== 'number') return;
+            if (value < span.min) { span.min = value; grew = true; }
+            if (value > span.max) { span.max = value; grew = true; }
+          });
+          if (grew) {
+            law.train = (law.train || []).concat([r.id]);
+            law.refit = { at: now, expanded: [r.id], fact: false };
+            changed = true;
+          }
+        });
+        return;
+      }
       const fresh = rows.filter(r => (law.train || []).indexOf(r.id) < 0 && (law.held || []).indexOf(r.id) < 0 && law.solver === (r.solver || r.primary_solver));
       const miss = fresh.filter(r => { const pred = predict(law, r); return pred && pred !== r.outcome; });
       if (miss.length) {
@@ -696,7 +789,7 @@
           const tr = score(term, train, null);
           const hd = tr && score(term, held, tr.scale);
           if (!tr || !hd || tr.rel > 0.02 || hd.rel > 0.02) return;
-          passed.push({ expression: termText(term), scale: tr.scale, trainRel: tr.rel, heldRel: hd.rel, factors: term.length, form: 'scale' });
+          passed.push({ expression: termText(term), terms: term, scale: tr.scale, trainRel: tr.rel, heldRel: hd.rel, factors: term.length, form: 'scale' });
         });
         const positive = inputs.filter(name => rows.every(r => cols[name].by[r.id] > 0) && rows.every(r => cols[output].by[r.id] > 0));
         positive.forEach(x0 => positive.forEach(x1 => {
@@ -721,30 +814,100 @@
           const one = expScore(train, r => cols[x1].by[r.id], null);
           const oneH = one && expScore(held, r => cols[x1].by[r.id], one.scale);
           if (one && oneH && one.rel <= 0.02 && oneH.rel <= 0.02) {
-            passed.push({ expression: x0 + '*exp(' + one.scale + '*' + x1 + ')', scale: one.scale, trainRel: one.rel, heldRel: oneH.rel, factors: 2, form: 'exponential' });
+            passed.push({ expression: x0 + '*exp(' + one.scale + '*' + x1 + ')', base: x0, factorsNames: [x1], scale: one.scale, trainRel: one.rel, heldRel: oneH.rel, factors: 2, form: 'exponential' });
           }
           positive.forEach(x2 => {
             if (x2 === x0 || x2 === x1 || x2 < x1) return;
             const two = expScore(train, r => cols[x1].by[r.id] * cols[x2].by[r.id], null);
             const twoH = two && expScore(held, r => cols[x1].by[r.id] * cols[x2].by[r.id], two.scale);
             if (!two || !twoH || two.rel > 0.02 || twoH.rel > 0.02) return;
-            passed.push({ expression: x0 + '*exp(' + two.scale + '*' + x1 + '*' + x2 + ')', scale: two.scale, trainRel: two.rel, heldRel: twoH.rel, factors: 3, form: 'exponential' });
+            passed.push({ expression: x0 + '*exp(' + two.scale + '*' + x1 + '*' + x2 + ')', base: x0, factorsNames: [x1, x2], scale: two.scale, trainRel: two.rel, heldRel: twoH.rel, factors: 3, form: 'exponential' });
           });
         }));
         const seen = {};
         passed.sort((a, b) => a.heldRel - b.heldRel || a.factors - b.factors).forEach(row => { if (!seen[row.expression]) seen[row.expression] = row; });
         Object.keys(seen).slice(0, 4).forEach(expression => {
           const best = seen[expression];
+          const names = best.terms ? best.terms.map(t => t.name) : [best.base].concat(best.factorsNames || []);
+          const range = {};
+          names.forEach(name => {
+            if (!cols[name]) return;
+            const values = rows.map(r => cols[name].by[r.id]).filter(v => typeof v === 'number');
+            range[name] = { min: Math.min.apply(null, values), max: Math.max.apply(null, values), unit: cols[name].unit, source: cols[name].source };
+          });
           proposals.push({
             schema: SCHEMA, id: 'quant:' + solver + ':' + output + ':' + expression, solver: solver, output: output,
-            unit: cols[output].unit, expression: best.expression, scale: best.scale, form: best.form,
-            trainRel: best.trainRel, heldRel: best.heldRel, factors: best.factors,
+            unit: cols[output].unit, expression: best.expression, terms: best.terms || null, base: best.base || null,
+            factorsNames: best.factorsNames || null, scale: best.scale, form: best.form, range: range,
+            variables: names, trainRel: best.trainRel, heldRel: best.heldRel, factors: best.factors,
+            train: train.map(r => r.id), held: held.map(r => r.id),
             status: 'admitted', kind: 'quantitative', fact: false, may_store_as_fact: false, publisher: false, calls_llm: false
           });
         });
       });
     });
     return { proposals: proposals, calls_llm: false, changes_gates: false, fact: false };
+  }
+  function inputSources(law, rows) {
+    const sources = {};
+    (law.variables || []).forEach(name => {
+      rows.forEach(r => (r.variables || []).forEach(v => {
+        if (v && v.name === name && v.source) sources[name] = v.source;
+      }));
+    });
+    return sources;
+  }
+  function applicable(law, rows) {
+    const sources = inputSources(law, rows);
+    return (law.variables || []).every(name => sources[name] === 'problem' || sources[name] === 'scene');
+  }
+  function nextQuant(law) {
+    const span = law && law.range || {};
+    const names = Object.keys(span);
+    if (!names.length) return [];
+    const mid = {};
+    names.forEach(name => { mid[name] = (span[name].min + span[name].max) / 2; });
+    const scenes = [];
+    names.forEach(name => {
+      const row = span[name];
+      if (!row || !(row.max > row.min)) return;
+      const outside = row.max + (row.max - row.min) * 0.25;
+      [row.min, mid[name], row.max, outside].forEach(value => {
+        const values = Object.assign({}, mid);
+        values[name] = value;
+        scenes.push({ values: values, near: name, outside: value === outside, expression: law.expression });
+      });
+    });
+    return scenes.slice(0, 8);
+  }
+  function admitQuant(receipts) {
+    const found = fitContinuous(receipts);
+    const rows = receipts || [];
+    const chosen = {};
+    (found.proposals || []).forEach(p => {
+      if (!applicable(p, rows)) return;
+      const key = p.solver + '\n' + p.output;
+      const prev = chosen[key];
+      if (!prev || p.heldRel < prev.heldRel || (p.heldRel === prev.heldRel && p.factors < prev.factors)) chosen[key] = p;
+    });
+    const doc = load();
+    const now = new Date().toISOString();
+    let changed = false;
+    Object.keys(chosen).forEach(key => {
+      const law = chosen[key];
+      const prior = (doc.mechanisms || []).find(r => r && r.id === law.id && r.status === 'admitted');
+      if (prior) return;
+      doc.mechanisms = (doc.mechanisms || []).filter(r => r && r.id !== law.id);
+      doc.mechanisms.push(Object.assign({}, law, { admitted_at: now, gilligan: 'held-out relative error within 0.02', fact: false, may_store_as_fact: false, publisher: false }));
+      changed = true;
+    });
+    if (changed) {
+      doc.mechanisms = doc.mechanisms.slice(-40);
+      save(doc);
+    }
+    const experiments = [];
+    admitted().filter(r => r.kind === 'quantitative').forEach(law => nextQuant(law).forEach(row => experiments.push(row)));
+    return { ok: true, changed: changed, admitted: admitted().filter(r => r.kind === 'quantitative').map(r => ({ id: r.id, expression: r.expression, scale: r.scale, output: r.output, range: r.range, fact: false })), experiments: experiments.slice(0, 8), calls_llm: false, fact: false, may_store_as_fact: false };
   }
   function boundaryInputs(receipts) {
     const names = {};
@@ -754,6 +917,6 @@
   }
   function list() { return load().mechanisms.slice(); }
   function admitted() { return list().filter(r => r && r.status === 'admitted' && r.fact === false); }
-  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap, nextScenes, evaluate, apply, prepare, sceneValues, refit, counterfactual, fitContinuous, boundaryInputs };
+  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap, nextScenes, evaluate, apply, prepare, sceneValues, refit, counterfactual, fitContinuous, admitQuant, boundaryInputs };
   if (isNode) module.exports = api; else root.KMechanisms = api;
 })(typeof self !== 'undefined' ? self : this);

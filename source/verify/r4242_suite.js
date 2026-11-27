@@ -171,9 +171,9 @@ T('capability self-facts come from the user manual, not the 4.9.242 placeholder'
 });
 
 T('version registry names 4.9.242', () => {
-  expect(read('VERSION').trim() === '4.9.277', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.278', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.277' && reg.features.some(x => x.id === 'R4242-WORLD-FACTS-PERSIST') && reg.count === reg.features.length , 'registry');
+  expect(reg.version === '4.9.278' && reg.features.some(x => x.id === 'R4242-WORLD-FACTS-PERSIST') && reg.count === reg.features.length , 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.242'), 'CONFLICTS 242 entry');
 });
 

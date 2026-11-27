@@ -276,6 +276,10 @@
         if (ask) ask.missing = p && p.missing;
         out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: ask ? 'ask' : 'no_problem', ask: ask, problem: p || null, reason: reason || null, missing: (p && p.missing) || null, calls_llm: false };
       }
+      else if (decision && decision.applied && decision.kind === 'quantitative') {
+        out = await pyCall({ op: 'derive_quantitative', problem: p, law: decision.law, derived: decision });
+        if (out) out.method = 'learned_mechanism';
+      }
       else if (decision && decision.applied) {
         out = await pyCall({ op: 'derive_mechanism', problem: p, law: decision.law, derived: decision });
         if (out) out.method = 'learned_mechanism';

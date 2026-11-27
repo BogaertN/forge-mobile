@@ -179,6 +179,8 @@ elif op == 'scenes':
 elif op == 'gather':
     from rmc_engine_v1.athena_gather import gather
     out = gather(a.get('topic') or '', budget=float(a.get('budget') or 10), timeout=float(a.get('timeout') or 2.0), documents=a.get('documents'), network=a.get('network'), lexicon=a.get('lexicon') if a.get('lexicon') is not None else True, prompt=a.get('prompt') or a.get('question') or '')
+elif op == 'derive_quantitative':
+    out = S.derive_quantitative(a.get('problem') or {}, a.get('law') or {}, a.get('derived') or {})
 elif op == 'derive_mechanism':
     out = S.derive_mechanism(a.get('problem') or {}, a.get('law') or {}, a.get('derived') or {})
 elif op == 'solve':
