@@ -230,9 +230,22 @@
     }
     return words;
   }
+  function spokenNoun(problem, word) {
+    const G = root.KGrammar;
+    const bad = w => {
+      const s = String(w || '').toLowerCase().trim();
+      if (!s) return true;
+      const head = s.split(/\s+/)[0];
+      return !!(G && G.PRON && (G.PRON[s] || G.PRON[head]));
+    };
+    const scene = (problem && problem.scene) || {};
+    const cands = [word, problem && problem.body, problem && problem.patient, problem && problem.phrase, scene.patient_text, scene.phrase, scene.body && scene.body.noun];
+    for (let i = 0; i < cands.length; i++) if (!bad(cands[i])) return String(cands[i]).trim();
+    return '';
+  }
   function simAsk(question, problem, word) {
     const scene = (problem && problem.scene) || {};
-    const ask = { kind: 'sim', question: String(question || ''), word: String(word || scene.phrase || ''), patientText: String(scene.patient_text || ''), options: [], tries: 0 };
+    const ask = { kind: 'sim', question: String(question || ''), word: spokenNoun(problem, word), patientText: String(scene.patient_text || ''), options: [], tries: 0 };
     if (problem && problem.ambiguous) { ask.ambiguous = true; ask.material_class = problem.material_class || ''; }
     if (problem && (problem.ask_kind || problem.missing === 'kind')) { ask.ask_kind = true; ask.missing = 'kind'; }
     return ask;

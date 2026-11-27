@@ -170,6 +170,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. The fluid reaches the interval comparison."
+    },
+    {
+      "version": "4.9.284",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. A kind follow-up is realized by the grammar from the noun."
     }
   ]
 }
