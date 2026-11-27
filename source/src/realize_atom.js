@@ -56,7 +56,7 @@
     if (atom.predicate === 'is' || atom.predicate === 'be') {
       let pred = npFrom(args[1] || '');
       if (Array.isArray(atom.pred_parts) && atom.pred_parts.length) {
-        const parts = atom.pred_parts.filter(Boolean).map(m => { const w = String(m).trim().split(/\s+/); return { head: w, surface: w }; });
+        const parts = atom.pred_parts.filter(Boolean).map(m => npFrom(m));
         if (parts.length === 1) pred = parts[0];
         else if (parts.length) pred = { conj: parts, op: 'and' };
       }

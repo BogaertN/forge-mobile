@@ -506,10 +506,13 @@
         got.queried = (fetched.queried || []).concat(got.queried || []).filter((s, i, a) => a.indexOf(s) === i);
         got.gloss = sense && sense.gloss || got.gloss;
         if (!got.clauses.length && glosses.length) got.clauses = glosses.map(text => ({ text: text, source_count: 1, publishers: ['oewn'], admitted: false, single_source: true, fact: false, gilligan: 'GILLIGAN-STRUCTURE-OK', scale: 'ok', drift: 'clean' }));
+        if (root.KClauseFit) got.clauses = KClauseFit.fitList(topic, got.clauses, root.forge, sense);
         return got;
       }
     } catch (e) { /* the split gloss is still imagery */ }
-    return { topic: topic, atoms: [], queried: fetched.queried || ['oewn'], admitted: 0, single: glosses.length, clauses: glosses.map(text => ({ text: text, source_count: 1, publishers: ['oewn'], admitted: false, single_source: true, fact: false, gilligan: 'GILLIGAN-STRUCTURE-OK', scale: 'ok', drift: 'clean', store: null, hosted_eligible: false })), calls_llm: false, supabase_write: false, creative_persisted: false };
+    const bare = glosses.map(text => ({ text: text, source_count: 1, publishers: ['oewn'], admitted: false, single_source: true, fact: false, gilligan: 'GILLIGAN-STRUCTURE-OK', scale: 'ok', drift: 'clean', store: null, hosted_eligible: false }));
+    const fitted = root.KClauseFit ? KClauseFit.fitList(topic, bare, root.forge, sense) : bare;
+    return { topic: topic, atoms: [], queried: fetched.queried || ['oewn'], admitted: 0, single: fitted.length, clauses: fitted, calls_llm: false, supabase_write: false, creative_persisted: false };
   }
   async function prepareCreative(memory, question, frame) {
     /* Scene questions from the cited clauses, then the same on-page plan/solve/WASM path a factual sim uses.
