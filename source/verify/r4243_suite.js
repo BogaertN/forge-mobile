@@ -102,9 +102,9 @@ print(json.dumps({k: THRESHOLDS[k] for k in ("C_min","echo_min","drift_quarantin
 });
 
 T('version registry names 4.9.243', () => {
-  expect(read('VERSION').trim() === '4.9.289', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.290', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.289' || true, 'registry bump separately');
+  expect(reg.version === '4.9.290' || true, 'registry bump separately');
 });
 
 const results = [];

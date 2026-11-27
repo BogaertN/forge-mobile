@@ -1,4 +1,4 @@
-/* 4.9.289: gloss compounds stay intact, dream scenes queue distinct gaps, and a story narrates the branch. */
+/* 4.9.290: gloss compounds stay intact, dream scenes queue distinct gaps, and a story narrates the branch. */
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
@@ -41,11 +41,11 @@ function register(C, expect) {
   C('R4302', 'dream scenes queue an untested range, a missing density, and a chain', () => {
     const one = B.questions(B.search([law()]));
     const texts = one.map(q => q.question);
-    expect(one.length >= 3 && new Set(texts).size >= 3 && texts.some(q => /225 ohm/.test(q) && /8 volts/.test(q)) && texts.some(q => /density of the resistor/.test(q)), JSON.stringify(texts));
-    expect(one.every(q => q.fact === false && q.taint !== 'sandbox' && q.may_store_as_fact === false && !/\b(untested|mechanism|scene|branch|chained|object)\b/i.test(q.question)), JSON.stringify(one));
+    expect(one.length >= 3 && new Set(texts).size >= 3 && texts.some(q => /225 ohm/.test(q) && /8 volts/.test(q) && /you put /.test(q) && !/do put/.test(q)), JSON.stringify(texts));
+    expect(one.every(q => q.fact === false && q.taint !== 'sandbox' && q.may_store_as_fact === false && /ohm/.test(q.question) && !/density/.test(q.question) && !/\b(untested|mechanism|scene|branch|chained|object|do put)\b/i.test(q.question)), JSON.stringify(one));
     const other = law({ id: 'quant:buoyancy_ondevice:height:m*g', solver: 'buoyancy_ondevice', output: 'height', expression: 'm*g', variables: ['m', 'g'], terms: [{ name: 'm', exp: 1 }, { name: 'g', exp: 1 }], range: { m: { min: 1, max: 4, unit: 'kg' }, g: { min: 9, max: 10, unit: 'm/s^2' } } });
     const two = B.questions(B.search([law(), other], { nouns: ['crate'] }));
-    expect(two.some(q => /density of the crate/.test(q.question)) && two.some(q => /\d/.test(q.question)), JSON.stringify(two.map(q => q.question)));
+    expect(two.some(q => /ohm/.test(q.question)) && two.some(q => /kilogram/.test(q.question)) && two.every(q => !/density/.test(q.question)), JSON.stringify(two.map(q => q.question)));
     const worker = fs.readFileSync(path.join(ROOT, 'src/py_worker.js'), 'utf8');
     expect(worker.includes("op == 'explore_drift'") && worker.includes('report: arg.report') && worker.includes('explore_evolutionary_drift'), 'the phone worker runs the explorer');
     const idle = fs.readFileSync(path.join(ROOT, 'src/app_curators.js'), 'utf8');
@@ -55,6 +55,12 @@ function register(C, expect) {
     WF.clear();
     const story = B.imagine('kestrel', [law()], [{ text: 'A kestrel is a falcon.' }, { text: 'A kestrel hovers.' }]);
     expect(story.imagined === true && story.label === 'imagined' && story.fact === false && story.taint === 'sandbox' && story.stored === false && /kestrel is a falcon/.test(story.story || '') && /hovers/.test(story.story || '') && !/\b(imagined|mechanism|scene|branch|chained)\b/i.test(story.story || ''), JSON.stringify(story));
+    const facts = [{ text: 'A badger is a mammal.' }, { text: 'A badger is sturdy.' }, { text: 'A badger is carnivorous.' }, { text: 'A badger burrows.' }, { text: 'The badger was a mammal, carnivorous and sturdy.' }];
+    const described = B.prose('badger', facts, [], 'describe');
+    expect(/mammal/.test(described) && /sturdy/.test(described) && /burrows/.test(described) && !/was a mammal, carnivorous and sturdy/.test(described), described);
+    const told = B.eventPlan('badger', facts.concat([{ text: 'sturdy carnivorous burrowing mammal with strong claws' }]), forge());
+    const narrated = B.prose('badger', facts, [], 'narrate', told.sentences);
+    expect(/burrowed/.test(narrated) && /earth/.test(narrated) && !/was a mammal/.test(narrated) && !/\b(mechanism|scene|branch|chained|imagined)\b/i.test(narrated), JSON.stringify(told) + ' ' + narrated);
     const fact = WF.upsert({ text: story.story, taint: 'sandbox', atom: story });
     expect(fact.ok === false && WF.rows().length === 0, JSON.stringify(fact));
     const app = fs.readFileSync(path.join(ROOT, 'src/app.js'), 'utf8');

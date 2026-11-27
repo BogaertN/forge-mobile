@@ -1,4 +1,4 @@
-/* 4.9.289: a dream branch leaves only as a question. The tainted branch does not. */
+/* 4.9.290: a dream branch leaves only as a question. The tainted branch does not. */
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const B = require(ROOT + '/src/dream_branch.js');
@@ -23,7 +23,7 @@ function register(C, expect) {
     const door = B.questions(found);
     const texts = door.map(q => q.question);
     expect(door.length >= 3 && new Set(texts).size === texts.length && door.every(q => q.hypothesis === true && q.fact === false && q.taint !== 'sandbox' && /\?$/.test(q.question)), JSON.stringify(door[0]));
-    expect(texts.some(q => /\d/.test(q) && /ohm/.test(q) && /volt/.test(q)) && texts.some(q => /density of the resistor/.test(q)) && texts.every(q => !/\b(untested|mechanism|scene|branch|chained)\b/i.test(q)), JSON.stringify(texts));
+    expect(texts.some(q => /\d/.test(q) && /ohm/.test(q) && /volt/.test(q)) && texts.every(q => /ohm/.test(q) && /volt/.test(q) && !/density/.test(q)) && texts.every(q => !/\b(untested|mechanism|scene|branch|chained|do put)\b/i.test(q)), JSON.stringify(texts));
     expect(SB.blocked(found.best) && SB.blocked(found.best).rule === 'SANDBOX-WRITE-BARRIER', 'branch is tainted');
     const store = KS.MemoryStore();
     const mem = store.save('memory', [found.best]);
