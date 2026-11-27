@@ -55,7 +55,7 @@
     const U = alg.U || {};
     const TEMP = alg.TEMP || {};
     const k = String(key || '').toLowerCase();
-    if (U[k]) return { unit: U[k].name, dimension: U[k].dim };
+    if (U[k] && k.length > 1) return { unit: U[k].name, dimension: U[k].dim };
     if (TEMP[k] && k.length > 1) return { unit: TEMP[k] === 'C' ? 'celsius' : TEMP[k] === 'F' ? 'fahrenheit' : 'kelvin', dimension: 'temperature' };
     const bits = k.split('_');
     const named = token => {
@@ -81,7 +81,10 @@
       target_c: ['celsius', 'temperature'], melt_c: ['celsius', 'temperature'],
       boil_c: ['celsius', 'temperature'], room_c: ['celsius', 'temperature'],
       mass_kg: ['kg', 'mass'], altitude_m: ['m', 'length'], power_w: ['W', 'power'], time_s: ['s', 'time'],
-      v: ['V', 'voltage'], r: ['ohm', 'resistance']
+      v: ['V', 'voltage'], r: ['ohm', 'resistance'],
+      gm_m3_s2: ['m^3/s^2', 'gravitational_parameter'], orbit_radius_m: ['m', 'length'],
+      speed_m_s: ['m/s', 'velocity'], concentration_left: ['mol', 'amount'], c0: ['mol', 'amount'],
+      source_current_a: ['A', 'current'], t: ['s', 'time'], k: ['1/s', 'rate']
     };
     if (SI[k]) return { unit: SI[k][0], dimension: SI[k][1] };
     if (k === 'slope_deg' || k === 'angle_deg' || k === 'tilt_deg' || k.endsWith('_deg')) return { unit: 'degree', dimension: 'angle' };

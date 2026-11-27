@@ -1084,16 +1084,24 @@ def _solve_reaction(p: dict[str, Any]) -> dict[str, Any]:
 
 
 def _solve_kinetics(p: dict[str, Any]) -> dict[str, Any]:
-    import numpy as np
-    import scipy
-    from scipy.integrate import solve_ivp
-    k, c0, t, n = p["k"], p["c0"], p["t"], p["order"]
-    sol = solve_ivp(lambda _t, c: [-k * c[0] ** n], (0, t), [c0], rtol=1e-10, atol=1e-12)
-    c = float(sol.y[0, -1])
-    exact = c0 * math.exp(-k * t) if n == 1 else c0 / (1 + k * c0 * t)
-    return {"solver": "chemistry_kinetics", "engine": "scipy " + scipy.__version__ + " solve_ivp (RK45)", "outcome": "decay",
+    """First-order decay has a closed form. SciPy's integrator is a check when it is installed.
+    Pages previously did not install SciPy, so the import raised and no receipt was sealed."""
+    k, c0, t, n = float(p["k"]), float(p["c0"]), float(p["t"]), int(p["order"])
+    exact = c0 * math.exp(-k * t) if n == 1 else c0 / (1.0 + k * c0 * t)
+    c, engine, steps = exact, "closed form", 0
+    try:
+        import numpy as np
+        import scipy
+        from scipy.integrate import solve_ivp
+        sol = solve_ivp(lambda _t, y: [-k * y[0] ** n], (0.0, t), [c0], rtol=1e-10, atol=1e-12)
+        c = float(sol.y[0, -1])
+        engine = "scipy " + scipy.__version__ + " solve_ivp (RK45)"
+        steps = int(np.size(sol.t))
+    except ImportError:
+        c = exact
+    return {"solver": "chemistry_kinetics", "engine": engine, "outcome": "decay",
             "measurements": {"concentration_left": round(c, 5), "fraction_left": round(c / c0, 5), "closed_form": round(exact, 5),
-                             "half_life_s": round(math.log(2) / k, 4) if n == 1 else round(1 / (k * c0), 4), "steps": int(np.size(sol.t))}}
+                             "half_life_s": round(math.log(2) / k, 4) if n == 1 else round(1.0 / (k * c0), 4), "steps": steps}}
 
 
 def _solve_sequence(p: dict[str, Any]) -> dict[str, Any]:
@@ -1148,8 +1156,9 @@ def _solve_orbit(p: dict[str, Any]) -> dict[str, Any]:
     T = 2 * math.pi * math.sqrt(a ** 3 / gm)
     v = math.sqrt(gm / a)
     return {"solver": "astronomy_ondevice", "engine": engine, "outcome": "orbit",
-            "measurements": {"body": name, "orbit_radius_km": round(a / 1000, 3), "period_min": round(T / 60, 2),
-                             "speed_km_s": round(v / 1000, 3), "escape_speed_km_s": round(math.sqrt(2 * gm / a) / 1000, 3),
+            "measurements": {"body": name, "orbit_radius_km": round(a / 1000, 3), "orbit_radius_m": a,
+                             "period_min": round(T / 60, 2), "speed_km_s": round(v / 1000, 3), "speed_m_s": v,
+                             "gm_m3_s2": gm, "escape_speed_km_s": round(math.sqrt(2 * gm / a) / 1000, 3),
                              "gravity_m_s2": round(gm / a ** 2, 3)},
             "constants_source": src, "equations": ["T = 2π sqrt(a^3/GM)", "v = sqrt(GM/a)", "v_esc = sqrt(2GM/a)", "g = GM/a^2"]}
 

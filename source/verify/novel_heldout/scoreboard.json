@@ -128,6 +128,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. Buoyancy admits rho_body/rho_fluid. Thermal target_c/boil_c is refuted by probes. Orbit, reaction, kinetics and circuits have one outcome."
+    },
+    {
+      "version": "4.9.277",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. Continuous fits: orbital speed sqrt(GM/r), concentration c0 exp(-kt), series current V/R. Thermal has no pressure or solute."
     }
   ]
 }
