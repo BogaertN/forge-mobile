@@ -1,3 +1,13 @@
+## v4.9.291 — A story runs the sim it can ground, and kinship keeps its inverse (Nic, 27 Nov 2026)
+
+**Conflict:** A story in water held because the body had no density, so the float or the sink was never said. The telling was one action. A fresh kinship question that had spoken on the previous release held on this one.
+
+**Where:** The sandbox scene fills a missing density the same way a factual ask does: the object's words, the substance named in its gloss, and its class head go to the handbook. An agreeing figure or a class interval that sits entirely on one side of the fluid lets the sim run. The story then says the before state, the action, the consequence, the density that caused it, and the after state, from the grammar. When the lookup finds no agreeing density, the story says only the grounded sentences and does not hold. A second gathered verb is a second action. A poem is those same sentences as lines. The kinship hold was not a regression: an aunt licenses a niece, and an uncle licenses a nephew. Asking for a niece of an uncle stays unanswered.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4302_suite.js`.
+
 ## v4.9.290 — Stories narrate actions, and questions stay on the mechanism (Nic, 27 Nov 2026)
 
 **Conflict:** A story repeated the gathered facts, a present-tense "put" was spoken with emphatic do, and a dream question asked for a density the circuit law does not use.
