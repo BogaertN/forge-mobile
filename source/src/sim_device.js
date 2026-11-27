@@ -220,13 +220,49 @@
     const phone = memory && Array.isArray(memory.phone) ? memory.phone : [];
     return phone.filter(r => r && (r.clause || r.text)).slice(-32).map(r => ({ text: r.text, clause: r.clause || null }));
   }
+  function glossTokens(gloss, into) {
+    String(gloss || '').toLowerCase().split(/[^a-z]+/).forEach(w => { if (w && into.indexOf(w) < 0) into.push(w); });
+  }
+  function classHead(lex, sense) {
+    const id = String((sense && sense.sid) || '').replace(/^wn30:/, '');
+    if (!id || !lex || !lex.wn) return '';
+    let parent = '';
+    for (const tier of ['core', 'ext', 'pro']) {
+      const table = lex.wn[tier] && lex.wn[tier].H;
+      if (table && table[id] && table[id][0]) { parent = table[id][0]; break; }
+    }
+    if (!parent) return '';
+    for (const tier of ['core', 'ext', 'pro']) {
+      const table = lex.wn[tier] && lex.wn[tier].N;
+      if (table && Object.prototype.hasOwnProperty.call(table, parent)) {
+        const name = String(table[parent] || '').replace(/_/g, ' ');
+        if (name && name.indexOf(' ') < 0 && name.indexOf('-') < 0) return name;
+      }
+    }
+    return '';
+  }
   function materialWords(question, name) {
     const words = String(question || '').toLowerCase().split(/[^a-z]+/).filter(Boolean);
     const lex = root.forge && root.forge.lexicon;
     if (lex && typeof lex.senses === 'function' && name) {
       const senses = lex.senses(name) || [];
-      const art = senses.find(s => s && s.lexname === 'noun.artifact') || senses.find(s => s && s.pos === 'n');
-      if (art && art.gloss) art.gloss.toLowerCase().split(/[^a-z]+/).forEach(w => { if (w && words.indexOf(w) < 0) words.push(w); });
+      const art = senses.find(s => s && s.lexname === 'noun.artifact') || senses.find(s => s && s.pos === 'n' && s.lexname !== 'noun.person');
+      if (art && art.gloss) {
+        glossTokens(art.gloss, words);
+        art.gloss.toLowerCase().split(/[^a-z]+/).forEach(w => {
+          let noun = w;
+          if (!noun || !lex.hasPos) return;
+          if (!lex.hasPos(noun, 'n') && noun.length > 3 && noun.endsWith('s') && lex.hasPos(noun.slice(0, -1), 'n')) noun = noun.slice(0, -1);
+          if (!lex.hasPos(noun, 'n')) return;
+          const kind = lex.lexnameOf ? String(lex.lexnameOf(noun) || '') : '';
+          if (kind !== 'noun.substance' && kind !== 'noun.object') return;
+          const inner = (lex.senses(noun) || []).find(s => s && s.pos === 'n' && s.gloss);
+          if (inner) glossTokens(inner.gloss, words);
+        });
+      }
+      const named = senses.find(s => s && s.pos === 'n' && s.lexname === 'noun.animal') || art;
+      const head = classHead(lex, named);
+      if (head && words.indexOf(head) < 0) words.push(head);
     }
     return words;
   }
@@ -642,6 +678,6 @@
   async function exploreDrift(report) {
     return pyCall({ op: 'explore_drift', report: report || {}, budget: 8 });
   }
-  root.KSimDevice = { simulate, prepareCreative, gatherCreative, research, book, exploreDrift, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
+  root.KSimDevice = { simulate, prepareCreative, gatherCreative, research, book, exploreDrift, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, materialWords, GATE, LS_ROUTER, LS_ASSETS };
   if (root.document) { if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', renderSettings); else renderSettings(); }
 })(typeof self !== 'undefined' ? self : this);

@@ -1,4 +1,4 @@
-/* 4.9.290: continuous outputs get a quantitative fit. A missing SciPy still seals the closed form. */
+/* 4.9.291: continuous outputs get a quantitative fit. A missing SciPy still seals the closed form. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');

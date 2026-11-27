@@ -1,4 +1,4 @@
-/* 4.9.290: gloss compounds stay intact, dream scenes queue distinct gaps, and a story narrates the branch. */
+/* 4.9.291: gloss compounds stay intact, dream scenes queue distinct gaps, and a story narrates the branch. */
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
@@ -60,11 +60,46 @@ function register(C, expect) {
     expect(/mammal/.test(described) && /sturdy/.test(described) && /burrows/.test(described) && !/was a mammal, carnivorous and sturdy/.test(described), described);
     const told = B.eventPlan('badger', facts.concat([{ text: 'sturdy carnivorous burrowing mammal with strong claws' }]), forge());
     const narrated = B.prose('badger', facts, [], 'narrate', told.sentences);
-    expect(/burrowed/.test(narrated) && /earth/.test(narrated) && !/was a mammal/.test(narrated) && !/\b(mechanism|scene|branch|chained|imagined)\b/i.test(narrated), JSON.stringify(told) + ' ' + narrated);
+    expect(/had strong claws/.test(narrated) && narrated.indexOf('had strong claws') < narrated.indexOf('burrowed') && /earth/.test(narrated) && !/was a mammal/.test(narrated) && !/\b(mechanism|scene|branch|chained|imagined)\b/i.test(narrated), JSON.stringify(told) + ' ' + narrated);
+    const raft = B.eventPlan('raft', [{ text: 'a flat float usually made of logs or planks' }], forge());
+    expect(/floated/.test(raft.sentences.join(' ')) && /water/.test(raft.question || ''), JSON.stringify(raft));
+    const floated = B.prose('raft', [], [{ outcome: 'float', measurements: { fluid: 'water', patient: 'raft', rho_body: 720, rho_fluid: 997, submerged_fraction: 0.72 } }], 'narrate', raft.sentences);
+    expect(/out of the water/.test(floated) && /720/.test(floated) && /below the density of the water/.test(floated) && /0\.72 of the raft was in the water/.test(floated), floated);
+    const loon = B.eventPlan('loon', [{ text: 'fish-eating diving bird having webbed feet' }], forge());
+    const loonText = loon.sentences.join(' ');
+    expect(/webbed feet/.test(loonText) && /dived|dove/.test(loonText) && /ate/.test(loonText) && !/solid/.test(loonText) && !/somebody/.test(loonText), loonText);
+    const sim = require(ROOT + '/src/sim_device.js');
+    sim.forge = forge();
+    const words = sim.KSimDevice.materialWords('What happens if I put the raft in the water?', 'raft');
+    expect(words.indexOf('timber') >= 0, words.join(' '));
     const fact = WF.upsert({ text: story.story, taint: 'sandbox', atom: story });
     expect(fact.ok === false && WF.rows().length === 0, JSON.stringify(fact));
     const app = fs.readFileSync(path.join(ROOT, 'src/app.js'), 'utf8');
     expect(app.includes('KDreamBranch.prose') && app.includes('row.creative.stored = false') && !app.includes("'Imagined. '"), 'the spoken story is the gathered prose and is not proposed for storage');
+    WF.clear();
+  });
+  C('R4302', 'a kinship inverse answers the licensed relation', () => {
+    const Core = require(ROOT + '/src/rmc_core.js');
+    const R = require(ROOT + '/src/rmc_client.js');
+    function ask(setup, q) {
+      WF.clear();
+      const f = forge();
+      const phone = setup.map((text, i) => {
+        const sentence = /[.!?]$/.test(text) ? text : text + '.';
+        const clause = Q.clause(sentence, f);
+        WF.upsert({ text: sentence, clause: clause, kind: 'remember', source: 'phone_kb', trust: 'trusted' });
+        return { id: 'n' + i, text: sentence, clause: clause, tier: 'phone', trust: 'trusted', scope: 'phone' };
+      });
+      const frame = Q.compile(q, f);
+      const payload = Core.withClauses({ question: q, frame: frame, live: true, memory: { phone: phone, pools: [] } }, Q, f);
+      return R.askSync(payload);
+    }
+    const aunt = ask(["Mara's aunt is Soren."], "Who is Soren's niece?");
+    expect(aunt && /Mara/.test(aunt.reply || ''), JSON.stringify(aunt && aunt.reply));
+    const nephew = ask(["Nia's uncle is Calder."], "Who is Calder's nephew?");
+    expect(nephew && /Nia/.test(nephew.reply || ''), JSON.stringify(nephew && nephew.reply));
+    const niece = ask(["Nia's uncle is Calder."], "Who is Calder's niece?");
+    expect(niece && niece.reply == null, JSON.stringify(niece && niece.reply));
     WF.clear();
   });
 }

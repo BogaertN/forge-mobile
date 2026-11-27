@@ -351,9 +351,26 @@
     const facts = withoutRepeat(topic, clauseSentences(topic, clauses));
     if (act === 'narrate' || act === 'compose') {
       const told = withoutRepeat(topic, events || []);
-      const body = told.concat(simSentences(sims));
-      const lines = withoutRepeat(topic, body.length ? body : facts);
-      return act === 'compose' ? lines.join('\n') : lines.join(' ');
+      let setting = '';
+      const consequences = [];
+      (sims || []).forEach(sim => {
+        const built = storySim(sim);
+        if (built) {
+          if (built.before && !setting) setting = built.before;
+          built.lines.forEach(text => { if (text && consequences.indexOf(text) < 0) consequences.push(text); });
+          return;
+        }
+        simSentences([sim]).forEach(text => { if (text && consequences.indexOf(text) < 0) consequences.push(text); });
+      });
+      const lines = [];
+      const seen = {};
+      [setting].concat(told).concat(consequences).forEach(text => {
+        if (!text || seen[text] || forbidden(text)) return;
+        seen[text] = 1;
+        lines.push(text);
+      });
+      const body = lines.length ? lines : withoutRepeat(topic, facts);
+      return act === 'compose' ? body.join('\n') : body.join(' ');
     }
     return withoutRepeat(topic, facts.concat(simSentences(sims))).join(' ');
   }
@@ -442,7 +459,13 @@
       if (lex.hasPos(w, 'v') && !stuff) continue;
       found.push({ prep: prep, noun: w, kind: kind });
     }
-    found.sort((a, b) => (rank[a.kind] == null ? 9 : rank[a.kind]) - (rank[b.kind] == null ? 9 : rank[b.kind]));
+    found.sort((a, b) => {
+      const liquid = row => {
+        const gloss = String((((lex.senses(row.noun) || []).find(s => s && s.pos === 'n' && s.gloss)) || {}).gloss || '');
+        return /\bliquid\b/.test(gloss) ? 0 : 1;
+      };
+      return liquid(a) - liquid(b) || (rank[a.kind] == null ? 9 : rank[a.kind]) - (rank[b.kind] == null ? 9 : rank[b.kind]);
+    });
     return found[0] || null;
   }
   function instrumentFrom(texts, forge) {
@@ -478,60 +501,116 @@
     const sense = ((lex && lex.senses && lex.senses(lemma)) || []).find(s => s && s.pos === 'v');
     return !!(sense && (sense.lexname === 'verb.motion' || sense.lexname === 'verb.contact'));
   }
-  function actionOf(texts, forge) {
+  function actionsOf(texts, forge) {
     const Q = isNode ? require('./qframe.js') : root.KQFrame;
     const lex = forge && forge.lexicon;
-    let motion = '';
-    let other = '';
+    const motion = [];
+    const other = [];
+    function add(stem, onlyMotion) {
+      if (!stem || stem === 'be' || stem === 'have' || stem === 'do') return;
+      const moves = verbMotion(lex, stem);
+      if (onlyMotion && !moves) return;
+      const list = moves ? motion : other;
+      if (motion.indexOf(stem) < 0 && other.indexOf(stem) < 0) list.push(stem);
+    }
     (texts || []).forEach(text => {
       const words = String(text || '').toLowerCase().match(/[a-z]+/g) || [];
       words.forEach(w => {
         const stem = ingStem(w, lex);
-        if (!stem || stem === 'be' || stem === 'have') return;
-        if (!motion && verbMotion(lex, stem)) motion = stem;
-        else if (!other) other = stem;
+        if (stem) add(stem, false);
+        else if (lex && lex.hasPos && lex.hasPos(w, 'v') && verbMotion(lex, w)) {
+          const medium = mediumOf(lex, w, 0);
+          const kind = medium && medium.kind;
+          if (kind === 'noun.substance' || kind === 'noun.object' || kind === 'noun.body') add(w, true);
+        }
       });
       let clause = null;
       try { clause = Q && Q.clause ? Q.clause(text, forge) : null; } catch (e) { clause = null; }
       const verb = clause && ((clause.verb && clause.verb.lemma) || clause.kriya);
-      if (verb && verb !== 'be' && verb !== 'have') {
-        if (!motion && verbMotion(lex, verb)) motion = verb;
-        else if (!other) other = verb;
-      }
+      if (verb) add(verb, true);
     });
-    return motion || other;
+    return motion.concat(other).slice(0, 3);
+  }
+  function nounHead(text) {
+    return String(text || '').toLowerCase().replace(/^(?:a|an|the)\s+/, '').split(/[^a-z0-9.]+/).filter(Boolean);
+  }
+  function storySim(sim) {
+    const outcome = sim && (sim.outcome || (sim.run && sim.run.outcome));
+    if (outcome !== 'float' && outcome !== 'sink' && outcome !== 'suspend') return null;
+    const ms = (sim && (sim.measurements || (sim.run && sim.run.measurements))) || {};
+    const problem = (sim && sim.problem) || {};
+    const fluid = nounHead(ms.fluid || problem.fluid || '');
+    const who = nounHead(ms.patient || problem.patient || '');
+    if (!fluid.length || !who.length) return null;
+    const past = { tense: 'past', pol: 'pos', mod: 'asserted' };
+    const where = { det: 'the', head: fluid };
+    const before = say({ subj: { det: 'the', head: who }, verb: Object.assign({ lemma: 'be' }, past), pred: { prep: 'out of', np: where } });
+    const effect = say({
+      subj: { det: 'the', head: who },
+      verb: Object.assign({ lemma: outcome === 'suspend' ? 'hang' : outcome }, past),
+      adj: [{ prep: 'in', np: where }]
+    });
+    const side = outcome === 'float' ? 'below' : outcome === 'sink' ? 'above' : '';
+    const why = side ? say({
+      subj: { det: 'the', head: ['density'], of: { det: 'the', head: who } },
+      verb: Object.assign({ lemma: 'be' }, past),
+      pred: { prep: side, np: { det: 'the', head: ['density'], of: { det: 'the', head: fluid } } }
+    }) : '';
+    let figure = '';
+    if (typeof ms.rho_lo === 'number' && typeof ms.rho_hi === 'number') {
+      figure = say({
+        subj: { det: 'the', head: who },
+        verb: Object.assign({ lemma: 'have' }, past),
+        roles: { karma: { det: 'a', head: ['density'] } },
+        adj: [{ prep: 'from', np: { head: [String(ms.rho_lo)] } }, { prep: 'to', np: { head: [String(ms.rho_hi), 'kilograms'] } }, { prep: 'per', np: { head: ['cubic', 'meter'] } }]
+      });
+    } else if (typeof ms.rho_body === 'number') {
+      figure = say({
+        subj: { det: 'the', head: who },
+        verb: Object.assign({ lemma: 'have' }, past),
+        roles: { karma: { det: 'a', head: ['density', 'of', String(ms.rho_body), 'kilograms', 'per', 'cubic', 'meter'] } }
+      });
+    }
+    const frac = ms.submerged_fraction;
+    const after = (typeof frac === 'number' && frac > 0 && frac < 1)
+      ? say({ subj: { head: [String(frac)], of: { det: 'the', head: who } }, verb: Object.assign({ lemma: 'be' }, past), pred: { prep: 'in', np: where } })
+      : say({ subj: { det: 'the', head: who }, verb: Object.assign({ lemma: 'be' }, past), pred: { prep: 'in', np: where } });
+    return { before: before, lines: [effect, figure, why, after].filter(Boolean) };
   }
   function eventPlan(topic, clauses, forge) {
     const lex = forge && forge.lexicon;
     const head = wordsOf(topic);
     if (!head.length) return { sentences: [], question: '' };
     const texts = (clauses || []).map(row => String(row && row.text || row || ''));
-    const verb = actionOf(texts, forge);
+    const verbs = actionsOf(texts, forge);
     let instrument = null;
     texts.forEach(text => { if (!instrument) instrument = havePhrase(text, forge); });
     if (!instrument) instrument = instrumentFrom(texts, forge);
-    if (!verb) return { sentences: [], question: '' };
-    const medium = mediumOf(lex, verb, 0);
-    const sister = !medium ? oneSister(lex, head[0]) : '';
-    const clause = {
-      subj: { det: 'the', head: head },
-      verb: { lemma: verb, tense: 'past', pol: 'pos', mod: 'asserted' }
-    };
-    if (medium && medium.noun) {
-      const np = { det: 'the', head: [medium.noun] };
-      if (medium.prep) clause.adj = [{ prep: medium.prep, np: np }];
-      else clause.roles = { karma: np };
-    } else if (sister) {
-      clause.adj = [{ prep: 'near', np: { det: 'the', head: [sister] } }];
-    }
-    const sentence = say(clause);
     const held = instrument ? say({
       subj: { det: 'the', head: head },
       verb: { lemma: 'have', tense: 'past', pol: 'pos', mod: 'asserted' },
       roles: { karma: instrument }
     }) : '';
-    const question = medium && medium.noun ? ('What happens if I put the ' + head.join(' ') + ' in the ' + medium.noun + '?') : '';
-    return { sentences: [sentence, held].filter(Boolean), question: question, verb: verb, medium: medium || null };
+    let question = '';
+    const actions = verbs.map(verb => {
+      const moves = verbMotion(lex, verb);
+      const medium = moves ? mediumOf(lex, verb, 0) : null;
+      const sister = moves && !medium ? oneSister(lex, head[0]) : '';
+      const clause = {
+        subj: { det: 'the', head: head },
+        verb: { lemma: verb, tense: 'past', pol: 'pos', mod: 'asserted' }
+      };
+      if (medium && medium.noun) {
+        const np = { det: 'the', head: [medium.noun] };
+        if (medium.prep) clause.adj = [{ prep: medium.prep, np: np }];
+        else clause.roles = { karma: np };
+        if (!question && medium.kind === 'noun.substance') question = 'What happens if I put the ' + head.join(' ') + ' in the ' + medium.noun + '?';
+      } else if (sister) {
+        clause.adj = [{ prep: 'near', np: { det: 'the', head: [sister] } }];
+      }
+      return say(clause);
+    }).filter(Boolean);
+    return { sentences: [held].concat(actions).filter(Boolean), question: question, verb: verbs[0] || '', medium: null };
   }
   function narrate(topic, found, clauses) {
     return prose(topic, clauses, null);
