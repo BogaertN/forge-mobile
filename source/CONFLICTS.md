@@ -1,3 +1,13 @@
+## v4.9.283 — The fluid reaches the density interval (Nic, 27 Nov 2026)
+
+**Conflict:** A class interval was computed, and the phone still asked for the kind. The comparison never saw the fluid, because the worker call dropped it.
+
+**Where:** The simulator call now carries the fluid into the interval comparison. A nail in seawater is decided from the metal range.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4298_suite.js`.
+
 ## v4.9.282 — A disagreed density is an interval (Nic, 27 Nov 2026)
 
 **Conflict:** A class whose handbook densities disagree asked for the number. Every candidate can still sit on one side of the fluid, and then the outcome is already fixed.
