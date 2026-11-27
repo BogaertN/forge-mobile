@@ -43,6 +43,24 @@
   }) : null;
   if (neo) root.KNeo = neo;
   function noteHeld(question, row, extra) { return neo ? neo.noteHeld(question, row, extra) : { ok: false, rule: 'NEO-NO-QUEUE' }; }
+  let dreamBusy = false;
+  async function phoneDream() {
+    if (dreamBusy || answering || !root.KDreamBranch || !root.KMechanisms) return;
+    const found = root.KDreamBranch.search(root.KMechanisms.admitted());
+    const asked = root.KDreamBranch.questions ? root.KDreamBranch.questions(found) : [];
+    root.FORGE_DREAM_QUESTIONS = asked;
+    asked.forEach(q => { if (q && q.question && cur && cur.noteHeld) cur.noteHeld(q.question, { product_reply: false, route: 'dream_hypothesis', fact: false }); });
+    if (!found || !found.report || !found.report.candidate_set || !found.report.candidate_set.length) return;
+    if (root.FORGE_EXPLORER && root.FORGE_EXPLORER.ok) return;
+    if (!root.KSimDevice || !root.KSimDevice.exploreDrift) return;
+    dreamBusy = true;
+    try {
+      const row = await root.KSimDevice.exploreDrift(found.report);
+      root.FORGE_EXPLORER = root.KDreamBranch.readExplorer ? root.KDreamBranch.readExplorer(row) : { ok: false, reason: 'no_reader', calls_llm: false };
+    } catch (e) {
+      root.FORGE_EXPLORER = { ok: false, reason: String(e && e.message || e).slice(0, 180), calls_llm: false };
+    } finally { dreamBusy = false; }
+  }
   function setAnswering(v) { answering = v === true; if (neo) neo.setAnswering(answering); else if (cur) cur.setAnswering(answering); }
   async function step() {
     const c = make();
@@ -51,6 +69,7 @@
       if (root.KMechanisms && root.KSimReceipts && root.KMechanisms.admitQuant) root.KMechanisms.admitQuant(root.KSimReceipts.list());
     } catch (e) { /* the next idle tick retries the fit */ }
     if (c && c.status().pending && Date.now() - lastFlush > 300000) { lastFlush = Date.now(); try { await c.flushPending(); } catch (e) { /* the writer stays pending */ } }
+    try { await phoneDream(); } catch (e) { /* the next idle tick retries the explorer */ }
     paint();
   }
   function rows(list, cols) { return list.slice(-6).reverse().map(r => '<div class="rec" data-curation-row><div>' + esc(r.question) + (r.reply ? ' → ' + esc(r.reply) : '') + '</div><div class="meta">' + cols.map(k => esc(k) + ' ' + esc(r[k] == null ? '—' : r[k])).join(' · ') + '</div></div>').join('') || '<div class="meta">none</div>'; }

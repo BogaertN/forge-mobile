@@ -230,22 +230,39 @@
     }
     return words;
   }
-  function spokenNoun(problem, word) {
+  function frameNoun(question) {
+    try {
+      const Q = root.KQFrame, forge = root.forge;
+      if (!Q || !forge || !question) return '';
+      const frame = Q.compile(question, forge);
+      const part = frame && frame.conditional && frame.cond ? frame.cond : frame;
+      const karma = part && part.karma;
+      if (!karma) return '';
+      if (karma.text) return String(karma.text).replace(/^(?:a|an|the)\s+/i, '').trim();
+      if (karma.head) return String(karma.head);
+    } catch (e) { /* the problem body remains */ }
+    return '';
+  }
+  function spokenNoun(problem, word, question) {
     const G = root.KGrammar;
+    const named = frameNoun(question);
+    const klass = String(problem && problem.material_class || '').toLowerCase();
     const bad = w => {
       const s = String(w || '').toLowerCase().trim();
       if (!s) return true;
       const head = s.split(/\s+/)[0];
-      return !!(G && G.PRON && (G.PRON[s] || G.PRON[head]));
+      if (G && G.PRON && (G.PRON[s] || G.PRON[head])) return true;
+      return !!(klass && s === klass && named && named.toLowerCase() !== klass);
     };
     const scene = (problem && problem.scene) || {};
-    const cands = [word, problem && problem.body, problem && problem.patient, problem && problem.phrase, scene.patient_text, scene.phrase, scene.body && scene.body.noun];
+    const cands = [named, word, problem && problem.body, problem && problem.patient, problem && problem.phrase, scene.patient_text, scene.phrase, scene.body && scene.body.noun];
     for (let i = 0; i < cands.length; i++) if (!bad(cands[i])) return String(cands[i]).trim();
-    return '';
+    return named || '';
   }
   function simAsk(question, problem, word) {
     const scene = (problem && problem.scene) || {};
-    const ask = { kind: 'sim', question: String(question || ''), word: spokenNoun(problem, word), patientText: String(scene.patient_text || ''), options: [], tries: 0 };
+    const noun = spokenNoun(problem, word, question);
+    const ask = { kind: 'sim', question: String(question || ''), word: noun, noun: noun, patientText: String(scene.patient_text || ''), options: [], tries: 0 };
     if (problem && problem.ambiguous) { ask.ambiguous = true; ask.material_class = problem.material_class || ''; }
     if (problem && (problem.ask_kind || problem.missing === 'kind')) { ask.ask_kind = true; ask.missing = 'kind'; }
     return ask;
@@ -573,9 +590,9 @@
         if (root.KClauseFit) got.clauses = KClauseFit.fitList(topic, got.clauses, root.forge, sense);
         try {
           const Dream = root.KDreamBranch, Mech = root.KMechanisms;
-          if (Dream && Dream.consider && Mech && Mech.admitted) {
-            const imagined = Dream.consider(Mech.admitted(), 'creative');
-            if (imagined && imagined.imagined && imagined.expression) got.imagined = imagined;
+          if (Dream && Dream.imagine && Mech && Mech.admitted) {
+            const imagined = Dream.imagine(topic, Mech.admitted());
+            if (imagined && imagined.imagined && imagined.story) got.imagined = imagined;
           }
         } catch (e) { /* the composition does not depend on a dream */ }
         return got;
@@ -583,7 +600,12 @@
     } catch (e) { /* the split gloss is still imagery */ }
     const bare = glosses.map(text => ({ text: text, source_count: 1, publishers: ['oewn'], admitted: false, single_source: true, fact: false, gilligan: 'GILLIGAN-STRUCTURE-OK', scale: 'ok', drift: 'clean', store: null, hosted_eligible: false }));
     const fitted = root.KClauseFit ? KClauseFit.fitList(topic, bare, root.forge, sense) : bare;
-    return { topic: topic, atoms: [], queried: fetched.queried || ['oewn'], admitted: 0, single: fitted.length, clauses: fitted, calls_llm: false, supabase_write: false, creative_persisted: false };
+    let imagined = null;
+    try {
+      const Dream = root.KDreamBranch, Mech = root.KMechanisms;
+      if (Dream && Dream.imagine && Mech && Mech.admitted) imagined = Dream.imagine(topic, Mech.admitted());
+    } catch (e) { imagined = null; }
+    return { topic: topic, atoms: [], queried: fetched.queried || ['oewn'], admitted: 0, single: fitted.length, clauses: fitted, imagined: imagined && imagined.story ? imagined : null, calls_llm: false, supabase_write: false, creative_persisted: false };
   }
   async function prepareCreative(memory, question, frame) {
     /* Scene questions from the cited clauses, then the same on-page plan/solve/WASM path a factual sim uses.
@@ -616,6 +638,9 @@
     }
     return sims;
   }
-  root.KSimDevice = { simulate, prepareCreative, gatherCreative, research, book, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
+  async function exploreDrift(report) {
+    return pyCall({ op: 'explore_drift', report: report || {}, budget: 8 });
+  }
+  root.KSimDevice = { simulate, prepareCreative, gatherCreative, research, book, exploreDrift, routerBase, assetsBase, testConnection, holdNote, propertyHold, renderSettings, GATE, LS_ROUTER, LS_ASSETS };
   if (root.document) { if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', renderSettings); else renderSettings(); }
 })(typeof self !== 'undefined' ? self : this);

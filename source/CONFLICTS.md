@@ -1,3 +1,13 @@
+## v4.9.288 — Scene branches, intact glosses, and an imagined story (Nic, 27 Nov 2026)
+
+**Conflict:** A gloss split a multiword lexeme into loose adjectives, and a kind question used an internal class. Dream search only jittered one law. Creative mode spoke the gloss. The phone deferred the explorer.
+
+**Where:** A gloss keeps the parse's compound and only the adjectives attached to the subject. A kind question uses the object's noun from the ask. Idle branches scenes across admitted mechanisms, scores an untested range, a missing property, and a chain, and queues those questions. A story narrates the best scene branch and is labelled imagined. It is not stored. Idle runs the explorer through the Pyodide worker.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4302_suite.js`.
+
 ## v4.9.287 — Creative search is labelled imagined (Nic, 27 Nov 2026)
 
 **Conflict:** A branch search could have been spoken as a fact.

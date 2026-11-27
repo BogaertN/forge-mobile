@@ -79,9 +79,12 @@
       const word = (clause.pred.words && clause.pred.words[0]) || clause.pred.text;
       return word ? { kind: 'adj', word: String(word).toLowerCase() } : { kind: 'other' };
     }
-    const head = clause.pred && clause.pred.type === 'np' ? (clause.pred.np && clause.pred.np.head) || clause.pred.head : null;
-    const word = Array.isArray(head) ? head[head.length - 1] : head;
-    if (word) return { kind: 'np', word: String(word).toLowerCase() };
+    const np = clause.pred && clause.pred.type === 'np' ? clause.pred.np || clause.pred : null;
+    const head = np && (np.head || clause.pred.head);
+    let heads = Array.isArray(head) ? head.filter(Boolean) : (head ? [head] : []);
+    const lex = forge && forge.lexicon;
+    (np && np.adjs || []).forEach(w => { if (lex && lex.hasPos && lex.hasPos(w, 'n')) heads.unshift(w); });
+    if (heads.length) return { kind: 'np', word: heads.join(' ').toLowerCase(), heads: heads };
     return { kind: 'other' };
   }
   function judge(topic, text, forge, chosen) {
@@ -94,13 +97,15 @@
       const ok = lex.hasPos && (lex.hasPos(readAs.word, 'a') || lex.hasPos(readAs.word, 's'));
       return ok ? { keep: true, relation: 'be', kind: 'adj', word: readAs.word } : { keep: false, relation: 'drop', reason: 'not_an_adjective' };
     }
-    const word = readAs.word;
+    const heads = readAs.heads && readAs.heads.length ? readAs.heads : String(readAs.word || '').split(/\s+/).filter(Boolean);
+    const word = heads.length ? heads[heads.length - 1] : '';
+    const phrase = heads.join(' ');
     if (!word || word.length < 3) return { keep: false, relation: 'drop', reason: 'not_a_noun' };
     const senses = nounSenses(lex, word);
     if (!senses.length) return { keep: false, relation: 'drop', reason: 'not_a_noun' };
     const subject = subjectSense(lex, topic, chosen);
     if (senses.some(s => parentHead(lex, s) === 'class')) return { keep: false, relation: 'drop', reason: 'taxon_class' };
-    if (subject && onChain(lex, subject, word)) return { keep: true, relation: 'be', kind: 'class', word: word };
+    if (subject && onChain(lex, subject, word)) return { keep: true, relation: 'be', kind: 'class', word: phrase };
     if (senses.some(s => isPart(lex, s))) return { keep: true, relation: 'have', kind: 'part', word: word };
     return { keep: false, relation: 'drop', reason: 'off_chain' };
   }
@@ -115,9 +120,12 @@
   }
   function detFor(word) { return 'aeiou'.indexOf(String(word || '').charAt(0)) >= 0 ? 'an' : 'a'; }
   function copula(topic, items) {
-    const parts = items.map(item => item.kind === 'adj'
-      ? { head: [item.word], surface: [item.word] }
-      : { det: detFor(item.word), head: [item.word], surface: [item.word] });
+    const parts = items.map(item => {
+      const words = String(item.word || '').split(/\s+/).filter(Boolean);
+      return item.kind === 'adj'
+        ? { head: words, surface: words }
+        : { det: detFor(words[0]), head: words, surface: words };
+    });
     const phrase = parts.length === 1 ? parts[0] : { conj: parts, op: 'and' };
     return say({
       subj: { det: 'the', head: [topic], surface: [topic] },
