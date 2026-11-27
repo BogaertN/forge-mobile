@@ -1,3 +1,13 @@
+## v4.9.287 — Creative search is labelled imagined (Nic, 27 Nov 2026)
+
+**Conflict:** A branch search could have been spoken as a fact.
+
+**Where:** Creative mode may use the search, and the card says imagined. A factual question may carry the hypothesis, and the spoken answer stays on the real-world path. The branch is not stored.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4301_suite.js`.
+
 ## v4.9.286 — A dream branch leaves only as a question (Nic, 27 Nov 2026)
 
 **Conflict:** A kept dream branch could have been stored beside the law it varied.

@@ -1,4 +1,4 @@
-/* 4.9.286: Buckingham groups on a weight-ramp. Held-out scenes test the threshold. */
+/* 4.9.287: Buckingham groups on a weight-ramp. Held-out scenes test the threshold. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');

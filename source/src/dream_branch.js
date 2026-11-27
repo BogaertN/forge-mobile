@@ -143,6 +143,22 @@
       calls_llm: false
     }];
   }
-  const api = { search: search, points: points, questions: questions };
+  function consider(laws, mode) {
+    const found = search(laws);
+    const asked = questions(found)[0] || null;
+    if (mode === 'creative') {
+      return {
+        label: 'imagined', imagined: true, fact: false, may_store_as_fact: false, taint: 'sandbox',
+        expression: found.best && found.best.expression || null,
+        question: asked && asked.question || null, calls_llm: false
+      };
+    }
+    return {
+      label: 'hypothesis', imagined: false, fact: false, may_store_as_fact: false,
+      answer_from: 'real_world', reply: null,
+      question: asked && asked.question || null, calls_llm: false
+    };
+  }
+  const api = { search: search, points: points, questions: questions, consider: consider };
   if (isNode) module.exports = api; else root.KDreamBranch = api;
 })(typeof self !== 'undefined' ? self : this);
