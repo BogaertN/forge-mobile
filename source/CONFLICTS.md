@@ -1,3 +1,13 @@
+## v4.9.281 — A sandbox atom cannot become a fact (Nic, 27 Nov 2026)
+
+**Conflict:** Imagination and the world model shared one write path. An atom made inside a sandbox could be stored as memory, as an admitted fact, or as a mechanism.
+
+**Where:** `src/sandbox.js` tags every sandbox atom. The store, the world-fact writer, and the mechanism writer refuse a tainted value. A clean value still writes. A lexicon density is spoken as "has a density of N kilograms per cubic meter", the sentence the grammar can round-trip. The card trace of a quantitative law carries the expression, the scale, the range, and the unit.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4297_suite.js`.
+
 ## v4.9.280 — Derive a circuit with no scene, and speak the looked-up density (Nic, 27 Nov 2026)
 
 **Conflict:** A quantitative law was admitted from resistor asks, and the next ask inside the range was still measured. A circuit problem has no scene, and Derive only looked when a scene was present. A steel pin used the handbook density, and the spoken reason did not state the number.

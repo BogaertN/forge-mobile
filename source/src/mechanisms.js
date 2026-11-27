@@ -34,6 +34,8 @@
     return (MEM = blank());
   }
   function save(doc) {
+    const SB = isNode ? require('./sandbox.js') : root.KSandbox;
+    if (SB && SB.blocked(doc)) return load();
     MEM = Object.assign(blank(), doc, { schema: SCHEMA, calls_llm: false, changes_gates: false, may_store_as_fact: false, publisher: false });
     const b = backend();
     if (b) { try { b.set(KEY, JSON.stringify(MEM)); } catch (e) { /* the in-memory copy still holds this turn */ } }
@@ -918,6 +920,6 @@
   }
   function list() { return load().mechanisms.slice(); }
   function admitted() { return list().filter(r => r && r.status === 'admitted' && r.fact === false); }
-  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap, nextScenes, evaluate, apply, prepare, sceneValues, refit, counterfactual, fitContinuous, admitQuant, boundaryInputs };
+  const api = { SCHEMA, clear, reload, save, induce, validate, nudge, list, admitted, sceneMap, nextScenes, evaluate, apply, prepare, sceneValues, refit, counterfactual, fitContinuous, admitQuant, boundaryInputs };
   if (isNode) module.exports = api; else root.KMechanisms = api;
 })(typeof self !== 'undefined' ? self : this);

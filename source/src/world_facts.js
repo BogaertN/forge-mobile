@@ -31,7 +31,10 @@
     if (MEM && MEM.schema === SCHEMA) return MEM;
     return { schema: SCHEMA, facts: [], updated_at: null, calls_llm: false };
   }
+  function sandbox() { return isNode ? require('./sandbox.js') : root.KSandbox; }
   function saveRaw(doc) {
+    const denied = sandbox() && sandbox().blocked(doc);
+    if (denied) return denied;
     doc = Object.assign({}, doc, { schema: SCHEMA, updated_at: new Date().toISOString(), calls_llm: false });
     MEM = doc;
     const b = backend(); if (b) { try { b.set(KEY, JSON.stringify(doc)); } catch (e) { return { ok: false, rule: 'WORLD-FACTS-STORAGE-FULL' }; } }
@@ -195,6 +198,8 @@
     return true;
   }
   function upsert(input, opts) {
+    const denied = sandbox() && sandbox().blocked(input);
+    if (denied) return denied;
     opts = opts || {};
     const now = opts.now || new Date().toISOString();
     const text = String(input && input.text || '').trim(); if (!text) return { ok: false, rule: 'WORLD-FACTS-EMPTY' };

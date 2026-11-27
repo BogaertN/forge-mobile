@@ -13,8 +13,8 @@ function MemoryStore(backend) { const mem = {}; const b = backend || { get: k =>
   const dfl = cat => (cat === 'meta' ? {} : []);
   const rawLoad = (g, cat) => { const v = b.get(pre(g) + cat); return v ? JSON.parse(v) : dfl(cat); };
   function namesIn(g) { const out = new Set(ALL_STORES); if (b.keys) { const p = pre(g); for (const k of b.keys()) { if (!k.startsWith(p)) continue; const c = k.slice(p.length); if (!c || c === 'probe' || c.startsWith('__') || (!g && /^g\d+\./.test(c))) continue; out.add(c); } } return [...out].sort(); }
-  function stageGeneration(data, hook) { const from = gen(); const to = from + 1; const names = [...new Set(namesIn(from).concat(Object.keys(data || {})))].sort(); const want = {};
-    for (const c of names) want[c] = JSON.stringify(data && Object.prototype.hasOwnProperty.call(data, c) ? data[c] : rawLoad(from, c));
+  function stageGeneration(data, hook) { const from = gen(); const to = from + 1; const clean = Object.assign({}, data || {}); const SB = isNode ? require('./sandbox.js') : root.KSandbox; if (SB) Object.keys(clean).forEach(c => { if (SB.sealedCat(c) && SB.blocked(clean[c])) delete clean[c]; }); const names = [...new Set(namesIn(from).concat(Object.keys(clean)))].sort(); const want = {};
+    for (const c of names) want[c] = JSON.stringify(Object.prototype.hasOwnProperty.call(clean, c) ? clean[c] : rawLoad(from, c));
     for (const c of names) b.set(pre(to) + c, want[c]);
     if (hook) hook({ save: (c, v) => b.set(pre(to) + c, JSON.stringify(v)) }); /* test hook: a backend that does not keep what was written */
     const bad = names.filter(c => b.get(pre(to) + c) !== want[c]); return { from, to, names, bad }; }
@@ -39,7 +39,9 @@ function MemoryStore(backend) { const mem = {}; const b = backend || { get: k =>
       if (c === skipCat) continue; const k = pre(g) + c; if (b.get(k) == null) continue; try { b.set(k, JSON.stringify([])); } catch (e) { try { b.del(k); } catch (e2) { /* ignore */ } } }
     if (skipCat !== 'trace') { const tk = pre(g) + 'trace'; const raw = b.get(tk); if (raw) { try { const arr = JSON.parse(raw); if (Array.isArray(arr) && arr.length > 5) b.set(tk, JSON.stringify(arr.slice(-5).map(compactTrace))); } catch (e) { /* ignore */ } } }
   } catch (e) { /* best-effort eviction */ } }
-  function save(cat, val) { const key = pre(gen()) + cat; const put = v => { b.set(key, JSON.stringify(v)); };
+  function sandbox() { return isNode ? require('./sandbox.js') : root.KSandbox; }
+  function refuse(cat, val) { const SB = sandbox(); if (!SB || !SB.sealedCat(cat) || !SB.blocked(val)) return null; return { ok: false, rule: 'SANDBOX-WRITE-BARRIER', wrote: false, cat: cat, fact: false }; }
+  function save(cat, val) { const denied = refuse(cat, val); if (denied) return denied; const key = pre(gen()) + cat; const put = v => { b.set(key, JSON.stringify(v)); };
     try { put(val); return { ok: true }; }
     catch (e) { if (!isQuota(e)) throw e;
       freeQuotaSpace(cat);
