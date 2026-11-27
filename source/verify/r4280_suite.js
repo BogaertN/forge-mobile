@@ -55,7 +55,7 @@ function register(C, expect) {
     expect(/0\.4 meters tall/.test(r.stdout), r.stdout.trim());
   });
   C('R4280', 'the release is 4.9.256', () => {
-    expect(require('fs').readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.277', 'VERSION');
+    expect(require('fs').readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.278', 'VERSION');
   });
 }
 module.exports = register;

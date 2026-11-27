@@ -134,6 +134,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. Continuous fits: orbital speed sqrt(GM/r), concentration c0 exp(-kt), series current V/R. Thermal has no pressure or solute."
+    },
+    {
+      "version": "4.9.278",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. Idle admits V/R from circuit receipts. A later ask inside the range is derived from that law."
     }
   ]
 }

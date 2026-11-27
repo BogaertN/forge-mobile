@@ -47,6 +47,9 @@
   async function step() {
     const c = make();
     if (neo) { try { await neo.step(); } catch (e) { /* the next tick retries */ } }
+    try {
+      if (root.KMechanisms && root.KSimReceipts && root.KMechanisms.admitQuant) root.KMechanisms.admitQuant(root.KSimReceipts.list());
+    } catch (e) { /* the next idle tick retries the fit */ }
     if (c && c.status().pending && Date.now() - lastFlush > 300000) { lastFlush = Date.now(); try { await c.flushPending(); } catch (e) { /* the writer stays pending */ } }
     paint();
   }

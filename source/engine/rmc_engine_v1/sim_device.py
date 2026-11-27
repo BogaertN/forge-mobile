@@ -1634,6 +1634,34 @@ def seal(problem: dict[str, Any], run: dict[str, Any], where: str = "on_device")
             "may_store_as_fact": False}
 
 
+def derive_quantitative(problem: dict[str, Any], law: dict[str, Any], derived: dict[str, Any]) -> dict[str, Any]:
+    """Seal a predicted measurement from an admitted quantitative law. This is not a new measurement."""
+    problem = dict(problem)
+    if "family" not in problem and problem.get("solver") in SOLVERS:
+        problem["family"] = SOLVERS[problem["solver"]]["family"]
+    output = str((law or {}).get("output") or "")
+    value = derived.get("value")
+    ms: dict[str, Any] = {}
+    if output:
+        ms[output] = value
+    outcome = "derived"
+    if problem.get("solver") == "circuits_wasm":
+        ms["source_current_a"] = value
+        if problem.get("R") is not None:
+            ms["total_resistance_ohm"] = problem.get("R")
+        outcome = "solve"
+    run = {"outcome": outcome, "measurements": ms, "engine": "learned mechanism", "derived": True, "calls_llm": False}
+    sealed = seal(problem, run)
+    sealed["method"] = "learned_mechanism"
+    sealed["may_store_as_fact"] = False
+    sealed["mechanism"] = {
+        "id": (law or {}).get("id"), "expression": (law or {}).get("expression"), "scale": (law or {}).get("scale"),
+        "output": output, "range": (law or {}).get("range"), "unit": (law or {}).get("unit"),
+        "trace": derived.get("trace") or [], "kind": "quantitative", "fact": False, "may_store_as_fact": False,
+    }
+    return sealed
+
+
 def derive_mechanism(problem: dict[str, Any], law: dict[str, Any], derived: dict[str, Any]) -> dict[str, Any]:
     """Seal an answer from an admitted mechanism. This is not a measurement."""
     problem = dict(problem)

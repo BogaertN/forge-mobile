@@ -52,7 +52,7 @@ function register(C, expect) {
     expect(sky.product_reply !== true && sky.reply == null && sky.pipeline && sky.pipeline.gap === true && sky.pipeline.stages.indexOf('compile') < 0, JSON.stringify([sky.reply, sky.route, sky.pipeline]));
     const doc = fs.readFileSync(path.join(ROOT, '..', 'docs', 'PIPELINE.md'), 'utf8');
     expect(/Parse/.test(doc) && /Recall/.test(doc) && /Gate/.test(doc) && /Compile/.test(doc) && /Bypasses removed/.test(doc), 'pipeline doc');
-    expect(fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.277', 'VERSION');
+    expect(fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.278', 'VERSION');
   });
 }
 module.exports = register;

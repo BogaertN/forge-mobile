@@ -1,3 +1,13 @@
+## v4.9.278 — Idle admits a quantitative law and Derive uses it (Nic, 27 Nov 2026)
+
+**Conflict:** A quantitative fit lived only in the suite. The phone's idle loop did not keep it, and a later ask inside the tested range measured again.
+
+**Where:** Idle runs the quantitative search on the receipts already stored. A law whose inputs are problem or scene quantities, and whose held-out relative error stays within 2%, is admitted. It is not a fact. The next ask inside that range is sealed from the law. The trace carries the expression, the scale, the range and the units. A receipt outside the range is measured. If it still agrees, the range widens. If it disagrees, the law is archived. Idle also names the next experiment points, one input at a time.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4295_suite.js`.
+
 ## v4.9.277 — Continuous measurements can be a law (Nic, 27 Nov 2026)
 
 **Conflict:** Orbit, chemistry, kinetics and circuits each had one outcome label, so a threshold search could not learn anything. Pages also produced no kinetics receipts: that job never installed SciPy, and the solver raised on the import. Thermal's `target_c/boil_c` only restates the phase comparison the solver already makes.
