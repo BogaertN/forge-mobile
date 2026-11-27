@@ -1,4 +1,4 @@
-/* 4.9.279: a stated resistance is a problem quantity. A named material fills density; a class that disagrees does not. */
+/* 4.9.280: a stated resistance is a problem quantity. A named material fills density; a class that disagrees does not. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
@@ -34,9 +34,12 @@ facts = [{"head": "steel pin", "property": "density", "value": hit["rho"]}, {"he
 p = plan("What happens if you put a steel pin in seawater?", None, facts)
 run = solve(p)
 rec = seal(p, run)
-print(json.dumps({"ok": p.get("ok"), "rho": p.get("rho_body"), "source": p.get("density_source"), "outcome": run.get("outcome"), "effect": rec.get("effect_text"), "extra": [r.get("text") for r in rec.get("rows") or []]}))
+print(json.dumps({"ok": p.get("ok"), "rho": p.get("rho_body"), "source": p.get("density_source"), "outcome": run.get("outcome"), "effect": rec.get("effect_text"), "why": rec.get("causal_reason")}))
 `, words.steel);
-    expect(sunk.ok === true && sunk.outcome === 'sink' && /steel/.test(sunk.source || '') && /kilograms per cubic meter/.test((sunk.extra || []).join(' ')), JSON.stringify(sunk));
+    expect(sunk.ok === true && sunk.outcome === 'sink' && /steel/.test(sunk.source || '') && /kilograms per cubic meter/.test(sunk.why || ''), JSON.stringify(sunk));
+    const src = require('fs').readFileSync(path.join(ROOT, 'src/sim_device.js'), 'utf8');
+    const body = src.slice(src.indexOf('async function simulate'), src.indexOf('function propertyHold'));
+    expect(/p\.ok && root\.KMechanisms/.test(body) && !/p\.ok && p\.scene && root\.KMechanisms/.test(body), 'a circuit problem has no scene');
   });
 }
 module.exports = register;

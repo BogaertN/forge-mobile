@@ -1,4 +1,4 @@
-/* 4.9.279: a simulator receipt is kept as evidence and is still there after reload. */
+/* 4.9.280: a simulator receipt is kept as evidence and is still there after reload. */
 const path = require('path');
 const fs = require('fs');
 const cp = require('child_process');

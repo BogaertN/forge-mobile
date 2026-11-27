@@ -287,7 +287,7 @@
         }
       }
       if (p && p.ok && p.scene) lastScene = { question: question, scene: p.scene };
-      const decision = (p && p.ok && p.scene && root.KMechanisms && typeof root.KMechanisms.prepare === 'function')
+      const decision = (p && p.ok && root.KMechanisms && typeof root.KMechanisms.prepare === 'function')
         ? root.KMechanisms.prepare(p, root.KMechanisms.admitted()) : null;
       if (continued && priorScene && decision && decision.law && p && p.scene && typeof root.KMechanisms.counterfactual === 'function') {
         cf = root.KMechanisms.counterfactual(decision.law, root.KMechanisms.sceneValues(priorScene), root.KMechanisms.sceneValues(p.scene));
