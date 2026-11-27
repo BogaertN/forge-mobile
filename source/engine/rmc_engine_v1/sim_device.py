@@ -1298,7 +1298,8 @@ def _extra_structs(p: dict[str, Any], run: dict[str, Any]) -> list[dict[str, Any
         return atoms
     if s == "buoyancy_ondevice" and ms.get("rho_body") is not None and str(p.get("density_source") or "").startswith("lexicon"):
         who = str(p.get("patient") or "body")
-        return [_karaka("is", [f"the density of the {who}", f"{float(ms['rho_body']):g} kilograms per cubic meter"])]
+        return [_karaka("have", [f"the {who}", f"a density of {float(ms['rho_body']):g} kilograms"],
+                        modifiers=[_mod("per", "cubic meter", "sambandha")])]
     if s == "thermal_ondevice" and ms.get("temperature_c") is not None:
         sub = str(ms.get("substance") or p.get("substance") or "it")
         return [_karaka("is", [f"the final temperature of the {sub}", f"{float(ms['temperature_c']):g} degrees"])]
@@ -1588,11 +1589,12 @@ def _reason_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, An
     if s == "buoyancy_ondevice":
         who = str(problem.get("patient") or "body")
         fluid = str(ms.get("fluid") or "the fluid")
+        if str(problem.get("density_source") or "").startswith("lexicon") and ms.get("rho_body") is not None:
+            return _karaka("have", [f"the {who}", f"a density of {float(ms['rho_body']):g} kilograms"],
+                           modifiers=[_mod("per", "cubic meter", "sambandha")])
         if run.get("outcome") == "float":
             return _karaka("is", [f"the density of the {who}", f"below the density of {fluid}"])
         if run.get("outcome") == "sink":
-            if str(problem.get("density_source") or "").startswith("lexicon") and ms.get("rho_body") is not None:
-                return _karaka("is", [f"the density of the {who}", f"{float(ms['rho_body']):g} kilograms per cubic meter"])
             return _karaka("is", [f"the density of the {who}", f"above the density of {fluid}"])
     if s == "thermal_ondevice":
         sub = str(ms.get("substance") or "it")

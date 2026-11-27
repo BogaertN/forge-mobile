@@ -1,4 +1,4 @@
-/* 4.9.280: a stated resistance is a problem quantity. A named material fills density; a class that disagrees does not. */
+/* 4.9.281: a stated resistance is a problem quantity. A named material fills density; a class that disagrees does not. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
@@ -34,9 +34,15 @@ facts = [{"head": "steel pin", "property": "density", "value": hit["rho"]}, {"he
 p = plan("What happens if you put a steel pin in seawater?", None, facts)
 run = solve(p)
 rec = seal(p, run)
-print(json.dumps({"ok": p.get("ok"), "rho": p.get("rho_body"), "source": p.get("density_source"), "outcome": run.get("outcome"), "effect": rec.get("effect_text"), "why": rec.get("causal_reason")}))
+reason = next((a for a in rec.get("spoken_atoms") or [] if a.get("role") == "reason"), {})
+print(json.dumps({"ok": p.get("ok"), "rho": p.get("rho_body"), "source": p.get("density_source"), "outcome": run.get("outcome"), "effect": rec.get("effect_text"), "why": rec.get("causal_reason"), "text": reason.get("text"), "atom": reason.get("atom")}))
 `, words.steel);
     expect(sunk.ok === true && sunk.outcome === 'sink' && /steel/.test(sunk.source || '') && /kilograms per cubic meter/.test(sunk.why || ''), JSON.stringify(sunk));
+    const LEX = require(path.join(ROOT, 'data/lexicon.json'));
+    const EXT = require(path.join(ROOT, 'data/lexicon-ext.json'));
+    const forge = require(path.join(ROOT, 'src/forge.js')).ForgeKernel({ store: require(path.join(ROOT, 'src/kernel.js')).MemoryStore(), lexicon: LEX, lexiconExt: EXT, clock: () => '2026-11-27T05:00:00Z' });
+    const compiled = forge.outward(sunk.text, sunk.atom);
+    expect(compiled.ok === true, JSON.stringify({ step: compiled.step, why: sunk.why, atom: sunk.atom, clause: compiled.clause_atom }));
     const src = require('fs').readFileSync(path.join(ROOT, 'src/sim_device.js'), 'utf8');
     const body = src.slice(src.indexOf('async function simulate'), src.indexOf('function propertyHold'));
     expect(/p\.ok && root\.KMechanisms/.test(body) && !/p\.ok && p\.scene && root\.KMechanisms/.test(body), 'a circuit problem has no scene');

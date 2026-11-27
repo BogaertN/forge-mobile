@@ -610,7 +610,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const induced = (row && row.world_model && row.world_model.derive && row.world_model.derive.survivor && row.world_model.derive.survivor.induced) || null;
   const learnedTag = induced ? '<span class="tag" data-learned-rule="' + esc(induced.id) + '">derived via learned rule</span>' : '';
   const mech = row && row.sim && row.sim.method === 'learned_mechanism' ? row.sim.mechanism : null;
-  const mechTag = mech ? '<span class="tag" data-learned-mechanism="' + esc(mech.id || mech.expression || '') + '"' + (mech.expression ? ' data-quant-expression="' + esc(mech.expression) + '" data-quant-scale="' + esc(mech.scale) + '"' : '') + '>derived via learned mechanism</span>' : '';
+  const mechTag = mech ? '<span class="tag" data-learned-mechanism="' + esc(mech.id || mech.expression || '') + '"' + (mech.expression ? ' data-quant-expression="' + esc(mech.expression) + '" data-quant-scale="' + esc(mech.scale) + '"' + (mech.unit ? ' data-quant-unit="' + esc(mech.unit) + '"' : '') + (mech.range ? ' data-quant-range="' + esc(JSON.stringify(mech.range)) + '"' : '') : '') + '>derived via learned mechanism</span>' : '';
   const cfView = row && row.sim && row.sim.counterfactual;
   const cfTag = cfView && Array.isArray(cfView.steps) ? '<span class="tag" data-counterfactual="' + esc(cfView.steps.join(',')) + '">counterfactual</span>' : '';
   const creativeTag = row && row.creative ? '<span class="tag" data-creative="1">creative</span>' : '';
