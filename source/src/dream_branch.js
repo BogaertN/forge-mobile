@@ -549,6 +549,22 @@
     });
     return motion.concat(other).slice(0, 3);
   }
+  function modifierVerbs(texts, forge) {
+    const lex = forge && forge.lexicon;
+    const found = [];
+    (texts || []).forEach(text => {
+      const words = String(text || '').toLowerCase().match(/[a-z]+/g) || [];
+      words.forEach((w, index) => {
+        const stem = ingStem(w, lex);
+        if (!stem || !verbMotion(lex, stem) || found.indexOf(stem) >= 0) return;
+        let next = words[index + 1] || '';
+        if (next.endsWith('s') && lex && lex.hasPos && !lex.hasPos(next, 'n') && lex.hasPos(next.slice(0, -1), 'n')) next = next.slice(0, -1);
+        const noun = next && ((lex.senses(next) || []).find(s => s && s.pos === 'n'));
+        if (noun && noun.lexname === 'noun.animal') found.push(stem);
+      });
+    });
+    return found;
+  }
   function nounHead(text) {
     return String(text || '').toLowerCase().replace(/^(?:a|an|the)\s+/, '').split(/[^a-z0-9.]+/).filter(Boolean);
   }
@@ -675,7 +691,7 @@
     const glossTexts = rows.filter(row => !(row && row.open)).map(row => String(row && row.text || row || ''));
     const openTexts = rows.filter(row => row && row.open).map(row => String(row.text || ''));
     const texts = glossTexts.concat(openTexts);
-    const verbs = actionsOf(glossTexts, forge);
+    const verbs = actionsOf(glossTexts, forge).concat(modifierVerbs(openTexts, forge)).filter((verb, index, all) => all.indexOf(verb) === index).slice(0, 3);
     let instrument = null;
     texts.forEach(text => { if (!instrument) instrument = havePhrase(text, forge); });
     if (!instrument) instrument = instrumentFrom(texts, forge);
