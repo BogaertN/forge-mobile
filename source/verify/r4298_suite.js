@@ -1,4 +1,4 @@
-/* 4.9.283: a disagreed class is an interval. The outcome is spoken when every figure is on one side of the fluid. */
+/* 4.9.284: a disagreed class is an interval. The outcome is spoken when every figure is on one side of the fluid. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
@@ -45,8 +45,13 @@ print(json.dumps({"metal": metal, "bulk": bulk, "outcome": run.get("outcome"), "
       const compiled = forge.outward(row.text, row.atom);
       expect(compiled.ok === true, JSON.stringify({ text: row.text, step: compiled.step, atom: row.atom }));
     });
-    const ask = require(path.join(ROOT, 'src/senses.js')).askText({ kind: 'sim', ask_kind: true, missing: 'kind', word: 'toy' }, false);
+    const senses = require(path.join(ROOT, 'src/senses.js'));
+    const ask = senses.askText({ kind: 'sim', ask_kind: true, missing: 'kind', word: 'toy' }, false);
     expect(ask === 'What kind of toy is it?' && !/density/.test(ask), ask);
+    const fromNoun = senses.askText({ kind: 'sim', ask_kind: true, missing: 'kind', word: 'it', patient: 'nail' }, false);
+    expect(fromNoun === 'What kind of nail is it?' && !/kind of it/.test(fromNoun), fromNoun);
+    const senseSrc = require('fs').readFileSync(path.join(ROOT, 'src/senses.js'), 'utf8');
+    expect(senseSrc.includes('clauseText') && !senseSrc.includes("'What kind of '"), 'the kind question is a clause');
     const src = require('fs').readFileSync(path.join(ROOT, 'src/sim_device.js'), 'utf8');
     const body = src.slice(src.indexOf('p.missing === \'density\''), src.indexOf('if (p && p.ok && p.scene)'));
     expect(body.indexOf('hit.determined') >= 0 && body.indexOf('hit.determined') < body.indexOf('hit.rho') && /fluid: p\.fluid/.test(body), 'the interval is decided before a single density');

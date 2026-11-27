@@ -201,12 +201,40 @@ function planAsk(question, row, ctx) {
   const options = cand.map(s => { const lex = lexfiles.length ? lexfiles[s[1]] : String(s[1]); return { label: shortGloss(s[5]), gloss: String(s[5]), aliases: LEX_ALIAS[lex] || '', sense: s[0], lexfile: lex, hint: optionHint(lex), concept: conceptForSense(s[0]) }; });
   return { kind: 'sense', question: String(question), word: word, options, tries: 0, chain: 0 };
 }
+function grammar() { return isNode ? require('./grammar.js') : root.KGrammar; }
+function pronoun(word) {
+  const G = grammar();
+  const s = String(word || '').toLowerCase().trim();
+  if (!s) return true;
+  const head = s.split(/\s+/)[0];
+  return !!(G && G.PRON && (G.PRON[s] || G.PRON[head]));
+}
+function kindHead(p) {
+  const cands = [p && p.word, p && p.patient, p && p.phrase];
+  for (let i = 0; i < cands.length; i++) if (!pronoun(cands[i])) return String(cands[i]).toLowerCase().split(/\s+/).filter(Boolean);
+  return null;
+}
+/* The follow-up is a clause, not a pasted sentence. "What kind of nail is it?" is what kind of the noun is it. */
+function kindQuestion(head) {
+  const G = grammar();
+  if (!G || typeof G.clauseText !== 'function' || !head || !head.length) return '';
+  const clause = {
+    subj: { det: 'what', head: ['kind'], of: { head: head } },
+    verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' },
+    pred: { type: 'np', np: { pron3: 'it' } }
+  };
+  let text = '';
+  try { text = String(G.clauseText(clause, 'user') || '').replace(/\s+/g, ' ').trim(); } catch (e) { text = ''; }
+  if (!text) return '';
+  return text.charAt(0).toUpperCase() + text.slice(1) + '?';
+}
 function askText(p, again) {
   if (p && p.kind === 'sim') {
     const lead = again ? 'I still need that. ' : '';
-    if (p.ask_kind || p.missing === 'kind') return lead + 'What kind of ' + (p.word || 'it') + ' is it?';
-    if (p.missing) return lead + 'What is the ' + p.missing + (p.word ? ' of the ' + p.word : '') + '?';
-    return lead + 'What kind of ' + p.word + ' is it? Name the kind, or give the mass and the size.';
+    const kind = kindQuestion(kindHead(p));
+    if (p.ask_kind || p.missing === 'kind') return lead + kind;
+    if (p.missing) return lead + 'What is the ' + p.missing + (p.word && !pronoun(p.word) ? ' of the ' + p.word : '') + '?';
+    return lead + (kind ? kind + ' ' : '') + 'Name the kind, or give the mass and the size.';
   }
   const list = p.options.map((o, i) => (i + 1) + ') ' + o.label + (o.hint ? ' [' + o.hint + ']' : '')).join('  ');
   const lead = again ? 'I still need one meaning for "' + p.word + '". ' : '';

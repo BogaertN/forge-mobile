@@ -1,3 +1,13 @@
+## v4.9.284 — A kind question names the noun (Nic, 27 Nov 2026)
+
+**Conflict:** The follow-up asked "What kind of it is?" A pronoun is not the thing whose kind is missing.
+
+**Where:** The question is a clause realized by grammar.js. The noun is the patient, and a pronoun is not used in its place.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4298_suite.js`.
+
 ## v4.9.283 — The fluid reaches the density interval (Nic, 27 Nov 2026)
 
 **Conflict:** A class interval was computed, and the phone still asked for the kind. The comparison never saw the fluid, because the worker call dropped it.

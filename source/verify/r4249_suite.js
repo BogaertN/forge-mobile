@@ -173,15 +173,15 @@ print(json.dumps(plan_export({"schema":"FORGE-CURATION/v1","queue":[{"question":
 
 T('step 14 and step 15 are the gap tick, and step 16 stays unbuilt', () => {
   const conf = read('CONFLICTS.md');
-  expect(conf.startsWith('## v4.9.283'), 'CONFLICTS');
+  expect(conf.startsWith('## v4.9.284'), 'CONFLICTS');
   expect(/step 14/i.test(conf) && /reparse/.test(conf) && /step 15/i.test(conf) && /dry-run/.test(conf) && /step 16/i.test(conf) && /unbuilt/.test(conf), 'steps');
   expect(!/def neo_tick|NEO-SCHEDULER/.test(read('tools/athena_runner_229.py')), 'the runner does not schedule');
 });
 
 T('laws and version 4.9.249; no model and no secret', () => {
-  expect(read('VERSION').trim() === '4.9.283', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.284', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.283' && reg.features.some(x => x.id === 'R4249-GAP-PLAN') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.284' && reg.features.some(x => x.id === 'R4249-GAP-PLAN') && reg.count === reg.features.length, 'registry');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T

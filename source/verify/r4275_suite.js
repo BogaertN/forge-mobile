@@ -105,7 +105,7 @@ print(json.dumps({"plain": plain, "refused": refused, "blocked": blocked, "why":
     expect(CY.transducer.status === 'not_connected' && CY.transducer.kind === 'condenser_or_piezo' && CY.transducer.drive === null, JSON.stringify(CY.transducer));
     const note = fs.readFileSync(path.join(ROOT, '..', 'docs', 'rkm', 'README.md'), 'utf8');
     expect(/BLAKE3 psi_id is superseded by SHA-256/.test(note) && /25 Nov 2026/.test(note) && /WebCrypto/.test(note), 'the decision is written down');
-    expect(fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.283', 'VERSION');
+    expect(fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim() === '4.9.284', 'VERSION');
   });
 }
 module.exports = register;
