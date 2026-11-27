@@ -1,4 +1,4 @@
-/* 4.9.288: a dream branch leaves only as a question. The tainted branch does not. */
+/* 4.9.289: a dream branch leaves only as a question. The tainted branch does not. */
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const B = require(ROOT + '/src/dream_branch.js');
@@ -23,7 +23,7 @@ function register(C, expect) {
     const door = B.questions(found);
     const texts = door.map(q => q.question);
     expect(door.length >= 3 && new Set(texts).size === texts.length && door.every(q => q.hypothesis === true && q.fact === false && q.taint !== 'sandbox' && /\?$/.test(q.question)), JSON.stringify(door[0]));
-    expect(texts.some(q => /untested/.test(q)) && texts.some(q => /density/.test(q)), JSON.stringify(texts));
+    expect(texts.some(q => /\d/.test(q) && /ohm/.test(q) && /volt/.test(q)) && texts.some(q => /density of the resistor/.test(q)) && texts.every(q => !/\b(untested|mechanism|scene|branch|chained)\b/i.test(q)), JSON.stringify(texts));
     expect(SB.blocked(found.best) && SB.blocked(found.best).rule === 'SANDBOX-WRITE-BARRIER', 'branch is tainted');
     const store = KS.MemoryStore();
     const mem = store.save('memory', [found.best]);
@@ -38,7 +38,7 @@ function register(C, expect) {
     const first = idle.tick({});
     expect(first.rule === 'DREAM-IDLE-EMPTY' && first.door && first.door.length >= 3 && first.door.every(q => q.fact === false) && new Set(first.door.map(q => q.question)).size >= 3, JSON.stringify(first.door && first.door.map(q => q.question)));
     const second = idle.tick({});
-    expect(second.wrote_confirmed_shared !== true && second.fact !== true, JSON.stringify({ rule: second.rule, wrote: second.wrote_confirmed_shared }));
+    expect(second.wrote_confirmed_shared !== true && second.fact !== true && second.resolved && second.resolved.fact === false && second.resolved.ok === true && /milliamp/.test(second.resolved.reply || '') && second.resolved.method === 'simulate', JSON.stringify(second.resolved));
     expect(WF.rows().length === 0 && M.admitted().every(r => r.taint !== 'sandbox'), 'the question was not stored as a fact');
     M.clear();
     WF.clear();
