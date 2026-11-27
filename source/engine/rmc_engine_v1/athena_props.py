@@ -720,6 +720,48 @@ def density_from_words(words: list[str] | None) -> dict[str, Any]:
             "may_store_as_fact": False, "calls_llm": False}
 
 
+def agree_density(rows: list[dict[str, Any]] | None, fluid: str = "") -> dict[str, Any]:
+    """Open-source density figures. A value is used only when two lineages agree, or their
+    interval sits entirely on one side of the fluid. A low-trust lineage counts only beside
+    an independent publisher. The result is evidence for a sim, never a stored fact."""
+    notes: list[dict[str, Any]] = []
+    by: dict[str, list[float]] = {}
+    trust: dict[str, bool] = {}
+    for row in rows or []:
+        if not isinstance(row, dict):
+            continue
+        lin = str(row.get("lineage") or row.get("publisher") or "").strip().lower()
+        if not lin:
+            continue
+        trust[lin] = bool(row.get("low_trust")) or trust.get(lin, False)
+        val = row.get("value")
+        if isinstance(val, bool) or not isinstance(val, (int, float)) or not (float(val) > 0):
+            notes.append({"lineage": lin, "publisher": row.get("publisher"), "property": "density", "value": None})
+            continue
+        by.setdefault(lin, []).append(float(val))
+    figures = []
+    for lin, vals in by.items():
+        vals.sort()
+        figures.append({"lineage": lin, "publisher": lin, "value": vals[len(vals) // 2], "low_trust": trust.get(lin, False), "property": "density"})
+    independent = [f for f in figures if not f["low_trust"]]
+    used = independent + ([f for f in figures if f["low_trust"]] if independent else [])
+    base = {"fact": False, "may_store_as_fact": False, "calls_llm": False, "sources": figures + notes}
+    if len({f["lineage"] for f in used}) < 2:
+        base.update(ok=False, use=False, reason="publishers")
+        return base
+    lo = min(f["value"] for f in used)
+    hi = max(f["value"] for f in used)
+    if lo and (hi - lo) / lo <= REL:
+        base.update(ok=True, use=True, span=False, rho=sum(f["value"] for f in used) / len(used))
+        return base
+    placed = place_interval({"ok": False, "span": True, "lo": lo, "hi": hi, "class": ""}, fluid)
+    placed.update(base)
+    placed["use"] = bool(placed.get("determined"))
+    placed["fact"] = False
+    placed["may_store_as_fact"] = False
+    return placed
+
+
 def place_interval(hit: dict[str, Any] | None, fluid: str) -> dict[str, Any]:
     """Decide a disagreed interval against the fluid's own handbook pair.
     Above or below is determined. A crossing stays unresolved. Not a fact."""

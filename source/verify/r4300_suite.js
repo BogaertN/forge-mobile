@@ -1,4 +1,4 @@
-/* 4.9.291: a dream branch leaves only as a question. The tainted branch does not. */
+/* 4.9.292: a dream branch leaves only as a question. The tainted branch does not. */
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const B = require(ROOT + '/src/dream_branch.js');

@@ -183,6 +183,9 @@ elif op == 'material_density':
     from rmc_engine_v1.athena_props import density_from_words, place_interval
     hit = density_from_words(a.get('words') or [])
     out = place_interval(hit, a.get('fluid') or '') if a.get('fluid') else hit
+elif op == 'agree_density':
+    from rmc_engine_v1.athena_props import agree_density
+    out = agree_density(a.get('rows') or [], a.get('fluid') or '')
 elif op == 'derive_quantitative':
     out = S.derive_quantitative(a.get('problem') or {}, a.get('law') or {}, a.get('derived') or {})
 elif op == 'derive_mechanism':

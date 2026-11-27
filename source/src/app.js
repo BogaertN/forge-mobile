@@ -529,6 +529,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
           const gathered = memory.creative_clauses;
           const lines = ((gathered && gathered.gloss_lines) || []).concat((gathered && gathered.clauses) || []);
           if (gathered && gathered.gloss) lines.push({ text: gathered.gloss });
+          (gathered && gathered.open_lines || []).forEach(text => lines.push({ text: text, open: true }));
           const plan = KDreamBranch.eventPlan(gathered && gathered.topic, lines, forge);
           memory.creative_events = plan && plan.sentences || [];
           if (plan && plan.question && KSimDevice.simulate) {

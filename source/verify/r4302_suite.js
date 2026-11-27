@@ -1,6 +1,7 @@
-/* 4.9.291: gloss compounds stay intact, dream scenes queue distinct gaps, and a story narrates the branch. */
+/* 4.9.292: gloss compounds stay intact, dream scenes queue distinct gaps, and a story narrates the branch. */
 const fs = require('fs');
 const path = require('path');
+const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
 const LEX = require(ROOT + '/data/lexicon.json');
 const EXT = require(ROOT + '/data/lexicon-ext.json');
@@ -65,9 +66,11 @@ function register(C, expect) {
     expect(/floated/.test(raft.sentences.join(' ')) && /water/.test(raft.question || ''), JSON.stringify(raft));
     const floated = B.prose('raft', [], [{ outcome: 'float', measurements: { fluid: 'water', patient: 'raft', rho_body: 720, rho_fluid: 997, submerged_fraction: 0.72 } }], 'narrate', raft.sentences);
     expect(/out of the water/.test(floated) && /720/.test(floated) && /below the density of the water/.test(floated) && /0\.72 of the raft was in the water/.test(floated), floated);
-    const loon = B.eventPlan('loon', [{ text: 'fish-eating diving bird having webbed feet' }], forge());
+    const loon = B.eventPlan('loon', [{ text: 'fish-eating diving bird having webbed feet' }, { text: 'Common loons live on lakes.' }, { text: 'Common loons eat a variety of animal prey including fish.' }], forge());
     const loonText = loon.sentences.join(' ');
-    expect(/webbed feet/.test(loonText) && /dived|dove/.test(loonText) && /ate/.test(loonText) && !/solid/.test(loonText) && !/somebody/.test(loonText), loonText);
+    expect(/was on the lake/.test(loonText) && /dived on the lake/.test(loonText) && /ate a fish/.test(loonText) && /water/.test(loon.question || '') && !/included/.test(loonText) && !/solid/.test(loonText), loonText);
+    const waded = B.prose('post', [], [{ outcome: 'float', measurements: { fluid: 'water', patient: 'post', rho_body: 500, rho_fluid: 997, submerged_fraction: 0.5, depth_vs_leg: 'above' } }], 'narrate', ['The post waded in the water.']);
+    expect(/depth was above the length of the leg/.test(waded), waded);
     const sim = require(ROOT + '/src/sim_device.js');
     sim.forge = forge();
     const words = sim.KSimDevice.materialWords('What happens if I put the raft in the water?', 'raft');
@@ -101,6 +104,25 @@ function register(C, expect) {
     const niece = ask(["Nia's uncle is Calder."], "Who is Calder's niece?");
     expect(niece && niece.reply == null, JSON.stringify(niece && niece.reply));
     WF.clear();
+  });
+  C('R4302', 'a density needs two publishers, and depth is compared with the leg', () => {
+    const env = Object.assign({}, process.env, { PYTHONPATH: [path.join(ROOT, 'engine'), ROOT, path.join(ROOT, '_mathlibs')].join(path.delimiter) });
+    const proc = cp.spawnSync('python3', ['-c', `
+import json
+from rmc_engine_v1.athena_props import agree_density
+from rmc_engine_v1.sim_device import plan, solve, seal
+one = agree_density([{"lineage":"wikimedia","low_trust":True,"value":900}])
+two = agree_density([{"lineage":"wikimedia","low_trust":True,"value":900},{"lineage":"eol","low_trust":False,"value":940}], "water")
+q = "What happens if I put the post in the water?"
+facts = [{"head":"post","property":"density","value":500},{"head":"post","property":"material","value":"oak"},{"head":"post","property":"height_m","value":0.4},{"head":"post","property":"leg_m","value":0.15}]
+p = plan(q, facts=facts)
+s = solve(p) if p.get("ok") else {}
+r = seal(p, s) if p.get("ok") else {}
+print(json.dumps({"one": one.get("use"), "rho": two.get("rho"), "fact": two.get("may_store_as_fact"), "depth": (s.get("measurements") or {}).get("depth_vs_leg"), "rows": [row.get("text") for row in r.get("rows") or []]}))
+`], { cwd: ROOT, env: env, encoding: 'utf8', maxBuffer: 1 << 22 });
+    if (proc.status !== 0) throw new Error(String(proc.stderr || proc.stdout).slice(-500));
+    const row = JSON.parse(String(proc.stdout).trim().split('\n').pop());
+    expect(row.one === false && row.rho > 900 && row.rho < 940 && row.fact === false && row.depth === 'above' && row.rows.some(t => /depth is above the length of the leg/.test(t)), JSON.stringify(row));
   });
 }
 module.exports = register;

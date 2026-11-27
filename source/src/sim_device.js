@@ -356,6 +356,18 @@
           if (again && again.problem && again.problem.ok) { pl = again; p = again.problem; }
         } else if (hit && (hit.straddles || hit.span)) {
           p = Object.assign({}, p, { ambiguous: true, ask_kind: true, missing: 'kind', materials: hit.materials || [], material_class: hit.class || '' });
+        } else {
+          const agreed = await pyCall({ op: 'agree_density', rows: await openDensity(who), fluid: p.fluid || '' });
+          root.FORGE_DENSITY_LOOKUP = Object.assign({ name: who, fact: false, may_store_as_fact: false }, agreed || {});
+          if (agreed && agreed.use && agreed.determined && agreed.lo != null && agreed.hi != null) {
+            const facts = [{ head: who, property: 'density_lo', value: agreed.lo }, { head: who, property: 'density_hi', value: agreed.hi }, { head: who, property: 'material', value: agreed.class || '' }];
+            const again = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory), facts: facts });
+            if (again && again.problem && again.problem.ok) { pl = again; p = again.problem; }
+          } else if (agreed && agreed.use && agreed.rho) {
+            const facts = [{ head: who, property: 'density', value: agreed.rho }, { head: who, property: 'material', value: '' }];
+            const again = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory), facts: facts });
+            if (again && again.problem && again.problem.ok) { pl = again; p = again.problem; }
+          }
         }
       }
       if (p && p.ok && p.scene) lastScene = { question: question, scene: p.scene };
@@ -538,6 +550,81 @@
     });
     return best;
   }
+  async function wikidataHit(name) {
+    const raw = await fetchText('https://www.wikidata.org/w/api.php?action=wbsearchentities&language=en&format=json&limit=8&type=item&origin=*&search=' + encodeURIComponent(name));
+    const hits = (JSON.parse(raw).search) || [];
+    const lex = root.forge && root.forge.lexicon;
+    const sense = lex && lex.senses ? (lex.senses(name) || []).find(s => s && s.pos === 'n' && s.gloss && s.lexname !== 'noun.person') : null;
+    const words = String(sense && sense.gloss || '').toLowerCase().split(/[^a-z]+/).filter(w => w.length > 3);
+    let best = null, score = 0;
+    hits.forEach(hit => {
+      const desc = String(hit && hit.description || '').toLowerCase();
+      const label = String(hit && hit.label || '').toLowerCase();
+      let s = label === String(name || '').toLowerCase() ? 1 : 0;
+      words.forEach(w => { if (desc.indexOf(w) >= 0) s += 2; });
+      if (s > score) { best = hit; score = s; }
+    });
+    return score > 0 ? best : null;
+  }
+  async function densityClaim(claim) {
+    const val = claim && claim.mainsnak && claim.mainsnak.datavalue && claim.mainsnak.datavalue.value;
+    const amount = val && parseFloat(val.amount);
+    if (!isFinite(amount) || amount <= 0) return null;
+    const qid = String(val.unit || '').split('/').pop();
+    if (qid === 'Q844211') return amount;
+    const raw = await fetchText('https://www.wikidata.org/w/api.php?action=wbgetentities&ids=' + encodeURIComponent(qid) + '&props=claims&format=json&origin=*');
+    const conv = (((((JSON.parse(raw).entities || {})[qid] || {}).claims || {}).P2370) || [])[0];
+    const factor = conv && conv.mainsnak && conv.mainsnak.datavalue && conv.mainsnak.datavalue.value;
+    const target = String(factor && factor.unit || '').split('/').pop();
+    const scale = factor && parseFloat(factor.amount);
+    if (target === 'Q844211' && scale > 0) return amount * scale;
+    return null;
+  }
+  async function openDensity(name) {
+    const lex = root.forge && root.forge.lexicon;
+    const senses = lex && lex.senses ? (lex.senses(name) || []) : [];
+    const sense = senses.find(s => s && s.pos === 'n' && s.lexname === 'noun.animal') || senses.find(s => s && s.pos === 'n' && s.lexname !== 'noun.person');
+    const names = [name];
+    const head = classHead(lex, sense);
+    if (head && names.indexOf(head) < 0) names.push(head);
+    const rows = [];
+    const seen = {};
+    for (let i = 0; i < names.length; i++) {
+      const word = names[i];
+      try {
+        const hit = await wikidataHit(word);
+        if (!hit || !hit.id || seen[hit.id]) {
+          rows.push({ lineage: 'wikimedia', publisher: 'Wikidata', low_trust: true, property: 'density', value: null, name: word });
+          continue;
+        }
+        seen[hit.id] = 1;
+        const raw = await fetchText('https://www.wikidata.org/w/api.php?action=wbgetentities&ids=' + encodeURIComponent(hit.id) + '&props=claims&format=json&origin=*');
+        const claims = ((((JSON.parse(raw).entities || {})[hit.id] || {}).claims || {}).P2054) || [];
+        if (!claims.length) {
+          rows.push({ lineage: 'wikimedia', publisher: 'Wikidata', low_trust: true, property: 'density', value: null, item: hit.id, name: word });
+          continue;
+        }
+        for (let c = 0; c < claims.length && c < 4; c++) {
+          rows.push({ lineage: 'wikimedia', publisher: 'Wikidata', low_trust: true, property: 'density', value: await densityClaim(claims[c]), item: hit.id, name: word });
+        }
+      } catch (e) {
+        rows.push({ lineage: 'wikimedia', publisher: 'Wikidata', low_trust: true, property: 'density', value: null, name: word });
+      }
+    }
+    return rows;
+  }
+  async function topicSentences(topic) {
+    const title = String(topic || '');
+    if (!title) return [];
+    const url = 'https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=1&exintro=1&redirects=1&format=json&origin=*&titles=' + encodeURIComponent(title.charAt(0).toUpperCase() + title.slice(1));
+    try {
+      const data = JSON.parse(await fetchText(url));
+      const pages = data && data.query && data.query.pages || {};
+      const page = Object.keys(pages).map(k => pages[k])[0] || {};
+      const want = title.toLowerCase();
+      return String(page.extract || '').split(/(?<=[.!?])\s+/).map(s => s.trim()).filter(s => s && s.toLowerCase().indexOf(want) >= 0).slice(0, 6);
+    } catch (e) { return []; }
+  }
   async function fetchText(url) {
     const ctl = root.AbortController ? new AbortController() : null;
     const timer = ctl ? setTimeout(() => ctl.abort(), 6000) : null;
@@ -613,6 +700,7 @@
     const topic = heads[0] || '';
     if (!topic) return null;
     const fetched = await openDocuments(topic);
+    const openLines = await topicSentences(topic);
     const sense = chooseSense(topic, question || (frame && frame.text) || '', (fetched.docs || []).map(d => d.text));
     const glosses = sense && root.KQFrame && KQFrame.glossClauses ? KQFrame.glossClauses(topic, sense.gloss, root.forge) : [];
     const docs = (fetched.docs || []).slice();
@@ -625,6 +713,7 @@
         if (!got.clauses.length && glosses.length) got.clauses = glosses.map(text => ({ text: text, source_count: 1, publishers: ['oewn'], admitted: false, single_source: true, fact: false, gilligan: 'GILLIGAN-STRUCTURE-OK', scale: 'ok', drift: 'clean' }));
         if (root.KClauseFit) got.clauses = KClauseFit.fitList(topic, got.clauses, root.forge, sense);
         got.gloss_lines = glosses.map(text => ({ text: text, single_source: true, fact: false, admitted: false }));
+        got.open_lines = openLines;
         try {
           const Dream = root.KDreamBranch, Mech = root.KMechanisms;
           if (Dream && Dream.imagine && Mech && Mech.admitted) {
@@ -642,7 +731,7 @@
       const Dream = root.KDreamBranch, Mech = root.KMechanisms;
       if (Dream && Dream.imagine && Mech && Mech.admitted) imagined = Dream.imagine(topic, Mech.admitted(), fitted);
     } catch (e) { imagined = null; }
-    return { topic: topic, atoms: [], queried: fetched.queried || ['oewn'], admitted: 0, single: fitted.length, clauses: fitted, imagined: imagined && imagined.story ? imagined : null, calls_llm: false, supabase_write: false, creative_persisted: false };
+    return { topic: topic, atoms: [], queried: fetched.queried || ['oewn'], admitted: 0, single: fitted.length, clauses: fitted, open_lines: openLines, imagined: imagined && imagined.story ? imagined : null, calls_llm: false, supabase_write: false, creative_persisted: false };
   }
   async function prepareCreative(memory, question, frame) {
     /* Scene questions from the cited clauses, then the same on-page plan/solve/WASM path a factual sim uses.
