@@ -875,11 +875,39 @@ def _body_density(reading: dict[str, Any]) -> tuple[float | None, str]:
     return None, "missing"
 
 
+def _interval_problem(q: str, reading: dict[str, Any], key: str | None, fluid: str, rho_f: float) -> dict[str, Any] | None:
+    """A class interval decides the outcome only when every figure is on one side of the fluid."""
+    props = reading.get("props") if isinstance(reading.get("props"), dict) else {}
+    lo, hi = props.get("density_lo"), props.get("density_hi")
+    if isinstance(lo, bool) or isinstance(hi, bool):
+        return None
+    if not isinstance(lo, (int, float)) or not isinstance(hi, (int, float)) or not (0 < float(lo) <= float(hi)):
+        return None
+    from rmc_engine_v1.athena_props import _fluid_bounds
+    bounds = _fluid_bounds(fluid)
+    if not bounds:
+        return None
+    patient = reading.get("patient")
+    klass = str(props.get("material") or "")
+    common = dict(patient=patient, phrase=reading.get("phrase"), fluid=fluid, rho_fluid=rho_f,
+                  rho_lo=float(lo), rho_hi=float(hi), material_class=klass)
+    if float(lo) > bounds[1]:
+        return _problem(q, "buoyancy_ondevice", key, density_interval=True, density_source="lexicon interval " + klass,
+                        rho_body=float(lo), **common)
+    if float(hi) < bounds[0]:
+        return _problem(q, "buoyancy_ondevice", key, density_interval=True, density_source="lexicon interval " + klass,
+                        rho_body=float(hi), **common)
+    return _hold(q, "property_missing", "kind", body=patient, fluid=fluid, material_class=klass, ask_kind=True)
+
+
 def _buoyancy_problem(q: str, reading: dict[str, Any], key: str | None) -> dict[str, Any]:
     fluid = str(reading.get("fluid") or "")
     rho_f = _fluid_density(fluid)
     if rho_f is None:
         return _hold(q, "unknown_fluid", "fluid", fluid=fluid, body=reading.get("patient"))
+    spanned = _interval_problem(q, reading, key, fluid, rho_f)
+    if spanned is not None:
+        return spanned
     rho_b, src = _body_density(reading)
     if rho_b is None:
         return _hold(q, "property_missing", "density", body=reading.get("patient"), fluid=fluid)
@@ -903,7 +931,23 @@ def _thermal_problem(q: str, reading: dict[str, Any], key: str | None) -> dict[s
 
 
 def _solve_buoyancy(p: dict[str, Any]) -> dict[str, Any]:
-    rho_b, rho_f = float(p["rho_body"]), float(p["rho_fluid"])
+    rho_f = float(p["rho_fluid"])
+    if p.get("density_interval"):
+        lo, hi = float(p["rho_lo"]), float(p["rho_hi"])
+        if lo > rho_f:
+            outcome = "sink"
+        elif hi < rho_f:
+            outcome = "float"
+        else:
+            outcome = "suspend"
+        ms: dict[str, Any] = {"rho_lo": round(lo, 2), "rho_hi": round(hi, 2), "rho_fluid": round(rho_f, 2),
+                              "fluid": p["fluid"], "patient": p["patient"]}
+        if outcome == "sink":
+            ms["submerged_fraction"] = 1.0
+        return {"solver": "buoyancy_ondevice", "engine": "archimedes (on device)", "outcome": outcome,
+                "measurements": ms,
+                "equations": ["Archimedes: the outcome is fixed when the whole density interval is on one side of the fluid"]}
+    rho_b = float(p["rho_body"])
     if rho_b < rho_f:
         outcome, frac = "float", rho_b / rho_f
     elif rho_b > rho_f:
@@ -1296,8 +1340,10 @@ def _extra_structs(p: dict[str, Any], run: dict[str, Any]) -> list[dict[str, Any
             atoms.append(_karaka("is", [f"the molecular weight of {n}", f"{mw:g} daltons"]))
             atoms.append(_karaka("is", [f"the molecular mass of {n}", f"{mw:g} daltons"]))
         return atoms
-    if s == "buoyancy_ondevice" and ms.get("rho_body") is not None and str(p.get("density_source") or "").startswith("lexicon"):
+    if s == "buoyancy_ondevice" and str(p.get("density_source") or "").startswith("lexicon ") and not str(p.get("density_source") or "").startswith("lexicon interval"):
         who = str(p.get("patient") or "body")
+        if ms.get("rho_body") is None:
+            return []
         return [_karaka("have", [f"the {who}", f"a density of {float(ms['rho_body']):g} kilograms"],
                         modifiers=[_mod("per", "cubic meter", "sambandha")])]
     if s == "thermal_ondevice" and ms.get("temperature_c") is not None:
@@ -1589,7 +1635,14 @@ def _reason_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, An
     if s == "buoyancy_ondevice":
         who = str(problem.get("patient") or "body")
         fluid = str(ms.get("fluid") or "the fluid")
-        if str(problem.get("density_source") or "").startswith("lexicon") and ms.get("rho_body") is not None:
+        src = str(problem.get("density_source") or "")
+        if src.startswith("lexicon interval") and ms.get("rho_lo") is not None and ms.get("rho_hi") is not None:
+            return _karaka("have", [f"the {who}", "a density"], modifiers=[
+                _mod("from", f"{float(ms['rho_lo']):g}", "kala"),
+                _mod("to", f"{float(ms['rho_hi']):g} kilograms", "sampradana"),
+                _mod("per", "cubic meter", "sambandha"),
+            ])
+        if src.startswith("lexicon") and ms.get("rho_body") is not None:
             return _karaka("have", [f"the {who}", f"a density of {float(ms['rho_body']):g} kilograms"],
                            modifiers=[_mod("per", "cubic meter", "sambandha")])
         if run.get("outcome") == "float":

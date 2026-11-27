@@ -664,9 +664,31 @@ def _species(blob: str) -> list[str]:
     return found
 
 
+def _density_figures(key: str) -> tuple[float, float] | None:
+    """Both handbook figures, only when the two publishers agree. The pair is not a fact."""
+    row = _material_rows().get(key) or {}
+    pair = row.get("rho") or []
+    if len(pair) != 2 or not _agree_num(float(pair[0]), float(pair[1]), REL):
+        return None
+    a, b = float(pair[0]), float(pair[1])
+    return (min(a, b), max(a, b))
+
+
+def _fluid_bounds(name: str) -> tuple[float, float] | None:
+    """The fluid's two agreeing handbook figures. The comparison uses the whole pair."""
+    from rmc_engine_v1.sim_scene import defaults
+    key = _WORD_ALIAS.get(str(name or "").lower(), str(name or "").lower())
+    row = ((defaults().get("fluids") or {}).get("rows") or {}).get(key) or {}
+    pair = row.get("rho") or []
+    if len(pair) != 2 or not _agree_num(float(pair[0]), float(pair[1]), REL):
+        return None
+    a, b = float(pair[0]), float(pair[1])
+    return (min(a, b), max(a, b))
+
+
 def density_from_words(words: list[str] | None) -> dict[str, Any]:
-    """A material named by the lexicon or the question, only when the handbook pair agrees.
-    A class whose members disagree is ambiguous. Nothing here is a stored fact."""
+    """A material named by the lexicon or the question, only when each handbook pair agrees.
+    A class whose members disagree returns their interval. Nothing here is a stored fact."""
     rows = _material_rows()
     keys: list[str] = []
     classes: list[str] = []
@@ -675,24 +697,55 @@ def density_from_words(words: list[str] | None) -> dict[str, Any]:
         if not w:
             continue
         key = _WORD_ALIAS.get(w, w)
-        if key in rows and _density_of(key) and key not in keys:
+        if key in rows and _density_figures(key) and key not in keys:
             keys.append(key)
         elif any(str((row or {}).get("class") or "") == w for row in rows.values()) and w not in classes:
             classes.append(w)
     if not keys and len(classes) == 1:
-        keys = [k for k, row in rows.items() if str((row or {}).get("class") or "") == classes[0] and _density_of(k)]
-    rhos = [(k, _density_of(k)) for k in keys]
-    rhos = [(k, rho) for k, rho in rhos if rho]
-    if not rhos:
-        return {"ok": False, "ambiguous": False, "fact": False, "may_store_as_fact": False, "calls_llm": False}
-    lo, hi = min(rho for _, rho in rhos), max(rho for _, rho in rhos)
+        keys = [k for k, row in rows.items() if str((row or {}).get("class") or "") == classes[0] and _density_figures(k)]
+    figures = [(k, _density_figures(k)) for k in keys]
+    figures = [(k, span) for k, span in figures if span]
+    if not figures:
+        return {"ok": False, "ambiguous": False, "span": False, "fact": False, "may_store_as_fact": False, "calls_llm": False}
+    lo = min(span[0] for _, span in figures)
+    hi = max(span[1] for _, span in figures)
+    named = [k for k, _ in figures]
+    klass = classes[0] if classes else None
     if lo and (hi - lo) / lo > REL:
-        return {"ok": False, "ambiguous": True, "materials": [k for k, _ in rhos], "class": classes[0] if classes else None,
+        return {"ok": False, "ambiguous": True, "span": True, "lo": lo, "hi": hi, "materials": named, "class": klass,
                 "fact": False, "may_store_as_fact": False, "calls_llm": False}
-    rho = sum(r for _, r in rhos) / len(rhos)
-    material = rhos[0][0] if len(rhos) == 1 else (classes[0] if classes else rhos[0][0])
-    return {"ok": True, "ambiguous": False, "rho": rho, "material": material, "fact": False,
+    rho = sum((span[0] + span[1]) / 2.0 for _, span in figures) / len(figures)
+    material = named[0] if len(named) == 1 else (klass or named[0])
+    return {"ok": True, "ambiguous": False, "span": False, "rho": rho, "material": material, "fact": False,
             "may_store_as_fact": False, "calls_llm": False}
+
+
+def place_interval(hit: dict[str, Any] | None, fluid: str) -> dict[str, Any]:
+    """Decide a disagreed interval against the fluid's own handbook pair.
+    Above or below is determined. A crossing stays unresolved. Not a fact."""
+    if not isinstance(hit, dict) or not hit.get("span"):
+        return hit or {"ok": False, "fact": False, "may_store_as_fact": False, "calls_llm": False}
+    bounds = _fluid_bounds(fluid)
+    out = dict(hit)
+    out["fact"] = False
+    out["may_store_as_fact"] = False
+    out["calls_llm"] = False
+    if not bounds:
+        out["determined"] = False
+        out["straddles"] = False
+        return out
+    flo, fhi = bounds
+    lo, hi = float(hit["lo"]), float(hit["hi"])
+    out["fluid"] = fluid
+    out["fluid_lo"] = flo
+    out["fluid_hi"] = fhi
+    if lo > fhi:
+        out.update(ok=True, determined=True, straddles=False, side="above")
+    elif hi < flo:
+        out.update(ok=True, determined=True, straddles=False, side="below")
+    else:
+        out.update(ok=False, determined=False, straddles=True, side=None)
+    return out
 
 
 def _density_of(key: str) -> float | None:

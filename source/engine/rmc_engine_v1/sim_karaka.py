@@ -712,14 +712,32 @@ def continue_scene(prior: dict[str, Any] | None, follow_frame: dict[str, Any] | 
     return "What happens if " + " ".join(bits) + "?"
 
 
+def _resume_buoyancy(reading: dict[str, Any], supplement: dict[str, Any] | None) -> dict[str, Any]:
+    """A subtype reply keeps the patient and the fluid, and the named material is looked up again."""
+    sup = supplement if isinstance(supplement, dict) else {}
+    phrase = re.sub(r"^(?:a|an|the)\s+", "", str(sup.get("phrase") or "").strip(), count=1, flags=re.I).strip(" .")
+    patient = str(reading.get("patient") or "").strip()
+    fluid = str(reading.get("fluid") or "").strip()
+    if not phrase or not patient or not fluid:
+        return {"ok": False, "reason": "no_subtype", "calls_llm": False}
+    noun = phrase if patient == phrase or phrase.endswith(" " + patient) else phrase + " " + patient
+    verb = str(reading.get("verb") or "put")
+    art = "an" if noun[:1].lower() in "aeiou" else "a"
+    return {"ok": True, "question": f"What happens if you {verb} {art} {noun} in {fluid}?",
+            "specific": True, "calls_llm": False}
+
+
 def resume_pending(question: str, frame: dict[str, Any] | None, supplement: dict[str, Any] | None) -> dict[str, Any]:
     """Merge a sim-ask reply into the pending intervention.
 
     The reply's measures (already lifted onto the frame by the phone grammar) fill the body.
     A noun phrase with no measure replaces the patient, and the rebuilt question is planned again
     so a named kind can be looked up. The question string is the same slot assembly as a what-if.
+    A buoyancy reply names the material, and the same patient is planned again in the same fluid.
     """
     reading = read(question, frame)
+    if reading.get("kind") == "buoyancy" and not reading.get("hold"):
+        return _resume_buoyancy(reading, supplement)
     if reading.get("hold") or reading.get("kind") not in ("push", "drop", "throw"):
         return {"ok": False, "reason": reading.get("reason") or "pending_unreadable", "calls_llm": False}
     sup = supplement if isinstance(supplement, dict) else {}
