@@ -508,6 +508,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     try {
       const creativeFrame = window.KQFrame && KQFrame.compile ? KQFrame.compile(qtext, forge) : null;
       if (creativeFrame && creativeFrame.expressive && window.KSimDevice && KSimDevice.prepareCreative) {
+        memory.creative_act = creativeFrame.speech_act || 'describe';
         if (KSimDevice.gatherCreative) {
           const gathered = await KSimDevice.gatherCreative(creativeFrame, qtext);
           if (gathered && Array.isArray(gathered.clauses)) {
@@ -524,6 +525,19 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
           }
         }
         memory.creative_sims = await KSimDevice.prepareCreative(memory, qtext, creativeFrame);
+        if ((memory.creative_act === 'narrate' || memory.creative_act === 'compose') && window.KDreamBranch && KDreamBranch.eventPlan) {
+          const gathered = memory.creative_clauses;
+          const lines = ((gathered && gathered.gloss_lines) || []).concat((gathered && gathered.clauses) || []);
+          if (gathered && gathered.gloss) lines.push({ text: gathered.gloss });
+          const plan = KDreamBranch.eventPlan(gathered && gathered.topic, lines, forge);
+          memory.creative_events = plan && plan.sentences || [];
+          if (plan && plan.question && KSimDevice.simulate) {
+            try {
+              const rec = await KSimDevice.simulate(plan.question);
+              if (rec && rec.ok) memory.creative_sims = (memory.creative_sims || []).concat([rec]);
+            } catch (e) { /* the action sentence still stands */ }
+          }
+        }
       }
     } catch (e) { /* a creative question still composes from the facts it has */ }
     let blocked = null;
@@ -539,7 +553,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       row.creative.imagined = true;
       const gathered = memory.creative_clauses;
       const lines = ((gathered && gathered.gloss_lines) || []).concat((gathered && gathered.clauses) || []);
-      const told = window.KDreamBranch && KDreamBranch.prose ? KDreamBranch.prose(gathered && gathered.topic, lines, memory.creative_sims) : '';
+      const told = window.KDreamBranch && KDreamBranch.prose ? KDreamBranch.prose(gathered && gathered.topic, lines, memory.creative_sims, memory.creative_act, memory.creative_events) : '';
       if (told) {
         row.reply = told;
         row.product_reply = true;

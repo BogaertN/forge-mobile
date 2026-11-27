@@ -612,7 +612,7 @@ function vpText(c, subj, persp) {
     else if (v.aspect === 'perfect') vs = (ag === 'pres3' ? 'has' : 'have') + (neg ? ' not ' : ' ') + inflect(base, 'pp');
     else if (neg) vs = (v.tense === 'past' ? 'did' : ag === 'pres3' ? 'does' : 'do') + ' not ' + base;
     else if (v.tense === 'past' && ag !== 'pres3' && !c.resolved_reading && PAST_IS_OTHER_LEMMA.has(inflect(base, 'past')) && !(c.adj || []).some(a => a.role === 'kala')) vs = 'did ' + base; /* v4.9.36: a 3sg subject already rules out the homograph (she saws ≠ she saw); a reading the user chose keeps its own surface (Echo masks it) */ // GEN-PAST-HOMOGRAPH-DO: past form is itself another verb lemma in WordNet (saw, found, felt…) → do-support keeps the realization single-derivation (Echo)
-    else if (!c.resolved_reading && !(c.adj || []).some(a => a.role === 'kala') && inflect(base, 'past') === (ag === 'pres3' ? inflect(base, 'pres3') : base)) vs = (v.tense === 'past' ? 'did' : ag === 'pres3' ? 'does' : 'do') + ' ' + base; // GEN-TENSE-DISAMBIG-DO: past ≡ present surface (read, put, cut…) → emphatic do-support so the realization re-derives to exactly one tense (Echo)
+    else if (v.tense === 'past' && !c.resolved_reading && !(c.adj || []).some(a => a.role === 'kala') && inflect(base, 'past') === (ag === 'pres3' ? inflect(base, 'pres3') : base)) vs = 'did ' + base; // GEN-TENSE-DISAMBIG-DO: only a past frame whose surface is also the present ("you put") needs did-support. A present frame keeps the plain verb ("you put").
     else vs = v.tense === 'past' ? inflect(base, 'past') : ag === 'pres3' ? inflect(base, 'pres3') : base;
     vs += part;
     vs += rolesText(c.roles || {}, persp);

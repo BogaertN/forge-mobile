@@ -1,3 +1,13 @@
+## v4.9.290 — Stories narrate actions, and questions stay on the mechanism (Nic, 27 Nov 2026)
+
+**Conflict:** A story repeated the gathered facts, a present-tense "put" was spoken with emphatic do, and a dream question asked for a density the circuit law does not use.
+
+**Where:** Describe keeps the separate facts and drops a later sentence that only repeats them. A story or a poem is the past-tense action, with the patient taken from the verb's own gloss and a taxonomy neighbour when the action has no patient. A present frame keeps the plain verb. A dream question names only a variable of the mechanism that produced the branch.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4302_suite.js`.
+
 ## v4.9.289 — Concrete branch events and concrete experiments (Nic, 27 Nov 2026)
 
 **Conflict:** A creative answer spoke the search itself, and a dream question named no object and no value.

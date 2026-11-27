@@ -178,7 +178,7 @@
     const cond = say({
       subj: { pron: 'user' },
       verb: { lemma: 'put', tense: 'present', pol: 'pos', mod: 'asserted' },
-      roles: { karma: { head: [numText(voltage), 'volts'] } },
+      roles: { karma: { head: [numText(voltage), Number(numText(voltage)) === 1 ? 'volt' : 'volts'] } },
       adj: [{ prep: 'across', np: { det: 'a', head: [numText(resistance), 'ohm', 'resistor'] } }]
     }, 'raw', 'kernel');
     if (!cond) return '';
@@ -217,12 +217,6 @@
     }
     return law.scale == null ? f : law.scale * f;
   }
-  /* Scene axes are the slots a mechanism already reads. A gap is a slot no admitted law records. */
-  const GAPS = [
-    { axis: 'material', name: 'density' },
-    { axis: 'placement', name: 'fraction' },
-    { axis: 'force', name: 'gravity' }
-  ];
   function namedNoun(opts, circuit) {
     const nouns = (opts && opts.nouns) || [];
     const topic = wordsOf(opts && opts.object);
@@ -247,7 +241,14 @@
         [past, below].forEach(point => {
           if (!(point > 0) || point === row.min || point === row.max) return;
           const values = {};
-          names.forEach(key => { values[key] = key === name ? point : (span[key].min + span[key].max) / 2; });
+          names.forEach(key => {
+            if (key === name) values[key] = point;
+            else {
+              const mid = (span[key].min + span[key].max) / 2;
+              const rounded = Math.round(mid);
+              values[key] = rounded > span[key].min && rounded < span[key].max ? rounded : mid;
+            }
+          });
           const mech = Mech ? judge(Mech, law, { values: values }) : { applied: false };
           const sim = formula(law, values);
           const disagree = mech.reason === 'out_of_range' && typeof sim === 'number' && isFinite(sim);
@@ -272,32 +273,6 @@
         });
       });
     });
-    const covered = {};
-    (admitted || []).forEach(law => (law.variables || []).forEach(name => { covered[name] = true; }));
-    const circuitLaw = (admitted || []).some(law => {
-      const span = law.range || {};
-      const names = Object.keys(span);
-      return names.some(name => isVolt(span[name] && span[name].unit)) && names.some(name => isOhm(span[name] && span[name].unit));
-    });
-    GAPS.forEach(gap => {
-      if (covered[gap.name]) return;
-      const noun = namedNoun(opts, circuitLaw && gap.name === 'density');
-      if (!noun.length) return;
-      const question = say({
-        subj: { head: ['what'] }, verb: BE,
-        pred: { type: 'np', np: { det: 'the', head: [gap.name], of: { det: 'the', head: noun } } }
-      }, '?');
-      if (!question) return;
-      scenes.push(box.tag({
-        id: 'gap:' + gap.axis + ':' + noun.join('-') + ':' + gap.name,
-        axis: gap.axis, name: gap.name, object: noun.join(' '), solver: null,
-        expression: null, outside: false, missing: gap.name, values: null, unit: null,
-        mechanism: 'unmeasured', simulator: null, disagree: false,
-        score: gap.name === 'density' ? 3 : 2, question: question,
-        probe: { kind: 'density', ask: question, noun: noun.join(' '), value: null, output: ['density'], unit: 'kg/m^3' },
-        fact: false, may_store_as_fact: false
-      }));
-    });
     scenes.sort((a, b) => b.score - a.score || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
     return scenes;
   }
@@ -311,9 +286,9 @@
       seen[row.question] = 1;
       picked.push(row);
     }
+    take(r => r.axis === 'range' && r.name && (found.scenes || []).some(s => s && s.expression === r.expression && (s.values && Object.prototype.hasOwnProperty.call(s.values, r.name))));
     take(r => r.axis === 'range');
     take(r => r.axis === 'range');
-    take(r => r.missing === 'density');
     take(r => r.axis === 'range');
     rows.forEach(r => { if (picked.length < 4 && r && r.question && !seen[r.question]) { seen[r.question] = 1; picked.push(r); } });
     return picked.slice(0, 4).map(row => ({
@@ -354,15 +329,209 @@
     });
     return lines;
   }
-  function prose(topic, clauses, sims) {
-    const lines = clauseSentences(topic, clauses).concat(simSentences(sims));
+  function coveredWords(text, topic) {
+    const stop = { a: 1, an: 1, the: 1, is: 1, was: 1, were: 1, are: 1, be: 1, and: 1, of: 1, with: 1, has: 1, have: 1, had: 1 };
+    const head = String(topic || '').toLowerCase();
+    return String(text || '').toLowerCase().replace(/[^a-z\s-]/g, ' ').split(/\s+/).filter(w => w && w !== head && !stop[w] && w.length > 2);
+  }
+  function withoutRepeat(topic, lines) {
     const seen = {};
+    const covered = {};
     return lines.filter(text => {
-      const key = text.toLowerCase();
+      const key = String(text || '').toLowerCase();
       if (!text || seen[key] || forbidden(text)) return false;
+      const words = coveredWords(text, topic);
+      if (words.length && words.every(w => covered[w])) return false;
       seen[key] = 1;
+      words.forEach(w => { covered[w] = 1; });
       return true;
-    }).join(' ');
+    });
+  }
+  function prose(topic, clauses, sims, act, events) {
+    const facts = withoutRepeat(topic, clauseSentences(topic, clauses));
+    if (act === 'narrate' || act === 'compose') {
+      const told = withoutRepeat(topic, events || []);
+      const body = told.concat(simSentences(sims));
+      const lines = withoutRepeat(topic, body.length ? body : facts);
+      return act === 'compose' ? lines.join('\n') : lines.join(' ');
+    }
+    return withoutRepeat(topic, facts.concat(simSentences(sims))).join(' ');
+  }
+  function ingStem(word, lex) {
+    const w = String(word || '');
+    if (!w.endsWith('ing') || w.length < 6 || !lex || !lex.hasPos) return '';
+    const known = lex.exc && lex.exc(w);
+    if (known && lex.hasPos(known, 'v')) return known;
+    const base = w.slice(0, -3);
+    const restored = base + 'e';
+    const cands = [];
+    if (lex.hasPos(restored, 'v')) cands.push(restored);
+    if (lex.hasPos(base, 'v')) cands.push(base);
+    if (base.length > 2 && base.charAt(base.length - 1) === base.charAt(base.length - 2)) {
+      const undoubled = base.slice(0, -1);
+      if (lex.hasPos(undoubled, 'v')) cands.push(undoubled);
+    }
+    const uniq = cands.filter((item, i) => cands.indexOf(item) === i);
+    uniq.sort((a, b) => {
+      const klass = item => { const s = (lex.senses(item) || []).find(x => x && x.pos === 'v'); return s && s.lexname || ''; };
+      const rank = item => klass(item) === 'verb.motion' ? 0 : 1;
+      return rank(a) - rank(b) || a.length - b.length;
+    });
+    return uniq[0] || '';
+  }
+  function wnHyp(lex, id) {
+    const banks = (lex && lex.wn) || {};
+    for (const tier of ['core', 'ext', 'pro']) {
+      const table = banks[tier] && banks[tier].H;
+      if (table && Object.prototype.hasOwnProperty.call(table, id)) return table[id];
+    }
+    return [];
+  }
+  function wnName(lex, id) {
+    const banks = (lex && lex.wn) || {};
+    for (const tier of ['core', 'ext', 'pro']) {
+      const table = banks[tier] && banks[tier].N;
+      if (table && Object.prototype.hasOwnProperty.call(table, id)) return String(table[id] || '').replace(/_/g, ' ');
+    }
+    return '';
+  }
+  function oneSister(lex, topic) {
+    const senses = ((lex && lex.senses && lex.senses(topic)) || []).filter(s => s && s.pos === 'n' && s.lexname === 'noun.animal');
+    const sense = senses[0];
+    const id = String((sense && (sense.sid || sense.id)) || '').replace(/^wn30:/, '');
+    const parent = (wnHyp(lex, id) || [])[0];
+    if (!parent) return '';
+    const names = [];
+    for (const tier of ['core', 'ext', 'pro']) {
+      const table = lex.wn[tier] && lex.wn[tier].H;
+      if (!table) continue;
+      for (const child in table) {
+        if (child !== id && table[child] && table[child][0] === parent) {
+          const name = wnName(lex, child);
+          if (name && name.indexOf(' ') < 0 && name.indexOf('-') < 0 && name !== topic) names.push(name);
+          if (names.length >= 1) return names[0];
+        }
+      }
+    }
+    return '';
+  }
+  function mediumOf(lex, lemma, depth) {
+    if (!lex || !lex.senses || depth > 1) return null;
+    const sense = (lex.senses(lemma) || []).find(s => s && s.pos === 'v' && s.gloss);
+    if (!sense) return null;
+    const preps = { in: 1, through: 1, on: 1, into: 1, over: 1 };
+    const skipName = { cognition: 1, attribute: 1, act: 1, communication: 1, feeling: 1, time: 1, event: 1, state: 1 };
+    const rank = { 'noun.substance': 0, 'noun.object': 1, 'noun.body': 2, 'noun.location': 3, 'noun.animal': 4, 'noun.artifact': 5, 'noun.plant': 6 };
+    let prep = '';
+    const found = [];
+    const words = String(sense.gloss || '').toLowerCase().match(/[a-z]+/g) || [];
+    for (let i = 0; i < words.length; i++) {
+      const w = words[i];
+      if (preps[w]) { prep = w; continue; }
+      const stem = ingStem(w, lex);
+      if (stem && stem !== lemma) {
+        const inner = mediumOf(lex, stem, depth + 1);
+        if (inner) found.push(inner);
+        continue;
+      }
+      if (!lex.hasPos || !lex.hasPos(w, 'n') || w === lemma || w.length < 3) continue;
+      const kind = lex.lexnameOf ? String(lex.lexnameOf(w) || '') : '';
+      const leaf = kind.split('.').pop();
+      if (skipName[leaf]) continue;
+      const stuff = kind === 'noun.substance' || kind === 'noun.object';
+      if (lex.hasPos(w, 'v') && !stuff) continue;
+      found.push({ prep: prep, noun: w, kind: kind });
+    }
+    found.sort((a, b) => (rank[a.kind] == null ? 9 : rank[a.kind]) - (rank[b.kind] == null ? 9 : rank[b.kind]));
+    return found[0] || null;
+  }
+  function instrumentFrom(texts, forge) {
+    const G = grammar();
+    if (!G || !G.Parser || !G.tokenize || !forge || !forge.grammarLex) return null;
+    for (let n = 0; n < (texts || []).length; n++) {
+      const toks = G.tokenize(String(texts[n] || ''));
+      for (let i = 0; i < toks.length; i++) {
+        if (toks[i].w !== 'with' && toks[i].w !== 'having') continue;
+        let best = null;
+        G.Parser(toks, forge.grammarLex).np(i + 1).forEach(hit => {
+          const node = hit.node && hit.node.head && hit.node.head.length ? hit.node : (hit.node && hit.node.conj && hit.node.conj[0] && hit.node.conj[0].head ? hit.node.conj[0] : null);
+          const span = hit.i - (i + 1);
+          if (node && (!best || span > best.span)) best = { span: span, node: node };
+        });
+        if (best) return best.node.det || best.node.plural ? best.node : Object.assign({ det: 'a' }, best.node);
+      }
+    }
+    return null;
+  }
+  function havePhrase(text, forge) {
+    const Q = isNode ? require('./qframe.js') : root.KQFrame;
+    let clause = null;
+    try { clause = Q && Q.clause ? Q.clause(text, forge) : null; } catch (e) { clause = null; }
+    const verb = clause && ((clause.verb && clause.verb.lemma) || clause.kriya);
+    if (verb !== 'have') return null;
+    const karma = clause.roles && clause.roles.karma;
+    const head = karma && (Array.isArray(karma.head) ? karma.head : (karma.head ? [karma.head] : []));
+    if (!head || !head.length) return null;
+    return karma;
+  }
+  function verbMotion(lex, lemma) {
+    const sense = ((lex && lex.senses && lex.senses(lemma)) || []).find(s => s && s.pos === 'v');
+    return !!(sense && (sense.lexname === 'verb.motion' || sense.lexname === 'verb.contact'));
+  }
+  function actionOf(texts, forge) {
+    const Q = isNode ? require('./qframe.js') : root.KQFrame;
+    const lex = forge && forge.lexicon;
+    let motion = '';
+    let other = '';
+    (texts || []).forEach(text => {
+      const words = String(text || '').toLowerCase().match(/[a-z]+/g) || [];
+      words.forEach(w => {
+        const stem = ingStem(w, lex);
+        if (!stem || stem === 'be' || stem === 'have') return;
+        if (!motion && verbMotion(lex, stem)) motion = stem;
+        else if (!other) other = stem;
+      });
+      let clause = null;
+      try { clause = Q && Q.clause ? Q.clause(text, forge) : null; } catch (e) { clause = null; }
+      const verb = clause && ((clause.verb && clause.verb.lemma) || clause.kriya);
+      if (verb && verb !== 'be' && verb !== 'have') {
+        if (!motion && verbMotion(lex, verb)) motion = verb;
+        else if (!other) other = verb;
+      }
+    });
+    return motion || other;
+  }
+  function eventPlan(topic, clauses, forge) {
+    const lex = forge && forge.lexicon;
+    const head = wordsOf(topic);
+    if (!head.length) return { sentences: [], question: '' };
+    const texts = (clauses || []).map(row => String(row && row.text || row || ''));
+    const verb = actionOf(texts, forge);
+    let instrument = null;
+    texts.forEach(text => { if (!instrument) instrument = havePhrase(text, forge); });
+    if (!instrument) instrument = instrumentFrom(texts, forge);
+    if (!verb) return { sentences: [], question: '' };
+    const medium = mediumOf(lex, verb, 0);
+    const sister = !medium ? oneSister(lex, head[0]) : '';
+    const clause = {
+      subj: { det: 'the', head: head },
+      verb: { lemma: verb, tense: 'past', pol: 'pos', mod: 'asserted' }
+    };
+    if (medium && medium.noun) {
+      const np = { det: 'the', head: [medium.noun] };
+      if (medium.prep) clause.adj = [{ prep: medium.prep, np: np }];
+      else clause.roles = { karma: np };
+    } else if (sister) {
+      clause.adj = [{ prep: 'near', np: { det: 'the', head: [sister] } }];
+    }
+    const sentence = say(clause);
+    const held = instrument ? say({
+      subj: { det: 'the', head: head },
+      verb: { lemma: 'have', tense: 'past', pol: 'pos', mod: 'asserted' },
+      roles: { karma: instrument }
+    }) : '';
+    const question = medium && medium.noun ? ('What happens if I put the ' + head.join(' ') + ' in the ' + medium.noun + '?') : '';
+    return { sentences: [sentence, held].filter(Boolean), question: question, verb: verb, medium: medium || null };
   }
   function narrate(topic, found, clauses) {
     return prose(topic, clauses, null);
@@ -430,6 +599,6 @@
       question: asked && asked.question || null, calls_llm: false
     };
   }
-  const api = { search: search, points: points, questions: questions, consider: consider, imagine: imagine, narrate: narrate, prose: prose, resolve: resolve, readExplorer: readExplorer };
+  const api = { search: search, points: points, questions: questions, consider: consider, imagine: imagine, narrate: narrate, prose: prose, eventPlan: eventPlan, resolve: resolve, readExplorer: readExplorer };
   if (isNode) module.exports = api; else root.KDreamBranch = api;
 })(typeof self !== 'undefined' ? self : this);
