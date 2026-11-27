@@ -1140,11 +1140,22 @@
           mechanisms = { proposals: (found.proposals || []).map(p => ({ id: p.id, expression: p.expression, status: p.status, fact: false })), next: Mech.nextScenes ? Mech.nextScenes(found.proposals) : [], quantitative: quant, calls_llm: false, changes_gates: false };
           try {
             const Dream = isNode ? require('./dream_branch.js') : root.KDreamBranch;
-            if (Dream && Dream.search) mechanisms.dream = Dream.search(Mech.admitted());
+            if (Dream && Dream.search) {
+              mechanisms.dream = Dream.search(Mech.admitted());
+              const door = Dream.questions ? Dream.questions(mechanisms.dream) : [];
+              mechanisms.door = door;
+              if (door.length && !queue.some(g => g && g.kind === 'dream_hypothesis' && g.question === door[0].question)) {
+                enqueue(door);
+                mechanisms.door_deferred = true;
+              }
+            }
           } catch (e) { mechanisms.dream = { ok: false, fact: false, may_store_as_fact: false, calls_llm: false }; }
         }
       } catch (e) { mechanisms = null; }
       const cold = revisitCold(o);
+      if (mechanisms && mechanisms.door_deferred) {
+        return { ok: true, ran: false, schema: SCHEMA, always_on: true, idle_gated: false, rule: 'DREAM-IDLE-EMPTY', calls_llm: false, cold: cold, learned: learned, mechanisms: mechanisms, door: mechanisms.door, researcher: 'athena', cold_curator: 'gilligan' };
+      }
       if (!queue.length) {
         if (cold.ran) return Object.assign({ schema: SCHEMA, always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan' }, cold);
         return { ok: true, ran: false, schema: SCHEMA, always_on: true, idle_gated: false, rule: 'DREAM-IDLE-EMPTY', calls_llm: false, cold: cold, learned: learned, mechanisms: mechanisms, researcher: 'athena', cold_curator: 'gilligan' };

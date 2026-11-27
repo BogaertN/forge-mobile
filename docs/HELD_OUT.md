@@ -33,6 +33,7 @@
 | 4.9.283 | 31 | 17 | 16 | 6 |
 | 4.9.284 | 31 | 17 | 16 | 6 |
 | 4.9.285 | 31 | 17 | 16 | 6 |
+| 4.9.286 | 31 | 17 | 16 | 6 |
 
 4.9.259 auto-admits a Gilligan-clean rule. The standing set has no three-case induction, so its counts stay the same. Holds are missing physical slots, unknown substances, and unknown nouns.
 
@@ -87,6 +88,8 @@
 4.9.284 leaves this count unchanged. A kind follow-up is the clause "What kind of the noun is it?", realized by the grammar. A pronoun is not that noun.
 
 4.9.285 leaves this count unchanged. Idle varies an admitted law inside the sandbox. The best branch is kept and is not a fact.
+
+4.9.286 leaves this count unchanged. The kept branch leaves idle only as the question "Does the expression still hold?". It is not stored.
 
 Fresh composites in `source/verify/novel_heldout/composites_259.js` (not imported by product code): 5 spoke, 1 held, n 6. The held item is the last turn of the handoff, after a new counterexample archived the rule. The earlier turns of that item spoke: induced whiskers (C 0.910, Echo 1), the stored kind sentence, the quillon push (topples), and 17% of 640 = 108.8.
 

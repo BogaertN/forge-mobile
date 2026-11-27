@@ -1,3 +1,13 @@
+## v4.9.286 — A dream branch leaves only as a question (Nic, 27 Nov 2026)
+
+**Conflict:** A kept dream branch could have been stored beside the law it varied.
+
+**Where:** The branch stays tainted. Idle queues only the question "Does the expression still hold?". The next tick researches that question. It is not written as a fact.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model.
+
+Proof: `verify/r4300_suite.js`.
+
 ## v4.9.285 — Idle searches branches inside the sandbox (Nic, 27 Nov 2026)
 
 **Conflict:** Idle admitted a law and stopped. It did not vary that law, and it did not keep a best branch.
