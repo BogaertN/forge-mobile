@@ -68,9 +68,9 @@ print(json.dumps(out))`;
 });
 
 T('version registry names 4.9.230', () => {
-  expect(read('VERSION').trim() === '4.9.272', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.273', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.272' && reg.features.some(f => f.id === 'R4230-QFRAME') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.273' && reg.features.some(f => f.id === 'R4230-QFRAME') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

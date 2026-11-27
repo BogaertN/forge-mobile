@@ -181,12 +181,37 @@
     }
     return best;
   }
+  function evaluate(expression, vals) {
+    const text = String(expression || '').replace(/\s+/g, '');
+    const parts = text.split('/');
+    if (!text || parts.length > 2) return null;
+    function prod(side) {
+      const body = side.replace(/[()]/g, '');
+      if (!body || body === '1') return 1;
+      let value = 1;
+      const names = body.split('*').filter(Boolean);
+      for (let i = 0; i < names.length; i++) {
+        const name = names[i];
+        if (!Object.prototype.hasOwnProperty.call(vals, name) || typeof vals[name] !== 'number' || !isFinite(vals[name])) return null;
+        value *= vals[name];
+      }
+      return value;
+    }
+    const num = prod(parts[0]);
+    const den = parts.length === 2 ? prod(parts[1]) : 1;
+    if (num == null || den == null || den === 0) return null;
+    return num / den;
+  }
+  function scoreLaw(law, vals) {
+    if (law && typeof law._eval === 'function') return law._eval(vals);
+    return evaluate(law && law.expression, vals);
+  }
   function predict(law, receipt) {
     const map = sceneMap(receipt);
     const vals = {};
     law.variables.forEach(n => { if (!map[n]) return; vals[n] = map[n].value; });
     if (law.variables.some(n => vals[n] == null)) return null;
-    const e = law._eval ? law._eval(vals) : null;
+    const e = scoreLaw(law, vals);
     if (e == null || !isFinite(e)) return null;
     return e > law.threshold ? law.above : law.below;
   }
@@ -198,7 +223,7 @@
       if (law.variables.some(name => !map[name])) return;
       const vals = {};
       law.variables.forEach(name => { vals[name] = map[name].value; });
-      const e = law._eval(vals);
+      const e = scoreLaw(law, vals);
       if (e == null || !isFinite(e)) return;
       n += 1;
       if ((e > law.threshold ? law.above : law.below) === r.outcome) hit += 1;
@@ -211,7 +236,7 @@
       const vals = {};
       if (law.variables.some(n => !map[n])) return false;
       law.variables.forEach(n => { vals[n] = map[n].value; });
-      const e = law._eval(vals);
+      const e = scoreLaw(law, vals);
       if (e == null || !isFinite(e)) return false;
       return (e > law.threshold ? law.above : law.below) === r.outcome;
     });
@@ -324,7 +349,7 @@
     const map = sceneMap(receipt);
     const vals = {};
     law.variables.forEach(n => { vals[n] = map[n].value; });
-    const cur = law._eval(vals);
+    const cur = scoreLaw(law, vals);
     if (!cur) return null;
     const name = law.variables[0];
     const target = law.threshold * (1 + sign * 0.05);
@@ -337,7 +362,7 @@
     const map = sceneMap(sample);
     const vals = {};
     law.variables.forEach(n => { vals[n] = map[n].value; });
-    const cur = law._eval(vals);
+    const cur = scoreLaw(law, vals);
     const name = law.variables[0];
     if (!cur || !vals[name]) return null;
     const next = {};
@@ -403,8 +428,8 @@
       [row.min, mid, row.max].forEach(value => {
         const values = {};
         names.forEach(key => { values[key] = key === name ? value : (span[key].min + span[key].max) / 2; });
-        const atLead = lead._eval ? lead._eval(values) : null;
-        const atOther = other && other._eval ? other._eval(values) : null;
+        const atLead = scoreLaw(lead, values);
+        const atOther = other ? scoreLaw(other, values) : null;
         const leadLabel = atLead == null ? null : (atLead > lead.threshold ? lead.above : lead.below);
         const otherLabel = atOther == null || !other ? null : (atOther > other.threshold ? other.above : other.below);
         if (other && leadLabel === otherLabel) return;
@@ -413,8 +438,118 @@
     });
     return scenes.slice(0, 8);
   }
+  function sceneValues(scene) {
+    const body = scene && scene.body || {};
+    const surface = scene && scene.surface || {};
+    const point = scene && scene.point || {};
+    const slots = {
+      height: { value: body.height, unit: 'm' },
+      radius: { value: body.radius, unit: 'm' },
+      mass: { value: body.mass, unit: 'kg' },
+      depth: { value: body.depth, unit: 'm' },
+      width: { value: body.width, unit: 'm' },
+      mu: { value: surface.mu, unit: '1' },
+      fraction: { value: point.fraction, unit: '1' },
+      gravity: { value: scene && scene.gravity, unit: 'm/s^2' }
+    };
+    const out = {};
+    Object.keys(slots).forEach(name => {
+      const row = slots[name];
+      if (typeof row.value === 'number' && isFinite(row.value)) out[name] = row;
+    });
+    return out;
+  }
+  function apply(law, values) {
+    if (!law || law.status !== 'admitted' || law.fact === true || !law.expression || !Array.isArray(law.variables)) {
+      return { applied: false, reason: 'not_admitted', fact: false };
+    }
+    const nums = {};
+    const trace = [];
+    let outside = null;
+    for (let i = 0; i < law.variables.length; i++) {
+      const name = law.variables[i];
+      const raw = values && values[name];
+      const value = raw && typeof raw === 'object' ? raw.value : raw;
+      const span = law.range && law.range[name];
+      const unit = (span && span.unit) || (raw && raw.unit) || null;
+      if (typeof value !== 'number' || !isFinite(value)) return { applied: false, reason: 'missing', name: name, fact: false };
+      trace.push({ name: name, value: value, unit: unit });
+      if (span && typeof span.min === 'number' && typeof span.max === 'number' && (value < span.min || value > span.max)) {
+        outside = { name: name, value: value, min: span.min, max: span.max, unit: unit };
+      }
+      nums[name] = value;
+    }
+    if (outside) return { applied: false, reason: 'out_of_range', variable: outside, trace: trace, law: law, fact: false };
+    const value = scoreLaw(law, nums);
+    if (value == null || !isFinite(value)) return { applied: false, reason: 'unevaluable', fact: false };
+    const outcome = value > law.threshold ? law.above : law.below;
+    return {
+      applied: true, mode: 'derive', outcome: outcome, value: value, threshold: law.threshold,
+      expression: law.expression, assumptions: law.assumptions || [], atom: law.atom || null,
+      trace: trace, law: law, fact: false, may_store_as_fact: false, method: 'learned_mechanism'
+    };
+  }
+  function prepare(problem, laws) {
+    const scene = problem && problem.scene;
+    if (!scene) return { mode: 'simulate', reason: 'no_scene', fact: false };
+    const values = sceneValues(scene);
+    const rows = (laws || []).filter(law => law && (!law.solver || !problem.solver || law.solver === problem.solver));
+    let outside = null;
+    for (let i = 0; i < rows.length; i++) {
+      const got = apply(rows[i], values);
+      if (got.applied) return got;
+      if (got.reason === 'out_of_range' && !outside) outside = got;
+    }
+    if (outside) return Object.assign({ mode: 'simulate' }, outside);
+    return { mode: 'simulate', reason: rows.length ? 'missing' : 'no_mechanism', fact: false };
+  }
+  function refit(receipts) {
+    const rows = (receipts || []).filter(r => r && r.id && r.outcome);
+    const found = induce(rows);
+    const doc = load();
+    const now = new Date().toISOString();
+    let changed = false;
+    (doc.mechanisms || []).forEach(law => {
+      if (!law || law.status !== 'admitted') return;
+      const fresh = rows.filter(r => (law.train || []).indexOf(r.id) < 0 && (law.held || []).indexOf(r.id) < 0 && law.solver === (r.solver || r.primary_solver));
+      const miss = fresh.filter(r => { const pred = predict(law, r); return pred && pred !== r.outcome; });
+      if (miss.length) {
+        law.status = 'archived';
+        law.valid_to = now;
+        law.refit = { at: now, disagreed: miss.map(r => r.id), fact: false };
+        changed = true;
+        return;
+      }
+      const next = (found.proposals || []).find(p => p && p.expression === law.expression && p.solver === law.solver && p.status === 'proposal');
+      if (!next) return;
+      const agreed = rows.filter(r => predict(law, r) === r.outcome);
+      const range = JSON.parse(JSON.stringify(law.range || {}));
+      agreed.forEach(r => {
+        const map = sceneMap(r);
+        law.variables.forEach(name => {
+          if (!map[name] || typeof map[name].value !== 'number') return;
+          const row = range[name] || { unit: map[name].unit, dimension: map[name].dimension, min: map[name].value, max: map[name].value };
+          row.min = Math.min(row.min, map[name].value);
+          row.max = Math.max(row.max, map[name].value);
+          range[name] = row;
+        });
+      });
+      const grew = law.variables.some(name => range[name] && law.range[name] && (range[name].min < law.range[name].min || range[name].max > law.range[name].max));
+      if (!grew) return;
+      law.range = range;
+      law.threshold = next.threshold;
+      law.assumptions = next.assumptions;
+      law.train = next.train;
+      law.held = next.held;
+      if (law.atom && Array.isArray(law.atom.args)) law.atom = Object.assign({}, law.atom, { args: [law.expression, String(next.threshold)] });
+      law.refit = { at: now, expanded: fresh.map(r => r.id), fact: false };
+      changed = true;
+    });
+    if (changed) save(doc);
+    return { ok: true, changed: changed, admitted: admitted().map(r => r.id), fact: false, may_store_as_fact: false };
+  }
   function list() { return load().mechanisms.slice(); }
   function admitted() { return list().filter(r => r && r.status === 'admitted' && r.fact === false); }
-  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap, nextScenes };
+  const api = { SCHEMA, clear, reload, induce, validate, nudge, list, admitted, sceneMap, nextScenes, evaluate, apply, prepare, sceneValues, refit };
   if (isNode) module.exports = api; else root.KMechanisms = api;
 })(typeof self !== 'undefined' ? self : this);
