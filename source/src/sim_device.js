@@ -571,6 +571,13 @@
         got.gloss = sense && sense.gloss || got.gloss;
         if (!got.clauses.length && glosses.length) got.clauses = glosses.map(text => ({ text: text, source_count: 1, publishers: ['oewn'], admitted: false, single_source: true, fact: false, gilligan: 'GILLIGAN-STRUCTURE-OK', scale: 'ok', drift: 'clean' }));
         if (root.KClauseFit) got.clauses = KClauseFit.fitList(topic, got.clauses, root.forge, sense);
+        try {
+          const Dream = root.KDreamBranch, Mech = root.KMechanisms;
+          if (Dream && Dream.consider && Mech && Mech.admitted) {
+            const imagined = Dream.consider(Mech.admitted(), 'creative');
+            if (imagined && imagined.imagined && imagined.expression) got.imagined = imagined;
+          }
+        } catch (e) { /* the composition does not depend on a dream */ }
         return got;
       }
     } catch (e) { /* the split gloss is still imagery */ }

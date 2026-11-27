@@ -515,6 +515,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
               if (c && window.KQFrame && KQFrame.clause) { try { c.clause = KQFrame.clause(c.text, forge); } catch (e) { /* the text still carries the clause */ } }
             });
             memory.creative_clauses = gathered;
+            if (gathered.imagined) memory.creative_imagined = gathered.imagined;
             /* A spoken creative answer is not stored. Only a gathered clause two publishers already agreed is. */
             for (const c of gathered.clauses) {
               if (!c || c.admitted !== true || c.fact !== true) continue;
@@ -534,6 +535,11 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     if (blocked) row = { ok: true, held: true, reply: null, product_reply: false, route: 'RETRACTED', trace: { rule: 'RETRACTED', status: blocked.status, hash: blocked.hash, reason: blocked.reason, calls_llm: false }, calls_llm: false };
     else if (!(await engineReady())) row = { ok: false, held: true, reply: null, route: 'engine_unavailable', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
     else row = await KRMCCore.run(Object.assign({ question: qtext, live: true, dry_run: false, memory: memory }, askCtx.sense ? { sense: askCtx.sense } : {}));
+    if (row && row.creative && memory.creative_imagined && memory.creative_imagined.imagined) row.creative.imagined = true;
+    else if (row && !row.creative && window.KDreamBranch && window.KMechanisms && KDreamBranch.consider) {
+      const hypo = KDreamBranch.consider(KMechanisms.admitted(), 'factual');
+      if (hypo && hypo.answer_from === 'real_world' && hypo.reply == null && hypo.question) row.hypothesis = hypo;
+    }
     /* 4.9.206: the old replay of recorded self-seed documents (the fixtures global) is removed from Ask. Recorded demo
      * documents are shown only on the Self-seed card (window.SELF_SEED_DEMO); Ask never treats a recording as research. */
   } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
@@ -613,7 +619,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const mechTag = mech ? '<span class="tag" data-learned-mechanism="' + esc(mech.id || mech.expression || '') + '"' + (mech.expression ? ' data-quant-expression="' + esc(mech.expression) + '" data-quant-scale="' + esc(mech.scale) + '"' + (mech.unit ? ' data-quant-unit="' + esc(mech.unit) + '"' : '') + (mech.range ? ' data-quant-range="' + esc(JSON.stringify(mech.range)) + '"' : '') : '') + '>derived via learned mechanism</span>' : '';
   const cfView = row && row.sim && row.sim.counterfactual;
   const cfTag = cfView && Array.isArray(cfView.steps) ? '<span class="tag" data-counterfactual="' + esc(cfView.steps.join(',')) + '">counterfactual</span>' : '';
-  const creativeTag = row && row.creative ? '<span class="tag" data-creative="1">creative</span>' : '';
+  const creativeTag = row && row.creative ? '<span class="tag" data-creative="1"' + (row.creative.imagined ? ' data-imagined="1"' : '') + '>' + (row.creative.imagined ? 'imagined' : 'creative') + '</span>' : '';
   const learnedProv = induced ? '<div class="small" data-learned-provenance>Gilligan ' + esc(induced.confidence) + ' · support ' + esc(induced.support) + ' · ' + esc((induced.instances || []).map(i => i.subject).join(', ')) + '</div>' : '';
   const gather = row && row.creative && row.creative.gather;
   const gatherNote = gather ? 'sources ' + ((gather.queried || []).length) + ', admitted ' + (gather.admitted || 0) + ', single-source ' + (gather.single || 0) : '';

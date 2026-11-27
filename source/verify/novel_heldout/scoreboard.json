@@ -188,6 +188,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. A dream branch leaves only as a question."
+    },
+    {
+      "version": "4.9.287",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. Creative search is labelled imagined. A factual answer stays on the real path."
     }
   ]
 }

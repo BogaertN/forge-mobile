@@ -77,9 +77,9 @@ print(json.dumps(r["memory_clauses"]))`, texts.map((t, i) => ({ t, c: cs[i] })))
 });
 
 T('version registry names 4.9.232', () => {
-  expect(read('VERSION').trim() === '4.9.286', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.287', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.286' && reg.features.some(f => f.id === 'R4232-CLAUSE-FACTS') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.287' && reg.features.some(f => f.id === 'R4232-CLAUSE-FACTS') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {
