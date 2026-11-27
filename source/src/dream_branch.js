@@ -128,6 +128,21 @@
       explorer: ranked, calls_llm: false, fact: false, may_store_as_fact: false, dice: false
     });
   }
-  const api = { search: search, points: points };
+  function questions(found) {
+    const best = found && found.best;
+    if (!best || !best.expression) return [];
+    return [{
+      kind: 'dream_hypothesis',
+      question: 'Does ' + String(best.expression) + ' still hold?',
+      hypothesis: true,
+      fact: false,
+      may_store_as_fact: false,
+      truth_support_allowed: false,
+      stable_memory_allowed: false,
+      projection_allowed: false,
+      calls_llm: false
+    }];
+  }
+  const api = { search: search, points: points, questions: questions };
   if (isNode) module.exports = api; else root.KDreamBranch = api;
 })(typeof self !== 'undefined' ? self : this);
