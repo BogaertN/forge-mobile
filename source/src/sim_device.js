@@ -234,6 +234,8 @@
     const t0 = Date.now();
     let out;
     let refitAfter = false;
+    let continued = false;
+    let cf = null;
     try {
       let frame = frameOf(q.slice(0, 400));
       let question = q.slice(0, 400);
@@ -248,8 +250,9 @@
         }
       } else if (lastScene && frame && (/^what\s+if\b/i.test(question) || (frame.cond && frame.cond.karma && frame.cond.karma.head === 'it'))) {
         const cont = await pyCall({ op: 'continue', frame: frame, prior: lastScene });
-        if (cont && cont.question) { question = cont.question; frame = frameOf(question); }
+        if (cont && cont.question) { question = cont.question; frame = frameOf(question); continued = true; }
       }
+      const priorScene = continued && lastScene ? lastScene.scene : null;
       /* The Ask itself does not fetch. Neo's tick researches a held gap, and the admitted clause comes back as a premise. */
       let pl = await pyCall({ op: 'plan', question: question, frame: frame, memory: memoryRows(memory) });
       let p = pl && pl.problem;
@@ -263,6 +266,9 @@
       if (p && p.ok && p.scene) lastScene = { question: question, scene: p.scene };
       const decision = (p && p.ok && p.scene && root.KMechanisms && typeof root.KMechanisms.prepare === 'function')
         ? root.KMechanisms.prepare(p, root.KMechanisms.admitted()) : null;
+      if (continued && priorScene && decision && decision.law && p && p.scene && typeof root.KMechanisms.counterfactual === 'function') {
+        cf = root.KMechanisms.counterfactual(decision.law, root.KMechanisms.sceneValues(priorScene), root.KMechanisms.sceneValues(p.scene));
+      }
       if (out && out.status === 'ask') { /* the follow-up turn owns this question */ }
       else if (!p || !p.ok) {
         const reason = String((p && p.reason) || '');
@@ -283,6 +289,7 @@
         if (raw) { out = await pyCall({ op: 'finish', problem: p, raw }); out.assets_loaded = raw.assets_loaded; out.wasm_ms = raw.ms; out.raw = Object.assign({}, raw, { assets_loaded: undefined }); }
         if (decision && decision.reason === 'out_of_range') refitAfter = true;
       }
+      if (out && cf) out.counterfactual = cf;
       if (out) out.asked = question;
     } catch (e) { out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'sim_error', error: String(e && e.message || e).slice(0, 240), calls_llm: false, asked: q }; }
     out.elapsed_ms = Date.now() - t0;

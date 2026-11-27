@@ -21,6 +21,7 @@
 | 4.9.271 | 31 | 17 | 16 | 6 |
 | 4.9.272 | 31 | 17 | 16 | 6 |
 | 4.9.273 | 31 | 17 | 16 | 6 |
+| 4.9.274 | 31 | 17 | 16 | 6 |
 
 4.9.259 auto-admits a Gilligan-clean rule. The standing set has no three-case induction, so its counts stay the same. Holds are missing physical slots, unknown substances, and unknown nouns.
 
@@ -51,6 +52,8 @@
 4.9.272 leaves this count unchanged. A creative copula stays only when the taxonomy says it fits, and the copulas share one predicate.
 
 4.9.273 leaves this count unchanged. An admitted mechanism answers inside its tested range. The trace carries the units, the assumptions and the mechanism atom. Outside that range the simulator runs, and a receipt that still agrees widens the range.
+
+4.9.274 leaves this count unchanged. A follow-up records abduction, the intervention, and the mechanism's prediction. The spoken reason is whether the group exceeds the threshold. On 4.9.273 the formula sentence was held by the outward compile; this version speaks the comparison the grammar can round-trip.
 
 Fresh composites in `source/verify/novel_heldout/composites_259.js` (not imported by product code): 5 spoke, 1 held, n 6. The held item is the last turn of the handoff, after a new counterexample archived the rule. The earlier turns of that item spoke: induced whiskers (C 0.910, Echo 1), the stored kind sentence, the quillon push (topples), and 17% of 640 = 108.8.
 

@@ -1,4 +1,4 @@
-/* 4.9.273: an admitted mechanism answers inside its tested range. A sim runs only outside it, and that receipt refits the law. */
+/* 4.9.274: an admitted mechanism answers inside its tested range. A sim runs only outside it, and that receipt refits the law. */
 const path = require('path');
 const fs = require('fs');
 const cp = require('child_process');
@@ -61,7 +61,8 @@ print(json.dumps({"ok": out.get("ok"), "method": out.get("method"), "fact": out.
     expect(proc.status === 0, (proc.stderr || '').slice(-600));
     const sealed = JSON.parse(proc.stdout.trim().split('\n').pop());
     expect(sealed.ok === true && sealed.method === 'learned_mechanism' && sealed.fact === false && sealed.derived === true, JSON.stringify(sealed));
-    expect(sealed.outcome === got.outcome && /exceed/i.test(sealed.why) && !/torque about the edge/.test(sealed.why), JSON.stringify(sealed));
+    const why = got.outcome === law.below ? 'The group does not exceed the threshold.' : 'The group exceeds the threshold.';
+    expect(sealed.outcome === got.outcome && sealed.why === why && !/torque about the edge/.test(sealed.why), JSON.stringify(sealed));
     expect(sealed.trace && sealed.trace.some(row => row.unit === 'm') && sealed.trace.some(row => row.unit === '1'), JSON.stringify(sealed.trace));
     expect((sealed.assumptions || []).length >= 4, JSON.stringify(sealed.assumptions));
     const before = law.range.fraction.max;

@@ -1628,11 +1628,14 @@ def seal(problem: dict[str, Any], run: dict[str, Any], where: str = "on_device")
 def derive_mechanism(problem: dict[str, Any], law: dict[str, Any], derived: dict[str, Any]) -> dict[str, Any]:
     """Seal an answer from an admitted mechanism. This is not a measurement."""
     problem = dict(problem)
-    atom = law.get("atom") if isinstance(law.get("atom"), dict) else None
+    # The stored atom names the expression. The spoken atom is the same comparison in words the
+    # grammar can round-trip: the group against the threshold, negated when the outcome is the lower side.
+    polarity = "neg" if str(derived.get("outcome") or "") == str(law.get("below") or "") else "pos"
+    spoken = _karaka("exceed", ["the group", "the threshold"], polarity=polarity)
     problem["learned_mechanism"] = {
         "id": law.get("id"), "expression": law.get("expression"), "threshold": derived.get("threshold"),
         "status": "admitted", "fact": False, "above": law.get("above"), "below": law.get("below"),
-        "atom": atom, "assumptions": law.get("assumptions") or [],
+        "atom": spoken, "assumptions": law.get("assumptions") or [],
     }
     run = {
         "outcome": derived.get("outcome"),
