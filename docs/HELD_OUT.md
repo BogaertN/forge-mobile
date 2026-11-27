@@ -19,6 +19,7 @@
 | 4.9.269 | 31 | 17 | 16 | 6 |
 | 4.9.270 | 31 | 17 | 16 | 6 |
 | 4.9.271 | 31 | 17 | 16 | 6 |
+| 4.9.272 | 31 | 17 | 16 | 6 |
 
 4.9.259 auto-admits a Gilligan-clean rule. The standing set has no three-case induction, so its counts stay the same. Holds are missing physical slots, unknown substances, and unknown nouns.
 
@@ -45,6 +46,8 @@
 4.9.270 leaves this count unchanged. A push ramps with weight until the friction limit or the restoring torque is crossed. The spoken reason is that measured comparison.
 
 4.9.271 leaves this count unchanged. The admitted tip law is the dimensionless group (fraction times height times friction) over radius, threshold 1.000. Twenty new scenes agree on 19.
+
+4.9.272 leaves this count unchanged. A creative copula stays only when the taxonomy says it fits, and the copulas share one predicate.
 
 Fresh composites in `source/verify/novel_heldout/composites_259.js` (not imported by product code): 5 spoke, 1 held, n 6. The held item is the last turn of the handoff, after a new counterexample archived the rule. The earlier turns of that item spoke: induced whiskers (C 0.910, Echo 1), the stored kind sentence, the quillon push (topples), and 17% of 640 = 108.8.
 

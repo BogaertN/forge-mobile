@@ -606,7 +606,7 @@ def _arc(form: str, tense: str, facts: list[dict[str, Any]], sims: list[dict[str
         text = str(fact.get("text") or "").strip()
         if not text or already(text):
             continue
-        atom = _imagery_atom(fact, tense)
+        atom = fact.get("fit_atom") if isinstance(fact.get("fit_atom"), dict) else _imagery_atom(fact, tense)
         add(_speak_beat(atom, text, "imagery", "athena", fact.get("id")))
         spoken = " ".join(b.get("text") or "" for b in beats).lower()
     for sim in sims:

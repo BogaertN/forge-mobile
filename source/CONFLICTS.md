@@ -1,3 +1,13 @@
+## v4.9.272 — A creative copula has to fit the subject's taxonomy (Nic, 26 Nov 2026)
+
+**Conflict:** Creative replies spoke every gathered clause, including a taxon label ("an aves"), a noun from another lexname ("a bill"), and a one-letter fragment. Repeated "was X" lines did not share a predicate.
+
+**Where:** A noun stays as class membership only when it is on the chosen sense's hypernym chain, within six hops. A sense whose parent synset is headed "class" is not a count predicate. A body part, by lexname or by the ancestor "body part", is spoken with "have". Anything else is dropped. The copulas that remain are one coordinated predicate, realized by grammar.js.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A single-source clause is still not a fact.
+
+Proof: `verify/r4289_suite.js`.
+
 ## v4.9.271 — The tip law is a dimensionless group (Nic, 26 Nov 2026)
 
 **Conflict:** Products of raw quantities could fit a small sample without being a law. Mass has a dimension the outcome does not depend on.
