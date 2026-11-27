@@ -1,3 +1,13 @@
+## v4.9.273 — Derive uses an admitted mechanism inside its tested range (Nic, 27 Nov 2026)
+
+**Conflict:** Every push was measured again, even when an admitted mechanism already covered the scene. The mechanism's function did not survive a reload, so a stored law could not be evaluated. A derivation was not labeled, and an out-of-range measurement did not move the tested range.
+
+**Where:** `simulate` asks an admitted mechanism before the solver. The stored expression is a product and a ratio of the scene's own quantities, evaluated after reload. Inside the tested range the receipt is sealed from that mechanism: units, assumptions and the exceed atom are on the trace, and the reason is that atom. The card says "derived via learned mechanism". The row is not a measurement and is not stored. Outside the range, or when no mechanism applies, the simulator runs. An out-of-range receipt that still agrees widens the range. One that disagrees archives the law.
+
+**Resolution:** C_min 0.87, Echo 0.85 to speak and 0.97 to write, drift 0.35 with a hard stop at 0.80. No model. A derived answer is evidence, not a fact.
+
+Proof: `verify/r4290_suite.js`.
+
 ## v4.9.272 — A creative copula has to fit the subject's taxonomy (Nic, 26 Nov 2026)
 
 **Conflict:** Creative replies spoke every gathered clause, including a taxon label ("an aves"), a noun from another lexname ("a bill"), and a one-letter fragment. Repeated "was X" lines did not share a predicate.

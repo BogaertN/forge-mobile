@@ -233,6 +233,7 @@
     if (!(frame0 && (frame0.rule === 'QF-WHAT-HAPPENS-IF' || frame0.conditional || property || orbit || placed)) && !GATE.test(q)) return null;
     const t0 = Date.now();
     let out;
+    let refitAfter = false;
     try {
       let frame = frameOf(q.slice(0, 400));
       let question = q.slice(0, 400);
@@ -260,12 +261,18 @@
         }
       }
       if (p && p.ok && p.scene) lastScene = { question: question, scene: p.scene };
+      const decision = (p && p.ok && p.scene && root.KMechanisms && typeof root.KMechanisms.prepare === 'function')
+        ? root.KMechanisms.prepare(p, root.KMechanisms.admitted()) : null;
       if (out && out.status === 'ask') { /* the follow-up turn owns this question */ }
       else if (!p || !p.ok) {
         const reason = String((p && p.reason) || '');
         const ask = /property_missing|unknown_body|altitude_missing|sequence_missing/.test(reason) ? simAsk(question, p, (p && (p.substance || p.body)) || '') : null;
         if (ask) ask.missing = p && p.missing;
         out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: ask ? 'ask' : 'no_problem', ask: ask, problem: p || null, reason: reason || null, missing: (p && p.missing) || null, calls_llm: false };
+      }
+      else if (decision && decision.applied) {
+        out = await pyCall({ op: 'derive_mechanism', problem: p, law: decision.law, derived: decision });
+        if (out) out.method = 'learned_mechanism';
       }
       else if (p.runtime === 'home_pc') out = await homePc(p, frame);
       else if (p.runtime === 'pyodide') out = await pyCall({ op: 'solve', problem: p });
@@ -274,13 +281,17 @@
         try { raw = p.solver === 'mujoco_wasm' ? await wasmCall('mujoco', pl.job) : p.solver === 'rdkit_wasm' ? await wasmCall('rdkit', { smiles: p.smiles }) : await wasmCall('spice', { netlist: p.netlist }); }
         catch (e) { raw = null; out = await pyCall({ op: 'hold', problem: p, reason: 'wasm_failed: ' + String(e && e.message || e).slice(0, 160) }); }
         if (raw) { out = await pyCall({ op: 'finish', problem: p, raw }); out.assets_loaded = raw.assets_loaded; out.wasm_ms = raw.ms; out.raw = Object.assign({}, raw, { assets_loaded: undefined }); }
+        if (decision && decision.reason === 'out_of_range') refitAfter = true;
       }
       if (out) out.asked = question;
     } catch (e) { out = { schema: 'FORGE-SIM-RECEIPT/v1', ok: false, status: 'sim_error', error: String(e && e.message || e).slice(0, 240), calls_llm: false, asked: q }; }
     out.elapsed_ms = Date.now() - t0;
     root.__lastSim = out;
-    if (out && out.ok && root.KSimReceipts && typeof root.KSimReceipts.record === 'function') {
+    if (out && out.ok && out.method !== 'learned_mechanism' && root.KSimReceipts && typeof root.KSimReceipts.record === 'function') {
       try { root.KSimReceipts.record(out); } catch (e) { /* the turn still has the receipt */ }
+    }
+    if (refitAfter && out && out.ok && root.KMechanisms && typeof root.KMechanisms.refit === 'function' && root.KSimReceipts) {
+      try { out.refit = root.KMechanisms.refit(root.KSimReceipts.list()); } catch (e) { /* the measurement still stands */ }
     }
     return out;
   }

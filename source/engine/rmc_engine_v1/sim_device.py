@@ -1522,6 +1522,10 @@ def _learned_reason(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, A
 
 def _reason_struct(problem: dict[str, Any], run: dict[str, Any]) -> dict[str, Any] | None:
     """The law atom, from the same comparison that writes the causal sentence."""
+    if run.get("derived"):
+        learned = _learned_reason(problem, run)
+        if learned:
+            return learned
     s = problem.get("solver")
     ms = run.get("measurements") or {}
     if s == "mujoco_wasm" and ms.get("first_event"):
@@ -1619,6 +1623,31 @@ def seal(problem: dict[str, Any], run: dict[str, Any], where: str = "on_device")
     return {**base, "ok": True, "status": "simulated", **body, "receipt_id": rid, "sha256": sha, "rows": rows,
             "causal_reason": why, "state_before": before, "state_after": after, "spoken_atoms": spoken,
             "may_store_as_fact": False}
+
+
+def derive_mechanism(problem: dict[str, Any], law: dict[str, Any], derived: dict[str, Any]) -> dict[str, Any]:
+    """Seal an answer from an admitted mechanism. This is not a measurement."""
+    problem = dict(problem)
+    atom = law.get("atom") if isinstance(law.get("atom"), dict) else None
+    problem["learned_mechanism"] = {
+        "id": law.get("id"), "expression": law.get("expression"), "threshold": derived.get("threshold"),
+        "status": "admitted", "fact": False, "above": law.get("above"), "below": law.get("below"),
+        "atom": atom, "assumptions": law.get("assumptions") or [],
+    }
+    run = {
+        "outcome": derived.get("outcome"),
+        "measurements": {"mechanism_value": derived.get("value"), "threshold": derived.get("threshold")},
+        "engine": "learned mechanism", "derived": True, "calls_llm": False,
+    }
+    sealed = seal(problem, run)
+    sealed["method"] = "learned_mechanism"
+    sealed["may_store_as_fact"] = False
+    sealed["mechanism"] = {
+        "id": law.get("id"), "expression": law.get("expression"), "threshold": derived.get("threshold"),
+        "assumptions": law.get("assumptions") or [], "trace": derived.get("trace") or [],
+        "fact": False, "may_store_as_fact": False,
+    }
+    return sealed
 
 
 def hold_receipt(problem: dict[str, Any], reason: str, where: str = "on_device") -> dict[str, Any]:

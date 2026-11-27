@@ -104,6 +104,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. A creative copula stays only on the hypernym chain or as a body part, and the copulas share one predicate."
+    },
+    {
+      "version": "4.9.273",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. An admitted mechanism answers inside its tested range. Outside that range the simulator runs and the receipt refits the law."
     }
   ]
 }
