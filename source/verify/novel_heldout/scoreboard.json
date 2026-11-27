@@ -164,6 +164,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. A disagreed class is decided from its density interval against the fluid. A crossing asks for the kind."
+    },
+    {
+      "version": "4.9.283",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. The fluid reaches the interval comparison."
     }
   ]
 }

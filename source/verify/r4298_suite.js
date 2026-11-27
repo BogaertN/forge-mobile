@@ -1,4 +1,4 @@
-/* 4.9.282: a disagreed class is an interval. The outcome is spoken when every figure is on one side of the fluid. */
+/* 4.9.283: a disagreed class is an interval. The outcome is spoken when every figure is on one side of the fluid. */
 const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
@@ -50,6 +50,8 @@ print(json.dumps({"metal": metal, "bulk": bulk, "outcome": run.get("outcome"), "
     const src = require('fs').readFileSync(path.join(ROOT, 'src/sim_device.js'), 'utf8');
     const body = src.slice(src.indexOf('p.missing === \'density\''), src.indexOf('if (p && p.ok && p.scene)'));
     expect(body.indexOf('hit.determined') >= 0 && body.indexOf('hit.determined') < body.indexOf('hit.rho') && /fluid: p\.fluid/.test(body), 'the interval is decided before a single density');
+    const worker = require('fs').readFileSync(path.join(ROOT, 'src/py_worker.js'), 'utf8');
+    expect(/fluid: arg\.fluid/.test(worker), 'the fluid reaches the interval comparison');
   });
 }
 module.exports = register;
