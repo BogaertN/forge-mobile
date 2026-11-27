@@ -122,6 +122,12 @@
       "single": { "spoke": 31, "held": 17, "n": 48 },
       "composite": { "spoke": 16, "held": 6, "n": 22 },
       "note": "Standing counts are unchanged. A derived answer speaks the reason atom copied from the fitting receipts. An ask retries while the worker is not ready."
+    },
+    {
+      "version": "4.9.276",
+      "single": { "spoke": 31, "held": 17, "n": 48 },
+      "composite": { "spoke": 16, "held": 6, "n": 22 },
+      "note": "Standing counts are unchanged. Buoyancy admits rho_body/rho_fluid. Thermal target_c/boil_c is refuted by probes. Orbit, reaction, kinetics and circuits have one outcome."
     }
   ]
 }

@@ -254,10 +254,10 @@ print(json.dumps({"ok": p.get("ok"), "reason": p.get("reason"), "missing": p.get
 });
 
 T('laws and version 4.9.248; no model and no secret', () => {
-  expect(read('VERSION').trim() === '4.9.275', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.276', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.275' && reg.features.some(x => x.id === 'R4248-SOLVER-ATOMS') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').startsWith('## v4.9.275'), 'CONFLICTS');
+  expect(reg.version === '4.9.276' && reg.features.some(x => x.id === 'R4248-SOLVER-ATOMS') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').startsWith('## v4.9.276'), 'CONFLICTS');
   const T_ = py(`
 import json
 from rmc_engine_v1.mobile_config import THRESHOLDS as T

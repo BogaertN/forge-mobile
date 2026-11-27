@@ -44,9 +44,11 @@
   function sceneMap(receipt) {
     const map = {};
     (receipt.variables || []).forEach(v => {
-      if (!v || v.source !== 'scene' || typeof v.value !== 'number' || !isFinite(v.value)) return;
+      if (!v || typeof v.value !== 'number' || !isFinite(v.value)) return;
       const path = String(v.path || '');
-      if (!/^scene\.(body|surface|point|gravity|slope_deg|launch|drop_height)/.test(path) && path.indexOf('.') >= 0) return;
+      const sceneSlot = v.source === 'scene' && (/^scene\.(body|surface|point|gravity|slope_deg|launch|drop_height)/.test(path) || path.indexOf('.') < 0);
+      const problemSlot = v.source === 'problem' && !!v.unit;
+      if (!sceneSlot && !problemSlot) return;
       if (!map[v.name]) map[v.name] = { value: v.value, unit: v.unit || null, dimension: v.dimension || null, path: path };
     });
     return map;
@@ -68,6 +70,7 @@
     if (dim === 'mass' || unit === 'kg') return [0, 1, 0];
     if (dim === 'time' || unit === 's' || unit === 'min') return [0, 0, 1];
     if (dim === 'acceleration' || unit === 'm/s^2') return [1, 0, -2];
+    if (dim === 'density' || unit === 'kg/m^3') return [-3, 1, 0];
     return null;
   }
   function piExprs(names, sample) {
